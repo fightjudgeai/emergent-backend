@@ -313,11 +313,11 @@ class ScoringEngine:
         Map continuous scores to 10-Point-Must system
         Returns: (card, winner, reasons)
         
-        Exact thresholds:
+        Thresholds adjusted for 7-10 scale:
         - Exact match (Δ = 0): 10-10
-        - Δ ≤ 500: 10-9
-        - Δ 501-1000: 10-8
-        - Δ > 1000: 10-7
+        - Δ ≤ 1.5: 10-9
+        - Δ > 1.5 and ≤ 2.5: 10-8
+        - Δ > 2.5: 10-7
         """
         delta = s_a - s_b
         abs_delta = abs(delta)
@@ -347,19 +347,19 @@ class ScoringEngine:
         score_w = 10
         score_l = 9
         
-        # Determine score based on delta thresholds
+        # Determine score based on delta thresholds (7-10 scale)
         to_108 = False
         to_107 = False
         
-        if abs_delta <= 500:
-            # 10-9
+        if abs_delta <= 1.5:
+            # 10-9: Close round
             score_l = 9
-        elif abs_delta <= 1000:
-            # 10-8
+        elif abs_delta <= 2.5:
+            # 10-8: Clear dominance
             score_l = 8
             to_108 = True
-        else:  # abs_delta > 1000
-            # 10-7
+        else:  # abs_delta > 2.5
+            # 10-7: Overwhelming dominance
             score_l = 7
             to_107 = True
         
