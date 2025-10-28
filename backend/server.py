@@ -254,38 +254,38 @@ class ScoringEngine:
     def calculate_final_score(subscores: Subscores) -> float:
         """
         Calculate final strength score on 7-10 scale
-        Matches TypeScript implementation exactly
+        Returns a score between 7.0 and 10.0
         
-        Original weights from provided code:
-        0.28*KD + 0.24*ISS + 0.12*GCQ + 0.10*TDQ + 0.10*SUBQ +
-        0.06*OC + 0.05*AGG + 0.03*RP + 0.02*TSR
+        Updated weights:
+        KD: 30%, ISS: 20%, TSR: 15%, GCQ: 10%, TDQ: 8%,
+        OC: 6%, SUBQ: 5%, AGG: 5%, RP: 1%
         """
         weights = {
-            "KD": 0.28,
-            "ISS": 0.24,
-            "GCQ": 0.12,
-            "TDQ": 0.10,
-            "SUBQ": 0.10,
-            "OC": 0.06,
-            "AGG": 0.05,
-            "RP": 0.03,
-            "TSR": 0.02
+            "KD": 0.30,    # Knockdowns - 30%
+            "ISS": 0.20,   # Significant Strikes - 20%
+            "TSR": 0.15,   # Total Strike Ratio - 15%
+            "GCQ": 0.10,   # Control Time - 10%
+            "TDQ": 0.08,   # Takedowns - 8%
+            "OC": 0.06,    # Octagon Control - 6%
+            "SUBQ": 0.05,  # Submission Attempts - 5%
+            "AGG": 0.05,   # Aggression - 5%
+            "RP": 0.01     # Passes/Reversals - 1%
         }
         
-        # Calculate weighted score (matches TypeScript compositeScore)
+        # Calculate weighted score (0-10 scale for each subscore)
         S = (
             weights["KD"] * subscores.KD +
             weights["ISS"] * subscores.ISS +
+            weights["TSR"] * subscores.TSR +
             weights["GCQ"] * subscores.GCQ +
             weights["TDQ"] * subscores.TDQ +
-            weights["SUBQ"] * subscores.SUBQ +
             weights["OC"] * subscores.OC +
+            weights["SUBQ"] * subscores.SUBQ +
             weights["AGG"] * subscores.AGG +
-            weights["RP"] * subscores.RP +
-            weights["TSR"] * subscores.TSR
+            weights["RP"] * subscores.RP
         )
         
-        # Scale to 0-100 range (matches TypeScript S*10)
+        # Scale to 0-100 range
         composite = S * 10
         
         # Map to 7-10 scale for display
