@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Play, Pause, ChevronRight, Eye, ChevronLeft } from 'lucide-react';
+import { Play, Pause, ChevronRight, Eye, ChevronLeft, ArrowLeft, SkipForward } from 'lucide-react';
 
 export default function OperatorPanel() {
   const { boutId } = useParams();
