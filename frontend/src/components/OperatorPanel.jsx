@@ -93,11 +93,11 @@ export default function OperatorPanel() {
     const isCurrentlyRunning = controlTimers[fighter].isRunning;
     
     if (isCurrentlyRunning) {
-      // Stop control timer
-      const duration = controlTimers[fighter].time;
+      // Stop control timer - keep accumulated time
+      const currentTime = controlTimers[fighter].time;
       
       await logEvent('CTRL_STOP', { 
-        duration,
+        duration: currentTime,
         position: 'top'
       });
       
@@ -105,27 +105,30 @@ export default function OperatorPanel() {
         ...prev,
         [fighter]: {
           ...prev[fighter],
-          isRunning: false
+          isRunning: false,
+          startTime: null
         }
       }));
       
-      toast.info(`Control stopped for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
+      toast.info(`Control stopped for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2} at ${formatTime(currentTime)}`);
     } else {
-      // Start control timer
+      // Start control timer - continue from current accumulated time
+      const currentTime = controlTimers[fighter].time;
+      
       await logEvent('CTRL_START', { 
-        time: controlTimers[fighter].time 
+        time: currentTime 
       });
       
       setControlTimers(prev => ({
         ...prev,
         [fighter]: {
-          time: 0,
+          time: currentTime,  // Keep current time, don't reset
           isRunning: true,
-          startTime: Date.now()
+          startTime: Date.now() - (currentTime * 1000)  // Adjust startTime to account for accumulated time
         }
       }));
       
-      toast.info(`Control started for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
+      toast.info(`Control started for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2} from ${formatTime(currentTime)}`);
     }
   };
 
