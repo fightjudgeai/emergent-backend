@@ -249,6 +249,10 @@ class ScoringEngine:
     
     @staticmethod
     def calculate_final_score(subscores: Subscores) -> float:
+        """
+        Calculate final strength score on 7-10 scale
+        Returns a score between 7.0 and 10.0
+        """
         weights = {
             "KD": 0.28,
             "ISS": 0.24,
@@ -261,7 +265,8 @@ class ScoringEngine:
             "TSR": 0.02
         }
         
-        score = 100 * (
+        # Calculate raw weighted score (0-10 scale for each subscore)
+        raw_score = (
             weights["KD"] * subscores.KD +
             weights["ISS"] * subscores.ISS +
             weights["GCQ"] * subscores.GCQ +
@@ -273,7 +278,14 @@ class ScoringEngine:
             weights["TSR"] * subscores.TSR
         )
         
-        return round(score, 2)
+        # Map to 7-10 scale: 0 raw → 7.0, 10 raw → 10.0
+        # Linear mapping: final = 7 + (raw * 0.3)
+        final_score = 7.0 + (raw_score * 0.3)
+        
+        # Clamp to 7-10 range
+        final_score = max(7.0, min(10.0, final_score))
+        
+        return round(final_score, 2)
     
     @staticmethod
     def calculate_gate_checks(subscores: Subscores, gcq_time_share: float = 0) -> GateChecks:
