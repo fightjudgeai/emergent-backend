@@ -254,46 +254,44 @@ class ScoringEngine:
     def calculate_final_score(subscores: Subscores) -> float:
         """
         Calculate final strength score on 7-10 scale
-        Returns a score between 7.0 and 10.0
+        Matches TypeScript implementation exactly
         
-        Weights based on MMA Unified Rules importance (custom hierarchy):
-        1. KD (highest - 30%)
-        2. SS (Significant Strikes - 22%)
-        3. TSR (Total Strike Ratio - 17%, 5% lower than SS)
-        4. OC + AGG together (12%, slightly above TD)
-        5. TD (Takedowns - 10%)
-        6. GCQ (Control Time - 5%)
-        7. SUBQ (Submission Attempts - 3%)
-        8. RP (Passes/Reversals - 1%, lowest)
+        Original weights from provided code:
+        0.28*KD + 0.24*ISS + 0.12*GCQ + 0.10*TDQ + 0.10*SUBQ +
+        0.06*OC + 0.05*AGG + 0.03*RP + 0.02*TSR
         """
         weights = {
-            "KD": 0.30,    # Highest - Knockdowns with severity
-            "ISS": 0.22,   # Significant Strikes (SS)
-            "TSR": 0.17,   # Total Strike Ratio (5% lower than SS)
-            "OC": 0.06,    # Octagon Control (together with AGG)
-            "AGG": 0.06,   # Aggression (together with OC = 12% total)
-            "TDQ": 0.10,   # Takedowns
-            "GCQ": 0.05,   # Control Time
-            "SUBQ": 0.03,  # Submission Attempts
-            "RP": 0.01     # Passes/Reversals (lowest)
+            "KD": 0.28,
+            "ISS": 0.24,
+            "GCQ": 0.12,
+            "TDQ": 0.10,
+            "SUBQ": 0.10,
+            "OC": 0.06,
+            "AGG": 0.05,
+            "RP": 0.03,
+            "TSR": 0.02
         }
         
-        # Calculate raw weighted score (0-10 scale for each subscore)
-        raw_score = (
+        # Calculate weighted score (matches TypeScript compositeScore)
+        S = (
             weights["KD"] * subscores.KD +
             weights["ISS"] * subscores.ISS +
-            weights["TDQ"] * subscores.TDQ +
             weights["GCQ"] * subscores.GCQ +
+            weights["TDQ"] * subscores.TDQ +
             weights["SUBQ"] * subscores.SUBQ +
-            weights["RP"] * subscores.RP +
             weights["OC"] * subscores.OC +
             weights["AGG"] * subscores.AGG +
+            weights["RP"] * subscores.RP +
             weights["TSR"] * subscores.TSR
         )
         
-        # Map to 7-10 scale: 0 raw → 7.0, 10 raw → 10.0
-        # Linear mapping: final = 7 + (raw * 0.3)
-        final_score = 7.0 + (raw_score * 0.3)
+        # Scale to 0-100 range (matches TypeScript S*10)
+        composite = S * 10
+        
+        # Map to 7-10 scale for display
+        # 0-100 composite → 7.0-10.0 final
+        # Linear mapping: final = 7 + (composite * 0.03)
+        final_score = 7.0 + (composite * 0.03)
         
         # Clamp to 7-10 range
         final_score = max(7.0, min(10.0, final_score))
