@@ -252,29 +252,38 @@ class ScoringEngine:
         """
         Calculate final strength score on 7-10 scale
         Returns a score between 7.0 and 10.0
+        
+        Weights based on MMA Unified Rules importance:
+        1. KD (most important - includes severity)
+        2. ISS (Significant Strikes)
+        3. TDQ (Takedowns)
+        4. GCQ (Control Time)
+        5. SUBQ (Submission Attempts)
+        6. RP (Passes/Reversals - least important)
+        7. OC, AGG, TSR (minimal impact)
         """
         weights = {
-            "KD": 0.28,
-            "ISS": 0.24,
-            "GCQ": 0.12,
-            "TDQ": 0.10,
-            "SUBQ": 0.10,
-            "OC": 0.06,
-            "AGG": 0.05,
-            "RP": 0.03,
-            "TSR": 0.02
+            "KD": 0.35,    # Highest - Knockdowns with severity
+            "ISS": 0.25,   # Significant Strikes (SS)
+            "TDQ": 0.15,   # Takedowns
+            "GCQ": 0.12,   # Control Time
+            "SUBQ": 0.08,  # Submission Attempts
+            "RP": 0.03,    # Passes/Reversals
+            "OC": 0.01,    # Octagon Control (minimal)
+            "AGG": 0.01,   # Aggression (minimal)
+            "TSR": 0.00    # Total Strike Ratio (removed)
         }
         
         # Calculate raw weighted score (0-10 scale for each subscore)
         raw_score = (
             weights["KD"] * subscores.KD +
             weights["ISS"] * subscores.ISS +
-            weights["GCQ"] * subscores.GCQ +
             weights["TDQ"] * subscores.TDQ +
+            weights["GCQ"] * subscores.GCQ +
             weights["SUBQ"] * subscores.SUBQ +
+            weights["RP"] * subscores.RP +
             weights["OC"] * subscores.OC +
             weights["AGG"] * subscores.AGG +
-            weights["RP"] * subscores.RP +
             weights["TSR"] * subscores.TSR
         )
         
