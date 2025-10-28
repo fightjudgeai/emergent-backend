@@ -406,9 +406,9 @@ export default function OperatorPanel() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
-                      <SelectItem value="flash">Flash (1.0)</SelectItem>
-                      <SelectItem value="hard">Hard (1.5)</SelectItem>
-                      <SelectItem value="near-finish">Near Finish (2.0)</SelectItem>
+                      <SelectItem value="flash">Flash</SelectItem>
+                      <SelectItem value="hard">Hard</SelectItem>
+                      <SelectItem value="near-finish">Near Finish</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
