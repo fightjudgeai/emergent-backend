@@ -301,15 +301,15 @@ class ScoringEngine:
         Map continuous scores to 10-Point-Must system
         Returns: (card, winner, reasons)
         
-        Thresholds:
-        - Close (Δ < 50): 10-9
-        - Far apart (Δ >= 50 and < 100): 10-8
-        - Massively different (Δ >= 100): 10-7 (very rare)
+        Adjusted thresholds based on 0-1000+ score scale:
+        - Close (Δ < 200): 10-9 (most common)
+        - Far apart (Δ >= 200 and < 400): 10-8 (less common)
+        - Massively different (Δ >= 400): 10-7 (very rare)
         """
         delta = s_a - s_b
         
         # Check for 10-10 draw (very close, no finish threats)
-        if abs(delta) < 5.0 and not (gates_a.finish_threat or gates_b.finish_threat):
+        if abs(delta) < 20.0 and not (gates_a.finish_threat or gates_b.finish_threat):
             return ("10-10", "DRAW", RoundReasons(
                 delta=delta,
                 gates_winner=gates_a,
@@ -331,22 +331,20 @@ class ScoringEngine:
             gates_l = gates_a
             abs_delta = -delta
         
-        # Base scores
+        # Base scores: 10-9 is the default
         score_w = 10
         score_l = 9
         
-        # Adjusted thresholds for more realistic scoring
-        # 10-8: Score gap >= 50 OR extreme dominance gates
+        # 10-8: Score gap >= 200 OR extreme dominance gates
         to_108 = (
-            abs_delta >= 50 or
-            (gates_w.finish_threat and gates_w.multi_cat_dom) or
-            (gates_w.finish_threat and abs_delta >= 30)
+            abs_delta >= 200 or
+            (gates_w.finish_threat and gates_w.multi_cat_dom and abs_delta >= 100)
         )
         
-        # 10-7: Score gap >= 100 (very rare) OR multiple finish threats with huge gap
+        # 10-7: Score gap >= 400 (very rare, complete dominance)
         to_107 = (
-            abs_delta >= 100 or
-            (gates_w.finish_threat and gates_w.control_dom and abs_delta >= 70)
+            abs_delta >= 400 or
+            (gates_w.finish_threat and gates_w.control_dom and gates_w.multi_cat_dom and abs_delta >= 250)
         )
         
         if to_108:
