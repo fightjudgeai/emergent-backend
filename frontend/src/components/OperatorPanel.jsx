@@ -327,12 +327,12 @@ export default function OperatorPanel() {
       {/* Event Buttons */}
       <div className="max-w-7xl mx-auto mb-6">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {eventButtons.map((btn) => (
+          {eventButtons.map((btn, index) => (
             <Button
               key={btn.event}
               data-testid={`event-${btn.event.toLowerCase().replace(/ /g, '-')}-btn`}
               onClick={() => logEvent(btn.event)}
-              className={`h-24 text-xl font-bold bg-gradient-to-br ${btn.color} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+              className={`h-24 text-xl font-bold bg-gradient-to-br ${getButtonColor(index)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
             >
               {btn.label}
             </Button>
@@ -342,7 +342,11 @@ export default function OperatorPanel() {
             <DialogTrigger asChild>
               <Button
                 data-testid="event-submission-btn"
-                className="h-24 text-xl font-bold bg-gradient-to-br from-indigo-600 to-indigo-700 hover:opacity-90 text-white shadow-lg transition-all active:scale-95"
+                className={`h-24 text-xl font-bold bg-gradient-to-br ${
+                  selectedFighter === 'fighter1' 
+                    ? 'from-red-800 to-rose-900' 
+                    : 'from-blue-800 to-cyan-900'
+                } hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
               >
                 Sub Attempt
               </Button>
