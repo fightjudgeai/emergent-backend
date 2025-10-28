@@ -158,6 +158,40 @@ export default function OperatorPanel() {
     }
   };
 
+  const previousRound = async () => {
+    if (bout.currentRound > 1) {
+      // Stop any running timers
+      setControlTimers({
+        fighter1: { time: 0, isRunning: false, startTime: null },
+        fighter2: { time: 0, isRunning: false, startTime: null }
+      });
+      
+      await db.collection('bouts').doc(boutId).update({
+        currentRound: bout.currentRound - 1
+      });
+      
+      loadBout();
+      toast.success(`Back to Round ${bout.currentRound - 1}`);
+    }
+  };
+
+  const goToRound = async (roundNum) => {
+    if (roundNum >= 1 && roundNum <= bout.totalRounds && roundNum !== bout.currentRound) {
+      // Stop any running timers
+      setControlTimers({
+        fighter1: { time: 0, isRunning: false, startTime: null },
+        fighter2: { time: 0, isRunning: false, startTime: null }
+      });
+      
+      await db.collection('bouts').doc(boutId).update({
+        currentRound: roundNum
+      });
+      
+      loadBout();
+      toast.success(`Switched to Round ${roundNum}`);
+    }
+  };
+
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
