@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc, collection, query, where, onSnapshot, updateDoc, setDoc } from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
 import { db } from '@/firebase';
 import axios from 'axios';
 import { Card } from '@/components/ui/card';
