@@ -276,15 +276,107 @@ class ScoringEngine:
         return round(score, 2)
     
     @staticmethod
-    def get_gap_label(gap: float) -> str:
-        if gap < 8.0:
-            return "close 10-9"
-        elif gap < 18.0:
-            return "clear 10-9"
-        elif gap < 32.0:
-            return "10-8-level dominance"
+    def calculate_gate_checks(subscores: Subscores, gcq_time_share: float = 0) -> GateChecks:
+        """Calculate boolean gate checks for finish threats and dominance"""
+        finish_threat = (subscores.KD >= 1) or (subscores.SUBQ >= 8.0) or (subscores.ISS >= 9.0)
+        control_dom = (subscores.GCQ >= 7.5) and (gcq_time_share >= 0.5)
+        
+        # Count subscores >= 7.5
+        high_scores = sum([
+            1 for score in [subscores.KD, subscores.ISS, subscores.GCQ, subscores.TDQ, subscores.SUBQ]
+            if score >= 7.5
+        ])
+        multi_cat_dom = high_scores >= 3
+        
+        return GateChecks(
+            finish_threat=finish_threat,
+            control_dom=control_dom,
+            multi_cat_dom=multi_cat_dom
+        )
+    
+    @staticmethod
+    def map_to_ten_point_must(s_a: float, s_b: float, gates_a: GateChecks, gates_b: GateChecks, 
+                              fouls_a: int = 0, fouls_b: int = 0) -> tuple[str, str, RoundReasons]:
+        """
+        Map continuous scores to 10-Point-Must system
+        Returns: (card, winner, reasons)
+        """
+        delta = s_a - s_b
+        
+        # Check for 10-10 draw
+        if abs(delta) < 1.5 and not (gates_a.finish_threat or gates_b.finish_threat):
+            return ("10-10", "DRAW", RoundReasons(
+                delta=delta,
+                gates_winner=gates_a,
+                gates_loser=gates_b,
+                to_108=False,
+                to_107=False,
+                draw=True
+            ))
+        
+        # Determine winner and loser
+        if delta >= 0:
+            winner = "fighter1"
+            gates_w = gates_a
+            gates_l = gates_b
+            abs_delta = delta
         else:
-            return "10-7-level dominance"
+            winner = "fighter2"
+            gates_w = gates_b
+            gates_l = gates_a
+            abs_delta = -delta
+        
+        # Base scores
+        score_w = 10
+        score_l = 9
+        
+        # Check for 10-8
+        to_108 = (
+            abs_delta >= 10 or
+            gates_w.finish_threat or
+            gates_w.multi_cat_dom or
+            (gates_w.control_dom and abs_delta >= 7)
+        )
+        
+        # Check for 10-7
+        to_107 = (
+            abs_delta >= 18 or
+            (gates_w.control_dom and gates_w.finish_threat and abs_delta >= 12)
+        )
+        
+        if to_108:
+            score_l = 8
+        if to_107:
+            score_l = 7
+        
+        # Apply foul deductions
+        if winner == "fighter1":
+            score_w -= fouls_a
+            score_l -= fouls_b
+        else:
+            score_w -= fouls_b
+            score_l -= fouls_a
+        
+        # Never go below 7
+        score_w = max(score_w, 7)
+        score_l = max(score_l, 7)
+        
+        # Format card
+        if winner == "fighter1":
+            card = f"{score_w}-{score_l}"
+        else:
+            card = f"{score_l}-{score_w}"
+        
+        reasons = RoundReasons(
+            delta=delta,
+            gates_winner=gates_w,
+            gates_loser=gates_l,
+            to_108=to_108,
+            to_107=to_107,
+            draw=False
+        )
+        
+        return (card, winner, reasons)
 
 # Routes
 @api_router.get("/")
