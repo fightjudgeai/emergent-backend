@@ -301,15 +301,17 @@ class ScoringEngine:
         Map continuous scores to 10-Point-Must system
         Returns: (card, winner, reasons)
         
-        Adjusted thresholds based on 0-1000+ score scale:
-        - Close (Δ < 200): 10-9 (most common)
-        - Far apart (Δ >= 200 and < 400): 10-8 (less common)
-        - Massively different (Δ >= 400): 10-7 (very rare)
+        Exact thresholds:
+        - Exact match (Δ = 0): 10-10
+        - Δ ≤ 500: 10-9
+        - Δ 501-1000: 10-8
+        - Δ > 1000: 10-7
         """
         delta = s_a - s_b
+        abs_delta = abs(delta)
         
-        # Check for 10-10 draw (very close, no finish threats)
-        if abs(delta) < 20.0 and not (gates_a.finish_threat or gates_b.finish_threat):
+        # Check for 10-10 draw (exact match only)
+        if abs_delta == 0:
             return ("10-10", "DRAW", RoundReasons(
                 delta=delta,
                 gates_winner=gates_a,
@@ -320,37 +322,34 @@ class ScoringEngine:
             ))
         
         # Determine winner and loser
-        if delta >= 0:
+        if delta > 0:
             winner = "fighter1"
             gates_w = gates_a
             gates_l = gates_b
-            abs_delta = delta
         else:
             winner = "fighter2"
             gates_w = gates_b
             gates_l = gates_a
-            abs_delta = -delta
         
         # Base scores: 10-9 is the default
         score_w = 10
         score_l = 9
         
-        # 10-8: Score gap >= 200 OR extreme dominance gates
-        to_108 = (
-            abs_delta >= 200 or
-            (gates_w.finish_threat and gates_w.multi_cat_dom and abs_delta >= 100)
-        )
+        # Determine score based on delta thresholds
+        to_108 = False
+        to_107 = False
         
-        # 10-7: Score gap >= 400 (very rare, complete dominance)
-        to_107 = (
-            abs_delta >= 400 or
-            (gates_w.finish_threat and gates_w.control_dom and gates_w.multi_cat_dom and abs_delta >= 250)
-        )
-        
-        if to_108:
+        if abs_delta <= 500:
+            # 10-9
+            score_l = 9
+        elif abs_delta <= 1000:
+            # 10-8
             score_l = 8
-        if to_107:
+            to_108 = True
+        else:  # abs_delta > 1000
+            # 10-7
             score_l = 7
+            to_107 = True
         
         # Apply foul deductions
         if winner == "fighter1":
