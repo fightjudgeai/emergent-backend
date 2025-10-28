@@ -317,19 +317,18 @@ class ScoringEngine:
     def map_to_ten_point_must(s_a: float, s_b: float, gates_a: GateChecks, gates_b: GateChecks, 
                               fouls_a: int = 0, fouls_b: int = 0) -> tuple[str, str, RoundReasons]:
         """
-        Map continuous scores to 10-Point-Must system
-        Matches TypeScript tenPoint.ts implementation exactly
+        Map continuous scores (1-1000 scale) to 10-Point-Must system
         
         Thresholds:
-        - Draw: |delta| < 1.5 AND no finish threats
-        - 10-8: delta >= 10 OR finish threat OR multi-cat dom OR (control dom AND delta >= 7)
-        - 10-7: delta >= 18 OR KD >= 2 OR (finish threat AND (control dom OR delta >= 12))
+        - 10-9: score differential 1-600
+        - 10-8: score differential 601-900
+        - 10-7: score differential 901-1000
         """
         delta = s_a - s_b
         abs_delta = abs(delta)
         
-        # Check for 10-10 draw (matches TypeScript: absd < 1.5 && !(gA.FinishThreat||gB.FinishThreat))
-        if abs_delta < 1.5 and not (gates_a.finish_threat or gates_b.finish_threat):
+        # Check for 10-10 draw (exact match only)
+        if abs_delta == 0:
             return ("10-10", "DRAW", RoundReasons(
                 delta=delta,
                 gates_winner=gates_a,
@@ -344,38 +343,30 @@ class ScoringEngine:
             winner = "fighter1"
             gates_w = gates_a
             gates_l = gates_b
-            abs_delta = delta
         else:
             winner = "fighter2"
             gates_w = gates_b
             gates_l = gates_a
-            abs_delta = -delta
         
         # Base scores: 10-9 is the default
         score_w = 10
         score_l = 9
         
-        # Check for 10-8 (matches TypeScript)
-        # to108 = (delta>=10)||gW.FinishThreat||gW.MultiCatDom||(gW.ControlDom&&delta>=7)
-        to_108 = (
-            abs_delta >= 10 or
-            gates_w.finish_threat or
-            gates_w.multi_cat_dom or
-            (gates_w.control_dom and abs_delta >= 7)
-        )
+        # Determine score based on delta thresholds (1-1000 scale)
+        to_108 = False
+        to_107 = False
         
-        # Check for 10-7 (matches TypeScript)
-        # to107 = (delta>=18)||((W==="A"?subA.KD:subB.KD)>=2)||(gW.FinishThreat&&(gW.ControlDom||delta>=12))
-        # Note: KD subscore >= 2 check would need subscore access, using simplified version
-        to_107 = (
-            abs_delta >= 18 or
-            (gates_w.finish_threat and (gates_w.control_dom or abs_delta >= 12))
-        )
-        
-        if to_108:
+        if abs_delta <= 600:
+            # 10-9: Score differential 1-600
+            score_l = 9
+        elif abs_delta <= 900:
+            # 10-8: Score differential 601-900
             score_l = 8
-        if to_107:
+            to_108 = True
+        else:  # abs_delta > 900
+            # 10-7: Score differential 901-1000
             score_l = 7
+            to_107 = True
         
         # Apply foul deductions
         if winner == "fighter1":
