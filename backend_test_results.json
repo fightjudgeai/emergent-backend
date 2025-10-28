@@ -20,9 +20,9 @@
       "actual_status": 200,
       "url": "https://ringside-tech.preview.emergentagent.com/api/status",
       "response": {
-        "id": "05ea4451-e778-4d4b-831e-7fa6f0a4ead5",
-        "client_name": "test_client_151622",
-        "timestamp": "2025-10-28T15:16:22.938371Z"
+        "id": "b90fe6da-c6c3-4617-90e5-3b85325d8f78",
+        "client_name": "test_client_152253",
+        "timestamp": "2025-10-28T15:22:53.535017Z"
       }
     },
     {
@@ -36,6 +36,11 @@
           "id": "05ea4451-e778-4d4b-831e-7fa6f0a4ead5",
           "client_name": "test_client_151622",
           "timestamp": "2025-10-28T15:16:22.938371Z"
+        },
+        {
+          "id": "b90fe6da-c6c3-4617-90e5-3b85325d8f78",
+          "client_name": "test_client_152253",
+          "timestamp": "2025-10-28T15:22:53.535017Z"
         }
       ]
     },
