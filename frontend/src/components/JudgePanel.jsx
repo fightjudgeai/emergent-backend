@@ -33,8 +33,8 @@ export default function JudgePanel() {
 
   const loadBout = async () => {
     try {
-      const boutDoc = await getDoc(doc(db, 'bouts', boutId));
-      if (boutDoc.exists()) {
+      const boutDoc = await db.collection('bouts').doc(boutId).get();
+      if (boutDoc.exists) {
         setBout({ id: boutDoc.id, ...boutDoc.data() });
       }
     } catch (error) {
@@ -43,18 +43,15 @@ export default function JudgePanel() {
   };
 
   const setupEventListener = () => {
-    const eventsQuery = query(
-      collection(db, 'events'),
-      where('boutId', '==', boutId)
-    );
-
-    const unsubscribe = onSnapshot(eventsQuery, (snapshot) => {
-      const eventsList = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setEvents(eventsList);
-    });
+    const unsubscribe = db.collection('events')
+      .where('boutId', '==', boutId)
+      .onSnapshot((snapshot) => {
+        const eventsList = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setEvents(eventsList);
+      });
 
     return unsubscribe;
   };
