@@ -177,6 +177,7 @@ class ScoringEngine:
                 td_qualities.append(td_quality)
             
             elif etype == "Submission Attempt":
+                # Sub attempt depth: fight-ending (2.2) > tight (1.6) > light (1.0)
                 depth_map = {"light": 1.0, "tight": 1.6, "fight-ending": 2.2}
                 depth = depth_map.get(meta.get("depth", "light"), 1.0)
                 duration = min(meta.get("duration", 0) / 10, 2)
