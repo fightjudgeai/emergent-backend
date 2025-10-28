@@ -141,6 +141,12 @@ export default function OperatorPanel() {
     setSubDepth('light');
   };
 
+  const handleKdAttempt = async () => {
+    await logEvent('KD', { severity: kdSeverity });
+    setShowKdDialog(false);
+    setKdSeverity('flash');
+  };
+
   const nextRound = async () => {
     if (bout.currentRound < bout.totalRounds) {
       // Stop any running timers
