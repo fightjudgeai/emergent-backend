@@ -112,6 +112,56 @@ export default function JudgePanel() {
     }
   };
 
+  const goBackToFightList = async () => {
+    if (bout?.eventId) {
+      navigate(`/event/${bout.eventId}/fights`);
+    } else {
+      navigate('/');
+    }
+  };
+
+  const goToNextFight = async () => {
+    if (!bout?.eventId) {
+      toast.error('No event associated with this fight');
+      return;
+    }
+
+    try {
+      // Mark current fight as completed
+      await db.collection('bouts').doc(boutId).update({
+        status: 'completed'
+      });
+
+      // Find next fight
+      const nextFightsSnapshot = await db.collection('bouts')
+        .where('eventId', '==', bout.eventId)
+        .where('fightOrder', '>', bout.fightOrder || 0)
+        .get();
+
+      const nextFights = nextFightsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      nextFights.sort((a, b) => (a.fightOrder || 0) - (b.fightOrder || 0));
+
+      if (nextFights.length > 0) {
+        const nextFight = nextFights[0];
+        await db.collection('bouts').doc(nextFight.id).update({
+          status: 'active'
+        });
+        navigate(`/judge/${nextFight.id}`);
+        toast.success(`Moving to Fight #${nextFight.fightOrder}`);
+      } else {
+        toast.info('No more fights in this event');
+        navigate(`/event/${bout.eventId}/fights`);
+      }
+    } catch (error) {
+      console.error('Error navigating to next fight:', error);
+      toast.error('Failed to move to next fight');
+    }
+  };
+
   if (!bout) return <div className="min-h-screen flex items-center justify-center bg-[#0a0a0b]"><p className="text-gray-400">Loading...</p></div>;
 
   const renderSubscores = (subscores, label) => {
