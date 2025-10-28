@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -6,10 +6,10 @@ import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List
+from typing import List, Optional, Dict, Any
 import uuid
 from datetime import datetime, timezone
-
+import math
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -25,11 +25,9 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
-
 # Define Models
 class StatusCheck(BaseModel):
-    model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
-    
+    model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     client_name: str
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -37,34 +35,314 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
-# Add your routes to the router instead of directly to app
+class EventData(BaseModel):
+    bout_id: str
+    round_num: int
+    fighter: str  # "fighter1" or "fighter2"
+    event_type: str
+    timestamp: float
+    metadata: Optional[Dict[str, Any]] = None
+
+class ScoreRequest(BaseModel):
+    bout_id: str
+    round_num: int
+    events: List[EventData]
+    round_duration: int  # in seconds, typically 300 (5 min)
+
+class Subscores(BaseModel):
+    KD: float
+    ISS: float
+    GCQ: float
+    TDQ: float
+    SUBQ: float
+    OC: float
+    AGG: float
+    RP: float
+    TSR: float
+
+class FighterScore(BaseModel):
+    fighter: str
+    subscores: Subscores
+    final_score: float
+
+class RoundScore(BaseModel):
+    bout_id: str
+    round_num: int
+    fighter1_score: FighterScore
+    fighter2_score: FighterScore
+    score_gap: float
+    gap_label: str
+
+# Scoring Engine
+class ScoringEngine:
+    @staticmethod
+    def calculate_subscores(events: List[EventData], fighter: str, round_duration: int, opponent_iss_total: float = 0) -> Subscores:
+        # Filter events for this fighter
+        fighter_events = [e for e in events if e.fighter == fighter]
+        
+        # Initialize accumulators
+        kd_severities = []
+        iss_impacts = []
+        ground_iss_impacts = []
+        ctrl_segments = []
+        td_qualities = []
+        sub_attempts = []
+        passes = 0
+        reversals = 0
+        scramble_wins = 0
+        total_strikes = 0
+        significant_strikes = 0
+        
+        # Control timer tracking
+        ctrl_start_time = None
+        ctrl_dom_seconds = 0
+        ctrl_eff_seconds = 0
+        
+        # Process events
+        for event in sorted(fighter_events, key=lambda x: x.timestamp):
+            etype = event.event_type
+            meta = event.metadata or {}
+            
+            if etype == "KD":
+                severity_map = {"flash": 1.0, "hard": 1.4, "near-finish": 1.8}
+                kd_severities.append(severity_map.get(meta.get("severity", "flash"), 1.0))
+            
+            elif etype.startswith("ISS"):
+                location = etype.replace("ISS ", "").lower()
+                impact_map = {"head": 1.0, "body": 0.8, "leg": 0.7}
+                impact = impact_map.get(location, 1.0)
+                
+                # Check for power strikes
+                if meta.get("power_strike"):
+                    impact *= 1.2
+                if meta.get("rocked"):
+                    impact += 0.5
+                
+                iss_impacts.append(impact)
+                significant_strikes += 1
+                
+                # Track ground strikes for GCQ
+                if meta.get("on_ground"):
+                    ground_iss_impacts.append(impact)
+            
+            elif etype == "CTRL_START":
+                ctrl_start_time = event.timestamp
+            
+            elif etype == "CTRL_STOP":
+                if ctrl_start_time is not None:
+                    duration = event.timestamp - ctrl_start_time
+                    position = meta.get("position", "top")
+                    
+                    # Dominant positions
+                    if position in ["mount", "back", "top_half", "side_control"]:
+                        ctrl_dom_seconds += duration
+                    
+                    # Effective control (cage/center)
+                    if meta.get("effective_control"):
+                        ctrl_eff_seconds += duration
+                    
+                    ctrl_start_time = None
+            
+            elif etype == "Takedown":
+                td_quality = 1.0
+                
+                # Check for immediate pass within 10s
+                if meta.get("immediate_pass"):
+                    td_quality += 0.4
+                
+                # Check for strikes within 10s
+                if meta.get("followed_by_strikes"):
+                    td_quality += 0.4
+                
+                # Mat return
+                if meta.get("mat_return"):
+                    td_quality = 0.5
+                
+                td_qualities.append(td_quality)
+            
+            elif etype == "Submission Attempt":
+                depth_map = {"light": 1.0, "tight": 1.6, "fight-ending": 2.2}
+                depth = depth_map.get(meta.get("depth", "light"), 1.0)
+                duration = min(meta.get("duration", 0) / 10, 2)
+                sub_attempts.append(depth + duration)
+            
+            elif etype == "Pass":
+                passes += 1
+            
+            elif etype == "Reversal":
+                reversals += 1
+            
+            elif etype == "SCRAMBLE_WIN":
+                scramble_wins += 1
+            
+            elif etype == "STRIKE":
+                total_strikes += 1
+        
+        # Handle unclosed control timer at round end
+        if ctrl_start_time is not None:
+            duration = round_duration - ctrl_start_time
+            ctrl_dom_seconds += duration
+        
+        # Calculate subscores with exponents
+        T = max(round_duration, 1)  # Avoid division by zero
+        
+        # KD Score
+        kd_score = 10 * (sum(kd_severities) ** 0.8) if kd_severities else 0
+        
+        # ISS Score
+        iss_score = 10 * (sum(iss_impacts) ** 0.6) if iss_impacts else 0
+        
+        # GCQ Score
+        gcq_raw = (ctrl_dom_seconds / T) ** 0.8 + 0.08 * passes + 0.04 * sum(ground_iss_impacts)
+        gcq_score = 10 * gcq_raw
+        
+        # TDQ Score
+        tdq_score = 10 * (sum(td_qualities) ** 0.7) if td_qualities else 0
+        
+        # SUBQ Score
+        subq_score = 10 * (sum(sub_attempts) ** 0.8) if sub_attempts else 0
+        
+        # OC Score
+        oc_score = 10 * ((ctrl_eff_seconds / T) ** 0.7) if ctrl_eff_seconds > 0 else 0
+        
+        # AGG Score
+        f_eng = ctrl_eff_seconds + sum(iss_impacts) * 2  # Engagement proxy
+        attempts_over_base = 0  # Would need weight class baseline
+        iss_diff_negative = 1 if opponent_iss_total > sum(iss_impacts) else 0
+        agg_raw = max((f_eng / T) + 0.06 * attempts_over_base - 0.04 * iss_diff_negative, 0)
+        agg_score = 10 * (agg_raw ** 0.7)
+        
+        # RP Score
+        rp_raw = 2 * reversals + 0.5 * passes + 0.8 * scramble_wins
+        rp_score = 10 * (rp_raw ** 0.7) if rp_raw > 0 else 0
+        
+        # TSR Score
+        tsr_raw = max(total_strikes - significant_strikes, 0)
+        tsr_score = 10 * (math.log1p(tsr_raw) / math.log(41)) if tsr_raw > 0 else 0
+        
+        return Subscores(
+            KD=round(kd_score, 2),
+            ISS=round(iss_score, 2),
+            GCQ=round(gcq_score, 2),
+            TDQ=round(tdq_score, 2),
+            SUBQ=round(subq_score, 2),
+            OC=round(oc_score, 2),
+            AGG=round(agg_score, 2),
+            RP=round(rp_score, 2),
+            TSR=round(tsr_score, 2)
+        )
+    
+    @staticmethod
+    def calculate_final_score(subscores: Subscores) -> float:
+        weights = {
+            "KD": 0.28,
+            "ISS": 0.24,
+            "GCQ": 0.12,
+            "TDQ": 0.10,
+            "SUBQ": 0.10,
+            "OC": 0.06,
+            "AGG": 0.05,
+            "RP": 0.03,
+            "TSR": 0.02
+        }
+        
+        score = 100 * (
+            weights["KD"] * subscores.KD +
+            weights["ISS"] * subscores.ISS +
+            weights["GCQ"] * subscores.GCQ +
+            weights["TDQ"] * subscores.TDQ +
+            weights["SUBQ"] * subscores.SUBQ +
+            weights["OC"] * subscores.OC +
+            weights["AGG"] * subscores.AGG +
+            weights["RP"] * subscores.RP +
+            weights["TSR"] * subscores.TSR
+        )
+        
+        return round(score, 2)
+    
+    @staticmethod
+    def get_gap_label(gap: float) -> str:
+        if gap < 8.0:
+            return "close 10-9"
+        elif gap < 18.0:
+            return "clear 10-9"
+        elif gap < 32.0:
+            return "10-8-level dominance"
+        else:
+            return "10-7-level dominance"
+
+# Routes
 @api_router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Combat Sports Judging API"}
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.model_dump()
     status_obj = StatusCheck(**status_dict)
-    
-    # Convert to dict and serialize datetime to ISO string for MongoDB
     doc = status_obj.model_dump()
     doc['timestamp'] = doc['timestamp'].isoformat()
-    
     _ = await db.status_checks.insert_one(doc)
     return status_obj
 
 @api_router.get("/status", response_model=List[StatusCheck])
 async def get_status_checks():
-    # Exclude MongoDB's _id field from the query results
     status_checks = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
-    
-    # Convert ISO string timestamps back to datetime objects
     for check in status_checks:
         if isinstance(check['timestamp'], str):
             check['timestamp'] = datetime.fromisoformat(check['timestamp'])
-    
     return status_checks
+
+@api_router.post("/calculate-score", response_model=RoundScore)
+async def calculate_score(request: ScoreRequest):
+    """
+    Calculate round scores for both fighters based on logged events
+    """
+    try:
+        engine = ScoringEngine()
+        
+        # Get all events for the round
+        fighter1_events = [e for e in request.events if e.fighter == "fighter1"]
+        fighter2_events = [e for e in request.events if e.fighter == "fighter2"]
+        
+        # Calculate ISS totals for AGG calculation
+        f1_iss_total = sum([1.0 for e in fighter1_events if e.event_type.startswith("ISS")])
+        f2_iss_total = sum([1.0 for e in fighter2_events if e.event_type.startswith("ISS")])
+        
+        # Calculate subscores for both fighters
+        f1_subscores = engine.calculate_subscores(request.events, "fighter1", request.round_duration, f2_iss_total)
+        f2_subscores = engine.calculate_subscores(request.events, "fighter2", request.round_duration, f1_iss_total)
+        
+        # Calculate final scores
+        f1_final = engine.calculate_final_score(f1_subscores)
+        f2_final = engine.calculate_final_score(f2_subscores)
+        
+        # Calculate gap
+        gap = abs(f1_final - f2_final)
+        gap_label = engine.get_gap_label(gap)
+        
+        result = RoundScore(
+            bout_id=request.bout_id,
+            round_num=request.round_num,
+            fighter1_score=FighterScore(
+                fighter="fighter1",
+                subscores=f1_subscores,
+                final_score=f1_final
+            ),
+            fighter2_score=FighterScore(
+                fighter="fighter2",
+                subscores=f2_subscores,
+                final_score=f2_final
+            ),
+            score_gap=gap,
+            gap_label=gap_label
+        )
+        
+        return result
+        
+    except Exception as e:
+        logger.error(f"Error calculating score: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 # Include the router in the main app
 app.include_router(api_router)
