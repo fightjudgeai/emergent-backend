@@ -119,10 +119,9 @@ class ScoringEngine:
             meta = event.metadata or {}
             
             if etype == "KD":
-                # KD severity significantly increased for proper weighting
-                # near-finish (5.0) > hard (3.5) > flash (2.0)
-                severity_map = {"flash": 2.0, "hard": 3.5, "near-finish": 5.0}
-                kd_severities.append(severity_map.get(meta.get("severity", "flash"), 2.0))
+                # KD severity matches TypeScript implementation
+                severity_map = {"flash": 1.0, "hard": 1.4, "near-finish": 1.8}
+                kd_severities.append(severity_map.get(meta.get("severity", "flash"), 1.0))
             
             elif etype.startswith("SS"):
                 # All SS strikes equal value: head = body = leg
