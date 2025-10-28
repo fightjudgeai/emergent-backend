@@ -384,6 +384,49 @@ export default function OperatorPanel() {
       {/* Event Buttons */}
       <div className="max-w-7xl mx-auto mb-6">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {/* KD Button with Dialog */}
+          <Dialog open={showKdDialog} onOpenChange={setShowKdDialog}>
+            <DialogTrigger asChild>
+              <Button
+                data-testid="event-kd-btn"
+                className={`h-24 text-xl font-bold bg-gradient-to-br ${getButtonColor(0)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+              >
+                KD
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="bg-[#13151a] border-[#2a2d35]">
+              <DialogHeader>
+                <DialogTitle className="text-white">Knockdown Severity</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div className="space-y-2">
+                  <Label className="text-gray-300">Severity Level</Label>
+                  <Select value={kdSeverity} onValueChange={setKdSeverity}>
+                    <SelectTrigger className="bg-[#1a1d24] border-[#2a2d35] text-white">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
+                      <SelectItem value="flash">Flash (1.0)</SelectItem>
+                      <SelectItem value="hard">Hard (1.5)</SelectItem>
+                      <SelectItem value="near-finish">Near Finish (2.0)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Button
+                  data-testid="submit-kd-btn"
+                  onClick={handleKdAttempt}
+                  className={`w-full bg-gradient-to-r ${
+                    selectedFighter === 'fighter1'
+                      ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
+                      : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+                  } text-white`}
+                >
+                  Log Knockdown
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+          
           {eventButtons.map((btn, index) => (
             <Button
               key={btn.event}
