@@ -65,13 +65,28 @@ class FighterScore(BaseModel):
     subscores: Subscores
     final_score: float
 
+class GateChecks(BaseModel):
+    finish_threat: bool
+    control_dom: bool
+    multi_cat_dom: bool
+
+class RoundReasons(BaseModel):
+    delta: float
+    gates_winner: GateChecks
+    gates_loser: GateChecks
+    to_108: bool
+    to_107: bool
+    draw: bool = False
+
 class RoundScore(BaseModel):
     bout_id: str
     round_num: int
     fighter1_score: FighterScore
     fighter2_score: FighterScore
     score_gap: float
-    gap_label: str
+    card: str  # e.g., "10-9", "10-8", "10-7", "10-10"
+    winner: str  # "fighter1", "fighter2", or "DRAW"
+    reasons: RoundReasons
 
 # Scoring Engine
 class ScoringEngine:
