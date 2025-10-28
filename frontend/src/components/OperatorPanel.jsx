@@ -89,16 +89,43 @@ export default function OperatorPanel() {
   };
 
   const toggleControl = async () => {
-    if (controlTimer) {
-      // Stop control
-      await logEvent('CTRL_STOP', { position: 'top', startTime: controlTimer });
-      setControlTimer(null);
-      toast.info('Control timer stopped');
+    const fighter = selectedFighter;
+    const isCurrentlyRunning = controlTimers[fighter].isRunning;
+    
+    if (isCurrentlyRunning) {
+      // Stop control timer
+      const duration = controlTimers[fighter].time;
+      
+      await logEvent('CTRL_STOP', { 
+        duration,
+        position: 'top'
+      });
+      
+      setControlTimers(prev => ({
+        ...prev,
+        [fighter]: {
+          ...prev[fighter],
+          isRunning: false
+        }
+      }));
+      
+      toast.info(`Control stopped for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
     } else {
-      // Start control
-      await logEvent('CTRL_START', { time: roundTime });
-      setControlTimer(roundTime);
-      toast.info('Control timer started');
+      // Start control timer
+      await logEvent('CTRL_START', { 
+        time: controlTimers[fighter].time 
+      });
+      
+      setControlTimers(prev => ({
+        ...prev,
+        [fighter]: {
+          time: 0,
+          isRunning: true,
+          startTime: Date.now()
+        }
+      }));
+      
+      toast.info(`Control started for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
     }
   };
 
