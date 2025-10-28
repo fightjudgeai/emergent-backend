@@ -309,18 +309,38 @@ export default function OperatorPanel() {
       <div className="max-w-7xl mx-auto mb-6">
         <Card className="bg-[#13151a] border-[#2a2d35] p-6">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-amber-500">Operator Panel</h1>
-              <p className="text-gray-400 mt-1">{bout.fighter1} vs {bout.fighter2}</p>
+            <div className="flex items-center gap-3">
+              <Button
+                data-testid="back-to-fights-btn"
+                onClick={goBackToFightList}
+                className="h-10 px-4 bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35]"
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Fights
+              </Button>
+              <div>
+                <h1 className="text-3xl font-bold text-amber-500">Operator Panel</h1>
+                <p className="text-gray-400 mt-1">{bout.fighter1} vs {bout.fighter2}</p>
+              </div>
             </div>
-            <Button
-              data-testid="view-judge-panel-btn"
-              onClick={() => window.open(`/judge/${boutId}`, '_blank')}
-              className="bg-[#1a1d24] hover:bg-[#22252d] text-amber-500 border border-amber-500/30"
-            >
-              <Eye className="mr-2 h-4 w-4" />
-              Judge Panel
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button
+                data-testid="next-fight-btn"
+                onClick={goToNextFight}
+                className="h-10 px-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
+              >
+                Next Fight
+                <SkipForward className="ml-2 h-4 w-4" />
+              </Button>
+              <Button
+                data-testid="view-judge-panel-btn"
+                onClick={() => window.open(`/judge/${boutId}`, '_blank')}
+                className="h-10 px-4 bg-[#1a1d24] hover:bg-[#22252d] text-amber-500 border border-amber-500/30"
+              >
+                <Eye className="mr-2 h-4 w-4" />
+                Judge Panel
+              </Button>
+            </div>
           </div>
         </Card>
       </div>
