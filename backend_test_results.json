@@ -1,0 +1,172 @@
+{
+  "total_tests": 6,
+  "passed_tests": 6,
+  "success_rate": 100.0,
+  "results": [
+    {
+      "test": "Root API Endpoint",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://ringside-tech.preview.emergentagent.com/api/",
+      "response": {
+        "message": "Combat Sports Judging API"
+      }
+    },
+    {
+      "test": "Create Status Check",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://ringside-tech.preview.emergentagent.com/api/status",
+      "response": {
+        "id": "05ea4451-e778-4d4b-831e-7fa6f0a4ead5",
+        "client_name": "test_client_151622",
+        "timestamp": "2025-10-28T15:16:22.938371Z"
+      }
+    },
+    {
+      "test": "Get Status Checks",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://ringside-tech.preview.emergentagent.com/api/status",
+      "response": [
+        {
+          "id": "05ea4451-e778-4d4b-831e-7fa6f0a4ead5",
+          "client_name": "test_client_151622",
+          "timestamp": "2025-10-28T15:16:22.938371Z"
+        }
+      ]
+    },
+    {
+      "test": "Calculate Score",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://ringside-tech.preview.emergentagent.com/api/calculate-score",
+      "response": {
+        "bout_id": "test_bout_123",
+        "round_num": 1,
+        "fighter1_score": {
+          "fighter": "fighter1",
+          "subscores": {
+            "KD": 13.09,
+            "ISS": 11.16,
+            "GCQ": 0.0,
+            "TDQ": 0.0,
+            "SUBQ": 0.0,
+            "OC": 0.0,
+            "AGG": 0.34,
+            "RP": 0.0,
+            "TSR": 0.0
+          },
+          "final_score": 636.06
+        },
+        "fighter2_score": {
+          "fighter": "fighter2",
+          "subscores": {
+            "KD": 0.0,
+            "ISS": 0.0,
+            "GCQ": 0.0,
+            "TDQ": 12.66,
+            "SUBQ": 24.72,
+            "OC": 0.0,
+            "AGG": 0.0,
+            "RP": 0.0,
+            "TSR": 0.0
+          },
+          "final_score": 373.8
+        },
+        "score_gap": 262.25999999999993,
+        "gap_label": "10-7-level dominance"
+      }
+    },
+    {
+      "test": "Empty Events List",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://ringside-tech.preview.emergentagent.com/api/calculate-score",
+      "response": {
+        "bout_id": "test_bout_empty",
+        "round_num": 1,
+        "fighter1_score": {
+          "fighter": "fighter1",
+          "subscores": {
+            "KD": 0.0,
+            "ISS": 0.0,
+            "GCQ": 0.0,
+            "TDQ": 0.0,
+            "SUBQ": 0.0,
+            "OC": 0.0,
+            "AGG": 0.0,
+            "RP": 0.0,
+            "TSR": 0.0
+          },
+          "final_score": 0.0
+        },
+        "fighter2_score": {
+          "fighter": "fighter2",
+          "subscores": {
+            "KD": 0.0,
+            "ISS": 0.0,
+            "GCQ": 0.0,
+            "TDQ": 0.0,
+            "SUBQ": 0.0,
+            "OC": 0.0,
+            "AGG": 0.0,
+            "RP": 0.0,
+            "TSR": 0.0
+          },
+          "final_score": 0.0
+        },
+        "score_gap": 0.0,
+        "gap_label": "close 10-9"
+      }
+    },
+    {
+      "test": "Invalid Event Type",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://ringside-tech.preview.emergentagent.com/api/calculate-score",
+      "response": {
+        "bout_id": "test_bout_invalid",
+        "round_num": 1,
+        "fighter1_score": {
+          "fighter": "fighter1",
+          "subscores": {
+            "KD": 0.0,
+            "ISS": 0.0,
+            "GCQ": 0.0,
+            "TDQ": 0.0,
+            "SUBQ": 0.0,
+            "OC": 0.0,
+            "AGG": 0.0,
+            "RP": 0.0,
+            "TSR": 0.0
+          },
+          "final_score": 0.0
+        },
+        "fighter2_score": {
+          "fighter": "fighter2",
+          "subscores": {
+            "KD": 0.0,
+            "ISS": 0.0,
+            "GCQ": 0.0,
+            "TDQ": 0.0,
+            "SUBQ": 0.0,
+            "OC": 0.0,
+            "AGG": 0.0,
+            "RP": 0.0,
+            "TSR": 0.0
+          },
+          "final_score": 0.0
+        },
+        "score_gap": 0.0,
+        "gap_label": "close 10-9"
+      }
+    }
+  ]
+}
