@@ -99,7 +99,7 @@ export default function JudgePanel() {
 
   const confirmRound = async (roundNum) => {
     try {
-      await setDoc(doc(db, 'confirmedRounds', `${boutId}_${roundNum}`), {
+      await db.collection('confirmedRounds').doc(`${boutId}_${roundNum}`).set({
         boutId,
         round: roundNum,
         confirmedAt: new Date().toISOString(),
