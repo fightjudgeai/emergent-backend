@@ -195,27 +195,66 @@ export default function OperatorPanel() {
         </Card>
       </div>
 
-      {/* Round Timer */}
+      {/* Control Timers */}
       <div className="max-w-7xl mx-auto mb-6">
         <Card className="bg-gradient-to-r from-[#1a1d24] to-[#13151a] border-[#2a2d35] p-8">
-          <div className="text-center space-y-4">
+          <div className="text-center space-y-6">
             <div className="text-sm text-gray-400 font-medium">ROUND {bout.currentRound} of {bout.totalRounds}</div>
-            <div className="text-7xl font-bold text-white tracking-wider" style={{ fontFamily: 'Space Grotesk' }}>
-              {formatTime(roundTime)}
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Fighter 1 Control Timer */}
+              <div className={`p-6 rounded-xl border-2 transition-all ${
+                selectedFighter === 'fighter1' 
+                  ? 'bg-red-950/30 border-red-600' 
+                  : 'bg-[#1a1d24] border-[#2a2d35]'
+              }`}>
+                <div className="text-sm text-red-400 font-medium mb-2">{bout.fighter1} (Red)</div>
+                <div className="text-5xl font-bold text-white tracking-wider" style={{ fontFamily: 'Space Grotesk' }}>
+                  {formatTime(controlTimers.fighter1.time)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {controlTimers.fighter1.isRunning ? 'CONTROL ACTIVE' : 'Stopped'}
+                </div>
+              </div>
+              
+              {/* Fighter 2 Control Timer */}
+              <div className={`p-6 rounded-xl border-2 transition-all ${
+                selectedFighter === 'fighter2' 
+                  ? 'bg-blue-950/30 border-blue-600' 
+                  : 'bg-[#1a1d24] border-[#2a2d35]'
+              }`}>
+                <div className="text-sm text-blue-400 font-medium mb-2">{bout.fighter2} (Blue)</div>
+                <div className="text-5xl font-bold text-white tracking-wider" style={{ fontFamily: 'Space Grotesk' }}>
+                  {formatTime(controlTimers.fighter2.time)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {controlTimers.fighter2.isRunning ? 'CONTROL ACTIVE' : 'Stopped'}
+                </div>
+              </div>
             </div>
-            <div className="flex items-center justify-center gap-4">
+            
+            <div className="flex items-center justify-center gap-4 pt-4">
               <Button
-                data-testid="timer-toggle-btn"
-                onClick={() => setIsRunning(!isRunning)}
-                className="h-14 px-8 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold"
+                data-testid="control-timer-btn"
+                onClick={toggleControl}
+                className={`h-14 px-8 font-semibold text-lg transition-all ${
+                  controlTimers[selectedFighter].isRunning
+                    ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg'
+                    : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white'
+                }`}
               >
-                {isRunning ? <><Pause className="mr-2 h-5 w-5" />Pause</> : <><Play className="mr-2 h-5 w-5" />Start</>}
+                {controlTimers[selectedFighter].isRunning ? (
+                  <><Pause className="mr-2 h-5 w-5" />Stop Control</>
+                ) : (
+                  <><Play className="mr-2 h-5 w-5" />Start Control</>
+                )}
               </Button>
+              
               {bout.currentRound < bout.totalRounds && (
                 <Button
                   data-testid="next-round-btn"
                   onClick={nextRound}
-                  className="h-14 px-8 bg-[#1a1d24] hover:bg-[#22252d] text-amber-500 border border-amber-500/30"
+                  className="h-14 px-8 bg-[#1a1d24] hover:bg-[#22252d] text-amber-500 border border-amber-500/30 font-semibold"
                 >
                   Next Round <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
