@@ -130,7 +130,7 @@ export default function OperatorPanel() {
   };
 
   const handleSubAttempt = async () => {
-    const duration = controlTimer ? roundTime - controlTimer : 0;
+    const duration = controlTimers[selectedFighter].isRunning ? controlTimers[selectedFighter].time : 0;
     await logEvent('Submission Attempt', { depth: subDepth, duration });
     setShowSubDialog(false);
     setSubDepth('light');
@@ -138,12 +138,16 @@ export default function OperatorPanel() {
 
   const nextRound = async () => {
     if (bout.currentRound < bout.totalRounds) {
+      // Stop any running timers
+      setControlTimers({
+        fighter1: { time: 0, isRunning: false, startTime: null },
+        fighter2: { time: 0, isRunning: false, startTime: null }
+      });
+      
       await db.collection('bouts').doc(boutId).update({
         currentRound: bout.currentRound + 1
       });
-      setRoundTime(0);
-      setIsRunning(false);
-      setControlTimer(null);
+      
       loadBout();
       toast.success(`Moving to Round ${bout.currentRound + 1}`);
     } else {
