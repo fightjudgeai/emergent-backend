@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
 import { db } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,13 +23,13 @@ export default function BoutSetup() {
 
     setLoading(true);
     try {
-      const boutRef = await addDoc(collection(db, 'bouts'), {
+      const boutRef = await db.collection('bouts').add({
         fighter1: fighter1.trim(),
         fighter2: fighter2.trim(),
         currentRound: 1,
         totalRounds: 3,
         status: 'active',
-        createdAt: serverTimestamp()
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
 
       toast.success('Bout created successfully!');
