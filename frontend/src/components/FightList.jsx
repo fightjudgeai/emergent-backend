@@ -26,16 +26,18 @@ export default function FightList() {
         setEvent({ id: eventDoc.id, ...eventDoc.data() });
       }
 
-      // Load fights for this event
+      // Load fights for this event (without orderBy to avoid index requirement)
       const fightsSnapshot = await db.collection('bouts')
         .where('eventId', '==', eventId)
-        .orderBy('fightOrder', 'asc')
         .get();
       
       const fightsData = fightsSnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       }));
+      
+      // Sort manually by fightOrder
+      fightsData.sort((a, b) => (a.fightOrder || 0) - (b.fightOrder || 0));
       
       setFights(fightsData);
     } catch (error) {
