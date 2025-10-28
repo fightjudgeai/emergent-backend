@@ -188,18 +188,38 @@ export default function JudgePanel() {
       <div className="max-w-7xl mx-auto mb-8">
         <Card className="bg-gradient-to-r from-[#1a1d24] to-[#13151a] border-[#2a2d35] p-8">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center">
-                <Shield className="w-7 h-7 text-white" />
-              </div>
-              <div>
-                <h1 className="text-4xl font-bold text-white">Judge Panel</h1>
-                <p className="text-gray-400 mt-1 text-lg">{bout.fighter1} vs {bout.fighter2}</p>
+            <div className="flex items-center gap-6">
+              <Button
+                data-testid="back-to-fights-btn-judge"
+                onClick={goBackToFightList}
+                className="h-10 px-4 bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35]"
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back
+              </Button>
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center">
+                  <Shield className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-4xl font-bold text-white">Judge Panel</h1>
+                  <p className="text-gray-400 mt-1 text-lg">{bout.fighter1} vs {bout.fighter2}</p>
+                </div>
               </div>
             </div>
-            <Badge className="bg-amber-500/20 text-amber-500 border-amber-500/30 px-4 py-2 text-base">
-              View Only
-            </Badge>
+            <div className="flex items-center gap-3">
+              <Button
+                data-testid="next-fight-btn-judge"
+                onClick={goToNextFight}
+                className="h-10 px-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
+              >
+                Next Fight
+                <SkipForward className="ml-2 h-4 w-4" />
+              </Button>
+              <Badge className="bg-amber-500/20 text-amber-500 border-amber-500/30 px-4 py-2 text-base">
+                View Only
+              </Badge>
+            </div>
           </div>
         </Card>
       </div>
