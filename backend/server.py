@@ -415,13 +415,13 @@ async def calculate_score(request: ScoreRequest):
         fighter1_events = [e for e in request.events if e.fighter == "fighter1"]
         fighter2_events = [e for e in request.events if e.fighter == "fighter2"]
         
-        # Calculate ISS totals for AGG calculation
-        f1_iss_total = sum([1.0 for e in fighter1_events if e.event_type.startswith("ISS")])
-        f2_iss_total = sum([1.0 for e in fighter2_events if e.event_type.startswith("ISS")])
+        # Calculate SS totals for AGG calculation
+        f1_ss_total = sum([1.0 for e in fighter1_events if e.event_type.startswith("SS")])
+        f2_ss_total = sum([1.0 for e in fighter2_events if e.event_type.startswith("SS")])
         
         # Calculate subscores for both fighters
-        f1_subscores = engine.calculate_subscores(request.events, "fighter1", request.round_duration, f2_iss_total)
-        f2_subscores = engine.calculate_subscores(request.events, "fighter2", request.round_duration, f1_iss_total)
+        f1_subscores = engine.calculate_subscores(request.events, "fighter1", request.round_duration, f2_ss_total)
+        f2_subscores = engine.calculate_subscores(request.events, "fighter2", request.round_duration, f1_ss_total)
         
         # Calculate final strength scores
         s_a = engine.calculate_final_score(f1_subscores)
