@@ -124,9 +124,10 @@ class ScoringEngine:
                 kd_severities.append(severity_map.get(meta.get("severity", "flash"), 1.0))
             
             elif etype.startswith("SS"):
-                # All SS strikes equal value: head = body = leg
+                # All SS strikes equal value (matches TypeScript)
                 location = etype.replace("SS ", "").lower()
-                impact = 1.0  # All SS strikes have equal importance
+                impact_map = {"head": 1.0, "body": 0.8, "leg": 0.7}
+                impact = impact_map.get(location, 1.0)
                 
                 # Check for power strikes
                 if meta.get("power_strike"):
