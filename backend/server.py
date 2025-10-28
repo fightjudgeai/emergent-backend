@@ -119,11 +119,11 @@ class ScoringEngine:
             meta = event.metadata or {}
             
             if etype == "KD":
-                severity_map = {"flash": 1.0, "hard": 1.4, "near-finish": 1.8}
+                severity_map = {"flash": 1.0, "hard": 1.5, "near-finish": 2.0}
                 kd_severities.append(severity_map.get(meta.get("severity", "flash"), 1.0))
             
-            elif etype.startswith("ISS"):
-                location = etype.replace("ISS ", "").lower()
+            elif etype.startswith("SS"):
+                location = etype.replace("SS ", "").lower()
                 impact_map = {"head": 1.0, "body": 0.8, "leg": 0.7}
                 impact = impact_map.get(location, 1.0)
                 
