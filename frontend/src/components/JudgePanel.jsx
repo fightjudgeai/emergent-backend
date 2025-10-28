@@ -15,6 +15,7 @@ const API = `${BACKEND_URL}/api`;
 
 export default function JudgePanel() {
   const { boutId } = useParams();
+  const navigate = useNavigate();
   const [bout, setBout] = useState(null);
   const [scores, setScores] = useState({});
   const [loading, setLoading] = useState(false);
