@@ -183,41 +183,109 @@ export default function JudgePanel() {
 
               {!loading && roundScore && (
                 <div className="space-y-8">
-                  {/* Final Scores */}
+                  {/* 10-Point-Must Card */}
+                  <Card className="bg-gradient-to-r from-amber-900/30 to-orange-900/30 border-amber-700/50 p-8">
+                    <div className="text-center space-y-4">
+                      <div className="text-sm text-amber-400 font-semibold uppercase tracking-wide">Official Score Card</div>
+                      <div className="text-6xl font-bold text-white" style={{ fontFamily: 'Space Grotesk' }}>
+                        {roundScore.card}
+                      </div>
+                      <div className="flex items-center justify-center gap-3">
+                        {roundScore.winner === 'DRAW' ? (
+                          <Badge className="bg-gray-600 text-white border-gray-500 px-4 py-2 text-lg">
+                            Round Draw
+                          </Badge>
+                        ) : (
+                          <>
+                            <Badge className={`${
+                              roundScore.winner === 'fighter1' 
+                                ? 'bg-red-600 border-red-500' 
+                                : 'bg-blue-600 border-blue-500'
+                            } text-white px-4 py-2 text-lg`}>
+                              Winner: {roundScore.winner === 'fighter1' ? bout.fighter1 : bout.fighter2}
+                            </Badge>
+                            {roundScore.reasons.to_107 && (
+                              <Badge className="bg-red-900 border-red-700 text-white px-3 py-1">10-7 Dominance</Badge>
+                            )}
+                            {roundScore.reasons.to_108 && !roundScore.reasons.to_107 && (
+                              <Badge className="bg-orange-900 border-orange-700 text-white px-3 py-1">10-8 Dominance</Badge>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+
+                  {/* Strength Scores & Gate Checks */}
                   <div className="grid md:grid-cols-2 gap-6">
                     <Card className="bg-gradient-to-br from-red-900/20 to-red-950/20 border-red-800/30 p-6">
-                      <div className="text-center space-y-3">
-                        <div className="text-sm text-red-400 font-semibold uppercase tracking-wide">Red Corner</div>
-                        <div className="text-3xl font-bold text-white">{bout.fighter1}</div>
-                        <div className="text-5xl font-bold text-red-400" style={{ fontFamily: 'Space Grotesk' }}>
-                          {roundScore.fighter1_score.final_score.toFixed(2)}
+                      <div className="space-y-4">
+                        <div className="text-center">
+                          <div className="text-sm text-red-400 font-semibold uppercase tracking-wide">Red Corner</div>
+                          <div className="text-3xl font-bold text-white mt-2">{bout.fighter1}</div>
+                          <div className="text-5xl font-bold text-red-400 mt-3" style={{ fontFamily: 'Space Grotesk' }}>
+                            {roundScore.fighter1_score.final_score.toFixed(2)}
+                          </div>
+                          <div className="text-xs text-gray-400 mt-1">Strength Score</div>
                         </div>
+                        {roundScore.winner === 'fighter1' && (
+                          <div className="mt-4 space-y-2">
+                            <div className="text-xs text-gray-400 uppercase tracking-wide">Dominance Gates</div>
+                            <div className="flex flex-wrap gap-2">
+                              {roundScore.reasons.gates_winner.finish_threat && (
+                                <Badge className="bg-red-700 text-white text-xs">Finish Threat</Badge>
+                              )}
+                              {roundScore.reasons.gates_winner.control_dom && (
+                                <Badge className="bg-red-700 text-white text-xs">Control Dom</Badge>
+                              )}
+                              {roundScore.reasons.gates_winner.multi_cat_dom && (
+                                <Badge className="bg-red-700 text-white text-xs">Multi-Cat Dom</Badge>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </Card>
                     
                     <Card className="bg-gradient-to-br from-blue-900/20 to-blue-950/20 border-blue-800/30 p-6">
-                      <div className="text-center space-y-3">
-                        <div className="text-sm text-blue-400 font-semibold uppercase tracking-wide">Blue Corner</div>
-                        <div className="text-3xl font-bold text-white">{bout.fighter2}</div>
-                        <div className="text-5xl font-bold text-blue-400" style={{ fontFamily: 'Space Grotesk' }}>
-                          {roundScore.fighter2_score.final_score.toFixed(2)}
+                      <div className="space-y-4">
+                        <div className="text-center">
+                          <div className="text-sm text-blue-400 font-semibold uppercase tracking-wide">Blue Corner</div>
+                          <div className="text-3xl font-bold text-white mt-2">{bout.fighter2}</div>
+                          <div className="text-5xl font-bold text-blue-400 mt-3" style={{ fontFamily: 'Space Grotesk' }}>
+                            {roundScore.fighter2_score.final_score.toFixed(2)}
+                          </div>
+                          <div className="text-xs text-gray-400 mt-1">Strength Score</div>
                         </div>
+                        {roundScore.winner === 'fighter2' && (
+                          <div className="mt-4 space-y-2">
+                            <div className="text-xs text-gray-400 uppercase tracking-wide">Dominance Gates</div>
+                            <div className="flex flex-wrap gap-2">
+                              {roundScore.reasons.gates_winner.finish_threat && (
+                                <Badge className="bg-blue-700 text-white text-xs">Finish Threat</Badge>
+                              )}
+                              {roundScore.reasons.gates_winner.control_dom && (
+                                <Badge className="bg-blue-700 text-white text-xs">Control Dom</Badge>
+                              )}
+                              {roundScore.reasons.gates_winner.multi_cat_dom && (
+                                <Badge className="bg-blue-700 text-white text-xs">Multi-Cat Dom</Badge>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </Card>
                   </div>
 
-                  {/* Score Gap */}
+                  {/* Score Differential */}
                   <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
                     <div className="flex items-center justify-center gap-4">
                       <TrendingUp className="w-6 h-6 text-amber-500" />
                       <div className="text-center">
-                        <div className="text-sm text-gray-400 mb-1">Score Differential</div>
+                        <div className="text-sm text-gray-400 mb-1">Strength Score Delta (Δ)</div>
                         <div className="text-2xl font-bold text-white">
-                          {roundScore.score_gap.toFixed(2)} points
+                          {roundScore.reasons.delta.toFixed(2)} points
                         </div>
-                        <Badge className="mt-2 bg-amber-500/20 text-amber-500 border-amber-500/30">
-                          {roundScore.gap_label}
-                        </Badge>
                       </div>
                     </div>
                   </Card>
