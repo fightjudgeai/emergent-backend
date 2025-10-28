@@ -49,8 +49,8 @@ export default function OperatorPanel() {
 
   const loadBout = async () => {
     try {
-      const boutDoc = await getDoc(doc(db, 'bouts', boutId));
-      if (boutDoc.exists()) {
+      const boutDoc = await db.collection('bouts').doc(boutId).get();
+      if (boutDoc.exists) {
         setBout({ id: boutDoc.id, ...boutDoc.data() });
       } else {
         toast.error('Bout not found');
@@ -64,14 +64,14 @@ export default function OperatorPanel() {
 
   const logEvent = async (eventType, metadata = {}) => {
     try {
-      await addDoc(collection(db, 'events'), {
+      await db.collection('events').add({
         boutId,
         round: bout.currentRound,
         fighter: selectedFighter,
         eventType,
         timestamp: roundTime,
         metadata,
-        createdAt: serverTimestamp()
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
       toast.success(`${eventType} logged for ${selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
     } catch (error) {
