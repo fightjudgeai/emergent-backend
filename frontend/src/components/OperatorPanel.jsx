@@ -349,22 +349,6 @@ export default function OperatorPanel() {
         </div>
       </div>
 
-      {/* Control Timer */}
-      <div className="max-w-7xl mx-auto">
-        <Card className="bg-[#13151a] border-[#2a2d35] p-6">
-          <Button
-            data-testid="control-timer-btn"
-            onClick={toggleControl}
-            className={`w-full h-20 text-xl font-bold transition-all ${
-              controlTimer
-                ? 'bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white shadow-lg'
-                : 'bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35]'
-            }`}
-          >
-            {controlTimer ? `Control Active (${formatTime(roundTime - controlTimer)})` : 'Start Control Timer'}
-          </Button>
-        </Card>
-      </div>
     </div>
   );
 }
