@@ -69,12 +69,15 @@ export default function OperatorPanel() {
 
   const logEvent = async (eventType, metadata = {}) => {
     try {
+      // Get current control time for the selected fighter
+      const currentTime = controlTimers[selectedFighter].time;
+      
       await db.collection('events').add({
         boutId,
         round: bout.currentRound,
         fighter: selectedFighter,
         eventType,
-        timestamp: roundTime,
+        timestamp: currentTime,
         metadata,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
