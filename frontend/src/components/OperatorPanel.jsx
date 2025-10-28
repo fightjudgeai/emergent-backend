@@ -163,14 +163,43 @@ export default function OperatorPanel() {
 
   if (!bout) return <div className="min-h-screen flex items-center justify-center bg-[#0a0a0b]"><p className="text-gray-400">Loading...</p></div>;
 
+  // Dynamic button colors based on selected fighter
+  const getButtonColor = (index) => {
+    if (selectedFighter === 'fighter1') {
+      // Red theme for fighter1
+      const redColors = [
+        'from-red-600 to-red-700',
+        'from-red-500 to-red-600',
+        'from-red-700 to-red-800',
+        'from-rose-600 to-rose-700',
+        'from-red-600 to-rose-700',
+        'from-rose-700 to-rose-800',
+        'from-red-500 to-rose-600'
+      ];
+      return redColors[index % redColors.length];
+    } else {
+      // Blue theme for fighter2
+      const blueColors = [
+        'from-blue-600 to-blue-700',
+        'from-blue-500 to-blue-600',
+        'from-blue-700 to-blue-800',
+        'from-cyan-600 to-cyan-700',
+        'from-blue-600 to-cyan-700',
+        'from-cyan-700 to-cyan-800',
+        'from-blue-500 to-cyan-600'
+      ];
+      return blueColors[index % blueColors.length];
+    }
+  };
+
   const eventButtons = [
-    { label: 'KD', event: 'KD', color: 'from-red-600 to-red-700' },
-    { label: 'ISS Head', event: 'ISS Head', color: 'from-orange-600 to-orange-700' },
-    { label: 'ISS Body', event: 'ISS Body', color: 'from-amber-600 to-amber-700' },
-    { label: 'ISS Leg', event: 'ISS Leg', color: 'from-yellow-600 to-yellow-700' },
-    { label: 'Takedown', event: 'Takedown', color: 'from-blue-600 to-blue-700' },
-    { label: 'Pass', event: 'Pass', color: 'from-purple-600 to-purple-700' },
-    { label: 'Reversal', event: 'Reversal', color: 'from-pink-600 to-pink-700' }
+    { label: 'KD', event: 'KD' },
+    { label: 'ISS Head', event: 'ISS Head' },
+    { label: 'ISS Body', event: 'ISS Body' },
+    { label: 'ISS Leg', event: 'ISS Leg' },
+    { label: 'Takedown', event: 'Takedown' },
+    { label: 'Pass', event: 'Pass' },
+    { label: 'Reversal', event: 'Reversal' }
   ];
 
   return (
