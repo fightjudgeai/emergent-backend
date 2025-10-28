@@ -404,6 +404,7 @@ async def get_status_checks():
 async def calculate_score(request: ScoreRequest):
     """
     Calculate round scores for both fighters based on logged events
+    Uses 10-Point-Must system with gate checks
     """
     try:
         engine = ScoringEngine()
@@ -420,13 +421,26 @@ async def calculate_score(request: ScoreRequest):
         f1_subscores = engine.calculate_subscores(request.events, "fighter1", request.round_duration, f2_iss_total)
         f2_subscores = engine.calculate_subscores(request.events, "fighter2", request.round_duration, f1_iss_total)
         
-        # Calculate final scores
-        f1_final = engine.calculate_final_score(f1_subscores)
-        f2_final = engine.calculate_final_score(f2_subscores)
+        # Calculate final strength scores
+        s_a = engine.calculate_final_score(f1_subscores)
+        s_b = engine.calculate_final_score(f2_subscores)
+        
+        # Calculate GCQ time share (simplified - can be enhanced)
+        f1_ctrl_time = sum([e.metadata.get('duration', 0) for e in fighter1_events if e.event_type == 'CTRL_STOP'])
+        f2_ctrl_time = sum([e.metadata.get('duration', 0) for e in fighter2_events if e.event_type == 'CTRL_STOP'])
+        total_ctrl = f1_ctrl_time + f2_ctrl_time
+        f1_gcq_share = f1_ctrl_time / total_ctrl if total_ctrl > 0 else 0
+        f2_gcq_share = f2_ctrl_time / total_ctrl if total_ctrl > 0 else 0
+        
+        # Calculate gate checks
+        gates_a = engine.calculate_gate_checks(f1_subscores, f1_gcq_share)
+        gates_b = engine.calculate_gate_checks(f2_subscores, f2_gcq_share)
+        
+        # Map to 10-Point-Must
+        card, winner, reasons = engine.map_to_ten_point_must(s_a, s_b, gates_a, gates_b)
         
         # Calculate gap
-        gap = abs(f1_final - f2_final)
-        gap_label = engine.get_gap_label(gap)
+        gap = abs(s_a - s_b)
         
         result = RoundScore(
             bout_id=request.bout_id,
@@ -434,15 +448,17 @@ async def calculate_score(request: ScoreRequest):
             fighter1_score=FighterScore(
                 fighter="fighter1",
                 subscores=f1_subscores,
-                final_score=f1_final
+                final_score=s_a
             ),
             fighter2_score=FighterScore(
                 fighter="fighter2",
                 subscores=f2_subscores,
-                final_score=f2_final
+                final_score=s_b
             ),
             score_gap=gap,
-            gap_label=gap_label
+            card=card,
+            winner=winner,
+            reasons=reasons
         )
         
         return result
