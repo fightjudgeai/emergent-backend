@@ -199,6 +199,64 @@ export default function OperatorPanel() {
     }
   };
 
+  const goBackToFightList = async () => {
+    if (bout?.eventId) {
+      // Mark fight as completed if on last round
+      if (bout.currentRound === bout.totalRounds) {
+        await db.collection('bouts').doc(boutId).update({
+          status: 'completed'
+        });
+      }
+      navigate(`/event/${bout.eventId}/fights`);
+    } else {
+      navigate('/');
+    }
+  };
+
+  const goToNextFight = async () => {
+    if (!bout?.eventId) {
+      toast.error('No event associated with this fight');
+      return;
+    }
+
+    try {
+      // Mark current fight as completed
+      await db.collection('bouts').doc(boutId).update({
+        status: 'completed'
+      });
+
+      // Find next fight
+      const nextFightsSnapshot = await db.collection('bouts')
+        .where('eventId', '==', bout.eventId)
+        .where('fightOrder', '>', bout.fightOrder || 0)
+        .get();
+
+      const nextFights = nextFightsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      // Sort and get the next fight
+      nextFights.sort((a, b) => (a.fightOrder || 0) - (b.fightOrder || 0));
+
+      if (nextFights.length > 0) {
+        const nextFight = nextFights[0];
+        // Mark next fight as active
+        await db.collection('bouts').doc(nextFight.id).update({
+          status: 'active'
+        });
+        navigate(`/operator/${nextFight.id}`);
+        toast.success(`Moving to Fight #${nextFight.fightOrder}`);
+      } else {
+        toast.info('No more fights in this event');
+        navigate(`/event/${bout.eventId}/fights`);
+      }
+    } catch (error) {
+      console.error('Error navigating to next fight:', error);
+      toast.error('Failed to move to next fight');
+    }
+  };
+
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
