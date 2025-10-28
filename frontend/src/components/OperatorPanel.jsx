@@ -372,7 +372,11 @@ export default function OperatorPanel() {
                 <Button
                   data-testid="submit-sub-attempt-btn"
                   onClick={handleSubAttempt}
-                  className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white"
+                  className={`w-full bg-gradient-to-r ${
+                    selectedFighter === 'fighter1'
+                      ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
+                      : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+                  } text-white`}
                 >
                   Log Submission
                 </Button>
