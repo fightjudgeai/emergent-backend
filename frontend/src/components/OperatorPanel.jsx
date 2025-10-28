@@ -103,7 +103,7 @@ export default function OperatorPanel() {
 
   const nextRound = async () => {
     if (bout.currentRound < bout.totalRounds) {
-      await updateDoc(doc(db, 'bouts', boutId), {
+      await db.collection('bouts').doc(boutId).update({
         currentRound: bout.currentRound + 1
       });
       setRoundTime(0);
