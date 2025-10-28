@@ -15,37 +15,42 @@ export default function OperatorPanel() {
   const navigate = useNavigate();
   const [bout, setBout] = useState(null);
   const [selectedFighter, setSelectedFighter] = useState('fighter1');
-  const [roundTime, setRoundTime] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [controlTimer, setControlTimer] = useState(null);
+  const [controlTimers, setControlTimers] = useState({
+    fighter1: { time: 0, isRunning: false, startTime: null },
+    fighter2: { time: 0, isRunning: false, startTime: null }
+  });
   const [showSubDialog, setShowSubDialog] = useState(false);
   const [subDepth, setSubDepth] = useState('light');
   const timerRef = useRef(null);
-  const roundDuration = 300; // 5 minutes
 
   useEffect(() => {
     loadBout();
   }, [boutId]);
 
   useEffect(() => {
-    if (isRunning) {
-      timerRef.current = setInterval(() => {
-        setRoundTime(prev => {
-          if (prev >= roundDuration) {
-            setIsRunning(false);
-            toast.info('Round ended!');
-            return roundDuration;
-          }
-          return prev + 1;
-        });
-      }, 1000);
-    } else {
-      if (timerRef.current) clearInterval(timerRef.current);
-    }
+    // Update control timers every 100ms for smooth display
+    timerRef.current = setInterval(() => {
+      setControlTimers(prev => {
+        const newTimers = { ...prev };
+        
+        if (newTimers.fighter1.isRunning) {
+          const elapsed = Math.floor((Date.now() - newTimers.fighter1.startTime) / 1000);
+          newTimers.fighter1.time = elapsed;
+        }
+        
+        if (newTimers.fighter2.isRunning) {
+          const elapsed = Math.floor((Date.now() - newTimers.fighter2.startTime) / 1000);
+          newTimers.fighter2.time = elapsed;
+        }
+        
+        return newTimers;
+      });
+    }, 100);
+    
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isRunning]);
+  }, []);
 
   const loadBout = async () => {
     try {
