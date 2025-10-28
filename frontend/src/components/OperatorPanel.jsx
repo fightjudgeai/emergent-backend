@@ -23,6 +23,7 @@ export default function OperatorPanel() {
   const [subDepth, setSubDepth] = useState('light');
   const [showKdDialog, setShowKdDialog] = useState(false);
   const [kdSeverity, setKdSeverity] = useState('flash');
+  const timerRef = useRef(null);
 
   useEffect(() => {
     loadBout();
