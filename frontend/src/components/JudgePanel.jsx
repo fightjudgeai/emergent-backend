@@ -128,29 +128,41 @@ export default function JudgePanel() {
     }
 
     try {
+      console.log('Current bout:', bout);
+      
       // Mark current fight as completed
       await db.collection('bouts').doc(boutId).update({
         status: 'completed'
       });
 
-      // Find next fight
-      const nextFightsSnapshot = await db.collection('bouts')
+      // Get ALL fights for this event (avoid compound query index issue)
+      const allFightsSnapshot = await db.collection('bouts')
         .where('eventId', '==', bout.eventId)
-        .where('fightOrder', '>', bout.fightOrder || 0)
         .get();
 
-      const nextFights = nextFightsSnapshot.docs.map(doc => ({
+      const allFights = allFightsSnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       }));
 
-      nextFights.sort((a, b) => (a.fightOrder || 0) - (b.fightOrder || 0));
+      console.log('All fights:', allFights);
+
+      // Filter and sort manually
+      const nextFights = allFights
+        .filter(f => (f.fightOrder || 0) > (bout.fightOrder || 0))
+        .sort((a, b) => (a.fightOrder || 0) - (b.fightOrder || 0));
+
+      console.log('Next fights:', nextFights);
 
       if (nextFights.length > 0) {
         const nextFight = nextFights[0];
+        console.log('Moving to next fight:', nextFight);
+        
+        // Mark next fight as active
         await db.collection('bouts').doc(nextFight.id).update({
           status: 'active'
         });
+        
         navigate(`/judge/${nextFight.id}`);
         toast.success(`Moving to Fight #${nextFight.fightOrder}`);
       } else {
@@ -159,7 +171,7 @@ export default function JudgePanel() {
       }
     } catch (error) {
       console.error('Error navigating to next fight:', error);
-      toast.error('Failed to move to next fight');
+      toast.error(`Failed to move to next fight: ${error.message}`);
     }
   };
 
