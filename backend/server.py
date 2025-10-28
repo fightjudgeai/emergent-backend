@@ -256,25 +256,26 @@ class ScoringEngine:
         Calculate final strength score on 7-10 scale
         Returns a score between 7.0 and 10.0
         
-        Weights based on MMA Unified Rules importance:
-        1. KD (most important - includes severity)
-        2. ISS (Significant Strikes)
-        3. TDQ (Takedowns)
-        4. GCQ (Control Time)
-        5. SUBQ (Submission Attempts)
-        6. RP (Passes/Reversals - least important)
-        7. OC, AGG, TSR (minimal impact)
+        Weights based on MMA Unified Rules importance (custom hierarchy):
+        1. KD (highest - 30%)
+        2. SS (Significant Strikes - 22%)
+        3. TSR (Total Strike Ratio - 17%, 5% lower than SS)
+        4. OC + AGG together (12%, slightly above TD)
+        5. TD (Takedowns - 10%)
+        6. GCQ (Control Time - 5%)
+        7. SUBQ (Submission Attempts - 3%)
+        8. RP (Passes/Reversals - 1%, lowest)
         """
         weights = {
-            "KD": 0.35,    # Highest - Knockdowns with severity
-            "ISS": 0.25,   # Significant Strikes (SS)
-            "TDQ": 0.15,   # Takedowns
-            "GCQ": 0.12,   # Control Time
-            "SUBQ": 0.08,  # Submission Attempts
-            "RP": 0.03,    # Passes/Reversals
-            "OC": 0.01,    # Octagon Control (minimal)
-            "AGG": 0.01,   # Aggression (minimal)
-            "TSR": 0.00    # Total Strike Ratio (removed)
+            "KD": 0.30,    # Highest - Knockdowns with severity
+            "ISS": 0.22,   # Significant Strikes (SS)
+            "TSR": 0.17,   # Total Strike Ratio (5% lower than SS)
+            "OC": 0.06,    # Octagon Control (together with AGG)
+            "AGG": 0.06,   # Aggression (together with OC = 12% total)
+            "TDQ": 0.10,   # Takedowns
+            "GCQ": 0.05,   # Control Time
+            "SUBQ": 0.03,  # Submission Attempts
+            "RP": 0.01     # Passes/Reversals (lowest)
         }
         
         # Calculate raw weighted score (0-10 scale for each subscore)
