@@ -6,6 +6,7 @@ import EventSetup from "@/components/EventSetup";
 import FightList from "@/components/FightList";
 import OperatorPanel from "@/components/OperatorPanel";
 import JudgePanel from "@/components/JudgePanel";
+import ShadowJudgingMode from "@/components/ShadowJudgingMode";
 
 function App() {
   // Check if judge is logged in
