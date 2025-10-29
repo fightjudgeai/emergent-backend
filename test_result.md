@@ -310,8 +310,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Shadow Judging Mode - Judge Stats Dashboard"
-    - "Shadow Judging Mode - Navigation Link"
+    - "Security & Audit - Backend APIs"
+    - "Security & Audit - AuditLogViewer Component"
+    - "Security & Audit - Routing"
+    - "Security & Audit - Navigation Button"
   stuck_tasks:
     - "Shadow Judging Mode - Judge Stats Dashboard"
     - "Shadow Judging Mode - Navigation Link"
