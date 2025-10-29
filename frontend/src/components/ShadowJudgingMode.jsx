@@ -123,7 +123,7 @@ export default function ShadowJudgingMode() {
   };
 
   const calculateCalibration = (myCard) => {
-    if (!selectedRound?.officialCard) return;
+    if (!selectedRound?.officialCard) return null;
 
     const officialCard = selectedRound.officialCard;
     
@@ -144,12 +144,12 @@ export default function ShadowJudgingMode() {
     else if (mae === 2) accuracy = 60;
     else accuracy = 30;
 
-    setCalibrationScore({
+    return {
       mae,
       sensitivity108,
       accuracy,
       match: myCard === officialCard
-    });
+    };
   };
 
   const revealOfficial = () => {
