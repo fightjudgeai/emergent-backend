@@ -270,6 +270,36 @@ class TuningProfileUpdate(BaseModel):
     thresholds: ScoreThresholds = None
     gate_sensitivity: GateSensitivity = None
 
+# Security & Audit Models
+class AuditLogEntry(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    action_type: str  # "score_calculation", "flag_created", "profile_changed", "judge_action"
+    user_id: str
+    user_name: str
+    resource_type: str  # "round_score", "flag", "profile", "bout"
+    resource_id: str
+    action_data: dict = {}
+    signature: str = ""  # Cryptographic hash for verification
+    ip_address: str = None
+    immutable: bool = True  # WORM - cannot be modified once created
+
+class AuditLogCreate(BaseModel):
+    action_type: str
+    user_id: str
+    user_name: str
+    resource_type: str
+    resource_id: str
+    action_data: dict = {}
+    ip_address: str = None
+
+class SignatureVerification(BaseModel):
+    valid: bool
+    signature: str
+    computed_signature: str
+    message: str
+
 # Scoring Engine
 class ScoringEngine:
     @staticmethod
