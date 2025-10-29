@@ -74,8 +74,6 @@ export default function TuningProfileManager() {
     }
 
     try {
-      const judgeProfile = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
-      
       const response = await fetch(`${BACKEND_URL}/api/tuning-profiles/create`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -88,7 +86,7 @@ export default function TuningProfileManager() {
             threshold_10_9: threshold109,
             threshold_10_8: threshold108
           },
-          created_by: judgeProfile.judgeName || 'Unknown'
+          created_by: currentUser?.id || 'unknown'
         })
       });
 
@@ -102,6 +100,10 @@ export default function TuningProfileManager() {
       console.error('Error creating profile:', error);
       toast.error('Failed to create profile');
     }
+  };
+
+  const isOwner = (profile) => {
+    return profile.created_by === currentUser?.id || profile.is_default;
   };
 
   const deleteProfile = async (profileId) => {
