@@ -8,7 +8,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://ringside-tech.preview.emergentagent.com/api/",
+      "url": "https://fightscribe.preview.emergentagent.com/api/",
       "response": {
         "message": "Combat Sports Judging API"
       }
@@ -18,7 +18,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://ringside-tech.preview.emergentagent.com/api/status",
+      "url": "https://fightscribe.preview.emergentagent.com/api/status",
       "response": {
         "id": "b90fe6da-c6c3-4617-90e5-3b85325d8f78",
         "client_name": "test_client_152253",
@@ -30,7 +30,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://ringside-tech.preview.emergentagent.com/api/status",
+      "url": "https://fightscribe.preview.emergentagent.com/api/status",
       "response": [
         {
           "id": "05ea4451-e778-4d4b-831e-7fa6f0a4ead5",
@@ -49,7 +49,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://ringside-tech.preview.emergentagent.com/api/calculate-score",
+      "url": "https://fightscribe.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_123",
         "round_num": 1,
@@ -92,7 +92,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://ringside-tech.preview.emergentagent.com/api/calculate-score",
+      "url": "https://fightscribe.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_empty",
         "round_num": 1,
@@ -135,7 +135,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://ringside-tech.preview.emergentagent.com/api/calculate-score",
+      "url": "https://fightscribe.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_invalid",
         "round_num": 1,
