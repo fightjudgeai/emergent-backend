@@ -797,8 +797,11 @@ class CombatJudgingAPITester:
         # Test edge cases
         self.test_edge_cases()
         
-        # Test Shadow Judging Training Mode (NEW)
+        # Test Shadow Judging Training Mode
         self.test_shadow_judging_complete_flow()
+        
+        # Test Security & Audit Feature (NEW)
+        self.test_audit_integration_flow()
         
         # Print summary
         print("\n" + "=" * 60)
