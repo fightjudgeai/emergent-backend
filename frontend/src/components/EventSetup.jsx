@@ -95,7 +95,14 @@ export default function EventSetup() {
     }}>
       <Card className="w-full max-w-4xl bg-[#13151a]/95 border-[#2a2d35] backdrop-blur-xl shadow-2xl">
         <CardHeader className="text-center space-y-4 pb-8">
-          <div className="flex justify-end mb-2">
+          <div className="flex justify-end gap-2 mb-2">
+            <Button
+              onClick={() => navigate('/review-dashboard')}
+              className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white"
+            >
+              <AlertTriangle className="mr-2 h-4 w-4" />
+              Review Dashboard
+            </Button>
             <Button
               onClick={() => navigate('/shadow-judging')}
               className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
