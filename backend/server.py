@@ -77,6 +77,7 @@ class RoundReasons(BaseModel):
     to_108: bool
     to_107: bool
     draw: bool = False
+    tie_breaker: str = None  # "damage", "control", "aggression", "technical", "metric_name", or None
 
 class RoundScore(BaseModel):
     bout_id: str
