@@ -88,6 +88,59 @@ class RoundScore(BaseModel):
     winner: str  # "fighter1", "fighter2", or "DRAW"
     reasons: RoundReasons
 
+# Shadow Judging Models
+class TrainingRound(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    event: str
+    fighters: str
+    roundNumber: int
+    summary: List[str]
+    officialCard: str  # "10-9", "10-8", etc.
+    type: str = "historical"
+    createdAt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class TrainingRoundCreate(BaseModel):
+    event: str
+    fighters: str
+    roundNumber: int
+    summary: List[str]
+    officialCard: str
+
+class JudgePerformance(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    judgeId: str
+    judgeName: str
+    roundId: str
+    myScore: str
+    officialScore: str
+    mae: float
+    sensitivity108: bool
+    accuracy: float
+    match: bool
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class JudgePerformanceCreate(BaseModel):
+    judgeId: str
+    judgeName: str
+    roundId: str
+    myScore: str
+    officialScore: str
+    mae: float
+    sensitivity108: bool
+    accuracy: float
+    match: bool
+
+class JudgeStats(BaseModel):
+    judgeId: str
+    judgeName: str
+    totalAttempts: int
+    averageAccuracy: float
+    averageMAE: float
+    sensitivity108Rate: float
+    perfectMatches: int
+
 # Scoring Engine
 class ScoringEngine:
     @staticmethod
