@@ -386,16 +386,39 @@ export default function OperatorPanel() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              {!isOnline && (
-                <Badge className="bg-red-900/30 text-red-400 border-red-700/30 px-3 py-1">
-                  <WifiOff className="w-3 h-3 mr-1" />
-                  Offline {queuedEvents > 0 && `(${queuedEvents} queued)`}
-                </Badge>
+              {/* Offline Status */}
+              {!syncStatus.isOnline && (
+                <div className="flex items-center gap-2">
+                  <Badge className="bg-red-900/30 text-red-400 border-red-700/30 px-3 py-1">
+                    <CloudOff className="w-3 h-3 mr-1" />
+                    Offline {syncStatus.queueCount > 0 && `(${syncStatus.queueCount} queued)`}
+                  </Badge>
+                </div>
               )}
-              {isOnline && queuedEvents > 0 && (
+              {/* Online Status with Queue */}
+              {syncStatus.isOnline && syncStatus.queueCount > 0 && (
+                <div className="flex items-center gap-2">
+                  <Badge className="bg-amber-900/30 text-amber-400 border-amber-700/30 px-3 py-1">
+                    <Cloud className="w-3 h-3 mr-1" />
+                    {syncStatus.isSyncing ? 'Syncing...' : `${syncStatus.queueCount} queued`}
+                  </Badge>
+                  {!syncStatus.isSyncing && (
+                    <Button
+                      onClick={manualSync}
+                      size="sm"
+                      className="h-8 px-3 bg-amber-600 hover:bg-amber-700 text-white"
+                    >
+                      <RefreshCw className="w-3 h-3 mr-1" />
+                      Sync Now
+                    </Button>
+                  )}
+                </div>
+              )}
+              {/* Online and Synced */}
+              {syncStatus.isOnline && syncStatus.queueCount === 0 && (
                 <Badge className="bg-green-900/30 text-green-400 border-green-700/30 px-3 py-1">
-                  <Wifi className="w-3 h-3 mr-1" />
-                  Syncing...
+                  <Cloud className="w-3 h-3 mr-1" />
+                  Online & Synced
                 </Badge>
               )}
               <Button
