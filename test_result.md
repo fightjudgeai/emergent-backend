@@ -331,3 +331,5 @@ agent_communication:
     message: "✅ LOGIN ISSUE FIXED: Resolved navigation problem where sign-in stayed on login page. Made localStorage primary auth method and replaced navigate() with window.location.href for reliable page transitions. Login now works perfectly."
   - agent: "main"
     message: "⏳ FEATURE #2 IN PROGRESS: Offline-First + Sync implementation started. Created offlineDB.js (IndexedDB wrapper with event queue and sync log stores) and syncManager.js (comprehensive sync manager with auto-sync on reconnection). Integrated into OperatorPanel with UI indicators (online/offline badges, queue count, sync button). Event logging now routes through syncManager for automatic offline queuing."
+  - agent: "main"
+    message: "✅ FEATURE #10 FRONTEND INTEGRATION COMPLETE: Added /audit-logs route in App.js and 'Audit Logs' navigation button in EventSetup.jsx. AuditLogViewer component ready with stats overview, filters, log display, signature verification, and export features. All Security & Audit backend APIs (log creation, retrieval, stats, verification, export) already implemented. Ready for comprehensive backend testing."
