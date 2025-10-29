@@ -30,29 +30,38 @@ export default function OperatorPanel() {
   useEffect(() => {
     loadBout();
     
-    // Setup online/offline listeners
-    const handleOnline = () => {
-      setIsOnline(true);
-      syncOfflineQueue();
-      toast.success('Back online - syncing data...');
-    };
+    // Setup sync manager listener
+    const unsubscribe = syncManager.addListener((status) => {
+      console.log('Sync status update:', status);
+      
+      if (status.type === 'online') {
+        toast.success('Back online - syncing data...');
+        updateSyncStatus();
+      } else if (status.type === 'offline') {
+        toast.warning('Offline mode - events will be queued');
+        updateSyncStatus();
+      } else if (status.type === 'syncComplete') {
+        if (status.synced > 0) {
+          toast.success(`Synced ${status.synced} events`);
+        }
+        updateSyncStatus();
+      } else if (status.type === 'queued') {
+        updateSyncStatus();
+      }
+    });
     
-    const handleOffline = () => {
-      setIsOnline(false);
-      toast.warning('Offline mode - events will be queued');
-    };
-    
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-    
-    // Load queued events count
-    loadQueueCount();
+    // Initial status load
+    updateSyncStatus();
     
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      unsubscribe();
     };
   }, [boutId]);
+
+  const updateSyncStatus = async () => {
+    const status = await syncManager.getStatus();
+    setSyncStatus(status);
+  };
 
   useEffect(() => {
     // Update control timers every 100ms for smooth display
