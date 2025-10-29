@@ -36,6 +36,7 @@ function App() {
             <Route path="/review-dashboard" element={<ReviewDashboard />} />
             <Route path="/tuning-profiles" element={<TuningProfileManager />} />
             <Route path="/accessibility" element={<AccessibilitySettings />} />
+            <Route path="/audit-logs" element={<AuditLogViewer />} />
           </Routes>
         </BrowserRouter>
       </div>
