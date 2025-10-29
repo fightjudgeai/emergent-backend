@@ -635,8 +635,8 @@ async def calculate_score(request: ScoreRequest):
         gates_a = engine.calculate_gate_checks(f1_subscores, f1_gcq_share)
         gates_b = engine.calculate_gate_checks(f2_subscores, f2_gcq_share)
         
-        # Map to 10-Point-Must
-        card, winner, reasons = engine.map_to_ten_point_must(s_a, s_b, gates_a, gates_b)
+        # Map to 10-Point-Must with tie-breaking system
+        card, winner, reasons = engine.map_to_ten_point_must(s_a, s_b, gates_a, gates_b, f1_subscores, f2_subscores)
         
         # Calculate gap
         gap = abs(s_a - s_b)
