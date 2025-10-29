@@ -237,7 +237,7 @@ frontend:
         comment: "Added /shadow-judging route in App.js for Shadow Judging Mode access."
       - working: true
         agent: "testing"
-        comment: "✅ TESTED: /shadow-judging route working correctly. Direct navigation to https://fightscribe.preview.emergentagent.com/shadow-judging loads the Shadow Judging Library page properly with all training rounds displayed."
+        comment: "✅ TESTED: /shadow-judging route working correctly. Direct navigation to https://judgesync.preview.emergentagent.com/shadow-judging loads the Shadow Judging Library page properly with all training rounds displayed."
   
   - task: "Shadow Judging Mode - Navigation Link"
     implemented: true

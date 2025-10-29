@@ -1,103 +1,91 @@
 <analysis>
-The AI engineer successfully developed a combat sports judging tool from initial requirements. Key achievements include implementing a custom scoring algorithm, a 10-Point-Must system with gate checks and dynamic thresholds, and real-time event logging to Firebase. The UI features operator and judge panels, dynamic button coloring, accumulating control timers, and multi-fight event management with round and fight navigation. Significant effort was spent on debugging Firebase integration and refining scoring logic based on detailed user feedback. The final stages involved initiating an extensive advanced features list, creating foundational components and routes for judge login, explainability cards, fighter memory logs, and offline sync. The AI's last action was creating , indicating ongoing work on advanced features.
+The AI engineer's work focused on enhancing a combat sports judging tool, starting from an MVP state to implement a suite of advanced features. The trajectory details the sequential completion of 9 out of 10 planned advanced features, with one feature (Distraction-Free Mode) being implemented and subsequently removed per user request. Key accomplishments include fully functional Shadow Judging, robust Offline-First sync, detailed Explainability Cards, Fighter Memory Logs, Discrepancy Flags, Per-Promotion Tuning, Uncertainty Bands, and Accessibility. A comprehensive tie-breaking system was added to the scoring algorithm. The engineer meticulously addressed bugs, particularly frontend navigation issues post-login and data mismatches between frontend and backend. The work concluded mid-implementation of the final feature, Security & Audit, having developed its backend and partially its frontend.
 </analysis>
 
 <product_requirements>
-The goal is to create a combat sports judging tool with two main screens:
-1.  **Operator Panel**: For fight data operators to log events in real-time. Features large tap buttons for events like KD (with severity: Flash, Hard, Near Finish), SS (Head, Body, Leg), Takedown, Submission Attempt (depth picker), Pass, Reversal, and Control Timer Start/Stop. Includes round timer (later replaced by control timers) and status bar. Events auto-write to Firestore with fighter, event type, timestamp, and bout ID. Buttons change color (Red/Blue) based on selected fighter. Round navigation buttons (forward/back) are present.
-2.  **Judge Panel**: View-only scoring screen displaying computed round scores, subscores for metrics (KD, ISS/SS, TDQ, SUBQ, GCQ, OC, AGG, RP, TSR), and a Confirm Round button. Real-time data pull from Firestore.
-**Scoring Algorithm**: A custom model (FightJudge) is used, not 10-Point-Must for computation initially. Subscores (0-10 continuous) are calculated with diminishing returns. Final Round Score is an importance-weighted blend (0-200 range, later 1-1000). Official 10-Point-Must labels are mapped from score differentials (Δ). This was refined multiple times:
-    *   Initial mapping: Δ < 8.0 → “close 10-9”, 8.0–17.9 → “clear 10-9”, 18.0–31.9 → “10-8-level”, ≥32.0 → “10-7-level”.
-    *   Revised to incorporate gate checks (FinishThreat, ControlDom, MultiCatDom) and specific thresholds for 10-8 and 10-7 based on TypeScript pseudocode. Fouls are applied post-mapping. Score output 7-10.
-    *   Final scoring differential thresholds: 10-10 for exact match, 10-9 for 1-600 diff, 10-8 for 601-900, 10-7 for 901-1000. Strength scores scaled 1-1000.
-**Advanced Features (Requested, partially implemented)**: Memory log, Shadow-Judging/Training Mode, Offline-First + Reconcile, Explainability Cards, Judge Profile Sign-in, Discrepancy Flags, Per-Promotion Tuning, Distraction-Free Mode, Uncertainty Bands, Accessibility, Security & Audit (cryptographic signature, WORM logs).
-**UI/UX**: Neutral dark background, bold readable fonts, responsive for tablets, uses Shadcn UI components, modern button styles, FontAwesome/lucid-react icons, sonner for toasts. No universal transitions, glass-morphism effects.
-**Technical**: React frontend, FastAPI backend, MongoDB database. Firebase Firestore for event logging and real-time updates.
-
+The application is a combat sports judging tool featuring an Operator Panel for real-time event logging (KD, SS, TD, SUB, Pass, Reversal with details and control timers) and a Judge Panel for viewing computed scores. The scoring uses a custom algorithm (FightJudge) that calculates subscores (0-10 continuous), composites into a 1-1000 strength score, and maps to the official 10-Point-Must system (10-10, 10-9, 10-8, 10-7) with specific delta thresholds and gate checks. The UI/UX emphasizes a dark theme, readability, responsiveness, and uses Shadcn UI components. Advanced features include Shadow-Judging/Training, Offline-First + Sync, Explainability Cards, Fighter Memory Log, Judge Profile Sign-in, Discrepancy Flags, Per-Promotion Tuning, Distraction-Free Mode (later removed), Uncertainty Bands, Accessibility, and Security & Audit (cryptographic signatures, WORM logs).
 </product_requirements>
 
 <key_technical_concepts>
--   **Full-Stack Application**: React (frontend), FastAPI (backend), MongoDB (database).
--   **Real-time Database**: Google Firebase Firestore for event logging and synchronization.
--   **Custom Scoring Algorithm**: Detailed formula for subscores and composite scores (0-1000 scale).
--   **10-Point-Must System**: Dynamic mapping of composite scores to 10-9, 10-8, 10-7, 10-10 with gate checks.
--   **Shadcn UI**: Component library for consistent and accessible UI.
--   **Offline-First**: Planned local data queue with IndexedDB (IndexedDB).
--   **Event-Driven Logging**: Real-time logging of fight events with timestamps.
--   **Control Timers**: Accumulating per-fighter control time.
+- **Full-Stack Application**: React (frontend), FastAPI (backend), MongoDB (database).
+- **Real-time Database**: Firebase Firestore for event logging.
+- **Custom Scoring Algorithm**: Detailed 10-Point-Must system with gate checks and tie-breakers.
+- **Offline-First**: IndexedDB for local storage and synchronization.
+- **Shadcn UI**: Component library for frontend.
+- **Asynchronous Data Handling**: Efficient API calls and real-time updates.
 </key_technical_concepts>
 
 <code_architecture>
 
 
 -   **/app/backend/server.py**: Main FastAPI application.
-    -   **Importance**: Handles API endpoints for event logging, score computation, and data persistence.
-    -   **Changes**: Initially implemented custom scoring. Later modified to incorporate the detailed 10-Point-Must logic, gate checks, and dynamic thresholds based on provided TypeScript pseudocode. Updated KD severity values and various subscore weights. , , and  functions were added/modified to align with TypeScript implementation, including 1-1000 strength score scaling and new differential thresholds.
--   **/app/frontend/src/firebase.js**: Firebase initialization and Firestore instance.
-    -   **Importance**: Connects the frontend to Firebase Firestore for real-time data.
-    -   **Changes**: Updated to use  and  for compatibility.
--   **/app/frontend/src/index.js**: Entry point for the React application.
-    -   **Importance**: Renders the main  component.
-    -   **Changes**: Wrapped  with  component for displaying notifications.
+    -   **Importance**: Central API for all backend logic, data persistence, and scoring.
+    -   **Changes**: Substantially modified to include APIs and models for Shadow Judging, Fighter Memory, Discrepancy Flags, Tuning Profiles, Uncertainty Bands, and Security & Audit. The  function was enhanced with detailed tie-breaking logic. Uncertainty calculation and audit logging were integrated into the  endpoint.
 -   **/app/frontend/src/App.js**: Main React component, handles routing.
-    -   **Importance**: Orchestrates the application's different views and navigations.
-    -   **Changes**: Added routes for , , , , , and . Integrated placeholder routes for advanced features.
--   **/app/frontend/src/components/BoutSetup.jsx**: Component for initial bout configuration.
-    -   **Importance**: Allows users to set up basic fight details.
-    -   **Changes**: Updated to use Firebase compat API. (Initial creation).
+    -   **Importance**: Orchestrates application views and integrations.
+    -   **Changes**: Routes added for , , , . The app was wrapped with .
+-   **/app/frontend/src/index.css**: Global CSS styles.
+    -   **Importance**: Defines application-wide styling, including accessibility themes.
+    -   **Changes**: Added CSS for large-type and high-contrast accessibility modes.
+-   **/app/frontend/src/firebase.js**: Firebase initialization and Firestore instance.
+    -   **Importance**: Connects to Firestore.
+    -   **Changes**: Updated to use  and .
+-   **/app/frontend/src/components/EventSetup.jsx**: Component for initial bout/event configuration.
+    -   **Importance**: Entry point for setting up events and navigating to various features.
+    -   **Changes**: Added navigation buttons for Shadow Judging Training, Review Dashboard, Tuning Profiles, and Accessibility Settings.
 -   **/app/frontend/src/components/OperatorPanel.jsx**: Panel for real-time event logging.
-    -   **Importance**: Core UI for data operators.
-    -   **Changes**: Implemented event buttons (KD, SS, TD, SUB, Pass, Reversal), accumulating control timers, dynamic button coloring (red/blue), round navigation (forward/back), and initial offline sync capabilities. Uses Firebase compat API.
+    -   **Importance**: Core UI for data entry.
+    -   **Changes**: Integrated the new  for offline-first capabilities, replacing previous  logic. Added error handling for event logging and a loading state.
 -   **/app/frontend/src/components/JudgePanel.jsx**: View-only scoring panel.
-    -   **Importance**: Displays computed scores and judging cards.
-    -   **Changes**: Updated to display 10-Point-Must cards, subscores. Navigation buttons (back to list, next fight) were added and debugged. Integrated . Uses Firebase compat API.
--   **/app/frontend/src/components/EventSetup.jsx**: Component for managing multiple events/fights.
-    -   **Importance**: Allows users to pre-fill up to 15 fights with event details and rounds (3 or 5).
-    -   **Changes**: Initial creation and form handling.
--   **/app/frontend/src/components/FightList.jsx**: Displays a list of created fights.
-    -   **Importance**: Serves as the main navigation hub after event setup, allowing selection of fights.
-    -   **Changes**: Initial creation. Fixed Firestore query issue related to  clause.
+    -   **Importance**: Displays computed scores and explanations.
+    -   **Changes**: Integrated . Implemented and later removed Distraction-Free Mode functionality. Added visual indicators for Uncertainty Bands.
 -   **/app/frontend/src/components/JudgeLogin.jsx**: Judge authentication/profile entry point.
-    -   **Importance**: Foundation for judge profiles and security features.
-    -   **Changes**: Initial creation.
+    -   **Importance**: Handles judge login.
+    -   **Changes**: Simplified login logic, removing direct Firebase calls and using  for judge profile persistence.  used for navigation. Fixed  access.
+-   **/app/frontend/src/components/ShadowJudgingMode.jsx**: Training/calibration mode for judges.
+    -   **Importance**: Allows judges to practice scoring against historical data.
+    -   **Changes**: Updated to use backend APIs for fetching rounds, submitting scores, and displaying judge stats/leaderboards. Corrected environment variable access.
 -   **/app/frontend/src/utils/advancedFeatures.js**: Utility for advanced feature integration.
-    -   **Importance**: Placeholder/helper for future advanced features.
-    -   **Changes**: Initial creation.
+    -   **Importance**: Contains helper functions for complex logic.
+    -   **Changes**:  function enhanced for more detailed, event-specific explanations. The  was effectively superseded by .
+-   **/app/frontend/src/utils/offlineDB.js**: New utility for IndexedDB operations.
+    -   **Importance**: Manages local data storage for offline support.
+    -   **Changes**: Created to handle IndexedDB interactions.
+-   **/app/frontend/src/utils/syncManager.js**: New utility for offline synchronization.
+    -   **Importance**: Manages syncing local data with Firebase and the backend.
+    -   **Changes**: Created to manage queueing, syncing, and conflict resolution. Fixed a critical bug where it wrote to a nested Firestore path instead of the flat  collection expected by .
 -   **/app/frontend/src/components/ExplainabilityCard.jsx**: Component to explain judging decisions.
-    -   **Importance**: Provides transparency for score cards (e.g., Why 10-8?).
-    -   **Changes**: Initial creation and integration into JudgePanel.
--   **/app/frontend/src/components/FighterMemoryLog.jsx**: Component for tracking fighter tendencies and stats.
-    -   **Importance**: Enables historical analysis of fighter performance.
-    -   **Changes**: Initial creation.
--   **/app/frontend/src/components/ShadowJudgingMode.jsx**: Component for a training/calibration mode.
-    -   **Importance**: Allows judges to practice scoring against hidden official cards.
-    -   **Changes**: Initial creation.
--   **/app/FIREBASE_SETUP.md**: Markdown file with Firebase setup instructions.
-    -   **Importance**: Guides the user on configuring Firebase security rules.
-    -   **Changes**: Initial creation.
-
+    -   **Importance**: Provides transparency for score cards.
+    -   **Changes**: No explicit changes to this UI file in the trajectory, but it now consumes more detailed data from the enhanced  function.
+-   **/app/frontend/src/components/FighterMemoryLog.jsx**: Tracks fighter tendencies and stats.
+    -   **Importance**: Provides historical analysis.
+    -   **Changes**: Completely rewritten to integrate with the new backend fighter stats APIs.
+-   **/app/frontend/src/components/ReviewDashboard.jsx**: Displays flagged scoring decisions.
+    -   **Importance**: Facilitates review of controversial rounds.
+    -   **Changes**: New component created.
+-   **/app/frontend/src/components/TuningProfileManager.jsx**: Manages promotion-specific scoring parameters.
+    -   **Importance**: Allows customization of scoring rules.
+    -   **Changes**: New component created. Implemented logic to hide metric weights/thresholds for non-owners.
+-   **/app/frontend/src/components/AccessibilitySettings.jsx**: Panel for accessibility options.
+    -   **Importance**: Provides options for large-type, high-contrast, etc.
+    -   **Changes**: New component created.
+-   **/app/frontend/src/contexts/AccessibilityContext.jsx**: React context for accessibility.
+    -   **Importance**: Provides global accessibility state.
+    -   **Changes**: Confirmed to exist and used to wrap .
+-   **/app/frontend/src/components/AuditLogViewer.jsx**: Displays audit trails.
+    -   **Importance**: Provides a record of significant actions for security.
+    -   **Changes**: New component created.
 </code_architecture>
 
 <pending_tasks>
--   **Advanced Features**:
-    -   Full implementation of Judge Profile Sign-in (beyond initial component creation).
-    -   Complete Shadow-Judging / Training Mode (metrics, hidden cards).
-    -   Full implementation of Offline-First + Reconcile (IndexedDB logic).
-    -   Detailed Explainability Cards (populating bullets/clips).
-    -   Memory log of fighter tendencies and past stats.
-    -   Discrepancy Flags for Review.
-    -   Per-Promotion Tuning Profiles.
-    -   Distraction-Free Mode.
-    -   Uncertainty Bands.
-    -   Accessibility & Focus (Large-type mode, high contrast, audible cues).
-    -   Security & Audit (cryptographic signatures, WORM logs).
+-   Complete the frontend integration for **Feature #10: Security & Audit**, specifically adding the route for  in  and a navigation button in .
+-   Further implementation of Judge Profile Sign-in beyond basic login, such as profile management.
 </pending_tasks>
 
 <current_work>
-The system is a combat sports judging tool with a React frontend and FastAPI backend, using Firebase Firestore for data. The core functionality of event logging (KD, SS, TD, SUB, Pass, Reversal) on the Operator Panel, real-time score calculation, and display on the Judge Panel is operational. It includes accumulating control timers per fighter, dynamic button coloring, and a multi-fight event management system with sequential fight navigation. The scoring system calculates subscores and composite strength scores (1-1000 scale) and maps them to official 10-Point-Must cards (10-10, 10-9, 10-8, 10-7) using precise delta thresholds and gate checks. The AI has just started implementing a large set of advanced features, creating initial components and routes for Judge Login, Explainability Cards, Fighter Memory Log, and basic offline sync. The last action was the creation of .
+The AI engineer was immediately working on implementing **Feature #10: Security & Audit**. On the backend, models (, ) and cryptographic functions were added to , and audit logging was integrated into the  endpoint to ensure WORM (Write Once Read Many) compliance and cryptographic signatures for significant events. On the frontend, the  component was successfully created. The very last action in the trajectory was the preparation to add the route for  in  and a corresponding navigation button in , signifying the final steps of this feature's integration into the UI.
 </current_work>
 
 <optional_next_step>
-Continue building the remaining advanced features as per user's request.
+Add the route for  in  and a navigation button in .
 </optional_next_step>
-

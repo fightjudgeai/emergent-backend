@@ -8,7 +8,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/",
+      "url": "https://judgesync.preview.emergentagent.com/api/",
       "response": {
         "message": "Combat Sports Judging API"
       }
@@ -18,7 +18,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/status",
+      "url": "https://judgesync.preview.emergentagent.com/api/status",
       "response": {
         "id": "b5461638-b608-4526-8eec-8d1d8a13f726",
         "client_name": "test_client_150537",
@@ -30,7 +30,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/status",
+      "url": "https://judgesync.preview.emergentagent.com/api/status",
       "response": [
         {
           "id": "05ea4451-e778-4d4b-831e-7fa6f0a4ead5",
@@ -54,7 +54,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/calculate-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_123",
         "round_num": 1,
@@ -114,7 +114,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/calculate-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_empty",
         "round_num": 1,
@@ -174,7 +174,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/calculate-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_invalid",
         "round_num": 1,
@@ -234,7 +234,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/seed",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/seed",
       "response": {
         "success": true,
         "message": "Seeded 16 training rounds",
@@ -246,7 +246,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/rounds",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/rounds",
       "response": [
         {
           "id": "d30839a6-528d-4f6e-bcf5-ed024588f071",
@@ -495,7 +495,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "0f7403dd-b431-4d42-8bfb-8a401b905615",
         "judgeId": "test-judge-1",
@@ -515,7 +515,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "d7fcba31-4565-4434-b7df-b94bf2db12a8",
         "judgeId": "test-judge-1",
@@ -535,7 +535,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "36c04d94-5107-4887-90e3-33f95a19f5f0",
         "judgeId": "test-judge-1",
@@ -555,7 +555,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "018011b1-add7-47d6-bbc3-53a6bd4c5f45",
         "judgeId": "test-judge-2",
@@ -575,7 +575,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "ae8e79e5-555f-4132-9b70-b88cee2c2d2d",
         "judgeId": "test-judge-2",
@@ -595,7 +595,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "5838d17b-eb08-408a-92de-4ff6ecd2db09",
         "judgeId": "test-judge-3",
@@ -615,7 +615,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "52a103d5-8cd7-42f8-9430-a84f3ffb3c5c",
         "judgeId": "test-judge-3",
@@ -635,7 +635,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "8704ffef-9005-4a84-ac1a-c7ac288d187a",
         "judgeId": "test-judge-3",
@@ -655,7 +655,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "9f39312f-e77c-4826-aefd-a28fed8a797c",
         "judgeId": "test-judge-3",
@@ -675,7 +675,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/judge-stats/test-judge-1",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/judge-stats/test-judge-1",
       "response": {
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
@@ -691,7 +691,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/judge-stats/non-existent-judge",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/judge-stats/non-existent-judge",
       "response": {
         "detail": "No performance data found for this judge"
       }
@@ -701,7 +701,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/leaderboard",
+      "url": "https://judgesync.preview.emergentagent.com/api/training-library/leaderboard",
       "response": {
         "leaderboard": [
           {
