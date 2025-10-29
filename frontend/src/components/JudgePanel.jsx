@@ -247,16 +247,25 @@ export default function JudgePanel() {
             <Card key={roundNum} className="bg-[#13151a] border-[#2a2d35] p-6 md:p-8" data-testid={`round-${roundNum}-card`}>
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-amber-500">Round {roundNum}</h2>
-                {roundScore && (
-                  <Button
-                    data-testid={`confirm-round-${roundNum}-btn`}
-                    onClick={() => confirmRound(roundNum)}
-                    className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
-                  >
-                    <Check className="mr-2 h-4 w-4" />
-                    Confirm Round
-                  </Button>
-                )}
+                <div className="flex items-center gap-3">
+                  {roundScore && (
+                    <ExplainabilityCard 
+                      roundScore={roundScore} 
+                      events={events.filter(e => e.round === roundNum)} 
+                      roundNum={roundNum}
+                    />
+                  )}
+                  {roundScore && (
+                    <Button
+                      data-testid={`confirm-round-${roundNum}-btn`}
+                      onClick={() => confirmRound(roundNum)}
+                      className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
+                    >
+                      <Check className="mr-2 h-4 w-4" />
+                      Confirm Round
+                    </Button>
+                  )}
+                </div>
               </div>
 
               {loading && <p className="text-gray-400">Calculating scores...</p>}
