@@ -396,6 +396,18 @@ export default function OperatorPanel() {
               </div>
             </div>
             <div className="flex items-center gap-3">
+              {!isOnline && (
+                <Badge className="bg-red-900/30 text-red-400 border-red-700/30 px-3 py-1">
+                  <WifiOff className="w-3 h-3 mr-1" />
+                  Offline {queuedEvents > 0 && `(${queuedEvents} queued)`}
+                </Badge>
+              )}
+              {isOnline && queuedEvents > 0 && (
+                <Badge className="bg-green-900/30 text-green-400 border-green-700/30 px-3 py-1">
+                  <Wifi className="w-3 h-3 mr-1" />
+                  Syncing...
+                </Badge>
+              )}
               <Button
                 data-testid="next-fight-btn"
                 onClick={goToNextFight}
