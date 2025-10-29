@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
-import { Shield, Check, TrendingUp, ArrowLeft, SkipForward } from 'lucide-react';
+import { Shield, Check, TrendingUp, ArrowLeft, SkipForward, Maximize, Minimize, Eye, EyeOff } from 'lucide-react';
 import ExplainabilityCard from '@/components/ExplainabilityCard';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -21,6 +21,8 @@ export default function JudgePanel() {
   const [scores, setScores] = useState({});
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
+  const [distractionFreeMode, setDistractionFreeMode] = useState(false);
+  const [showControls, setShowControls] = useState(true);
 
   useEffect(() => {
     loadBout();
