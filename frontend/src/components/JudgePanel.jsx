@@ -431,6 +431,72 @@ export default function JudgePanel() {
                     </div>
                   </Card>
 
+                  {/* Uncertainty Band */}
+                  {roundScore.uncertainty && (
+                    <Card className={`p-6 border-2 ${
+                      roundScore.uncertainty === 'high_confidence' 
+                        ? 'bg-green-900/20 border-green-700/50' 
+                        : roundScore.uncertainty === 'medium_confidence'
+                        ? 'bg-amber-900/20 border-amber-700/50'
+                        : 'bg-red-900/20 border-red-700/50'
+                    }`}>
+                      <div className="flex items-start gap-4">
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                          roundScore.uncertainty === 'high_confidence'
+                            ? 'bg-green-600'
+                            : roundScore.uncertainty === 'medium_confidence'
+                            ? 'bg-amber-600'
+                            : 'bg-red-600'
+                        }`}>
+                          <TrendingUp className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className={`text-lg font-bold ${
+                              roundScore.uncertainty === 'high_confidence'
+                                ? 'text-green-400'
+                                : roundScore.uncertainty === 'medium_confidence'
+                                ? 'text-amber-400'
+                                : 'text-red-400'
+                            }`}>
+                              {roundScore.uncertainty === 'high_confidence' && 'High Confidence'}
+                              {roundScore.uncertainty === 'medium_confidence' && 'Medium Confidence'}
+                              {roundScore.uncertainty === 'low_confidence' && 'Low Confidence'}
+                            </span>
+                            <Badge className={`${
+                              roundScore.uncertainty === 'high_confidence'
+                                ? 'bg-green-900/30 text-green-400 border-green-700/30'
+                                : roundScore.uncertainty === 'medium_confidence'
+                                ? 'bg-amber-900/30 text-amber-400 border-amber-700/30'
+                                : 'bg-red-900/30 text-red-400 border-red-700/30'
+                            }`}>
+                              Uncertainty Band
+                            </Badge>
+                          </div>
+                          <div className="text-gray-300 mb-3">
+                            {roundScore.uncertainty === 'high_confidence' && 
+                              'This score is highly confident. The decision is clear with significant separation from scoring thresholds.'}
+                            {roundScore.uncertainty === 'medium_confidence' && 
+                              'This score has moderate confidence. Consider reviewing for potential edge cases.'}
+                            {roundScore.uncertainty === 'low_confidence' && 
+                              'This score has low confidence. The round was very close or had complicating factors.'}
+                          </div>
+                          {roundScore.uncertainty_factors && roundScore.uncertainty_factors.length > 0 && (
+                            <div className="space-y-1">
+                              <div className="text-xs text-gray-400 uppercase tracking-wide">Factors:</div>
+                              {roundScore.uncertainty_factors.map((factor, idx) => (
+                                <div key={idx} className="text-sm text-gray-400 flex items-start gap-2">
+                                  <span className="text-amber-500">•</span>
+                                  <span>{factor}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </Card>
+                  )}
+
                   {/* Strength Scores & Gate Checks */}
                   <div className="grid md:grid-cols-2 gap-6">
                     <Card className="bg-gradient-to-br from-red-900/20 to-red-950/20 border-red-800/30 p-6">
