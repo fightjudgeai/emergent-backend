@@ -1,6 +1,6 @@
 {
-  "total_tests": 6,
-  "passed_tests": 6,
+  "total_tests": 20,
+  "passed_tests": 20,
   "success_rate": 100.0,
   "results": [
     {
@@ -20,9 +20,9 @@
       "actual_status": 200,
       "url": "https://fightscribe.preview.emergentagent.com/api/status",
       "response": {
-        "id": "b90fe6da-c6c3-4617-90e5-3b85325d8f78",
-        "client_name": "test_client_152253",
-        "timestamp": "2025-10-28T15:22:53.535017Z"
+        "id": "b5461638-b608-4526-8eec-8d1d8a13f726",
+        "client_name": "test_client_150537",
+        "timestamp": "2025-10-29T15:05:38.018071Z"
       }
     },
     {
@@ -41,6 +41,11 @@
           "id": "b90fe6da-c6c3-4617-90e5-3b85325d8f78",
           "client_name": "test_client_152253",
           "timestamp": "2025-10-28T15:22:53.535017Z"
+        },
+        {
+          "id": "b5461638-b608-4526-8eec-8d1d8a13f726",
+          "client_name": "test_client_150537",
+          "timestamp": "2025-10-29T15:05:38.018071Z"
         }
       ]
     },
@@ -57,16 +62,16 @@
           "fighter": "fighter1",
           "subscores": {
             "KD": 13.09,
-            "ISS": 11.16,
+            "ISS": 0.0,
             "GCQ": 0.0,
             "TDQ": 0.0,
             "SUBQ": 0.0,
             "OC": 0.0,
-            "AGG": 0.34,
+            "AGG": 0.0,
             "RP": 0.0,
             "TSR": 0.0
           },
-          "final_score": 636.06
+          "final_score": 392.7
         },
         "fighter2_score": {
           "fighter": "fighter2",
@@ -81,10 +86,27 @@
             "RP": 0.0,
             "TSR": 0.0
           },
-          "final_score": 373.8
+          "final_score": 224.88
         },
-        "score_gap": 262.25999999999993,
-        "gap_label": "10-7-level dominance"
+        "score_gap": 167.82,
+        "card": "10-9",
+        "winner": "fighter1",
+        "reasons": {
+          "delta": 167.82,
+          "gates_winner": {
+            "finish_threat": true,
+            "control_dom": false,
+            "multi_cat_dom": false
+          },
+          "gates_loser": {
+            "finish_threat": true,
+            "control_dom": false,
+            "multi_cat_dom": false
+          },
+          "to_108": false,
+          "to_107": false,
+          "draw": false
+        }
       }
     },
     {
@@ -127,7 +149,24 @@
           "final_score": 0.0
         },
         "score_gap": 0.0,
-        "gap_label": "close 10-9"
+        "card": "10-10",
+        "winner": "DRAW",
+        "reasons": {
+          "delta": 0.0,
+          "gates_winner": {
+            "finish_threat": false,
+            "control_dom": false,
+            "multi_cat_dom": false
+          },
+          "gates_loser": {
+            "finish_threat": false,
+            "control_dom": false,
+            "multi_cat_dom": false
+          },
+          "to_108": false,
+          "to_107": false,
+          "draw": true
+        }
       }
     },
     {
@@ -170,7 +209,526 @@
           "final_score": 0.0
         },
         "score_gap": 0.0,
-        "gap_label": "close 10-9"
+        "card": "10-10",
+        "winner": "DRAW",
+        "reasons": {
+          "delta": 0.0,
+          "gates_winner": {
+            "finish_threat": false,
+            "control_dom": false,
+            "multi_cat_dom": false
+          },
+          "gates_loser": {
+            "finish_threat": false,
+            "control_dom": false,
+            "multi_cat_dom": false
+          },
+          "to_108": false,
+          "to_107": false,
+          "draw": true
+        }
+      }
+    },
+    {
+      "test": "Seed Training Library",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/seed",
+      "response": {
+        "success": true,
+        "message": "Seeded 16 training rounds",
+        "count": 16
+      }
+    },
+    {
+      "test": "Get Training Rounds",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/rounds",
+      "response": [
+        {
+          "id": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+          "event": "UFC 299: O'Malley vs. Vera 2",
+          "fighters": "Dustin Poirier vs. Benoit Saint Denis",
+          "roundNumber": 2,
+          "summary": [
+            "Poirier lands multiple hard combinations to the head",
+            "Saint Denis attempts guillotine but Poirier escapes",
+            "Poirier drops Saint Denis with a straight right",
+            "Dominant striking throughout the round"
+          ],
+          "officialCard": "10-9",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229689Z"
+        },
+        {
+          "id": "6d3de233-0900-47a2-821a-9bbfd4e5012f",
+          "event": "UFC 300: Pereira vs. Hill",
+          "fighters": "Max Holloway vs. Justin Gaethje",
+          "roundNumber": 5,
+          "summary": [
+            "Both fighters exchange in the pocket",
+            "Holloway lands the final 10 seconds standing knockout",
+            "Legendary finish at the buzzer",
+            "Extreme violence with knockdown"
+          ],
+          "officialCard": "10-8",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229742Z"
+        },
+        {
+          "id": "d7edd2f3-f573-41ca-8d64-77600b499c4e",
+          "event": "UFC 296: Edwards vs. Covington",
+          "fighters": "Alexandre Pantoja vs. Brandon Royval",
+          "roundNumber": 1,
+          "summary": [
+            "Pantoja secures takedown early",
+            "Controls back for 3+ minutes",
+            "Multiple submission attempts including RNC",
+            "Royval survives but takes heavy damage"
+          ],
+          "officialCard": "10-8",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229756Z"
+        },
+        {
+          "id": "10ceb6a7-4140-42bf-a63c-b63f5b447298",
+          "event": "UFC 298: Volkanovski vs. Topuria",
+          "fighters": "Ian Garry vs. Geoff Neal",
+          "roundNumber": 3,
+          "summary": [
+            "Even striking exchanges",
+            "Both fighters land equal significant strikes",
+            "No clear control or damage advantage",
+            "Competitive round throughout"
+          ],
+          "officialCard": "10-10",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229779Z"
+        },
+        {
+          "id": "30a2b04a-4b2e-4183-95aa-517f783294c2",
+          "event": "UFC 297: Strickland vs. Du Plessis",
+          "fighters": "Sean Strickland vs. Dricus Du Plessis",
+          "roundNumber": 2,
+          "summary": [
+            "Du Plessis lands heavy shots early",
+            "Strickland hurt badly in the first minute",
+            "Du Plessis controls cage center",
+            "Strickland recovers but loses round clearly"
+          ],
+          "officialCard": "10-9",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229789Z"
+        },
+        {
+          "id": "8950add3-831e-4cee-8fd2-e0650ee31a7b",
+          "event": "UFC 295: Prochazka vs. Pereira",
+          "fighters": "Jiri Prochazka vs. Alex Pereira",
+          "roundNumber": 1,
+          "summary": [
+            "Early knockdown by Pereira",
+            "Brutal ground and pound",
+            "Prochazka survives but takes heavy damage",
+            "Clear dominance by Pereira"
+          ],
+          "officialCard": "10-8",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229799Z"
+        },
+        {
+          "id": "e68676cf-4df2-48d4-8da1-95551a1afe1f",
+          "event": "UFC 294: Makhachev vs. Volkanovski 2",
+          "fighters": "Islam Makhachev vs. Alexander Volkanovski",
+          "roundNumber": 1,
+          "summary": [
+            "Makhachev lands devastating head kick knockout",
+            "Volkanovski unconscious",
+            "Fight stopped in first round",
+            "Near-finish level dominance"
+          ],
+          "officialCard": "10-7",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229810Z"
+        },
+        {
+          "id": "4425ef32-e315-4196-b0f9-0768779770e1",
+          "event": "UFC 293: Adesanya vs. Strickland",
+          "fighters": "Israel Adesanya vs. Sean Strickland",
+          "roundNumber": 3,
+          "summary": [
+            "Strickland pressures forward constantly",
+            "Adesanya circling and countering",
+            "Close striking numbers",
+            "Could go either way"
+          ],
+          "officialCard": "10-9",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229821Z"
+        },
+        {
+          "id": "9ee75636-a3b1-46ee-b8ac-22ea01873da9",
+          "event": "UFC 292: Sterling vs. O'Malley",
+          "fighters": "Aljamain Sterling vs. Sean O'Malley",
+          "roundNumber": 1,
+          "summary": [
+            "O'Malley lands multiple hard right hands",
+            "Sterling shoots for takedown unsuccessfully",
+            "O'Malley controls distance and pace",
+            "Clear striking advantage"
+          ],
+          "officialCard": "10-9",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229830Z"
+        },
+        {
+          "id": "c7299018-c6b9-4ac4-98c6-893a1d3ff8e9",
+          "event": "UFC 291: Poirier vs. Gaethje 2",
+          "fighters": "Dustin Poirier vs. Justin Gaethje",
+          "roundNumber": 2,
+          "summary": [
+            "Poirier drops Gaethje twice",
+            "Heavy leg kicks throughout",
+            "Gaethje survives but wobbled",
+            "Dominant performance"
+          ],
+          "officialCard": "10-8",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229839Z"
+        },
+        {
+          "id": "27deff98-ae3c-46ca-80b5-67c00e133c39",
+          "event": "UFC 290: Volkanovski vs. Rodriguez",
+          "fighters": "Brandon Moreno vs. Alexandre Pantoja",
+          "roundNumber": 4,
+          "summary": [
+            "Pantoja secures rear naked choke",
+            "Moreno defends for entire round",
+            "Pantoja maintains back control 4+ minutes",
+            "Extreme control dominance"
+          ],
+          "officialCard": "10-8",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229848Z"
+        },
+        {
+          "id": "704fcec5-195d-4b1c-b611-8cdd8b9e33e6",
+          "event": "UFC 289: Nunes vs. Aldana",
+          "fighters": "Charles Oliveira vs. Beneil Dariush",
+          "roundNumber": 1,
+          "summary": [
+            "Oliveira drops Dariush early",
+            "Ground and pound finishes fight",
+            "Dariush unconscious from strikes",
+            "Complete dominance"
+          ],
+          "officialCard": "10-7",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229855Z"
+        },
+        {
+          "id": "0399c762-aa80-401d-a112-d34de3ebe588",
+          "event": "UFC 288: Sterling vs. Cejudo",
+          "fighters": "Aljamain Sterling vs. Henry Cejudo",
+          "roundNumber": 2,
+          "summary": [
+            "Sterling controls pace with jab",
+            "Cejudo struggles to close distance",
+            "Even round with slight Sterling edge",
+            "Close but clear winner"
+          ],
+          "officialCard": "10-9",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229870Z"
+        },
+        {
+          "id": "fe304149-9517-4ea5-8cc2-32e365fec952",
+          "event": "UFC 287: Pereira vs. Adesanya 2",
+          "fighters": "Alex Pereira vs. Israel Adesanya",
+          "roundNumber": 2,
+          "summary": [
+            "Adesanya lands huge right hand",
+            "Pereira dropped and hurt badly",
+            "Ground and pound to finish",
+            "Referee stops fight"
+          ],
+          "officialCard": "10-7",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229878Z"
+        },
+        {
+          "id": "2aaec0e0-5317-41d8-a113-f6511e437d24",
+          "event": "UFC 286: Edwards vs. Usman 3",
+          "fighters": "Leon Edwards vs. Kamaru Usman",
+          "roundNumber": 1,
+          "summary": [
+            "Usman pressures with wrestling",
+            "Edwards defends takedowns well",
+            "Even striking exchanges",
+            "Competitive round"
+          ],
+          "officialCard": "10-10",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229886Z"
+        },
+        {
+          "id": "73418917-c5a8-4f64-badb-ad1530c5b1d2",
+          "event": "UFC 285: Jones vs. Gane",
+          "fighters": "Jon Jones vs. Ciryl Gane",
+          "roundNumber": 1,
+          "summary": [
+            "Jones secures guillotine submission",
+            "Gane taps quickly",
+            "Dominant grappling",
+            "Fight-ending submission"
+          ],
+          "officialCard": "10-8",
+          "type": "historical",
+          "createdAt": "2025-10-29T15:05:38.229894Z"
+        }
+      ]
+    },
+    {
+      "test": "Submit Score - Alex Rodriguez #1",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "response": {
+        "id": "0f7403dd-b431-4d42-8bfb-8a401b905615",
+        "judgeId": "test-judge-1",
+        "judgeName": "Alex Rodriguez",
+        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "myScore": "10-9",
+        "officialScore": "10-9",
+        "mae": 0.0,
+        "sensitivity108": true,
+        "accuracy": 100.0,
+        "match": true,
+        "timestamp": "2025-10-29T15:05:38.357548Z"
+      }
+    },
+    {
+      "test": "Submit Score - Alex Rodriguez #2",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "response": {
+        "id": "d7fcba31-4565-4434-b7df-b94bf2db12a8",
+        "judgeId": "test-judge-1",
+        "judgeName": "Alex Rodriguez",
+        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "myScore": "10-8",
+        "officialScore": "10-9",
+        "mae": 1.0,
+        "sensitivity108": false,
+        "accuracy": 85.0,
+        "match": false,
+        "timestamp": "2025-10-29T15:05:38.406721Z"
+      }
+    },
+    {
+      "test": "Submit Score - Alex Rodriguez #3",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "response": {
+        "id": "36c04d94-5107-4887-90e3-33f95a19f5f0",
+        "judgeId": "test-judge-1",
+        "judgeName": "Alex Rodriguez",
+        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "myScore": "10-9",
+        "officialScore": "10-9",
+        "mae": 0.0,
+        "sensitivity108": true,
+        "accuracy": 100.0,
+        "match": true,
+        "timestamp": "2025-10-29T15:05:38.442797Z"
+      }
+    },
+    {
+      "test": "Submit Score - Maria Santos #1",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "response": {
+        "id": "018011b1-add7-47d6-bbc3-53a6bd4c5f45",
+        "judgeId": "test-judge-2",
+        "judgeName": "Maria Santos",
+        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "myScore": "10-9",
+        "officialScore": "10-8",
+        "mae": 1.0,
+        "sensitivity108": false,
+        "accuracy": 75.0,
+        "match": false,
+        "timestamp": "2025-10-29T15:05:38.478185Z"
+      }
+    },
+    {
+      "test": "Submit Score - Maria Santos #2",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "response": {
+        "id": "ae8e79e5-555f-4132-9b70-b88cee2c2d2d",
+        "judgeId": "test-judge-2",
+        "judgeName": "Maria Santos",
+        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "myScore": "10-9",
+        "officialScore": "10-9",
+        "mae": 0.0,
+        "sensitivity108": true,
+        "accuracy": 100.0,
+        "match": true,
+        "timestamp": "2025-10-29T15:05:38.556401Z"
+      }
+    },
+    {
+      "test": "Submit Score - John Thompson #1",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "response": {
+        "id": "5838d17b-eb08-408a-92de-4ff6ecd2db09",
+        "judgeId": "test-judge-3",
+        "judgeName": "John Thompson",
+        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "myScore": "10-8",
+        "officialScore": "10-8",
+        "mae": 0.0,
+        "sensitivity108": true,
+        "accuracy": 100.0,
+        "match": true,
+        "timestamp": "2025-10-29T15:05:38.594278Z"
+      }
+    },
+    {
+      "test": "Submit Score - John Thompson #2",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "response": {
+        "id": "52a103d5-8cd7-42f8-9430-a84f3ffb3c5c",
+        "judgeId": "test-judge-3",
+        "judgeName": "John Thompson",
+        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "myScore": "10-9",
+        "officialScore": "10-8",
+        "mae": 1.0,
+        "sensitivity108": false,
+        "accuracy": 80.0,
+        "match": false,
+        "timestamp": "2025-10-29T15:05:38.633330Z"
+      }
+    },
+    {
+      "test": "Submit Score - John Thompson #3",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "response": {
+        "id": "8704ffef-9005-4a84-ac1a-c7ac288d187a",
+        "judgeId": "test-judge-3",
+        "judgeName": "John Thompson",
+        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "myScore": "10-9",
+        "officialScore": "10-9",
+        "mae": 0.0,
+        "sensitivity108": true,
+        "accuracy": 100.0,
+        "match": true,
+        "timestamp": "2025-10-29T15:05:38.670538Z"
+      }
+    },
+    {
+      "test": "Submit Score - John Thompson #4",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/submit-score",
+      "response": {
+        "id": "9f39312f-e77c-4826-aefd-a28fed8a797c",
+        "judgeId": "test-judge-3",
+        "judgeName": "John Thompson",
+        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "myScore": "10-8",
+        "officialScore": "10-8",
+        "mae": 0.0,
+        "sensitivity108": true,
+        "accuracy": 100.0,
+        "match": true,
+        "timestamp": "2025-10-29T15:05:38.709699Z"
+      }
+    },
+    {
+      "test": "Get Judge Stats - test-judge-1",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/judge-stats/test-judge-1",
+      "response": {
+        "judgeId": "test-judge-1",
+        "judgeName": "Alex Rodriguez",
+        "totalAttempts": 3,
+        "averageAccuracy": 95.0,
+        "averageMAE": 0.33,
+        "sensitivity108Rate": 66.67,
+        "perfectMatches": 2
+      }
+    },
+    {
+      "test": "Get Judge Stats - Non-existent",
+      "success": true,
+      "expected_status": 404,
+      "actual_status": 404,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/judge-stats/non-existent-judge",
+      "response": {
+        "detail": "No performance data found for this judge"
+      }
+    },
+    {
+      "test": "Get Leaderboard",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://fightscribe.preview.emergentagent.com/api/training-library/leaderboard",
+      "response": {
+        "leaderboard": [
+          {
+            "judgeId": "test-judge-1",
+            "judgeName": "Alex Rodriguez",
+            "totalAttempts": 3,
+            "averageAccuracy": 95.0,
+            "averageMAE": 0.33,
+            "perfectMatches": 2
+          },
+          {
+            "judgeId": "test-judge-3",
+            "judgeName": "John Thompson",
+            "totalAttempts": 4,
+            "averageAccuracy": 95.0,
+            "averageMAE": 0.25,
+            "perfectMatches": 3
+          },
+          {
+            "judgeId": "test-judge-2",
+            "judgeName": "Maria Santos",
+            "totalAttempts": 2,
+            "averageAccuracy": 87.5,
+            "averageMAE": 0.5,
+            "perfectMatches": 1
+          }
+        ]
       }
     }
   ]
