@@ -191,6 +191,239 @@ class CombatJudgingAPITester:
         
         return success1 and success2
 
+    def test_shadow_judging_seed(self):
+        """Test seeding the training library"""
+        print("\n🌱 Testing Shadow Judging - Seed Training Library...")
+        success, response = self.run_test("Seed Training Library", "POST", "training-library/seed", 200)
+        
+        if success and response:
+            print(f"   ✅ Seeded {response.get('count', 0)} training rounds")
+            expected_count = 16  # Based on the sample data in server.py
+            actual_count = response.get('count', 0)
+            if actual_count != expected_count:
+                print(f"   ⚠️  Expected {expected_count} rounds, got {actual_count}")
+                return False
+        
+        return success
+
+    def test_shadow_judging_get_rounds(self):
+        """Test getting all training rounds"""
+        print("\n📚 Testing Shadow Judging - Get Training Rounds...")
+        success, response = self.run_test("Get Training Rounds", "GET", "training-library/rounds", 200)
+        
+        if success and response:
+            rounds_count = len(response)
+            print(f"   ✅ Retrieved {rounds_count} training rounds")
+            
+            # Verify structure of first round
+            if rounds_count > 0:
+                first_round = response[0]
+                required_fields = ['id', 'event', 'fighters', 'roundNumber', 'summary', 'officialCard', 'type', 'createdAt']
+                missing_fields = [field for field in required_fields if field not in first_round]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in round structure: {missing_fields}")
+                    return False
+                
+                print(f"   ✅ Round structure validated")
+                print(f"   Sample round: {first_round['event']} - {first_round['fighters']} (Round {first_round['roundNumber']})")
+                
+                # Store a round ID for later tests
+                self.sample_round_id = first_round['id']
+            else:
+                print(f"   ⚠️  No rounds returned")
+                return False
+        
+        return success
+
+    def test_shadow_judging_submit_scores(self):
+        """Test submitting judge scores"""
+        print("\n📊 Testing Shadow Judging - Submit Judge Scores...")
+        
+        if not hasattr(self, 'sample_round_id'):
+            print("   ❌ No sample round ID available from previous test")
+            return False
+        
+        # Test data for 3 judges with varying performance
+        judges_data = [
+            {
+                "judgeId": "test-judge-1",
+                "judgeName": "Alex Rodriguez",
+                "scores": [
+                    {"myScore": "10-9", "officialScore": "10-9", "mae": 0.0, "sensitivity108": True, "accuracy": 100.0, "match": True},
+                    {"myScore": "10-8", "officialScore": "10-9", "mae": 1.0, "sensitivity108": False, "accuracy": 85.0, "match": False},
+                    {"myScore": "10-9", "officialScore": "10-9", "mae": 0.0, "sensitivity108": True, "accuracy": 100.0, "match": True}
+                ]
+            },
+            {
+                "judgeId": "test-judge-2", 
+                "judgeName": "Maria Santos",
+                "scores": [
+                    {"myScore": "10-9", "officialScore": "10-8", "mae": 1.0, "sensitivity108": False, "accuracy": 75.0, "match": False},
+                    {"myScore": "10-9", "officialScore": "10-9", "mae": 0.0, "sensitivity108": True, "accuracy": 100.0, "match": True}
+                ]
+            },
+            {
+                "judgeId": "test-judge-3",
+                "judgeName": "John Thompson", 
+                "scores": [
+                    {"myScore": "10-8", "officialScore": "10-8", "mae": 0.0, "sensitivity108": True, "accuracy": 100.0, "match": True},
+                    {"myScore": "10-9", "officialScore": "10-8", "mae": 1.0, "sensitivity108": False, "accuracy": 80.0, "match": False},
+                    {"myScore": "10-9", "officialScore": "10-9", "mae": 0.0, "sensitivity108": True, "accuracy": 100.0, "match": True},
+                    {"myScore": "10-8", "officialScore": "10-8", "mae": 0.0, "sensitivity108": True, "accuracy": 100.0, "match": True}
+                ]
+            }
+        ]
+        
+        all_success = True
+        
+        for judge_data in judges_data:
+            judge_id = judge_data["judgeId"]
+            judge_name = judge_data["judgeName"]
+            
+            for i, score_data in enumerate(judge_data["scores"]):
+                submission_data = {
+                    "judgeId": judge_id,
+                    "judgeName": judge_name,
+                    "roundId": self.sample_round_id,
+                    **score_data
+                }
+                
+                success, response = self.run_test(
+                    f"Submit Score - {judge_name} #{i+1}", 
+                    "POST", 
+                    "training-library/submit-score", 
+                    200, 
+                    submission_data
+                )
+                
+                if success and response:
+                    print(f"   ✅ Score submitted for {judge_name}")
+                    # Verify response structure
+                    required_fields = ['id', 'judgeId', 'judgeName', 'roundId', 'myScore', 'officialScore', 'mae', 'sensitivity108', 'accuracy', 'match', 'timestamp']
+                    missing_fields = [field for field in required_fields if field not in response]
+                    
+                    if missing_fields:
+                        print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                        all_success = False
+                else:
+                    all_success = False
+        
+        return all_success
+
+    def test_shadow_judging_judge_stats(self):
+        """Test getting judge statistics"""
+        print("\n📈 Testing Shadow Judging - Judge Statistics...")
+        
+        # Test stats for test-judge-1 (should have 3 attempts)
+        success, response = self.run_test("Get Judge Stats - test-judge-1", "GET", "training-library/judge-stats/test-judge-1", 200)
+        
+        if success and response:
+            print(f"   ✅ Stats retrieved for test-judge-1")
+            
+            # Verify response structure
+            required_fields = ['judgeId', 'judgeName', 'totalAttempts', 'averageAccuracy', 'averageMAE', 'sensitivity108Rate', 'perfectMatches']
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in stats response: {missing_fields}")
+                return False
+            
+            # Verify calculations for test-judge-1
+            # Expected: 3 attempts, avg accuracy = (100+85+100)/3 = 95, avg MAE = (0+1+0)/3 = 0.33, perfect matches = 2
+            expected_attempts = 3
+            expected_avg_accuracy = 95.0
+            expected_perfect_matches = 2
+            
+            actual_attempts = response.get('totalAttempts', 0)
+            actual_avg_accuracy = response.get('averageAccuracy', 0)
+            actual_perfect_matches = response.get('perfectMatches', 0)
+            
+            print(f"   Total Attempts: {actual_attempts} (expected: {expected_attempts})")
+            print(f"   Average Accuracy: {actual_avg_accuracy}% (expected: {expected_avg_accuracy}%)")
+            print(f"   Perfect Matches: {actual_perfect_matches} (expected: {expected_perfect_matches})")
+            
+            if actual_attempts != expected_attempts:
+                print(f"   ⚠️  Incorrect total attempts")
+                return False
+            
+            if abs(actual_avg_accuracy - expected_avg_accuracy) > 0.1:
+                print(f"   ⚠️  Incorrect average accuracy calculation")
+                return False
+            
+            if actual_perfect_matches != expected_perfect_matches:
+                print(f"   ⚠️  Incorrect perfect matches count")
+                return False
+        
+        # Test 404 for non-existent judge
+        success_404, _ = self.run_test("Get Judge Stats - Non-existent", "GET", "training-library/judge-stats/non-existent-judge", 404)
+        
+        return success and success_404
+
+    def test_shadow_judging_leaderboard(self):
+        """Test getting the leaderboard"""
+        print("\n🏆 Testing Shadow Judging - Leaderboard...")
+        
+        success, response = self.run_test("Get Leaderboard", "GET", "training-library/leaderboard", 200)
+        
+        if success and response:
+            leaderboard = response.get('leaderboard', [])
+            print(f"   ✅ Leaderboard retrieved with {len(leaderboard)} judges")
+            
+            if len(leaderboard) > 0:
+                # Verify structure of first entry
+                first_entry = leaderboard[0]
+                required_fields = ['judgeId', 'judgeName', 'totalAttempts', 'averageAccuracy', 'averageMAE', 'perfectMatches']
+                missing_fields = [field for field in required_fields if field not in first_entry]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in leaderboard entry: {missing_fields}")
+                    return False
+                
+                # Verify ranking order (should be sorted by accuracy descending)
+                if len(leaderboard) > 1:
+                    for i in range(len(leaderboard) - 1):
+                        current_accuracy = leaderboard[i]['averageAccuracy']
+                        next_accuracy = leaderboard[i + 1]['averageAccuracy']
+                        if current_accuracy < next_accuracy:
+                            print(f"   ⚠️  Leaderboard not properly sorted by accuracy")
+                            return False
+                
+                print(f"   ✅ Leaderboard structure and sorting validated")
+                print(f"   Top judge: {first_entry['judgeName']} with {first_entry['averageAccuracy']}% accuracy")
+            else:
+                print(f"   ⚠️  Empty leaderboard")
+                return False
+        
+        return success
+
+    def test_shadow_judging_complete_flow(self):
+        """Test the complete Shadow Judging flow"""
+        print("\n🎯 Testing Complete Shadow Judging Flow...")
+        
+        # Step 1: Seed training library
+        if not self.test_shadow_judging_seed():
+            return False
+        
+        # Step 2: Get all rounds and verify
+        if not self.test_shadow_judging_get_rounds():
+            return False
+        
+        # Step 3: Submit scores for multiple judges
+        if not self.test_shadow_judging_submit_scores():
+            return False
+        
+        # Step 4: Get judge stats and verify calculations
+        if not self.test_shadow_judging_judge_stats():
+            return False
+        
+        # Step 5: Get leaderboard and verify ranking
+        if not self.test_shadow_judging_leaderboard():
+            return False
+        
+        print("   🎉 Complete Shadow Judging flow test passed!")
+        return True
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Combat Judging API Tests")
