@@ -212,6 +212,62 @@ class FlagResolution(BaseModel):
     resolution_notes: str
     status: str  # "resolved" or "dismissed"
 
+# Tuning Profile Models
+class MetricWeights(BaseModel):
+    KD: float = 0.30
+    ISS: float = 0.20
+    TSR: float = 0.15
+    GCQ: float = 0.10
+    TDQ: float = 0.08
+    OC: float = 0.06
+    SUBQ: float = 0.05
+    AGG: float = 0.05
+    RP: float = 0.01
+
+class ScoreThresholds(BaseModel):
+    threshold_10_9: int = 600  # 1-600 = 10-9
+    threshold_10_8: int = 900  # 601-900 = 10-8
+    # 901-1000 = 10-7
+
+class GateSensitivity(BaseModel):
+    finish_threat_kd_threshold: float = 1.0
+    finish_threat_subq_threshold: float = 8.0
+    finish_threat_iss_threshold: float = 9.0
+    control_dom_gcq_threshold: float = 7.5
+    control_dom_time_share: float = 0.5
+    multi_cat_dom_count: int = 3
+    multi_cat_dom_score_threshold: float = 7.5
+
+class TuningProfile(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    promotion: str  # "UFC", "Bellator", "ONE Championship", etc.
+    description: str = ""
+    weights: MetricWeights = Field(default_factory=MetricWeights)
+    thresholds: ScoreThresholds = Field(default_factory=ScoreThresholds)
+    gate_sensitivity: GateSensitivity = Field(default_factory=GateSensitivity)
+    is_default: bool = False
+    created_by: str = ""
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class TuningProfileCreate(BaseModel):
+    name: str
+    promotion: str
+    description: str = ""
+    weights: MetricWeights = Field(default_factory=MetricWeights)
+    thresholds: ScoreThresholds = Field(default_factory=ScoreThresholds)
+    gate_sensitivity: GateSensitivity = Field(default_factory=GateSensitivity)
+    created_by: str = ""
+
+class TuningProfileUpdate(BaseModel):
+    name: str = None
+    description: str = None
+    weights: MetricWeights = None
+    thresholds: ScoreThresholds = None
+    gate_sensitivity: GateSensitivity = None
+
 # Scoring Engine
 class ScoringEngine:
     @staticmethod
