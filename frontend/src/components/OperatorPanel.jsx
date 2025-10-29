@@ -96,12 +96,33 @@ export default function OperatorPanel() {
     }
   };
 
+  const loadQueueCount = async () => {
+    try {
+      const queue = await offlineQueue.getQueue();
+      setQueuedEvents(queue.length);
+    } catch (error) {
+      console.error('Error loading queue:', error);
+    }
+  };
+
+  const syncOfflineQueue = async () => {
+    try {
+      const results = await offlineQueue.syncQueue(db);
+      const synced = results.filter(r => r.success).length;
+      if (synced > 0) {
+        toast.success(`Synced ${synced} queued events`);
+        loadQueueCount();
+      }
+    } catch (error) {
+      console.error('Error syncing queue:', error);
+      toast.error('Failed to sync offline data');
+    }
+  };
+
   const logEvent = async (eventType, metadata = {}) => {
     try {
-      // Get current control time for the selected fighter
       const currentTime = controlTimers[selectedFighter].time;
-      
-      await db.collection('events').add({
+      const eventData = {
         boutId,
         round: bout.currentRound,
         fighter: selectedFighter,
@@ -109,7 +130,20 @@ export default function OperatorPanel() {
         timestamp: currentTime,
         metadata,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
+      };
+
+      if (isOnline) {
+        // Online - write directly to Firestore
+        await db.collection('events').add(eventData);
+      } else {
+        // Offline - add to queue
+        await offlineQueue.addToQueue({
+          collection: 'events',
+          data: eventData
+        });
+        loadQueueCount();
+      }
+      
       toast.success(`${eventType} logged for ${selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
     } catch (error) {
       console.error('Error logging event:', error);
