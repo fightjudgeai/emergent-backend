@@ -97,6 +97,13 @@ export default function EventSetup() {
         <CardHeader className="text-center space-y-4 pb-8">
           <div className="flex justify-end gap-2 mb-2">
             <Button
+              onClick={() => navigate('/tuning-profiles')}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
+            >
+              <Settings className="mr-2 h-4 w-4" />
+              Tuning Profiles
+            </Button>
+            <Button
               onClick={() => navigate('/review-dashboard')}
               className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white"
             >
