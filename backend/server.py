@@ -88,6 +88,8 @@ class RoundScore(BaseModel):
     card: str  # e.g., "10-9", "10-8", "10-7", "10-10"
     winner: str  # "fighter1", "fighter2", or "DRAW"
     reasons: RoundReasons
+    uncertainty: str = "medium_confidence"  # "high_confidence", "medium_confidence", "low_confidence"
+    uncertainty_factors: List[str] = []  # Reasons for uncertainty level
 
 # Shadow Judging Models
 class TrainingRound(BaseModel):
