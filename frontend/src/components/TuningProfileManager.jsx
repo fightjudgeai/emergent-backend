@@ -322,6 +322,12 @@ export default function TuningProfileManager() {
                           Default
                         </Badge>
                       )}
+                      {!isOwner(profile) && (
+                        <Badge className="bg-gray-900/30 text-gray-400 border-gray-700/30">
+                          <Eye className="w-3 h-3 mr-1" />
+                          View Only
+                        </Badge>
+                      )}
                     </div>
                     <div className="text-gray-400 mb-1">{profile.promotion}</div>
                     {profile.description && (
@@ -329,7 +335,7 @@ export default function TuningProfileManager() {
                     )}
                   </div>
                   
-                  {!profile.is_default && (
+                  {!profile.is_default && isOwner(profile) && (
                     <Button
                       onClick={() => deleteProfile(profile.id)}
                       size="sm"
@@ -340,41 +346,57 @@ export default function TuningProfileManager() {
                   )}
                 </div>
                 
-                {/* Weight Summary */}
-                <div className="space-y-2">
-                  <div className="text-sm font-semibold text-gray-400 uppercase tracking-wide">
-                    Weights
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 text-sm">
-                    {Object.entries(profile.weights).map(([key, value]) => (
-                      <div key={key} className="bg-[#1a1d24] rounded p-2">
-                        <span className="text-gray-400">{key}:</span>{' '}
-                        <span className="text-white font-bold">{(value * 100).toFixed(0)}%</span>
+                {/* Weight Summary - Only for Owners */}
+                {isOwner(profile) ? (
+                  <>
+                    <div className="space-y-2">
+                      <div className="text-sm font-semibold text-gray-400 uppercase tracking-wide">
+                        Weights (Owner Only)
                       </div>
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Thresholds */}
-                <div className="mt-4 pt-4 border-t border-[#2a2d35]">
-                  <div className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">
-                    Thresholds
-                  </div>
-                  <div className="flex gap-4 text-sm">
-                    <div>
-                      <span className="text-gray-400">10-9:</span>{' '}
-                      <span className="text-green-400">1-{profile.thresholds.threshold_10_9}</span>
+                      <div className="grid grid-cols-3 gap-2 text-sm">
+                        {Object.entries(profile.weights).map(([key, value]) => (
+                          <div key={key} className="bg-[#1a1d24] rounded p-2">
+                            <span className="text-gray-400">{key}:</span>{' '}
+                            <span className="text-white font-bold">{(value * 100).toFixed(0)}%</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-gray-400">10-8:</span>{' '}
-                      <span className="text-amber-400">{profile.thresholds.threshold_10_9 + 1}-{profile.thresholds.threshold_10_8}</span>
+                    
+                    {/* Thresholds - Only for Owners */}
+                    <div className="mt-4 pt-4 border-t border-[#2a2d35]">
+                      <div className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">
+                        Thresholds (Owner Only)
+                      </div>
+                      <div className="flex gap-4 text-sm">
+                        <div>
+                          <span className="text-gray-400">10-9:</span>{' '}
+                          <span className="text-green-400">1-{profile.thresholds.threshold_10_9}</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400">10-8:</span>{' '}
+                          <span className="text-amber-400">{profile.thresholds.threshold_10_9 + 1}-{profile.thresholds.threshold_10_8}</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400">10-7:</span>{' '}
+                          <span className="text-red-400">{profile.thresholds.threshold_10_8 + 1}+</span>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-gray-400">10-7:</span>{' '}
-                      <span className="text-red-400">{profile.thresholds.threshold_10_8 + 1}+</span>
+                  </>
+                ) : (
+                  <div className="bg-[#1a1d24] border border-[#2a2d35] rounded p-4">
+                    <div className="flex items-center gap-3 text-gray-400">
+                      <EyeOff className="w-5 h-5" />
+                      <div>
+                        <div className="font-semibold mb-1">Restricted Access</div>
+                        <div className="text-sm text-gray-500">
+                          Metric weights and thresholds are only visible to the profile owner
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </Card>
             ))
           )}
