@@ -1309,6 +1309,51 @@ async def compare_fighters(fighter1: str, fighter2: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 # Discrepancy Detection Helper
+# Discrepancy Detection Helper
+def calculate_uncertainty(score_gap: float, tie_breaker: str, event_count: int, thresholds: dict = None) -> tuple[str, List[str]]:
+    """Calculate uncertainty level for a scoring decision"""
+    if thresholds is None:
+        thresholds = {"10_9": 600, "10_8": 900}
+    
+    factors = []
+    
+    # Base confidence from threshold proximity
+    distance_to_10_9 = abs(score_gap - thresholds["10_9"])
+    distance_to_10_8 = abs(score_gap - thresholds["10_8"])
+    min_distance = min(distance_to_10_9, distance_to_10_8)
+    
+    # Determine base confidence
+    if min_distance > 150:
+        confidence = "high_confidence"
+    elif min_distance > 50:
+        confidence = "medium_confidence"
+    else:
+        confidence = "low_confidence"
+        factors.append(f"Score within {min_distance:.0f} points of threshold")
+    
+    # Tie-breaker reduces confidence
+    if tie_breaker:
+        if confidence == "high_confidence":
+            confidence = "medium_confidence"
+        else:
+            confidence = "low_confidence"
+        factors.append(f"Decided by tie-breaker: {tie_breaker}")
+    
+    # Low activity reduces confidence
+    if event_count < 5:
+        if confidence == "high_confidence":
+            confidence = "medium_confidence"
+        else:
+            confidence = "low_confidence"
+        factors.append(f"Low activity: only {event_count} events logged")
+    
+    # Very close scores
+    if score_gap < 50 and score_gap > 0:
+        confidence = "low_confidence"
+        factors.append(f"Extremely close: {score_gap:.0f} point difference")
+    
+    return confidence, factors
+
 async def detect_and_flag_discrepancies(bout_id: str, round_num: int, round_score: RoundScore, events: list):
     """Automatically detect and create flags for controversial decisions"""
     flags_created = []
