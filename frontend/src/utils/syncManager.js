@@ -42,10 +42,14 @@ class SyncManager {
     if (this.isOnline) {
       try {
         // Write to flat events collection (matching JudgePanel read structure)
+        // Use eventType field name to match JudgePanel expectations
         await db.collection('events').add({
           boutId,
           round: roundNum,
-          ...eventData,
+          fighter: eventData.fighter,
+          eventType: eventData.event_type,
+          timestamp: eventData.timestamp,
+          metadata: eventData.metadata || {},
           createdAt: new Date().toISOString()
         });
         
