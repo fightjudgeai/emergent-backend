@@ -450,6 +450,21 @@ class ScoringEngine:
         
         return (card, winner, reasons)
 
+# Helper function to prepare data for MongoDB
+def prepare_for_mongo(data):
+    if isinstance(data.get('createdAt'), datetime):
+        data['createdAt'] = data['createdAt'].isoformat()
+    if isinstance(data.get('timestamp'), datetime):
+        data['timestamp'] = data['timestamp'].isoformat()
+    return data
+
+def parse_from_mongo(item):
+    if isinstance(item.get('createdAt'), str):
+        item['createdAt'] = datetime.fromisoformat(item['createdAt'])
+    if isinstance(item.get('timestamp'), str):
+        item['timestamp'] = datetime.fromisoformat(item['timestamp'])
+    return item
+
 # Routes
 @api_router.get("/")
 async def root():
