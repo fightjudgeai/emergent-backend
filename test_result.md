@@ -262,11 +262,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Shadow Judging Mode - UI Component"
     - "Shadow Judging Mode - Judge Stats Dashboard"
-    - "Shadow Judging Mode - Routing"
     - "Shadow Judging Mode - Navigation Link"
-  stuck_tasks: []
+  stuck_tasks:
+    - "Shadow Judging Mode - Judge Stats Dashboard"
+    - "Shadow Judging Mode - Navigation Link"
   test_all: false
   test_priority: "high_first"
 
@@ -275,3 +275,5 @@ agent_communication:
     message: "Implemented complete Shadow Judging / Training Mode feature. Backend has 5 new API endpoints for training library management and judge performance tracking. Frontend updated to use backend APIs with auto-seeding, stats dashboard, and calibration metrics. Ready for testing."
   - agent: "testing"
     message: "✅ BACKEND TESTING COMPLETE: All 5 Shadow Judging Training Mode APIs are working perfectly. Comprehensive testing performed including: (1) Seeding 16 training rounds, (2) Retrieving rounds with proper structure, (3) Submitting judge scores with performance tracking, (4) Calculating accurate judge statistics, (5) Generating properly sorted leaderboard. All database operations (MongoDB) functioning correctly. No critical issues found. Backend APIs ready for frontend integration."
+  - agent: "testing"
+    message: "✅ FRONTEND TESTING COMPLETE: Shadow Judging Training Mode frontend mostly working. Core functionality (UI Component and Routing) working perfectly - 16 training rounds load correctly, judging interface works, calibration results display properly. Two issues found: (1) 'My Stats' button not appearing after judging rounds - stats dashboard implemented but not accessible, (2) 'Back to Events' navigation redirects to login instead of EventSetup - session management issue. All other features including accessibility checks passed."
