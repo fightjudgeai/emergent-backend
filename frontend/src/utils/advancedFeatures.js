@@ -183,11 +183,33 @@ export function generateExplainability(roundScore, events) {
       bullets.push(`• Control Dominance: ${winner.subscores.GCQ.toFixed(1)} GCQ score (>50% round control)`);
     }
   } else if (roundScore.reasons.draw) {
-    bullets.push(`🟡 10-10 DRAW: Even round with ${roundScore.score_gap.toFixed(0)}-point difference (within draw threshold)`);
-    bullets.push(`Neither fighter established clear control or damage advantage`);
+    bullets.push(`🟡 10-10 DRAW: ABSOLUTE TIE - Every metric exactly equal`);
+    bullets.push(`This is extremely rare - both fighters matched each other perfectly across all 9 categories`);
   } else {
     bullets.push(`🟢 10-9 COMPETITIVE: ${roundScore.score_gap.toFixed(0)}-point edge (threshold: 1-600)`);
     bullets.push(`${winnerName} won the round but opponent remained competitive`);
+    
+    // Show tie-breaker if used
+    if (roundScore.reasons.tie_breaker) {
+      const tbLabels = {
+        'damage': 'DAMAGE (KD + ISS + SUBQ)',
+        'control': 'CONTROL (GCQ + TDQ)',
+        'aggression': 'AGGRESSION (AGG + TSR + OC)',
+        'technical': 'TECHNICAL (RP)',
+        'KD': 'KNOCKDOWNS',
+        'ISS': 'SIGNIFICANT STRIKES',
+        'SUBQ': 'SUBMISSION ATTEMPTS',
+        'GCQ': 'GROUND CONTROL',
+        'TDQ': 'TAKEDOWNS',
+        'AGG': 'AGGRESSION',
+        'OC': 'OCTAGON CONTROL',
+        'TSR': 'STRIKE RATIO',
+        'RP': 'REVERSALS/PASSES'
+      };
+      const tbLabel = tbLabels[roundScore.reasons.tie_breaker] || roundScore.reasons.tie_breaker;
+      bullets.push(`⚖️ TIE-BREAKER APPLIED: Decided by ${tbLabel}`);
+      bullets.push(`Scores were equal (1000-1000) but ${winnerName} edged ahead in ${tbLabel.toLowerCase()}`);
+    }
   }
   
   // Event breakdown for winner
