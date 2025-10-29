@@ -1,7 +1,7 @@
 {
-  "total_tests": 20,
-  "passed_tests": 20,
-  "success_rate": 100.0,
+  "total_tests": 21,
+  "passed_tests": 17,
+  "success_rate": 80.95238095238095,
   "results": [
     {
       "test": "Root API Endpoint",
@@ -20,9 +20,9 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/status",
       "response": {
-        "id": "b5461638-b608-4526-8eec-8d1d8a13f726",
-        "client_name": "test_client_150537",
-        "timestamp": "2025-10-29T15:05:38.018071Z"
+        "id": "b6c7ecf9-0757-46c2-92e8-333cc6dc5888",
+        "client_name": "test_client_172036",
+        "timestamp": "2025-10-29T17:20:36.495933Z"
       }
     },
     {
@@ -46,6 +46,11 @@
           "id": "b5461638-b608-4526-8eec-8d1d8a13f726",
           "client_name": "test_client_150537",
           "timestamp": "2025-10-29T15:05:38.018071Z"
+        },
+        {
+          "id": "b6c7ecf9-0757-46c2-92e8-333cc6dc5888",
+          "client_name": "test_client_172036",
+          "timestamp": "2025-10-29T17:20:36.495933Z"
         }
       ]
     },
@@ -105,129 +110,30 @@
           },
           "to_108": false,
           "to_107": false,
-          "draw": false
-        }
+          "draw": false,
+          "tie_breaker": null
+        },
+        "uncertainty": "medium_confidence",
+        "uncertainty_factors": [
+          "Low activity: only 4 events logged"
+        ]
       }
     },
     {
       "test": "Empty Events List",
-      "success": true,
+      "success": false,
       "expected_status": 200,
-      "actual_status": 200,
+      "actual_status": 500,
       "url": "https://judgesync.preview.emergentagent.com/api/calculate-score",
-      "response": {
-        "bout_id": "test_bout_empty",
-        "round_num": 1,
-        "fighter1_score": {
-          "fighter": "fighter1",
-          "subscores": {
-            "KD": 0.0,
-            "ISS": 0.0,
-            "GCQ": 0.0,
-            "TDQ": 0.0,
-            "SUBQ": 0.0,
-            "OC": 0.0,
-            "AGG": 0.0,
-            "RP": 0.0,
-            "TSR": 0.0
-          },
-          "final_score": 0.0
-        },
-        "fighter2_score": {
-          "fighter": "fighter2",
-          "subscores": {
-            "KD": 0.0,
-            "ISS": 0.0,
-            "GCQ": 0.0,
-            "TDQ": 0.0,
-            "SUBQ": 0.0,
-            "OC": 0.0,
-            "AGG": 0.0,
-            "RP": 0.0,
-            "TSR": 0.0
-          },
-          "final_score": 0.0
-        },
-        "score_gap": 0.0,
-        "card": "10-10",
-        "winner": "DRAW",
-        "reasons": {
-          "delta": 0.0,
-          "gates_winner": {
-            "finish_threat": false,
-            "control_dom": false,
-            "multi_cat_dom": false
-          },
-          "gates_loser": {
-            "finish_threat": false,
-            "control_dom": false,
-            "multi_cat_dom": false
-          },
-          "to_108": false,
-          "to_107": false,
-          "draw": true
-        }
-      }
+      "error": "{\"detail\":\"1 validation error for RoundReasons\\ntie_breaker\\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\\n    For further information visit https://error"
     },
     {
       "test": "Invalid Event Type",
-      "success": true,
+      "success": false,
       "expected_status": 200,
-      "actual_status": 200,
+      "actual_status": 500,
       "url": "https://judgesync.preview.emergentagent.com/api/calculate-score",
-      "response": {
-        "bout_id": "test_bout_invalid",
-        "round_num": 1,
-        "fighter1_score": {
-          "fighter": "fighter1",
-          "subscores": {
-            "KD": 0.0,
-            "ISS": 0.0,
-            "GCQ": 0.0,
-            "TDQ": 0.0,
-            "SUBQ": 0.0,
-            "OC": 0.0,
-            "AGG": 0.0,
-            "RP": 0.0,
-            "TSR": 0.0
-          },
-          "final_score": 0.0
-        },
-        "fighter2_score": {
-          "fighter": "fighter2",
-          "subscores": {
-            "KD": 0.0,
-            "ISS": 0.0,
-            "GCQ": 0.0,
-            "TDQ": 0.0,
-            "SUBQ": 0.0,
-            "OC": 0.0,
-            "AGG": 0.0,
-            "RP": 0.0,
-            "TSR": 0.0
-          },
-          "final_score": 0.0
-        },
-        "score_gap": 0.0,
-        "card": "10-10",
-        "winner": "DRAW",
-        "reasons": {
-          "delta": 0.0,
-          "gates_winner": {
-            "finish_threat": false,
-            "control_dom": false,
-            "multi_cat_dom": false
-          },
-          "gates_loser": {
-            "finish_threat": false,
-            "control_dom": false,
-            "multi_cat_dom": false
-          },
-          "to_108": false,
-          "to_107": false,
-          "draw": true
-        }
-      }
+      "error": "{\"detail\":\"1 validation error for RoundReasons\\ntie_breaker\\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\\n    For further information visit https://error"
     },
     {
       "test": "Seed Training Library",
@@ -249,7 +155,7 @@
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/rounds",
       "response": [
         {
-          "id": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+          "id": "4b041874-9d59-4fad-8d55-ea5d478443f0",
           "event": "UFC 299: O'Malley vs. Vera 2",
           "fighters": "Dustin Poirier vs. Benoit Saint Denis",
           "roundNumber": 2,
@@ -261,10 +167,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229689Z"
+          "createdAt": "2025-10-29T17:20:36.801450Z"
         },
         {
-          "id": "6d3de233-0900-47a2-821a-9bbfd4e5012f",
+          "id": "935a59e5-fc52-408d-a975-7d6f40300d8a",
           "event": "UFC 300: Pereira vs. Hill",
           "fighters": "Max Holloway vs. Justin Gaethje",
           "roundNumber": 5,
@@ -276,10 +182,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229742Z"
+          "createdAt": "2025-10-29T17:20:36.801494Z"
         },
         {
-          "id": "d7edd2f3-f573-41ca-8d64-77600b499c4e",
+          "id": "e982edec-2157-4b20-8479-aabb17b31252",
           "event": "UFC 296: Edwards vs. Covington",
           "fighters": "Alexandre Pantoja vs. Brandon Royval",
           "roundNumber": 1,
@@ -291,10 +197,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229756Z"
+          "createdAt": "2025-10-29T17:20:36.801506Z"
         },
         {
-          "id": "10ceb6a7-4140-42bf-a63c-b63f5b447298",
+          "id": "8762b6c6-3523-4131-80f8-d9bf086f045a",
           "event": "UFC 298: Volkanovski vs. Topuria",
           "fighters": "Ian Garry vs. Geoff Neal",
           "roundNumber": 3,
@@ -306,10 +212,10 @@
           ],
           "officialCard": "10-10",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229779Z"
+          "createdAt": "2025-10-29T17:20:36.801517Z"
         },
         {
-          "id": "30a2b04a-4b2e-4183-95aa-517f783294c2",
+          "id": "c20ba463-29f4-4ed7-9e58-a6d0edb93a03",
           "event": "UFC 297: Strickland vs. Du Plessis",
           "fighters": "Sean Strickland vs. Dricus Du Plessis",
           "roundNumber": 2,
@@ -321,10 +227,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229789Z"
+          "createdAt": "2025-10-29T17:20:36.801531Z"
         },
         {
-          "id": "8950add3-831e-4cee-8fd2-e0650ee31a7b",
+          "id": "7dcc45c6-2288-4828-b1d6-01c6a06492d0",
           "event": "UFC 295: Prochazka vs. Pereira",
           "fighters": "Jiri Prochazka vs. Alex Pereira",
           "roundNumber": 1,
@@ -336,10 +242,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229799Z"
+          "createdAt": "2025-10-29T17:20:36.801540Z"
         },
         {
-          "id": "e68676cf-4df2-48d4-8da1-95551a1afe1f",
+          "id": "79f776c6-0ff8-47d4-b828-4c5a5aa9565c",
           "event": "UFC 294: Makhachev vs. Volkanovski 2",
           "fighters": "Islam Makhachev vs. Alexander Volkanovski",
           "roundNumber": 1,
@@ -351,10 +257,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229810Z"
+          "createdAt": "2025-10-29T17:20:36.801550Z"
         },
         {
-          "id": "4425ef32-e315-4196-b0f9-0768779770e1",
+          "id": "36bd0208-c4bf-45f6-9121-b5591defd7d0",
           "event": "UFC 293: Adesanya vs. Strickland",
           "fighters": "Israel Adesanya vs. Sean Strickland",
           "roundNumber": 3,
@@ -366,10 +272,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229821Z"
+          "createdAt": "2025-10-29T17:20:36.801562Z"
         },
         {
-          "id": "9ee75636-a3b1-46ee-b8ac-22ea01873da9",
+          "id": "6bd7de54-47f8-4aef-95b0-bcfbbc917601",
           "event": "UFC 292: Sterling vs. O'Malley",
           "fighters": "Aljamain Sterling vs. Sean O'Malley",
           "roundNumber": 1,
@@ -381,10 +287,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229830Z"
+          "createdAt": "2025-10-29T17:20:36.801570Z"
         },
         {
-          "id": "c7299018-c6b9-4ac4-98c6-893a1d3ff8e9",
+          "id": "f002a532-8e89-4c44-a35f-aaf41c077f0f",
           "event": "UFC 291: Poirier vs. Gaethje 2",
           "fighters": "Dustin Poirier vs. Justin Gaethje",
           "roundNumber": 2,
@@ -396,10 +302,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229839Z"
+          "createdAt": "2025-10-29T17:20:36.801578Z"
         },
         {
-          "id": "27deff98-ae3c-46ca-80b5-67c00e133c39",
+          "id": "48ae02e8-8e34-4ed6-9210-988074250892",
           "event": "UFC 290: Volkanovski vs. Rodriguez",
           "fighters": "Brandon Moreno vs. Alexandre Pantoja",
           "roundNumber": 4,
@@ -411,10 +317,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229848Z"
+          "createdAt": "2025-10-29T17:20:36.801586Z"
         },
         {
-          "id": "704fcec5-195d-4b1c-b611-8cdd8b9e33e6",
+          "id": "3d487ba6-9e45-468c-b2ae-83a21747b6a6",
           "event": "UFC 289: Nunes vs. Aldana",
           "fighters": "Charles Oliveira vs. Beneil Dariush",
           "roundNumber": 1,
@@ -426,10 +332,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229855Z"
+          "createdAt": "2025-10-29T17:20:36.801595Z"
         },
         {
-          "id": "0399c762-aa80-401d-a112-d34de3ebe588",
+          "id": "3950374e-3fab-45ed-bf98-3ee1bdc1d14e",
           "event": "UFC 288: Sterling vs. Cejudo",
           "fighters": "Aljamain Sterling vs. Henry Cejudo",
           "roundNumber": 2,
@@ -441,10 +347,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229870Z"
+          "createdAt": "2025-10-29T17:20:36.801602Z"
         },
         {
-          "id": "fe304149-9517-4ea5-8cc2-32e365fec952",
+          "id": "7094f91e-ed5e-434d-9f82-6d288454127b",
           "event": "UFC 287: Pereira vs. Adesanya 2",
           "fighters": "Alex Pereira vs. Israel Adesanya",
           "roundNumber": 2,
@@ -456,10 +362,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229878Z"
+          "createdAt": "2025-10-29T17:20:36.801610Z"
         },
         {
-          "id": "2aaec0e0-5317-41d8-a113-f6511e437d24",
+          "id": "a2a99353-5b5b-4023-88df-1ef2019c886a",
           "event": "UFC 286: Edwards vs. Usman 3",
           "fighters": "Leon Edwards vs. Kamaru Usman",
           "roundNumber": 1,
@@ -471,10 +377,10 @@
           ],
           "officialCard": "10-10",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229886Z"
+          "createdAt": "2025-10-29T17:20:36.801618Z"
         },
         {
-          "id": "73418917-c5a8-4f64-badb-ad1530c5b1d2",
+          "id": "d0da93c3-262c-43ef-8046-af1ab07d49b6",
           "event": "UFC 285: Jones vs. Gane",
           "fighters": "Jon Jones vs. Ciryl Gane",
           "roundNumber": 1,
@@ -486,7 +392,7 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T15:05:38.229894Z"
+          "createdAt": "2025-10-29T17:20:36.801626Z"
         }
       ]
     },
@@ -497,17 +403,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "0f7403dd-b431-4d42-8bfb-8a401b905615",
+        "id": "6d451d6f-dbd3-4fd3-b969-c49905cd0b78",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "roundId": "4b041874-9d59-4fad-8d55-ea5d478443f0",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T15:05:38.357548Z"
+        "timestamp": "2025-10-29T17:20:36.879346Z"
       }
     },
     {
@@ -517,17 +423,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "d7fcba31-4565-4434-b7df-b94bf2db12a8",
+        "id": "ba2d3a92-49ed-4651-a29e-862a37a30a62",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "roundId": "4b041874-9d59-4fad-8d55-ea5d478443f0",
         "myScore": "10-8",
         "officialScore": "10-9",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 85.0,
         "match": false,
-        "timestamp": "2025-10-29T15:05:38.406721Z"
+        "timestamp": "2025-10-29T17:20:36.918245Z"
       }
     },
     {
@@ -537,17 +443,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "36c04d94-5107-4887-90e3-33f95a19f5f0",
+        "id": "d983a625-7fba-4187-9c3d-5611180fb31d",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "roundId": "4b041874-9d59-4fad-8d55-ea5d478443f0",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T15:05:38.442797Z"
+        "timestamp": "2025-10-29T17:20:36.954013Z"
       }
     },
     {
@@ -557,17 +463,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "018011b1-add7-47d6-bbc3-53a6bd4c5f45",
+        "id": "43c0e558-b2f8-47eb-b383-00930dfa8b1f",
         "judgeId": "test-judge-2",
         "judgeName": "Maria Santos",
-        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "roundId": "4b041874-9d59-4fad-8d55-ea5d478443f0",
         "myScore": "10-9",
         "officialScore": "10-8",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 75.0,
         "match": false,
-        "timestamp": "2025-10-29T15:05:38.478185Z"
+        "timestamp": "2025-10-29T17:20:36.992547Z"
       }
     },
     {
@@ -577,17 +483,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "ae8e79e5-555f-4132-9b70-b88cee2c2d2d",
+        "id": "4711d6be-949a-428b-a7d6-b647f2be1bf0",
         "judgeId": "test-judge-2",
         "judgeName": "Maria Santos",
-        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "roundId": "4b041874-9d59-4fad-8d55-ea5d478443f0",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T15:05:38.556401Z"
+        "timestamp": "2025-10-29T17:20:37.027001Z"
       }
     },
     {
@@ -597,17 +503,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "5838d17b-eb08-408a-92de-4ff6ecd2db09",
+        "id": "c3315712-5365-4908-8137-a8e0e7e3be54",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "roundId": "4b041874-9d59-4fad-8d55-ea5d478443f0",
         "myScore": "10-8",
         "officialScore": "10-8",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T15:05:38.594278Z"
+        "timestamp": "2025-10-29T17:20:37.101320Z"
       }
     },
     {
@@ -617,17 +523,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "52a103d5-8cd7-42f8-9430-a84f3ffb3c5c",
+        "id": "99f4de1f-d281-4573-8d8e-10625a884d9d",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "roundId": "4b041874-9d59-4fad-8d55-ea5d478443f0",
         "myScore": "10-9",
         "officialScore": "10-8",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 80.0,
         "match": false,
-        "timestamp": "2025-10-29T15:05:38.633330Z"
+        "timestamp": "2025-10-29T17:20:37.135858Z"
       }
     },
     {
@@ -637,17 +543,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "8704ffef-9005-4a84-ac1a-c7ac288d187a",
+        "id": "76c3ea29-3602-4ff7-b8c8-db19dd4d1183",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "roundId": "4b041874-9d59-4fad-8d55-ea5d478443f0",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T15:05:38.670538Z"
+        "timestamp": "2025-10-29T17:20:37.168414Z"
       }
     },
     {
@@ -657,17 +563,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "9f39312f-e77c-4826-aefd-a28fed8a797c",
+        "id": "04115eea-8a32-40da-80cf-3bb30ac5801b",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "d30839a6-528d-4f6e-bcf5-ed024588f071",
+        "roundId": "4b041874-9d59-4fad-8d55-ea5d478443f0",
         "myScore": "10-8",
         "officialScore": "10-8",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T15:05:38.709699Z"
+        "timestamp": "2025-10-29T17:20:37.206446Z"
       }
     },
     {
@@ -679,57 +585,39 @@
       "response": {
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "totalAttempts": 3,
+        "totalAttempts": 6,
         "averageAccuracy": 95.0,
         "averageMAE": 0.33,
         "sensitivity108Rate": 66.67,
-        "perfectMatches": 2
+        "perfectMatches": 4
       }
     },
     {
-      "test": "Get Judge Stats - Non-existent",
-      "success": true,
-      "expected_status": 404,
-      "actual_status": 404,
-      "url": "https://judgesync.preview.emergentagent.com/api/training-library/judge-stats/non-existent-judge",
-      "response": {
-        "detail": "No performance data found for this judge"
-      }
-    },
-    {
-      "test": "Get Leaderboard",
+      "test": "Create Audit Log #1 - score_calculation",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgesync.preview.emergentagent.com/api/training-library/leaderboard",
+      "url": "https://judgesync.preview.emergentagent.com/api/audit/log",
       "response": {
-        "leaderboard": [
-          {
-            "judgeId": "test-judge-1",
-            "judgeName": "Alex Rodriguez",
-            "totalAttempts": 3,
-            "averageAccuracy": 95.0,
-            "averageMAE": 0.33,
-            "perfectMatches": 2
-          },
-          {
-            "judgeId": "test-judge-3",
-            "judgeName": "John Thompson",
-            "totalAttempts": 4,
-            "averageAccuracy": 95.0,
-            "averageMAE": 0.25,
-            "perfectMatches": 3
-          },
-          {
-            "judgeId": "test-judge-2",
-            "judgeName": "Maria Santos",
-            "totalAttempts": 2,
-            "averageAccuracy": 87.5,
-            "averageMAE": 0.5,
-            "perfectMatches": 1
-          }
-        ]
+        "success": true,
+        "log_id": "32001e02-70a9-4b9c-936a-b6e37fcdc6a7"
       }
+    },
+    {
+      "test": "Create Audit Log #2 - flag_created",
+      "success": false,
+      "expected_status": 200,
+      "actual_status": 500,
+      "url": "https://judgesync.preview.emergentagent.com/api/audit/log",
+      "error": "{\"detail\":\"Failed to create audit log\"}"
+    },
+    {
+      "test": "Create Audit Log #3 - profile_changed",
+      "success": false,
+      "expected_status": 200,
+      "actual_status": 500,
+      "url": "https://judgesync.preview.emergentagent.com/api/audit/log",
+      "error": "{\"detail\":\"Failed to create audit log\"}"
     }
   ]
 }
