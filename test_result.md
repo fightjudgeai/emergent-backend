@@ -120,63 +120,78 @@ user_problem_statement: |
 backend:
   - task: "Shadow Judging API - Seed Training Library"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created POST /api/training-library/seed endpoint with 16 sample historical rounds from real UFC events. Includes mix of 10-9, 10-8, 10-7, and 10-10 scenarios."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: POST /api/training-library/seed successfully seeds 16 training rounds. Response includes correct count and success message. All rounds properly stored in MongoDB training_library collection."
   
   - task: "Shadow Judging API - Get Training Rounds"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created GET /api/training-library/rounds endpoint to fetch all available training rounds."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/training-library/rounds returns all 16 training rounds with correct structure (id, event, fighters, roundNumber, summary, officialCard, type, createdAt). Response format validated."
   
   - task: "Shadow Judging API - Submit Judge Score"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created POST /api/training-library/submit-score endpoint to record judge performance metrics (MAE, 10-8 sensitivity, accuracy)."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: POST /api/training-library/submit-score successfully saves judge performance data. Tested with 9 submissions across 3 judges. All required fields (judgeId, judgeName, roundId, myScore, officialScore, mae, sensitivity108, accuracy, match) properly stored with generated ID and timestamp."
   
   - task: "Shadow Judging API - Get Judge Stats"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created GET /api/training-library/judge-stats/:judgeId endpoint to calculate aggregate statistics for a judge."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/training-library/judge-stats/{judgeId} correctly calculates aggregate stats. Verified calculations: totalAttempts=3, averageAccuracy=95%, averageMAE=0.33, perfectMatches=2 for test judge. Returns 404 for non-existent judges as expected."
   
   - task: "Shadow Judging API - Leaderboard"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created GET /api/training-library/leaderboard endpoint using MongoDB aggregation to rank judges by accuracy."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/training-library/leaderboard returns top judges ranked by accuracy in descending order. Tested with 3 judges, proper sorting verified. Response structure includes judgeId, judgeName, totalAttempts, averageAccuracy, averageMAE, perfectMatches."
 
 frontend:
   - task: "Shadow Judging Mode - UI Component"
