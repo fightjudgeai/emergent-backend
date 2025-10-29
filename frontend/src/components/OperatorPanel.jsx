@@ -25,9 +25,35 @@ export default function OperatorPanel() {
   const [showKdDialog, setShowKdDialog] = useState(false);
   const [kdSeverity, setKdSeverity] = useState('flash');
   const timerRef = useRef(null);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [offlineQueue, setOfflineQueue] = useState(new OfflineQueueManager());
+  const [queuedEvents, setQueuedEvents] = useState(0);
 
   useEffect(() => {
     loadBout();
+    
+    // Setup online/offline listeners
+    const handleOnline = () => {
+      setIsOnline(true);
+      syncOfflineQueue();
+      toast.success('Back online - syncing data...');
+    };
+    
+    const handleOffline = () => {
+      setIsOnline(false);
+      toast.warning('Offline mode - events will be queued');
+    };
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    // Load queued events count
+    loadQueueCount();
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
   }, [boutId]);
 
   useEffect(() => {
