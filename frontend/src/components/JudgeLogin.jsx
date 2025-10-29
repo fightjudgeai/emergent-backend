@@ -25,28 +25,30 @@ export default function JudgeLogin() {
 
     setLoading(true);
     
-    try {
-      // Store in localStorage (primary method)
-      localStorage.setItem('judgeProfile', JSON.stringify({
-        judgeId: judgeId.trim(),
-        judgeName: judgeName.trim(),
-        organization
-      }));
+    // Store in localStorage immediately (primary method)
+    localStorage.setItem('judgeProfile', JSON.stringify({
+      judgeId: judgeId.trim(),
+      judgeName: judgeName.trim(),
+      organization
+    }));
 
-      // Try to save to Firebase (optional - for profile tracking)
+    // Try to save to Firebase in background (optional - for profile tracking)
+    // Don't wait for this to complete
+    setTimeout(async () => {
       try {
         const profileRef = db.collection('judgeProfiles').doc(judgeId.trim());
-        const profileDoc = await profileRef.get();
+        const profileDoc = await Promise.race([
+          profileRef.get(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 2000))
+        ]);
 
         if (profileDoc.exists) {
-          // Existing judge - update last login
           await profileRef.update({
             lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
             judgeName: judgeName.trim(),
             organization
           });
         } else {
-          // New judge - create profile
           await profileRef.set({
             judgeId: judgeId.trim(),
             judgeName: judgeName.trim(),
@@ -60,17 +62,12 @@ export default function JudgeLogin() {
         }
       } catch (firebaseError) {
         console.warn('Firebase profile save failed (non-critical):', firebaseError);
-        // Continue anyway - localStorage is enough
       }
+    }, 0);
 
-      toast.success(`Welcome back, ${judgeName}!`);
-      navigate('/');
-    } catch (error) {
-      console.error('Error logging in:', error);
-      toast.error('Failed to log in');
-    } finally {
-      setLoading(false);
-    }
+    toast.success(`Welcome, ${judgeName}!`);
+    setLoading(false);
+    navigate('/');
   };
 
   return (
