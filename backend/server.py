@@ -554,6 +554,346 @@ async def calculate_score(request: ScoreRequest):
         logger.error(f"Error calculating score: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Shadow Judging Endpoints
+@api_router.post("/training-library/seed")
+async def seed_training_library():
+    """Seed the training library with sample historical rounds"""
+    try:
+        # Clear existing training rounds
+        await db.training_library.delete_many({})
+        
+        # Sample historical rounds
+        sample_rounds = [
+            {
+                "event": "UFC 299: O'Malley vs. Vera 2",
+                "fighters": "Dustin Poirier vs. Benoit Saint Denis",
+                "roundNumber": 2,
+                "summary": [
+                    "Poirier lands multiple hard combinations to the head",
+                    "Saint Denis attempts guillotine but Poirier escapes",
+                    "Poirier drops Saint Denis with a straight right",
+                    "Dominant striking throughout the round"
+                ],
+                "officialCard": "10-9"
+            },
+            {
+                "event": "UFC 300: Pereira vs. Hill",
+                "fighters": "Max Holloway vs. Justin Gaethje",
+                "roundNumber": 5,
+                "summary": [
+                    "Both fighters exchange in the pocket",
+                    "Holloway lands the final 10 seconds standing knockout",
+                    "Legendary finish at the buzzer",
+                    "Extreme violence with knockdown"
+                ],
+                "officialCard": "10-8"
+            },
+            {
+                "event": "UFC 296: Edwards vs. Covington",
+                "fighters": "Alexandre Pantoja vs. Brandon Royval",
+                "roundNumber": 1,
+                "summary": [
+                    "Pantoja secures takedown early",
+                    "Controls back for 3+ minutes",
+                    "Multiple submission attempts including RNC",
+                    "Royval survives but takes heavy damage"
+                ],
+                "officialCard": "10-8"
+            },
+            {
+                "event": "UFC 298: Volkanovski vs. Topuria",
+                "fighters": "Ian Garry vs. Geoff Neal",
+                "roundNumber": 3,
+                "summary": [
+                    "Even striking exchanges",
+                    "Both fighters land equal significant strikes",
+                    "No clear control or damage advantage",
+                    "Competitive round throughout"
+                ],
+                "officialCard": "10-10"
+            },
+            {
+                "event": "UFC 297: Strickland vs. Du Plessis",
+                "fighters": "Sean Strickland vs. Dricus Du Plessis",
+                "roundNumber": 2,
+                "summary": [
+                    "Du Plessis lands heavy shots early",
+                    "Strickland hurt badly in the first minute",
+                    "Du Plessis controls cage center",
+                    "Strickland recovers but loses round clearly"
+                ],
+                "officialCard": "10-9"
+            },
+            {
+                "event": "UFC 295: Prochazka vs. Pereira",
+                "fighters": "Jiri Prochazka vs. Alex Pereira",
+                "roundNumber": 1,
+                "summary": [
+                    "Early knockdown by Pereira",
+                    "Brutal ground and pound",
+                    "Prochazka survives but takes heavy damage",
+                    "Clear dominance by Pereira"
+                ],
+                "officialCard": "10-8"
+            },
+            {
+                "event": "UFC 294: Makhachev vs. Volkanovski 2",
+                "fighters": "Islam Makhachev vs. Alexander Volkanovski",
+                "roundNumber": 1,
+                "summary": [
+                    "Makhachev lands devastating head kick knockout",
+                    "Volkanovski unconscious",
+                    "Fight stopped in first round",
+                    "Near-finish level dominance"
+                ],
+                "officialCard": "10-7"
+            },
+            {
+                "event": "UFC 293: Adesanya vs. Strickland",
+                "fighters": "Israel Adesanya vs. Sean Strickland",
+                "roundNumber": 3,
+                "summary": [
+                    "Strickland pressures forward constantly",
+                    "Adesanya circling and countering",
+                    "Close striking numbers",
+                    "Could go either way"
+                ],
+                "officialCard": "10-9"
+            },
+            {
+                "event": "UFC 292: Sterling vs. O'Malley",
+                "fighters": "Aljamain Sterling vs. Sean O'Malley",
+                "roundNumber": 1,
+                "summary": [
+                    "O'Malley lands multiple hard right hands",
+                    "Sterling shoots for takedown unsuccessfully",
+                    "O'Malley controls distance and pace",
+                    "Clear striking advantage"
+                ],
+                "officialCard": "10-9"
+            },
+            {
+                "event": "UFC 291: Poirier vs. Gaethje 2",
+                "fighters": "Dustin Poirier vs. Justin Gaethje",
+                "roundNumber": 2,
+                "summary": [
+                    "Poirier drops Gaethje twice",
+                    "Heavy leg kicks throughout",
+                    "Gaethje survives but wobbled",
+                    "Dominant performance"
+                ],
+                "officialCard": "10-8"
+            },
+            {
+                "event": "UFC 290: Volkanovski vs. Rodriguez",
+                "fighters": "Brandon Moreno vs. Alexandre Pantoja",
+                "roundNumber": 4,
+                "summary": [
+                    "Pantoja secures rear naked choke",
+                    "Moreno defends for entire round",
+                    "Pantoja maintains back control 4+ minutes",
+                    "Extreme control dominance"
+                ],
+                "officialCard": "10-8"
+            },
+            {
+                "event": "UFC 289: Nunes vs. Aldana",
+                "fighters": "Charles Oliveira vs. Beneil Dariush",
+                "roundNumber": 1,
+                "summary": [
+                    "Oliveira drops Dariush early",
+                    "Ground and pound finishes fight",
+                    "Dariush unconscious from strikes",
+                    "Complete dominance"
+                ],
+                "officialCard": "10-7"
+            },
+            {
+                "event": "UFC 288: Sterling vs. Cejudo",
+                "fighters": "Aljamain Sterling vs. Henry Cejudo",
+                "roundNumber": 2,
+                "summary": [
+                    "Sterling controls pace with jab",
+                    "Cejudo struggles to close distance",
+                    "Even round with slight Sterling edge",
+                    "Close but clear winner"
+                ],
+                "officialCard": "10-9"
+            },
+            {
+                "event": "UFC 287: Pereira vs. Adesanya 2",
+                "fighters": "Alex Pereira vs. Israel Adesanya",
+                "roundNumber": 2,
+                "summary": [
+                    "Adesanya lands huge right hand",
+                    "Pereira dropped and hurt badly",
+                    "Ground and pound to finish",
+                    "Referee stops fight"
+                ],
+                "officialCard": "10-7"
+            },
+            {
+                "event": "UFC 286: Edwards vs. Usman 3",
+                "fighters": "Leon Edwards vs. Kamaru Usman",
+                "roundNumber": 1,
+                "summary": [
+                    "Usman pressures with wrestling",
+                    "Edwards defends takedowns well",
+                    "Even striking exchanges",
+                    "Competitive round"
+                ],
+                "officialCard": "10-10"
+            },
+            {
+                "event": "UFC 285: Jones vs. Gane",
+                "fighters": "Jon Jones vs. Ciryl Gane",
+                "roundNumber": 1,
+                "summary": [
+                    "Jones secures guillotine submission",
+                    "Gane taps quickly",
+                    "Dominant grappling",
+                    "Fight-ending submission"
+                ],
+                "officialCard": "10-8"
+            }
+        ]
+        
+        # Insert all sample rounds
+        training_rounds = []
+        for round_data in sample_rounds:
+            round_obj = TrainingRound(**round_data)
+            doc = round_obj.model_dump()
+            doc = prepare_for_mongo(doc)
+            training_rounds.append(doc)
+        
+        if training_rounds:
+            await db.training_library.insert_many(training_rounds)
+        
+        return {
+            "success": True,
+            "message": f"Seeded {len(training_rounds)} training rounds",
+            "count": len(training_rounds)
+        }
+    except Exception as e:
+        logger.error(f"Error seeding training library: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/training-library/rounds", response_model=List[TrainingRound])
+async def get_training_rounds():
+    """Get all available training rounds"""
+    try:
+        rounds = await db.training_library.find({}, {"_id": 0}).to_list(1000)
+        rounds = [parse_from_mongo(r) for r in rounds]
+        return rounds
+    except Exception as e:
+        logger.error(f"Error fetching training rounds: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/training-library/rounds", response_model=TrainingRound)
+async def create_training_round(round_data: TrainingRoundCreate):
+    """Create a new training round"""
+    try:
+        round_obj = TrainingRound(**round_data.model_dump())
+        doc = round_obj.model_dump()
+        doc = prepare_for_mongo(doc)
+        await db.training_library.insert_one(doc)
+        return round_obj
+    except Exception as e:
+        logger.error(f"Error creating training round: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/training-library/submit-score", response_model=JudgePerformance)
+async def submit_judge_score(performance: JudgePerformanceCreate):
+    """Submit a judge's score and track performance"""
+    try:
+        perf_obj = JudgePerformance(**performance.model_dump())
+        doc = perf_obj.model_dump()
+        doc = prepare_for_mongo(doc)
+        await db.judge_performance.insert_one(doc)
+        return perf_obj
+    except Exception as e:
+        logger.error(f"Error submitting judge score: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/training-library/judge-stats/{judgeId}", response_model=JudgeStats)
+async def get_judge_stats(judgeId: str):
+    """Get calibration statistics for a specific judge"""
+    try:
+        performances = await db.judge_performance.find(
+            {"judgeId": judgeId},
+            {"_id": 0}
+        ).to_list(1000)
+        
+        if not performances:
+            raise HTTPException(status_code=404, detail="No performance data found for this judge")
+        
+        # Calculate statistics
+        total_attempts = len(performances)
+        avg_accuracy = sum(p['accuracy'] for p in performances) / total_attempts
+        avg_mae = sum(p['mae'] for p in performances) / total_attempts
+        sensitivity108_count = sum(1 for p in performances if p['sensitivity108'])
+        sensitivity108_rate = sensitivity108_count / total_attempts
+        perfect_matches = sum(1 for p in performances if p['match'])
+        
+        judge_name = performances[0]['judgeName'] if performances else "Unknown"
+        
+        return JudgeStats(
+            judgeId=judgeId,
+            judgeName=judge_name,
+            totalAttempts=total_attempts,
+            averageAccuracy=round(avg_accuracy, 2),
+            averageMAE=round(avg_mae, 2),
+            sensitivity108Rate=round(sensitivity108_rate * 100, 2),
+            perfectMatches=perfect_matches
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching judge stats: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/training-library/leaderboard")
+async def get_leaderboard():
+    """Get top judges by accuracy"""
+    try:
+        # Aggregate judge performances
+        pipeline = [
+            {
+                "$group": {
+                    "_id": "$judgeId",
+                    "judgeName": {"$first": "$judgeName"},
+                    "totalAttempts": {"$sum": 1},
+                    "avgAccuracy": {"$avg": "$accuracy"},
+                    "avgMAE": {"$avg": "$mae"},
+                    "perfectMatches": {
+                        "$sum": {"$cond": [{"$eq": ["$match", True]}, 1, 0]}
+                    }
+                }
+            },
+            {"$sort": {"avgAccuracy": -1}},
+            {"$limit": 10}
+        ]
+        
+        leaderboard = await db.judge_performance.aggregate(pipeline).to_list(10)
+        
+        # Format results
+        formatted_leaderboard = [
+            {
+                "judgeId": entry["_id"],
+                "judgeName": entry["judgeName"],
+                "totalAttempts": entry["totalAttempts"],
+                "averageAccuracy": round(entry["avgAccuracy"], 2),
+                "averageMAE": round(entry["avgMAE"], 2),
+                "perfectMatches": entry["perfectMatches"]
+            }
+            for entry in leaderboard
+        ]
+        
+        return {"leaderboard": formatted_leaderboard}
+    except Exception as e:
+        logger.error(f"Error fetching leaderboard: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
