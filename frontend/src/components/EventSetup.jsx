@@ -124,6 +124,13 @@ export default function EventSetup() {
               <GraduationCap className="mr-2 h-4 w-4" />
               Shadow Judging Training
             </Button>
+            <Button
+              onClick={() => navigate('/audit-logs')}
+              className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white"
+            >
+              <Shield className="mr-2 h-4 w-4" />
+              Audit Logs
+            </Button>
           </div>
           <div className="mx-auto w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
             <Swords className="w-10 h-10 text-white" />
