@@ -795,6 +795,15 @@ async def calculate_score(request: ScoreRequest):
             reasons=reasons
         )
         
+        # Calculate uncertainty bands
+        uncertainty_level, uncertainty_factors = calculate_uncertainty(
+            gap, 
+            reasons.tie_breaker, 
+            len(request.events)
+        )
+        result.uncertainty = uncertainty_level
+        result.uncertainty_factors = uncertainty_factors
+        
         # Automatically detect and flag discrepancies
         await detect_and_flag_discrepancies(request.bout_id, request.round_num, result, request.events)
         
