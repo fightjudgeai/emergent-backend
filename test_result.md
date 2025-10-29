@@ -192,6 +192,18 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ TESTED: GET /api/training-library/leaderboard returns top judges ranked by accuracy in descending order. Tested with 3 judges, proper sorting verified. Response structure includes judgeId, judgeName, totalAttempts, averageAccuracy, averageMAE, perfectMatches."
+  
+  - task: "Security & Audit - Backend APIs"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented audit log system with cryptographic signatures (SHA-256), WORM compliance, and 4 API endpoints: POST /api/audit/log (create audit log), GET /api/audit/logs (retrieve with filters), GET /api/audit/stats (aggregate statistics), GET /api/audit/verify/:id (verify signature), GET /api/audit/export (export all logs). Added audit logging to calculate-score endpoint."
 
 frontend:
   - task: "Shadow Judging Mode - UI Component"
