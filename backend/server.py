@@ -506,7 +506,8 @@ class ScoringEngine:
                 gates_loser=gates_b,
                 to_108=False,
                 to_107=False,
-                draw=True
+                draw=True,
+                tie_breaker=None
             ))
         
         # Determine winner and loser
