@@ -102,15 +102,16 @@ class SyncManager {
 
       for (const event of unsyncedEvents) {
         try {
-          // Add to Firebase
-          await db.collection('bouts').doc(event.boutId)
-            .collection('rounds').doc(`round_${event.roundNum}`)
-            .collection('events').add({
-              fighter: event.fighter,
-              event_type: event.event_type,
-              timestamp: event.timestamp,
-              metadata: event.metadata || {}
-            });
+          // Add to flat events collection (matching JudgePanel structure)
+          await db.collection('events').add({
+            boutId: event.boutId,
+            round: event.roundNum,
+            fighter: event.fighter,
+            event_type: event.event_type,
+            timestamp: event.timestamp,
+            metadata: event.metadata || {},
+            createdAt: new Date().toISOString()
+          });
 
           // Mark as synced
           await offlineDB.markAsSynced(event.id);
