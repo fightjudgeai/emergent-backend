@@ -110,13 +110,15 @@ export default function ShadowJudgingMode() {
     // Save to backend
     try {
       const judgeProfile = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
+      const judgeId = judgeProfile.id || judgeProfile.judgeId || 'anonymous';
+      const judgeName = judgeProfile.name || judgeProfile.judgeName || 'Anonymous Judge';
       
       await fetch(`${BACKEND_URL}/api/training-library/submit-score`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          judgeId: judgeProfile.id || 'anonymous',
-          judgeName: judgeProfile.name || 'Anonymous Judge',
+          judgeId: judgeId,
+          judgeName: judgeName,
           roundId: selectedRound.id,
           myScore: card,
           officialScore: selectedRound.officialCard,
