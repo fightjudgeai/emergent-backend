@@ -384,6 +384,18 @@ export default function OperatorPanel() {
     { label: 'Reversal', event: 'Reversal' }
   ];
 
+  // Loading state
+  if (!bout) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0b] flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-gray-400 text-xl mb-2">Loading fight data...</div>
+          <div className="text-gray-500 text-sm">Please wait</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#0a0a0b] p-4">
       {/* Header */}
