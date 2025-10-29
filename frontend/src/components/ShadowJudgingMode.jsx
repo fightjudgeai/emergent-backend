@@ -90,9 +90,36 @@ export default function ShadowJudgingMode() {
     setCalibrationScore(null);
   };
 
-  const submitMyScore = (card) => {
+  const submitMyScore = async (card) => {
     setMyScore(card);
-    calculateCalibration(card);
+    const calibration = calculateCalibration(card);
+    setCalibrationScore(calibration);
+    
+    // Save to backend
+    try {
+      const judgeProfile = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
+      
+      await fetch(`${BACKEND_URL}/api/training-library/submit-score`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          judgeId: judgeProfile.id || 'anonymous',
+          judgeName: judgeProfile.name || 'Anonymous Judge',
+          roundId: selectedRound.id,
+          myScore: card,
+          officialScore: selectedRound.officialCard,
+          mae: calibration.mae,
+          sensitivity108: calibration.sensitivity108,
+          accuracy: calibration.accuracy,
+          match: calibration.match
+        })
+      });
+      
+      // Reload stats after submission
+      await loadJudgeStats();
+    } catch (error) {
+      console.error('Error saving judge performance:', error);
+    }
   };
 
   const calculateCalibration = (myCard) => {
