@@ -34,10 +34,9 @@ export default function JudgeLogin() {
 
     toast.success(`Welcome, ${judgeName}!`);
     
-    // Navigate after a short delay
+    // Use window.location for more reliable navigation
     setTimeout(() => {
-      setLoading(false);
-      navigate('/');
+      window.location.href = '/';
     }, 500);
   };
 
