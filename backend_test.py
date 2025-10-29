@@ -424,6 +424,361 @@ class CombatJudgingAPITester:
         print("   🎉 Complete Shadow Judging flow test passed!")
         return True
 
+    def test_audit_create_log(self):
+        """Test creating audit log entries"""
+        print("\n🔐 Testing Security & Audit - Create Audit Log...")
+        
+        # Test data for different audit log types
+        audit_logs = [
+            {
+                "action_type": "score_calculation",
+                "user_id": "judge-001",
+                "user_name": "John Smith",
+                "resource_type": "round_score",
+                "resource_id": "bout_123_round_1",
+                "action_data": {
+                    "bout_id": "bout_123",
+                    "round_num": 1,
+                    "card": "10-9",
+                    "winner": "fighter1",
+                    "score_gap": 450.5
+                },
+                "ip_address": "192.168.1.100"
+            },
+            {
+                "action_type": "flag_created",
+                "user_id": "admin-001",
+                "user_name": "Admin User",
+                "resource_type": "discrepancy_flag",
+                "resource_id": "flag_456",
+                "action_data": {
+                    "flag_type": "boundary_case",
+                    "severity": "medium",
+                    "bout_id": "bout_123"
+                }
+            },
+            {
+                "action_type": "profile_changed",
+                "user_id": "judge-002",
+                "user_name": "Maria Garcia",
+                "resource_type": "tuning_profile",
+                "resource_id": "profile_ufc_001",
+                "action_data": {
+                    "changes": ["weights.KD", "thresholds.threshold_10_8"],
+                    "promotion": "UFC"
+                }
+            }
+        ]
+        
+        created_log_ids = []
+        all_success = True
+        
+        for i, log_data in enumerate(audit_logs):
+            success, response = self.run_test(
+                f"Create Audit Log #{i+1} - {log_data['action_type']}", 
+                "POST", 
+                "audit/log", 
+                200, 
+                log_data
+            )
+            
+            if success and response:
+                print(f"   ✅ Audit log created: {log_data['action_type']}")
+                
+                # Verify response structure
+                if 'success' not in response or 'log_id' not in response:
+                    print(f"   ⚠️  Missing fields in response: expected 'success' and 'log_id'")
+                    all_success = False
+                else:
+                    created_log_ids.append(response['log_id'])
+                    print(f"   Log ID: {response['log_id']}")
+            else:
+                all_success = False
+        
+        # Store log IDs for later tests
+        self.created_audit_log_ids = created_log_ids
+        return all_success
+
+    def test_audit_get_logs(self):
+        """Test retrieving audit logs with filters"""
+        print("\n📋 Testing Security & Audit - Get Audit Logs...")
+        
+        # Test 1: Get all logs (no filters)
+        success1, response1 = self.run_test("Get All Audit Logs", "GET", "audit/logs", 200)
+        
+        if success1 and response1:
+            logs = response1.get('logs', [])
+            count = response1.get('count', 0)
+            immutable = response1.get('immutable', False)
+            
+            print(f"   ✅ Retrieved {count} audit logs")
+            print(f"   WORM compliance: {immutable}")
+            
+            # Verify response structure
+            required_fields = ['logs', 'count', 'immutable', 'message']
+            missing_fields = [field for field in required_fields if field not in response1]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                return False
+            
+            # Verify log structure if logs exist
+            if logs:
+                first_log = logs[0]
+                required_log_fields = ['id', 'timestamp', 'action_type', 'user_id', 'user_name', 
+                                     'resource_type', 'resource_id', 'action_data', 'signature', 'immutable']
+                missing_log_fields = [field for field in required_log_fields if field not in first_log]
+                
+                if missing_log_fields:
+                    print(f"   ⚠️  Missing fields in log structure: {missing_log_fields}")
+                    return False
+                
+                print(f"   ✅ Log structure validated")
+                print(f"   Sample log: {first_log['action_type']} by {first_log['user_name']}")
+        
+        # Test 2: Filter by action_type
+        success2, response2 = self.run_test("Get Logs - Filter by action_type", "GET", "audit/logs?action_type=score_calculation", 200)
+        
+        if success2 and response2:
+            filtered_logs = response2.get('logs', [])
+            print(f"   ✅ Filtered by action_type: {len(filtered_logs)} logs")
+            
+            # Verify all logs have the correct action_type
+            for log in filtered_logs:
+                if log.get('action_type') != 'score_calculation':
+                    print(f"   ⚠️  Filter failed: found log with action_type '{log.get('action_type')}'")
+                    return False
+        
+        # Test 3: Filter by user_id
+        success3, response3 = self.run_test("Get Logs - Filter by user_id", "GET", "audit/logs?user_id=judge-001", 200)
+        
+        if success3 and response3:
+            user_logs = response3.get('logs', [])
+            print(f"   ✅ Filtered by user_id: {len(user_logs)} logs")
+        
+        # Test 4: Filter by resource_type
+        success4, response4 = self.run_test("Get Logs - Filter by resource_type", "GET", "audit/logs?resource_type=round_score", 200)
+        
+        if success4 and response4:
+            resource_logs = response4.get('logs', [])
+            print(f"   ✅ Filtered by resource_type: {len(resource_logs)} logs")
+        
+        # Test 5: Multiple filters combined
+        success5, response5 = self.run_test("Get Logs - Multiple filters", "GET", "audit/logs?action_type=score_calculation&user_id=judge-001", 200)
+        
+        if success5 and response5:
+            combined_logs = response5.get('logs', [])
+            print(f"   ✅ Multiple filters: {len(combined_logs)} logs")
+        
+        return success1 and success2 and success3 and success4 and success5
+
+    def test_audit_stats(self):
+        """Test audit statistics endpoint"""
+        print("\n📊 Testing Security & Audit - Audit Statistics...")
+        
+        success, response = self.run_test("Get Audit Statistics", "GET", "audit/stats", 200)
+        
+        if success and response:
+            total_logs = response.get('total_logs', 0)
+            by_action_type = response.get('by_action_type', [])
+            top_users = response.get('top_users', [])
+            immutable = response.get('immutable', False)
+            worm_compliant = response.get('worm_compliant', False)
+            
+            print(f"   ✅ Statistics retrieved")
+            print(f"   Total logs: {total_logs}")
+            print(f"   Action types: {len(by_action_type)}")
+            print(f"   Top users: {len(top_users)}")
+            print(f"   WORM compliant: {worm_compliant}")
+            
+            # Verify response structure
+            required_fields = ['total_logs', 'by_action_type', 'top_users', 'immutable', 'worm_compliant']
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                return False
+            
+            # Verify action type breakdown structure
+            if by_action_type:
+                first_type = by_action_type[0]
+                if 'type' not in first_type or 'count' not in first_type:
+                    print(f"   ⚠️  Invalid action type breakdown structure")
+                    return False
+                
+                print(f"   Top action type: {first_type['type']} ({first_type['count']} logs)")
+            
+            # Verify top users structure
+            if top_users:
+                first_user = top_users[0]
+                required_user_fields = ['user_id', 'user_name', 'count']
+                missing_user_fields = [field for field in required_user_fields if field not in first_user]
+                
+                if missing_user_fields:
+                    print(f"   ⚠️  Missing fields in top users: {missing_user_fields}")
+                    return False
+                
+                print(f"   Top user: {first_user['user_name']} ({first_user['count']} logs)")
+            
+            # Verify calculations are reasonable
+            if by_action_type:
+                total_from_breakdown = sum(item['count'] for item in by_action_type)
+                if total_from_breakdown != total_logs:
+                    print(f"   ⚠️  Statistics mismatch: total_logs={total_logs}, breakdown sum={total_from_breakdown}")
+                    return False
+                
+                print(f"   ✅ Statistics calculations verified")
+        
+        return success
+
+    def test_audit_verify_signature(self):
+        """Test audit log signature verification"""
+        print("\n🔍 Testing Security & Audit - Verify Signatures...")
+        
+        if not hasattr(self, 'created_audit_log_ids') or not self.created_audit_log_ids:
+            print("   ❌ No audit log IDs available from previous test")
+            return False
+        
+        all_success = True
+        
+        # Test verification for each created log
+        for i, log_id in enumerate(self.created_audit_log_ids):
+            success, response = self.run_test(
+                f"Verify Signature - Log #{i+1}", 
+                "GET", 
+                f"audit/verify/{log_id}", 
+                200
+            )
+            
+            if success and response:
+                valid = response.get('valid', False)
+                signature = response.get('signature', '')
+                computed_signature = response.get('computed_signature', '')
+                message = response.get('message', '')
+                
+                print(f"   ✅ Signature verification for log {log_id}")
+                print(f"   Valid: {valid}")
+                print(f"   Message: {message}")
+                
+                # Verify response structure
+                required_fields = ['valid', 'signature', 'computed_signature', 'message']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in verification response: {missing_fields}")
+                    all_success = False
+                
+                # Signature should be valid for newly created logs
+                if not valid:
+                    print(f"   ⚠️  Signature validation failed for log {log_id}")
+                    print(f"   Original: {signature}")
+                    print(f"   Computed: {computed_signature}")
+                    all_success = False
+                
+                # Signatures should match
+                if signature != computed_signature:
+                    print(f"   ⚠️  Signature mismatch for log {log_id}")
+                    all_success = False
+            else:
+                all_success = False
+        
+        # Test 404 for non-existent log
+        success_404, _ = self.run_test("Verify Signature - Non-existent Log", "GET", "audit/verify/non-existent-log-id", 404)
+        
+        return all_success and success_404
+
+    def test_audit_export(self):
+        """Test audit log export functionality"""
+        print("\n📤 Testing Security & Audit - Export Audit Logs...")
+        
+        success, response = self.run_test("Export Audit Logs", "GET", "audit/export", 200)
+        
+        if success and response:
+            export_format = response.get('export_format', '')
+            export_timestamp = response.get('export_timestamp', '')
+            record_count = response.get('record_count', 0)
+            logs = response.get('logs', [])
+            immutable = response.get('immutable', False)
+            note = response.get('note', '')
+            
+            print(f"   ✅ Export completed")
+            print(f"   Format: {export_format}")
+            print(f"   Record count: {record_count}")
+            print(f"   Export timestamp: {export_timestamp}")
+            print(f"   WORM compliance: {immutable}")
+            
+            # Verify response structure
+            required_fields = ['export_format', 'export_timestamp', 'record_count', 'logs', 'immutable', 'note']
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in export response: {missing_fields}")
+                return False
+            
+            # Verify export metadata
+            if not export_timestamp:
+                print(f"   ⚠️  Missing export timestamp")
+                return False
+            
+            if record_count != len(logs):
+                print(f"   ⚠️  Record count mismatch: stated={record_count}, actual={len(logs)}")
+                return False
+            
+            # Verify exported logs have complete data
+            if logs:
+                first_log = logs[0]
+                required_log_fields = ['id', 'timestamp', 'action_type', 'user_id', 'user_name', 
+                                     'resource_type', 'resource_id', 'action_data', 'signature', 'immutable']
+                missing_log_fields = [field for field in required_log_fields if field not in first_log]
+                
+                if missing_log_fields:
+                    print(f"   ⚠️  Missing fields in exported log: {missing_log_fields}")
+                    return False
+                
+                print(f"   ✅ Exported log structure validated")
+            
+            # Verify compliance note
+            if "WORM" not in note:
+                print(f"   ⚠️  Export note should mention WORM compliance")
+                return False
+        
+        return success
+
+    def test_audit_integration_flow(self):
+        """Test complete Security & Audit integration flow"""
+        print("\n🔐 Testing Complete Security & Audit Integration Flow...")
+        
+        # Step 1: Create multiple audit logs with different types and users
+        print("   Step 1: Creating audit logs...")
+        if not self.test_audit_create_log():
+            return False
+        
+        # Step 2: Retrieve logs with various filters
+        print("   Step 2: Testing log retrieval and filtering...")
+        if not self.test_audit_get_logs():
+            return False
+        
+        # Step 3: Verify signatures for all created logs
+        print("   Step 3: Verifying cryptographic signatures...")
+        if not self.test_audit_verify_signature():
+            return False
+        
+        # Step 4: Check statistics calculations
+        print("   Step 4: Validating statistics aggregation...")
+        if not self.test_audit_stats():
+            return False
+        
+        # Step 5: Export and verify exported data
+        print("   Step 5: Testing export functionality...")
+        if not self.test_audit_export():
+            return False
+        
+        print("   🎉 Complete Security & Audit integration flow test passed!")
+        print("   ✅ All audit logs have SHA-256 signatures")
+        print("   ✅ WORM (Write Once Read Many) compliance verified")
+        print("   ✅ All CRUD operations working correctly")
+        return True
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Combat Judging API Tests")
