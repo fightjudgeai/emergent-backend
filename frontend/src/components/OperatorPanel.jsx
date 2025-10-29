@@ -118,7 +118,17 @@ export default function OperatorPanel() {
 
   const logEvent = async (eventType, metadata = {}) => {
     try {
-      if (!bout) return;
+      if (!bout) {
+        console.error('Bout not loaded, cannot log event');
+        toast.error('Bout not loaded yet, please wait');
+        return;
+      }
+
+      if (!bout.currentRound) {
+        console.error('No current round set');
+        toast.error('No active round');
+        return;
+      }
       
       const currentTime = controlTimers[selectedFighter].time;
       const eventData = {
@@ -128,6 +138,8 @@ export default function OperatorPanel() {
         metadata
       };
 
+      console.log('Logging event:', eventType, 'for', selectedFighter, 'in round', bout.currentRound);
+      
       // Use sync manager to handle online/offline
       await syncManager.addEvent(boutId, bout.currentRound, eventData);
       
@@ -138,7 +150,7 @@ export default function OperatorPanel() {
       toast.success(`${eventType} logged for ${fighterName}`);
     } catch (error) {
       console.error('Error logging event:', error);
-      toast.error('Failed to log event');
+      toast.error(`Failed to log event: ${error.message}`);
     }
   };
 
