@@ -442,6 +442,9 @@ class CombatJudgingAPITester:
         # Test edge cases
         self.test_edge_cases()
         
+        # Test Shadow Judging Training Mode (NEW)
+        self.test_shadow_judging_complete_flow()
+        
         # Print summary
         print("\n" + "=" * 60)
         print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
