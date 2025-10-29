@@ -292,7 +292,7 @@ class AuditLogCreate(BaseModel):
     resource_type: str
     resource_id: str
     action_data: dict = {}
-    ip_address: str = None
+    ip_address: Optional[str] = None
 
 class SignatureVerification(BaseModel):
     valid: bool
