@@ -142,6 +142,47 @@ class JudgeStats(BaseModel):
     sensitivity108Rate: float
     perfectMatches: int
 
+# Fighter Memory Log Models
+class FighterTendencies(BaseModel):
+    striking_style: dict  # {"head": 0.6, "body": 0.3, "leg": 0.1}
+    grappling_rate: float  # 0-1 (0 = pure striker, 1 = pure grappler)
+    finish_threat_rate: float  # Rate of rounds with finish threats
+    control_preference: float  # 0-1 (preference for control vs striking)
+    aggression_level: float  # 0-10 scale
+
+class FighterStats(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    fighter_name: str
+    total_rounds: int = 0
+    total_fights: int = 0
+    # Offensive stats (per round averages)
+    avg_kd_per_round: float = 0.0
+    avg_ss_per_round: float = 0.0
+    avg_td_per_round: float = 0.0
+    avg_sub_attempts: float = 0.0
+    avg_passes: float = 0.0
+    avg_reversals: float = 0.0
+    avg_control_time: float = 0.0  # seconds
+    # Performance stats
+    avg_round_score: float = 0.0
+    rounds_won: int = 0
+    rounds_lost: int = 0
+    rounds_drawn: int = 0
+    rate_10_8: float = 0.0  # Rate of 10-8 rounds achieved
+    rate_10_7: float = 0.0  # Rate of 10-7 rounds achieved
+    # Tendencies
+    tendencies: FighterTendencies = None
+    last_updated: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class FighterStatsUpdate(BaseModel):
+    fighter_name: str
+    round_events: List[dict]  # List of events from the round
+    round_score: float
+    round_result: str  # "won", "lost", "draw"
+    control_time: float
+    round_card: str  # "10-9", "10-8", etc.
+
 # Scoring Engine
 class ScoringEngine:
     @staticmethod
