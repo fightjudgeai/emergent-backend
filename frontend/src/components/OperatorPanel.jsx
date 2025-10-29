@@ -25,9 +25,7 @@ export default function OperatorPanel() {
   const [showKdDialog, setShowKdDialog] = useState(false);
   const [kdSeverity, setKdSeverity] = useState('flash');
   const timerRef = useRef(null);
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const [offlineQueue, setOfflineQueue] = useState(new OfflineQueueManager());
-  const [queuedEvents, setQueuedEvents] = useState(0);
+  const [syncStatus, setSyncStatus] = useState({ isOnline: true, isSyncing: false, queueCount: 0 });
 
   useEffect(() => {
     loadBout();
