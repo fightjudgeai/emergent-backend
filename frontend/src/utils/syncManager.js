@@ -41,12 +41,13 @@ class SyncManager {
   async addEvent(boutId, roundNum, eventData) {
     if (this.isOnline) {
       try {
-        // Try to add directly to Firebase
-        await db.collection('bouts').doc(boutId).collection('rounds')
-          .doc(`round_${roundNum}`).collection('events').add({
-            ...eventData,
-            timestamp: Date.now()
-          });
+        // Write to flat events collection (matching JudgePanel read structure)
+        await db.collection('events').add({
+          boutId,
+          round: roundNum,
+          ...eventData,
+          createdAt: new Date().toISOString()
+        });
         
         console.log('Event added to Firebase directly');
         return { success: true, mode: 'online' };
