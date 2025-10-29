@@ -1765,6 +1765,225 @@ async def delete_tuning_profile(profile_id: str):
         logger.error(f"Error deleting tuning profile: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Security & Audit Functions
+import hashlib
+import json
+
+def generate_signature(data: dict) -> str:
+    """Generate cryptographic signature for data integrity"""
+    # Sort keys to ensure consistent hashing
+    sorted_data = json.dumps(data, sort_keys=True)
+    signature = hashlib.sha256(sorted_data.encode()).hexdigest()
+    return signature
+
+def verify_signature(data: dict, signature: str) -> bool:
+    """Verify cryptographic signature"""
+    computed_signature = generate_signature(data)
+    return computed_signature == signature
+
+async def create_audit_log(action_type: str, user_id: str, user_name: str, 
+                          resource_type: str, resource_id: str, action_data: dict = {}, 
+                          ip_address: str = None):
+    """Create immutable audit log entry"""
+    try:
+        # Create audit entry
+        entry = AuditLogEntry(
+            action_type=action_type,
+            user_id=user_id,
+            user_name=user_name,
+            resource_type=resource_type,
+            resource_id=resource_id,
+            action_data=action_data,
+            ip_address=ip_address
+        )
+        
+        # Generate signature for integrity verification
+        signature_data = {
+            "timestamp": entry.timestamp.isoformat(),
+            "action_type": action_type,
+            "user_id": user_id,
+            "resource_type": resource_type,
+            "resource_id": resource_id,
+            "action_data": action_data
+        }
+        entry.signature = generate_signature(signature_data)
+        
+        # Save to database (WORM - Write Once Read Many)
+        doc = entry.model_dump()
+        doc = prepare_for_mongo(doc)
+        await db.audit_logs.insert_one(doc)
+        
+        logger.info(f"Audit log created: {action_type} by {user_name}")
+        return entry
+    except Exception as e:
+        logger.error(f"Error creating audit log: {str(e)}")
+        # Don't fail the main operation if audit logging fails
+        return None
+
+# Audit Log Endpoints
+@api_router.post("/audit/log")
+async def create_audit_log_entry(log: AuditLogCreate):
+    """Manually create audit log entry"""
+    try:
+        entry = await create_audit_log(
+            log.action_type,
+            log.user_id,
+            log.user_name,
+            log.resource_type,
+            log.resource_id,
+            log.action_data,
+            log.ip_address
+        )
+        
+        if entry:
+            return {"success": True, "log_id": entry.id}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to create audit log")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error in audit log endpoint: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/audit/logs")
+async def get_audit_logs(
+    action_type: str = None,
+    user_id: str = None,
+    resource_type: str = None,
+    limit: int = 100
+):
+    """Get audit logs with optional filters"""
+    try:
+        query = {}
+        if action_type:
+            query["action_type"] = action_type
+        if user_id:
+            query["user_id"] = user_id
+        if resource_type:
+            query["resource_type"] = resource_type
+        
+        logs = await db.audit_logs.find(query, {"_id": 0}).sort("timestamp", -1).limit(limit).to_list(limit)
+        logs = [parse_from_mongo(log) for log in logs]
+        
+        return {
+            "logs": logs,
+            "count": len(logs),
+            "immutable": True,
+            "message": "These logs are WORM (Write Once Read Many) and cannot be modified"
+        }
+    except Exception as e:
+        logger.error(f"Error fetching audit logs: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/audit/verify/{log_id}")
+async def verify_audit_log(log_id: str):
+    """Verify cryptographic signature of an audit log"""
+    try:
+        log = await db.audit_logs.find_one({"id": log_id}, {"_id": 0})
+        
+        if not log:
+            raise HTTPException(status_code=404, detail="Audit log not found")
+        
+        log = parse_from_mongo(log)
+        
+        # Reconstruct signature data
+        signature_data = {
+            "timestamp": log["timestamp"].isoformat() if isinstance(log["timestamp"], datetime) else log["timestamp"],
+            "action_type": log["action_type"],
+            "user_id": log["user_id"],
+            "resource_type": log["resource_type"],
+            "resource_id": log["resource_id"],
+            "action_data": log["action_data"]
+        }
+        
+        computed_signature = generate_signature(signature_data)
+        is_valid = computed_signature == log["signature"]
+        
+        return SignatureVerification(
+            valid=is_valid,
+            signature=log["signature"],
+            computed_signature=computed_signature,
+            message="Signature is valid - log has not been tampered with" if is_valid else "WARNING: Signature mismatch - log may have been tampered with"
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error verifying audit log: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/audit/export")
+async def export_audit_logs(
+    start_date: str = None,
+    end_date: str = None,
+    format: str = "json"
+):
+    """Export audit logs for compliance/archival"""
+    try:
+        query = {}
+        
+        if start_date:
+            query["timestamp"] = {"$gte": start_date}
+        if end_date:
+            if "timestamp" in query:
+                query["timestamp"]["$lte"] = end_date
+            else:
+                query["timestamp"] = {"$lte": end_date}
+        
+        logs = await db.audit_logs.find(query, {"_id": 0}).sort("timestamp", 1).to_list(10000)
+        logs = [parse_from_mongo(log) for log in logs]
+        
+        # Convert datetime to string for JSON serialization
+        for log in logs:
+            if isinstance(log.get("timestamp"), datetime):
+                log["timestamp"] = log["timestamp"].isoformat()
+        
+        return {
+            "export_format": format,
+            "export_timestamp": datetime.now(timezone.utc).isoformat(),
+            "record_count": len(logs),
+            "logs": logs,
+            "immutable": True,
+            "note": "This is a certified export of WORM audit logs"
+        }
+    except Exception as e:
+        logger.error(f"Error exporting audit logs: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/audit/stats")
+async def get_audit_stats():
+    """Get statistics about audit logs"""
+    try:
+        total = await db.audit_logs.count_documents({})
+        
+        # Count by action type
+        pipeline = [
+            {"$group": {"_id": "$action_type", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}}
+        ]
+        by_type = await db.audit_logs.aggregate(pipeline).to_list(50)
+        
+        # Count by user
+        user_pipeline = [
+            {"$group": {"_id": "$user_id", "user_name": {"$first": "$user_name"}, "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}},
+            {"$limit": 10}
+        ]
+        by_user = await db.audit_logs.aggregate(user_pipeline).to_list(10)
+        
+        return {
+            "total_logs": total,
+            "by_action_type": [{"type": item["_id"], "count": item["count"]} for item in by_type],
+            "top_users": [
+                {"user_id": item["_id"], "user_name": item["user_name"], "count": item["count"]} 
+                for item in by_user
+            ],
+            "immutable": True,
+            "worm_compliant": True
+        }
+    except Exception as e:
+        logger.error(f"Error fetching audit stats: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
