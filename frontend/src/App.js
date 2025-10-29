@@ -11,6 +11,7 @@ import ShadowJudgingMode from "@/components/ShadowJudgingMode";
 import ReviewDashboard from "@/components/ReviewDashboard";
 import TuningProfileManager from "@/components/TuningProfileManager";
 import AccessibilitySettings from "@/components/AccessibilitySettings";
+import AuditLogViewer from "@/components/AuditLogViewer";
 
 function App() {
   // Check if judge is logged in
