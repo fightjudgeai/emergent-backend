@@ -796,7 +796,7 @@ async def calculate_score(request: ScoreRequest):
         )
         
         # Automatically detect and flag discrepancies
-        await detect_and_flag_discrepancies(request.bout_id, request.round_num, result, events_data)
+        await detect_and_flag_discrepancies(request.bout_id, request.round_num, result, request.events)
         
         return result
         
