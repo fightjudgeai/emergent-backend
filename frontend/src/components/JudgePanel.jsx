@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 import { Shield, Check, TrendingUp, ArrowLeft, SkipForward } from 'lucide-react';
+import ExplainabilityCard from '@/components/ExplainabilityCard';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
