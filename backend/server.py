@@ -737,6 +737,9 @@ async def calculate_score(request: ScoreRequest):
             reasons=reasons
         )
         
+        # Automatically detect and flag discrepancies
+        await detect_and_flag_discrepancies(request.bout_id, request.round_num, result, events_data)
+        
         return result
         
     except Exception as e:
