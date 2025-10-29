@@ -24,38 +24,44 @@ export default function JudgeLogin() {
     }
 
     setLoading(true);
+    
     try {
-      // Create or update judge profile
-      const profileRef = db.collection('judgeProfiles').doc(judgeId.trim());
-      const profileDoc = await profileRef.get();
-
-      if (profileDoc.exists) {
-        // Existing judge - update last login
-        await profileRef.update({
-          lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-          judgeName: judgeName.trim(),
-          organization
-        });
-      } else {
-        // New judge - create profile
-        await profileRef.set({
-          judgeId: judgeId.trim(),
-          judgeName: judgeName.trim(),
-          organization,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-          totalRoundsScored: 0,
-          totalEventsScored: 0,
-          certifications: []
-        });
-      }
-
-      // Store in localStorage
+      // Store in localStorage (primary method)
       localStorage.setItem('judgeProfile', JSON.stringify({
         judgeId: judgeId.trim(),
         judgeName: judgeName.trim(),
         organization
       }));
+
+      // Try to save to Firebase (optional - for profile tracking)
+      try {
+        const profileRef = db.collection('judgeProfiles').doc(judgeId.trim());
+        const profileDoc = await profileRef.get();
+
+        if (profileDoc.exists) {
+          // Existing judge - update last login
+          await profileRef.update({
+            lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+            judgeName: judgeName.trim(),
+            organization
+          });
+        } else {
+          // New judge - create profile
+          await profileRef.set({
+            judgeId: judgeId.trim(),
+            judgeName: judgeName.trim(),
+            organization,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+            totalRoundsScored: 0,
+            totalEventsScored: 0,
+            certifications: []
+          });
+        }
+      } catch (firebaseError) {
+        console.warn('Firebase profile save failed (non-critical):', firebaseError);
+        // Continue anyway - localStorage is enough
+      }
 
       toast.success(`Welcome back, ${judgeName}!`);
       navigate('/');
