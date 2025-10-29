@@ -104,9 +104,9 @@
 
 user_problem_statement: |
   Implement advanced features for combat sports judging tool in order:
-  1. Shadow-Judging/Training Mode - Complete with metrics tracking, hidden official cards, calibration scoring
-  2. Offline-First + Sync - Full IndexedDB queue, reconciliation logic, conflict resolution
-  3. Explainability Cards - Detailed "Why 10-8?" breakdowns with event clips/timestamps
+  1. Shadow-Judging/Training Mode - Complete with metrics tracking, hidden official cards, calibration scoring ✅
+  2. Offline-First + Sync - Full IndexedDB queue, reconciliation logic, conflict resolution ✅
+  3. Explainability Cards - Detailed "Why 10-8?" breakdowns with event clips/timestamps ✅
   4. Fighter Memory Log - Historical stats, tendencies tracking across fights
   5. Discrepancy Flags for Review
   6. Per-Promotion Tuning Profiles
@@ -115,7 +115,7 @@ user_problem_statement: |
   9. Accessibility Features (large-type, high contrast, audible cues)
   10. Security & Audit (cryptographic signatures, WORM logs)
   
-  Currently implementing Feature #1: Shadow-Judging/Training Mode
+  Currently implementing Feature #4: Fighter Memory Log
 
 backend:
   - task: "Shadow Judging API - Seed Training Library"
