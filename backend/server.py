@@ -282,7 +282,7 @@ class AuditLogEntry(BaseModel):
     resource_id: str
     action_data: dict = {}
     signature: str = ""  # Cryptographic hash for verification
-    ip_address: str = None
+    ip_address: Optional[str] = None
     immutable: bool = True  # WORM - cannot be modified once created
 
 class AuditLogCreate(BaseModel):
