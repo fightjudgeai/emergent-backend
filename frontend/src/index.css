@@ -113,3 +113,64 @@ code {
         border-bottom-color: inherit;
     }
 }
+
+/* Accessibility Features */
+.high-contrast {
+  --text-contrast-boost: 1.5;
+}
+
+.high-contrast * {
+  border-width: 2px !important;
+}
+
+.high-contrast button,
+.high-contrast a,
+.high-contrast [role="button"] {
+  border: 2px solid currentColor !important;
+}
+
+.high-contrast .bg-\[#13151a\] {
+  background-color: #000 !important;
+}
+
+.high-contrast .bg-\[#1a1d24\] {
+  background-color: #0a0a0a !important;
+}
+
+.high-contrast .text-gray-400 {
+  color: #ddd !important;
+}
+
+.high-contrast .text-gray-500 {
+  color: #ccc !important;
+}
+
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Focus indicators for keyboard navigation */
+:focus-visible {
+  outline: 3px solid #fbbf24 !important;
+  outline-offset: 2px !important;
+}
+
+/* Skip to content link */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000;
+  color: #fff;
+  padding: 8px;
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
