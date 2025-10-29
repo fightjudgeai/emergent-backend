@@ -103,55 +103,38 @@ export default function OperatorPanel() {
     }
   };
 
-  const loadQueueCount = async () => {
-    try {
-      const queue = await offlineQueue.getQueue();
-      setQueuedEvents(queue.length);
-    } catch (error) {
-      console.error('Error loading queue:', error);
+  const manualSync = async () => {
+    const result = await syncManager.manualSync();
+    if (result.success && result.synced > 0) {
+      toast.success(`Synced ${result.synced} events`);
+    } else if (result.success && result.synced === 0) {
+      toast.info('No events to sync');
+    } else {
+      toast.error(result.message || 'Sync failed');
     }
-  };
-
-  const syncOfflineQueue = async () => {
-    try {
-      const results = await offlineQueue.syncQueue(db);
-      const synced = results.filter(r => r.success).length;
-      if (synced > 0) {
-        toast.success(`Synced ${synced} queued events`);
-        loadQueueCount();
-      }
-    } catch (error) {
-      console.error('Error syncing queue:', error);
-      toast.error('Failed to sync offline data');
-    }
+    updateSyncStatus();
   };
 
   const logEvent = async (eventType, metadata = {}) => {
     try {
+      if (!bout) return;
+      
       const currentTime = controlTimers[selectedFighter].time;
       const eventData = {
-        boutId,
-        round: bout.currentRound,
         fighter: selectedFighter,
-        eventType,
+        event_type: eventType,
         timestamp: currentTime,
-        metadata,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        metadata
       };
 
-      if (isOnline) {
-        // Online - write directly to Firestore
-        await db.collection('events').add(eventData);
-      } else {
-        // Offline - add to queue
-        await offlineQueue.addToQueue({
-          collection: 'events',
-          data: eventData
-        });
-        loadQueueCount();
-      }
+      // Use sync manager to handle online/offline
+      await syncManager.addEvent(boutId, bout.currentRound, eventData);
       
-      toast.success(`${eventType} logged for ${selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
+      // Update queue count
+      await updateSyncStatus();
+      
+      const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+      toast.success(`${eventType} logged for ${fighterName}`);
     } catch (error) {
       console.error('Error logging event:', error);
       toast.error('Failed to log event');
