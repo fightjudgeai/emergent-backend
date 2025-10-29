@@ -1247,6 +1247,257 @@ async def compare_fighters(fighter1: str, fighter2: str):
         logger.error(f"Error comparing fighters: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Discrepancy Detection Helper
+async def detect_and_flag_discrepancies(bout_id: str, round_num: int, round_score: RoundScore, events: list):
+    """Automatically detect and create flags for controversial decisions"""
+    flags_created = []
+    
+    try:
+        delta = round_score.score_gap
+        
+        # Flag 1: Boundary cases (close to threshold)
+        if abs(delta - 600) < 50:
+            flag = DiscrepancyFlag(
+                bout_id=bout_id,
+                round_num=round_num,
+                flag_type="boundary_10_9_vs_10_8",
+                severity="medium",
+                description=f"Score is {delta:.0f} points, very close to 10-8 threshold (600)",
+                context={
+                    "delta": delta,
+                    "threshold": 600,
+                    "difference_from_threshold": abs(delta - 600),
+                    "card": round_score.card
+                }
+            )
+            doc = flag.model_dump()
+            doc = prepare_for_mongo(doc)
+            await db.discrepancy_flags.insert_one(doc)
+            flags_created.append("boundary_10_9_vs_10_8")
+        
+        if abs(delta - 900) < 50:
+            flag = DiscrepancyFlag(
+                bout_id=bout_id,
+                round_num=round_num,
+                flag_type="boundary_10_8_vs_10_7",
+                severity="high",
+                description=f"Score is {delta:.0f} points, very close to 10-7 threshold (900)",
+                context={
+                    "delta": delta,
+                    "threshold": 900,
+                    "difference_from_threshold": abs(delta - 900),
+                    "card": round_score.card
+                }
+            )
+            doc = flag.model_dump()
+            doc = prepare_for_mongo(doc)
+            await db.discrepancy_flags.insert_one(doc)
+            flags_created.append("boundary_10_8_vs_10_7")
+        
+        # Flag 2: Tie-breaker used
+        if round_score.reasons.tie_breaker:
+            flag = DiscrepancyFlag(
+                bout_id=bout_id,
+                round_num=round_num,
+                flag_type="tie_breaker_used",
+                severity="medium",
+                description=f"Round decided by tie-breaker: {round_score.reasons.tie_breaker}",
+                context={
+                    "tie_breaker": round_score.reasons.tie_breaker,
+                    "delta": delta,
+                    "card": round_score.card
+                }
+            )
+            doc = flag.model_dump()
+            doc = prepare_for_mongo(doc)
+            await db.discrepancy_flags.insert_one(doc)
+            flags_created.append("tie_breaker_used")
+        
+        # Flag 3: Very close decision
+        if delta < 100 and not round_score.reasons.draw:
+            flag = DiscrepancyFlag(
+                bout_id=bout_id,
+                round_num=round_num,
+                flag_type="very_close_decision",
+                severity="low",
+                description=f"Extremely close round with only {delta:.0f} point difference",
+                context={
+                    "delta": delta,
+                    "card": round_score.card,
+                    "winner": round_score.winner
+                }
+            )
+            doc = flag.model_dump()
+            doc = prepare_for_mongo(doc)
+            await db.discrepancy_flags.insert_one(doc)
+            flags_created.append("very_close_decision")
+        
+        # Flag 4: 10-8 without standard gates
+        if round_score.reasons.to_108:
+            gates = round_score.reasons.gates_winner
+            if not gates.finish_threat and not gates.control_dom and not gates.multi_cat_dom:
+                flag = DiscrepancyFlag(
+                    bout_id=bout_id,
+                    round_num=round_num,
+                    flag_type="10_8_without_gate",
+                    severity="high",
+                    description="10-8 score given without any standard dominance gates triggered",
+                    context={
+                        "delta": delta,
+                        "card": round_score.card,
+                        "gates": {
+                            "finish_threat": gates.finish_threat,
+                            "control_dom": gates.control_dom,
+                            "multi_cat_dom": gates.multi_cat_dom
+                        }
+                    }
+                )
+                doc = flag.model_dump()
+                doc = prepare_for_mongo(doc)
+                await db.discrepancy_flags.insert_one(doc)
+                flags_created.append("10_8_without_gate")
+        
+        # Flag 5: Low activity round
+        event_count = len(events)
+        if event_count < 5:
+            flag = DiscrepancyFlag(
+                bout_id=bout_id,
+                round_num=round_num,
+                flag_type="low_activity",
+                severity="low",
+                description=f"Very low activity round with only {event_count} logged events",
+                context={
+                    "event_count": event_count,
+                    "card": round_score.card
+                }
+            )
+            doc = flag.model_dump()
+            doc = prepare_for_mongo(doc)
+            await db.discrepancy_flags.insert_one(doc)
+            flags_created.append("low_activity")
+        
+        return flags_created
+        
+    except Exception as e:
+        logger.error(f"Error detecting discrepancies: {str(e)}")
+        return []
+
+# Discrepancy Flags Endpoints
+@api_router.post("/review/create-flag")
+async def create_review_flag(flag: DiscrepancyFlagCreate):
+    """Manually create a review flag"""
+    try:
+        flag_obj = DiscrepancyFlag(**flag.model_dump())
+        doc = flag_obj.model_dump()
+        doc = prepare_for_mongo(doc)
+        await db.discrepancy_flags.insert_one(doc)
+        return {"success": True, "flag_id": flag_obj.id}
+    except Exception as e:
+        logger.error(f"Error creating flag: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/review/flags")
+async def get_review_flags(status: str = None, severity: str = None, flag_type: str = None):
+    """Get all review flags with optional filters"""
+    try:
+        query = {}
+        if status:
+            query["status"] = status
+        if severity:
+            query["severity"] = severity
+        if flag_type:
+            query["flag_type"] = flag_type
+        
+        flags = await db.discrepancy_flags.find(query, {"_id": 0}).sort("created_at", -1).to_list(100)
+        flags = [parse_from_mongo(f) for f in flags]
+        return {"flags": flags, "count": len(flags)}
+    except Exception as e:
+        logger.error(f"Error fetching flags: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/review/flags/{bout_id}")
+async def get_bout_flags(bout_id: str):
+    """Get all flags for a specific bout"""
+    try:
+        flags = await db.discrepancy_flags.find(
+            {"bout_id": bout_id},
+            {"_id": 0}
+        ).sort("round_num", 1).to_list(100)
+        
+        flags = [parse_from_mongo(f) for f in flags]
+        return {"flags": flags, "count": len(flags)}
+    except Exception as e:
+        logger.error(f"Error fetching bout flags: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/review/resolve/{flag_id}")
+async def resolve_flag(flag_id: str, resolution: FlagResolution):
+    """Resolve or dismiss a review flag"""
+    try:
+        flag = await db.discrepancy_flags.find_one({"id": flag_id})
+        if not flag:
+            raise HTTPException(status_code=404, detail="Flag not found")
+        
+        update_data = {
+            "status": resolution.status,
+            "resolved_by": resolution.resolved_by,
+            "resolution_notes": resolution.resolution_notes,
+            "resolved_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        await db.discrepancy_flags.update_one(
+            {"id": flag_id},
+            {"$set": update_data}
+        )
+        
+        return {"success": True, "message": f"Flag {resolution.status}"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error resolving flag: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/review/stats")
+async def get_review_stats():
+    """Get statistics about review flags"""
+    try:
+        # Count by status
+        pending = await db.discrepancy_flags.count_documents({"status": "pending"})
+        under_review = await db.discrepancy_flags.count_documents({"status": "under_review"})
+        resolved = await db.discrepancy_flags.count_documents({"status": "resolved"})
+        dismissed = await db.discrepancy_flags.count_documents({"status": "dismissed"})
+        
+        # Count by severity
+        high = await db.discrepancy_flags.count_documents({"severity": "high"})
+        medium = await db.discrepancy_flags.count_documents({"severity": "medium"})
+        low = await db.discrepancy_flags.count_documents({"severity": "low"})
+        
+        # Count by type
+        pipeline = [
+            {"$group": {"_id": "$flag_type", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}}
+        ]
+        by_type = await db.discrepancy_flags.aggregate(pipeline).to_list(20)
+        
+        return {
+            "by_status": {
+                "pending": pending,
+                "under_review": under_review,
+                "resolved": resolved,
+                "dismissed": dismissed,
+                "total": pending + under_review + resolved + dismissed
+            },
+            "by_severity": {
+                "high": high,
+                "medium": medium,
+                "low": low
+            },
+            "by_type": [{"type": item["_id"], "count": item["count"]} for item in by_type]
+        }
+    except Exception as e:
+        logger.error(f"Error fetching review stats: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
