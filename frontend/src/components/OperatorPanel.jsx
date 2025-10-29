@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import { db } from '@/firebase';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
