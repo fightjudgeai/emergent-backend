@@ -8,6 +8,7 @@ import OperatorPanel from "@/components/OperatorPanel";
 import JudgePanel from "@/components/JudgePanel";
 import ShadowJudgingMode from "@/components/ShadowJudgingMode";
 import ReviewDashboard from "@/components/ReviewDashboard";
+import TuningProfileManager from "@/components/TuningProfileManager";
 
 function App() {
   // Check if judge is logged in
