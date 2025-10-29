@@ -70,12 +70,24 @@ export default function ShadowJudgingMode() {
   const loadJudgeStats = async () => {
     try {
       const judgeProfile = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
-      if (!judgeProfile.id) return;
+      if (!judgeProfile.id && !judgeProfile.judgeId) return;
 
-      const response = await fetch(`${BACKEND_URL}/api/training-library/judge-stats/${judgeProfile.id}`);
+      const judgeId = judgeProfile.id || judgeProfile.judgeId;
+      const response = await fetch(`${BACKEND_URL}/api/training-library/judge-stats/${judgeId}`);
       if (response.ok) {
         const stats = await response.json();
         setJudgeStats(stats);
+      } else if (response.status === 404) {
+        // No stats yet - set empty stats to show button
+        setJudgeStats({
+          judgeId: judgeId,
+          judgeName: judgeProfile.name || judgeProfile.judgeName || 'Unknown',
+          totalAttempts: 0,
+          averageAccuracy: 0,
+          averageMAE: 0,
+          sensitivity108Rate: 0,
+          perfectMatches: 0
+        });
       }
     } catch (error) {
       console.error('Error loading judge stats:', error);
