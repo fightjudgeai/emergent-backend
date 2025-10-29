@@ -17,7 +17,7 @@ export default function JudgeLogin() {
   const [organization, setOrganization] = useState('UFC');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
     if (!judgeId.trim() || !judgeName.trim()) {
       toast.error('Please enter both Judge ID and Name');
       return;
@@ -25,49 +25,20 @@ export default function JudgeLogin() {
 
     setLoading(true);
     
-    // Store in localStorage immediately (primary method)
+    // Store in localStorage
     localStorage.setItem('judgeProfile', JSON.stringify({
       judgeId: judgeId.trim(),
       judgeName: judgeName.trim(),
       organization
     }));
 
-    // Try to save to Firebase in background (optional - for profile tracking)
-    // Don't wait for this to complete
-    setTimeout(async () => {
-      try {
-        const profileRef = db.collection('judgeProfiles').doc(judgeId.trim());
-        const profileDoc = await Promise.race([
-          profileRef.get(),
-          new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 2000))
-        ]);
-
-        if (profileDoc.exists) {
-          await profileRef.update({
-            lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-            judgeName: judgeName.trim(),
-            organization
-          });
-        } else {
-          await profileRef.set({
-            judgeId: judgeId.trim(),
-            judgeName: judgeName.trim(),
-            organization,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-            totalRoundsScored: 0,
-            totalEventsScored: 0,
-            certifications: []
-          });
-        }
-      } catch (firebaseError) {
-        console.warn('Firebase profile save failed (non-critical):', firebaseError);
-      }
-    }, 0);
-
     toast.success(`Welcome, ${judgeName}!`);
-    setLoading(false);
-    navigate('/');
+    
+    // Navigate after a short delay
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/');
+    }, 500);
   };
 
   return (
