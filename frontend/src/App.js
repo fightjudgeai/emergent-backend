@@ -26,6 +26,7 @@ function App() {
           <Route path="/event/:eventId/fights" element={<FightList />} />
           <Route path="/operator/:boutId" element={<OperatorPanel />} />
           <Route path="/judge/:boutId" element={<JudgePanel />} />
+          <Route path="/shadow-judging" element={<ShadowJudgingMode />} />
         </Routes>
       </BrowserRouter>
     </div>
