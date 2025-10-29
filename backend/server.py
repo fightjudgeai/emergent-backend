@@ -834,6 +834,23 @@ async def calculate_score(request: ScoreRequest):
         result.uncertainty = uncertainty_level
         result.uncertainty_factors = uncertainty_factors
         
+        # Create audit log for score calculation
+        await create_audit_log(
+            action_type="score_calculation",
+            user_id="system",
+            user_name="Scoring System",
+            resource_type="round_score",
+            resource_id=f"{request.bout_id}_round_{request.round_num}",
+            action_data={
+                "bout_id": request.bout_id,
+                "round_num": request.round_num,
+                "card": card,
+                "winner": winner,
+                "score_gap": gap,
+                "uncertainty": uncertainty_level
+            }
+        )
+        
         # Automatically detect and flag discrepancies
         await detect_and_flag_discrepancies(request.bout_id, request.round_num, result, request.events)
         
