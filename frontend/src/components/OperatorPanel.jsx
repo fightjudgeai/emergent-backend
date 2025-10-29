@@ -60,8 +60,14 @@ export default function OperatorPanel() {
   }, [boutId]);
 
   const updateSyncStatus = async () => {
-    const status = await syncManager.getStatus();
-    setSyncStatus(status);
+    try {
+      const status = await syncManager.getStatus();
+      setSyncStatus(status);
+    } catch (error) {
+      console.error('Error updating sync status:', error);
+      // Set default status if error
+      setSyncStatus({ isOnline: navigator.onLine, isSyncing: false, queueCount: 0 });
+    }
   };
 
   useEffect(() => {
