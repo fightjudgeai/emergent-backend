@@ -183,6 +183,35 @@ class FighterStatsUpdate(BaseModel):
     control_time: float
     round_card: str  # "10-9", "10-8", etc.
 
+# Discrepancy Flags Models
+class DiscrepancyFlag(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    bout_id: str
+    round_num: int
+    flag_type: str  # "boundary_case", "tie_breaker", "low_activity", "statistical_anomaly"
+    severity: str  # "low", "medium", "high"
+    description: str
+    context: dict  # Additional context data
+    status: str = "pending"  # "pending", "under_review", "resolved", "dismissed"
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    resolved_at: datetime = None
+    resolved_by: str = None
+    resolution_notes: str = None
+
+class DiscrepancyFlagCreate(BaseModel):
+    bout_id: str
+    round_num: int
+    flag_type: str
+    severity: str
+    description: str
+    context: dict = {}
+
+class FlagResolution(BaseModel):
+    resolved_by: str
+    resolution_notes: str
+    status: str  # "resolved" or "dismissed"
+
 # Scoring Engine
 class ScoringEngine:
     @staticmethod
