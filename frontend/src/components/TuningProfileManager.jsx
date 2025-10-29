@@ -32,6 +32,7 @@ export default function TuningProfileManager() {
   const [loading, setLoading] = useState(true);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [editingProfile, setEditingProfile] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   
   // Form state
   const [profileName, setProfileName] = useState('');
@@ -42,6 +43,13 @@ export default function TuningProfileManager() {
   const [threshold108, setThreshold108] = useState(900);
 
   useEffect(() => {
+    // Get current user
+    const judgeProfile = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
+    setCurrentUser({
+      id: judgeProfile.judgeId,
+      name: judgeProfile.judgeName
+    });
+    
     loadProfiles();
   }, []);
 
