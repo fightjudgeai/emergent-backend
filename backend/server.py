@@ -1054,6 +1054,170 @@ async def get_leaderboard():
         logger.error(f"Error fetching leaderboard: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Fighter Memory Log Endpoints
+@api_router.post("/fighters/update-stats")
+async def update_fighter_stats(update: FighterStatsUpdate):
+    """Update fighter statistics after a round"""
+    try:
+        fighter_name = update.fighter_name
+        
+        # Get existing stats or create new
+        existing = await db.fighter_stats.find_one({"fighter_name": fighter_name})
+        
+        if existing:
+            stats = FighterStats(**existing)
+        else:
+            stats = FighterStats(fighter_name=fighter_name)
+        
+        # Count events
+        kd_count = len([e for e in update.round_events if e.get('event_type') == 'KD'])
+        ss_count = len([e for e in update.round_events if e.get('event_type', '').startswith('SS')])
+        td_count = len([e for e in update.round_events if e.get('event_type') == 'Takedown'])
+        sub_count = len([e for e in update.round_events if e.get('event_type') == 'Submission Attempt'])
+        pass_count = len([e for e in update.round_events if e.get('event_type') == 'Pass'])
+        rev_count = len([e for e in update.round_events if e.get('event_type') == 'Reversal'])
+        
+        # Calculate striking style
+        ss_head = len([e for e in update.round_events if e.get('event_type') == 'SS Head'])
+        ss_body = len([e for e in update.round_events if e.get('event_type') == 'SS Body'])
+        ss_leg = len([e for e in update.round_events if e.get('event_type') == 'SS Leg'])
+        ss_total = ss_head + ss_body + ss_leg
+        
+        # Update cumulative stats
+        total_rounds = stats.total_rounds + 1
+        
+        # Running averages
+        stats.avg_kd_per_round = ((stats.avg_kd_per_round * stats.total_rounds) + kd_count) / total_rounds
+        stats.avg_ss_per_round = ((stats.avg_ss_per_round * stats.total_rounds) + ss_count) / total_rounds
+        stats.avg_td_per_round = ((stats.avg_td_per_round * stats.total_rounds) + td_count) / total_rounds
+        stats.avg_sub_attempts = ((stats.avg_sub_attempts * stats.total_rounds) + sub_count) / total_rounds
+        stats.avg_passes = ((stats.avg_passes * stats.total_rounds) + pass_count) / total_rounds
+        stats.avg_reversals = ((stats.avg_reversals * stats.total_rounds) + rev_count) / total_rounds
+        stats.avg_control_time = ((stats.avg_control_time * stats.total_rounds) + update.control_time) / total_rounds
+        stats.avg_round_score = ((stats.avg_round_score * stats.total_rounds) + update.round_score) / total_rounds
+        
+        # Update round results
+        if update.round_result == "won":
+            stats.rounds_won += 1
+        elif update.round_result == "lost":
+            stats.rounds_lost += 1
+        else:
+            stats.rounds_drawn += 1
+        
+        # Update 10-8/10-7 rates
+        if "10-8" in update.round_card or "8-10" in update.round_card:
+            stats.rate_10_8 = ((stats.rate_10_8 * stats.total_rounds) + 1) / total_rounds
+        if "10-7" in update.round_card or "7-10" in update.round_card:
+            stats.rate_10_7 = ((stats.rate_10_7 * stats.total_rounds) + 1) / total_rounds
+        
+        stats.total_rounds = total_rounds
+        
+        # Calculate tendencies
+        grappling_events = td_count + sub_count + pass_count + rev_count
+        striking_events = ss_count + kd_count
+        total_events = grappling_events + striking_events
+        
+        grappling_rate = grappling_events / total_events if total_events > 0 else 0
+        
+        striking_style = {
+            "head": ss_head / ss_total if ss_total > 0 else 0.33,
+            "body": ss_body / ss_total if ss_total > 0 else 0.33,
+            "leg": ss_leg / ss_total if ss_total > 0 else 0.34
+        }
+        
+        finish_threat = 1.0 if (kd_count > 0 or sub_count > 1) else 0.0
+        control_pref = update.control_time / 300.0 if update.control_time > 0 else 0.0  # 300s = 5min round
+        
+        stats.tendencies = FighterTendencies(
+            striking_style=striking_style,
+            grappling_rate=round(grappling_rate, 2),
+            finish_threat_rate=round(finish_threat, 2),
+            control_preference=round(control_pref, 2),
+            aggression_level=round(min(10.0, (striking_events + grappling_events) / 2.0), 2)
+        )
+        
+        stats.last_updated = datetime.now(timezone.utc)
+        
+        # Save to database
+        doc = stats.model_dump()
+        doc = prepare_for_mongo(doc)
+        
+        await db.fighter_stats.update_one(
+            {"fighter_name": fighter_name},
+            {"$set": doc},
+            upsert=True
+        )
+        
+        return {"success": True, "message": f"Updated stats for {fighter_name}"}
+    except Exception as e:
+        logger.error(f"Error updating fighter stats: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/fighters/{fighter_name}/stats")
+async def get_fighter_stats(fighter_name: str):
+    """Get historical statistics for a fighter"""
+    try:
+        stats = await db.fighter_stats.find_one({"fighter_name": fighter_name})
+        
+        if not stats:
+            raise HTTPException(status_code=404, detail=f"No stats found for {fighter_name}")
+        
+        stats = parse_from_mongo(stats)
+        return stats
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching fighter stats: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/fighters/compare")
+async def compare_fighters(fighter1: str, fighter2: str):
+    """Compare statistics between two fighters"""
+    try:
+        stats1 = await db.fighter_stats.find_one({"fighter_name": fighter1})
+        stats2 = await db.fighter_stats.find_one({"fighter_name": fighter2})
+        
+        if not stats1:
+            raise HTTPException(status_code=404, detail=f"No stats found for {fighter1}")
+        if not stats2:
+            raise HTTPException(status_code=404, detail=f"No stats found for {fighter2}")
+        
+        stats1 = parse_from_mongo(stats1)
+        stats2 = parse_from_mongo(stats2)
+        
+        # Calculate comparative advantages
+        comparison = {
+            "fighter1": stats1,
+            "fighter2": stats2,
+            "advantages": {
+                "fighter1": [],
+                "fighter2": []
+            }
+        }
+        
+        # Compare key metrics
+        if stats1['avg_kd_per_round'] > stats2['avg_kd_per_round']:
+            comparison["advantages"]["fighter1"].append("More knockdowns per round")
+        elif stats2['avg_kd_per_round'] > stats1['avg_kd_per_round']:
+            comparison["advantages"]["fighter2"].append("More knockdowns per round")
+        
+        if stats1['avg_td_per_round'] > stats2['avg_td_per_round']:
+            comparison["advantages"]["fighter1"].append("More takedowns per round")
+        elif stats2['avg_td_per_round'] > stats1['avg_td_per_round']:
+            comparison["advantages"]["fighter2"].append("More takedowns per round")
+        
+        if stats1['tendencies']['grappling_rate'] > stats2['tendencies']['grappling_rate']:
+            comparison["advantages"]["fighter1"].append("More grappling-focused")
+        elif stats2['tendencies']['grappling_rate'] > stats1['tendencies']['grappling_rate']:
+            comparison["advantages"]["fighter2"].append("More grappling-focused")
+        
+        return comparison
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error comparing fighters: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
