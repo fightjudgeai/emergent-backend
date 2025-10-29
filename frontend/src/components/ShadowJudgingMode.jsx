@@ -324,14 +324,71 @@ export default function ShadowJudgingMode() {
                 Train with {historicalRounds.length} historical rounds from real events
               </p>
             </div>
-            <Button
-              onClick={() => navigate('/')}
-              className="bg-[#1a1d24] hover:bg-[#22252d] text-gray-300"
-            >
-              Back to Events
-            </Button>
+            <div className="flex gap-3">
+              {judgeStats && (
+                <Button
+                  onClick={() => setShowStats(!showStats)}
+                  className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
+                >
+                  <Trophy className="mr-2 h-4 w-4" />
+                  {showStats ? 'Hide Stats' : 'My Stats'}
+                </Button>
+              )}
+              <Button
+                onClick={() => navigate('/')}
+                className="bg-[#1a1d24] hover:bg-[#22252d] text-gray-300"
+              >
+                Back to Events
+              </Button>
+            </div>
           </div>
         </Card>
+
+        {/* Judge Stats Dashboard */}
+        {showStats && judgeStats && (
+          <Card className="bg-[#13151a] border-[#2a2d35] p-8 mb-8">
+            <CardHeader>
+              <CardTitle className="text-white text-2xl flex items-center gap-3">
+                <Target className="w-6 h-6 text-purple-500" />
+                Your Calibration Stats
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-5 gap-6">
+                <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
+                  <div className="text-center">
+                    <div className="text-sm text-gray-400 mb-2">Total Rounds</div>
+                    <div className="text-4xl font-bold text-white">{judgeStats.totalAttempts}</div>
+                  </div>
+                </Card>
+                <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
+                  <div className="text-center">
+                    <div className="text-sm text-gray-400 mb-2">Avg Accuracy</div>
+                    <div className="text-4xl font-bold text-amber-500">{judgeStats.averageAccuracy}%</div>
+                  </div>
+                </Card>
+                <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
+                  <div className="text-center">
+                    <div className="text-sm text-gray-400 mb-2">Avg MAE</div>
+                    <div className="text-4xl font-bold text-blue-500">{judgeStats.averageMAE}</div>
+                  </div>
+                </Card>
+                <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
+                  <div className="text-center">
+                    <div className="text-sm text-gray-400 mb-2">10-8 Accuracy</div>
+                    <div className="text-4xl font-bold text-green-500">{judgeStats.sensitivity108Rate}%</div>
+                  </div>
+                </Card>
+                <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
+                  <div className="text-center">
+                    <div className="text-sm text-gray-400 mb-2">Perfect Matches</div>
+                    <div className="text-4xl font-bold text-purple-500">{judgeStats.perfectMatches}</div>
+                  </div>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="grid md:grid-cols-2 gap-6">
           {historicalRounds.map((round) => (
