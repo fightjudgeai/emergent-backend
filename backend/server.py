@@ -368,6 +368,7 @@ class ScoringEngine:
     
     @staticmethod
     def map_to_ten_point_must(s_a: float, s_b: float, gates_a: GateChecks, gates_b: GateChecks, 
+                              subscores_a: Subscores, subscores_b: Subscores,
                               fouls_a: int = 0, fouls_b: int = 0) -> tuple[str, str, RoundReasons]:
         """
         Map continuous scores (1-1000 scale) to 10-Point-Must system
@@ -376,14 +377,125 @@ class ScoringEngine:
         - 10-9: score differential 1-600
         - 10-8: score differential 601-900
         - 10-7: score differential 901-1000
+        
+        Tie-breakers applied when scores are equal:
+        1. Damage (KD > ISS > SUBQ)
+        2. Control (GCQ > TDQ)
+        3. Aggression/Activity (AGG > TSR)
+        4. Technical superiority (OC > RP)
         """
         delta = s_a - s_b
         abs_delta = abs(delta)
         
-        # Check for 10-10 draw (exact match only)
+        # EXTREME TIE-BREAKING SYSTEM - Avoid 10-10 unless absolutely identical
         if abs_delta == 0:
+            # Priority 1: DAMAGE (highest priority)
+            damage_a = (subscores_a.KD * 3.0) + (subscores_a.ISS * 2.0) + (subscores_a.SUBQ * 1.5)
+            damage_b = (subscores_b.KD * 3.0) + (subscores_b.ISS * 2.0) + (subscores_b.SUBQ * 1.5)
+            
+            if damage_a != damage_b:
+                winner = "fighter1" if damage_a > damage_b else "fighter2"
+                gates_w = gates_a if damage_a > damage_b else gates_b
+                gates_l = gates_b if damage_a > damage_b else gates_a
+                delta = 1.0 if damage_a > damage_b else -1.0
+                
+                card = "10-9 (Damage TB)" if winner == "fighter1" else "9-10 (Damage TB)"
+                return (card, winner, RoundReasons(
+                    delta=delta,
+                    gates_winner=gates_w,
+                    gates_loser=gates_l,
+                    to_108=False,
+                    to_107=False,
+                    draw=False
+                ))
+            
+            # Priority 2: CONTROL (grappling/positional)
+            control_a = (subscores_a.GCQ * 2.0) + subscores_a.TDQ
+            control_b = (subscores_b.GCQ * 2.0) + subscores_b.TDQ
+            
+            if control_a != control_b:
+                winner = "fighter1" if control_a > control_b else "fighter2"
+                gates_w = gates_a if control_a > control_b else gates_b
+                gates_l = gates_b if control_a > control_b else gates_a
+                delta = 1.0 if control_a > control_b else -1.0
+                
+                card = "10-9 (Control TB)" if winner == "fighter1" else "9-10 (Control TB)"
+                return (card, winner, RoundReasons(
+                    delta=delta,
+                    gates_winner=gates_w,
+                    gates_loser=gates_l,
+                    to_108=False,
+                    to_107=False,
+                    draw=False
+                ))
+            
+            # Priority 3: AGGRESSION & ACTIVITY
+            aggression_a = (subscores_a.AGG * 1.5) + subscores_a.TSR + subscores_a.OC
+            aggression_b = (subscores_b.AGG * 1.5) + subscores_b.TSR + subscores_b.OC
+            
+            if aggression_a != aggression_b:
+                winner = "fighter1" if aggression_a > aggression_b else "fighter2"
+                gates_w = gates_a if aggression_a > aggression_b else gates_b
+                gates_l = gates_b if aggression_a > aggression_b else gates_a
+                delta = 1.0 if aggression_a > aggression_b else -1.0
+                
+                card = "10-9 (Aggression TB)" if winner == "fighter1" else "9-10 (Aggression TB)"
+                return (card, winner, RoundReasons(
+                    delta=delta,
+                    gates_winner=gates_w,
+                    gates_loser=gates_l,
+                    to_108=False,
+                    to_107=False,
+                    draw=False
+                ))
+            
+            # Priority 4: TECHNICAL SUPERIORITY (reversals/passes)
+            technical_a = subscores_a.RP
+            technical_b = subscores_b.RP
+            
+            if technical_a != technical_b:
+                winner = "fighter1" if technical_a > technical_b else "fighter2"
+                gates_w = gates_a if technical_a > technical_b else gates_b
+                gates_l = gates_b if technical_a > technical_b else gates_a
+                delta = 1.0 if technical_a > technical_b else -1.0
+                
+                card = "10-9 (Technical TB)" if winner == "fighter1" else "9-10 (Technical TB)"
+                return (card, winner, RoundReasons(
+                    delta=delta,
+                    gates_winner=gates_w,
+                    gates_loser=gates_l,
+                    to_108=False,
+                    to_107=False,
+                    draw=False
+                ))
+            
+            # Priority 5: INDIVIDUAL SUBSCORE COMPARISON (most granular)
+            # Compare each subscore individually in order of importance
+            comparison_order = ['KD', 'ISS', 'SUBQ', 'GCQ', 'TDQ', 'AGG', 'OC', 'TSR', 'RP']
+            
+            for metric in comparison_order:
+                val_a = getattr(subscores_a, metric)
+                val_b = getattr(subscores_b, metric)
+                
+                if val_a != val_b:
+                    winner = "fighter1" if val_a > val_b else "fighter2"
+                    gates_w = gates_a if val_a > val_b else gates_b
+                    gates_l = gates_b if val_a > val_b else gates_a
+                    delta = 1.0 if val_a > val_b else -1.0
+                    
+                    card = f"10-9 ({metric} TB)" if winner == "fighter1" else f"9-10 ({metric} TB)"
+                    return (card, winner, RoundReasons(
+                        delta=delta,
+                        gates_winner=gates_w,
+                        gates_loser=gates_l,
+                        to_108=False,
+                        to_107=False,
+                        draw=False
+                    ))
+            
+            # ONLY if EVERY single metric is EXACTLY equal - TRUE 10-10 DRAW
             return ("10-10", "DRAW", RoundReasons(
-                delta=delta,
+                delta=0,
                 gates_winner=gates_a,
                 gates_loser=gates_b,
                 to_108=False,
