@@ -250,10 +250,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Shadow Judging API - Seed Training Library"
-    - "Shadow Judging API - Get Training Rounds"
-    - "Shadow Judging API - Submit Judge Score"
     - "Shadow Judging Mode - UI Component"
+    - "Shadow Judging Mode - Judge Stats Dashboard"
+    - "Shadow Judging Mode - Routing"
+    - "Shadow Judging Mode - Navigation Link"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
