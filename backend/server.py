@@ -1557,6 +1557,128 @@ async def get_review_stats():
         logger.error(f"Error fetching review stats: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Tuning Profile Endpoints
+@api_router.post("/tuning-profiles/create")
+async def create_tuning_profile(profile: TuningProfileCreate):
+    """Create a new tuning profile"""
+    try:
+        profile_obj = TuningProfile(**profile.model_dump())
+        doc = profile_obj.model_dump()
+        doc = prepare_for_mongo(doc)
+        await db.tuning_profiles.insert_one(doc)
+        return {"success": True, "profile_id": profile_obj.id, "profile": profile_obj}
+    except Exception as e:
+        logger.error(f"Error creating tuning profile: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/tuning-profiles")
+async def get_tuning_profiles():
+    """Get all tuning profiles"""
+    try:
+        profiles = await db.tuning_profiles.find({}, {"_id": 0}).to_list(100)
+        profiles = [parse_from_mongo(p) for p in profiles]
+        return {"profiles": profiles, "count": len(profiles)}
+    except Exception as e:
+        logger.error(f"Error fetching tuning profiles: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/tuning-profiles/default")
+async def get_default_profile():
+    """Get the default UFC profile"""
+    try:
+        profile = await db.tuning_profiles.find_one({"is_default": True}, {"_id": 0})
+        
+        if not profile:
+            # Create default UFC profile if it doesn't exist
+            default_profile = TuningProfile(
+                name="UFC Standard",
+                promotion="UFC",
+                description="Official UFC judging criteria with standard weights",
+                is_default=True,
+                created_by="system"
+            )
+            doc = default_profile.model_dump()
+            doc = prepare_for_mongo(doc)
+            await db.tuning_profiles.insert_one(doc)
+            return default_profile
+        
+        profile = parse_from_mongo(profile)
+        return profile
+    except Exception as e:
+        logger.error(f"Error fetching default profile: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/tuning-profiles/{profile_id}")
+async def get_tuning_profile(profile_id: str):
+    """Get a specific tuning profile"""
+    try:
+        profile = await db.tuning_profiles.find_one({"id": profile_id}, {"_id": 0})
+        
+        if not profile:
+            raise HTTPException(status_code=404, detail="Profile not found")
+        
+        profile = parse_from_mongo(profile)
+        return profile
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching tuning profile: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/tuning-profiles/{profile_id}")
+async def update_tuning_profile(profile_id: str, update: TuningProfileUpdate):
+    """Update a tuning profile"""
+    try:
+        profile = await db.tuning_profiles.find_one({"id": profile_id})
+        
+        if not profile:
+            raise HTTPException(status_code=404, detail="Profile not found")
+        
+        # Build update document
+        update_data = {k: v for k, v in update.model_dump().items() if v is not None}
+        update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+        
+        # Convert nested models to dicts
+        if "weights" in update_data:
+            update_data["weights"] = update_data["weights"].model_dump()
+        if "thresholds" in update_data:
+            update_data["thresholds"] = update_data["thresholds"].model_dump()
+        if "gate_sensitivity" in update_data:
+            update_data["gate_sensitivity"] = update_data["gate_sensitivity"].model_dump()
+        
+        await db.tuning_profiles.update_one(
+            {"id": profile_id},
+            {"$set": update_data}
+        )
+        
+        return {"success": True, "message": "Profile updated"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating tuning profile: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/tuning-profiles/{profile_id}")
+async def delete_tuning_profile(profile_id: str):
+    """Delete a tuning profile"""
+    try:
+        profile = await db.tuning_profiles.find_one({"id": profile_id})
+        
+        if not profile:
+            raise HTTPException(status_code=404, detail="Profile not found")
+        
+        if profile.get("is_default"):
+            raise HTTPException(status_code=400, detail="Cannot delete default profile")
+        
+        await db.tuning_profiles.delete_one({"id": profile_id})
+        
+        return {"success": True, "message": "Profile deleted"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting tuning profile: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
