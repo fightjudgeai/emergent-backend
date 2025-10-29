@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from '@/firebase';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { GraduationCap, Eye, EyeOff, Lock, TrendingUp } from 'lucide-react';
+import { GraduationCap, Eye, EyeOff, Lock, TrendingUp, Trophy, Target } from 'lucide-react';
+
+const BACKEND_URL = import.meta.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
 
 export default function ShadowJudgingMode() {
   const navigate = useNavigate();
@@ -16,29 +17,69 @@ export default function ShadowJudgingMode() {
   const [officialRevealed, setOfficialRevealed] = useState(false);
   const [calibrationScore, setCalibrationScore] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [judgeStats, setJudgeStats] = useState(null);
+  const [showStats, setShowStats] = useState(false);
 
   useEffect(() => {
-    loadHistoricalRounds();
+    initializeShadowJudging();
   }, []);
+
+  const initializeShadowJudging = async () => {
+    // First, seed the training library if empty
+    await seedLibraryIfNeeded();
+    // Then load rounds
+    await loadHistoricalRounds();
+    // Load judge stats if available
+    await loadJudgeStats();
+  };
+
+  const seedLibraryIfNeeded = async () => {
+    try {
+      // Check if rounds exist
+      const response = await fetch(`${BACKEND_URL}/api/training-library/rounds`);
+      const rounds = await response.json();
+      
+      // If no rounds, seed the library
+      if (rounds.length === 0) {
+        const seedResponse = await fetch(`${BACKEND_URL}/api/training-library/seed`, {
+          method: 'POST'
+        });
+        const seedResult = await seedResponse.json();
+        console.log('Training library seeded:', seedResult);
+      }
+    } catch (error) {
+      console.error('Error checking/seeding training library:', error);
+    }
+  };
 
   const loadHistoricalRounds = async () => {
     try {
-      const roundsSnapshot = await db.collection('trainingLibrary')
-        .where('type', '==', 'historical')
-        .limit(20)
-        .get();
+      const response = await fetch(`${BACKEND_URL}/api/training-library/rounds`);
+      if (!response.ok) throw new Error('Failed to fetch training rounds');
       
-      const rounds = roundsSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      
+      const rounds = await response.json();
       setHistoricalRounds(rounds);
     } catch (error) {
       console.error('Error loading training rounds:', error);
       toast.error('Failed to load training library');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadJudgeStats = async () => {
+    try {
+      const judgeProfile = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
+      if (!judgeProfile.id) return;
+
+      const response = await fetch(`${BACKEND_URL}/api/training-library/judge-stats/${judgeProfile.id}`);
+      if (response.ok) {
+        const stats = await response.json();
+        setJudgeStats(stats);
+      }
+    } catch (error) {
+      console.error('Error loading judge stats:', error);
+      // Ignore error if no stats exist yet
     }
   };
 
