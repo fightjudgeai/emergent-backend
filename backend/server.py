@@ -488,14 +488,15 @@ class ScoringEngine:
                     gates_l = gates_b if val_a > val_b else gates_a
                     delta = 1.0 if val_a > val_b else -1.0
                     
-                    card = f"10-9 ({metric} TB)" if winner == "fighter1" else f"9-10 ({metric} TB)"
+                    card = "10-9" if winner == "fighter1" else "9-10"
                     return (card, winner, RoundReasons(
                         delta=delta,
                         gates_winner=gates_w,
                         gates_loser=gates_l,
                         to_108=False,
                         to_107=False,
-                        draw=False
+                        draw=False,
+                        tie_breaker=metric
                     ))
             
             # ONLY if EVERY single metric is EXACTLY equal - TRUE 10-10 DRAW
