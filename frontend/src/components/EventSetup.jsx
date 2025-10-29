@@ -95,6 +95,15 @@ export default function EventSetup() {
     }}>
       <Card className="w-full max-w-4xl bg-[#13151a]/95 border-[#2a2d35] backdrop-blur-xl shadow-2xl">
         <CardHeader className="text-center space-y-4 pb-8">
+          <div className="flex justify-end mb-2">
+            <Button
+              onClick={() => navigate('/shadow-judging')}
+              className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
+            >
+              <GraduationCap className="mr-2 h-4 w-4" />
+              Shadow Judging Training
+            </Button>
+          </div>
           <div className="mx-auto w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
             <Swords className="w-10 h-10 text-white" />
           </div>
