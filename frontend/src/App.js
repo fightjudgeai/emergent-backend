@@ -1,6 +1,7 @@
 import "@/App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "sonner";
+import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import JudgeLogin from "@/components/JudgeLogin";
 import EventSetup from "@/components/EventSetup";
 import FightList from "@/components/FightList";
@@ -9,6 +10,7 @@ import JudgePanel from "@/components/JudgePanel";
 import ShadowJudgingMode from "@/components/ShadowJudgingMode";
 import ReviewDashboard from "@/components/ReviewDashboard";
 import TuningProfileManager from "@/components/TuningProfileManager";
+import AccessibilitySettings from "@/components/AccessibilitySettings";
 
 function App() {
   // Check if judge is logged in
