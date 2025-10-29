@@ -265,6 +265,42 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ ISSUE: Navigation from EventSetup to Shadow Judging works, but 'Back to Events' button from Shadow Judging redirects to login page instead of EventSetup. This appears to be a session/authentication issue where the judge session is not being maintained properly during navigation."
+  
+  - task: "Security & Audit - AuditLogViewer Component"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/AuditLogViewer.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created AuditLogViewer component with stats overview, filters, log display, signature verification, and export functionality."
+  
+  - task: "Security & Audit - Routing"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added /audit-logs route in App.js pointing to AuditLogViewer component."
+  
+  - task: "Security & Audit - Navigation Button"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/EventSetup.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added 'Audit Logs' navigation button with Shield icon in EventSetup header using gray color scheme."
 
 metadata:
   created_by: "main_agent"
