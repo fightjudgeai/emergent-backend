@@ -149,7 +149,7 @@ class OfflineDB {
   /**
    * Delete synced events (cleanup)
    */
-  async deleteSync edEvents() {
+  async deleteSyncedEvents() {
     if (!this.db) await this.init();
 
     return new Promise((resolve, reject) => {
