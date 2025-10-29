@@ -107,15 +107,15 @@ user_problem_statement: |
   1. Shadow-Judging/Training Mode - Complete with metrics tracking, hidden official cards, calibration scoring ✅
   2. Offline-First + Sync - Full IndexedDB queue, reconciliation logic, conflict resolution ✅
   3. Explainability Cards - Detailed "Why 10-8?" breakdowns with event clips/timestamps ✅
-  4. Fighter Memory Log - Historical stats, tendencies tracking across fights
-  5. Discrepancy Flags for Review
-  6. Per-Promotion Tuning Profiles
-  7. Distraction-Free Mode
-  8. Uncertainty Bands
-  9. Accessibility Features (large-type, high contrast, audible cues)
-  10. Security & Audit (cryptographic signatures, WORM logs)
+  4. Fighter Memory Log - Historical stats, tendencies tracking across fights ✅
+  5. Discrepancy Flags for Review ✅
+  6. Per-Promotion Tuning Profiles ✅
+  7. Distraction-Free Mode ✅ (Later removed per user request)
+  8. Uncertainty Bands ✅
+  9. Accessibility Features (large-type, high contrast, audible cues) ✅
+  10. Security & Audit (cryptographic signatures, WORM logs) - Frontend integration in progress
   
-  Currently implementing Feature #4: Fighter Memory Log
+  Currently completing Feature #10: Security & Audit frontend integration
 
 backend:
   - task: "Shadow Judging API - Seed Training Library"
