@@ -368,38 +368,45 @@ export default function ShadowJudgingMode() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-5 gap-6">
-                <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
-                  <div className="text-center">
-                    <div className="text-sm text-gray-400 mb-2">Total Rounds</div>
-                    <div className="text-4xl font-bold text-white">{judgeStats.totalAttempts}</div>
-                  </div>
-                </Card>
-                <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
-                  <div className="text-center">
-                    <div className="text-sm text-gray-400 mb-2">Avg Accuracy</div>
-                    <div className="text-4xl font-bold text-amber-500">{judgeStats.averageAccuracy}%</div>
-                  </div>
-                </Card>
-                <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
-                  <div className="text-center">
-                    <div className="text-sm text-gray-400 mb-2">Avg MAE</div>
-                    <div className="text-4xl font-bold text-blue-500">{judgeStats.averageMAE}</div>
-                  </div>
-                </Card>
-                <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
-                  <div className="text-center">
-                    <div className="text-sm text-gray-400 mb-2">10-8 Accuracy</div>
-                    <div className="text-4xl font-bold text-green-500">{judgeStats.sensitivity108Rate}%</div>
-                  </div>
-                </Card>
-                <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
-                  <div className="text-center">
-                    <div className="text-sm text-gray-400 mb-2">Perfect Matches</div>
-                    <div className="text-4xl font-bold text-purple-500">{judgeStats.perfectMatches}</div>
-                  </div>
-                </Card>
-              </div>
+              {judgeStats.totalAttempts === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-400 text-lg">No training rounds completed yet</p>
+                  <p className="text-gray-500 text-sm mt-2">Start judging rounds to see your statistics</p>
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-5 gap-6">
+                  <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
+                    <div className="text-center">
+                      <div className="text-sm text-gray-400 mb-2">Total Rounds</div>
+                      <div className="text-4xl font-bold text-white">{judgeStats.totalAttempts}</div>
+                    </div>
+                  </Card>
+                  <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
+                    <div className="text-center">
+                      <div className="text-sm text-gray-400 mb-2">Avg Accuracy</div>
+                      <div className="text-4xl font-bold text-amber-500">{judgeStats.averageAccuracy}%</div>
+                    </div>
+                  </Card>
+                  <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
+                    <div className="text-center">
+                      <div className="text-sm text-gray-400 mb-2">Avg MAE</div>
+                      <div className="text-4xl font-bold text-blue-500">{judgeStats.averageMAE}</div>
+                    </div>
+                  </Card>
+                  <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
+                    <div className="text-center">
+                      <div className="text-sm text-gray-400 mb-2">10-8 Accuracy</div>
+                      <div className="text-4xl font-bold text-green-500">{judgeStats.sensitivity108Rate}%</div>
+                    </div>
+                  </Card>
+                  <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
+                    <div className="text-center">
+                      <div className="text-sm text-gray-400 mb-2">Perfect Matches</div>
+                      <div className="text-4xl font-bold text-purple-500">{judgeStats.perfectMatches}</div>
+                    </div>
+                  </Card>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
