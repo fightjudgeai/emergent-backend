@@ -196,51 +196,63 @@ backend:
 frontend:
   - task: "Shadow Judging Mode - UI Component"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/components/ShadowJudgingMode.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Updated ShadowJudgingMode component to use backend APIs instead of direct Firestore. Auto-seeds library on first load. Fixed BACKEND_URL env variable access."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Shadow Judging UI Component working perfectly. Successfully loads 16 training rounds from auto-seeding. Round selection, judging interface, score buttons (10-10, 10-9, 10-8, 10-7), and 'Reveal Official Card' functionality all working correctly. Calibration results display properly with Your Score, Official Score, accuracy percentage, MAE, 10-8 Sensitivity, and Match indicators. 'Back to Library' navigation works correctly."
   
   - task: "Shadow Judging Mode - Judge Stats Dashboard"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/components/ShadowJudgingMode.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added judge stats dashboard showing total attempts, avg accuracy, avg MAE, 10-8 accuracy, and perfect matches."
+      - working: false
+        agent: "testing"
+        comment: "❌ ISSUE: 'My Stats' button not appearing even after judging multiple rounds. Stats dashboard functionality appears to be implemented but the button to access it is not visible. This may be due to a condition not being met for showing the stats button, or an issue with the judge stats API response."
   
   - task: "Shadow Judging Mode - Routing"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added /shadow-judging route in App.js for Shadow Judging Mode access."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: /shadow-judging route working correctly. Direct navigation to https://fightscribe.preview.emergentagent.com/shadow-judging loads the Shadow Judging Library page properly with all training rounds displayed."
   
   - task: "Shadow Judging Mode - Navigation Link"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/components/EventSetup.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added button in EventSetup header to navigate to Shadow Judging Training mode."
+      - working: false
+        agent: "testing"
+        comment: "❌ ISSUE: Navigation from EventSetup to Shadow Judging works, but 'Back to Events' button from Shadow Judging redirects to login page instead of EventSetup. This appears to be a session/authentication issue where the judge session is not being maintained properly during navigation."
 
 metadata:
   created_by: "main_agent"
