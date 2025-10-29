@@ -27,13 +27,45 @@ export default function JudgePanel() {
   useEffect(() => {
     loadBout();
     setupEventListener();
-  }, [boutId]);
+    
+    // Keyboard shortcuts
+    const handleKeyPress = (e) => {
+      if (e.key === 'Escape' && distractionFreeMode) {
+        toggleDistractionFreeMode();
+      }
+      if (e.key === ' ' && distractionFreeMode) {
+        e.preventDefault();
+        calculateScores();
+      }
+      if (e.key === 'h' && distractionFreeMode) {
+        setShowControls(!showControls);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [boutId, distractionFreeMode, showControls]);
 
   useEffect(() => {
     if (events.length > 0 && bout) {
       calculateScores();
     }
   }, [events, bout]);
+  
+  const toggleDistractionFreeMode = () => {
+    setDistractionFreeMode(!distractionFreeMode);
+    
+    if (!distractionFreeMode) {
+      // Entering distraction-free mode
+      document.documentElement.requestFullscreen?.();
+      toast.info('Distraction-Free Mode: Press ESC to exit, SPACE to calculate, H to toggle controls');
+    } else {
+      // Exiting distraction-free mode
+      if (document.fullscreenElement) {
+        document.exitFullscreen?.();
+      }
+    }
+  };
 
   const loadBout = async () => {
     try {
