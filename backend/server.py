@@ -1337,7 +1337,7 @@ async def update_fighter_stats(update: FighterStatsUpdate):
 async def get_fighter_stats(fighter_name: str):
     """Get historical statistics for a fighter"""
     try:
-        stats = await db.fighter_stats.find_one({"fighter_name": fighter_name})
+        stats = await db.fighter_stats.find_one({"fighter_name": fighter_name}, {"_id": 0})
         
         if not stats:
             raise HTTPException(status_code=404, detail=f"No stats found for {fighter_name}")
