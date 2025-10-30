@@ -1634,7 +1634,7 @@ class CombatJudgingAPITester:
             success, response = self.run_test(
                 f"Create Tuning Profile - {profile['name']}", 
                 "POST", 
-                "tuning-profiles", 
+                "tuning-profiles/create", 
                 200, 
                 profile
             )
