@@ -244,7 +244,7 @@ export default function EventSetup() {
               data-testid="create-event-btn"
               onClick={createEvent}
               disabled={loading}
-              className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg transition-all duration-200"
+              className="w-full h-12 text-base font-semibold bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg transition-all duration-200"
             >
               {loading ? 'Creating Event...' : 'Create Event & Continue'}
             </Button>
