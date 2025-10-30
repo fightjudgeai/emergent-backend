@@ -311,15 +311,18 @@ frontend:
   
   - task: "Security & Audit - Routing"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added /audit-logs route in App.js pointing to AuditLogViewer component."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: /audit-logs route working correctly. Successfully navigates to AuditLogViewer component for both owner and non-owner users with appropriate access control."
   
   - task: "Security & Audit - Navigation Button"
     implemented: true
