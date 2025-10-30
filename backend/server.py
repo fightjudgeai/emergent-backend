@@ -1776,11 +1776,11 @@ async def update_tuning_profile(profile_id: str, update: TuningProfileUpdate):
         update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
         
         # Convert nested models to dicts
-        if "weights" in update_data:
+        if "weights" in update_data and hasattr(update_data["weights"], 'model_dump'):
             update_data["weights"] = update_data["weights"].model_dump()
-        if "thresholds" in update_data:
+        if "thresholds" in update_data and hasattr(update_data["thresholds"], 'model_dump'):
             update_data["thresholds"] = update_data["thresholds"].model_dump()
-        if "gate_sensitivity" in update_data:
+        if "gate_sensitivity" in update_data and hasattr(update_data["gate_sensitivity"], 'model_dump'):
             update_data["gate_sensitivity"] = update_data["gate_sensitivity"].model_dump()
         
         await db.tuning_profiles.update_one(
