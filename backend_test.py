@@ -691,7 +691,7 @@ class CombatJudgingAPITester:
         """Test audit log export functionality"""
         print("\n📤 Testing Security & Audit - Export Audit Logs...")
         
-        success, response = self.run_test("Export Audit Logs", "GET", "audit/export", 200)
+        success, response = self.run_test("Export Audit Logs", "GET", "audit/export?judge_id=owner-001", 200)
         
         if success and response:
             export_format = response.get('export_format', '')
