@@ -650,7 +650,7 @@ class CombatJudgingAPITester:
             success, response = self.run_test(
                 f"Verify Signature - Log #{i+1}", 
                 "GET", 
-                f"audit/verify/{log_id}", 
+                f"audit/verify/{log_id}?judge_id=owner-001", 
                 200
             )
             
