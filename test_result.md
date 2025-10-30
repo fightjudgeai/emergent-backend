@@ -377,10 +377,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Security & Audit - Backend APIs"
-    - "Security & Audit - AuditLogViewer Component"
-    - "Security & Audit - Routing"
-    - "Security & Audit - Navigation Button"
+    - "Judge Profile Management - Backend APIs"
+    - "Judge Profile - JudgeProfile Component"
+    - "Judge Profile - Routing"
+    - "Judge Profile - Navigation Button"
+    - "Audit Logs - Owner Access Control"
   stuck_tasks:
     - "Shadow Judging Mode - Judge Stats Dashboard"
     - "Shadow Judging Mode - Navigation Link"
