@@ -982,7 +982,7 @@ class CombatJudgingAPITester:
                 print(f"   ✅ History retrieved for judge: {judge_id}")
                 
                 # Verify response structure
-                required_fields = ['judgeId', 'submissions', 'stats']
+                required_fields = ['judgeId', 'history', 'stats']
                 missing_fields = [field for field in required_fields if field not in response]
                 
                 if missing_fields:
@@ -990,7 +990,7 @@ class CombatJudgingAPITester:
                     all_success = False
                     continue
                 
-                submissions = response.get('submissions', [])
+                submissions = response.get('history', [])
                 stats = response.get('stats', {})
                 
                 print(f"   Submissions count: {len(submissions)}")
