@@ -1,0 +1,15 @@
+{
+  "total_tests": 20,
+  "passed_tests": 19,
+  "success_rate": 95.0,
+  "results": [
+    {
+      "test": "GET /api/audit/stats (non-owner access)",
+      "success": false,
+      "expected_status": 403,
+      "actual_status": 500,
+      "url": "https://judgesync.preview.emergentagent.com/api/audit/stats?judge_id=JUDGE001",
+      "error": "{\"detail\":\"403: Access denied. Only owner can access audit logs.\"}"
+    }
+  ]
+}
