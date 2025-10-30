@@ -127,6 +127,32 @@ export default function AuditLogViewer() {
     }
   };
 
+  // Access denied UI for non-owner users
+  if (!loading && !isOwner) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0b] p-4 md:p-8 flex items-center justify-center">
+        <Card className="bg-[#13151a] border-[#2a2d35] p-12 max-w-md">
+          <div className="text-center">
+            <Lock className="w-20 h-20 mx-auto mb-6 text-red-500" />
+            <h1 className="text-3xl font-bold text-white mb-4">Access Denied</h1>
+            <p className="text-gray-400 mb-6">
+              Security & Audit logs are restricted to the system owner only.
+            </p>
+            <p className="text-sm text-gray-500 mb-8">
+              Current Judge ID: <span className="text-white font-mono">{judgeId || 'Not logged in'}</span>
+            </p>
+            <Button
+              onClick={() => navigate('/')}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              Back to Events
+            </Button>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#0a0a0b] p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
