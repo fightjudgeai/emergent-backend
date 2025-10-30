@@ -95,7 +95,7 @@ export default function EventSetup() {
     }}>
       <Card className="w-full max-w-4xl bg-[#13151a]/95 border-[#2a2d35] backdrop-blur-xl shadow-2xl">
         <CardHeader className="text-center space-y-4 pb-8">
-          <div className="flex flex-wrap justify-end gap-2 mb-2">
+          <div className="flex flex-wrap justify-center gap-2 mb-2">
             <Button
               onClick={() => navigate('/profile')}
               className="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white text-sm px-3 py-2"
