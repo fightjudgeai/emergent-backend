@@ -576,7 +576,7 @@ class CombatJudgingAPITester:
         """Test audit statistics endpoint"""
         print("\n📊 Testing Security & Audit - Audit Statistics...")
         
-        success, response = self.run_test("Get Audit Statistics", "GET", "audit/stats", 200)
+        success, response = self.run_test("Get Audit Statistics", "GET", "audit/stats?judge_id=owner-001", 200)
         
         if success and response:
             total_logs = response.get('total_logs', 0)
