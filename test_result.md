@@ -112,10 +112,14 @@ user_problem_statement: |
   6. Per-Promotion Tuning Profiles ✅
   7. Distraction-Free Mode ✅ (Later removed per user request)
   8. Uncertainty Bands ✅
-  9. Accessibility Features (large-type, high contrast, audible cues) ✅
-  10. Security & Audit (cryptographic signatures, WORM logs) - Frontend integration in progress
+  9. Accessibility Features (large-type, high contrast, audible cues) ✅ (Later removed per user request)
+  10. Security & Audit (cryptographic signatures, WORM logs) ✅
   
-  Currently completing Feature #10: Security & Audit frontend integration
+  Additional Features:
+  - Judge Profile Management System ✅
+  - Owner-restricted audit log access ✅
+  
+  Currently completing: Judge Profile Management testing
 
 backend:
   - task: "Shadow Judging API - Seed Training Library"
