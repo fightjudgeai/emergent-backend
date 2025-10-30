@@ -2027,6 +2027,133 @@ async def get_audit_stats():
         logger.error(f"Error fetching audit stats: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Judge Profile Management APIs
+@api_router.post("/judges")
+async def create_or_update_judge(profile: JudgeProfileCreate):
+    """Create or update judge profile"""
+    try:
+        existing = await db.judges.find_one({"judgeId": profile.judgeId})
+        
+        profile_dict = profile.dict()
+        
+        if existing:
+            # Update existing profile
+            profile_dict["updatedAt"] = datetime.now(timezone.utc).isoformat()
+            await db.judges.update_one(
+                {"judgeId": profile.judgeId},
+                {"$set": prepare_for_mongo(profile_dict)}
+            )
+            message = "Profile updated successfully"
+        else:
+            # Create new profile
+            profile_dict["createdAt"] = datetime.now(timezone.utc).isoformat()
+            profile_dict["updatedAt"] = datetime.now(timezone.utc).isoformat()
+            profile_dict["totalRoundsJudged"] = 0
+            profile_dict["averageAccuracy"] = 0.0
+            await db.judges.insert_one(prepare_for_mongo(profile_dict))
+            message = "Profile created successfully"
+        
+        return {"success": True, "message": message, "judgeId": profile.judgeId}
+    except Exception as e:
+        logger.error(f"Error creating/updating judge profile: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/judges/{judge_id}")
+async def get_judge_profile(judge_id: str):
+    """Get judge profile by ID"""
+    try:
+        profile = await db.judges.find_one({"judgeId": judge_id}, {"_id": 0})
+        
+        if not profile:
+            raise HTTPException(status_code=404, detail="Judge profile not found")
+        
+        profile = parse_from_mongo(profile)
+        
+        # Get latest stats from shadow judging
+        submissions = await db.training_scores.find({"judgeId": judge_id}, {"_id": 0}).to_list(1000)
+        
+        if submissions:
+            total_attempts = len(submissions)
+            avg_accuracy = sum(s["accuracy"] for s in submissions) / total_attempts
+            perfect_matches = sum(1 for s in submissions if s["match"])
+            
+            profile["totalRoundsJudged"] = total_attempts
+            profile["averageAccuracy"] = round(avg_accuracy, 2)
+            profile["perfectMatches"] = perfect_matches
+        
+        return profile
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching judge profile: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/judges/{judge_id}")
+async def update_judge_profile(judge_id: str, updates: JudgeProfileUpdate):
+    """Update judge profile"""
+    try:
+        existing = await db.judges.find_one({"judgeId": judge_id})
+        
+        if not existing:
+            raise HTTPException(status_code=404, detail="Judge profile not found")
+        
+        update_dict = {k: v for k, v in updates.dict().items() if v is not None}
+        update_dict["updatedAt"] = datetime.now(timezone.utc).isoformat()
+        
+        await db.judges.update_one(
+            {"judgeId": judge_id},
+            {"$set": prepare_for_mongo(update_dict)}
+        )
+        
+        return {"success": True, "message": "Profile updated successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating judge profile: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/judges/{judge_id}/history")
+async def get_judge_history(judge_id: str, limit: int = 50):
+    """Get judge's scoring history"""
+    try:
+        # Get shadow judging submissions
+        submissions = await db.training_scores.find(
+            {"judgeId": judge_id},
+            {"_id": 0}
+        ).sort("timestamp", -1).limit(limit).to_list(limit)
+        
+        submissions = [parse_from_mongo(sub) for sub in submissions]
+        
+        # Calculate summary stats
+        if submissions:
+            total = len(submissions)
+            avg_accuracy = sum(s["accuracy"] for s in submissions) / total
+            avg_mae = sum(s["mae"] for s in submissions) / total
+            perfect_matches = sum(1 for s in submissions if s["match"])
+            
+            stats = {
+                "totalAttempts": total,
+                "averageAccuracy": round(avg_accuracy, 2),
+                "averageMAE": round(avg_mae, 2),
+                "perfectMatches": perfect_matches
+            }
+        else:
+            stats = {
+                "totalAttempts": 0,
+                "averageAccuracy": 0,
+                "averageMAE": 0,
+                "perfectMatches": 0
+            }
+        
+        return {
+            "judgeId": judge_id,
+            "stats": stats,
+            "history": submissions
+        }
+    except Exception as e:
+        logger.error(f"Error fetching judge history: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
