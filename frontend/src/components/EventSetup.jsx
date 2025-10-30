@@ -90,12 +90,12 @@ export default function EventSetup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{
+    <div className="min-h-screen flex items-center justify-center p-2" style={{
       background: 'linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #0f1419 100%)'
     }}>
       <Card className="w-full max-w-4xl bg-[#13151a]/95 border-[#2a2d35] backdrop-blur-xl shadow-2xl">
-        <CardHeader className="text-center space-y-4 pb-8">
-          <div className="flex flex-wrap justify-center gap-2 mb-2">
+        <CardHeader className="text-center space-y-2 pb-4">
+          <div className="flex flex-wrap justify-center gap-2 mb-1">
             <Button
               onClick={() => navigate('/profile')}
               className="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white text-sm px-3 py-2"
@@ -132,24 +132,24 @@ export default function EventSetup() {
               Audit
             </Button>
           </div>
-          <div className="mx-auto w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
-            <Swords className="w-10 h-10 text-white" />
+          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <Swords className="w-8 h-8 text-white" />
           </div>
-          <CardTitle className="text-4xl font-bold tracking-tight" style={{
+          <CardTitle className="text-3xl font-bold tracking-tight" style={{
             background: 'linear-gradient(135deg, #fbbf24 0%, #f97316 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}>
             Combat Judging System
           </CardTitle>
-          <CardDescription className="text-lg text-gray-400">
+          <CardDescription className="text-base text-gray-400">
             Create event and add fights (up to 15)
           </CardDescription>
         </CardHeader>
         
-        <CardContent className="space-y-6 max-h-[60vh] overflow-y-auto">
+        <CardContent className="space-y-4 max-h-[50vh] overflow-y-auto">
           {/* Event Name */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="eventName" className="text-gray-300 text-sm font-medium">Event Name</Label>
             <Input
               id="eventName"
@@ -157,13 +157,13 @@ export default function EventSetup() {
               placeholder="e.g., UFC 300, Bellator 250"
               value={eventName}
               onChange={(e) => setEventName(e.target.value)}
-              className="h-12 bg-[#1a1d24] border-[#2a2d35] text-white placeholder:text-gray-500 focus:border-amber-500 focus:ring-amber-500/20"
+              className="h-10 bg-[#1a1d24] border-[#2a2d35] text-white placeholder:text-gray-500 focus:border-amber-500 focus:ring-amber-500/20"
             />
           </div>
 
-          <div className="border-t border-[#2a2d35] pt-4">
-            <div className="flex items-center justify-between mb-4">
-              <Label className="text-gray-300 text-base font-medium">Fights ({fights.length}/15)</Label>
+          <div className="border-t border-[#2a2d35] pt-3">
+            <div className="flex items-center justify-between mb-3">
+              <Label className="text-gray-300 text-sm font-medium">Fights ({fights.length}/15)</Label>
               <Button
                 data-testid="add-fight-btn"
                 onClick={addFight}
