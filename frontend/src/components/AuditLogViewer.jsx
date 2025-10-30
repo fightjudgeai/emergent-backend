@@ -18,28 +18,48 @@ export default function AuditLogViewer() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState({ action_type: '', user_id: '', resource_type: '' });
   const [verifying, setVerifying] = useState(null);
+  const [isOwner, setIsOwner] = useState(false);
+  const [judgeId, setJudgeId] = useState(null);
 
   useEffect(() => {
-    loadData();
+    // Check if user is owner
+    const judgeProfile = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
+    const currentJudgeId = judgeProfile.judgeId;
+    setJudgeId(currentJudgeId);
+    
+    // Owner check - owner-001 is the owner
+    if (currentJudgeId === 'owner-001') {
+      setIsOwner(true);
+      loadData(currentJudgeId);
+    } else {
+      setIsOwner(false);
+      setLoading(false);
+    }
   }, [filter]);
 
-  const loadData = async () => {
+  const loadData = async (currentJudgeId) => {
     try {
       setLoading(true);
       
       // Build query params
       const params = new URLSearchParams();
+      params.append('judge_id', currentJudgeId);
       if (filter.action_type) params.append('action_type', filter.action_type);
       if (filter.user_id) params.append('user_id', filter.user_id);
       if (filter.resource_type) params.append('resource_type', filter.resource_type);
       
       // Load logs
       const logsResponse = await fetch(`${BACKEND_URL}/api/audit/logs?${params.toString()}`);
+      if (logsResponse.status === 403) {
+        setIsOwner(false);
+        setLoading(false);
+        return;
+      }
       const logsData = await logsResponse.json();
       setLogs(logsData.logs || []);
       
       // Load stats
-      const statsResponse = await fetch(`${BACKEND_URL}/api/audit/stats`);
+      const statsResponse = await fetch(`${BACKEND_URL}/api/audit/stats?judge_id=${currentJudgeId}`);
       const statsData = await statsResponse.json();
       setStats(statsData);
     } catch (error) {
@@ -53,7 +73,7 @@ export default function AuditLogViewer() {
   const verifySignature = async (logId) => {
     try {
       setVerifying(logId);
-      const response = await fetch(`${BACKEND_URL}/api/audit/verify/${logId}`);
+      const response = await fetch(`${BACKEND_URL}/api/audit/verify/${logId}?judge_id=${judgeId}`);
       const result = await response.json();
       
       if (result.valid) {
