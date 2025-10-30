@@ -1,7 +1,7 @@
 {
-  "total_tests": 32,
-  "passed_tests": 32,
-  "success_rate": 100.0,
+  "total_tests": 29,
+  "passed_tests": 24,
+  "success_rate": 82.75862068965517,
   "results": [
     {
       "test": "Root API Endpoint",
@@ -20,9 +20,9 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/status",
       "response": {
-        "id": "fb1507c4-f587-434e-b86a-5d00fa6ed35e",
-        "client_name": "test_client_172140",
-        "timestamp": "2025-10-29T17:21:40.638483Z"
+        "id": "908e1c54-da64-4654-8c95-eb8404318cd9",
+        "client_name": "test_client_012753",
+        "timestamp": "2025-10-30T01:27:53.691016Z"
       }
     },
     {
@@ -56,6 +56,11 @@
           "id": "fb1507c4-f587-434e-b86a-5d00fa6ed35e",
           "client_name": "test_client_172140",
           "timestamp": "2025-10-29T17:21:40.638483Z"
+        },
+        {
+          "id": "908e1c54-da64-4654-8c95-eb8404318cd9",
+          "client_name": "test_client_012753",
+          "timestamp": "2025-10-30T01:27:53.691016Z"
         }
       ]
     },
@@ -274,7 +279,7 @@
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/rounds",
       "response": [
         {
-          "id": "0e10652f-38b9-41c7-85ad-d665e6e02ab5",
+          "id": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
           "event": "UFC 299: O'Malley vs. Vera 2",
           "fighters": "Dustin Poirier vs. Benoit Saint Denis",
           "roundNumber": 2,
@@ -286,10 +291,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.880908Z"
+          "createdAt": "2025-10-30T01:27:53.917025Z"
         },
         {
-          "id": "debf853b-b393-41b5-a110-0926707673c1",
+          "id": "1552dbb2-097a-4c37-9d89-95bfd91b019a",
           "event": "UFC 300: Pereira vs. Hill",
           "fighters": "Max Holloway vs. Justin Gaethje",
           "roundNumber": 5,
@@ -301,10 +306,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.880953Z"
+          "createdAt": "2025-10-30T01:27:53.917056Z"
         },
         {
-          "id": "c7052c6a-fb4d-45e6-86b6-eaf6ef97bed0",
+          "id": "b769758f-d5aa-41b7-a950-1778a232aaaa",
           "event": "UFC 296: Edwards vs. Covington",
           "fighters": "Alexandre Pantoja vs. Brandon Royval",
           "roundNumber": 1,
@@ -316,10 +321,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.880966Z"
+          "createdAt": "2025-10-30T01:27:53.917069Z"
         },
         {
-          "id": "21a197b0-5b71-406e-a192-3ae6c08f8e87",
+          "id": "cbc3c80f-ea9d-4870-ba1b-fc0daf7e30db",
           "event": "UFC 298: Volkanovski vs. Topuria",
           "fighters": "Ian Garry vs. Geoff Neal",
           "roundNumber": 3,
@@ -331,10 +336,10 @@
           ],
           "officialCard": "10-10",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.880976Z"
+          "createdAt": "2025-10-30T01:27:53.917078Z"
         },
         {
-          "id": "9832ffb2-f112-45d8-a157-11055c578be1",
+          "id": "61cf25ff-8a51-4177-b101-b2dab3b8994e",
           "event": "UFC 297: Strickland vs. Du Plessis",
           "fighters": "Sean Strickland vs. Dricus Du Plessis",
           "roundNumber": 2,
@@ -346,10 +351,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.880984Z"
+          "createdAt": "2025-10-30T01:27:53.917087Z"
         },
         {
-          "id": "d4fcc11b-1d67-4de1-8648-2868ee01e8e9",
+          "id": "8d83005f-51bf-45f5-8343-a7eefca467c4",
           "event": "UFC 295: Prochazka vs. Pereira",
           "fighters": "Jiri Prochazka vs. Alex Pereira",
           "roundNumber": 1,
@@ -361,10 +366,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.880992Z"
+          "createdAt": "2025-10-30T01:27:53.917095Z"
         },
         {
-          "id": "83b64e92-70a2-43e4-87f9-6fb0e4e2739a",
+          "id": "4dcba717-b41a-4d3f-b800-5ba7e3d76ff4",
           "event": "UFC 294: Makhachev vs. Volkanovski 2",
           "fighters": "Islam Makhachev vs. Alexander Volkanovski",
           "roundNumber": 1,
@@ -376,10 +381,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.881002Z"
+          "createdAt": "2025-10-30T01:27:53.917105Z"
         },
         {
-          "id": "8993d8d8-187c-4f4f-9398-66958c997492",
+          "id": "f7f5dc25-0dc7-4caa-9ba4-acb6343ad2d1",
           "event": "UFC 293: Adesanya vs. Strickland",
           "fighters": "Israel Adesanya vs. Sean Strickland",
           "roundNumber": 3,
@@ -391,10 +396,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.881012Z"
+          "createdAt": "2025-10-30T01:27:53.917114Z"
         },
         {
-          "id": "97d135f4-3ef8-4836-9c85-7cff44fdfe02",
+          "id": "d5deaa8e-0a04-4227-88e5-53e8adcea105",
           "event": "UFC 292: Sterling vs. O'Malley",
           "fighters": "Aljamain Sterling vs. Sean O'Malley",
           "roundNumber": 1,
@@ -406,10 +411,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.881020Z"
+          "createdAt": "2025-10-30T01:27:53.917123Z"
         },
         {
-          "id": "0d1773fa-43cc-4f59-bb59-e3f0668dd171",
+          "id": "a6159a35-e3d9-4818-8887-ef3060e2191c",
           "event": "UFC 291: Poirier vs. Gaethje 2",
           "fighters": "Dustin Poirier vs. Justin Gaethje",
           "roundNumber": 2,
@@ -421,10 +426,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.881028Z"
+          "createdAt": "2025-10-30T01:27:53.917131Z"
         },
         {
-          "id": "2b31c2b5-68d5-4813-b67e-249c9bb2bc03",
+          "id": "52a0f71c-d691-4a01-a450-663926686a4a",
           "event": "UFC 290: Volkanovski vs. Rodriguez",
           "fighters": "Brandon Moreno vs. Alexandre Pantoja",
           "roundNumber": 4,
@@ -436,10 +441,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.881036Z"
+          "createdAt": "2025-10-30T01:27:53.917139Z"
         },
         {
-          "id": "244719d1-28e9-4feb-8a75-6c8715dd4c8f",
+          "id": "3e843e2a-a8c7-471f-848b-a8ce85a10969",
           "event": "UFC 289: Nunes vs. Aldana",
           "fighters": "Charles Oliveira vs. Beneil Dariush",
           "roundNumber": 1,
@@ -451,10 +456,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.881044Z"
+          "createdAt": "2025-10-30T01:27:53.917147Z"
         },
         {
-          "id": "8b0576e0-09ef-4330-b897-f7fb874f76c9",
+          "id": "22bf7229-de6c-4e6f-aafe-480b582c810f",
           "event": "UFC 288: Sterling vs. Cejudo",
           "fighters": "Aljamain Sterling vs. Henry Cejudo",
           "roundNumber": 2,
@@ -466,10 +471,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.881051Z"
+          "createdAt": "2025-10-30T01:27:53.917154Z"
         },
         {
-          "id": "5fa60d36-8c19-4d64-970a-f74bd9bc9440",
+          "id": "5d3be26f-b19a-4ada-9411-fc42b71701e5",
           "event": "UFC 287: Pereira vs. Adesanya 2",
           "fighters": "Alex Pereira vs. Israel Adesanya",
           "roundNumber": 2,
@@ -481,10 +486,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.881059Z"
+          "createdAt": "2025-10-30T01:27:53.917162Z"
         },
         {
-          "id": "b8188c66-323d-43a5-b407-7ad87b1e0769",
+          "id": "c40f65c6-9147-42d9-b89c-534a558dbcc5",
           "event": "UFC 286: Edwards vs. Usman 3",
           "fighters": "Leon Edwards vs. Kamaru Usman",
           "roundNumber": 1,
@@ -496,10 +501,10 @@
           ],
           "officialCard": "10-10",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.881067Z"
+          "createdAt": "2025-10-30T01:27:53.917170Z"
         },
         {
-          "id": "b11456fd-efbc-4183-8beb-35132ab47314",
+          "id": "08ec69ee-5204-41f5-8b58-981d2553d49d",
           "event": "UFC 285: Jones vs. Gane",
           "fighters": "Jon Jones vs. Ciryl Gane",
           "roundNumber": 1,
@@ -511,7 +516,7 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-29T17:21:40.881077Z"
+          "createdAt": "2025-10-30T01:27:53.917178Z"
         }
       ]
     },
@@ -522,17 +527,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "63a6183a-c483-41dd-b1d1-6f454feb605a",
+        "id": "02f9603a-efd5-42cb-ae0e-4f4fdfccdd58",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "0e10652f-38b9-41c7-85ad-d665e6e02ab5",
+        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T17:21:40.955472Z"
+        "timestamp": "2025-10-30T01:27:53.993762Z"
       }
     },
     {
@@ -542,17 +547,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "2b1e8cad-3fbe-4e0a-8044-3a9da4f33b33",
+        "id": "40b01e6c-c203-473d-8e60-4aea0453916a",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "0e10652f-38b9-41c7-85ad-d665e6e02ab5",
+        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
         "myScore": "10-8",
         "officialScore": "10-9",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 85.0,
         "match": false,
-        "timestamp": "2025-10-29T17:21:40.989230Z"
+        "timestamp": "2025-10-30T01:27:54.035218Z"
       }
     },
     {
@@ -562,17 +567,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "56fb1799-991f-4f59-a06a-241f36a8c38e",
+        "id": "bd5af587-6849-4b26-b74c-8e5b17afec52",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "0e10652f-38b9-41c7-85ad-d665e6e02ab5",
+        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T17:21:41.022765Z"
+        "timestamp": "2025-10-30T01:27:54.072499Z"
       }
     },
     {
@@ -582,17 +587,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "d8399bbc-d689-4626-ae36-55632bed892b",
+        "id": "95ecb8bc-9195-43d2-8d7a-7a2daa785611",
         "judgeId": "test-judge-2",
         "judgeName": "Maria Santos",
-        "roundId": "0e10652f-38b9-41c7-85ad-d665e6e02ab5",
+        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
         "myScore": "10-9",
         "officialScore": "10-8",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 75.0,
         "match": false,
-        "timestamp": "2025-10-29T17:21:41.059175Z"
+        "timestamp": "2025-10-30T01:27:54.112942Z"
       }
     },
     {
@@ -602,17 +607,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "f54c52af-f422-44f2-993d-a2d0edd8c1c8",
+        "id": "d8c1cd89-eddd-4bc3-92c6-4a243e8f2b10",
         "judgeId": "test-judge-2",
         "judgeName": "Maria Santos",
-        "roundId": "0e10652f-38b9-41c7-85ad-d665e6e02ab5",
+        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T17:21:41.093397Z"
+        "timestamp": "2025-10-30T01:27:54.151146Z"
       }
     },
     {
@@ -622,17 +627,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "f77da0df-398b-4ce9-9bd4-1e87422ea7c6",
+        "id": "98f34e12-5ef8-4132-bf75-244fd7263c28",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "0e10652f-38b9-41c7-85ad-d665e6e02ab5",
+        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
         "myScore": "10-8",
         "officialScore": "10-8",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T17:21:41.134068Z"
+        "timestamp": "2025-10-30T01:27:54.189316Z"
       }
     },
     {
@@ -642,17 +647,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "9761d25a-0880-4b27-a087-66fe9ca9a4d5",
+        "id": "6b67750a-f7a0-45d8-a159-ab6aa5310646",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "0e10652f-38b9-41c7-85ad-d665e6e02ab5",
+        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
         "myScore": "10-9",
         "officialScore": "10-8",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 80.0,
         "match": false,
-        "timestamp": "2025-10-29T17:21:41.184786Z"
+        "timestamp": "2025-10-30T01:27:54.230974Z"
       }
     },
     {
@@ -662,17 +667,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "798868ed-6a3d-48ca-9e37-91cd1c10c680",
+        "id": "83fa3785-4208-4b63-8539-8da0b8ff4f22",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "0e10652f-38b9-41c7-85ad-d665e6e02ab5",
+        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T17:21:41.223535Z"
+        "timestamp": "2025-10-30T01:27:54.267402Z"
       }
     },
     {
@@ -682,17 +687,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "1b0ad2fd-e2ad-4627-8078-f7a81f46acf4",
+        "id": "7ea425fa-2a5f-4321-81e7-c015283359a2",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "0e10652f-38b9-41c7-85ad-d665e6e02ab5",
+        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
         "myScore": "10-8",
         "officialScore": "10-8",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-29T17:21:41.256020Z"
+        "timestamp": "2025-10-30T01:27:54.300995Z"
       }
     },
     {
@@ -704,11 +709,11 @@
       "response": {
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "totalAttempts": 9,
+        "totalAttempts": 12,
         "averageAccuracy": 95.0,
         "averageMAE": 0.33,
         "sensitivity108Rate": 66.67,
-        "perfectMatches": 6
+        "perfectMatches": 8
       }
     },
     {
@@ -719,7 +724,7 @@
       "url": "https://judgesync.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "f5946830-97bb-42d7-a943-c93b5a0a9bef"
+        "log_id": "7ff5e1ec-e7cf-413a-a892-0ba98b1a25b5"
       }
     },
     {
@@ -730,7 +735,7 @@
       "url": "https://judgesync.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "3639b8d5-5288-4dd2-bb89-4b3576b5a16a"
+        "log_id": "12f8cd8c-dd33-49b8-a134-c4c1ff24a2d5"
       }
     },
     {
@@ -741,730 +746,83 @@
       "url": "https://judgesync.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "95d42cc9-0278-4f16-acab-9a46571f00bb"
+        "log_id": "76cb4424-eee1-412f-99ef-0bb6d7f944cd"
       }
     },
     {
       "test": "Get All Audit Logs",
-      "success": true,
+      "success": false,
       "expected_status": 200,
-      "actual_status": 200,
+      "actual_status": 422,
       "url": "https://judgesync.preview.emergentagent.com/api/audit/logs",
-      "response": {
-        "logs": [
-          {
-            "id": "95d42cc9-0278-4f16-acab-9a46571f00bb",
-            "timestamp": "2025-10-29T17:21:41.399678+00:00",
-            "action_type": "profile_changed",
-            "user_id": "judge-002",
-            "user_name": "Maria Garcia",
-            "resource_type": "tuning_profile",
-            "resource_id": "profile_ufc_001",
-            "action_data": {
-              "changes": [
-                "weights.KD",
-                "thresholds.threshold_10_8"
-              ],
-              "promotion": "UFC"
-            },
-            "signature": "03fa1ffd20d2c7c341524a5c7e5c074a05fadd77156b15135fb9114d6d6179ac",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "3639b8d5-5288-4dd2-bb89-4b3576b5a16a",
-            "timestamp": "2025-10-29T17:21:41.363618+00:00",
-            "action_type": "flag_created",
-            "user_id": "admin-001",
-            "user_name": "Admin User",
-            "resource_type": "discrepancy_flag",
-            "resource_id": "flag_456",
-            "action_data": {
-              "flag_type": "boundary_case",
-              "severity": "medium",
-              "bout_id": "bout_123"
-            },
-            "signature": "38f1f651dd3703aa5683eecb58857a3e431b162bd17700df12ff3077d3fb65cd",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "f5946830-97bb-42d7-a943-c93b5a0a9bef",
-            "timestamp": "2025-10-29T17:21:41.327823+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "27cee781a59a5efe93912abe91a667c88f83e6d6dfbca0ec6de70aa84a144c62",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          },
-          {
-            "id": "bac9c7f2-2b24-4d26-8e25-7a2887719ace",
-            "timestamp": "2025-10-29T17:21:40.838867+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_invalid_round_1",
-            "action_data": {
-              "bout_id": "test_bout_invalid",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "e857d67c931092f5d1d3426fae56a8678bb8802a2faebc4feb09603a9007dba3",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "d1fe5e82-e974-4ce5-9db7-d42766419406",
-            "timestamp": "2025-10-29T17:21:40.800392+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_empty_round_1",
-            "action_data": {
-              "bout_id": "test_bout_empty",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "d6cc336d70581940ff52c87863e80d6ccf212b5db69c4fb4b9499e68602a4a0c",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "03d80afd-aec5-4af3-9d25-e475ba269d5a",
-            "timestamp": "2025-10-29T17:21:40.759306+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_123_round_1",
-            "action_data": {
-              "bout_id": "test_bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 167.82,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "f25c99432f915b4b3609a1407d5071210afba98d6fab86c8c6ab40af6bd77f4f",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "32001e02-70a9-4b9c-936a-b6e37fcdc6a7",
-            "timestamp": "2025-10-29T17:20:37.316997+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "19969365a5fbae211c55e9186b0de13ccfa72b2b803fcfbb2d334d09cf0996e3",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          }
-        ],
-        "count": 7,
-        "immutable": true,
-        "message": "These logs are WORM (Write Once Read Many) and cannot be modified"
-      }
+      "error": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"judge_id\"],\"msg\":\"Field required\",\"input\":null,\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"}]}"
     },
     {
       "test": "Get Logs - Filter by action_type",
-      "success": true,
+      "success": false,
       "expected_status": 200,
-      "actual_status": 200,
+      "actual_status": 422,
       "url": "https://judgesync.preview.emergentagent.com/api/audit/logs?action_type=score_calculation",
-      "response": {
-        "logs": [
-          {
-            "id": "f5946830-97bb-42d7-a943-c93b5a0a9bef",
-            "timestamp": "2025-10-29T17:21:41.327823+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "27cee781a59a5efe93912abe91a667c88f83e6d6dfbca0ec6de70aa84a144c62",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          },
-          {
-            "id": "bac9c7f2-2b24-4d26-8e25-7a2887719ace",
-            "timestamp": "2025-10-29T17:21:40.838867+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_invalid_round_1",
-            "action_data": {
-              "bout_id": "test_bout_invalid",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "e857d67c931092f5d1d3426fae56a8678bb8802a2faebc4feb09603a9007dba3",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "d1fe5e82-e974-4ce5-9db7-d42766419406",
-            "timestamp": "2025-10-29T17:21:40.800392+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_empty_round_1",
-            "action_data": {
-              "bout_id": "test_bout_empty",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "d6cc336d70581940ff52c87863e80d6ccf212b5db69c4fb4b9499e68602a4a0c",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "03d80afd-aec5-4af3-9d25-e475ba269d5a",
-            "timestamp": "2025-10-29T17:21:40.759306+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_123_round_1",
-            "action_data": {
-              "bout_id": "test_bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 167.82,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "f25c99432f915b4b3609a1407d5071210afba98d6fab86c8c6ab40af6bd77f4f",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "32001e02-70a9-4b9c-936a-b6e37fcdc6a7",
-            "timestamp": "2025-10-29T17:20:37.316997+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "19969365a5fbae211c55e9186b0de13ccfa72b2b803fcfbb2d334d09cf0996e3",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          }
-        ],
-        "count": 5,
-        "immutable": true,
-        "message": "These logs are WORM (Write Once Read Many) and cannot be modified"
-      }
+      "error": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"judge_id\"],\"msg\":\"Field required\",\"input\":null,\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"}]}"
     },
     {
       "test": "Get Logs - Filter by user_id",
-      "success": true,
+      "success": false,
       "expected_status": 200,
-      "actual_status": 200,
+      "actual_status": 422,
       "url": "https://judgesync.preview.emergentagent.com/api/audit/logs?user_id=judge-001",
-      "response": {
-        "logs": [
-          {
-            "id": "f5946830-97bb-42d7-a943-c93b5a0a9bef",
-            "timestamp": "2025-10-29T17:21:41.327823+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "27cee781a59a5efe93912abe91a667c88f83e6d6dfbca0ec6de70aa84a144c62",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          },
-          {
-            "id": "32001e02-70a9-4b9c-936a-b6e37fcdc6a7",
-            "timestamp": "2025-10-29T17:20:37.316997+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "19969365a5fbae211c55e9186b0de13ccfa72b2b803fcfbb2d334d09cf0996e3",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          }
-        ],
-        "count": 2,
-        "immutable": true,
-        "message": "These logs are WORM (Write Once Read Many) and cannot be modified"
-      }
+      "error": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"judge_id\"],\"msg\":\"Field required\",\"input\":null,\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"}]}"
     },
     {
       "test": "Get Logs - Filter by resource_type",
-      "success": true,
+      "success": false,
       "expected_status": 200,
-      "actual_status": 200,
+      "actual_status": 422,
       "url": "https://judgesync.preview.emergentagent.com/api/audit/logs?resource_type=round_score",
-      "response": {
-        "logs": [
-          {
-            "id": "f5946830-97bb-42d7-a943-c93b5a0a9bef",
-            "timestamp": "2025-10-29T17:21:41.327823+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "27cee781a59a5efe93912abe91a667c88f83e6d6dfbca0ec6de70aa84a144c62",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          },
-          {
-            "id": "bac9c7f2-2b24-4d26-8e25-7a2887719ace",
-            "timestamp": "2025-10-29T17:21:40.838867+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_invalid_round_1",
-            "action_data": {
-              "bout_id": "test_bout_invalid",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "e857d67c931092f5d1d3426fae56a8678bb8802a2faebc4feb09603a9007dba3",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "d1fe5e82-e974-4ce5-9db7-d42766419406",
-            "timestamp": "2025-10-29T17:21:40.800392+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_empty_round_1",
-            "action_data": {
-              "bout_id": "test_bout_empty",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "d6cc336d70581940ff52c87863e80d6ccf212b5db69c4fb4b9499e68602a4a0c",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "03d80afd-aec5-4af3-9d25-e475ba269d5a",
-            "timestamp": "2025-10-29T17:21:40.759306+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_123_round_1",
-            "action_data": {
-              "bout_id": "test_bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 167.82,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "f25c99432f915b4b3609a1407d5071210afba98d6fab86c8c6ab40af6bd77f4f",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "32001e02-70a9-4b9c-936a-b6e37fcdc6a7",
-            "timestamp": "2025-10-29T17:20:37.316997+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "19969365a5fbae211c55e9186b0de13ccfa72b2b803fcfbb2d334d09cf0996e3",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          }
-        ],
-        "count": 5,
-        "immutable": true,
-        "message": "These logs are WORM (Write Once Read Many) and cannot be modified"
-      }
+      "error": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"judge_id\"],\"msg\":\"Field required\",\"input\":null,\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"}]}"
     },
     {
       "test": "Get Logs - Multiple filters",
-      "success": true,
+      "success": false,
       "expected_status": 200,
-      "actual_status": 200,
+      "actual_status": 422,
       "url": "https://judgesync.preview.emergentagent.com/api/audit/logs?action_type=score_calculation&user_id=judge-001",
-      "response": {
-        "logs": [
-          {
-            "id": "f5946830-97bb-42d7-a943-c93b5a0a9bef",
-            "timestamp": "2025-10-29T17:21:41.327823+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "27cee781a59a5efe93912abe91a667c88f83e6d6dfbca0ec6de70aa84a144c62",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          },
-          {
-            "id": "32001e02-70a9-4b9c-936a-b6e37fcdc6a7",
-            "timestamp": "2025-10-29T17:20:37.316997+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "19969365a5fbae211c55e9186b0de13ccfa72b2b803fcfbb2d334d09cf0996e3",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          }
-        ],
-        "count": 2,
-        "immutable": true,
-        "message": "These logs are WORM (Write Once Read Many) and cannot be modified"
-      }
+      "error": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"judge_id\"],\"msg\":\"Field required\",\"input\":null,\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"}]}"
     },
     {
-      "test": "Verify Signature - Log #1",
+      "test": "Create Judge Profile - Sarah Mitchell",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgesync.preview.emergentagent.com/api/audit/verify/f5946830-97bb-42d7-a943-c93b5a0a9bef",
+      "url": "https://judgesync.preview.emergentagent.com/api/judges",
       "response": {
-        "valid": true,
-        "signature": "27cee781a59a5efe93912abe91a667c88f83e6d6dfbca0ec6de70aa84a144c62",
-        "computed_signature": "27cee781a59a5efe93912abe91a667c88f83e6d6dfbca0ec6de70aa84a144c62",
-        "message": "Signature is valid - log has not been tampered with"
+        "success": true,
+        "message": "Profile created successfully",
+        "judgeId": "JUDGE001"
       }
     },
     {
-      "test": "Verify Signature - Log #2",
+      "test": "Create Judge Profile - Carlos Rodriguez",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgesync.preview.emergentagent.com/api/audit/verify/3639b8d5-5288-4dd2-bb89-4b3576b5a16a",
+      "url": "https://judgesync.preview.emergentagent.com/api/judges",
       "response": {
-        "valid": true,
-        "signature": "38f1f651dd3703aa5683eecb58857a3e431b162bd17700df12ff3077d3fb65cd",
-        "computed_signature": "38f1f651dd3703aa5683eecb58857a3e431b162bd17700df12ff3077d3fb65cd",
-        "message": "Signature is valid - log has not been tampered with"
+        "success": true,
+        "message": "Profile created successfully",
+        "judgeId": "JUDGE002"
       }
     },
     {
-      "test": "Verify Signature - Log #3",
+      "test": "Create Judge Profile - Owner Judge",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgesync.preview.emergentagent.com/api/audit/verify/95d42cc9-0278-4f16-acab-9a46571f00bb",
+      "url": "https://judgesync.preview.emergentagent.com/api/judges",
       "response": {
-        "valid": true,
-        "signature": "03fa1ffd20d2c7c341524a5c7e5c074a05fadd77156b15135fb9114d6d6179ac",
-        "computed_signature": "03fa1ffd20d2c7c341524a5c7e5c074a05fadd77156b15135fb9114d6d6179ac",
-        "message": "Signature is valid - log has not been tampered with"
-      }
-    },
-    {
-      "test": "Verify Signature - Non-existent Log",
-      "success": true,
-      "expected_status": 404,
-      "actual_status": 404,
-      "url": "https://judgesync.preview.emergentagent.com/api/audit/verify/non-existent-log-id",
-      "response": {
-        "detail": "Audit log not found"
-      }
-    },
-    {
-      "test": "Get Audit Statistics",
-      "success": true,
-      "expected_status": 200,
-      "actual_status": 200,
-      "url": "https://judgesync.preview.emergentagent.com/api/audit/stats",
-      "response": {
-        "total_logs": 7,
-        "by_action_type": [
-          {
-            "type": "score_calculation",
-            "count": 5
-          },
-          {
-            "type": "flag_created",
-            "count": 1
-          },
-          {
-            "type": "profile_changed",
-            "count": 1
-          }
-        ],
-        "top_users": [
-          {
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "count": 3
-          },
-          {
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "count": 2
-          },
-          {
-            "user_id": "admin-001",
-            "user_name": "Admin User",
-            "count": 1
-          },
-          {
-            "user_id": "judge-002",
-            "user_name": "Maria Garcia",
-            "count": 1
-          }
-        ],
-        "immutable": true,
-        "worm_compliant": true
-      }
-    },
-    {
-      "test": "Export Audit Logs",
-      "success": true,
-      "expected_status": 200,
-      "actual_status": 200,
-      "url": "https://judgesync.preview.emergentagent.com/api/audit/export",
-      "response": {
-        "export_format": "json",
-        "export_timestamp": "2025-10-29T17:21:41.831127+00:00",
-        "record_count": 7,
-        "logs": [
-          {
-            "id": "32001e02-70a9-4b9c-936a-b6e37fcdc6a7",
-            "timestamp": "2025-10-29T17:20:37.316997+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "19969365a5fbae211c55e9186b0de13ccfa72b2b803fcfbb2d334d09cf0996e3",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          },
-          {
-            "id": "03d80afd-aec5-4af3-9d25-e475ba269d5a",
-            "timestamp": "2025-10-29T17:21:40.759306+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_123_round_1",
-            "action_data": {
-              "bout_id": "test_bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 167.82,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "f25c99432f915b4b3609a1407d5071210afba98d6fab86c8c6ab40af6bd77f4f",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "d1fe5e82-e974-4ce5-9db7-d42766419406",
-            "timestamp": "2025-10-29T17:21:40.800392+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_empty_round_1",
-            "action_data": {
-              "bout_id": "test_bout_empty",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "d6cc336d70581940ff52c87863e80d6ccf212b5db69c4fb4b9499e68602a4a0c",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "bac9c7f2-2b24-4d26-8e25-7a2887719ace",
-            "timestamp": "2025-10-29T17:21:40.838867+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_invalid_round_1",
-            "action_data": {
-              "bout_id": "test_bout_invalid",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "e857d67c931092f5d1d3426fae56a8678bb8802a2faebc4feb09603a9007dba3",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "f5946830-97bb-42d7-a943-c93b5a0a9bef",
-            "timestamp": "2025-10-29T17:21:41.327823+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "27cee781a59a5efe93912abe91a667c88f83e6d6dfbca0ec6de70aa84a144c62",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          },
-          {
-            "id": "3639b8d5-5288-4dd2-bb89-4b3576b5a16a",
-            "timestamp": "2025-10-29T17:21:41.363618+00:00",
-            "action_type": "flag_created",
-            "user_id": "admin-001",
-            "user_name": "Admin User",
-            "resource_type": "discrepancy_flag",
-            "resource_id": "flag_456",
-            "action_data": {
-              "flag_type": "boundary_case",
-              "severity": "medium",
-              "bout_id": "bout_123"
-            },
-            "signature": "38f1f651dd3703aa5683eecb58857a3e431b162bd17700df12ff3077d3fb65cd",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "95d42cc9-0278-4f16-acab-9a46571f00bb",
-            "timestamp": "2025-10-29T17:21:41.399678+00:00",
-            "action_type": "profile_changed",
-            "user_id": "judge-002",
-            "user_name": "Maria Garcia",
-            "resource_type": "tuning_profile",
-            "resource_id": "profile_ufc_001",
-            "action_data": {
-              "changes": [
-                "weights.KD",
-                "thresholds.threshold_10_8"
-              ],
-              "promotion": "UFC"
-            },
-            "signature": "03fa1ffd20d2c7c341524a5c7e5c074a05fadd77156b15135fb9114d6d6179ac",
-            "ip_address": null,
-            "immutable": true
-          }
-        ],
-        "immutable": true,
-        "note": "This is a certified export of WORM audit logs"
+        "success": true,
+        "message": "Profile created successfully",
+        "judgeId": "owner-001"
       }
     }
   ]
