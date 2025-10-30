@@ -176,14 +176,14 @@ export default function EventSetup() {
             </div>
 
             {/* Fights List */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               {fights.map((fight, index) => (
-                <Card key={index} className="bg-[#1a1d24] border-[#2a2d35] p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="text-gray-500 font-bold mt-3 min-w-[30px]">#{index + 1}</div>
+                <Card key={index} className="bg-[#1a1d24] border-[#2a2d35] p-3">
+                  <div className="flex items-start gap-2">
+                    <div className="text-gray-500 font-bold mt-2 min-w-[25px]">#{index + 1}</div>
                     
-                    <div className="flex-1 space-y-3">
-                      <div className="grid md:grid-cols-2 gap-3">
+                    <div className="flex-1 space-y-2">
+                      <div className="grid md:grid-cols-2 gap-2">
                         <div className="space-y-1">
                           <Label className="text-xs text-gray-400">Fighter 1 (Red Corner)</Label>
                           <Input
@@ -191,7 +191,7 @@ export default function EventSetup() {
                             placeholder="Enter name"
                             value={fight.fighter1}
                             onChange={(e) => updateFight(index, 'fighter1', e.target.value)}
-                            className="h-10 bg-[#13151a] border-[#2a2d35] text-white placeholder:text-gray-600"
+                            className="h-9 bg-[#13151a] border-[#2a2d35] text-white placeholder:text-gray-600"
                           />
                         </div>
                         <div className="space-y-1">
@@ -201,19 +201,19 @@ export default function EventSetup() {
                             placeholder="Enter name"
                             value={fight.fighter2}
                             onChange={(e) => updateFight(index, 'fighter2', e.target.value)}
-                            className="h-10 bg-[#13151a] border-[#2a2d35] text-white placeholder:text-gray-600"
+                            className="h-9 bg-[#13151a] border-[#2a2d35] text-white placeholder:text-gray-600"
                           />
                         </div>
                       </div>
                       
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
                         <div className="flex-1">
                           <Label className="text-xs text-gray-400 mb-1 block">Rounds</Label>
                           <Select 
                             value={fight.rounds} 
                             onValueChange={(value) => updateFight(index, 'rounds', value)}
                           >
-                            <SelectTrigger className="h-10 bg-[#13151a] border-[#2a2d35] text-white">
+                            <SelectTrigger className="h-9 bg-[#13151a] border-[#2a2d35] text-white">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
@@ -229,7 +229,7 @@ export default function EventSetup() {
                       data-testid={`remove-fight-btn-${index}`}
                       onClick={() => removeFight(index)}
                       disabled={fights.length === 1}
-                      className="mt-8 h-10 w-10 p-0 bg-red-900/30 hover:bg-red-900/50 text-red-400 border border-red-800/30 disabled:opacity-30"
+                      className="mt-6 h-9 w-9 p-0 bg-red-900/30 hover:bg-red-900/50 text-red-400 border border-red-800/30 disabled:opacity-30"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -239,7 +239,7 @@ export default function EventSetup() {
             </div>
           </div>
 
-          <div className="pt-4">
+          <div className="pt-3">
             <Button
               data-testid="create-event-btn"
               onClick={createEvent}
