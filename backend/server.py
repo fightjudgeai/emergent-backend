@@ -1933,9 +1933,12 @@ async def get_audit_logs(
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/audit/verify/{log_id}")
-async def verify_audit_log(log_id: str):
-    """Verify cryptographic signature of an audit log"""
+async def verify_audit_log(log_id: str, judge_id: str):
+    """Verify cryptographic signature of an audit log (Owner access only)"""
     try:
+        # Verify owner access
+        verify_owner_access(judge_id)
+        
         log = await db.audit_logs.find_one({"id": log_id}, {"_id": 0})
         
         if not log:
