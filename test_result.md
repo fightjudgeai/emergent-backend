@@ -371,15 +371,18 @@ frontend:
   
   - task: "Judge Profile - Navigation Button"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/components/EventSetup.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added 'Profile' navigation button with User icon in EventSetup header using indigo color scheme."
+      - working: false
+        agent: "testing"
+        comment: "❌ ISSUE: Profile navigation button not consistently visible on EventSetup page. During testing, the Profile button was not detected in the navigation bar, though direct URL navigation to /profile works correctly. This may be a selector issue or the button may not be rendering properly in all cases. Profile functionality itself works perfectly when accessed directly."
   
   - task: "Audit Logs - Owner Access Control"
     implemented: true
