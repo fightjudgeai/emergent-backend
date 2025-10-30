@@ -10,6 +10,7 @@ import ShadowJudgingMode from "@/components/ShadowJudgingMode";
 import ReviewDashboard from "@/components/ReviewDashboard";
 import TuningProfileManager from "@/components/TuningProfileManager";
 import AuditLogViewer from "@/components/AuditLogViewer";
+import JudgeProfile from "@/components/JudgeProfile";
 
 function App() {
   // Check if judge is logged in
