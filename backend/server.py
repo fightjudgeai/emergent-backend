@@ -2014,9 +2014,12 @@ async def export_audit_logs(
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/audit/stats")
-async def get_audit_stats():
-    """Get statistics about audit logs"""
+async def get_audit_stats(judge_id: str):
+    """Get statistics about audit logs (Owner access only)"""
     try:
+        # Verify owner access
+        verify_owner_access(judge_id)
+        
         total = await db.audit_logs.count_documents({})
         
         # Count by action type
