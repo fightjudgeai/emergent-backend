@@ -2094,7 +2094,7 @@ async def get_judge_profile(judge_id: str):
         profile = parse_from_mongo(profile)
         
         # Get latest stats from shadow judging
-        submissions = await db.training_scores.find({"judgeId": judge_id}, {"_id": 0}).to_list(1000)
+        submissions = await db.judge_performance.find({"judgeId": judge_id}, {"_id": 0}).to_list(1000)
         
         if submissions:
             total_attempts = len(submissions)
