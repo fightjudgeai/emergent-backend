@@ -503,8 +503,8 @@ class CombatJudgingAPITester:
         """Test retrieving audit logs with filters"""
         print("\n📋 Testing Security & Audit - Get Audit Logs...")
         
-        # Test 1: Get all logs (no filters)
-        success1, response1 = self.run_test("Get All Audit Logs", "GET", "audit/logs", 200)
+        # Test 1: Get all logs (no filters) - Owner access required
+        success1, response1 = self.run_test("Get All Audit Logs", "GET", "audit/logs?judge_id=owner-001", 200)
         
         if success1 and response1:
             logs = response1.get('logs', [])
@@ -537,7 +537,7 @@ class CombatJudgingAPITester:
                 print(f"   Sample log: {first_log['action_type']} by {first_log['user_name']}")
         
         # Test 2: Filter by action_type
-        success2, response2 = self.run_test("Get Logs - Filter by action_type", "GET", "audit/logs?action_type=score_calculation", 200)
+        success2, response2 = self.run_test("Get Logs - Filter by action_type", "GET", "audit/logs?judge_id=owner-001&action_type=score_calculation", 200)
         
         if success2 and response2:
             filtered_logs = response2.get('logs', [])
@@ -550,21 +550,21 @@ class CombatJudgingAPITester:
                     return False
         
         # Test 3: Filter by user_id
-        success3, response3 = self.run_test("Get Logs - Filter by user_id", "GET", "audit/logs?user_id=judge-001", 200)
+        success3, response3 = self.run_test("Get Logs - Filter by user_id", "GET", "audit/logs?judge_id=owner-001&user_id=judge-001", 200)
         
         if success3 and response3:
             user_logs = response3.get('logs', [])
             print(f"   ✅ Filtered by user_id: {len(user_logs)} logs")
         
         # Test 4: Filter by resource_type
-        success4, response4 = self.run_test("Get Logs - Filter by resource_type", "GET", "audit/logs?resource_type=round_score", 200)
+        success4, response4 = self.run_test("Get Logs - Filter by resource_type", "GET", "audit/logs?judge_id=owner-001&resource_type=round_score", 200)
         
         if success4 and response4:
             resource_logs = response4.get('logs', [])
             print(f"   ✅ Filtered by resource_type: {len(resource_logs)} logs")
         
         # Test 5: Multiple filters combined
-        success5, response5 = self.run_test("Get Logs - Multiple filters", "GET", "audit/logs?action_type=score_calculation&user_id=judge-001", 200)
+        success5, response5 = self.run_test("Get Logs - Multiple filters", "GET", "audit/logs?judge_id=owner-001&action_type=score_calculation&user_id=judge-001", 200)
         
         if success5 and response5:
             combined_logs = response5.get('logs', [])
