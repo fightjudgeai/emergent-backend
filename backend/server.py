@@ -300,6 +300,14 @@ class SignatureVerification(BaseModel):
     computed_signature: str
     message: str
 
+# Helper function to verify owner access
+def verify_owner_access(judge_id: str):
+    """Verify if the judge is the owner"""
+    owner_id = os.environ.get('OWNER_JUDGE_ID', 'owner-001')
+    if judge_id != owner_id:
+        raise HTTPException(status_code=403, detail="Access denied. Only owner can access audit logs.")
+    return True
+
 # Judge Profile Models
 class JudgeProfile(BaseModel):
     model_config = ConfigDict(extra="ignore")
