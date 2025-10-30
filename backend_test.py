@@ -1059,7 +1059,7 @@ class CombatJudgingAPITester:
             )
             
             if success_empty and response_empty:
-                submissions = response_empty.get('submissions', [])
+                submissions = response_empty.get('history', [])
                 if len(submissions) != 0:
                     print(f"   ⚠️  New judge should have empty history, got {len(submissions)} submissions")
                     all_success = False
