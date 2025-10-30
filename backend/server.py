@@ -1973,12 +1973,16 @@ async def verify_audit_log(log_id: str, judge_id: str):
 
 @api_router.get("/audit/export")
 async def export_audit_logs(
+    judge_id: str,  # Required: Judge ID for owner verification
     start_date: str = None,
     end_date: str = None,
     format: str = "json"
 ):
-    """Export audit logs for compliance/archival"""
+    """Export audit logs for compliance/archival (Owner access only)"""
     try:
+        # Verify owner access
+        verify_owner_access(judge_id)
+        
         query = {}
         
         if start_date:
