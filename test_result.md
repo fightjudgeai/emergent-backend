@@ -278,9 +278,9 @@ frontend:
   
   - task: "Shadow Judging Mode - Navigation Link"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/components/EventSetup.jsx"
-    stuck_count: 1
+    stuck_count: 0
     priority: "medium"
     needs_retesting: false
     status_history:
@@ -290,6 +290,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ ISSUE: Navigation from EventSetup to Shadow Judging works, but 'Back to Events' button from Shadow Judging redirects to login page instead of EventSetup. This appears to be a session/authentication issue where the judge session is not being maintained properly during navigation."
+      - working: true
+        agent: "testing"
+        comment: "✅ FIXED: Navigation issue resolved. Shadow Judging Training button works correctly from EventSetup, and 'Back to Events' button from Shadow Judging now properly returns to EventSetup without session issues. All navigation flows working correctly."
   
   - task: "Security & Audit - AuditLogViewer Component"
     implemented: true
