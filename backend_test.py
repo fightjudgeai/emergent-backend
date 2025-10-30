@@ -687,7 +687,7 @@ class CombatJudgingAPITester:
                 all_success = False
         
         # Test 404 for non-existent log
-        success_404, _ = self.run_test("Verify Signature - Non-existent Log", "GET", "audit/verify/non-existent-log-id", 404)
+        success_404, _ = self.run_test("Verify Signature - Non-existent Log", "GET", "audit/verify/non-existent-log-id?judge_id=owner-001", 404)
         
         return all_success and success_404
 
