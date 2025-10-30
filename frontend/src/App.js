@@ -34,6 +34,7 @@ function App() {
           <Route path="/review-dashboard" element={<ReviewDashboard />} />
           <Route path="/tuning-profiles" element={<TuningProfileManager />} />
           <Route path="/audit-logs" element={<AuditLogViewer />} />
+          <Route path="/profile" element={<JudgeProfile />} />
         </Routes>
       </BrowserRouter>
     </div>
