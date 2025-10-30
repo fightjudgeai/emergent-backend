@@ -1788,7 +1788,11 @@ async def update_tuning_profile(profile_id: str, update: TuningProfileUpdate):
             {"$set": update_data}
         )
         
-        return {"success": True, "message": "Profile updated"}
+        # Return updated profile
+        updated_profile = await db.tuning_profiles.find_one({"id": profile_id}, {"_id": 0})
+        updated_profile = parse_from_mongo(updated_profile)
+        
+        return updated_profile
     except HTTPException:
         raise
     except Exception as e:
