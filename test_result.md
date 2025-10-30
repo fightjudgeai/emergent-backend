@@ -341,15 +341,18 @@ frontend:
   
   - task: "Judge Profile - JudgeProfile Component"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/components/JudgeProfile.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created comprehensive JudgeProfile component with stats overview (Total Rounds, Avg Accuracy, Perfect Matches, Member Since), Profile Information tab (view/edit name, organization, email), Scoring History tab, Edit Profile functionality, and Logout button."
+      - working: true
+        agent: "testing"
+        comment: "✅ COMPREHENSIVE TESTING COMPLETE: JudgeProfile component fully functional. Tested: (1) Profile page accessible via direct URL navigation, (2) Judge name and ID displayed correctly, (3) All stats cards present (Total Rounds, Avg Accuracy, Perfect Matches, Member Since), (4) Edit Profile functionality working - can edit name, organization, and email fields, (5) Save and Cancel buttons functional, (6) Tab switching between Profile Information and Scoring History works, (7) Logout functionality works correctly - redirects to login and clears session, (8) Back to Events navigation functional, (9) Session persistence properly cleared after logout. All profile management features working perfectly."
   
   - task: "Judge Profile - Routing"
     implemented: true
