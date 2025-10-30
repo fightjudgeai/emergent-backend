@@ -1041,7 +1041,7 @@ class CombatJudgingAPITester:
             )
             
             if success_limit and response_limit:
-                submissions = response_limit.get('submissions', [])
+                submissions = response_limit.get('history', [])
                 if len(submissions) > 2:
                     print(f"   ⚠️  Limit parameter not working: expected max 2, got {len(submissions)}")
                     all_success = False
