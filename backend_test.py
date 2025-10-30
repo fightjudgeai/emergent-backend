@@ -1242,8 +1242,11 @@ class CombatJudgingAPITester:
         # Test Shadow Judging Training Mode
         self.test_shadow_judging_complete_flow()
         
-        # Test Security & Audit Feature (NEW)
+        # Test Security & Audit Feature
         self.test_audit_integration_flow()
+        
+        # Test Judge Profile Management Feature (NEW)
+        self.test_judge_profile_integration_flow()
         
         # Print summary
         print("\n" + "=" * 60)
