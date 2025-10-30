@@ -1317,11 +1317,13 @@ class CombatJudgingAPITester:
         all_success = True
         
         # Test getting each created fighter's stats
+        import urllib.parse
         for fighter_name in self.created_fighters:
+            encoded_name = urllib.parse.quote(fighter_name, safe='')
             success, response = self.run_test(
                 f"Get Fighter Stats - {fighter_name}", 
                 "GET", 
-                f"fighters/{fighter_name}/stats", 
+                f"fighters/{encoded_name}/stats", 
                 200
             )
             
