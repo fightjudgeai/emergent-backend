@@ -467,16 +467,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Judge Profile Management - Backend APIs"
-    - "Judge Profile - JudgeProfile Component"
-    - "Judge Profile - Routing"
     - "Judge Profile - Navigation Button"
-    - "Audit Logs - Owner Access Control"
   stuck_tasks:
-    - "Shadow Judging Mode - Judge Stats Dashboard"
-    - "Shadow Judging Mode - Navigation Link"
-  test_all: false
-  test_priority: "high_first"
+    - "Judge Profile - Navigation Button"
+  test_all: true
+  test_priority: "comprehensive_complete"
 
 agent_communication:
   - agent: "main"
