@@ -1221,6 +1221,26 @@ class CombatJudgingAPITester:
         print("   ✅ Owner-restricted audit log access working")
         return True
 
+    def run_judge_profile_tests_only(self):
+        """Run only Judge Profile Management tests"""
+        print("🚀 Starting Judge Profile Management API Tests")
+        print(f"Testing against: {self.base_url}")
+        print("=" * 60)
+        
+        # Test Judge Profile Management Feature
+        self.test_judge_profile_integration_flow()
+        
+        # Print summary
+        print("\n" + "=" * 60)
+        print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
+        
+        if self.tests_passed == self.tests_run:
+            print("🎉 All Judge Profile Management tests passed!")
+            return 0
+        else:
+            print("❌ Some Judge Profile Management tests failed")
+            return 1
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Combat Judging API Tests")
