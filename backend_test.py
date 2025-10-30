@@ -1980,14 +1980,23 @@ class CombatJudgingAPITester:
         # Test edge cases
         self.test_edge_cases()
         
-        # Test Shadow Judging Training Mode
+        # Test Shadow Judging Training Mode (5 APIs)
         self.test_shadow_judging_complete_flow()
         
-        # Test Security & Audit Feature
+        # Test Security & Audit Feature (5 APIs)
         self.test_audit_integration_flow()
         
-        # Test Judge Profile Management Feature (NEW)
+        # Test Judge Profile Management Feature (4 APIs)
         self.test_judge_profile_integration_flow()
+        
+        # Test Fighter Stats APIs (2 APIs)
+        self.test_fighter_stats_integration_flow()
+        
+        # Test Discrepancy Flags APIs (3 APIs)
+        self.test_discrepancy_flags_integration_flow()
+        
+        # Test Tuning Profiles APIs (5 APIs)
+        self.test_tuning_profiles_integration_flow()
         
         # Print summary
         print("\n" + "=" * 60)
