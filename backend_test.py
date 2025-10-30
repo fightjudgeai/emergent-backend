@@ -1668,8 +1668,9 @@ class CombatJudgingAPITester:
         success, response = self.run_test("Get All Tuning Profiles", "GET", "tuning-profiles", 200)
         
         if success and response:
-            profiles = response if isinstance(response, list) else response.get('profiles', [])
-            print(f"   ✅ Retrieved {len(profiles)} tuning profiles")
+            profiles = response.get('profiles', [])
+            count = response.get('count', 0)
+            print(f"   ✅ Retrieved {count} tuning profiles")
             
             # Verify profile structure if profiles exist
             if profiles:
