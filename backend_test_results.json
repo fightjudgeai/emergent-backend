@@ -1,7 +1,7 @@
 {
-  "total_tests": 29,
-  "passed_tests": 24,
-  "success_rate": 82.75862068965517,
+  "total_tests": 52,
+  "passed_tests": 41,
+  "success_rate": 78.84615384615384,
   "results": [
     {
       "test": "Root API Endpoint",
@@ -20,9 +20,9 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/status",
       "response": {
-        "id": "908e1c54-da64-4654-8c95-eb8404318cd9",
-        "client_name": "test_client_012753",
-        "timestamp": "2025-10-30T01:27:53.691016Z"
+        "id": "f1b09efa-940e-48aa-8718-0e619d6a490b",
+        "client_name": "test_client_013932",
+        "timestamp": "2025-10-30T01:39:32.300555Z"
       }
     },
     {
@@ -61,6 +61,11 @@
           "id": "908e1c54-da64-4654-8c95-eb8404318cd9",
           "client_name": "test_client_012753",
           "timestamp": "2025-10-30T01:27:53.691016Z"
+        },
+        {
+          "id": "f1b09efa-940e-48aa-8718-0e619d6a490b",
+          "client_name": "test_client_013932",
+          "timestamp": "2025-10-30T01:39:32.300555Z"
         }
       ]
     },
@@ -279,7 +284,7 @@
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/rounds",
       "response": [
         {
-          "id": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
+          "id": "6a0b0d4d-1185-4c47-9084-58b07df75133",
           "event": "UFC 299: O'Malley vs. Vera 2",
           "fighters": "Dustin Poirier vs. Benoit Saint Denis",
           "roundNumber": 2,
@@ -291,10 +296,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917025Z"
+          "createdAt": "2025-10-30T01:39:32.543979Z"
         },
         {
-          "id": "1552dbb2-097a-4c37-9d89-95bfd91b019a",
+          "id": "ee603e79-073c-4fa8-a00b-cf2f3f46c306",
           "event": "UFC 300: Pereira vs. Hill",
           "fighters": "Max Holloway vs. Justin Gaethje",
           "roundNumber": 5,
@@ -306,10 +311,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917056Z"
+          "createdAt": "2025-10-30T01:39:32.544018Z"
         },
         {
-          "id": "b769758f-d5aa-41b7-a950-1778a232aaaa",
+          "id": "96389108-8d3a-4e00-9a83-1881c19aad1a",
           "event": "UFC 296: Edwards vs. Covington",
           "fighters": "Alexandre Pantoja vs. Brandon Royval",
           "roundNumber": 1,
@@ -321,10 +326,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917069Z"
+          "createdAt": "2025-10-30T01:39:32.544031Z"
         },
         {
-          "id": "cbc3c80f-ea9d-4870-ba1b-fc0daf7e30db",
+          "id": "4818e3f0-e9e8-4d1a-aff1-3c2f71e3c238",
           "event": "UFC 298: Volkanovski vs. Topuria",
           "fighters": "Ian Garry vs. Geoff Neal",
           "roundNumber": 3,
@@ -336,10 +341,10 @@
           ],
           "officialCard": "10-10",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917078Z"
+          "createdAt": "2025-10-30T01:39:32.544052Z"
         },
         {
-          "id": "61cf25ff-8a51-4177-b101-b2dab3b8994e",
+          "id": "84b1522a-b8c8-4a8b-b6a3-03c0e831c688",
           "event": "UFC 297: Strickland vs. Du Plessis",
           "fighters": "Sean Strickland vs. Dricus Du Plessis",
           "roundNumber": 2,
@@ -351,10 +356,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917087Z"
+          "createdAt": "2025-10-30T01:39:32.544062Z"
         },
         {
-          "id": "8d83005f-51bf-45f5-8343-a7eefca467c4",
+          "id": "6c41e226-93ca-4536-97c1-cc1de3197955",
           "event": "UFC 295: Prochazka vs. Pereira",
           "fighters": "Jiri Prochazka vs. Alex Pereira",
           "roundNumber": 1,
@@ -366,10 +371,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917095Z"
+          "createdAt": "2025-10-30T01:39:32.544071Z"
         },
         {
-          "id": "4dcba717-b41a-4d3f-b800-5ba7e3d76ff4",
+          "id": "e41e0ace-f43a-4a2e-a55a-1345136dc753",
           "event": "UFC 294: Makhachev vs. Volkanovski 2",
           "fighters": "Islam Makhachev vs. Alexander Volkanovski",
           "roundNumber": 1,
@@ -381,10 +386,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917105Z"
+          "createdAt": "2025-10-30T01:39:32.544082Z"
         },
         {
-          "id": "f7f5dc25-0dc7-4caa-9ba4-acb6343ad2d1",
+          "id": "76a6ddee-460f-4f93-98d8-25721e1297b2",
           "event": "UFC 293: Adesanya vs. Strickland",
           "fighters": "Israel Adesanya vs. Sean Strickland",
           "roundNumber": 3,
@@ -396,10 +401,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917114Z"
+          "createdAt": "2025-10-30T01:39:32.544092Z"
         },
         {
-          "id": "d5deaa8e-0a04-4227-88e5-53e8adcea105",
+          "id": "c814c891-87e3-4f0b-82bb-a333d01f5bd2",
           "event": "UFC 292: Sterling vs. O'Malley",
           "fighters": "Aljamain Sterling vs. Sean O'Malley",
           "roundNumber": 1,
@@ -411,10 +416,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917123Z"
+          "createdAt": "2025-10-30T01:39:32.544101Z"
         },
         {
-          "id": "a6159a35-e3d9-4818-8887-ef3060e2191c",
+          "id": "2b67a71f-ed9b-4d77-a668-ad7911de1b53",
           "event": "UFC 291: Poirier vs. Gaethje 2",
           "fighters": "Dustin Poirier vs. Justin Gaethje",
           "roundNumber": 2,
@@ -426,10 +431,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917131Z"
+          "createdAt": "2025-10-30T01:39:32.544110Z"
         },
         {
-          "id": "52a0f71c-d691-4a01-a450-663926686a4a",
+          "id": "510155f8-53fa-4317-9b82-b1b48d77b61a",
           "event": "UFC 290: Volkanovski vs. Rodriguez",
           "fighters": "Brandon Moreno vs. Alexandre Pantoja",
           "roundNumber": 4,
@@ -441,10 +446,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917139Z"
+          "createdAt": "2025-10-30T01:39:32.544118Z"
         },
         {
-          "id": "3e843e2a-a8c7-471f-848b-a8ce85a10969",
+          "id": "613091c1-470c-4d47-9f54-15a23ee213ff",
           "event": "UFC 289: Nunes vs. Aldana",
           "fighters": "Charles Oliveira vs. Beneil Dariush",
           "roundNumber": 1,
@@ -456,10 +461,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917147Z"
+          "createdAt": "2025-10-30T01:39:32.544126Z"
         },
         {
-          "id": "22bf7229-de6c-4e6f-aafe-480b582c810f",
+          "id": "2fa12068-475d-4837-8a54-808c9487cf38",
           "event": "UFC 288: Sterling vs. Cejudo",
           "fighters": "Aljamain Sterling vs. Henry Cejudo",
           "roundNumber": 2,
@@ -471,10 +476,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917154Z"
+          "createdAt": "2025-10-30T01:39:32.544134Z"
         },
         {
-          "id": "5d3be26f-b19a-4ada-9411-fc42b71701e5",
+          "id": "5e8f4096-7ecf-4364-94bf-2868def113db",
           "event": "UFC 287: Pereira vs. Adesanya 2",
           "fighters": "Alex Pereira vs. Israel Adesanya",
           "roundNumber": 2,
@@ -486,10 +491,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917162Z"
+          "createdAt": "2025-10-30T01:39:32.544141Z"
         },
         {
-          "id": "c40f65c6-9147-42d9-b89c-534a558dbcc5",
+          "id": "3b86b21b-93df-4c9c-9a89-7aee56cd1e49",
           "event": "UFC 286: Edwards vs. Usman 3",
           "fighters": "Leon Edwards vs. Kamaru Usman",
           "roundNumber": 1,
@@ -501,10 +506,10 @@
           ],
           "officialCard": "10-10",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917170Z"
+          "createdAt": "2025-10-30T01:39:32.544149Z"
         },
         {
-          "id": "08ec69ee-5204-41f5-8b58-981d2553d49d",
+          "id": "7839176f-c563-494a-a685-611699183f00",
           "event": "UFC 285: Jones vs. Gane",
           "fighters": "Jon Jones vs. Ciryl Gane",
           "roundNumber": 1,
@@ -516,7 +521,7 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-10-30T01:27:53.917178Z"
+          "createdAt": "2025-10-30T01:39:32.544156Z"
         }
       ]
     },
@@ -527,17 +532,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "02f9603a-efd5-42cb-ae0e-4f4fdfccdd58",
+        "id": "095aaf4f-1258-4c72-8c4b-ec2618c0ec85",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
+        "roundId": "6a0b0d4d-1185-4c47-9084-58b07df75133",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-30T01:27:53.993762Z"
+        "timestamp": "2025-10-30T01:39:32.620587Z"
       }
     },
     {
@@ -547,17 +552,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "40b01e6c-c203-473d-8e60-4aea0453916a",
+        "id": "785f5e23-3ec6-4547-8ef9-c4d35f3ff640",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
+        "roundId": "6a0b0d4d-1185-4c47-9084-58b07df75133",
         "myScore": "10-8",
         "officialScore": "10-9",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 85.0,
         "match": false,
-        "timestamp": "2025-10-30T01:27:54.035218Z"
+        "timestamp": "2025-10-30T01:39:32.656928Z"
       }
     },
     {
@@ -567,17 +572,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "bd5af587-6849-4b26-b74c-8e5b17afec52",
+        "id": "b23a5fa0-8ceb-4de4-aedc-8a579da716a4",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
+        "roundId": "6a0b0d4d-1185-4c47-9084-58b07df75133",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-30T01:27:54.072499Z"
+        "timestamp": "2025-10-30T01:39:32.699900Z"
       }
     },
     {
@@ -587,17 +592,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "95ecb8bc-9195-43d2-8d7a-7a2daa785611",
+        "id": "1aa4aea3-541a-4d9b-9fd2-465c8bf771bb",
         "judgeId": "test-judge-2",
         "judgeName": "Maria Santos",
-        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
+        "roundId": "6a0b0d4d-1185-4c47-9084-58b07df75133",
         "myScore": "10-9",
         "officialScore": "10-8",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 75.0,
         "match": false,
-        "timestamp": "2025-10-30T01:27:54.112942Z"
+        "timestamp": "2025-10-30T01:39:32.736843Z"
       }
     },
     {
@@ -607,17 +612,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "d8c1cd89-eddd-4bc3-92c6-4a243e8f2b10",
+        "id": "d5ccae35-9735-4f65-8cd1-09cad0cc7280",
         "judgeId": "test-judge-2",
         "judgeName": "Maria Santos",
-        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
+        "roundId": "6a0b0d4d-1185-4c47-9084-58b07df75133",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-30T01:27:54.151146Z"
+        "timestamp": "2025-10-30T01:39:32.774551Z"
       }
     },
     {
@@ -627,17 +632,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "98f34e12-5ef8-4132-bf75-244fd7263c28",
+        "id": "2565a866-262c-4f7e-bf62-fc79ac1c07d6",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
+        "roundId": "6a0b0d4d-1185-4c47-9084-58b07df75133",
         "myScore": "10-8",
         "officialScore": "10-8",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-30T01:27:54.189316Z"
+        "timestamp": "2025-10-30T01:39:32.851720Z"
       }
     },
     {
@@ -647,17 +652,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "6b67750a-f7a0-45d8-a159-ab6aa5310646",
+        "id": "bcde6c1b-57d5-4d91-8f69-a1479f60c5c3",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
+        "roundId": "6a0b0d4d-1185-4c47-9084-58b07df75133",
         "myScore": "10-9",
         "officialScore": "10-8",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 80.0,
         "match": false,
-        "timestamp": "2025-10-30T01:27:54.230974Z"
+        "timestamp": "2025-10-30T01:39:32.888888Z"
       }
     },
     {
@@ -667,17 +672,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "83fa3785-4208-4b63-8539-8da0b8ff4f22",
+        "id": "9ef131fe-ff3a-48eb-be90-b2ac55914841",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
+        "roundId": "6a0b0d4d-1185-4c47-9084-58b07df75133",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-30T01:27:54.267402Z"
+        "timestamp": "2025-10-30T01:39:32.930509Z"
       }
     },
     {
@@ -687,17 +692,17 @@
       "actual_status": 200,
       "url": "https://judgesync.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "7ea425fa-2a5f-4321-81e7-c015283359a2",
+        "id": "297107d5-91ad-43e2-8f9c-cc2c8e154e6b",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "dc2c1c26-a260-4766-b7b1-9ff829b4dbb8",
+        "roundId": "6a0b0d4d-1185-4c47-9084-58b07df75133",
         "myScore": "10-8",
         "officialScore": "10-8",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-10-30T01:27:54.300995Z"
+        "timestamp": "2025-10-30T01:39:32.967104Z"
       }
     },
     {
@@ -709,11 +714,11 @@
       "response": {
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "totalAttempts": 12,
+        "totalAttempts": 15,
         "averageAccuracy": 95.0,
         "averageMAE": 0.33,
         "sensitivity108Rate": 66.67,
-        "perfectMatches": 8
+        "perfectMatches": 10
       }
     },
     {
@@ -724,7 +729,7 @@
       "url": "https://judgesync.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "7ff5e1ec-e7cf-413a-a892-0ba98b1a25b5"
+        "log_id": "2d7422ba-22d1-4eea-b692-c566f1685495"
       }
     },
     {
@@ -735,7 +740,7 @@
       "url": "https://judgesync.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "12f8cd8c-dd33-49b8-a134-c4c1ff24a2d5"
+        "log_id": "464a1455-0f06-4397-be7b-08b0a94ad479"
       }
     },
     {
@@ -746,7 +751,7 @@
       "url": "https://judgesync.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "76cb4424-eee1-412f-99ef-0bb6d7f944cd"
+        "log_id": "3df3fe47-0937-4300-8a7a-890138aec8e6"
       }
     },
     {
@@ -797,7 +802,7 @@
       "url": "https://judgesync.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
-        "message": "Profile created successfully",
+        "message": "Profile updated successfully",
         "judgeId": "JUDGE001"
       }
     },
@@ -809,7 +814,7 @@
       "url": "https://judgesync.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
-        "message": "Profile created successfully",
+        "message": "Profile updated successfully",
         "judgeId": "JUDGE002"
       }
     },
@@ -821,9 +826,3040 @@
       "url": "https://judgesync.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
-        "message": "Profile created successfully",
+        "message": "Profile updated successfully",
         "judgeId": "owner-001"
       }
+    },
+    {
+      "test": "Get Judge Profile - JUDGE001",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/judges/JUDGE001",
+      "response": {
+        "judgeId": "JUDGE001",
+        "judgeName": "Sarah Mitchell",
+        "organization": "Nevada State Athletic Commission",
+        "email": "sarah.mitchell@nsac.nv.gov",
+        "certifications": [
+          "MMA Level 1",
+          "Boxing Level 2",
+          "Muay Thai"
+        ],
+        "createdAt": "2025-10-30T01:27:54.764121+00:00",
+        "updatedAt": "2025-10-30T01:39:33.405940+00:00",
+        "totalRoundsJudged": 2,
+        "averageAccuracy": 92.5,
+        "perfectMatches": 1
+      }
+    },
+    {
+      "test": "Get Judge Profile - JUDGE002",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/judges/JUDGE002",
+      "response": {
+        "judgeId": "JUDGE002",
+        "judgeName": "Carlos Rodriguez",
+        "organization": "California State Athletic Commission",
+        "email": "carlos.rodriguez@csac.ca.gov",
+        "certifications": [
+          "MMA Level 2",
+          "BJJ Black Belt"
+        ],
+        "createdAt": "2025-10-30T01:27:54.822022+00:00",
+        "updatedAt": "2025-10-30T01:39:33.444554+00:00",
+        "totalRoundsJudged": 0,
+        "averageAccuracy": 0.0
+      }
+    },
+    {
+      "test": "Get Judge Profile - owner-001",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/judges/owner-001",
+      "response": {
+        "judgeId": "owner-001",
+        "judgeName": "Owner Judge",
+        "organization": "System Administrator",
+        "email": "owner@judgesync.com",
+        "certifications": [
+          "System Admin",
+          "MMA Level 3"
+        ],
+        "createdAt": "2025-10-30T01:27:54.856389+00:00",
+        "updatedAt": "2025-10-30T01:39:33.523626+00:00",
+        "totalRoundsJudged": 0,
+        "averageAccuracy": 0.0
+      }
+    },
+    {
+      "test": "Get Judge Profile - Non-existent",
+      "success": true,
+      "expected_status": 404,
+      "actual_status": 404,
+      "url": "https://judgesync.preview.emergentagent.com/api/judges/NON_EXISTENT",
+      "response": {
+        "detail": "Judge profile not found"
+      }
+    },
+    {
+      "test": "Update Fighter Stats - Jon Jones",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/fighters/update-stats",
+      "response": {
+        "success": true,
+        "message": "Updated stats for Jon Jones"
+      }
+    },
+    {
+      "test": "Update Fighter Stats - Daniel Cormier",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/fighters/update-stats",
+      "response": {
+        "success": true,
+        "message": "Updated stats for Daniel Cormier"
+      }
+    },
+    {
+      "test": "Update Fighter Stats - Amanda Nunes",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/fighters/update-stats",
+      "response": {
+        "success": true,
+        "message": "Updated stats for Amanda Nunes"
+      }
+    },
+    {
+      "test": "Get Fighter Stats - Jon Jones",
+      "success": false,
+      "expected_status": 200,
+      "actual_status": 500,
+      "url": "https://judgesync.preview.emergentagent.com/api/fighters/Jon Jones/stats",
+      "error": "Internal Server Error"
+    },
+    {
+      "test": "Get Fighter Stats - Daniel Cormier",
+      "success": false,
+      "expected_status": 200,
+      "actual_status": 500,
+      "url": "https://judgesync.preview.emergentagent.com/api/fighters/Daniel Cormier/stats",
+      "error": "Internal Server Error"
+    },
+    {
+      "test": "Get Fighter Stats - Amanda Nunes",
+      "success": false,
+      "expected_status": 200,
+      "actual_status": 500,
+      "url": "https://judgesync.preview.emergentagent.com/api/fighters/Amanda Nunes/stats",
+      "error": "Internal Server Error"
+    },
+    {
+      "test": "Get Fighter Stats - Non-existent",
+      "success": true,
+      "expected_status": 404,
+      "actual_status": 404,
+      "url": "https://judgesync.preview.emergentagent.com/api/fighters/NonExistentFighter/stats",
+      "response": {
+        "detail": "No stats found for NonExistentFighter"
+      }
+    },
+    {
+      "test": "Create Flag - boundary_case",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/review/create-flag",
+      "response": {
+        "success": true,
+        "flag_id": "0fac6798-fe12-4d7a-b8bf-7613fbf1b8f5"
+      }
+    },
+    {
+      "test": "Create Flag - tie_breaker",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/review/create-flag",
+      "response": {
+        "success": true,
+        "flag_id": "3ff3bfaa-3a6e-41b7-abd3-daf96080311c"
+      }
+    },
+    {
+      "test": "Create Flag - low_activity",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/review/create-flag",
+      "response": {
+        "success": true,
+        "flag_id": "0373caa9-361d-44be-a083-75d868b73a2e"
+      }
+    },
+    {
+      "test": "Create Flag - statistical_anomaly",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/review/create-flag",
+      "response": {
+        "success": true,
+        "flag_id": "f4b1ad5a-5dad-4c01-8918-8b42e49df97b"
+      }
+    },
+    {
+      "test": "Get All Flags",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/review/flags",
+      "response": {
+        "flags": [
+          {
+            "id": "f4b1ad5a-5dad-4c01-8918-8b42e49df97b",
+            "bout_id": "UFC_299_004",
+            "round_num": 1,
+            "flag_type": "statistical_anomaly",
+            "severity": "high",
+            "description": "10-8 without standard dominance gates",
+            "context": {
+              "card": "10-8",
+              "gates": {
+                "finish_threat": false,
+                "control_dom": false,
+                "multi_cat_dom": false
+              }
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:34.141000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0373caa9-361d-44be-a083-75d868b73a2e",
+            "bout_id": "UFC_299_003",
+            "round_num": 3,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round",
+            "context": {
+              "event_count": 3,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:34.102000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "3ff3bfaa-3a6e-41b7-abd3-daf96080311c",
+            "bout_id": "UFC_299_002",
+            "round_num": 2,
+            "flag_type": "tie_breaker",
+            "severity": "high",
+            "description": "Round decided by damage tie-breaker",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 1.0,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:34.066000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0fac6798-fe12-4d7a-b8bf-7613fbf1b8f5",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:33.988000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "cfd83355-92c6-4e49-8f81-a482c2276226",
+            "bout_id": "test_bout_invalid",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 1 logged events",
+            "context": {
+              "event_count": 1,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:32.504000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "63b59c2b-9148-401a-b3a2-0817a534a351",
+            "bout_id": "test_bout_empty",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 0 logged events",
+            "context": {
+              "event_count": 0,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:32.460000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "301f2f43-4200-412a-8471-431db574dad2",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:32.418000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "7da7ed79-b788-4c88-bca9-eb9038cc3d59",
+            "bout_id": "test_bout_invalid",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 1 logged events",
+            "context": {
+              "event_count": 1,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:27:53.873000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d3642806-064c-4426-8431-c7819644913f",
+            "bout_id": "test_bout_empty",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 0 logged events",
+            "context": {
+              "event_count": 0,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:27:53.836000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "1f048a9c-3ce5-4c4a-900d-4ee16268b72d",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:27:53.787000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0122af78-f126-4827-9eee-4cf1aebffe7c",
+            "bout_id": "test_bout_invalid",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 1 logged events",
+            "context": {
+              "event_count": 1,
+              "card": "10-10"
+            },
+            "status": "resolved",
+            "created_at": "2025-10-29T17:21:40.839000",
+            "resolved_at": "2025-10-30T01:08:50.386737+00:00",
+            "resolved_by": "Eric Gann",
+            "resolution_notes": "Not true 10-10"
+          },
+          {
+            "id": "4959dc1b-1c9c-403c-8c55-7f1b9d0eeeaa",
+            "bout_id": "test_bout_empty",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 0 logged events",
+            "context": {
+              "event_count": 0,
+              "card": "10-10"
+            },
+            "status": "resolved",
+            "created_at": "2025-10-29T17:21:40.801000",
+            "resolved_at": "2025-10-30T01:16:19.543655+00:00",
+            "resolved_by": "Eric Gann",
+            "resolution_notes": "good"
+          },
+          {
+            "id": "98ecf8f9-f5af-45d1-9bdd-a8ee5235a100",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T17:21:40.761000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "f497fdcd-6cfc-4f7f-acb4-026f84bfa5da",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T17:20:36.628000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "a6b9b670-48ea-42a3-9202-39ce519acff1",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:25.298000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "365389fc-5a8e-49d4-baba-7c71473f2211",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:25.297000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "c216af7a-a7d5-429b-b4ee-db41bc3e3e66",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:25.091000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "58a12878-1f14-4880-a47f-684d8ed51255",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:25.090000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "4ce231e7-8824-4d9d-8c06-398cd6d5cd37",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:23.060000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "4523f540-c489-4bbb-b0b3-4c67dce01131",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:23.059000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "bdd290d2-d7da-488b-8e56-7a82333a4e39",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.856000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "70f2db78-5cc3-4904-9fad-7719b1865b31",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.855000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "7c69244a-a042-440a-8a70-abfcdc3ac9a8",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.683000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "084cab2d-1b23-4d40-a38f-4fbdd6823329",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.683000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "2293635e-9a97-4f05-adc2-4ce238c1c9b3",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.513000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "9e8dae91-a362-46f9-802b-4fc4e62b7b8c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.512000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d728476d-d4c9-49eb-9e77-86426f4d8794",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.304000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "aec80dc1-50ec-4fa5-b44f-a53e9e0723a6",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.303000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "aa4dc63e-989b-4399-996b-7a705e92c296",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.075000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "3c2b5c13-347f-4490-a8dc-60915757c144",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.075000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "1394cf0e-3bbd-48a8-8b07-08677d6d1a7b",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:19.777000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "6ee55fde-7b00-4ba6-a95a-08959a62a1bb",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:19.776000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "84fa1012-7a71-410c-9452-9207da44e8fb",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:19.681000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "2071ca1c-b2b7-4382-8c22-8bd34bcb71bc",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:19.673000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "7f48ac74-628b-499e-befc-6fcf4221bb62",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:18.719000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0989419c-413c-458d-bc07-91519c8ffe53",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:18.718000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "da9b8c06-688f-4ea5-941c-cff89e6af830",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:18.537000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "06b5dbff-5ea9-458c-ab74-991f99889e32",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:18.536000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d4ddc6ee-4ef2-4443-95c7-c7cb325c4186",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.852000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "3b0a8a0e-3eac-4e6f-9910-0e2a89eef493",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.851000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "5384ab66-0926-4131-a6dd-1052d92ff02f",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.694000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0618c4bc-7211-4bcb-97ab-ed472d32b483",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.694000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "da895208-597b-48e2-9152-e590c3620dd3",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.464000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "5a70408c-8c42-4ab1-92ac-32f338f6edc6",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.463000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "4574fbe5-ba10-4629-9e5c-b7eee8d4cf8c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.267000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "28524f5e-2dc2-4401-a39f-e69ddd3227f8",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.266000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "ad570cd3-403b-4e03-a103-5ff2c10e054c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.051000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "e71e3f5b-5f5e-46f5-b939-f5e485e6d02f",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.050000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "213daf7d-4bb3-4976-9e36-1cf8a74c736d",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.851000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "308f6f12-70c3-4aba-b79e-99baaf0c8607",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.851000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "7481fc9a-6674-47da-8170-2fbbaf9c295e",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.665000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0bc7f645-512a-4a84-836d-bacd9f8386b6",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.664000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "c7b55d38-4255-482e-8884-766ab5b4cdb0",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.439000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "14355b44-3856-4247-9087-c78eda1b9069",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.439000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d0e7b417-58ba-441c-8ed4-27278a659226",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.249000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "3efc6903-5c58-41ab-9fc3-6a62881dc785",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.248000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "3f4fd010-6240-4413-a391-128d8062da2a",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.057000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "8beee58e-564f-496a-8166-c517d5c56c37",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.057000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "e387442c-13b5-4cc5-a6e9-a5770b933ed2",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.851000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "edec3aba-ba57-42ed-8afa-5e0bdd379e21",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.850000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "64230b61-9543-4f77-9a9a-d16ac2d98d6d",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.576000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "4a658893-9c45-452c-83b0-476d9137c2aa",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.576000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "86cf6146-0989-4082-b6d6-48e3576c30fd",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.252000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "f1f27eb0-7c18-42d7-bbb4-21a0b452fd1b",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.251000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "87c1076f-c3cd-49fd-9498-55191dda3ddd",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:14.805000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "17f3a543-040e-4c79-842b-174de38c8e6f",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:14.804000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "a6d556e5-b7cb-4c29-8727-d9e9d53855d0",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:14.187000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "48f7a749-89a4-4739-808d-5e91a327ac8c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:14.186000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "cbe2989b-888b-4115-9b6f-76fdda34201c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:13.618000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "17a06398-0bc9-41f6-8b10-e725fd2eb2fc",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:13.617000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "4aec9aba-ae84-4b9e-ab90-f32c6ae90c15",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:09.981000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d4c4b5f0-7f49-4ac5-84a6-cad1628a8e2a",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:09.963000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "6ad8a07f-4ab4-49cc-8e73-4a94d664707c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:09.782000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0670b5f7-9bd0-4806-a6b1-7603a8cee61e",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:09.781000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d93459d5-22e6-4873-b9df-7c2202b720cf",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:47:42.515000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "64d9a31e-546e-45cb-b681-c7b2d28512c9",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:47:42.505000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          }
+        ],
+        "count": 76
+      }
+    },
+    {
+      "test": "Get Flags - Filter by status",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/review/flags?status=pending",
+      "response": {
+        "flags": [
+          {
+            "id": "f4b1ad5a-5dad-4c01-8918-8b42e49df97b",
+            "bout_id": "UFC_299_004",
+            "round_num": 1,
+            "flag_type": "statistical_anomaly",
+            "severity": "high",
+            "description": "10-8 without standard dominance gates",
+            "context": {
+              "card": "10-8",
+              "gates": {
+                "finish_threat": false,
+                "control_dom": false,
+                "multi_cat_dom": false
+              }
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:34.141000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0373caa9-361d-44be-a083-75d868b73a2e",
+            "bout_id": "UFC_299_003",
+            "round_num": 3,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round",
+            "context": {
+              "event_count": 3,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:34.102000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "3ff3bfaa-3a6e-41b7-abd3-daf96080311c",
+            "bout_id": "UFC_299_002",
+            "round_num": 2,
+            "flag_type": "tie_breaker",
+            "severity": "high",
+            "description": "Round decided by damage tie-breaker",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 1.0,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:34.066000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0fac6798-fe12-4d7a-b8bf-7613fbf1b8f5",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:33.988000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "cfd83355-92c6-4e49-8f81-a482c2276226",
+            "bout_id": "test_bout_invalid",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 1 logged events",
+            "context": {
+              "event_count": 1,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:32.504000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "63b59c2b-9148-401a-b3a2-0817a534a351",
+            "bout_id": "test_bout_empty",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 0 logged events",
+            "context": {
+              "event_count": 0,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:32.460000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "301f2f43-4200-412a-8471-431db574dad2",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:32.418000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "7da7ed79-b788-4c88-bca9-eb9038cc3d59",
+            "bout_id": "test_bout_invalid",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 1 logged events",
+            "context": {
+              "event_count": 1,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:27:53.873000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d3642806-064c-4426-8431-c7819644913f",
+            "bout_id": "test_bout_empty",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 0 logged events",
+            "context": {
+              "event_count": 0,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:27:53.836000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "1f048a9c-3ce5-4c4a-900d-4ee16268b72d",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:27:53.787000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "98ecf8f9-f5af-45d1-9bdd-a8ee5235a100",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T17:21:40.761000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "f497fdcd-6cfc-4f7f-acb4-026f84bfa5da",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T17:20:36.628000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "a6b9b670-48ea-42a3-9202-39ce519acff1",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:25.298000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "365389fc-5a8e-49d4-baba-7c71473f2211",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:25.297000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "c216af7a-a7d5-429b-b4ee-db41bc3e3e66",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:25.091000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "58a12878-1f14-4880-a47f-684d8ed51255",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:25.090000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "4ce231e7-8824-4d9d-8c06-398cd6d5cd37",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:23.060000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "4523f540-c489-4bbb-b0b3-4c67dce01131",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:23.059000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "bdd290d2-d7da-488b-8e56-7a82333a4e39",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.856000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "70f2db78-5cc3-4904-9fad-7719b1865b31",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.855000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "7c69244a-a042-440a-8a70-abfcdc3ac9a8",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.683000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "084cab2d-1b23-4d40-a38f-4fbdd6823329",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.683000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "2293635e-9a97-4f05-adc2-4ce238c1c9b3",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.513000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "9e8dae91-a362-46f9-802b-4fc4e62b7b8c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.512000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d728476d-d4c9-49eb-9e77-86426f4d8794",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.304000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "aec80dc1-50ec-4fa5-b44f-a53e9e0723a6",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.303000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "aa4dc63e-989b-4399-996b-7a705e92c296",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.075000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "3c2b5c13-347f-4490-a8dc-60915757c144",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:22.075000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "1394cf0e-3bbd-48a8-8b07-08677d6d1a7b",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:19.777000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "6ee55fde-7b00-4ba6-a95a-08959a62a1bb",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:19.776000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "84fa1012-7a71-410c-9452-9207da44e8fb",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:19.681000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "2071ca1c-b2b7-4382-8c22-8bd34bcb71bc",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:19.673000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "7f48ac74-628b-499e-befc-6fcf4221bb62",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:18.719000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0989419c-413c-458d-bc07-91519c8ffe53",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:18.718000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "da9b8c06-688f-4ea5-941c-cff89e6af830",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:18.537000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "06b5dbff-5ea9-458c-ab74-991f99889e32",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:18.536000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d4ddc6ee-4ef2-4443-95c7-c7cb325c4186",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.852000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "3b0a8a0e-3eac-4e6f-9910-0e2a89eef493",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.851000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "5384ab66-0926-4131-a6dd-1052d92ff02f",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.694000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0618c4bc-7211-4bcb-97ab-ed472d32b483",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.694000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "da895208-597b-48e2-9152-e590c3620dd3",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.464000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "5a70408c-8c42-4ab1-92ac-32f338f6edc6",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.463000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "4574fbe5-ba10-4629-9e5c-b7eee8d4cf8c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.267000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "28524f5e-2dc2-4401-a39f-e69ddd3227f8",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.266000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "ad570cd3-403b-4e03-a103-5ff2c10e054c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.051000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "e71e3f5b-5f5e-46f5-b939-f5e485e6d02f",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:17.050000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "213daf7d-4bb3-4976-9e36-1cf8a74c736d",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.851000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "308f6f12-70c3-4aba-b79e-99baaf0c8607",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.851000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "7481fc9a-6674-47da-8170-2fbbaf9c295e",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.665000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0bc7f645-512a-4a84-836d-bacd9f8386b6",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.664000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "c7b55d38-4255-482e-8884-766ab5b4cdb0",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.439000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "14355b44-3856-4247-9087-c78eda1b9069",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.439000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d0e7b417-58ba-441c-8ed4-27278a659226",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.249000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "3efc6903-5c58-41ab-9fc3-6a62881dc785",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.248000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "3f4fd010-6240-4413-a391-128d8062da2a",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.057000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "8beee58e-564f-496a-8166-c517d5c56c37",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:16.057000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "e387442c-13b5-4cc5-a6e9-a5770b933ed2",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.851000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "edec3aba-ba57-42ed-8afa-5e0bdd379e21",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.850000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "64230b61-9543-4f77-9a9a-d16ac2d98d6d",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.576000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "4a658893-9c45-452c-83b0-476d9137c2aa",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.576000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "86cf6146-0989-4082-b6d6-48e3576c30fd",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.252000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "f1f27eb0-7c18-42d7-bbb4-21a0b452fd1b",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:15.251000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "87c1076f-c3cd-49fd-9498-55191dda3ddd",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:14.805000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "17f3a543-040e-4c79-842b-174de38c8e6f",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:14.804000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "a6d556e5-b7cb-4c29-8727-d9e9d53855d0",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:14.187000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "48f7a749-89a4-4739-808d-5e91a327ac8c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:14.186000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "cbe2989b-888b-4115-9b6f-76fdda34201c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:13.618000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "17a06398-0bc9-41f6-8b10-e725fd2eb2fc",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:13.617000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "4aec9aba-ae84-4b9e-ab90-f32c6ae90c15",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:09.981000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d4c4b5f0-7f49-4ac5-84a6-cad1628a8e2a",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:09.963000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "6ad8a07f-4ab4-49cc-8e73-4a94d664707c",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:09.782000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "0670b5f7-9bd0-4806-a6b1-7603a8cee61e",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:48:09.781000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "d93459d5-22e6-4873-b9df-7c2202b720cf",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "very_close_decision",
+            "severity": "low",
+            "description": "Extremely close round with only 0 point difference",
+            "context": {
+              "delta": 0.0,
+              "card": "9-10",
+              "winner": "fighter2"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:47:42.515000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "64d9a31e-546e-45cb-b681-c7b2d28512c9",
+            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
+            "round_num": 1,
+            "flag_type": "tie_breaker_used",
+            "severity": "medium",
+            "description": "Round decided by tie-breaker: damage",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 0.0,
+              "card": "9-10"
+            },
+            "status": "pending",
+            "created_at": "2025-10-29T16:47:42.505000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          }
+        ],
+        "count": 74
+      }
+    },
+    {
+      "test": "Get Flags - Filter by severity",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/review/flags?severity=high",
+      "response": {
+        "flags": [
+          {
+            "id": "f4b1ad5a-5dad-4c01-8918-8b42e49df97b",
+            "bout_id": "UFC_299_004",
+            "round_num": 1,
+            "flag_type": "statistical_anomaly",
+            "severity": "high",
+            "description": "10-8 without standard dominance gates",
+            "context": {
+              "card": "10-8",
+              "gates": {
+                "finish_threat": false,
+                "control_dom": false,
+                "multi_cat_dom": false
+              }
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:34.141000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "3ff3bfaa-3a6e-41b7-abd3-daf96080311c",
+            "bout_id": "UFC_299_002",
+            "round_num": 2,
+            "flag_type": "tie_breaker",
+            "severity": "high",
+            "description": "Round decided by damage tie-breaker",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 1.0,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:34.066000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          }
+        ],
+        "count": 2
+      }
+    },
+    {
+      "test": "Get Flags - Filter by flag_type",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/review/flags?flag_type=boundary_case",
+      "response": {
+        "flags": [
+          {
+            "id": "0fac6798-fe12-4d7a-b8bf-7613fbf1b8f5",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:33.988000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          }
+        ],
+        "count": 1
+      }
+    },
+    {
+      "test": "Get Bout Flags",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgesync.preview.emergentagent.com/api/review/flags/UFC_299_001",
+      "response": {
+        "flags": [
+          {
+            "id": "0fac6798-fe12-4d7a-b8bf-7613fbf1b8f5",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-10-30T01:39:33.988000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          }
+        ],
+        "count": 1
+      }
+    },
+    {
+      "test": "Create Tuning Profile - UFC Standard",
+      "success": false,
+      "expected_status": 200,
+      "actual_status": 405,
+      "url": "https://judgesync.preview.emergentagent.com/api/tuning-profiles",
+      "error": "{\"detail\":\"Method Not Allowed\"}"
+    },
+    {
+      "test": "Create Tuning Profile - Bellator Aggressive",
+      "success": false,
+      "expected_status": 200,
+      "actual_status": 405,
+      "url": "https://judgesync.preview.emergentagent.com/api/tuning-profiles",
+      "error": "{\"detail\":\"Method Not Allowed\"}"
+    },
+    {
+      "test": "Create Tuning Profile - ONE Championship",
+      "success": false,
+      "expected_status": 200,
+      "actual_status": 405,
+      "url": "https://judgesync.preview.emergentagent.com/api/tuning-profiles",
+      "error": "{\"detail\":\"Method Not Allowed\"}"
     }
   ]
 }
