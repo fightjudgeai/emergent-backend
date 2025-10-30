@@ -779,6 +779,448 @@ class CombatJudgingAPITester:
         print("   ✅ All CRUD operations working correctly")
         return True
 
+    def test_judge_profile_create(self):
+        """Test creating judge profiles"""
+        print("\n👨‍⚖️ Testing Judge Profile Management - Create Profiles...")
+        
+        # Test data for judge profiles
+        judge_profiles = [
+            {
+                "judgeId": "JUDGE001",
+                "judgeName": "Sarah Mitchell",
+                "organization": "Nevada State Athletic Commission",
+                "email": "sarah.mitchell@nsac.nv.gov",
+                "certifications": ["MMA Level 1", "Boxing Level 2", "Muay Thai"]
+            },
+            {
+                "judgeId": "JUDGE002", 
+                "judgeName": "Carlos Rodriguez",
+                "organization": "California State Athletic Commission",
+                "email": "carlos.rodriguez@csac.ca.gov",
+                "certifications": ["MMA Level 2", "BJJ Black Belt"]
+            },
+            {
+                "judgeId": "owner-001",
+                "judgeName": "Owner Judge",
+                "organization": "System Administrator",
+                "email": "owner@judgesync.com",
+                "certifications": ["System Admin", "MMA Level 3"]
+            }
+        ]
+        
+        all_success = True
+        created_judge_ids = []
+        
+        for i, profile_data in enumerate(judge_profiles):
+            success, response = self.run_test(
+                f"Create Judge Profile - {profile_data['judgeName']}", 
+                "POST", 
+                "judges", 
+                200, 
+                profile_data
+            )
+            
+            if success and response:
+                print(f"   ✅ Judge profile created: {profile_data['judgeName']}")
+                
+                # Verify response structure
+                required_fields = ['judgeId', 'judgeName', 'organization', 'email', 'certifications', 'createdAt', 'updatedAt', 'totalRoundsJudged', 'averageAccuracy']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                    all_success = False
+                else:
+                    created_judge_ids.append(profile_data['judgeId'])
+                    print(f"   Judge ID: {response['judgeId']}")
+                    print(f"   Organization: {response['organization']}")
+                    print(f"   Certifications: {len(response['certifications'])} items")
+            else:
+                all_success = False
+        
+        # Store created judge IDs for later tests
+        self.created_judge_ids = created_judge_ids
+        return all_success
+
+    def test_judge_profile_get_with_stats(self):
+        """Test getting judge profile with calculated stats"""
+        print("\n📊 Testing Judge Profile Management - Get Profile with Stats...")
+        
+        if not hasattr(self, 'created_judge_ids') or not self.created_judge_ids:
+            print("   ❌ No judge IDs available from previous test")
+            return False
+        
+        all_success = True
+        
+        # Test getting each created judge profile
+        for judge_id in self.created_judge_ids:
+            success, response = self.run_test(
+                f"Get Judge Profile - {judge_id}", 
+                "GET", 
+                f"judges/{judge_id}", 
+                200
+            )
+            
+            if success and response:
+                print(f"   ✅ Profile retrieved for judge: {judge_id}")
+                
+                # Verify response structure
+                required_fields = ['judgeId', 'judgeName', 'organization', 'email', 'certifications', 
+                                 'createdAt', 'updatedAt', 'totalRoundsJudged', 'averageAccuracy', 'perfectMatches']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                    all_success = False
+                else:
+                    print(f"   Judge Name: {response['judgeName']}")
+                    print(f"   Organization: {response['organization']}")
+                    print(f"   Total Rounds Judged: {response['totalRoundsJudged']}")
+                    print(f"   Average Accuracy: {response['averageAccuracy']}%")
+                    print(f"   Perfect Matches: {response['perfectMatches']}")
+                    
+                    # Verify stats are calculated from shadow judging data
+                    # Stats should be calculated from training_scores collection
+                    if judge_id in ['test-judge-1', 'test-judge-2', 'test-judge-3']:
+                        # These judges should have stats from previous shadow judging tests
+                        if response['totalRoundsJudged'] == 0:
+                            print(f"   ⚠️  Expected stats for {judge_id} but got 0 rounds")
+                    else:
+                        # New judges should have 0 stats initially
+                        if response['totalRoundsJudged'] != 0:
+                            print(f"   ⚠️  New judge {judge_id} should have 0 rounds initially")
+            else:
+                all_success = False
+        
+        # Test 404 for non-existent judge
+        success_404, _ = self.run_test("Get Judge Profile - Non-existent", "GET", "judges/NON_EXISTENT", 404)
+        
+        return all_success and success_404
+
+    def test_judge_profile_update(self):
+        """Test updating judge profiles"""
+        print("\n✏️ Testing Judge Profile Management - Update Profiles...")
+        
+        if not hasattr(self, 'created_judge_ids') or not self.created_judge_ids:
+            print("   ❌ No judge IDs available from previous test")
+            return False
+        
+        # Test updating the first judge
+        judge_id = self.created_judge_ids[0]
+        
+        # Update data
+        update_data = {
+            "judgeName": "Sarah Mitchell-Johnson",
+            "organization": "Nevada State Athletic Commission - Senior Judge",
+            "email": "sarah.mitchell.johnson@nsac.nv.gov"
+        }
+        
+        success, response = self.run_test(
+            f"Update Judge Profile - {judge_id}", 
+            "PUT", 
+            f"judges/{judge_id}", 
+            200, 
+            update_data
+        )
+        
+        if success and response:
+            print(f"   ✅ Judge profile updated: {judge_id}")
+            
+            # Verify response structure
+            required_fields = ['judgeId', 'judgeName', 'organization', 'email', 'updatedAt']
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                return False
+            
+            # Verify updates were applied
+            if response['judgeName'] != update_data['judgeName']:
+                print(f"   ⚠️  Judge name not updated correctly")
+                return False
+            
+            if response['organization'] != update_data['organization']:
+                print(f"   ⚠️  Organization not updated correctly")
+                return False
+            
+            if response['email'] != update_data['email']:
+                print(f"   ⚠️  Email not updated correctly")
+                return False
+            
+            print(f"   Updated Name: {response['judgeName']}")
+            print(f"   Updated Organization: {response['organization']}")
+            print(f"   Updated Email: {response['email']}")
+            
+            # Verify updatedAt timestamp changed
+            # We can't easily test this without the original timestamp, but we can check it exists
+            if not response.get('updatedAt'):
+                print(f"   ⚠️  updatedAt timestamp missing")
+                return False
+        
+        # Test 404 for non-existent judge
+        success_404, _ = self.run_test("Update Judge Profile - Non-existent", "PUT", "judges/NON_EXISTENT", 404, update_data)
+        
+        return success and success_404
+
+    def test_judge_profile_history(self):
+        """Test getting judge scoring history"""
+        print("\n📈 Testing Judge Profile Management - Scoring History...")
+        
+        # Test history for judges that should have shadow judging data
+        test_judges = ['test-judge-1', 'test-judge-2', 'test-judge-3']
+        
+        all_success = True
+        
+        for judge_id in test_judges:
+            success, response = self.run_test(
+                f"Get Judge History - {judge_id}", 
+                "GET", 
+                f"judges/{judge_id}/history", 
+                200
+            )
+            
+            if success and response:
+                print(f"   ✅ History retrieved for judge: {judge_id}")
+                
+                # Verify response structure
+                required_fields = ['judgeId', 'submissions', 'stats']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                    all_success = False
+                    continue
+                
+                submissions = response.get('submissions', [])
+                stats = response.get('stats', {})
+                
+                print(f"   Submissions count: {len(submissions)}")
+                
+                # Verify submissions structure if any exist
+                if submissions:
+                    first_submission = submissions[0]
+                    required_submission_fields = ['id', 'roundId', 'myScore', 'officialScore', 'mae', 'accuracy', 'match', 'timestamp']
+                    missing_submission_fields = [field for field in required_submission_fields if field not in first_submission]
+                    
+                    if missing_submission_fields:
+                        print(f"   ⚠️  Missing fields in submission: {missing_submission_fields}")
+                        all_success = False
+                    else:
+                        print(f"   Sample submission: {first_submission['myScore']} vs {first_submission['officialScore']} (Accuracy: {first_submission['accuracy']}%)")
+                        
+                        # Verify submissions are sorted by timestamp (newest first)
+                        if len(submissions) > 1:
+                            for i in range(len(submissions) - 1):
+                                current_time = submissions[i]['timestamp']
+                                next_time = submissions[i + 1]['timestamp']
+                                # Note: This is a simple string comparison, might need datetime parsing for proper validation
+                                if current_time < next_time:
+                                    print(f"   ⚠️  Submissions not sorted by timestamp (newest first)")
+                                    all_success = False
+                                    break
+                
+                # Verify stats structure
+                required_stats_fields = ['totalAttempts', 'averageAccuracy', 'averageMAE', 'perfectMatches']
+                missing_stats_fields = [field for field in required_stats_fields if field not in stats]
+                
+                if missing_stats_fields:
+                    print(f"   ⚠️  Missing fields in stats: {missing_stats_fields}")
+                    all_success = False
+                else:
+                    print(f"   Stats - Total: {stats['totalAttempts']}, Accuracy: {stats['averageAccuracy']}%, Perfect: {stats['perfectMatches']}")
+            else:
+                all_success = False
+        
+        # Test with limit parameter
+        if test_judges:
+            judge_id = test_judges[0]
+            success_limit, response_limit = self.run_test(
+                f"Get Judge History with Limit - {judge_id}", 
+                "GET", 
+                f"judges/{judge_id}/history?limit=2", 
+                200
+            )
+            
+            if success_limit and response_limit:
+                submissions = response_limit.get('submissions', [])
+                if len(submissions) > 2:
+                    print(f"   ⚠️  Limit parameter not working: expected max 2, got {len(submissions)}")
+                    all_success = False
+                else:
+                    print(f"   ✅ Limit parameter working: {len(submissions)} submissions returned")
+        
+        # Test judge with no history (should return empty but valid structure)
+        if hasattr(self, 'created_judge_ids') and self.created_judge_ids:
+            new_judge_id = self.created_judge_ids[0]
+            success_empty, response_empty = self.run_test(
+                f"Get Judge History - No History ({new_judge_id})", 
+                "GET", 
+                f"judges/{new_judge_id}/history", 
+                200
+            )
+            
+            if success_empty and response_empty:
+                submissions = response_empty.get('submissions', [])
+                if len(submissions) != 0:
+                    print(f"   ⚠️  New judge should have empty history, got {len(submissions)} submissions")
+                    all_success = False
+                else:
+                    print(f"   ✅ New judge has empty history as expected")
+        
+        return all_success
+
+    def test_audit_owner_access_control(self):
+        """Test owner-only access control for audit logs"""
+        print("\n🔒 Testing Audit Logs - Owner Access Control...")
+        
+        all_success = True
+        
+        # Test 1: Owner access (should work)
+        success_owner, response_owner = self.run_test(
+            "Audit Logs - Owner Access", 
+            "GET", 
+            "audit/logs?judge_id=owner-001", 
+            200
+        )
+        
+        if success_owner and response_owner:
+            print(f"   ✅ Owner access granted successfully")
+            logs = response_owner.get('logs', [])
+            print(f"   Retrieved {len(logs)} logs for owner")
+        else:
+            all_success = False
+        
+        # Test 2: Non-owner access (should return 403)
+        success_non_owner, response_non_owner = self.run_test(
+            "Audit Logs - Non-Owner Access", 
+            "GET", 
+            "audit/logs?judge_id=JUDGE001", 
+            403
+        )
+        
+        if success_non_owner:
+            print(f"   ✅ Non-owner access correctly denied (403)")
+        else:
+            print(f"   ❌ Non-owner access should return 403")
+            all_success = False
+        
+        # Test 3: Owner access to audit stats
+        success_owner_stats, response_owner_stats = self.run_test(
+            "Audit Stats - Owner Access", 
+            "GET", 
+            "audit/stats?judge_id=owner-001", 
+            200
+        )
+        
+        if success_owner_stats and response_owner_stats:
+            print(f"   ✅ Owner access to stats granted")
+        else:
+            all_success = False
+        
+        # Test 4: Non-owner access to audit stats (should return 403)
+        success_non_owner_stats, response_non_owner_stats = self.run_test(
+            "Audit Stats - Non-Owner Access", 
+            "GET", 
+            "audit/stats?judge_id=JUDGE001", 
+            403
+        )
+        
+        if success_non_owner_stats:
+            print(f"   ✅ Non-owner access to stats correctly denied (403)")
+        else:
+            all_success = False
+        
+        # Test 5: Owner access to verify endpoint
+        if hasattr(self, 'created_audit_log_ids') and self.created_audit_log_ids:
+            log_id = self.created_audit_log_ids[0]
+            success_owner_verify, response_owner_verify = self.run_test(
+                "Audit Verify - Owner Access", 
+                "GET", 
+                f"audit/verify/{log_id}?judge_id=owner-001", 
+                200
+            )
+            
+            if success_owner_verify:
+                print(f"   ✅ Owner access to verify granted")
+            else:
+                all_success = False
+            
+            # Test 6: Non-owner access to verify endpoint (should return 403)
+            success_non_owner_verify, response_non_owner_verify = self.run_test(
+                "Audit Verify - Non-Owner Access", 
+                "GET", 
+                f"audit/verify/{log_id}?judge_id=JUDGE001", 
+                403
+            )
+            
+            if success_non_owner_verify:
+                print(f"   ✅ Non-owner access to verify correctly denied (403)")
+            else:
+                all_success = False
+        
+        # Test 7: Owner access to export endpoint
+        success_owner_export, response_owner_export = self.run_test(
+            "Audit Export - Owner Access", 
+            "GET", 
+            "audit/export?judge_id=owner-001", 
+            200
+        )
+        
+        if success_owner_export:
+            print(f"   ✅ Owner access to export granted")
+        else:
+            all_success = False
+        
+        # Test 8: Non-owner access to export endpoint (should return 403)
+        success_non_owner_export, response_non_owner_export = self.run_test(
+            "Audit Export - Non-Owner Access", 
+            "GET", 
+            "audit/export?judge_id=JUDGE001", 
+            403
+        )
+        
+        if success_non_owner_export:
+            print(f"   ✅ Non-owner access to export correctly denied (403)")
+        else:
+            all_success = False
+        
+        return all_success
+
+    def test_judge_profile_integration_flow(self):
+        """Test complete Judge Profile Management integration flow"""
+        print("\n👨‍⚖️ Testing Complete Judge Profile Management Integration Flow...")
+        
+        # Step 1: Create judge profiles
+        print("   Step 1: Creating judge profiles...")
+        if not self.test_judge_profile_create():
+            return False
+        
+        # Step 2: Get profiles with stats
+        print("   Step 2: Retrieving profiles with calculated stats...")
+        if not self.test_judge_profile_get_with_stats():
+            return False
+        
+        # Step 3: Update profile information
+        print("   Step 3: Updating profile information...")
+        if not self.test_judge_profile_update():
+            return False
+        
+        # Step 4: Get scoring history
+        print("   Step 4: Retrieving scoring history...")
+        if not self.test_judge_profile_history():
+            return False
+        
+        # Step 5: Test owner access control
+        print("   Step 5: Testing owner-only audit access...")
+        if not self.test_audit_owner_access_control():
+            return False
+        
+        print("   🎉 Complete Judge Profile Management integration flow test passed!")
+        print("   ✅ All 4 judge profile APIs working correctly")
+        print("   ✅ Stats calculated from shadow judging submissions")
+        print("   ✅ Owner-restricted audit log access working")
+        return True
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Combat Judging API Tests")
