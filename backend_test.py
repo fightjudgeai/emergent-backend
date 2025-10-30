@@ -1220,6 +1220,728 @@ class CombatJudgingAPITester:
         print("   ✅ Owner-restricted audit log access working")
         return True
 
+    def test_fighter_stats_create(self):
+        """Test creating/updating fighter statistics"""
+        print("\n🥊 Testing Fighter Stats - Create/Update Fighter Stats...")
+        
+        # Test data for fighter stats updates
+        fighter_updates = [
+            {
+                "fighter_name": "Jon Jones",
+                "round_events": [
+                    {"event_type": "KD", "metadata": {"severity": "hard"}},
+                    {"event_type": "SS Head", "metadata": {"power_strike": True}},
+                    {"event_type": "SS Head", "metadata": {}},
+                    {"event_type": "Takedown", "metadata": {"immediate_pass": True}},
+                    {"event_type": "Pass", "metadata": {}},
+                    {"event_type": "CTRL_START", "metadata": {}},
+                    {"event_type": "CTRL_STOP", "metadata": {"position": "mount", "effective_control": True}}
+                ],
+                "round_score": 8.5,
+                "round_result": "won",
+                "control_time": 120.0,
+                "round_card": "10-8"
+            },
+            {
+                "fighter_name": "Daniel Cormier",
+                "round_events": [
+                    {"event_type": "SS Body", "metadata": {}},
+                    {"event_type": "SS Leg", "metadata": {}},
+                    {"event_type": "Takedown", "metadata": {}},
+                    {"event_type": "Submission Attempt", "metadata": {"depth": "tight", "duration": 15}}
+                ],
+                "round_score": 6.2,
+                "round_result": "lost",
+                "control_time": 45.0,
+                "round_card": "8-10"
+            },
+            {
+                "fighter_name": "Amanda Nunes",
+                "round_events": [
+                    {"event_type": "KD", "metadata": {"severity": "near-finish"}},
+                    {"event_type": "SS Head", "metadata": {"power_strike": True, "rocked": True}},
+                    {"event_type": "SS Head", "metadata": {"power_strike": True}},
+                    {"event_type": "SS Body", "metadata": {}}
+                ],
+                "round_score": 9.1,
+                "round_result": "won",
+                "control_time": 0.0,
+                "round_card": "10-9"
+            }
+        ]
+        
+        all_success = True
+        created_fighters = []
+        
+        for i, update_data in enumerate(fighter_updates):
+            success, response = self.run_test(
+                f"Update Fighter Stats - {update_data['fighter_name']}", 
+                "POST", 
+                "fighters/update-stats", 
+                200, 
+                update_data
+            )
+            
+            if success and response:
+                print(f"   ✅ Fighter stats updated: {update_data['fighter_name']}")
+                
+                # Verify response structure
+                required_fields = ['success', 'message']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                    all_success = False
+                else:
+                    created_fighters.append(update_data['fighter_name'])
+                    print(f"   Message: {response['message']}")
+            else:
+                all_success = False
+        
+        # Store created fighter names for later tests
+        self.created_fighters = created_fighters
+        return all_success
+
+    def test_fighter_stats_get(self):
+        """Test retrieving fighter statistics"""
+        print("\n📊 Testing Fighter Stats - Get Fighter Statistics...")
+        
+        if not hasattr(self, 'created_fighters') or not self.created_fighters:
+            print("   ❌ No fighter names available from previous test")
+            return False
+        
+        all_success = True
+        
+        # Test getting each created fighter's stats
+        for fighter_name in self.created_fighters:
+            success, response = self.run_test(
+                f"Get Fighter Stats - {fighter_name}", 
+                "GET", 
+                f"fighters/{fighter_name}/stats", 
+                200
+            )
+            
+            if success and response:
+                print(f"   ✅ Stats retrieved for fighter: {fighter_name}")
+                
+                # Verify response structure
+                required_fields = ['fighter_name', 'total_rounds', 'total_fights', 'avg_kd_per_round', 
+                                 'avg_ss_per_round', 'avg_td_per_round', 'avg_sub_attempts', 'avg_passes', 
+                                 'avg_reversals', 'avg_control_time', 'avg_round_score', 'rounds_won', 
+                                 'rounds_lost', 'rounds_drawn', 'rate_10_8', 'rate_10_7', 'tendencies', 'last_updated']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                    all_success = False
+                else:
+                    print(f"   Total Rounds: {response['total_rounds']}")
+                    print(f"   Avg KD per Round: {response['avg_kd_per_round']}")
+                    print(f"   Avg SS per Round: {response['avg_ss_per_round']}")
+                    print(f"   Rounds Won: {response['rounds_won']}")
+                    
+                    # Verify tendencies structure
+                    tendencies = response.get('tendencies', {})
+                    if tendencies:
+                        required_tendency_fields = ['striking_style', 'grappling_rate', 'finish_threat_rate', 
+                                                  'control_preference', 'aggression_level']
+                        missing_tendency_fields = [field for field in required_tendency_fields if field not in tendencies]
+                        
+                        if missing_tendency_fields:
+                            print(f"   ⚠️  Missing fields in tendencies: {missing_tendency_fields}")
+                            all_success = False
+                        else:
+                            print(f"   Grappling Rate: {tendencies['grappling_rate']}")
+                            print(f"   Aggression Level: {tendencies['aggression_level']}")
+            else:
+                all_success = False
+        
+        # Test 404 for non-existent fighter
+        success_404, _ = self.run_test("Get Fighter Stats - Non-existent", "GET", "fighters/NonExistentFighter/stats", 404)
+        
+        return all_success and success_404
+
+    def test_discrepancy_flags_create(self):
+        """Test creating discrepancy flags"""
+        print("\n🚩 Testing Discrepancy Flags - Create Flags...")
+        
+        # Test data for different types of flags
+        flag_data = [
+            {
+                "bout_id": "UFC_299_001",
+                "round_num": 1,
+                "flag_type": "boundary_case",
+                "severity": "medium",
+                "description": "Score very close to 10-8 threshold",
+                "context": {
+                    "delta": 595,
+                    "threshold": 600,
+                    "card": "10-9"
+                }
+            },
+            {
+                "bout_id": "UFC_299_002",
+                "round_num": 2,
+                "flag_type": "tie_breaker",
+                "severity": "high",
+                "description": "Round decided by damage tie-breaker",
+                "context": {
+                    "tie_breaker": "damage",
+                    "delta": 1.0,
+                    "card": "10-9"
+                }
+            },
+            {
+                "bout_id": "UFC_299_003",
+                "round_num": 3,
+                "flag_type": "low_activity",
+                "severity": "low",
+                "description": "Very low activity round",
+                "context": {
+                    "event_count": 3,
+                    "card": "10-9"
+                }
+            },
+            {
+                "bout_id": "UFC_299_004",
+                "round_num": 1,
+                "flag_type": "statistical_anomaly",
+                "severity": "high",
+                "description": "10-8 without standard dominance gates",
+                "context": {
+                    "card": "10-8",
+                    "gates": {
+                        "finish_threat": False,
+                        "control_dom": False,
+                        "multi_cat_dom": False
+                    }
+                }
+            }
+        ]
+        
+        all_success = True
+        created_flag_ids = []
+        
+        for i, flag in enumerate(flag_data):
+            success, response = self.run_test(
+                f"Create Flag - {flag['flag_type']}", 
+                "POST", 
+                "review/create-flag", 
+                200, 
+                flag
+            )
+            
+            if success and response:
+                print(f"   ✅ Flag created: {flag['flag_type']}")
+                
+                # Verify response structure
+                required_fields = ['success', 'flag_id']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                    all_success = False
+                else:
+                    created_flag_ids.append(response['flag_id'])
+                    print(f"   Flag ID: {response['flag_id']}")
+            else:
+                all_success = False
+        
+        # Store created flag IDs for later tests
+        self.created_flag_ids = created_flag_ids
+        return all_success
+
+    def test_discrepancy_flags_get_all(self):
+        """Test retrieving all discrepancy flags with filters"""
+        print("\n📋 Testing Discrepancy Flags - Get All Flags...")
+        
+        # Test 1: Get all flags (no filters)
+        success1, response1 = self.run_test("Get All Flags", "GET", "review/flags", 200)
+        
+        if success1 and response1:
+            flags = response1.get('flags', [])
+            count = response1.get('count', 0)
+            
+            print(f"   ✅ Retrieved {count} flags")
+            
+            # Verify response structure
+            required_fields = ['flags', 'count']
+            missing_fields = [field for field in required_fields if field not in response1]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                return False
+            
+            # Verify flag structure if flags exist
+            if flags:
+                first_flag = flags[0]
+                required_flag_fields = ['id', 'bout_id', 'round_num', 'flag_type', 'severity', 
+                                      'description', 'context', 'status', 'created_at']
+                missing_flag_fields = [field for field in required_flag_fields if field not in first_flag]
+                
+                if missing_flag_fields:
+                    print(f"   ⚠️  Missing fields in flag structure: {missing_flag_fields}")
+                    return False
+                
+                print(f"   ✅ Flag structure validated")
+                print(f"   Sample flag: {first_flag['flag_type']} - {first_flag['severity']} severity")
+        
+        # Test 2: Filter by status
+        success2, response2 = self.run_test("Get Flags - Filter by status", "GET", "review/flags?status=pending", 200)
+        
+        if success2 and response2:
+            filtered_flags = response2.get('flags', [])
+            print(f"   ✅ Filtered by status: {len(filtered_flags)} flags")
+            
+            # Verify all flags have the correct status
+            for flag in filtered_flags:
+                if flag.get('status') != 'pending':
+                    print(f"   ⚠️  Filter failed: found flag with status '{flag.get('status')}'")
+                    return False
+        
+        # Test 3: Filter by severity
+        success3, response3 = self.run_test("Get Flags - Filter by severity", "GET", "review/flags?severity=high", 200)
+        
+        if success3 and response3:
+            severity_flags = response3.get('flags', [])
+            print(f"   ✅ Filtered by severity: {len(severity_flags)} flags")
+        
+        # Test 4: Filter by flag_type
+        success4, response4 = self.run_test("Get Flags - Filter by flag_type", "GET", "review/flags?flag_type=boundary_case", 200)
+        
+        if success4 and response4:
+            type_flags = response4.get('flags', [])
+            print(f"   ✅ Filtered by flag_type: {len(type_flags)} flags")
+        
+        return success1 and success2 and success3 and success4
+
+    def test_discrepancy_flags_get_by_bout(self):
+        """Test retrieving flags for specific bout"""
+        print("\n🎯 Testing Discrepancy Flags - Get Flags by Bout...")
+        
+        # Test getting flags for a specific bout
+        success, response = self.run_test("Get Bout Flags", "GET", "review/flags/UFC_299_001", 200)
+        
+        if success and response:
+            flags = response.get('flags', [])
+            count = response.get('count', 0)
+            
+            print(f"   ✅ Retrieved {count} flags for bout UFC_299_001")
+            
+            # Verify response structure
+            required_fields = ['flags', 'count']
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                return False
+            
+            # Verify all flags belong to the correct bout
+            for flag in flags:
+                if flag.get('bout_id') != 'UFC_299_001':
+                    print(f"   ⚠️  Found flag for wrong bout: {flag.get('bout_id')}")
+                    return False
+            
+            # Verify flags are sorted by round_num
+            if len(flags) > 1:
+                for i in range(len(flags) - 1):
+                    current_round = flags[i]['round_num']
+                    next_round = flags[i + 1]['round_num']
+                    if current_round > next_round:
+                        print(f"   ⚠️  Flags not sorted by round number")
+                        return False
+                
+                print(f"   ✅ Flags properly sorted by round number")
+        
+        return success
+
+    def test_tuning_profiles_create(self):
+        """Test creating tuning profiles"""
+        print("\n⚙️ Testing Tuning Profiles - Create Profiles...")
+        
+        # Test data for different tuning profiles
+        profile_data = [
+            {
+                "name": "UFC Standard",
+                "promotion": "UFC",
+                "description": "Standard UFC judging criteria with emphasis on damage",
+                "weights": {
+                    "KD": 0.35,
+                    "ISS": 0.25,
+                    "TSR": 0.15,
+                    "GCQ": 0.08,
+                    "TDQ": 0.07,
+                    "OC": 0.05,
+                    "SUBQ": 0.03,
+                    "AGG": 0.02,
+                    "RP": 0.00
+                },
+                "thresholds": {
+                    "threshold_10_9": 550,
+                    "threshold_10_8": 850
+                },
+                "gate_sensitivity": {
+                    "finish_threat_kd_threshold": 0.8,
+                    "finish_threat_subq_threshold": 7.5,
+                    "finish_threat_iss_threshold": 8.5,
+                    "control_dom_gcq_threshold": 7.0,
+                    "control_dom_time_share": 0.6,
+                    "multi_cat_dom_count": 3,
+                    "multi_cat_dom_score_threshold": 7.0
+                },
+                "created_by": "admin-001"
+            },
+            {
+                "name": "Bellator Aggressive",
+                "promotion": "Bellator",
+                "description": "Bellator style with higher aggression weighting",
+                "weights": {
+                    "KD": 0.30,
+                    "ISS": 0.20,
+                    "TSR": 0.18,
+                    "GCQ": 0.10,
+                    "TDQ": 0.08,
+                    "OC": 0.06,
+                    "SUBQ": 0.05,
+                    "AGG": 0.03,
+                    "RP": 0.00
+                },
+                "created_by": "bellator-admin"
+            },
+            {
+                "name": "ONE Championship",
+                "promotion": "ONE Championship",
+                "description": "ONE FC criteria emphasizing technical skill",
+                "weights": {
+                    "KD": 0.25,
+                    "ISS": 0.22,
+                    "TSR": 0.15,
+                    "GCQ": 0.12,
+                    "TDQ": 0.10,
+                    "OC": 0.08,
+                    "SUBQ": 0.06,
+                    "AGG": 0.02,
+                    "RP": 0.00
+                },
+                "created_by": "one-admin"
+            }
+        ]
+        
+        all_success = True
+        created_profile_ids = []
+        
+        for i, profile in enumerate(profile_data):
+            success, response = self.run_test(
+                f"Create Tuning Profile - {profile['name']}", 
+                "POST", 
+                "tuning-profiles", 
+                200, 
+                profile
+            )
+            
+            if success and response:
+                print(f"   ✅ Tuning profile created: {profile['name']}")
+                
+                # Verify response structure
+                required_fields = ['id', 'name', 'promotion', 'description', 'weights', 'thresholds', 
+                                 'gate_sensitivity', 'is_default', 'created_by', 'created_at', 'updated_at']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                    all_success = False
+                else:
+                    created_profile_ids.append(response['id'])
+                    print(f"   Profile ID: {response['id']}")
+                    print(f"   Promotion: {response['promotion']}")
+            else:
+                all_success = False
+        
+        # Store created profile IDs for later tests
+        self.created_profile_ids = created_profile_ids
+        return all_success
+
+    def test_tuning_profiles_get_all(self):
+        """Test retrieving all tuning profiles"""
+        print("\n📋 Testing Tuning Profiles - Get All Profiles...")
+        
+        success, response = self.run_test("Get All Tuning Profiles", "GET", "tuning-profiles", 200)
+        
+        if success and response:
+            profiles = response if isinstance(response, list) else response.get('profiles', [])
+            print(f"   ✅ Retrieved {len(profiles)} tuning profiles")
+            
+            # Verify profile structure if profiles exist
+            if profiles:
+                first_profile = profiles[0]
+                required_fields = ['id', 'name', 'promotion', 'description', 'weights', 'thresholds', 
+                                 'gate_sensitivity', 'is_default', 'created_by', 'created_at', 'updated_at']
+                missing_fields = [field for field in required_fields if field not in first_profile]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in profile structure: {missing_fields}")
+                    return False
+                
+                print(f"   ✅ Profile structure validated")
+                print(f"   Sample profile: {first_profile['name']} ({first_profile['promotion']})")
+                
+                # Verify weights structure
+                weights = first_profile.get('weights', {})
+                expected_weight_keys = ['KD', 'ISS', 'TSR', 'GCQ', 'TDQ', 'OC', 'SUBQ', 'AGG', 'RP']
+                missing_weight_keys = [key for key in expected_weight_keys if key not in weights]
+                
+                if missing_weight_keys:
+                    print(f"   ⚠️  Missing weight keys: {missing_weight_keys}")
+                    return False
+                
+                # Verify thresholds structure
+                thresholds = first_profile.get('thresholds', {})
+                expected_threshold_keys = ['threshold_10_9', 'threshold_10_8']
+                missing_threshold_keys = [key for key in expected_threshold_keys if key not in thresholds]
+                
+                if missing_threshold_keys:
+                    print(f"   ⚠️  Missing threshold keys: {missing_threshold_keys}")
+                    return False
+                
+                print(f"   ✅ Weights and thresholds structure validated")
+        
+        return success
+
+    def test_tuning_profiles_get_by_id(self):
+        """Test retrieving specific tuning profile by ID"""
+        print("\n🎯 Testing Tuning Profiles - Get Profile by ID...")
+        
+        if not hasattr(self, 'created_profile_ids') or not self.created_profile_ids:
+            print("   ❌ No profile IDs available from previous test")
+            return False
+        
+        all_success = True
+        
+        # Test getting each created profile
+        for profile_id in self.created_profile_ids:
+            success, response = self.run_test(
+                f"Get Tuning Profile - {profile_id}", 
+                "GET", 
+                f"tuning-profiles/{profile_id}", 
+                200
+            )
+            
+            if success and response:
+                print(f"   ✅ Profile retrieved: {profile_id}")
+                
+                # Verify response structure
+                required_fields = ['id', 'name', 'promotion', 'weights', 'thresholds', 'gate_sensitivity']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                    all_success = False
+                else:
+                    print(f"   Name: {response['name']}")
+                    print(f"   Promotion: {response['promotion']}")
+            else:
+                all_success = False
+        
+        # Test 404 for non-existent profile
+        success_404, _ = self.run_test("Get Tuning Profile - Non-existent", "GET", "tuning-profiles/non-existent-id", 404)
+        
+        return all_success and success_404
+
+    def test_tuning_profiles_update(self):
+        """Test updating tuning profiles"""
+        print("\n✏️ Testing Tuning Profiles - Update Profiles...")
+        
+        if not hasattr(self, 'created_profile_ids') or not self.created_profile_ids:
+            print("   ❌ No profile IDs available from previous test")
+            return False
+        
+        # Test updating the first profile
+        profile_id = self.created_profile_ids[0]
+        
+        # Update data
+        update_data = {
+            "name": "UFC Standard v2.0",
+            "description": "Updated UFC judging criteria with refined damage weighting",
+            "weights": {
+                "KD": 0.40,
+                "ISS": 0.25,
+                "TSR": 0.15,
+                "GCQ": 0.08,
+                "TDQ": 0.07,
+                "OC": 0.03,
+                "SUBQ": 0.02,
+                "AGG": 0.00,
+                "RP": 0.00
+            }
+        }
+        
+        success, response = self.run_test(
+            f"Update Tuning Profile - {profile_id}", 
+            "PUT", 
+            f"tuning-profiles/{profile_id}", 
+            200, 
+            update_data
+        )
+        
+        if success and response:
+            print(f"   ✅ Tuning profile updated: {profile_id}")
+            
+            # Verify response structure
+            required_fields = ['id', 'name', 'description', 'weights', 'updated_at']
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                return False
+            
+            # Verify updates were applied
+            if response['name'] != update_data['name']:
+                print(f"   ⚠️  Name not updated correctly")
+                return False
+            
+            if response['description'] != update_data['description']:
+                print(f"   ⚠️  Description not updated correctly")
+                return False
+            
+            # Verify weights were updated
+            response_weights = response.get('weights', {})
+            for key, value in update_data['weights'].items():
+                if response_weights.get(key) != value:
+                    print(f"   ⚠️  Weight {key} not updated correctly")
+                    return False
+            
+            print(f"   Updated Name: {response['name']}")
+            print(f"   Updated KD Weight: {response_weights.get('KD', 'N/A')}")
+        
+        # Test 404 for non-existent profile
+        success_404, _ = self.run_test("Update Tuning Profile - Non-existent", "PUT", "tuning-profiles/non-existent-id", 404, update_data)
+        
+        return success and success_404
+
+    def test_tuning_profiles_delete(self):
+        """Test deleting tuning profiles"""
+        print("\n🗑️ Testing Tuning Profiles - Delete Profiles...")
+        
+        if not hasattr(self, 'created_profile_ids') or len(self.created_profile_ids) < 2:
+            print("   ❌ Need at least 2 profile IDs for delete test")
+            return False
+        
+        # Delete the last created profile (keep others for integration tests)
+        profile_id = self.created_profile_ids[-1]
+        
+        success, response = self.run_test(
+            f"Delete Tuning Profile - {profile_id}", 
+            "DELETE", 
+            f"tuning-profiles/{profile_id}", 
+            200
+        )
+        
+        if success and response:
+            print(f"   ✅ Tuning profile deleted: {profile_id}")
+            
+            # Verify response structure
+            if 'success' not in response or 'message' not in response:
+                print(f"   ⚠️  Missing fields in response: expected 'success' and 'message'")
+                return False
+            
+            print(f"   Message: {response['message']}")
+            
+            # Verify profile is actually deleted by trying to get it
+            success_verify, _ = self.run_test(
+                f"Verify Deletion - {profile_id}", 
+                "GET", 
+                f"tuning-profiles/{profile_id}", 
+                404
+            )
+            
+            if success_verify:
+                print(f"   ✅ Profile deletion verified (404 on GET)")
+            else:
+                print(f"   ⚠️  Profile still exists after deletion")
+                return False
+        
+        # Test 404 for non-existent profile
+        success_404, _ = self.run_test("Delete Tuning Profile - Non-existent", "DELETE", "tuning-profiles/non-existent-id", 404)
+        
+        return success and success_404
+
+    def test_fighter_stats_integration_flow(self):
+        """Test complete Fighter Stats integration flow"""
+        print("\n🥊 Testing Complete Fighter Stats Integration Flow...")
+        
+        # Step 1: Create/update fighter stats
+        print("   Step 1: Creating/updating fighter statistics...")
+        if not self.test_fighter_stats_create():
+            return False
+        
+        # Step 2: Retrieve fighter stats
+        print("   Step 2: Retrieving fighter statistics...")
+        if not self.test_fighter_stats_get():
+            return False
+        
+        print("   🎉 Complete Fighter Stats integration flow test passed!")
+        print("   ✅ Fighter stats creation and retrieval working correctly")
+        print("   ✅ Tendencies calculation and storage verified")
+        return True
+
+    def test_discrepancy_flags_integration_flow(self):
+        """Test complete Discrepancy Flags integration flow"""
+        print("\n🚩 Testing Complete Discrepancy Flags Integration Flow...")
+        
+        # Step 1: Create flags
+        print("   Step 1: Creating discrepancy flags...")
+        if not self.test_discrepancy_flags_create():
+            return False
+        
+        # Step 2: Get all flags with filters
+        print("   Step 2: Retrieving flags with filters...")
+        if not self.test_discrepancy_flags_get_all():
+            return False
+        
+        # Step 3: Get flags by bout
+        print("   Step 3: Retrieving flags by bout...")
+        if not self.test_discrepancy_flags_get_by_bout():
+            return False
+        
+        print("   🎉 Complete Discrepancy Flags integration flow test passed!")
+        print("   ✅ All flag creation and retrieval APIs working correctly")
+        print("   ✅ Filtering and bout-specific queries verified")
+        return True
+
+    def test_tuning_profiles_integration_flow(self):
+        """Test complete Tuning Profiles integration flow"""
+        print("\n⚙️ Testing Complete Tuning Profiles Integration Flow...")
+        
+        # Step 1: Create tuning profiles
+        print("   Step 1: Creating tuning profiles...")
+        if not self.test_tuning_profiles_create():
+            return False
+        
+        # Step 2: Get all profiles
+        print("   Step 2: Retrieving all tuning profiles...")
+        if not self.test_tuning_profiles_get_all():
+            return False
+        
+        # Step 3: Get profiles by ID
+        print("   Step 3: Retrieving profiles by ID...")
+        if not self.test_tuning_profiles_get_by_id():
+            return False
+        
+        # Step 4: Update profiles
+        print("   Step 4: Updating tuning profiles...")
+        if not self.test_tuning_profiles_update():
+            return False
+        
+        # Step 5: Delete profiles
+        print("   Step 5: Deleting tuning profiles...")
+        if not self.test_tuning_profiles_delete():
+            return False
+        
+        print("   🎉 Complete Tuning Profiles integration flow test passed!")
+        print("   ✅ All 5 tuning profile APIs working correctly")
+        print("   ✅ CRUD operations and data validation verified")
+        return True
+
     def run_judge_profile_tests_only(self):
         """Run only Judge Profile Management tests"""
         print("🚀 Starting Judge Profile Management API Tests")
