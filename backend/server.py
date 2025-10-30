@@ -300,6 +300,32 @@ class SignatureVerification(BaseModel):
     computed_signature: str
     message: str
 
+# Judge Profile Models
+class JudgeProfile(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    judgeId: str
+    judgeName: str
+    organization: str
+    email: Optional[str] = None
+    certifications: List[str] = []
+    createdAt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updatedAt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    totalRoundsJudged: int = 0
+    averageAccuracy: float = 0.0
+
+class JudgeProfileCreate(BaseModel):
+    judgeId: str
+    judgeName: str
+    organization: str
+    email: Optional[str] = None
+    certifications: List[str] = []
+
+class JudgeProfileUpdate(BaseModel):
+    judgeName: Optional[str] = None
+    organization: Optional[str] = None
+    email: Optional[str] = None
+    certifications: Optional[List[str]] = None
+
 # Scoring Engine
 class ScoringEngine:
     @staticmethod
