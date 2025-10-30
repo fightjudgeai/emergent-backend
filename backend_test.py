@@ -1643,17 +1643,17 @@ class CombatJudgingAPITester:
                 print(f"   ✅ Tuning profile created: {profile['name']}")
                 
                 # Verify response structure
-                required_fields = ['id', 'name', 'promotion', 'description', 'weights', 'thresholds', 
-                                 'gate_sensitivity', 'is_default', 'created_by', 'created_at', 'updated_at']
+                required_fields = ['success', 'profile_id', 'profile']
                 missing_fields = [field for field in required_fields if field not in response]
                 
                 if missing_fields:
                     print(f"   ⚠️  Missing fields in response: {missing_fields}")
                     all_success = False
                 else:
-                    created_profile_ids.append(response['id'])
-                    print(f"   Profile ID: {response['id']}")
-                    print(f"   Promotion: {response['promotion']}")
+                    created_profile_ids.append(response['profile_id'])
+                    print(f"   Profile ID: {response['profile_id']}")
+                    profile_obj = response.get('profile', {})
+                    print(f"   Promotion: {profile_obj.get('promotion', 'N/A')}")
             else:
                 all_success = False
         
