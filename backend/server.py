@@ -2141,7 +2141,7 @@ async def get_judge_history(judge_id: str, limit: int = 50):
     """Get judge's scoring history"""
     try:
         # Get shadow judging submissions
-        submissions = await db.training_scores.find(
+        submissions = await db.judge_performance.find(
             {"judgeId": judge_id},
             {"_id": 0}
         ).sort("timestamp", -1).limit(limit).to_list(limit)
