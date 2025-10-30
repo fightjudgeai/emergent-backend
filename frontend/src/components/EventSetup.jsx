@@ -95,41 +95,41 @@ export default function EventSetup() {
     }}>
       <Card className="w-full max-w-4xl bg-[#13151a]/95 border-[#2a2d35] backdrop-blur-xl shadow-2xl">
         <CardHeader className="text-center space-y-4 pb-8">
-          <div className="flex justify-end gap-2 mb-2">
+          <div className="flex flex-wrap justify-end gap-2 mb-2">
             <Button
               onClick={() => navigate('/profile')}
-              className="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white"
+              className="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white text-sm px-3 py-2"
             >
-              <User className="mr-2 h-4 w-4" />
+              <User className="mr-1.5 h-3.5 w-3.5" />
               Profile
             </Button>
             <Button
               onClick={() => navigate('/tuning-profiles')}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm px-3 py-2"
             >
-              <Settings className="mr-2 h-4 w-4" />
-              Tuning Profiles
+              <Settings className="mr-1.5 h-3.5 w-3.5" />
+              Tuning
             </Button>
             <Button
               onClick={() => navigate('/review-dashboard')}
-              className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white"
+              className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white text-sm px-3 py-2"
             >
-              <AlertTriangle className="mr-2 h-4 w-4" />
-              Review Dashboard
+              <AlertTriangle className="mr-1.5 h-3.5 w-3.5" />
+              Review
             </Button>
             <Button
               onClick={() => navigate('/shadow-judging')}
-              className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
+              className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-sm px-3 py-2"
             >
-              <GraduationCap className="mr-2 h-4 w-4" />
-              Shadow Judging Training
+              <GraduationCap className="mr-1.5 h-3.5 w-3.5" />
+              Training
             </Button>
             <Button
               onClick={() => navigate('/audit-logs')}
-              className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white"
+              className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white text-sm px-3 py-2"
             >
-              <Shield className="mr-2 h-4 w-4" />
-              Audit Logs
+              <Shield className="mr-1.5 h-3.5 w-3.5" />
+              Audit
             </Button>
           </div>
           <div className="mx-auto w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
