@@ -91,7 +91,7 @@ export default function AuditLogViewer() {
 
   const exportLogs = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/audit/export`);
+      const response = await fetch(`${BACKEND_URL}/api/audit/export?judge_id=${judgeId}`);
       const data = await response.json();
       
       // Create download
