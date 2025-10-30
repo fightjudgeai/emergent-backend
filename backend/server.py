@@ -1898,13 +1898,17 @@ async def create_audit_log_entry(log: AuditLogCreate):
 
 @api_router.get("/audit/logs")
 async def get_audit_logs(
+    judge_id: str,  # Required: Judge ID for owner verification
     action_type: str = None,
     user_id: str = None,
     resource_type: str = None,
     limit: int = 100
 ):
-    """Get audit logs with optional filters"""
+    """Get audit logs with optional filters (Owner access only)"""
     try:
+        # Verify owner access
+        verify_owner_access(judge_id)
+        
         query = {}
         if action_type:
             query["action_type"] = action_type
@@ -1922,6 +1926,8 @@ async def get_audit_logs(
             "immutable": True,
             "message": "These logs are WORM (Write Once Read Many) and cannot be modified"
         }
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error fetching audit logs: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
