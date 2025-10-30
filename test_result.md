@@ -320,6 +320,54 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "Added 'Audit Logs' navigation button with Shield icon in EventSetup header using gray color scheme."
+  
+  - task: "Judge Profile - JudgeProfile Component"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/JudgeProfile.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created comprehensive JudgeProfile component with stats overview (Total Rounds, Avg Accuracy, Perfect Matches, Member Since), Profile Information tab (view/edit name, organization, email), Scoring History tab, Edit Profile functionality, and Logout button."
+  
+  - task: "Judge Profile - Routing"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added /profile route in App.js pointing to JudgeProfile component."
+  
+  - task: "Judge Profile - Navigation Button"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/EventSetup.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added 'Profile' navigation button with User icon in EventSetup header using indigo color scheme."
+  
+  - task: "Audit Logs - Owner Access Control"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/AuditLogViewer.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added owner verification to AuditLogViewer. Only judge with ID 'owner-001' can access audit logs. Non-owners see 'Access Denied' page with red lock icon and clear message. Updated all API calls to include judge_id parameter."
 
 metadata:
   created_by: "main_agent"
