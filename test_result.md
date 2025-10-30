@@ -386,15 +386,18 @@ frontend:
   
   - task: "Audit Logs - Owner Access Control"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/components/AuditLogViewer.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added owner verification to AuditLogViewer. Only judge with ID 'owner-001' can access audit logs. Non-owners see 'Access Denied' page with red lock icon and clear message. Updated all API calls to include judge_id parameter."
+      - working: true
+        agent: "testing"
+        comment: "✅ COMPREHENSIVE TESTING COMPLETE: Owner access control working perfectly. Tested: (1) Non-owner users (JUDGE001) see Access Denied page with red lock icon, clear message 'Security & Audit logs are restricted to system owner only', and current Judge ID displayed, (2) Owner user (owner-001) can access full audit logs page with stats overview, filters, and all functionality, (3) Back to Events button works from both access denied and full access views. Access control enforcement working correctly."
 
 metadata:
   created_by: "main_agent"
