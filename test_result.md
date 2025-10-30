@@ -326,15 +326,18 @@ frontend:
   
   - task: "Security & Audit - Navigation Button"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/components/EventSetup.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added 'Audit Logs' navigation button with Shield icon in EventSetup header using gray color scheme."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Audit Logs navigation button working correctly from EventSetup. Successfully navigates to audit logs page with proper access control enforcement."
   
   - task: "Judge Profile - JudgeProfile Component"
     implemented: true
