@@ -2132,6 +2132,9 @@ class CombatJudgingAPITester:
         # Test edge cases
         self.test_edge_cases()
         
+        # Test event counts in scoring API
+        self.test_event_counts_in_scoring()
+        
         # Test Shadow Judging Training Mode (5 APIs)
         self.test_shadow_judging_complete_flow()
         
