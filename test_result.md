@@ -241,6 +241,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ EVENT COUNTS TESTING COMPLETE: Successfully tested event counts functionality in calculate-score API. Verified with complex test scenario: Fighter1 (5x SS_HEAD + 3x SS_BODY + 2x TD + 1x CTRL_START/STOP) correctly counted as Significant Strikes: 8, Grappling Control: 2, Aggression: 8, Damage: 0, Takedowns: 2. Fighter2 (2x SS_HEAD + 1x KD) correctly counted as Significant Strikes: 3, Grappling Control: 0, Aggression: 2, Damage: 1, Takedowns: 0. Empty events test confirmed all counts return 0. All subscores still present and working correctly. Real-time event counting working perfectly."
+      - working: true
+        agent: "testing"
+        comment: "✅ ACTUAL FRONTEND EVENT TYPES TESTING COMPLETE: Successfully tested event counts with EXACT frontend event types used by OperatorPanel. Verified with test scenario using actual event strings: Fighter1 (3x 'SS Head', 2x 'SS Body', 1x 'SS Leg', 2x 'Takedown', 1x 'CTRL_START', 1x 'CTRL_STOP', 1x 'Pass') correctly counted as Significant Strikes: 6, Grappling Control: 3, Aggression: 6, Damage: 0, Takedowns: 2. Fighter2 (2x 'SS Head', 1x 'KD', 1x 'Submission Attempt') correctly counted as Significant Strikes: 3, Grappling Control: 0, Aggression: 2, Damage: 2, Takedowns: 0. All event type strings with spaces working correctly ('SS Head' not 'SS_HEAD', 'Takedown' not 'TD', 'Submission Attempt' not 'SUB_ATT'). Event counting logic properly handles frontend event format. All 71/71 backend tests passed."
 
 frontend:
   - task: "Shadow Judging Mode - UI Component"
