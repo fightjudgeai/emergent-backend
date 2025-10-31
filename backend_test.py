@@ -195,30 +195,30 @@ class CombatJudgingAPITester:
         
         return success1 and success2
 
-    def test_event_counts_in_scoring(self):
-        """Test that calculate-score API returns event counts alongside subscores"""
-        print("\n📊 Testing Event Counts in Scoring API...")
+    def test_event_counts_with_actual_frontend_types(self):
+        """Test event counts with ACTUAL event types used by OperatorPanel frontend"""
+        print("\n📊 Testing Event Counts with ACTUAL Frontend Event Types...")
         
-        # Test data with multiple events as specified in the request
+        # Test data with ACTUAL frontend event types (with spaces!)
         test_events = [
-            # Fighter 1 events
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_HEAD", "timestamp": 10.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_HEAD", "timestamp": 20.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_HEAD", "timestamp": 30.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_HEAD", "timestamp": 40.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_HEAD", "timestamp": 50.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_BODY", "timestamp": 60.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_BODY", "timestamp": 70.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_BODY", "timestamp": 80.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "TD", "timestamp": 90.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "TD", "timestamp": 100.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "CTRL_START", "timestamp": 110.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "CTRL_STOP", "timestamp": 140.0, "metadata": {"duration": 30.0}},
+            # Fighter 1 events: 3x "SS Head", 2x "SS Body", 1x "SS Leg", 2x "Takedown", 1x "CTRL_START", 1x "CTRL_STOP", 1x "Pass"
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter1", "event_type": "SS Head", "timestamp": 10.0, "metadata": {}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter1", "event_type": "SS Head", "timestamp": 20.0, "metadata": {}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter1", "event_type": "SS Head", "timestamp": 30.0, "metadata": {}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter1", "event_type": "SS Body", "timestamp": 40.0, "metadata": {}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter1", "event_type": "SS Body", "timestamp": 50.0, "metadata": {}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter1", "event_type": "SS Leg", "timestamp": 60.0, "metadata": {}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter1", "event_type": "Takedown", "timestamp": 70.0, "metadata": {}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter1", "event_type": "Takedown", "timestamp": 80.0, "metadata": {}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter1", "event_type": "CTRL_START", "timestamp": 90.0, "metadata": {}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter1", "event_type": "CTRL_STOP", "timestamp": 120.0, "metadata": {"duration": 30.0}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter1", "event_type": "Pass", "timestamp": 130.0, "metadata": {}},
             
-            # Fighter 2 events
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter2", "event_type": "SS_HEAD", "timestamp": 15.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter2", "event_type": "SS_HEAD", "timestamp": 25.0, "metadata": {}},
-            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter2", "event_type": "KD", "timestamp": 35.0, "metadata": {"severity": "hard"}}
+            # Fighter 2 events: 2x "SS Head", 1x "KD", 1x "Submission Attempt"
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter2", "event_type": "SS Head", "timestamp": 15.0, "metadata": {}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter2", "event_type": "SS Head", "timestamp": 25.0, "metadata": {}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter2", "event_type": "KD", "timestamp": 35.0, "metadata": {"severity": "hard"}},
+            {"bout_id": "test_bout_actual", "round_num": 1, "fighter": "fighter2", "event_type": "Submission Attempt", "timestamp": 45.0, "metadata": {"depth": "tight"}}
         ]
         
         score_request = {
