@@ -64,6 +64,7 @@ class FighterScore(BaseModel):
     fighter: str
     subscores: Subscores
     final_score: float
+    event_counts: Optional[dict] = {}  # Count of events per category
 
 class GateChecks(BaseModel):
     finish_threat: bool
