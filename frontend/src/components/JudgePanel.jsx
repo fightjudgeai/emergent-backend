@@ -180,19 +180,36 @@ export default function JudgePanel() {
 
   // Distraction-free mode removed
 
-  const renderSubscores = (subscores, label) => {
+  const renderSubscores = (subscores, eventCounts, label) => {
     if (!subscores) return null;
+    
+    // Mapping from subscore keys to display categories
+    const categoryMap = {
+      "SS": "Significant Strikes",
+      "GCQ": "Grappling Control",
+      "AGG": "Aggression",
+      "DMG": "Damage",
+      "TD": "Takedowns"
+    };
     
     return (
       <div className="space-y-3">
         <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wide">{label}</h4>
         <div className="grid grid-cols-3 gap-3">
-          {Object.entries(subscores).map(([key, value]) => (
-            <div key={key} className="bg-[#1a1d24] rounded-lg p-3 border border-[#2a2d35]">
-              <div className="text-xs text-gray-500 mb-1">{key}</div>
-              <div className="text-lg font-bold text-white">{value.toFixed(2)}</div>
-            </div>
-          ))}
+          {Object.entries(subscores).map(([key, value]) => {
+            const categoryName = categoryMap[key] || key;
+            const eventCount = eventCounts?.[categoryName] || 0;
+            
+            return (
+              <div key={key} className="bg-[#1a1d24] rounded-lg p-3 border border-[#2a2d35]">
+                <div className="text-xs text-gray-500 mb-1">{categoryName}</div>
+                <div className="flex items-baseline gap-1">
+                  <div className="text-lg font-bold text-white">{value.toFixed(2)}</div>
+                  <div className="text-xs text-gray-500">({eventCount})</div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     );
