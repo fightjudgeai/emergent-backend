@@ -195,6 +195,151 @@ class CombatJudgingAPITester:
         
         return success1 and success2
 
+    def test_event_counts_in_scoring(self):
+        """Test that calculate-score API returns event counts alongside subscores"""
+        print("\n📊 Testing Event Counts in Scoring API...")
+        
+        # Test data with multiple events as specified in the request
+        test_events = [
+            # Fighter 1 events
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_HEAD", "timestamp": 10.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_HEAD", "timestamp": 20.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_HEAD", "timestamp": 30.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_HEAD", "timestamp": 40.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_HEAD", "timestamp": 50.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_BODY", "timestamp": 60.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_BODY", "timestamp": 70.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "SS_BODY", "timestamp": 80.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "TD", "timestamp": 90.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "TD", "timestamp": 100.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "CTRL_START", "timestamp": 110.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter1", "event_type": "CTRL_STOP", "timestamp": 140.0, "metadata": {"duration": 30.0}},
+            
+            # Fighter 2 events
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter2", "event_type": "SS_HEAD", "timestamp": 15.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter2", "event_type": "SS_HEAD", "timestamp": 25.0, "metadata": {}},
+            {"bout_id": "test_bout_counts", "round_num": 1, "fighter": "fighter2", "event_type": "KD", "timestamp": 35.0, "metadata": {"severity": "hard"}}
+        ]
+        
+        score_request = {
+            "bout_id": "test_bout_counts",
+            "round_num": 1,
+            "events": test_events,
+            "round_duration": 300
+        }
+        
+        success, response = self.run_test("Event Counts in Scoring", "POST", "calculate-score", 200, score_request)
+        
+        if success and response:
+            print(f"   ✅ Score calculation with event counts successful")
+            
+            # Verify fighter1_score has event_counts
+            fighter1_score = response.get('fighter1_score', {})
+            fighter1_event_counts = fighter1_score.get('event_counts', {})
+            
+            if not fighter1_event_counts:
+                print(f"   ❌ Missing event_counts in fighter1_score")
+                return False
+            
+            # Verify fighter1 event counts
+            expected_f1_counts = {
+                "Significant Strikes": 8,  # 5 head + 3 body
+                "Grappling Control": 2,    # CTRL_START + CTRL_STOP
+                "Aggression": 8,           # Same as SS
+                "Damage": 0,               # No KD or SUB_ATT
+                "Takedowns": 2             # 2 TD events
+            }
+            
+            print(f"   Fighter 1 Event Counts: {fighter1_event_counts}")
+            
+            for category, expected_count in expected_f1_counts.items():
+                actual_count = fighter1_event_counts.get(category, 0)
+                if actual_count != expected_count:
+                    print(f"   ❌ Fighter1 {category}: expected {expected_count}, got {actual_count}")
+                    return False
+                else:
+                    print(f"   ✅ Fighter1 {category}: {actual_count} (correct)")
+            
+            # Verify fighter2_score has event_counts
+            fighter2_score = response.get('fighter2_score', {})
+            fighter2_event_counts = fighter2_score.get('event_counts', {})
+            
+            if not fighter2_event_counts:
+                print(f"   ❌ Missing event_counts in fighter2_score")
+                return False
+            
+            # Verify fighter2 event counts
+            expected_f2_counts = {
+                "Significant Strikes": 3,  # 2 SS + 1 KD
+                "Grappling Control": 0,    # No grappling events
+                "Aggression": 2,           # 2 SS events (KD doesn't count for aggression)
+                "Damage": 1,               # 1 KD
+                "Takedowns": 0             # No TD events
+            }
+            
+            print(f"   Fighter 2 Event Counts: {fighter2_event_counts}")
+            
+            for category, expected_count in expected_f2_counts.items():
+                actual_count = fighter2_event_counts.get(category, 0)
+                if actual_count != expected_count:
+                    print(f"   ❌ Fighter2 {category}: expected {expected_count}, got {actual_count}")
+                    return False
+                else:
+                    print(f"   ✅ Fighter2 {category}: {actual_count} (correct)")
+            
+            # Verify subscores are still present
+            fighter1_subscores = fighter1_score.get('subscores', {})
+            fighter2_subscores = fighter2_score.get('subscores', {})
+            
+            expected_subscores = ['KD', 'ISS', 'GCQ', 'TDQ', 'SUBQ', 'OC', 'AGG', 'RP', 'TSR']
+            
+            for subscore in expected_subscores:
+                if subscore not in fighter1_subscores:
+                    print(f"   ❌ Missing subscore {subscore} in fighter1_score")
+                    return False
+                if subscore not in fighter2_subscores:
+                    print(f"   ❌ Missing subscore {subscore} in fighter2_score")
+                    return False
+            
+            print(f"   ✅ All subscores present for both fighters")
+            
+        else:
+            return False
+        
+        # Test with empty events - verify counts are all 0
+        empty_request = {
+            "bout_id": "test_bout_empty_counts",
+            "round_num": 1,
+            "events": [],
+            "round_duration": 300
+        }
+        
+        success_empty, response_empty = self.run_test("Empty Events - Event Counts", "POST", "calculate-score", 200, empty_request)
+        
+        if success_empty and response_empty:
+            print(f"   ✅ Empty events test successful")
+            
+            # Verify both fighters have event_counts with all zeros
+            for fighter_key in ['fighter1_score', 'fighter2_score']:
+                fighter_score = response_empty.get(fighter_key, {})
+                event_counts = fighter_score.get('event_counts', {})
+                
+                if not event_counts:
+                    print(f"   ❌ Missing event_counts in {fighter_key} for empty events")
+                    return False
+                
+                for category, count in event_counts.items():
+                    if count != 0:
+                        print(f"   ❌ {fighter_key} {category}: expected 0, got {count} for empty events")
+                        return False
+                
+                print(f"   ✅ {fighter_key} event counts all zero for empty events")
+        else:
+            return False
+        
+        print(f"   🎉 Event counts in scoring API test completed successfully!")
+        return True
+
     def test_shadow_judging_seed(self):
         """Test seeding the training library"""
         print("\n🌱 Testing Shadow Judging - Seed Training Library...")
