@@ -227,6 +227,21 @@ backend:
         agent: "testing"
         comment: "✅ COMPREHENSIVE TESTING COMPLETE: All 4 Judge Profile Management APIs working correctly. Tested: (1) POST /api/judges - Creates/updates judge profiles with proper response structure, (2) GET /api/judges/:judgeId - Retrieves profiles with calculated stats from shadow judging submissions, (3) PUT /api/judges/:judgeId - Updates profile fields correctly with proper validation, (4) GET /api/judges/:judgeId/history - Returns scoring history sorted by timestamp with stats summary. Owner access control working: owner-001 can access audit logs, non-owners get 403. Fixed backend bug: changed training_scores to judge_performance collection for stats calculation. Minor: audit stats endpoint returns 500 instead of 403 for non-owners but access control works. Integration test: Created 3 judge profiles, updated one, verified stats calculation with test shadow judging data, confirmed owner-only audit access. All core functionality working perfectly."
 
+  - task: "Event Counts in Scoring API"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Enhanced calculate-score API to return event_counts alongside subscores. Event counts are categorized into: Significant Strikes (SS + KD), Grappling Control (CTRL + Pass + Reversal), Aggression (SS events), Damage (KD + SUB_ATT), and Takedowns (TD events)."
+      - working: true
+        agent: "testing"
+        comment: "✅ EVENT COUNTS TESTING COMPLETE: Successfully tested event counts functionality in calculate-score API. Verified with complex test scenario: Fighter1 (5x SS_HEAD + 3x SS_BODY + 2x TD + 1x CTRL_START/STOP) correctly counted as Significant Strikes: 8, Grappling Control: 2, Aggression: 8, Damage: 0, Takedowns: 2. Fighter2 (2x SS_HEAD + 1x KD) correctly counted as Significant Strikes: 3, Grappling Control: 0, Aggression: 2, Damage: 1, Takedowns: 0. Empty events test confirmed all counts return 0. All subscores still present and working correctly. Real-time event counting working perfectly."
+
 frontend:
   - task: "Shadow Judging Mode - UI Component"
     implemented: true
