@@ -812,6 +812,40 @@ async def calculate_score(request: ScoreRequest):
         fighter1_events = [e for e in request.events if e.fighter == "fighter1"]
         fighter2_events = [e for e in request.events if e.fighter == "fighter2"]
         
+        # Count events by category for both fighters
+        def count_events_by_category(events):
+            """Count events grouped by scoring categories"""
+            counts = {
+                "Significant Strikes": 0,
+                "Grappling Control": 0,
+                "Aggression": 0,
+                "Damage": 0,
+                "Takedowns": 0
+            }
+            
+            for e in events:
+                event_type = e.event_type
+                # Significant Strikes: SS, KD
+                if event_type.startswith("SS") or event_type == "KD":
+                    counts["Significant Strikes"] += 1
+                # Grappling Control: CTRL, Pass, Reversal
+                if event_type in ["CTRL_START", "CTRL_STOP", "PASS", "REV"]:
+                    counts["Grappling Control"] += 1
+                # Aggression: SS counts (already counted above)
+                if event_type.startswith("SS"):
+                    counts["Aggression"] += 1
+                # Damage: KD, SUB_ATT
+                if event_type in ["KD", "SUB_ATT"]:
+                    counts["Damage"] += 1
+                # Takedowns: TD
+                if event_type == "TD":
+                    counts["Takedowns"] += 1
+            
+            return counts
+        
+        f1_event_counts = count_events_by_category(fighter1_events)
+        f2_event_counts = count_events_by_category(fighter2_events)
+        
         # Calculate SS totals for AGG calculation
         f1_ss_total = sum([1.0 for e in fighter1_events if e.event_type.startswith("SS")])
         f2_ss_total = sum([1.0 for e in fighter2_events if e.event_type.startswith("SS")])
@@ -847,12 +881,14 @@ async def calculate_score(request: ScoreRequest):
             fighter1_score=FighterScore(
                 fighter="fighter1",
                 subscores=f1_subscores,
-                final_score=s_a
+                final_score=s_a,
+                event_counts=f1_event_counts
             ),
             fighter2_score=FighterScore(
                 fighter="fighter2",
                 subscores=f2_subscores,
-                final_score=s_b
+                final_score=s_b,
+                event_counts=f2_event_counts
             ),
             score_gap=gap,
             card=card,
