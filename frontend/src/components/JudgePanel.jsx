@@ -473,10 +473,18 @@ export default function JudgePanel() {
                   {/* Subscores */}
                   <div className="grid md:grid-cols-2 gap-8">
                     <div>
-                      {renderSubscores(roundScore.fighter1_score.subscores, `${bout.fighter1} Subscores`)}
+                      {renderSubscores(
+                        roundScore.fighter1_score.subscores, 
+                        roundScore.fighter1_score.event_counts,
+                        `${bout.fighter1} Subscores`
+                      )}
                     </div>
                     <div>
-                      {renderSubscores(roundScore.fighter2_score.subscores, `${bout.fighter2} Subscores`)}
+                      {renderSubscores(
+                        roundScore.fighter2_score.subscores,
+                        roundScore.fighter2_score.event_counts,
+                        `${bout.fighter2} Subscores`
+                      )}
                     </div>
                   </div>
                 </div>
