@@ -246,6 +246,21 @@ backend:
         comment: "✅ ACTUAL FRONTEND EVENT TYPES TESTING COMPLETE: Successfully tested event counts with EXACT frontend event types used by OperatorPanel. Verified with test scenario using actual event strings: Fighter1 (3x 'SS Head', 2x 'SS Body', 1x 'SS Leg', 2x 'Takedown', 1x 'CTRL_START', 1x 'CTRL_STOP', 1x 'Pass') correctly counted as Significant Strikes: 6, Grappling Control: 3, Aggression: 6, Damage: 0, Takedowns: 2. Fighter2 (2x 'SS Head', 1x 'KD', 1x 'Submission Attempt') correctly counted as Significant Strikes: 3, Grappling Control: 0, Aggression: 2, Damage: 2, Takedowns: 0. All event type strings with spaces working correctly ('SS Head' not 'SS_HEAD', 'Takedown' not 'TD', 'Submission Attempt' not 'SUB_ATT'). Event counting logic properly handles frontend event format. All 71/71 backend tests passed."
 
 frontend:
+  - task: "Split-Screen Judge Panel Layout"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/JudgePanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Redesigned Judge Panel with split-screen Red vs Blue layout. Implemented side-by-side fighter display, category scores with event counts, official score card, uncertainty bands, and responsive design."
+      - working: true
+        agent: "testing"
+        comment: "✅ COMPREHENSIVE TESTING COMPLETE: Split-Screen Judge Panel Layout fully functional. Successfully tested: (1) Split-screen layout structure implemented with Red Corner (left) and Blue Corner (right) sections, (2) Both fighters displayed simultaneously without tab switching, (3) Category structure present for all 5 categories (Significant Strikes, Grappling Control, Aggression, Damage, Takedowns), (4) Official Score Card section centered below with 10-point-must display, (5) Event counts structure implemented with parentheses format, (6) Uncertainty Band structure present, (7) Navigation buttons (Back, Next Fight, Confirm Round) properly placed, (8) Color coding implemented with red/blue borders for respective corners, (9) Responsive design works on mobile (390x844), (10) Grid layout structure (md:grid-cols-2) implemented for split-screen functionality. All core split-screen layout requirements met. Layout successfully eliminates need for tab switching and provides clear visual comparison between fighters."
+
   - task: "Shadow Judging Mode - UI Component"
     implemented: true
     working: true
