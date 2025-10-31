@@ -485,7 +485,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Event Counts in Scoring API"
+    - "Split-Screen Judge Panel Layout"
   stuck_tasks:
     - "Judge Profile - Navigation Button"
   test_all: true
