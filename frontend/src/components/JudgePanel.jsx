@@ -294,121 +294,56 @@ export default function JudgePanel() {
               )}
 
               {!loading && roundScore && (
-                <div className="space-y-8">
-                  {/* 10-Point-Must Card */}
-                  <Card className="bg-gradient-to-r from-amber-900/30 to-orange-900/30 border-amber-700/50 p-8">
-                    <div className="text-center space-y-4">
-                      <div className="text-sm text-amber-400 font-semibold uppercase tracking-wide">Official Score Card</div>
-                      <div className="text-6xl font-bold text-white" style={{ fontFamily: 'Space Grotesk' }}>
-                        {roundScore.card}
-                      </div>
-                      <div className="flex items-center justify-center gap-3">
-                        {roundScore.winner === 'DRAW' ? (
-                          <Badge className="bg-gray-600 text-white border-gray-500 px-4 py-2 text-lg">
-                            Round Draw
-                          </Badge>
-                        ) : (
-                          <>
-                            <Badge className={`${
-                              roundScore.winner === 'fighter1' 
-                                ? 'bg-red-600 border-red-500' 
-                                : 'bg-blue-600 border-blue-500'
-                            } text-white px-4 py-2 text-lg`}>
-                              Winner: {roundScore.winner === 'fighter1' ? bout.fighter1 : bout.fighter2}
-                            </Badge>
-                            {roundScore.reasons.to_107 && (
-                              <Badge className="bg-red-900 border-red-700 text-white px-3 py-1">10-7 Dominance</Badge>
-                            )}
-                            {roundScore.reasons.to_108 && !roundScore.reasons.to_107 && (
-                              <Badge className="bg-orange-900 border-orange-700 text-white px-3 py-1">10-8 Dominance</Badge>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </Card>
-
-                  {/* Uncertainty Band */}
-                  {roundScore.uncertainty && (
-                    <Card className={`p-6 border-2 ${
-                      roundScore.uncertainty === 'high_confidence' 
-                        ? 'bg-green-900/20 border-green-700/50' 
-                        : roundScore.uncertainty === 'medium_confidence'
-                        ? 'bg-amber-900/20 border-amber-700/50'
-                        : 'bg-red-900/20 border-red-700/50'
-                    }`}>
-                      <div className="flex items-start gap-4">
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                          roundScore.uncertainty === 'high_confidence'
-                            ? 'bg-green-600'
-                            : roundScore.uncertainty === 'medium_confidence'
-                            ? 'bg-amber-600'
-                            : 'bg-red-600'
-                        }`}>
-                          <TrendingUp className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className={`text-lg font-bold ${
-                              roundScore.uncertainty === 'high_confidence'
-                                ? 'text-green-400'
-                                : roundScore.uncertainty === 'medium_confidence'
-                                ? 'text-amber-400'
-                                : 'text-red-400'
-                            }`}>
-                              {roundScore.uncertainty === 'high_confidence' && 'High Confidence'}
-                              {roundScore.uncertainty === 'medium_confidence' && 'Medium Confidence'}
-                              {roundScore.uncertainty === 'low_confidence' && 'Low Confidence'}
-                            </span>
-                            <Badge className={`${
-                              roundScore.uncertainty === 'high_confidence'
-                                ? 'bg-green-900/30 text-green-400 border-green-700/30'
-                                : roundScore.uncertainty === 'medium_confidence'
-                                ? 'bg-amber-900/30 text-amber-400 border-amber-700/30'
-                                : 'bg-red-900/30 text-red-400 border-red-700/30'
-                            }`}>
-                              Uncertainty Band
-                            </Badge>
-                          </div>
-                          <div className="text-gray-300 mb-3">
-                            {roundScore.uncertainty === 'high_confidence' && 
-                              'This score is highly confident. The decision is clear with significant separation from scoring thresholds.'}
-                            {roundScore.uncertainty === 'medium_confidence' && 
-                              'This score has moderate confidence. Consider reviewing for potential edge cases.'}
-                            {roundScore.uncertainty === 'low_confidence' && 
-                              'This score has low confidence. The round was very close or had complicating factors.'}
-                          </div>
-                          {roundScore.uncertainty_factors && roundScore.uncertainty_factors.length > 0 && (
-                            <div className="space-y-1">
-                              <div className="text-xs text-gray-400 uppercase tracking-wide">Factors:</div>
-                              {roundScore.uncertainty_factors.map((factor, idx) => (
-                                <div key={idx} className="text-sm text-gray-400 flex items-start gap-2">
-                                  <span className="text-amber-500">•</span>
-                                  <span>{factor}</span>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </Card>
-                  )}
-
-                  {/* Strength Scores & Gate Checks */}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <Card className="bg-gradient-to-br from-red-900/20 to-red-950/20 border-red-800/30 p-6">
+                <div className="space-y-6">
+                  {/* Split-Screen Scoring: Red vs Blue */}
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {/* RED CORNER - Left Side */}
+                    <Card className="bg-gradient-to-br from-red-900/20 to-red-950/20 border-red-800/30 p-4">
                       <div className="space-y-4">
-                        <div className="text-center">
-                          <div className="text-sm text-red-400 font-semibold uppercase tracking-wide">Red Corner</div>
-                          <div className="text-3xl font-bold text-white mt-2">{bout.fighter1}</div>
-                          <div className="text-5xl font-bold text-red-400 mt-3" style={{ fontFamily: 'Space Grotesk' }}>
+                        {/* Fighter Header */}
+                        <div className="text-center border-b border-red-800/30 pb-3">
+                          <div className="text-xs text-red-400 font-semibold uppercase tracking-wide">Red Corner</div>
+                          <div className="text-2xl font-bold text-white mt-1">{bout.fighter1}</div>
+                        </div>
+                        
+                        {/* Strength Score */}
+                        <div className="text-center bg-red-900/30 rounded-lg p-4 border border-red-800/30">
+                          <div className="text-4xl font-bold text-red-400" style={{ fontFamily: 'Space Grotesk' }}>
                             {roundScore.fighter1_score.final_score.toFixed(2)}
                           </div>
                           <div className="text-xs text-gray-400 mt-1">Strength Score</div>
                         </div>
+                        
+                        {/* Subscores with Event Counts */}
+                        <div className="space-y-2">
+                          <div className="text-xs text-red-400 font-semibold uppercase tracking-wide mb-2">Category Scores</div>
+                          {Object.entries(roundScore.fighter1_score.subscores).map(([key, value]) => {
+                            const categoryMap = {
+                              "SS": "Significant Strikes",
+                              "GCQ": "Grappling Control",
+                              "AGG": "Aggression",
+                              "DMG": "Damage",
+                              "TD": "Takedowns"
+                            };
+                            const categoryName = categoryMap[key] || key;
+                            const eventCount = roundScore.fighter1_score.event_counts?.[categoryName] || 0;
+                            
+                            return (
+                              <div key={key} className="bg-red-950/30 rounded p-2 border border-red-900/30 flex items-center justify-between">
+                                <div className="text-xs text-gray-400">{categoryName}</div>
+                                <div className="flex items-baseline gap-1">
+                                  <div className="text-base font-bold text-white">{value.toFixed(1)}</div>
+                                  <div className="text-xs text-gray-500">({eventCount})</div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        
+                        {/* Dominance Gates */}
                         {roundScore.winner === 'fighter1' && (
-                          <div className="mt-4 space-y-2">
-                            <div className="text-xs text-gray-400 uppercase tracking-wide">Dominance Gates</div>
+                          <div className="border-t border-red-800/30 pt-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wide mb-2">Dominance Gates</div>
                             <div className="flex flex-wrap gap-2">
                               {roundScore.reasons.gates_winner.finish_threat && (
                                 <Badge className="bg-red-700 text-white text-xs">Finish Threat</Badge>
@@ -425,19 +360,53 @@ export default function JudgePanel() {
                       </div>
                     </Card>
                     
-                    <Card className="bg-gradient-to-br from-blue-900/20 to-blue-950/20 border-blue-800/30 p-6">
+                    {/* BLUE CORNER - Right Side */}
+                    <Card className="bg-gradient-to-br from-blue-900/20 to-blue-950/20 border-blue-800/30 p-4">
                       <div className="space-y-4">
-                        <div className="text-center">
-                          <div className="text-sm text-blue-400 font-semibold uppercase tracking-wide">Blue Corner</div>
-                          <div className="text-3xl font-bold text-white mt-2">{bout.fighter2}</div>
-                          <div className="text-5xl font-bold text-blue-400 mt-3" style={{ fontFamily: 'Space Grotesk' }}>
+                        {/* Fighter Header */}
+                        <div className="text-center border-b border-blue-800/30 pb-3">
+                          <div className="text-xs text-blue-400 font-semibold uppercase tracking-wide">Blue Corner</div>
+                          <div className="text-2xl font-bold text-white mt-1">{bout.fighter2}</div>
+                        </div>
+                        
+                        {/* Strength Score */}
+                        <div className="text-center bg-blue-900/30 rounded-lg p-4 border border-blue-800/30">
+                          <div className="text-4xl font-bold text-blue-400" style={{ fontFamily: 'Space Grotesk' }}>
                             {roundScore.fighter2_score.final_score.toFixed(2)}
                           </div>
                           <div className="text-xs text-gray-400 mt-1">Strength Score</div>
                         </div>
+                        
+                        {/* Subscores with Event Counts */}
+                        <div className="space-y-2">
+                          <div className="text-xs text-blue-400 font-semibold uppercase tracking-wide mb-2">Category Scores</div>
+                          {Object.entries(roundScore.fighter2_score.subscores).map(([key, value]) => {
+                            const categoryMap = {
+                              "SS": "Significant Strikes",
+                              "GCQ": "Grappling Control",
+                              "AGG": "Aggression",
+                              "DMG": "Damage",
+                              "TD": "Takedowns"
+                            };
+                            const categoryName = categoryMap[key] || key;
+                            const eventCount = roundScore.fighter2_score.event_counts?.[categoryName] || 0;
+                            
+                            return (
+                              <div key={key} className="bg-blue-950/30 rounded p-2 border border-blue-900/30 flex items-center justify-between">
+                                <div className="text-xs text-gray-400">{categoryName}</div>
+                                <div className="flex items-baseline gap-1">
+                                  <div className="text-base font-bold text-white">{value.toFixed(1)}</div>
+                                  <div className="text-xs text-gray-500">({eventCount})</div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        
+                        {/* Dominance Gates */}
                         {roundScore.winner === 'fighter2' && (
-                          <div className="mt-4 space-y-2">
-                            <div className="text-xs text-gray-400 uppercase tracking-wide">Dominance Gates</div>
+                          <div className="border-t border-blue-800/30 pt-3">
+                            <div className="text-xs text-gray-400 uppercase tracking-wide mb-2">Dominance Gates</div>
                             <div className="flex flex-wrap gap-2">
                               {roundScore.reasons.gates_winner.finish_threat && (
                                 <Badge className="bg-blue-700 text-white text-xs">Finish Threat</Badge>
@@ -455,38 +424,108 @@ export default function JudgePanel() {
                     </Card>
                   </div>
 
-                  {/* Score Differential */}
-                  <Card className="bg-[#1a1d24] border-[#2a2d35] p-6">
-                    <div className="flex items-center justify-center gap-4">
-                      <TrendingUp className="w-6 h-6 text-amber-500" />
-                      <div className="text-center">
-                        <div className="text-sm text-gray-400 mb-1">Strength Score Delta (Δ)</div>
-                        <div className="text-2xl font-bold text-white">
-                          {roundScore.reasons.delta.toFixed(2)} points
-                        </div>
+                  {/* 10-Point-Must Card - Centered */}
+                  <Card className="bg-gradient-to-r from-amber-900/30 to-orange-900/30 border-amber-700/50 p-6">
+                    <div className="text-center space-y-3">
+                      <div className="text-xs text-amber-400 font-semibold uppercase tracking-wide">Official Score Card</div>
+                      <div className="text-5xl font-bold text-white" style={{ fontFamily: 'Space Grotesk' }}>
+                        {roundScore.card}
+                      </div>
+                      <div className="flex items-center justify-center gap-3 flex-wrap">
+                        {roundScore.winner === 'DRAW' ? (
+                          <Badge className="bg-gray-600 text-white border-gray-500 px-4 py-2">
+                            Round Draw
+                          </Badge>
+                        ) : (
+                          <>
+                            <Badge className={`${
+                              roundScore.winner === 'fighter1' 
+                                ? 'bg-red-600 border-red-500' 
+                                : 'bg-blue-600 border-blue-500'
+                            } text-white px-4 py-2`}>
+                              Winner: {roundScore.winner === 'fighter1' ? bout.fighter1 : bout.fighter2}
+                            </Badge>
+                            {roundScore.reasons.to_107 && (
+                              <Badge className="bg-red-900 border-red-700 text-white px-3 py-1">10-7 Dominance</Badge>
+                            )}
+                            {roundScore.reasons.to_108 && !roundScore.reasons.to_107 && (
+                              <Badge className="bg-orange-900 border-orange-700 text-white px-3 py-1">10-8 Dominance</Badge>
+                            )}
+                          </>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
+                        <TrendingUp className="w-4 h-4 text-amber-500" />
+                        <span>Score Delta: {roundScore.reasons.delta.toFixed(2)} points</span>
                       </div>
                     </div>
                   </Card>
 
-                  <Separator className="bg-[#2a2d35]" />
-
-                  {/* Subscores */}
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <div>
-                      {renderSubscores(
-                        roundScore.fighter1_score.subscores, 
-                        roundScore.fighter1_score.event_counts,
-                        `${bout.fighter1} Subscores`
-                      )}
-                    </div>
-                    <div>
-                      {renderSubscores(
-                        roundScore.fighter2_score.subscores,
-                        roundScore.fighter2_score.event_counts,
-                        `${bout.fighter2} Subscores`
-                      )}
-                    </div>
-                  </div>
+                  {/* Uncertainty Band */}
+                  {roundScore.uncertainty && (
+                    <Card className={`p-4 border ${
+                      roundScore.uncertainty === 'high_confidence' 
+                        ? 'bg-green-900/20 border-green-700/50' 
+                        : roundScore.uncertainty === 'medium_confidence'
+                        ? 'bg-amber-900/20 border-amber-700/50'
+                        : 'bg-red-900/20 border-red-700/50'
+                    }`}>
+                      <div className="flex items-start gap-3">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                          roundScore.uncertainty === 'high_confidence'
+                            ? 'bg-green-600'
+                            : roundScore.uncertainty === 'medium_confidence'
+                            ? 'bg-amber-600'
+                            : 'bg-red-600'
+                        }`}>
+                          <TrendingUp className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className={`text-base font-bold ${
+                              roundScore.uncertainty === 'high_confidence'
+                                ? 'text-green-400'
+                                : roundScore.uncertainty === 'medium_confidence'
+                                ? 'text-amber-400'
+                                : 'text-red-400'
+                            }`}>
+                              {roundScore.uncertainty === 'high_confidence' && 'High Confidence'}
+                              {roundScore.uncertainty === 'medium_confidence' && 'Medium Confidence'}
+                              {roundScore.uncertainty === 'low_confidence' && 'Low Confidence'}
+                            </span>
+                            <Badge className={`text-xs ${
+                              roundScore.uncertainty === 'high_confidence'
+                                ? 'bg-green-900/30 text-green-400 border-green-700/30'
+                                : roundScore.uncertainty === 'medium_confidence'
+                                ? 'bg-amber-900/30 text-amber-400 border-amber-700/30'
+                                : 'bg-red-900/30 text-red-400 border-red-700/30'
+                            }`}>
+                              Uncertainty Band
+                            </Badge>
+                          </div>
+                          <div className="text-sm text-gray-300 mb-2">
+                            {roundScore.uncertainty === 'high_confidence' && 
+                              'This score is highly confident. The decision is clear with significant separation from scoring thresholds.'}
+                            {roundScore.uncertainty === 'medium_confidence' && 
+                              'This score has moderate confidence. Consider reviewing for potential edge cases.'}
+                            {roundScore.uncertainty === 'low_confidence' && 
+                              'This score has low confidence. The round was very close or had complicating factors.'}
+                          </div>
+                          {roundScore.uncertainty_factors && roundScore.uncertainty_factors.length > 0 && (
+                            <div className="space-y-1">
+                              <div className="text-xs text-gray-400 uppercase tracking-wide">Factors:</div>
+                              {roundScore.uncertainty_factors.map((factor, idx) => (
+                                <div key={idx} className="text-xs text-gray-400 flex items-start gap-2">
+                                  <span className="text-amber-500">•</span>
+                                  <span>{factor}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </Card>
+                  )}
                 </div>
               )}
             </Card>
