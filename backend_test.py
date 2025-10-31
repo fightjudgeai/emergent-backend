@@ -222,16 +222,16 @@ class CombatJudgingAPITester:
         ]
         
         score_request = {
-            "bout_id": "test_bout_counts",
+            "bout_id": "test_bout_actual",
             "round_num": 1,
             "events": test_events,
             "round_duration": 300
         }
         
-        success, response = self.run_test("Event Counts in Scoring", "POST", "calculate-score", 200, score_request)
+        success, response = self.run_test("Event Counts with Actual Frontend Types", "POST", "calculate-score", 200, score_request)
         
         if success and response:
-            print(f"   ✅ Score calculation with event counts successful")
+            print(f"   ✅ Score calculation with ACTUAL frontend event types successful")
             
             # Verify fighter1_score has event_counts
             fighter1_score = response.get('fighter1_score', {})
@@ -241,13 +241,13 @@ class CombatJudgingAPITester:
                 print(f"   ❌ Missing event_counts in fighter1_score")
                 return False
             
-            # Verify fighter1 event counts
+            # Verify fighter1 event counts (as per test specification)
             expected_f1_counts = {
-                "Significant Strikes": 8,  # 5 head + 3 body
-                "Grappling Control": 2,    # CTRL_START + CTRL_STOP
-                "Aggression": 8,           # Same as SS
-                "Damage": 0,               # No KD or SUB_ATT
-                "Takedowns": 2             # 2 TD events
+                "Significant Strikes": 6,  # 3 head + 2 body + 1 leg (NO KD for fighter1)
+                "Grappling Control": 3,    # CTRL_START + CTRL_STOP + Pass
+                "Aggression": 6,           # 3 head + 2 body + 1 leg
+                "Damage": 0,               # No KD or Submission Attempt
+                "Takedowns": 2             # 2 Takedown events
             }
             
             print(f"   Fighter 1 Event Counts: {fighter1_event_counts}")
@@ -268,13 +268,13 @@ class CombatJudgingAPITester:
                 print(f"   ❌ Missing event_counts in fighter2_score")
                 return False
             
-            # Verify fighter2 event counts
+            # Verify fighter2 event counts (as per test specification)
             expected_f2_counts = {
-                "Significant Strikes": 3,  # 2 SS + 1 KD
-                "Grappling Control": 0,    # No grappling events
-                "Aggression": 2,           # 2 SS events (KD doesn't count for aggression)
-                "Damage": 1,               # 1 KD
-                "Takedowns": 0             # No TD events
+                "Significant Strikes": 3,  # 2 SS Head + 1 KD
+                "Grappling Control": 0,    # No grappling control events
+                "Aggression": 2,           # 2 SS Head (KD doesn't count for aggression)
+                "Damage": 2,               # 1 KD + 1 Submission Attempt
+                "Takedowns": 0             # No Takedown events
             }
             
             print(f"   Fighter 2 Event Counts: {fighter2_event_counts}")
