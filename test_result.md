@@ -482,11 +482,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Judge Profile - Navigation Button"
+    - "Event Counts in Scoring API"
   stuck_tasks:
     - "Judge Profile - Navigation Button"
   test_all: true
-  test_priority: "comprehensive_complete"
+  test_priority: "high_first"
 
 agent_communication:
   - agent: "main"
