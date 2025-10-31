@@ -2280,6 +2280,9 @@ class CombatJudgingAPITester:
         # Test event counts in scoring API
         self.test_event_counts_in_scoring()
         
+        # Test event counts with ACTUAL frontend event types
+        self.test_event_counts_with_actual_frontend_types()
+        
         # Test Shadow Judging Training Mode (5 APIs)
         self.test_shadow_judging_complete_flow()
         
