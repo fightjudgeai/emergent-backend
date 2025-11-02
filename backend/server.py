@@ -721,11 +721,11 @@ class ScoringEngine:
         to_108 = False
         to_107 = False
         
-        if abs_delta <= 600:
-            # 10-9: Score differential 1-600
+        if abs_delta < 500:
+            # 10-9: Score differential 1-499
             score_l = 9
         elif abs_delta <= 900:
-            # 10-8: Score differential 601-900
+            # 10-8: Score differential 500-900
             score_l = 8
             to_108 = True
         else:  # abs_delta > 900
