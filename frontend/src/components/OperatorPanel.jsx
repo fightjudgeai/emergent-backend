@@ -555,141 +555,315 @@ export default function OperatorPanel() {
         </Card>
       </div>
 
-      {/* Fighter Selection */}
+      {/* Split-Screen Fighter Panels */}
       <div className="max-w-7xl mx-auto mb-6">
-        <Card className="bg-[#13151a] border-[#2a2d35] p-6">
-          <Label className="text-gray-300 mb-3 block">Select Fighter</Label>
-          <div className="grid grid-cols-2 gap-4">
-            <Button
-              data-testid="select-fighter1-btn"
-              onClick={() => setSelectedFighter('fighter1')}
-              className={`h-16 text-lg font-semibold transition-all ${
-                selectedFighter === 'fighter1'
-                  ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg scale-105'
-                  : 'bg-[#1a1d24] text-gray-400 hover:bg-[#22252d]'
-              }`}
-            >
-              {bout.fighter1} (Red)
-            </Button>
-            <Button
-              data-testid="select-fighter2-btn"
-              onClick={() => setSelectedFighter('fighter2')}
-              className={`h-16 text-lg font-semibold transition-all ${
-                selectedFighter === 'fighter2'
-                  ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg scale-105'
-                  : 'bg-[#1a1d24] text-gray-400 hover:bg-[#22252d]'
-              }`}
-            >
-              {bout.fighter2} (Blue)
-            </Button>
-          </div>
-        </Card>
-      </div>
-
-      {/* Event Buttons */}
-      <div className="max-w-7xl mx-auto mb-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {/* KD Button with Dialog */}
-          <Dialog open={showKdDialog} onOpenChange={setShowKdDialog}>
-            <DialogTrigger asChild>
-              <Button
-                data-testid="event-kd-btn"
-                className={`h-24 text-xl font-bold bg-gradient-to-br ${getButtonColor(0)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
-              >
-                KD
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-[#13151a] border-[#2a2d35]">
-              <DialogHeader>
-                <DialogTitle className="text-white">Knockdown Severity</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 py-4">
-                <div className="space-y-2">
-                  <Label className="text-gray-300">Severity Level</Label>
-                  <Select value={kdSeverity} onValueChange={setKdSeverity}>
-                    <SelectTrigger className="bg-[#1a1d24] border-[#2a2d35] text-white">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
-                      <SelectItem value="flash">Flash</SelectItem>
-                      <SelectItem value="hard">Hard</SelectItem>
-                      <SelectItem value="near-finish">Near Finish</SelectItem>
-                    </SelectContent>
-                  </Select>
+        <div className="grid md:grid-cols-2 gap-4">
+          {/* RED CORNER - Left Side */}
+          <Card className="bg-gradient-to-br from-red-950/30 to-red-900/20 border-red-800/30 p-4">
+            <div className="space-y-4">
+              {/* Fighter Header */}
+              <div className="text-center border-b border-red-800/30 pb-3">
+                <div className="text-xs text-red-400 font-semibold uppercase tracking-wide">Red Corner</div>
+                <div className="text-2xl font-bold text-white mt-1">{bout.fighter1}</div>
+              </div>
+              
+              {/* Control Timer */}
+              <div className="bg-red-900/30 rounded-lg p-4 border border-red-800/30">
+                <div className="text-xs text-gray-400 mb-1">Control Time</div>
+                <div className="text-4xl font-bold text-white tracking-wider text-center" style={{ fontFamily: 'Space Grotesk' }}>
+                  {formatTime(controlTimers.fighter1.time)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1 text-center">
+                  {controlTimers.fighter1.isRunning ? 'CONTROL ACTIVE' : 'Stopped'}
                 </div>
                 <Button
-                  data-testid="submit-kd-btn"
-                  onClick={handleKdAttempt}
-                  className={`w-full bg-gradient-to-r ${
-                    selectedFighter === 'fighter1'
-                      ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
-                      : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+                  onClick={() => {
+                    setSelectedFighter('fighter1');
+                    toggleControl();
+                  }}
+                  className={`w-full mt-3 ${
+                    controlTimers.fighter1.isRunning
+                      ? 'bg-red-700 hover:bg-red-800'
+                      : 'bg-green-600 hover:bg-green-700'
                   } text-white`}
                 >
-                  Log Knockdown
+                  {controlTimers.fighter1.isRunning ? (
+                    <><Pause className="mr-2 h-4 w-4" />Stop Control</>
+                  ) : (
+                    <><Play className="mr-2 h-4 w-4" />Start Control</>
+                  )}
                 </Button>
               </div>
-            </DialogContent>
-          </Dialog>
+              
+              {/* Event Buttons */}
+              <div className="space-y-2">
+                <div className="text-xs text-red-400 font-semibold uppercase tracking-wide">Log Events</div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter1');
+                      logEvent('SS Head');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-red-600 to-red-700 hover:opacity-90 text-white"
+                  >
+                    SS Head
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter1');
+                      logEvent('SS Body');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-red-600 to-red-700 hover:opacity-90 text-white"
+                  >
+                    SS Body
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter1');
+                      logEvent('SS Leg');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-red-600 to-red-700 hover:opacity-90 text-white"
+                  >
+                    SS Leg
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter1');
+                      logEvent('Takedown');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-red-700 to-red-800 hover:opacity-90 text-white"
+                  >
+                    Takedown
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter1');
+                      setShowKdDialog(true);
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-red-800 to-red-900 hover:opacity-90 text-white"
+                  >
+                    KD
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter1');
+                      setShowSubDialog(true);
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-red-800 to-rose-900 hover:opacity-90 text-white"
+                  >
+                    Sub Attempt
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter1');
+                      logEvent('Pass');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-red-700 to-red-800 hover:opacity-90 text-white"
+                  >
+                    Pass
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter1');
+                      logEvent('Reversal');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-red-700 to-red-800 hover:opacity-90 text-white"
+                  >
+                    Reversal
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Card>
           
-          {eventButtons.map((btn, index) => (
-            <Button
-              key={btn.event}
-              data-testid={`event-${btn.event.toLowerCase().replace(/ /g, '-')}-btn`}
-              onClick={() => logEvent(btn.event)}
-              className={`h-24 text-xl font-bold bg-gradient-to-br ${getButtonColor(index)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
-            >
-              {btn.label}
-            </Button>
-          ))}
-          
-          <Dialog open={showSubDialog} onOpenChange={setShowSubDialog}>
-            <DialogTrigger asChild>
-              <Button
-                data-testid="event-submission-btn"
-                className={`h-24 text-xl font-bold bg-gradient-to-br ${
-                  selectedFighter === 'fighter1' 
-                    ? 'from-red-800 to-rose-900' 
-                    : 'from-blue-800 to-cyan-900'
-                } hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
-              >
-                Sub Attempt
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-[#13151a] border-[#2a2d35]">
-              <DialogHeader>
-                <DialogTitle className="text-white">Submission Attempt</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 py-4">
-                <div className="space-y-2">
-                  <Label className="text-gray-300">Depth</Label>
-                  <Select value={subDepth} onValueChange={setSubDepth}>
-                    <SelectTrigger className="bg-[#1a1d24] border-[#2a2d35] text-white">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="tight">Tight</SelectItem>
-                      <SelectItem value="fight-ending">Fight-Ending</SelectItem>
-                    </SelectContent>
-                  </Select>
+          {/* BLUE CORNER - Right Side */}
+          <Card className="bg-gradient-to-br from-blue-950/30 to-blue-900/20 border-blue-800/30 p-4">
+            <div className="space-y-4">
+              {/* Fighter Header */}
+              <div className="text-center border-b border-blue-800/30 pb-3">
+                <div className="text-xs text-blue-400 font-semibold uppercase tracking-wide">Blue Corner</div>
+                <div className="text-2xl font-bold text-white mt-1">{bout.fighter2}</div>
+              </div>
+              
+              {/* Control Timer */}
+              <div className="bg-blue-900/30 rounded-lg p-4 border border-blue-800/30">
+                <div className="text-xs text-gray-400 mb-1">Control Time</div>
+                <div className="text-4xl font-bold text-white tracking-wider text-center" style={{ fontFamily: 'Space Grotesk' }}>
+                  {formatTime(controlTimers.fighter2.time)}
+                </div>
+                <div className="text-xs text-gray-500 mt-1 text-center">
+                  {controlTimers.fighter2.isRunning ? 'CONTROL ACTIVE' : 'Stopped'}
                 </div>
                 <Button
-                  data-testid="submit-sub-attempt-btn"
-                  onClick={handleSubAttempt}
-                  className={`w-full bg-gradient-to-r ${
-                    selectedFighter === 'fighter1'
-                      ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
-                      : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+                  onClick={() => {
+                    setSelectedFighter('fighter2');
+                    toggleControl();
+                  }}
+                  className={`w-full mt-3 ${
+                    controlTimers.fighter2.isRunning
+                      ? 'bg-blue-700 hover:bg-blue-800'
+                      : 'bg-green-600 hover:bg-green-700'
                   } text-white`}
                 >
-                  Log Submission
+                  {controlTimers.fighter2.isRunning ? (
+                    <><Pause className="mr-2 h-4 w-4" />Stop Control</>
+                  ) : (
+                    <><Play className="mr-2 h-4 w-4" />Start Control</>
+                  )}
                 </Button>
               </div>
-            </DialogContent>
-          </Dialog>
+              
+              {/* Event Buttons */}
+              <div className="space-y-2">
+                <div className="text-xs text-blue-400 font-semibold uppercase tracking-wide">Log Events</div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter2');
+                      logEvent('SS Head');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-600 to-blue-700 hover:opacity-90 text-white"
+                  >
+                    SS Head
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter2');
+                      logEvent('SS Body');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-600 to-blue-700 hover:opacity-90 text-white"
+                  >
+                    SS Body
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter2');
+                      logEvent('SS Leg');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-600 to-blue-700 hover:opacity-90 text-white"
+                  >
+                    SS Leg
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter2');
+                      logEvent('Takedown');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-800 hover:opacity-90 text-white"
+                  >
+                    Takedown
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter2');
+                      setShowKdDialog(true);
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-800 to-blue-900 hover:opacity-90 text-white"
+                  >
+                    KD
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter2');
+                      setShowSubDialog(true);
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-800 to-cyan-900 hover:opacity-90 text-white"
+                  >
+                    Sub Attempt
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter2');
+                      logEvent('Pass');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-800 hover:opacity-90 text-white"
+                  >
+                    Pass
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter2');
+                      logEvent('Reversal');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-800 hover:opacity-90 text-white"
+                  >
+                    Reversal
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Card>
         </div>
       </div>
+
+      {/* Dialogs for KD and Submission (shared between both fighters) */}
+      <Dialog open={showKdDialog} onOpenChange={setShowKdDialog}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35]">
+          <DialogHeader>
+            <DialogTitle className="text-white">Knockdown Severity - {selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label className="text-gray-300">Severity Level</Label>
+              <Select value={kdSeverity} onValueChange={setKdSeverity}>
+                <SelectTrigger className="bg-[#1a1d24] border-[#2a2d35] text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
+                  <SelectItem value="flash">Flash</SelectItem>
+                  <SelectItem value="hard">Hard</SelectItem>
+                  <SelectItem value="near-finish">Near Finish</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Button
+              data-testid="submit-kd-btn"
+              onClick={handleKdAttempt}
+              className={`w-full bg-gradient-to-r ${
+                selectedFighter === 'fighter1'
+                  ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
+                  : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+              } text-white`}
+            >
+              Log Knockdown
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+      
+      <Dialog open={showSubDialog} onOpenChange={setShowSubDialog}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35]">
+          <DialogHeader>
+            <DialogTitle className="text-white">Submission Attempt - {selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label className="text-gray-300">Depth</Label>
+              <Select value={subDepth} onValueChange={setSubDepth}>
+                <SelectTrigger className="bg-[#1a1d24] border-[#2a2d35] text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
+                  <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="tight">Tight</SelectItem>
+                  <SelectItem value="fight-ending">Fight-Ending</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Button
+              data-testid="submit-sub-attempt-btn"
+              onClick={handleSubAttempt}
+              className={`w-full bg-gradient-to-r ${
+                selectedFighter === 'fighter1'
+                  ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
+                  : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+              } text-white`}
+            >
+              Log Submission
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
     </div>
   );
