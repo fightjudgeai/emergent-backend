@@ -812,8 +812,59 @@ export default function OperatorPanel() {
           </Card>
         </div>
       </div>
+      ) : (
+        /* Traditional Mode: Fighter Selection + Shared Event Buttons */
+        <>
+          {/* Fighter Selection */}
+          <div className="max-w-7xl mx-auto mb-6">
+            <Card className="bg-[#13151a] border-[#2a2d35] p-6">
+              <Label className="text-gray-300 mb-3 block">Select Fighter</Label>
+              <div className="grid grid-cols-2 gap-4">
+                <Button
+                  data-testid="select-fighter1-btn"
+                  onClick={() => setSelectedFighter('fighter1')}
+                  className={`h-16 text-lg font-semibold transition-all ${
+                    selectedFighter === 'fighter1'
+                      ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg scale-105'
+                      : 'bg-[#1a1d24] text-gray-400 hover:bg-[#22252d]'
+                  }`}
+                >
+                  {bout.fighter1} (Red)
+                </Button>
+                <Button
+                  data-testid="select-fighter2-btn"
+                  onClick={() => setSelectedFighter('fighter2')}
+                  className={`h-16 text-lg font-semibold transition-all ${
+                    selectedFighter === 'fighter2'
+                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg scale-105'
+                      : 'bg-[#1a1d24] text-gray-400 hover:bg-[#22252d]'
+                  }`}
+                >
+                  {bout.fighter2} (Blue)
+                </Button>
+              </div>
+            </Card>
+          </div>
 
-      {/* Dialogs for KD and Submission (shared between both fighters) */}
+          {/* Event Buttons */}
+          <div className="max-w-7xl mx-auto mb-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {eventButtons.map((btn, index) => (
+                <Button
+                  key={btn.event}
+                  data-testid={`event-${btn.event.toLowerCase().replace(/ /g, '-')}-btn`}
+                  onClick={() => logEvent(btn.event)}
+                  className={`h-24 text-xl font-bold bg-gradient-to-br ${getButtonColor(index)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+                >
+                  {btn.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Dialogs for KD and Submission (shared between both modes) */}
       <Dialog open={showKdDialog} onOpenChange={setShowKdDialog}>
         <DialogContent className="bg-[#13151a] border-[#2a2d35]">
           <DialogHeader>
