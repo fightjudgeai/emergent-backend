@@ -570,9 +570,11 @@ export default function OperatorPanel() {
         </Card>
       </div>
 
-      {/* Split-Screen Fighter Panels */}
-      <div className="max-w-7xl mx-auto mb-6">
-        <div className="grid md:grid-cols-2 gap-4">
+      {/* Conditional: Split-Screen or Traditional Mode */}
+      {splitScreenMode ? (
+        /* Split-Screen Fighter Panels */
+        <div className="max-w-7xl mx-auto mb-6">
+          <div className="grid md:grid-cols-2 gap-4">
           {/* RED CORNER - Left Side */}
           <Card className="bg-gradient-to-br from-red-950/30 to-red-900/20 border-red-800/30 p-4">
             <div className="space-y-4">
