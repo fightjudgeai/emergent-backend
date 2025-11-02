@@ -478,7 +478,7 @@ export default function OperatorPanel() {
       <div className="max-w-7xl mx-auto mb-6">
         <Card className="bg-gradient-to-r from-[#1a1d24] to-[#13151a] border-[#2a2d35] p-8">
           <div className="text-center space-y-6">
-            {/* Round Navigation */}
+            {/* Round Navigation + Split-Screen Toggle */}
             <div className="flex items-center justify-center gap-4">
               <Button
                 data-testid="prev-round-btn"
@@ -501,6 +501,20 @@ export default function OperatorPanel() {
               >
                 <ChevronRight className="h-5 w-5" />
               </Button>
+              
+              <div className="ml-4">
+                <Button
+                  onClick={() => setSplitScreenMode(!splitScreenMode)}
+                  className={`h-10 px-4 ${
+                    splitScreenMode
+                      ? 'bg-amber-600 hover:bg-amber-700 text-white'
+                      : 'bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35]'
+                  }`}
+                >
+                  <Columns2 className="mr-2 h-4 w-4" />
+                  {splitScreenMode ? 'Split-Screen ON' : 'Split-Screen OFF'}
+                </Button>
+              </div>
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
