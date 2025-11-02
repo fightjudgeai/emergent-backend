@@ -849,16 +849,42 @@ export default function OperatorPanel() {
           {/* Event Buttons */}
           <div className="max-w-7xl mx-auto mb-6">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {/* KD Button with Dialog */}
+              <Dialog open={showKdDialog && !splitScreenMode} onOpenChange={setShowKdDialog}>
+                <Button
+                  data-testid="event-kd-btn"
+                  onClick={() => setShowKdDialog(true)}
+                  className={`h-24 text-xl font-bold bg-gradient-to-br ${getButtonColor(0)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+                >
+                  KD
+                </Button>
+              </Dialog>
+              
               {eventButtons.map((btn, index) => (
                 <Button
                   key={btn.event}
                   data-testid={`event-${btn.event.toLowerCase().replace(/ /g, '-')}-btn`}
                   onClick={() => logEvent(btn.event)}
-                  className={`h-24 text-xl font-bold bg-gradient-to-br ${getButtonColor(index)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+                  className={`h-24 text-xl font-bold bg-gradient-to-br ${getButtonColor(index + 1)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
                 >
                   {btn.label}
                 </Button>
               ))}
+              
+              {/* Sub Attempt Button with Dialog */}
+              <Dialog open={showSubDialog && !splitScreenMode} onOpenChange={setShowSubDialog}>
+                <Button
+                  data-testid="event-submission-btn"
+                  onClick={() => setShowSubDialog(true)}
+                  className={`h-24 text-xl font-bold bg-gradient-to-br ${
+                    selectedFighter === 'fighter1' 
+                      ? 'from-red-800 to-rose-900' 
+                      : 'from-blue-800 to-cyan-900'
+                  } hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+                >
+                  Sub Attempt
+                </Button>
+              </Dialog>
             </div>
           </div>
         </>
