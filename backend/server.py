@@ -565,12 +565,12 @@ class ScoringEngine:
                               subscores_a: Subscores, subscores_b: Subscores,
                               fouls_a: int = 0, fouls_b: int = 0) -> tuple[str, str, RoundReasons]:
         """
-        Map continuous scores (1-1000 scale) to 10-Point-Must system
+        Map continuous scores (1-10000 scale) to 10-Point-Must system
         
         Thresholds:
-        - 10-9: score differential 1-499
-        - 10-8: score differential 500-900
-        - 10-7: score differential 901-1000
+        - 10-9: score differential 1-4999
+        - 10-8: score differential 5000-9000
+        - 10-7: score differential 9001-10000
         
         Tie-breakers applied when scores are equal:
         1. Damage (KD > ISS > SUBQ)
