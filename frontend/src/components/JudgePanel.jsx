@@ -87,6 +87,12 @@ export default function JudgePanel() {
           round_duration: 300
         });
 
+        console.log('=== CALCULATE SCORE RESPONSE ===');
+        console.log('Round:', round);
+        console.log('Fighter1 event_counts:', response.data.fighter1_score?.event_counts);
+        console.log('Fighter2 event_counts:', response.data.fighter2_score?.event_counts);
+        console.log('Full response:', JSON.stringify(response.data, null, 2));
+
         roundScores[round] = response.data;
       }
 
