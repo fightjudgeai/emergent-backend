@@ -500,8 +500,8 @@ class ScoringEngine:
     @staticmethod
     def calculate_final_score(subscores: Subscores) -> float:
         """
-        Calculate final strength score on 1-1000 scale
-        Returns a score between 0 and 1000
+        Calculate final strength score on 1-10000 scale
+        Returns a score between 0 and 10000
         
         Weights:
         KD: 30%, ISS: 20%, TSR: 15%, GCQ: 10%, TDQ: 8%,
@@ -532,12 +532,12 @@ class ScoringEngine:
             weights["RP"] * subscores.RP
         )
         
-        # Scale to 1-1000 range (0-10 → 0-1000)
-        # S * 100 gives us 0-1000 range
-        strength_score = S * 100
+        # Scale to 1-10000 range (0-10 → 0-10000)
+        # S * 1000 gives us 0-10000 range
+        strength_score = S * 1000
         
-        # Clamp to 0-1000 range
-        strength_score = max(0.0, min(1000.0, strength_score))
+        # Clamp to 0-10000 range
+        strength_score = max(0.0, min(10000.0, strength_score))
         
         return round(strength_score, 2)
     
