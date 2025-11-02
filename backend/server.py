@@ -501,7 +501,10 @@ class ScoringEngine:
     def calculate_final_score(subscores: Subscores) -> float:
         """
         Calculate final strength score on 1-10000 scale
-        Returns a score between 0 and 10000
+        Returns a score between 0 and 10000 (realistically 0-9000)
+        
+        Perfect round (all 10s) = 9000 points
+        10000 is reserved for beyond-perfect performance
         
         Weights:
         KD: 30%, ISS: 20%, TSR: 15%, GCQ: 10%, TDQ: 8%,
@@ -532,9 +535,10 @@ class ScoringEngine:
             weights["RP"] * subscores.RP
         )
         
-        # Scale to 1-10000 range (0-10 → 0-10000)
-        # S * 1000 gives us 0-10000 range
-        strength_score = S * 1000
+        # Scale to 1-9000 range (0-10 → 0-9000)
+        # S * 900 gives us 0-9000 for perfect rounds
+        # 10000 is reserved for exceptional beyond-perfect performance
+        strength_score = S * 900
         
         # Clamp to 0-10000 range
         strength_score = max(0.0, min(10000.0, strength_score))
