@@ -568,8 +568,8 @@ class ScoringEngine:
         Map continuous scores (1-1000 scale) to 10-Point-Must system
         
         Thresholds:
-        - 10-9: score differential 1-600
-        - 10-8: score differential 601-900
+        - 10-9: score differential 1-499
+        - 10-8: score differential 500-900
         - 10-7: score differential 901-1000
         
         Tie-breakers applied when scores are equal:
