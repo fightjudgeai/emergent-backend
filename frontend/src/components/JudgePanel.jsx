@@ -334,6 +334,8 @@ export default function JudgePanel() {
                             const categoryName = categoryMap[key] || key;
                             const eventCount = roundScore.fighter1_score.event_counts?.[categoryName] || 0;
                             
+                            console.log(`Red Fighter - ${key} (${categoryName}):`, eventCount, 'from', roundScore.fighter1_score.event_counts);
+                            
                             return (
                               <div key={key} className="bg-red-950/30 rounded p-2 border border-red-900/30 flex items-center justify-between">
                                 <div className="text-xs text-gray-400">{categoryName}</div>
