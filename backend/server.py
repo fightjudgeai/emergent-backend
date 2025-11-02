@@ -717,19 +717,19 @@ class ScoringEngine:
         score_w = 10
         score_l = 9
         
-        # Determine score based on delta thresholds (1-1000 scale)
+        # Determine score based on delta thresholds (1-10000 scale)
         to_108 = False
         to_107 = False
         
-        if abs_delta < 500:
-            # 10-9: Score differential 1-499
+        if abs_delta < 5000:
+            # 10-9: Score differential 1-4999
             score_l = 9
-        elif abs_delta <= 900:
-            # 10-8: Score differential 500-900
+        elif abs_delta <= 9000:
+            # 10-8: Score differential 5000-9000
             score_l = 8
             to_108 = True
-        else:  # abs_delta > 900
-            # 10-7: Score differential 901-1000
+        else:  # abs_delta > 9000
+            # 10-7: Score differential 9001-10000
             score_l = 7
             to_107 = True
         
