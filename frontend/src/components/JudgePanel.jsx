@@ -221,6 +221,33 @@ export default function JudgePanel() {
     );
   };
 
+  const renderPositionHistory = (roundNum, fighter) => {
+    const roundEvents = events.filter(e => e.round === roundNum && e.fighter === fighter);
+    const positionEvents = roundEvents.filter(e => 
+      ['POSITION_START', 'POSITION_CHANGE', 'POSITION_STOP'].includes(e.eventType)
+    );
+
+    if (positionEvents.length === 0) return null;
+
+    return (
+      <div className="mt-3 pt-3 border-t border-gray-700">
+        <div className="text-xs text-gray-400 uppercase tracking-wide mb-2">Position History</div>
+        <div className="space-y-1">
+          {positionEvents.map((event, idx) => (
+            <div key={idx} className="text-xs text-gray-500 flex items-center gap-2">
+              <span className="text-amber-500">•</span>
+              <span>
+                {event.eventType === 'POSITION_START' && `Started in ${event.metadata?.position}`}
+                {event.eventType === 'POSITION_CHANGE' && `${event.metadata?.from} → ${event.metadata?.to}`}
+                {event.eventType === 'POSITION_STOP' && `Ended ${event.metadata?.position} (${Math.floor(event.metadata?.duration || 0)}s)`}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-[#0a0a0b] p-4 md:p-8">
       {/* Header */}
