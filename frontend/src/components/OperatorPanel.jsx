@@ -1180,20 +1180,20 @@ export default function OperatorPanel() {
           </div>
         )}
         
-        <Card className="bg-gradient-to-r from-[#1a1d24] to-[#13151a] border-[#2a2d35] p-8">
-          <div className="text-center space-y-6">
+        <Card className="bg-gradient-to-r from-[#1a1d24] to-[#13151a] border-[#2a2d35] p-4">
+          <div className="text-center space-y-4">
             {/* Round Navigation + Split-Screen Toggle */}
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex items-center justify-center gap-3">
               <Button
                 data-testid="prev-round-btn"
                 onClick={previousRound}
                 disabled={bout.currentRound === 1}
-                className="h-10 px-4 bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35] disabled:opacity-30 disabled:cursor-not-allowed"
+                className="h-9 px-3 bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35] disabled:opacity-30 disabled:cursor-not-allowed"
               >
-                <ChevronLeft className="h-5 w-5" />
+                <ChevronLeft className="h-4 w-4" />
               </Button>
               
-              <div className="text-sm text-gray-400 font-medium min-w-[120px]">
+              <div className="text-sm text-gray-400 font-medium min-w-[100px]">
                 ROUND {bout.currentRound} of {bout.totalRounds}
               </div>
               
@@ -1201,29 +1201,29 @@ export default function OperatorPanel() {
                 data-testid="next-round-btn"
                 onClick={nextRound}
                 disabled={bout.currentRound === bout.totalRounds}
-                className="h-10 px-4 bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35] disabled:opacity-30 disabled:cursor-not-allowed"
+                className="h-9 px-3 bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35] disabled:opacity-30 disabled:cursor-not-allowed"
               >
-                <ChevronRight className="h-5 w-5" />
+                <ChevronRight className="h-4 w-4" />
               </Button>
               
-              <div className="ml-4">
+              <div className="ml-3">
                 <Button
                   onClick={() => setSplitScreenMode(!splitScreenMode)}
-                  className={`h-10 px-4 ${
+                  className={`h-9 px-3 text-sm ${
                     splitScreenMode
                       ? 'bg-amber-600 hover:bg-amber-700 text-white'
                       : 'bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35]'
                   }`}
                 >
-                  <Columns2 className="mr-2 h-4 w-4" />
-                  {splitScreenMode ? 'Split-Screen ON' : 'Split-Screen OFF'}
+                  <Columns2 className="mr-1.5 h-3.5 w-3.5" />
+                  {splitScreenMode ? 'Split ON' : 'Split OFF'}
                 </Button>
               </div>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-4">
               {/* Fighter 1 Control Timer */}
-              <div className={`p-6 rounded-xl border-2 transition-all ${
+              <div className={`p-4 rounded-xl border-2 transition-all ${
                 selectedFighter === 'fighter1' 
                   ? 'bg-red-950/30 border-red-600' 
                   : 'bg-[#1a1d24] border-[#2a2d35]'
