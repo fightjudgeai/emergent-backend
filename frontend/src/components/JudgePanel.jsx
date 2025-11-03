@@ -46,6 +46,53 @@ export default function JudgePanel() {
     }
   };
 
+  const setupDeviceSession = () => {
+    const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const deviceType = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop';
+    
+    // Register this device session
+    const sessionRef = db.collection('active_sessions').doc(sessionId);
+    sessionRef.set({
+      boutId,
+      deviceType,
+      role: 'judge',
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      lastActive: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Update lastActive every 30 seconds
+    const activityInterval = setInterval(() => {
+      sessionRef.update({
+        lastActive: firebase.firestore.FieldValue.serverTimestamp()
+      }).catch(err => console.log('Session update error:', err));
+    }, 30000);
+    
+    // Listen for active viewers count
+    const viewersUnsubscribe = db.collection('active_sessions')
+      .where('boutId', '==', boutId)
+      .onSnapshot((snapshot) => {
+        // Filter out stale sessions (older than 2 minutes)
+        const twoMinutesAgo = Date.now() - 2 * 60 * 1000;
+        const activeSessions = snapshot.docs.filter(doc => {
+          const data = doc.data();
+          const lastActive = data.lastActive?.toMillis() || 0;
+          return lastActive > twoMinutesAgo;
+        });
+        setActiveViewers(activeSessions.length);
+      });
+    
+    // Cleanup
+    window.addEventListener('beforeunload', () => {
+      sessionRef.delete().catch(err => console.log('Session cleanup error:', err));
+    });
+    
+    return () => {
+      clearInterval(activityInterval);
+      viewersUnsubscribe();
+      sessionRef.delete().catch(err => console.log('Session cleanup error:', err));
+    };
+  };
+
   const setupEventListener = () => {
     const unsubscribe = db.collection('events')
       .where('boutId', '==', boutId)
