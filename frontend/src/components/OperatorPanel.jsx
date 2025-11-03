@@ -1787,6 +1787,59 @@ export default function OperatorPanel() {
         </DialogContent>
       </Dialog>
 
+      {/* QR Code Dialog for Multi-Device Access */}
+      <Dialog open={showQRCode} onOpenChange={setShowQRCode}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35] max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <QrCode className="h-5 w-5 text-indigo-400" />
+              Multi-Device Access
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-6">
+            <div className="text-center space-y-6">
+              <div className="bg-white p-6 rounded-lg inline-block">
+                <QRCodeSVG 
+                  value={`${window.location.origin}/judge/${boutId}`}
+                  size={256}
+                  level="H"
+                  includeMargin={true}
+                />
+              </div>
+              
+              <div className="space-y-3">
+                <div className="text-sm text-gray-300">
+                  <p className="font-semibold text-amber-500 mb-2">Scan to Open Judge Panel</p>
+                  <p className="text-gray-400">Use your phone or tablet camera to scan this QR code and access the Judge Panel on another device.</p>
+                </div>
+                
+                <div className="p-4 bg-[#1a1d24] rounded-lg border border-[#2a2d35]">
+                  <div className="text-xs text-gray-500 mb-1">Judge Panel URL</div>
+                  <div className="text-sm text-amber-400 font-mono break-all">
+                    {window.location.origin}/judge/{boutId}
+                  </div>
+                </div>
+
+                {activeViewers > 0 && (
+                  <div className="flex items-center justify-center gap-2 p-3 bg-blue-900/20 border border-blue-700/30 rounded-lg">
+                    <Users className="w-4 h-4 text-blue-400" />
+                    <span className="text-blue-300 text-sm font-semibold">
+                      {activeViewers} Active {activeViewers === 1 ? 'Viewer' : 'Viewers'}
+                    </span>
+                  </div>
+                )}
+
+                <div className="text-xs text-gray-500 mt-4">
+                  <p className="mb-1">✓ Real-time score updates</p>
+                  <p className="mb-1">✓ Automatic synchronization</p>
+                  <p>✓ Works on any device with internet</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 }
