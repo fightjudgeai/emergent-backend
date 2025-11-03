@@ -213,6 +213,12 @@ export default function OperatorPanel() {
 
   const logEvent = async (eventType, metadata = {}) => {
     try {
+      // Prevent logging when paused
+      if (isPaused) {
+        toast.warning('⏸️ Cannot log events while fight is paused');
+        return;
+      }
+
       if (!bout) {
         console.error('Bout not loaded, cannot log event');
         toast.error('Bout not loaded yet, please wait');
