@@ -848,6 +848,14 @@ export default function OperatorPanel() {
                 </Badge>
               )}
               <Button
+                onClick={() => setShowKeyboardShortcuts(true)}
+                className="h-10 px-4 bg-gray-700 hover:bg-gray-600 text-white"
+                title="Keyboard Shortcuts (Press ?)"
+              >
+                <Keyboard className="mr-2 h-4 w-4" />
+                Shortcuts
+              </Button>
+              <Button
                 onClick={undoLastEvent}
                 disabled={!lastEvent}
                 className="h-10 px-4 bg-orange-600 hover:bg-orange-700 disabled:opacity-30 disabled:cursor-not-allowed text-white"
