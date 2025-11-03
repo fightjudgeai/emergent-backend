@@ -1291,7 +1291,7 @@ async def update_fighter_stats(update: FighterStatsUpdate):
         
         # Count events
         kd_count = len([e for e in update.round_events if e.get('event_type') == 'KD'])
-        ss_count = len([e for e in update.round_events if e.get('event_type', '').startswith('SS')])
+        ss_count = len([e for e in update.round_events if e.get('event_type') in ['HS', 'BS', 'LS']])
         td_count = len([e for e in update.round_events if e.get('event_type') == 'Takedown'])
         sub_count = len([e for e in update.round_events if e.get('event_type') == 'Submission Attempt'])
         pass_count = len([e for e in update.round_events if e.get('event_type') == 'Pass'])
