@@ -130,6 +130,150 @@ export default function OperatorPanel() {
     };
   }, [isPaused]);
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      // Don't trigger shortcuts when typing in inputs
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+        return;
+      }
+
+      // Prevent default for handled shortcuts
+      const key = e.key.toLowerCase();
+      
+      // Help dialog
+      if (key === '?') {
+        e.preventDefault();
+        setShowKeyboardShortcuts(true);
+        return;
+      }
+
+      // Pause/Resume (always available)
+      if (key === 'p') {
+        e.preventDefault();
+        togglePause();
+        return;
+      }
+
+      // Shortcuts disabled when paused (except P and ?)
+      if (isPaused) {
+        return;
+      }
+
+      // Fighter selection
+      if (key === 'r') {
+        e.preventDefault();
+        setSelectedFighter('fighter1');
+        toast.info(`Selected ${bout?.fighter1} (Red)`);
+        return;
+      }
+      if (key === 'b') {
+        e.preventDefault();
+        setSelectedFighter('fighter2');
+        toast.info(`Selected ${bout?.fighter2} (Blue)`);
+        return;
+      }
+
+      // Event logging shortcuts (1-9)
+      if (key === '1') {
+        e.preventDefault();
+        logEvent('HS');
+        return;
+      }
+      if (key === '2') {
+        e.preventDefault();
+        logEvent('BS');
+        return;
+      }
+      if (key === '3') {
+        e.preventDefault();
+        logEvent('LS');
+        return;
+      }
+      if (key === '4') {
+        e.preventDefault();
+        logEvent('Takedown');
+        return;
+      }
+      if (key === '5') {
+        e.preventDefault();
+        setShowKdDialog(true);
+        return;
+      }
+      if (key === '6') {
+        e.preventDefault();
+        logEvent('Rocked');
+        return;
+      }
+      if (key === '7') {
+        e.preventDefault();
+        setShowSubDialog(true);
+        return;
+      }
+      if (key === '8') {
+        e.preventDefault();
+        logEvent('Pass');
+        return;
+      }
+      if (key === '9') {
+        e.preventDefault();
+        logEvent('Reversal');
+        return;
+      }
+
+      // Control timer toggle
+      if (key === ' ') {
+        e.preventDefault();
+        toggleControl();
+        return;
+      }
+
+      // Undo
+      if (key === 'u') {
+        e.preventDefault();
+        undoLastEvent();
+        return;
+      }
+
+      // History
+      if (key === 'h') {
+        e.preventDefault();
+        setShowEventHistory(true);
+        return;
+      }
+
+      // Judge Panel
+      if (key === 'j') {
+        e.preventDefault();
+        window.open(`/judge/${boutId}`, '_blank');
+        return;
+      }
+
+      // Round navigation
+      if (key === '[') {
+        e.preventDefault();
+        previousRound();
+        return;
+      }
+      if (key === ']') {
+        e.preventDefault();
+        nextRound();
+        return;
+      }
+
+      // Split-screen toggle
+      if (key === 's') {
+        e.preventDefault();
+        setSplitScreenMode(!splitScreenMode);
+        toast.info(splitScreenMode ? 'Split-screen OFF' : 'Split-screen ON');
+        return;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [bout, boutId, isPaused, selectedFighter, splitScreenMode]);
+
   const loadBout = async () => {
     try {
       const boutDoc = await db.collection('bouts').doc(boutId).get();
