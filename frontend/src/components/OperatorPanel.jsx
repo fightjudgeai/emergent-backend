@@ -17,17 +17,29 @@ export default function OperatorPanel() {
   const navigate = useNavigate();
   const [bout, setBout] = useState(null);
   const [selectedFighter, setSelectedFighter] = useState('fighter1');
-  const [splitScreenMode, setSplitScreenMode] = useState(false); // New state for split-screen toggle
+  const [splitScreenMode, setSplitScreenMode] = useState(false);
   const [controlTimers, setControlTimers] = useState({
-    fighter1: { time: 0, isRunning: false, startTime: null },
-    fighter2: { time: 0, isRunning: false, startTime: null }
+    fighter1: { time: 0, isRunning: false, startTime: null, currentPosition: null, positionHistory: [] },
+    fighter2: { time: 0, isRunning: false, startTime: null, currentPosition: null, positionHistory: [] }
   });
   const [showSubDialog, setShowSubDialog] = useState(false);
   const [subDepth, setSubDepth] = useState('light');
   const [showKdDialog, setShowKdDialog] = useState(false);
   const [kdSeverity, setKdSeverity] = useState('flash');
+  const [showPositionDialog, setShowPositionDialog] = useState(false);
+  const [selectedPosition, setSelectedPosition] = useState('mount');
   const timerRef = useRef(null);
   const [syncStatus, setSyncStatus] = useState({ isOnline: true, isSyncing: false, queueCount: 0 });
+
+  const positions = [
+    { value: 'mount', label: 'Mount' },
+    { value: 'back-control', label: 'Back Control' },
+    { value: 'side-control', label: 'Side Control' },
+    { value: 'half-guard', label: 'Half Guard' },
+    { value: 'closed-guard', label: 'Closed Guard' },
+    { value: 'open-guard', label: 'Open Guard' },
+    { value: 'standing', label: 'Standing Control' }
+  ];
 
   useEffect(() => {
     loadBout();
