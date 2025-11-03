@@ -317,6 +317,9 @@ export default function OperatorPanel() {
       // Update queue count
       await updateSyncStatus();
       
+      // Reload event history
+      await loadEventHistory();
+      
       const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
       toast.success(`${eventType} logged for ${fighterName}`);
     } catch (error) {
