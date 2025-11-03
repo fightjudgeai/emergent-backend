@@ -21,6 +21,7 @@ export default function EventSetup() {
   ]);
   const [loading, setLoading] = useState(false);
   const [showChecklist, setShowChecklist] = useState(false);
+  const [checklistCompleted, setChecklistCompleted] = useState(false);
   const [checklist, setChecklist] = useState({
     eventName: false,
     fighters: false,
