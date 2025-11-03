@@ -88,6 +88,15 @@ export default function OperatorPanel() {
   };
 
   useEffect(() => {
+    if (isPaused) {
+      // Stop all timers when paused
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      return;
+    }
+
     // Update control timers every 100ms for smooth display
     timerRef.current = setInterval(() => {
       setControlTimers(prev => {
@@ -110,7 +119,7 @@ export default function OperatorPanel() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, []);
+  }, [isPaused]);
 
   const loadBout = async () => {
     try {
