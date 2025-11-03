@@ -649,25 +649,40 @@ export default function OperatorPanel() {
                   {formatTime(controlTimers.fighter1.time)}
                 </div>
                 <div className="text-xs text-gray-500 mt-1 text-center">
-                  {controlTimers.fighter1.isRunning ? 'CONTROL ACTIVE' : 'Stopped'}
-                </div>
-                <Button
-                  onClick={() => {
-                    setSelectedFighter('fighter1');
-                    toggleControl();
-                  }}
-                  className={`w-full mt-3 ${
-                    controlTimers.fighter1.isRunning
-                      ? 'bg-red-700 hover:bg-red-800'
-                      : 'bg-green-600 hover:bg-green-700'
-                  } text-white`}
-                >
                   {controlTimers.fighter1.isRunning ? (
-                    <><Pause className="mr-2 h-4 w-4" />Stop Control</>
-                  ) : (
-                    <><Play className="mr-2 h-4 w-4" />Start Control</>
+                    <span className="text-green-400 font-semibold">{controlTimers.fighter1.currentPosition?.toUpperCase()}</span>
+                  ) : 'Stopped'}
+                </div>
+                <div className="flex gap-2 mt-3">
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter1');
+                      toggleControl();
+                    }}
+                    className={`flex-1 ${
+                      controlTimers.fighter1.isRunning
+                        ? 'bg-red-700 hover:bg-red-800'
+                        : 'bg-green-600 hover:bg-green-700'
+                    } text-white`}
+                  >
+                    {controlTimers.fighter1.isRunning ? (
+                      <><Pause className="mr-2 h-4 w-4" />Stop</>
+                    ) : (
+                      <><Play className="mr-2 h-4 w-4" />Start</>
+                    )}
+                  </Button>
+                  {controlTimers.fighter1.isRunning && (
+                    <Button
+                      onClick={() => {
+                        setSelectedFighter('fighter1');
+                        setShowPositionDialog(true);
+                      }}
+                      className="bg-amber-600 hover:bg-amber-700 text-white px-3"
+                    >
+                      Change
+                    </Button>
                   )}
-                </Button>
+                </div>
               </div>
               
               {/* Event Buttons */}
