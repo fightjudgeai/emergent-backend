@@ -534,6 +534,27 @@ export default function OperatorPanel() {
 
       {/* Control Timers */}
       <div className="max-w-7xl mx-auto mb-6">
+        {/* YouTube Live Video - Picture in Picture */}
+        {bout.videoUrl && (
+          <div className="fixed top-4 right-4 z-50 w-80 rounded-lg overflow-hidden shadow-2xl border-2 border-amber-500">
+            <div className="bg-[#13151a] p-2 border-b border-[#2a2d35] flex items-center justify-between">
+              <div className="text-xs text-amber-400 font-semibold">LIVE VIDEO</div>
+              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+            </div>
+            <iframe
+              width="100%"
+              height="180"
+              src={`https://www.youtube.com/embed/${bout.videoUrl.includes('watch?v=') 
+                ? bout.videoUrl.split('watch?v=')[1].split('&')[0] 
+                : bout.videoUrl.split('/').pop()}`}
+              title="Live Fight Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        )}
+        
         <Card className="bg-gradient-to-r from-[#1a1d24] to-[#13151a] border-[#2a2d35] p-8">
           <div className="text-center space-y-6">
             {/* Round Navigation + Split-Screen Toggle */}
