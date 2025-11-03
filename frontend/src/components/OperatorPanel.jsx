@@ -1152,10 +1152,10 @@ export default function OperatorPanel() {
               <Button
                 data-testid="view-judge-panel-btn"
                 onClick={() => window.open(`/judge/${boutId}`, '_blank')}
-                className="h-9 px-3 bg-[#1a1d24] hover:bg-[#22252d] text-amber-500 border border-amber-500/30 text-sm"
+                className="h-9 px-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-semibold text-sm border-2 border-amber-500"
               >
-                <Eye className="mr-1.5 h-3.5 w-3.5" />
-                Judge
+                <Eye className="mr-1.5 h-4 w-4" />
+                View Judge Panel
               </Button>
             </div>
           </div>
