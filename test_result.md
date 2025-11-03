@@ -704,6 +704,9 @@ test_plan:
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
+  bug_fixes_tested: 
+    - "Event Logging Speed Bug Fix"
+    - "YouTube Video Positioning Bug Fix"
 
 agent_communication:
   - agent: "main"
