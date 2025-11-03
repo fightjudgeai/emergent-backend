@@ -458,6 +458,9 @@ export default function JudgePanel() {
                             </div>
                           </div>
                         )}
+                        
+                        {/* Position History */}
+                        {renderPositionHistory(round, 'fighter2')}
                       </div>
                     </Card>
                   </div>
