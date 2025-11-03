@@ -574,6 +574,42 @@ export default function JudgePanel() {
                       </div>
                     </Card>
                   )}
+                  
+                  {/* Event Log with Timestamps */}
+                  <Card className="bg-[#1a1d24] border-[#2a2d35] p-4 mt-6">
+                    <div className="text-sm text-gray-400 uppercase tracking-wide mb-3">Round Event Log</div>
+                    <div className="space-y-2 max-h-60 overflow-y-auto">
+                      {events.filter(e => e.round === round).map((event, idx) => {
+                        const formatTimestamp = (timestamp) => {
+                          const minutes = Math.floor(timestamp / 60);
+                          const seconds = Math.floor(timestamp % 60);
+                          return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                        };
+                        
+                        const fighterName = event.fighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+                        const fighterColor = event.fighter === 'fighter1' ? 'text-red-400' : 'text-blue-400';
+                        
+                        return (
+                          <div key={idx} className="flex items-center gap-3 text-xs p-2 bg-[#13151a] rounded border border-[#2a2d35]">
+                            <span className="text-amber-500 font-mono font-semibold min-w-[40px]">
+                              {formatTimestamp(event.timestamp || 0)}
+                            </span>
+                            <span className={`${fighterColor} font-semibold min-w-[100px]`}>
+                              {fighterName}
+                            </span>
+                            <span className="text-white font-semibold">
+                              {event.eventType}
+                            </span>
+                            {event.metadata && Object.keys(event.metadata).length > 0 && (
+                              <span className="text-gray-500 text-xs">
+                                {JSON.stringify(event.metadata).slice(0, 50)}...
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </Card>
                 </div>
               )}
             </Card>
