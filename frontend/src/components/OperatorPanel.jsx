@@ -136,6 +136,38 @@ export default function OperatorPanel() {
     updateSyncStatus();
   };
 
+  const undoLastEvent = async () => {
+    if (!lastEvent) {
+      toast.error('No event to undo');
+      return;
+    }
+
+    try {
+      // Query for the most recent event matching the last event data
+      const eventsRef = db.collection('events')
+        .where('boutId', '==', lastEvent.boutId)
+        .where('round', '==', lastEvent.round)
+        .orderBy('timestamp', 'desc')
+        .limit(1);
+
+      const snapshot = await eventsRef.get();
+      
+      if (!snapshot.empty) {
+        const eventDoc = snapshot.docs[0];
+        await eventDoc.ref.delete();
+        
+        const fighterName = lastEvent.eventData.fighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+        toast.success(`Undone: ${lastEvent.eventData.event_type} for ${fighterName}`);
+        setLastEvent(null);
+      } else {
+        toast.error('Event not found');
+      }
+    } catch (error) {
+      console.error('Error undoing event:', error);
+      toast.error('Failed to undo event');
+    }
+  };
+
   const logEvent = async (eventType, metadata = {}) => {
     try {
       if (!bout) {
