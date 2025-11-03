@@ -829,14 +829,14 @@ async def calculate_score(request: ScoreRequest):
             
             for e in events:
                 event_type = e.event_type
-                # Significant Strikes: SS Head/Body/Leg, KD
-                if event_type in ["SS Head", "SS Body", "SS Leg", "KD"]:
+                # Significant Strikes: HS (Head Strikes), BS (Body Strikes), LS (Leg Strikes), KD
+                if event_type in ["HS", "BS", "LS", "KD"]:
                     counts["Significant Strikes"] += 1
                 # Grappling Control: CTRL, Pass, Reversal
                 if event_type in ["CTRL_START", "CTRL_STOP", "Pass", "Reversal"]:
                     counts["Grappling Control"] += 1
-                # Aggression: SS counts
-                if event_type in ["SS Head", "SS Body", "SS Leg"]:
+                # Aggression: Strike counts
+                if event_type in ["HS", "BS", "LS"]:
                     counts["Aggression"] += 1
                 # Damage: KD, Submission Attempt
                 if event_type in ["KD", "Submission Attempt"]:
@@ -850,9 +850,9 @@ async def calculate_score(request: ScoreRequest):
         f1_event_counts = count_events_by_category(fighter1_events)
         f2_event_counts = count_events_by_category(fighter2_events)
         
-        # Calculate SS totals for AGG calculation
-        f1_ss_total = sum([1.0 for e in fighter1_events if e.event_type.startswith("SS")])
-        f2_ss_total = sum([1.0 for e in fighter2_events if e.event_type.startswith("SS")])
+        # Calculate strike totals for AGG calculation (HS, BS, LS)
+        f1_ss_total = sum([1.0 for e in fighter1_events if e.event_type in ["HS", "BS", "LS"]])
+        f2_ss_total = sum([1.0 for e in fighter2_events if e.event_type in ["HS", "BS", "LS"]])
         
         # Calculate subscores for both fighters
         f1_subscores = engine.calculate_subscores(request.events, "fighter1", request.round_duration, f2_ss_total)
