@@ -145,6 +145,25 @@ export default function EventSetup() {
               <Shield className="mr-1.5 h-3.5 w-3.5" />
               Audit
             </Button>
+            <Button
+              onClick={() => {
+                // Auto-check items
+                const judgeProfile = localStorage.getItem('judgeProfile');
+                setChecklist({
+                  eventName: !!eventName,
+                  fighters: fights.every(f => f.fighter1 && f.fighter2),
+                  rounds: fights.every(f => f.rounds),
+                  judgeLogin: !!judgeProfile,
+                  internetCheck: navigator.onLine,
+                  equipmentReady: false
+                });
+                setShowChecklist(true);
+              }}
+              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white text-sm px-3 py-2"
+            >
+              <ClipboardCheck className="mr-1.5 h-3.5 w-3.5" />
+              Pre-Fight Checklist
+            </Button>
           </div>
           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
             <Swords className="w-8 h-8 text-white" />
