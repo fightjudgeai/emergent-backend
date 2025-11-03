@@ -619,29 +619,29 @@ export default function OperatorPanel() {
                   <Button
                     onClick={() => {
                       setSelectedFighter('fighter1');
-                      logEvent('SS Head');
+                      logEvent('HS');
                     }}
                     className="h-16 text-sm font-bold bg-gradient-to-br from-red-600 to-red-700 hover:opacity-90 text-white"
                   >
-                    SS Head
+                    HS
                   </Button>
                   <Button
                     onClick={() => {
                       setSelectedFighter('fighter1');
-                      logEvent('SS Body');
+                      logEvent('BS');
                     }}
                     className="h-16 text-sm font-bold bg-gradient-to-br from-red-600 to-red-700 hover:opacity-90 text-white"
                   >
-                    SS Body
+                    BS
                   </Button>
                   <Button
                     onClick={() => {
                       setSelectedFighter('fighter1');
-                      logEvent('SS Leg');
+                      logEvent('LS');
                     }}
                     className="h-16 text-sm font-bold bg-gradient-to-br from-red-600 to-red-700 hover:opacity-90 text-white"
                   >
-                    SS Leg
+                    LS
                   </Button>
                   <Button
                     onClick={() => {
