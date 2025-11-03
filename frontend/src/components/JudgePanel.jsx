@@ -21,10 +21,12 @@ export default function JudgePanel() {
   const [scores, setScores] = useState({});
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
+  const [activeViewers, setActiveViewers] = useState(0);
 
   useEffect(() => {
     loadBout();
     setupEventListener();
+    setupDeviceSession();
   }, [boutId]);
 
   useEffect(() => {
