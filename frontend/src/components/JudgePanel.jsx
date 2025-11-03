@@ -678,7 +678,7 @@ export default function JudgePanel() {
                   {(() => {
                     let totalStrikes = 0, totalTakedowns = 0, totalDamage = 0, totalSubs = 0, totalControlTime = 0;
                     Object.values(scores).forEach(s => {
-                      if (s.fighter1_event_counts) {
+                      if (s && s.fighter1_event_counts) {
                         totalStrikes += s.fighter1_event_counts['Significant Strikes'] || 0;
                         totalTakedowns += s.fighter1_event_counts['Takedowns'] || 0;
                         totalDamage += s.fighter1_event_counts['Damage'] || 0;
