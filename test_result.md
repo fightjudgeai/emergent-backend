@@ -137,6 +137,10 @@ user_problem_statement: |
   - At-a-Glance Stats (Judge Efficiency) ✅
   
   All features complete! Ready for comprehensive testing.
+  
+  Bug Fixes:
+  - Fixed YouTube live video positioning (moved to bottom-right, collapsible)
+  - Fixed event logging blocking issue (removed await on loadEventHistory)
 
 backend:
   - task: "Shadow Judging API - Seed Training Library"
