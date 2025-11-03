@@ -1054,48 +1054,42 @@ export default function OperatorPanel() {
                   Online & Synced
                 </Badge>
               )}
-              {activeViewers > 0 && (
-                <Badge className="bg-blue-900/30 text-blue-400 border-blue-700/30 px-3 py-1">
-                  <Users className="w-3 h-3 mr-1" />
-                  {activeViewers} Active {activeViewers === 1 ? 'Viewer' : 'Viewers'}
-                </Badge>
-              )}
               <Button
                 onClick={() => setShowQRCode(true)}
-                className="h-10 px-4 bg-indigo-600 hover:bg-indigo-700 text-white"
+                className="h-9 px-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm"
                 title="QR Code for Multi-Device Access"
               >
-                <QrCode className="mr-2 h-4 w-4" />
-                QR Code
+                <QrCode className="mr-1.5 h-3.5 w-3.5" />
+                QR
               </Button>
               <Button
                 onClick={() => setShowKeyboardShortcuts(true)}
-                className="h-10 px-4 bg-gray-700 hover:bg-gray-600 text-white"
+                className="h-9 px-3 bg-gray-700 hover:bg-gray-600 text-white text-sm"
                 title="Keyboard Shortcuts (Press ?)"
               >
-                <Keyboard className="mr-2 h-4 w-4" />
-                Shortcuts
+                <Keyboard className="mr-1.5 h-3.5 w-3.5" />
+                Keys
               </Button>
               <Button
                 onClick={undoLastEvent}
                 disabled={!lastEvent}
-                className="h-10 px-4 bg-orange-600 hover:bg-orange-700 disabled:opacity-30 disabled:cursor-not-allowed text-white"
+                className="h-9 px-3 bg-orange-600 hover:bg-orange-700 disabled:opacity-30 disabled:cursor-not-allowed text-white text-sm"
                 title={lastEvent ? `Undo: ${lastEvent.eventData.event_type}` : 'No event to undo'}
               >
-                <Undo2 className="mr-2 h-4 w-4" />
-                Undo Last
+                <Undo2 className="mr-1.5 h-3.5 w-3.5" />
+                Undo
               </Button>
               <Button
                 onClick={() => setShowEventHistory(true)}
-                className="h-10 px-4 bg-purple-600 hover:bg-purple-700 text-white"
+                className="h-9 px-3 bg-purple-600 hover:bg-purple-700 text-white text-sm"
                 title={`View event history (${eventHistory.length} events)`}
               >
-                <History className="mr-2 h-4 w-4" />
+                <History className="mr-1.5 h-3.5 w-3.5" />
                 History ({eventHistory.length})
               </Button>
               <Button
                 onClick={togglePause}
-                className={`h-10 px-4 ${
+                className={`h-9 px-3 text-sm ${
                   isPaused 
                     ? 'bg-green-600 hover:bg-green-700 animate-pulse' 
                     : 'bg-red-600 hover:bg-red-700'
@@ -1103,47 +1097,47 @@ export default function OperatorPanel() {
               >
                 {isPaused ? (
                   <>
-                    <PlayCircle className="mr-2 h-5 w-5" />
+                    <PlayCircle className="mr-1.5 h-4 w-4" />
                     RESUME
                   </>
                 ) : (
                   <>
-                    <PauseCircle className="mr-2 h-5 w-5" />
+                    <PauseCircle className="mr-1.5 h-4 w-4" />
                     PAUSE
                   </>
                 )}
               </Button>
               <Button
                 onClick={() => setShowBackupDialog(true)}
-                className="h-10 px-4 bg-cyan-600 hover:bg-cyan-700 text-white"
+                className="h-9 px-3 bg-cyan-600 hover:bg-cyan-700 text-white text-sm"
                 title="Backup & Restore"
               >
-                <Save className="mr-2 h-4 w-4" />
+                <Save className="mr-1.5 h-3.5 w-3.5" />
                 Backup
               </Button>
               <Button
                 onClick={() => setShowVoiceNotes(true)}
-                className="h-10 px-4 bg-pink-600 hover:bg-pink-700 text-white"
+                className="h-9 px-3 bg-pink-600 hover:bg-pink-700 text-white text-sm"
                 title="Voice Notes"
               >
-                <Mic className="mr-2 h-4 w-4" />
-                Voice Notes {voiceNotes.length > 0 && `(${voiceNotes.length})`}
+                <Mic className="mr-1.5 h-3.5 w-3.5" />
+                Notes {voiceNotes.length > 0 && `(${voiceNotes.length})`}
               </Button>
               <Button
                 data-testid="next-fight-btn"
                 onClick={goToNextFight}
-                className="h-10 px-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
+                className="h-9 px-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white text-sm"
               >
-                Next Fight
-                <SkipForward className="ml-2 h-4 w-4" />
+                Next
+                <SkipForward className="ml-1.5 h-3.5 w-3.5" />
               </Button>
               <Button
                 data-testid="view-judge-panel-btn"
                 onClick={() => window.open(`/judge/${boutId}`, '_blank')}
-                className="h-10 px-4 bg-[#1a1d24] hover:bg-[#22252d] text-amber-500 border border-amber-500/30"
+                className="h-9 px-3 bg-[#1a1d24] hover:bg-[#22252d] text-amber-500 border border-amber-500/30 text-sm"
               >
-                <Eye className="mr-2 h-4 w-4" />
-                Judge Panel
+                <Eye className="mr-1.5 h-3.5 w-3.5" />
+                Judge
               </Button>
             </div>
           </div>
