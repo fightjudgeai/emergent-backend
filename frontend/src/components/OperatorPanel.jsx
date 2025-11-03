@@ -1035,6 +1035,56 @@ export default function OperatorPanel() {
         </DialogContent>
       </Dialog>
 
+      {/* Position Selection Dialog */}
+      <Dialog open={showPositionDialog} onOpenChange={setShowPositionDialog}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35]">
+          <DialogHeader>
+            <DialogTitle className="text-white">
+              {controlTimers[selectedFighter].isRunning ? 'Change Position' : 'Start Position Control'} - {selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label className="text-gray-300">Select Position</Label>
+              <Select value={selectedPosition} onValueChange={setSelectedPosition}>
+                <SelectTrigger className="bg-[#1a1d24] border-[#2a2d35] text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
+                  {positions.map(pos => (
+                    <SelectItem key={pos.value} value={pos.value}>{pos.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            {controlTimers[selectedFighter].currentPosition && (
+              <div className="p-3 bg-amber-900/20 border border-amber-700/30 rounded">
+                <div className="text-xs text-amber-400 font-semibold">Current Position</div>
+                <div className="text-white">{controlTimers[selectedFighter].currentPosition}</div>
+              </div>
+            )}
+            
+            <Button
+              onClick={() => {
+                if (controlTimers[selectedFighter].isRunning) {
+                  changePosition(selectedPosition);
+                } else {
+                  startPosition(selectedPosition);
+                }
+              }}
+              className={`w-full bg-gradient-to-r ${
+                selectedFighter === 'fighter1'
+                  ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
+                  : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+              } text-white`}
+            >
+              {controlTimers[selectedFighter].isRunning ? 'Change Position' : 'Start Position'}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 }
