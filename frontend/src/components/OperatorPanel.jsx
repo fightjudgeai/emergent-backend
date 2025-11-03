@@ -28,6 +28,7 @@ export default function OperatorPanel() {
   const [kdSeverity, setKdSeverity] = useState('flash');
   const [showPositionDialog, setShowPositionDialog] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState('mount');
+  const [lastEvent, setLastEvent] = useState(null);
   const timerRef = useRef(null);
   const [syncStatus, setSyncStatus] = useState({ isOnline: true, isSyncing: false, queueCount: 0 });
 
