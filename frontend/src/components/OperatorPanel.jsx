@@ -173,47 +173,92 @@ export default function OperatorPanel() {
     }
   };
 
-  const toggleControl = async () => {
+  const startPosition = async (position) => {
     const fighter = selectedFighter;
-    const isCurrentlyRunning = controlTimers[fighter].isRunning;
+    const currentTime = controlTimers[fighter].time;
     
-    if (isCurrentlyRunning) {
-      // Stop control timer - keep accumulated time
-      const currentTime = controlTimers[fighter].time;
-      
-      await logEvent('CTRL_STOP', { 
-        duration: currentTime,
-        position: 'top'
-      });
-      
-      setControlTimers(prev => ({
-        ...prev,
-        [fighter]: {
-          ...prev[fighter],
-          isRunning: false,
-          startTime: null
-        }
-      }));
-      
-      toast.info(`Control stopped for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2} at ${formatTime(currentTime)}`);
+    await logEvent('POSITION_START', { 
+      position: position,
+      time: currentTime
+    });
+    
+    setControlTimers(prev => ({
+      ...prev,
+      [fighter]: {
+        time: currentTime,
+        isRunning: true,
+        startTime: Date.now() - (currentTime * 1000),
+        currentPosition: position,
+        positionHistory: [...prev[fighter].positionHistory]
+      }
+    }));
+    
+    setShowPositionDialog(false);
+    toast.info(`${position} started for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
+  };
+
+  const changePosition = async (newPosition) => {
+    const fighter = selectedFighter;
+    const currentTime = controlTimers[fighter].time;
+    const oldPosition = controlTimers[fighter].currentPosition;
+    
+    // Log position change
+    await logEvent('POSITION_CHANGE', { 
+      from: oldPosition,
+      to: newPosition,
+      time: currentTime
+    });
+    
+    // Update position history
+    setControlTimers(prev => ({
+      ...prev,
+      [fighter]: {
+        ...prev[fighter],
+        currentPosition: newPosition,
+        positionHistory: [
+          ...prev[fighter].positionHistory,
+          { position: oldPosition, time: currentTime }
+        ]
+      }
+    }));
+    
+    setShowPositionDialog(false);
+    toast.info(`Position changed: ${oldPosition} → ${newPosition}`);
+  };
+
+  const stopPosition = async () => {
+    const fighter = selectedFighter;
+    const currentTime = controlTimers[fighter].time;
+    const position = controlTimers[fighter].currentPosition;
+    
+    await logEvent('POSITION_STOP', { 
+      position: position,
+      duration: currentTime
+    });
+    
+    setControlTimers(prev => ({
+      ...prev,
+      [fighter]: {
+        time: 0,
+        isRunning: false,
+        startTime: null,
+        currentPosition: null,
+        positionHistory: [
+          ...prev[fighter].positionHistory,
+          { position: position, time: currentTime }
+        ]
+      }
+    }));
+    
+    toast.info(`Position stopped: ${position} (${formatTime(currentTime)})`);
+  };
+
+  const toggleControl = async () => {
+    // Open position dialog if not running, stop if running
+    if (controlTimers[selectedFighter].isRunning) {
+      await stopPosition();
     } else {
-      // Start control timer - continue from current accumulated time
-      const currentTime = controlTimers[fighter].time;
-      
-      await logEvent('CTRL_START', { 
-        time: currentTime 
-      });
-      
-      setControlTimers(prev => ({
-        ...prev,
-        [fighter]: {
-          time: currentTime,  // Keep current time, don't reset
-          isRunning: true,
-          startTime: Date.now() - (currentTime * 1000)  // Adjust startTime to account for accumulated time
-        }
-      }));
-      
-      toast.info(`Control started for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2} from ${formatTime(currentTime)}`);
+      setShowPositionDialog(true);
     }
   };
 
