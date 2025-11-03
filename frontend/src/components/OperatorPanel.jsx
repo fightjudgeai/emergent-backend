@@ -34,6 +34,7 @@ export default function OperatorPanel() {
   const [totalPauseDuration, setTotalPauseDuration] = useState(0);
   const [eventHistory, setEventHistory] = useState([]);
   const [showEventHistory, setShowEventHistory] = useState(false);
+  const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
   const timerRef = useRef(null);
   const [syncStatus, setSyncStatus] = useState({ isOnline: true, isSyncing: false, queueCount: 0 });
 
