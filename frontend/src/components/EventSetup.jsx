@@ -296,6 +296,127 @@ export default function EventSetup() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Pre-Fight Checklist Dialog */}
+      <Dialog open={showChecklist} onOpenChange={setShowChecklist}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35] max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <ClipboardCheck className="h-5 w-5 text-green-400" />
+              Pre-Fight Checklist
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
+            <p className="text-sm text-gray-400">Ensure everything is ready before starting the fight:</p>
+            
+            <div className="space-y-3">
+              <div className="flex items-center space-x-3 p-3 bg-[#1a1d24] rounded-lg border border-[#2a2d35]">
+                <Checkbox
+                  id="check-event"
+                  checked={checklist.eventName}
+                  onCheckedChange={(checked) => setChecklist({...checklist, eventName: checked})}
+                  className="border-gray-600"
+                />
+                <label htmlFor="check-event" className="text-sm text-gray-300 cursor-pointer flex-1">
+                  Event name entered
+                  {checklist.eventName && <span className="ml-2 text-green-400">✓</span>}
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-3 p-3 bg-[#1a1d24] rounded-lg border border-[#2a2d35]">
+                <Checkbox
+                  id="check-fighters"
+                  checked={checklist.fighters}
+                  onCheckedChange={(checked) => setChecklist({...checklist, fighters: checked})}
+                  className="border-gray-600"
+                />
+                <label htmlFor="check-fighters" className="text-sm text-gray-300 cursor-pointer flex-1">
+                  Fighter names entered (Red & Blue)
+                  {checklist.fighters && <span className="ml-2 text-green-400">✓</span>}
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-3 p-3 bg-[#1a1d24] rounded-lg border border-[#2a2d35]">
+                <Checkbox
+                  id="check-rounds"
+                  checked={checklist.rounds}
+                  onCheckedChange={(checked) => setChecklist({...checklist, rounds: checked})}
+                  className="border-gray-600"
+                />
+                <label htmlFor="check-rounds" className="text-sm text-gray-300 cursor-pointer flex-1">
+                  Number of rounds selected
+                  {checklist.rounds && <span className="ml-2 text-green-400">✓</span>}
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-3 p-3 bg-[#1a1d24] rounded-lg border border-[#2a2d35]">
+                <Checkbox
+                  id="check-judge"
+                  checked={checklist.judgeLogin}
+                  onCheckedChange={(checked) => setChecklist({...checklist, judgeLogin: checked})}
+                  className="border-gray-600"
+                />
+                <label htmlFor="check-judge" className="text-sm text-gray-300 cursor-pointer flex-1">
+                  Judge logged in
+                  {checklist.judgeLogin && <span className="ml-2 text-green-400">✓</span>}
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-3 p-3 bg-[#1a1d24] rounded-lg border border-[#2a2d35]">
+                <Checkbox
+                  id="check-internet"
+                  checked={checklist.internetCheck}
+                  onCheckedChange={(checked) => setChecklist({...checklist, internetCheck: checked})}
+                  className="border-gray-600"
+                />
+                <label htmlFor="check-internet" className="text-sm text-gray-300 cursor-pointer flex-1">
+                  Internet connection stable
+                  {checklist.internetCheck && <span className="ml-2 text-green-400">✓</span>}
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-3 p-3 bg-[#1a1d24] rounded-lg border border-[#2a2d35]">
+                <Checkbox
+                  id="check-equipment"
+                  checked={checklist.equipmentReady}
+                  onCheckedChange={(checked) => setChecklist({...checklist, equipmentReady: checked})}
+                  className="border-gray-600"
+                />
+                <label htmlFor="check-equipment" className="text-sm text-gray-300 cursor-pointer flex-1">
+                  Equipment ready (devices, backup)
+                  {checklist.equipmentReady && <span className="ml-2 text-green-400">✓</span>}
+                </label>
+              </div>
+            </div>
+
+            {Object.values(checklist).every(v => v) && (
+              <div className="p-3 bg-green-900/20 border border-green-700/30 rounded-lg text-center">
+                <p className="text-green-400 font-semibold">✓ All checks complete - Ready to start!</p>
+              </div>
+            )}
+
+            <div className="flex gap-2 pt-2">
+              <Button
+                onClick={() => setShowChecklist(false)}
+                className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
+              >
+                Close
+              </Button>
+              {Object.values(checklist).every(v => v) && (
+                <Button
+                  onClick={() => {
+                    setShowChecklist(false);
+                    toast.success('Pre-flight checklist complete!');
+                  }}
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                >
+                  Confirm & Start
+                </Button>
+              )}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
