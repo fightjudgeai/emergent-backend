@@ -302,14 +302,20 @@ export default function EventSetup() {
             </div>
           </div>
 
-          <div className="pt-3">
+          <div className="pt-3 space-y-2">
+            {!checklistCompleted && (
+              <div className="p-3 bg-amber-900/20 border border-amber-700/30 rounded-lg text-center">
+                <p className="text-amber-400 text-sm font-semibold">⚠️ Pre-Flight Checklist Required</p>
+                <p className="text-amber-300 text-xs mt-1">Complete the checklist before creating the event</p>
+              </div>
+            )}
             <Button
               data-testid="create-event-btn"
               onClick={createEvent}
               disabled={loading}
               className="w-full h-12 text-base font-semibold bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg transition-all duration-200"
             >
-              {loading ? 'Creating Event...' : 'Create Event & Continue'}
+              {loading ? 'Creating Event...' : checklistCompleted ? 'Create Event & Continue' : '⚠️ Complete Checklist First'}
             </Button>
           </div>
         </CardContent>
