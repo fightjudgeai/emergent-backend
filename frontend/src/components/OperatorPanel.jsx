@@ -407,10 +407,10 @@ export default function OperatorPanel() {
     if (!currentRound) return;
 
     try {
+      // Simplified query without orderBy to avoid index requirement
       const eventsRef = db.collection('events')
         .where('boutId', '==', boutId)
-        .where('round', '==', currentRound)
-        .orderBy('timestamp', 'desc');
+        .where('round', '==', currentRound);
 
       const snapshot = await eventsRef.get();
       const events = snapshot.docs.map(doc => ({
@@ -418,10 +418,14 @@ export default function OperatorPanel() {
         ...doc.data()
       }));
       
+      // Sort in JavaScript instead of Firestore
+      events.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+      
       setEventHistory(events);
     } catch (error) {
       console.error('Error loading event history:', error);
-      toast.error('Failed to load event history');
+      // Don't show error toast to avoid disrupting flow
+      console.log('Event history will retry on next load');
     }
   };
 
