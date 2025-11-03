@@ -40,8 +40,13 @@ export default function OperatorPanel() {
   const [activeViewers, setActiveViewers] = useState(0);
   const [showBackupDialog, setShowBackupDialog] = useState(false);
   const [lastBackupTime, setLastBackupTime] = useState(null);
+  const [showVoiceNotes, setShowVoiceNotes] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [voiceNotes, setVoiceNotes] = useState([]);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
   const timerRef = useRef(null);
   const fileInputRef = useRef(null);
+  const audioChunksRef = useRef([]);
   const [syncStatus, setSyncStatus] = useState({ isOnline: true, isSyncing: false, queueCount: 0 });
 
   const positions = [
