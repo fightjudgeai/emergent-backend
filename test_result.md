@@ -131,8 +131,9 @@ user_problem_statement: |
   - Keyboard Shortcuts ✅
   - Export Official Scorecard ✅
   - Multi-Device Support ✅
+  - Pre-Flight Checklist ✅
   
-  Currently completing: Multi-Device Support testing
+  Currently implementing: Backup Mode
 
 backend:
   - task: "Shadow Judging API - Seed Training Library"
