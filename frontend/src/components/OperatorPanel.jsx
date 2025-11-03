@@ -344,6 +344,12 @@ export default function OperatorPanel() {
   };
 
   const toggleControl = async () => {
+    // Prevent control changes when paused
+    if (isPaused) {
+      toast.warning('⏸️ Cannot change control while fight is paused');
+      return;
+    }
+
     // Open position dialog if not running, stop if running
     if (controlTimers[selectedFighter].isRunning) {
       await stopPosition();
