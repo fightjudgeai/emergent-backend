@@ -1299,9 +1299,9 @@ async def update_fighter_stats(update: FighterStatsUpdate):
         rev_count = len([e for e in update.round_events if e.get('event_type') == 'Reversal'])
         
         # Calculate striking style
-        ss_head = len([e for e in update.round_events if e.get('event_type') == 'SS Head'])
-        ss_body = len([e for e in update.round_events if e.get('event_type') == 'SS Body'])
-        ss_leg = len([e for e in update.round_events if e.get('event_type') == 'SS Leg'])
+        ss_head = len([e for e in update.round_events if e.get('event_type') == 'HS'])
+        ss_body = len([e for e in update.round_events if e.get('event_type') == 'BS'])
+        ss_leg = len([e for e in update.round_events if e.get('event_type') == 'LS'])
         ss_total = ss_head + ss_body + ss_leg
         
         # Update cumulative stats
