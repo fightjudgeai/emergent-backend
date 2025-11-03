@@ -127,8 +127,9 @@ user_problem_statement: |
   - Medical Timeout / Pause button ✅
   - Event History / Delete Event ✅
   - Keyboard Shortcuts ✅
+  - Export Official Scorecard ✅
   
-  Currently completing: Keyboard Shortcuts testing
+  Currently completing: Export Official Scorecard testing
 
 backend:
   - task: "Shadow Judging API - Seed Training Library"
