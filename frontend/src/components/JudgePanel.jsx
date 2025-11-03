@@ -282,6 +282,14 @@ export default function JudgePanel() {
             </div>
             <div className="flex items-center gap-3">
               <Button
+                onClick={handleExportScorecard}
+                className="h-10 px-4 bg-purple-600 hover:bg-purple-700 text-white"
+                title="Export Official Scorecard"
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Export Scorecard
+              </Button>
+              <Button
                 data-testid="next-fight-btn-judge"
                 onClick={goToNextFight}
                 className="h-10 px-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
