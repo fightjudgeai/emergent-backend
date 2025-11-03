@@ -173,12 +173,61 @@ export default function OperatorPanel() {
         const fighterName = lastEvent.eventData.fighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
         toast.success(`Undone: ${lastEvent.eventData.event_type} for ${fighterName}`);
         setLastEvent(null);
+        // Reload event history after deletion
+        await loadEventHistory();
       } else {
         toast.error('Event not found');
       }
     } catch (error) {
       console.error('Error undoing event:', error);
       toast.error('Failed to undo event');
+    }
+  };
+
+  const loadEventHistory = async () => {
+    if (!bout || !bout.currentRound) return;
+
+    try {
+      const eventsRef = db.collection('events')
+        .where('boutId', '==', boutId)
+        .where('round', '==', bout.currentRound)
+        .orderBy('timestamp', 'desc');
+
+      const snapshot = await eventsRef.get();
+      const events = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      
+      setEventHistory(events);
+    } catch (error) {
+      console.error('Error loading event history:', error);
+      toast.error('Failed to load event history');
+    }
+  };
+
+  const deleteEvent = async (eventId, eventData) => {
+    if (isPaused) {
+      toast.warning('⏸️ Cannot delete events while fight is paused');
+      return;
+    }
+
+    try {
+      await db.collection('events').doc(eventId).delete();
+      
+      const fighterName = eventData.fighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+      toast.success(`Deleted: ${eventData.event_type} for ${fighterName}`);
+      
+      // Reload event history
+      await loadEventHistory();
+      
+      // Clear lastEvent if it matches the deleted event
+      if (lastEvent && lastEvent.timestamp === eventData.timestamp) {
+        setLastEvent(null);
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      toast.error('Failed to delete event');
     }
   };
 
