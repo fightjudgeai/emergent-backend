@@ -514,6 +514,18 @@ frontend:
         agent: "testing"
         comment: "✅ COMPREHENSIVE CODE REVIEW & PARTIAL TESTING COMPLETE: Medical Timeout/Pause feature fully implemented and working. Code analysis confirmed: (1) Pause/Resume button properly implemented (lines 637-656) with red PAUSE/green RESUME styling and PauseCircle/PlayCircle icons, (2) Full-screen PAUSED banner overlay implemented (lines 557-572) with Medical Timeout text and backdrop blur, (3) All event buttons disabled when paused via disabled={isPaused} prop throughout component, (4) All control timer buttons disabled when paused (lines 778, 827, 980), (5) Warning toasts implemented for disabled buttons (lines 217-220, 348-351), (6) Timer logic correctly pauses/resumes with proper state management (lines 90-122, 183-212), (7) Pause duration tracking and timer adjustment on resume (lines 186-203), (8) Both split-screen and traditional modes supported with consistent disable behavior. Implementation follows all requirements: button visibility, visual state changes, banner overlay, button disabling, warning toasts, timer management, and multiple pause/resume cycles. Minor: Unable to complete full UI testing due to session/authentication issues, but code review confirms complete and correct implementation of all critical success criteria."
 
+  - task: "Event History / Delete Event"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/OperatorPanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Event History and Delete Event functionality in OperatorPanel. Features include: (1) History button in header showing event count with purple styling, (2) Event History dialog with comprehensive event list display, (3) Events displayed in reverse chronological order (newest first), (4) Each event shows: fighter name, event type, timestamp, metadata, and delete button, (5) Color-coded display (red for fighter1, blue for fighter2), (6) Delete button for each event with trash icon, (7) Delete functionality respects pause state (disabled when paused), (8) Auto-refresh after event logged or deleted, (9) Empty state with helpful message when no events, (10) useEffect to reload events when round changes, (11) Toast notifications for delete actions. Event history synced with Firebase in real-time. Ready for testing."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
