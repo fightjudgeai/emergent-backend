@@ -125,8 +125,9 @@ user_problem_statement: |
   - YouTube Live video integration (PIP) ✅
   - Undo Last Event button ✅
   - Medical Timeout / Pause button ✅
+  - Event History / Delete Event ✅
   
-  Currently completing: Medical Timeout/Pause feature testing
+  Currently completing: Event History / Delete Event testing
 
 backend:
   - task: "Shadow Judging API - Seed Training Library"
