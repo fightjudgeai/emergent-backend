@@ -128,8 +128,9 @@ user_problem_statement: |
   - Event History / Delete Event ✅
   - Keyboard Shortcuts ✅
   - Export Official Scorecard ✅
+  - Multi-Device Support ✅
   
-  Currently completing: Export Official Scorecard testing
+  Currently completing: Multi-Device Support testing
 
 backend:
   - task: "Shadow Judging API - Seed Training Library"
