@@ -126,8 +126,9 @@ user_problem_statement: |
   - Undo Last Event button ✅
   - Medical Timeout / Pause button ✅
   - Event History / Delete Event ✅
+  - Keyboard Shortcuts ✅
   
-  Currently completing: Event History / Delete Event testing
+  Currently completing: Keyboard Shortcuts testing
 
 backend:
   - task: "Shadow Judging API - Seed Training Library"
