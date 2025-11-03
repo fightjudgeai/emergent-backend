@@ -976,11 +976,12 @@ export default function OperatorPanel() {
                       setSelectedFighter('fighter2');
                       toggleControl();
                     }}
+                    disabled={isPaused}
                     className={`flex-1 ${
                       controlTimers.fighter2.isRunning
                         ? 'bg-blue-700 hover:bg-blue-800'
                         : 'bg-green-600 hover:bg-green-700'
-                    } text-white`}
+                    } text-white disabled:opacity-30 disabled:cursor-not-allowed`}
                   >
                     {controlTimers.fighter2.isRunning ? (
                       <><Pause className="mr-2 h-4 w-4" />Stop</>
@@ -994,7 +995,8 @@ export default function OperatorPanel() {
                         setSelectedFighter('fighter2');
                         setShowPositionDialog(true);
                       }}
-                      className="bg-amber-600 hover:bg-amber-700 text-white px-3"
+                      disabled={isPaused}
+                      className="bg-amber-600 hover:bg-amber-700 text-white px-3 disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       Change
                     </Button>
