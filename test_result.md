@@ -534,7 +534,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Comprehensive End-to-End Testing - Full Application Workflow"
+    - "Medical Timeout / Pause Button"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
