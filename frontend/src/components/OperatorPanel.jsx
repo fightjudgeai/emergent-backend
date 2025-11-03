@@ -300,7 +300,11 @@ export default function OperatorPanel() {
       // Judge Panel
       if (key === 'j') {
         e.preventDefault();
-        window.open(`/judge/${boutId}`, '_blank');
+        if (boutId) {
+          window.open(`/judge/${boutId}`, '_blank');
+        } else {
+          toast.error('Bout not loaded yet');
+        }
         return;
       }
 
