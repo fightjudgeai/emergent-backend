@@ -143,9 +143,13 @@ export default function OperatorPanel() {
 
   useEffect(() => {
     if (bout && bout.currentRound) {
-      loadEventHistory();
+      // Small delay to ensure Firebase is ready
+      const timer = setTimeout(() => {
+        loadEventHistory();
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, [bout?.currentRound]);
+  }, [bout?.currentRound, boutId]);
 
   useEffect(() => {
     if (isPaused) {
