@@ -128,6 +128,303 @@ export default function JudgePanel() {
     }
   };
 
+  const handleExportScorecard = () => {
+    // Create a printable scorecard
+    const judgeInfo = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
+    const printWindow = window.open('', '', 'width=800,height=600');
+    
+    // Generate HTML for scorecard
+    let html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Official Scorecard - ${bout.fighter1} vs ${bout.fighter2}</title>
+        <style>
+          @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+          }
+          body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            color: black;
+          }
+          .header {
+            text-align: center;
+            border-bottom: 3px solid #000;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+          }
+          .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+          }
+          .header p {
+            margin: 5px 0;
+            font-size: 14px;
+          }
+          .fighters {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border: 2px solid #000;
+          }
+          .fighter {
+            text-align: center;
+            flex: 1;
+          }
+          .fighter-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+          .corner {
+            font-size: 14px;
+            color: #666;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+          }
+          th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+          }
+          th {
+            background: #333;
+            color: white;
+            font-weight: bold;
+          }
+          .winner {
+            background: #ffeb3b;
+            font-weight: bold;
+          }
+          .total-row {
+            background: #f0f0f0;
+            font-weight: bold;
+            font-size: 16px;
+          }
+          .stats-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+          }
+          .stats-section h3 {
+            margin-top: 0;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+          }
+          .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+          }
+          .stat-item {
+            padding: 8px;
+            background: white;
+            border: 1px solid #ddd;
+          }
+          .stat-label {
+            font-weight: bold;
+            font-size: 12px;
+            color: #666;
+          }
+          .stat-value {
+            font-size: 18px;
+            color: #000;
+          }
+          .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #000;
+            display: flex;
+            justify-content: space-between;
+          }
+          .signature {
+            width: 45%;
+          }
+          .signature-line {
+            border-bottom: 1px solid #000;
+            margin-top: 40px;
+            margin-bottom: 5px;
+          }
+          .button-container {
+            text-align: center;
+            margin: 20px 0;
+          }
+          button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+          }
+          .print-btn {
+            background: #4CAF50;
+            color: white;
+          }
+          .close-btn {
+            background: #f44336;
+            color: white;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>OFFICIAL SCORECARD</h1>
+          <p><strong>${bout.eventName || 'Combat Event'}</strong></p>
+          <p>${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}</p>
+        </div>
+
+        <div class="fighters">
+          <div class="fighter" style="color: #c00;">
+            <div class="fighter-name">${bout.fighter1}</div>
+            <div class="corner">RED CORNER</div>
+          </div>
+          <div style="text-align: center; padding: 0 20px; display: flex; align-items: center; font-size: 24px; font-weight: bold;">VS</div>
+          <div class="fighter" style="color: #00c;">
+            <div class="fighter-name">${bout.fighter2}</div>
+            <div class="corner">BLUE CORNER</div>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Round</th>
+              <th>${bout.fighter1} (Red)</th>
+              <th>${bout.fighter2} (Blue)</th>
+              <th>Winner</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+
+    // Add rounds
+    let fighter1Total = 0;
+    let fighter2Total = 0;
+    
+    for (let i = 1; i <= bout.totalRounds; i++) {
+      const roundScore = scores[i];
+      if (roundScore) {
+        const f1Score = roundScore.fighter1_score || 10;
+        const f2Score = roundScore.fighter2_score || 10;
+        fighter1Total += f1Score;
+        fighter2Total += f2Score;
+        
+        const winner = f1Score > f2Score ? bout.fighter1 : f2Score > f1Score ? bout.fighter2 : 'Draw';
+        const winnerClass = f1Score !== f2Score ? 'winner' : '';
+        
+        html += `
+          <tr>
+            <td><strong>Round ${i}</strong></td>
+            <td class="${f1Score > f2Score ? winnerClass : ''}">${f1Score}</td>
+            <td class="${f2Score > f1Score ? winnerClass : ''}">${f2Score}</td>
+            <td>${winner}</td>
+          </tr>
+        `;
+      }
+    }
+
+    // Total row
+    const overallWinner = fighter1Total > fighter2Total ? bout.fighter1 : fighter2Total > fighter1Total ? bout.fighter2 : 'Draw';
+    html += `
+            <tr class="total-row">
+              <td>TOTAL</td>
+              <td>${fighter1Total}</td>
+              <td>${fighter2Total}</td>
+              <td>${overallWinner}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="stats-section">
+          <h3>Fight Statistics</h3>
+          <div class="stats-grid">
+    `;
+
+    // Add statistics for each fighter
+    for (let i = 1; i <= bout.totalRounds; i++) {
+      const roundScore = scores[i];
+      if (roundScore) {
+        const f1Counts = roundScore.fighter1_event_counts || {};
+        const f2Counts = roundScore.fighter2_event_counts || {};
+        
+        html += `
+          <div class="stat-item" style="grid-column: span 2;">
+            <div class="stat-label">Round ${i} Stats</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">${bout.fighter1} - Strikes</div>
+            <div class="stat-value">${f1Counts['Significant Strikes'] || 0}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">${bout.fighter2} - Strikes</div>
+            <div class="stat-value">${f2Counts['Significant Strikes'] || 0}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">${bout.fighter1} - Takedowns</div>
+            <div class="stat-value">${f1Counts['Takedowns'] || 0}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">${bout.fighter2} - Takedowns</div>
+            <div class="stat-value">${f2Counts['Takedowns'] || 0}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">${bout.fighter1} - Damage</div>
+            <div class="stat-value">${f1Counts['Damage'] || 0}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">${bout.fighter2} - Damage</div>
+            <div class="stat-value">${f2Counts['Damage'] || 0}</div>
+          </div>
+        `;
+      }
+    }
+
+    html += `
+          </div>
+        </div>
+
+        <div class="footer">
+          <div class="signature">
+            <div><strong>Judge:</strong> ${judgeInfo.name || 'N/A'}</div>
+            <div><strong>ID:</strong> ${judgeInfo.judgeId || 'N/A'}</div>
+            <div class="signature-line"></div>
+            <div style="text-align: center; font-size: 12px;">Judge Signature</div>
+          </div>
+          <div class="signature">
+            <div><strong>Date:</strong> ${new Date().toLocaleDateString()}</div>
+            <div><strong>Time:</strong> ${new Date().toLocaleTimeString()}</div>
+            <div class="signature-line"></div>
+            <div style="text-align: center; font-size: 12px;">Official Signature</div>
+          </div>
+        </div>
+
+        <div class="button-container no-print">
+          <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+          <button class="close-btn" onclick="window.close()">Close</button>
+        </div>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.write(html);
+    printWindow.document.close();
+    
+    toast.success('Scorecard opened in new window');
+  };
+
   const goToNextFight = async () => {
     if (!bout?.eventId) {
       toast.error('No event associated with this fight');
