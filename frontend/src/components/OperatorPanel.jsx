@@ -1378,6 +1378,74 @@ export default function OperatorPanel() {
         </DialogContent>
       </Dialog>
 
+      {/* Event History Dialog */}
+      <Dialog open={showEventHistory} onOpenChange={setShowEventHistory}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35] max-w-3xl max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <History className="h-5 w-5 text-purple-400" />
+              Event History - Round {bout.currentRound}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            {eventHistory.length === 0 ? (
+              <div className="text-center py-12">
+                <History className="h-16 w-16 text-gray-600 mx-auto mb-4" />
+                <p className="text-gray-400 text-lg">No events logged yet</p>
+                <p className="text-gray-500 text-sm mt-2">Events will appear here as you log them</p>
+              </div>
+            ) : (
+              <div className="space-y-2 max-h-[50vh] overflow-y-auto">
+                {eventHistory.map((event, index) => {
+                  const fighterName = event.fighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+                  const fighterColor = event.fighter === 'fighter1' ? 'text-red-400' : 'text-blue-400';
+                  const bgColor = event.fighter === 'fighter1' ? 'bg-red-950/20 border-red-800/30' : 'bg-blue-950/20 border-blue-800/30';
+                  
+                  return (
+                    <div
+                      key={event.id}
+                      className={`p-4 rounded-lg border ${bgColor} flex items-center justify-between`}
+                    >
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3">
+                          <div className="text-xs text-gray-500 font-mono">
+                            #{eventHistory.length - index}
+                          </div>
+                          <div className={`text-lg font-bold ${fighterColor}`}>
+                            {fighterName}
+                          </div>
+                          <div className="text-amber-400 font-semibold">
+                            {event.event_type}
+                          </div>
+                        </div>
+                        <div className="text-xs text-gray-400 mt-1 flex gap-4">
+                          <span>Time: {formatTime(event.timestamp)}</span>
+                          {event.metadata && Object.keys(event.metadata).length > 0 && (
+                            <span className="text-gray-500">
+                              {Object.entries(event.metadata).map(([key, value]) => 
+                                `${key}: ${value}`
+                              ).join(', ')}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <Button
+                        onClick={() => deleteEvent(event.id, event)}
+                        disabled={isPaused}
+                        className="h-9 px-3 bg-red-900/50 hover:bg-red-900 text-red-200 border border-red-700/30 disabled:opacity-30 disabled:cursor-not-allowed"
+                        title="Delete this event"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 }
