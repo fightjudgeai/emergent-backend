@@ -833,8 +833,8 @@ async def calculate_score(request: ScoreRequest):
             
             for e in events:
                 event_type = e.event_type
-                # Significant Strikes: HS (Head Strikes), BS (Body Strikes), LS (Leg Strikes), KD
-                if event_type in ["HS", "BS", "LS", "KD"]:
+                # Significant Strikes: HS (Head Strikes), BS (Body Strikes), LS (Leg Strikes), KD, Rocked
+                if event_type in ["HS", "BS", "LS", "KD", "Rocked"]:
                     counts["Significant Strikes"] += 1
                 # Grappling Control: CTRL, Pass, Reversal
                 if event_type in ["CTRL_START", "CTRL_STOP", "Pass", "Reversal"]:
@@ -842,8 +842,8 @@ async def calculate_score(request: ScoreRequest):
                 # Aggression: Strike counts
                 if event_type in ["HS", "BS", "LS"]:
                     counts["Aggression"] += 1
-                # Damage: KD, Submission Attempt
-                if event_type in ["KD", "Submission Attempt"]:
+                # Damage: KD, Rocked, Submission Attempt
+                if event_type in ["KD", "Rocked", "Submission Attempt"]:
                     counts["Damage"] += 1
                 # Takedowns
                 if event_type == "Takedown":
