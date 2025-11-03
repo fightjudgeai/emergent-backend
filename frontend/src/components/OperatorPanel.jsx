@@ -32,6 +32,8 @@ export default function OperatorPanel() {
   const [isPaused, setIsPaused] = useState(false);
   const [pauseStartTime, setPauseStartTime] = useState(null);
   const [totalPauseDuration, setTotalPauseDuration] = useState(0);
+  const [eventHistory, setEventHistory] = useState([]);
+  const [showEventHistory, setShowEventHistory] = useState(false);
   const timerRef = useRef(null);
   const [syncStatus, setSyncStatus] = useState({ isOnline: true, isSyncing: false, queueCount: 0 });
 
