@@ -605,6 +605,26 @@ export default function OperatorPanel() {
                 Undo Last
               </Button>
               <Button
+                onClick={togglePause}
+                className={`h-10 px-4 ${
+                  isPaused 
+                    ? 'bg-green-600 hover:bg-green-700 animate-pulse' 
+                    : 'bg-red-600 hover:bg-red-700'
+                } text-white font-bold`}
+              >
+                {isPaused ? (
+                  <>
+                    <PlayCircle className="mr-2 h-5 w-5" />
+                    RESUME
+                  </>
+                ) : (
+                  <>
+                    <PauseCircle className="mr-2 h-5 w-5" />
+                    PAUSE
+                  </>
+                )}
+              </Button>
+              <Button
                 data-testid="next-fight-btn"
                 onClick={goToNextFight}
                 className="h-10 px-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
