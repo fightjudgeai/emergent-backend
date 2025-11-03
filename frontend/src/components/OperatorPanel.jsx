@@ -377,9 +377,9 @@ export default function OperatorPanel() {
   };
 
   const eventButtons = [
-    { label: 'SS Head', event: 'SS Head' },
-    { label: 'SS Body', event: 'SS Body' },
-    { label: 'SS Leg', event: 'SS Leg' },
+    { label: 'HS', event: 'HS' },
+    { label: 'BS', event: 'BS' },
+    { label: 'LS', event: 'LS' },
     { label: 'Takedown', event: 'Takedown' },
     { label: 'Pass', event: 'Pass' },
     { label: 'Reversal', event: 'Reversal' }
