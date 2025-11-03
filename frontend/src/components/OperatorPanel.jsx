@@ -380,6 +380,7 @@ export default function OperatorPanel() {
     { label: 'HS', event: 'HS' },
     { label: 'BS', event: 'BS' },
     { label: 'LS', event: 'LS' },
+    { label: 'Rocked', event: 'Rocked' },
     { label: 'Takedown', event: 'Takedown' },
     { label: 'Pass', event: 'Pass' },
     { label: 'Reversal', event: 'Reversal' }
