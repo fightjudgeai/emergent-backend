@@ -164,6 +164,18 @@ export default function EventSetup() {
             />
           </div>
 
+          {/* Video URL */}
+          <div className="space-y-1">
+            <Label htmlFor="videoUrl" className="text-gray-300 text-sm font-medium">YouTube Live URL (Optional)</Label>
+            <Input
+              id="videoUrl"
+              placeholder="e.g., https://www.youtube.com/watch?v=..."
+              value={videoUrl}
+              onChange={(e) => setVideoUrl(e.target.value)}
+              className="h-10 bg-[#1a1d24] border-[#2a2d35] text-white placeholder:text-gray-500 focus:border-amber-500 focus:ring-amber-500/20"
+            />
+          </div>
+
           <div className="border-t border-[#2a2d35] pt-3">
             <div className="flex items-center justify-between mb-3">
               <Label className="text-gray-300 text-sm font-medium">Fights ({fights.length}/15)</Label>
