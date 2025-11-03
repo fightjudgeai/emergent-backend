@@ -196,12 +196,28 @@ export default function OperatorPanel() {
   };
 
   const loadEventHistory = async () => {
-    if (!bout || !bout.currentRound) return;
+    if (!boutId) return;
+    
+    // Get current round from bout state or fetch it
+    let currentRound = bout?.currentRound;
+    if (!currentRound) {
+      try {
+        const boutDoc = await db.collection('bouts').doc(boutId).get();
+        if (boutDoc.exists) {
+          currentRound = boutDoc.data().currentRound;
+        }
+      } catch (error) {
+        console.error('Error fetching bout for event history:', error);
+        return;
+      }
+    }
+    
+    if (!currentRound) return;
 
     try {
       const eventsRef = db.collection('events')
         .where('boutId', '==', boutId)
-        .where('round', '==', bout.currentRound)
+        .where('round', '==', currentRound)
         .orderBy('timestamp', 'desc');
 
       const snapshot = await eventsRef.get();
