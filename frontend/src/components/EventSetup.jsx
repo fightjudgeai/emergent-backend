@@ -7,8 +7,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
-import { Swords, Plus, Trash2, GraduationCap, AlertTriangle, Settings, Shield, User } from 'lucide-react';
+import { Swords, Plus, Trash2, GraduationCap, AlertTriangle, Settings, Shield, User, ClipboardCheck } from 'lucide-react';
 
 export default function EventSetup() {
   const navigate = useNavigate();
@@ -18,6 +20,15 @@ export default function EventSetup() {
     { fighter1: '', fighter2: '', rounds: '3' }
   ]);
   const [loading, setLoading] = useState(false);
+  const [showChecklist, setShowChecklist] = useState(false);
+  const [checklist, setChecklist] = useState({
+    eventName: false,
+    fighters: false,
+    rounds: false,
+    judgeLogin: false,
+    internetCheck: false,
+    equipmentReady: false
+  });
 
   const addFight = () => {
     if (fights.length < 15) {
