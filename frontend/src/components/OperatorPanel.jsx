@@ -180,6 +180,37 @@ export default function OperatorPanel() {
     }
   };
 
+  const togglePause = () => {
+    if (isPaused) {
+      // Resume
+      const pauseDuration = Date.now() - pauseStartTime;
+      setTotalPauseDuration(prev => prev + pauseDuration);
+      setIsPaused(false);
+      setPauseStartTime(null);
+      
+      // Adjust control timer start times to account for pause
+      setControlTimers(prev => {
+        const updated = { ...prev };
+        ['fighter1', 'fighter2'].forEach(fighter => {
+          if (updated[fighter].isRunning) {
+            updated[fighter] = {
+              ...updated[fighter],
+              startTime: Date.now() - (updated[fighter].time * 1000)
+            };
+          }
+        });
+        return updated;
+      });
+      
+      toast.success(`Resumed after ${Math.floor(pauseDuration / 1000)}s pause`);
+    } else {
+      // Pause
+      setPauseStartTime(Date.now());
+      setIsPaused(true);
+      toast.warning('⏸️ FIGHT PAUSED - Medical Timeout');
+    }
+  };
+
   const logEvent = async (eventType, metadata = {}) => {
     try {
       if (!bout) {
