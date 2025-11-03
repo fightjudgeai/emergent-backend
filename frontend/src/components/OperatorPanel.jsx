@@ -1121,6 +1121,14 @@ export default function OperatorPanel() {
                 Backup
               </Button>
               <Button
+                onClick={() => setShowVoiceNotes(true)}
+                className="h-10 px-4 bg-pink-600 hover:bg-pink-700 text-white"
+                title="Voice Notes"
+              >
+                <Mic className="mr-2 h-4 w-4" />
+                Voice Notes {voiceNotes.length > 0 && `(${voiceNotes.length})`}
+              </Button>
+              <Button
                 data-testid="next-fight-btn"
                 onClick={goToNextFight}
                 className="h-10 px-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
