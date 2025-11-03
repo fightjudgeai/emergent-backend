@@ -547,6 +547,18 @@ frontend:
         agent: "testing"
         comment: "✅ COMPREHENSIVE KEYBOARD SHORTCUTS TESTING COMPLETE: Successfully tested keyboard shortcuts system in OperatorPanel. VERIFIED WORKING: (1) Shortcuts button visible in header with gray styling and Keyboard icon, (2) Keyboard shortcuts help dialog opens via button click and ? key, (3) Help dialog displays 2-column layout with Event Logging (left) and Controls & Navigation (right) sections, (4) All shortcuts properly displayed with kbd styling, (5) Event logging shortcuts (1-9) functional for HS/BS/LS/Takedown/KD/Rocked/SubAttempt/Pass/Reversal, (6) Fighter selection shortcuts (R/B) working with case-insensitive support, (7) Control shortcuts functional: Space (control timer toggle), P (pause/resume), U (undo), S (split-screen toggle), (8) Dialog shortcuts (5 for KD, 7 for Sub Attempt) open respective dialogs, (9) Navigation shortcuts working, (10) Help shortcut (?) always available, (11) Pause state behavior implemented - shortcuts disabled when paused except P and ?, (12) Input field detection working - shortcuts disabled when typing in inputs, (13) Proper keyboard event handling with cleanup, (14) Toast feedback for fighter selection and split-screen actions. Minor issues: Session management causes page redirects during testing (non-critical), Firebase indexing errors (non-critical for shortcuts functionality). All critical success criteria met: shortcuts button visible, help dialog functional, all shortcuts working as designed, proper state management, input field detection, pause behavior. Keyboard shortcuts system ready for production use."
 
+  - task: "Export Official Scorecard"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/JudgePanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Export Official Scorecard functionality in JudgePanel. Features include: (1) Export Scorecard button in Judge Panel header with Download icon and purple styling, (2) Opens professional print-friendly scorecard in new window, (3) Comprehensive scorecard layout with header showing event name, date, time, (4) Fighter information with names and corners (color-coded red/blue), (5) Round-by-round scores table with winner highlighting, (6) Total scores row with overall winner, (7) Fight statistics section showing strikes, takedowns, damage per round for each fighter, (8) Footer with judge information (name, ID) and signature lines, (9) Official signature section with date/time, (10) Print and Close buttons for easy PDF generation, (11) Responsive table layout with proper styling, (12) Uses scores and event_counts data from calculate-score API, (13) Retrieves judge info from localStorage, (14) Toast notification on successful export. Scorecard uses clean black and white print-friendly design with proper borders and spacing. Ready for testing."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
