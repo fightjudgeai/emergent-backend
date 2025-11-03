@@ -1009,7 +1009,8 @@ export default function OperatorPanel() {
                       setSelectedFighter('fighter2');
                       logEvent('HS');
                     }}
-                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-600 to-blue-700 hover:opacity-90 text-white"
+                    disabled={isPaused}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-600 to-blue-700 hover:opacity-90 text-white disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     HS
                   </Button>
@@ -1018,7 +1019,8 @@ export default function OperatorPanel() {
                       setSelectedFighter('fighter2');
                       logEvent('BS');
                     }}
-                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-600 to-blue-700 hover:opacity-90 text-white"
+                    disabled={isPaused}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-600 to-blue-700 hover:opacity-90 text-white disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     BS
                   </Button>
@@ -1027,7 +1029,8 @@ export default function OperatorPanel() {
                       setSelectedFighter('fighter2');
                       logEvent('LS');
                     }}
-                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-600 to-blue-700 hover:opacity-90 text-white"
+                    disabled={isPaused}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-600 to-blue-700 hover:opacity-90 text-white disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     LS
                   </Button>
@@ -1036,7 +1039,8 @@ export default function OperatorPanel() {
                       setSelectedFighter('fighter2');
                       logEvent('Takedown');
                     }}
-                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-800 hover:opacity-90 text-white"
+                    disabled={isPaused}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-800 hover:opacity-90 text-white disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     Takedown
                   </Button>
@@ -1045,7 +1049,8 @@ export default function OperatorPanel() {
                       setSelectedFighter('fighter2');
                       setShowKdDialog(true);
                     }}
-                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-800 to-blue-900 hover:opacity-90 text-white"
+                    disabled={isPaused}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-800 to-blue-900 hover:opacity-90 text-white disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     KD
                   </Button>
@@ -1054,7 +1059,8 @@ export default function OperatorPanel() {
                       setSelectedFighter('fighter2');
                       logEvent('Rocked');
                     }}
-                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-800 hover:opacity-90 text-white"
+                    disabled={isPaused}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-800 hover:opacity-90 text-white disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     Rocked
                   </Button>
@@ -1063,7 +1069,8 @@ export default function OperatorPanel() {
                       setSelectedFighter('fighter2');
                       setShowSubDialog(true);
                     }}
-                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-800 to-cyan-900 hover:opacity-90 text-white"
+                    disabled={isPaused}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-800 to-cyan-900 hover:opacity-90 text-white disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     Sub Attempt
                   </Button>
@@ -1072,7 +1079,8 @@ export default function OperatorPanel() {
                       setSelectedFighter('fighter2');
                       logEvent('Pass');
                     }}
-                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-800 hover:opacity-90 text-white"
+                    disabled={isPaused}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-800 hover:opacity-90 text-white disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     Pass
                   </Button>
@@ -1081,7 +1089,8 @@ export default function OperatorPanel() {
                       setSelectedFighter('fighter2');
                       logEvent('Reversal');
                     }}
-                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-800 hover:opacity-90 text-white"
+                    disabled={isPaused}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-blue-700 to-blue-800 hover:opacity-90 text-white disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     Reversal
                   </Button>
