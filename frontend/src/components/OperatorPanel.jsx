@@ -681,8 +681,8 @@ export default function OperatorPanel() {
       // Update queue count
       await updateSyncStatus();
       
-      // Reload event history
-      await loadEventHistory();
+      // Reload event history (don't await to avoid blocking)
+      loadEventHistory().catch(err => console.log('Event history reload error:', err));
       
       const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
       toast.success(`${eventType} logged for ${fighterName}`);
