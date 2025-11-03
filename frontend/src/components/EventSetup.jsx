@@ -13,6 +13,7 @@ import { Swords, Plus, Trash2, GraduationCap, AlertTriangle, Settings, Shield, U
 export default function EventSetup() {
   const navigate = useNavigate();
   const [eventName, setEventName] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
   const [fights, setFights] = useState([
     { fighter1: '', fighter2: '', rounds: '3' }
   ]);
