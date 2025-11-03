@@ -1611,6 +1611,126 @@ export default function OperatorPanel() {
         </DialogContent>
       </Dialog>
 
+      {/* Keyboard Shortcuts Help Dialog */}
+      <Dialog open={showKeyboardShortcuts} onOpenChange={setShowKeyboardShortcuts}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35] max-w-4xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <Keyboard className="h-5 w-5 text-gray-400" />
+              Keyboard Shortcuts
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Event Logging */}
+              <div className="space-y-3">
+                <h3 className="text-amber-500 font-semibold text-sm uppercase tracking-wide border-b border-amber-900/30 pb-2">
+                  Event Logging
+                </h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Head Strike (HS)</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">1</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Body Strike (BS)</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">2</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Leg Strike (LS)</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">3</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Takedown</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">4</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Knockdown (KD)</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">5</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Rocked</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">6</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Sub Attempt</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">7</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Pass</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">8</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Reversal</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">9</kbd>
+                  </div>
+                </div>
+              </div>
+
+              {/* Controls & Navigation */}
+              <div className="space-y-3">
+                <h3 className="text-amber-500 font-semibold text-sm uppercase tracking-wide border-b border-amber-900/30 pb-2">
+                  Controls & Navigation
+                </h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Select Red Fighter</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">R</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Select Blue Fighter</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">B</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Toggle Control Timer</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">Space</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Pause / Resume</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">P</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Undo Last Event</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">U</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Event History</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">H</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Open Judge Panel</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">J</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Previous Round</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">[</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Next Round</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">]</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Toggle Split-Screen</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">S</kbd>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-[#1a1d24] rounded">
+                    <span className="text-gray-300">Show This Help</span>
+                    <kbd className="px-3 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700 font-mono">?</kbd>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-amber-900/20 border border-amber-700/30 rounded-lg">
+              <p className="text-sm text-amber-200">
+                <strong>Note:</strong> Most shortcuts (except Pause and Help) are disabled when the fight is paused. 
+                Shortcuts won't work when typing in input fields.
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 }
