@@ -127,7 +127,12 @@ export default function OperatorPanel() {
     try {
       const boutDoc = await db.collection('bouts').doc(boutId).get();
       if (boutDoc.exists) {
-        setBout({ id: boutDoc.id, ...boutDoc.data() });
+        const boutData = { id: boutDoc.id, ...boutDoc.data() };
+        setBout(boutData);
+        // Load event history for current round
+        if (boutData.currentRound) {
+          await loadEventHistory();
+        }
       } else {
         toast.error('Bout not found');
         navigate('/');
