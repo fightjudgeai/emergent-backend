@@ -160,6 +160,14 @@ export default function OperatorPanel() {
 
       console.log('Logging event:', eventType, 'for', selectedFighter, 'in round', bout.currentRound);
       
+      // Store as last event for undo
+      setLastEvent({
+        boutId,
+        round: bout.currentRound,
+        eventData,
+        timestamp: Date.now()
+      });
+      
       // Use sync manager to handle online/offline
       await syncManager.addEvent(boutId, bout.currentRound, eventData);
       
