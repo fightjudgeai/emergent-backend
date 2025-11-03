@@ -132,8 +132,9 @@ user_problem_statement: |
   - Export Official Scorecard ✅
   - Multi-Device Support ✅
   - Pre-Flight Checklist ✅
+  - Backup Mode ✅
   
-  Currently implementing: Backup Mode
+  Currently implementing: Judge Efficiency Features (Voice Notes & At-a-Glance Stats)
 
 backend:
   - task: "Shadow Judging API - Seed Training Library"
