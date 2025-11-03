@@ -38,7 +38,10 @@ export default function OperatorPanel() {
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
   const [showQRCode, setShowQRCode] = useState(false);
   const [activeViewers, setActiveViewers] = useState(0);
+  const [showBackupDialog, setShowBackupDialog] = useState(false);
+  const [lastBackupTime, setLastBackupTime] = useState(null);
   const timerRef = useRef(null);
+  const fileInputRef = useRef(null);
   const [syncStatus, setSyncStatus] = useState({ isOnline: true, isSyncing: false, queueCount: 0 });
 
   const positions = [
