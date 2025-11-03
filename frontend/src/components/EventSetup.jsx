@@ -59,6 +59,7 @@ export default function EventSetup() {
       // Create event document
       const eventRef = await db.collection('events_main').add({
         eventName: eventName.trim(),
+        videoUrl: videoUrl.trim(),
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         status: 'pending'
       });
@@ -68,6 +69,7 @@ export default function EventSetup() {
         return await db.collection('bouts').add({
           eventId: eventRef.id,
           eventName: eventName.trim(),
+          videoUrl: videoUrl.trim(),
           fighter1: fight.fighter1.trim(),
           fighter2: fight.fighter2.trim(),
           totalRounds: parseInt(fight.rounds),
