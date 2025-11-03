@@ -29,6 +29,9 @@ export default function OperatorPanel() {
   const [showPositionDialog, setShowPositionDialog] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState('mount');
   const [lastEvent, setLastEvent] = useState(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const [pauseStartTime, setPauseStartTime] = useState(null);
+  const [totalPauseDuration, setTotalPauseDuration] = useState(0);
   const timerRef = useRef(null);
   const [syncStatus, setSyncStatus] = useState({ isOnline: true, isSyncing: false, queueCount: 0 });
 
