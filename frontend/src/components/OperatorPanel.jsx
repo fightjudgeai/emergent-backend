@@ -90,6 +90,12 @@ export default function OperatorPanel() {
   };
 
   useEffect(() => {
+    if (bout && bout.currentRound) {
+      loadEventHistory();
+    }
+  }, [bout?.currentRound]);
+
+  useEffect(() => {
     if (isPaused) {
       // Stop all timers when paused
       if (timerRef.current) {
