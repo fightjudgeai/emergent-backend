@@ -1799,9 +1799,19 @@ export default function OperatorPanel() {
       <Dialog open={showEventHistory} onOpenChange={setShowEventHistory}>
         <DialogContent className="bg-[#13151a] border-[#2a2d35] max-w-3xl max-h-[80vh]">
           <DialogHeader>
-            <DialogTitle className="text-white flex items-center gap-2">
-              <History className="h-5 w-5 text-purple-400" />
-              Event History - Round {bout.currentRound}
+            <DialogTitle className="text-white flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <History className="h-5 w-5 text-purple-400" />
+                Event History - Round {bout.currentRound}
+              </div>
+              <Button
+                onClick={() => loadEventHistory()}
+                className="h-8 px-3 bg-purple-600 hover:bg-purple-700 text-white text-xs"
+                title="Refresh event history"
+              >
+                <RefreshCw className="h-3.5 w-3.5 mr-1" />
+                Refresh
+              </Button>
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">
@@ -1810,6 +1820,13 @@ export default function OperatorPanel() {
                 <History className="h-16 w-16 text-gray-600 mx-auto mb-4" />
                 <p className="text-gray-400 text-lg">No events logged yet</p>
                 <p className="text-gray-500 text-sm mt-2">Events will appear here as you log them</p>
+                <Button
+                  onClick={() => loadEventHistory()}
+                  className="mt-4 bg-purple-600 hover:bg-purple-700 text-white"
+                >
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Load Events
+                </Button>
               </div>
             ) : (
               <div className="space-y-2 max-h-[50vh] overflow-y-auto">
