@@ -2084,6 +2084,93 @@ export default function OperatorPanel() {
         </DialogContent>
       </Dialog>
 
+      {/* Voice Notes Dialog */}
+      <Dialog open={showVoiceNotes} onOpenChange={setShowVoiceNotes}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35] max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <Mic className="h-5 w-5 text-pink-400" />
+              Voice Notes
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
+            {/* Recording Controls */}
+            <div className="p-4 bg-[#1a1d24] rounded-lg border border-[#2a2d35] text-center">
+              {!isRecording ? (
+                <Button
+                  onClick={startVoiceNote}
+                  className="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3"
+                >
+                  <Mic className="mr-2 h-5 w-5" />
+                  Start Recording
+                </Button>
+              ) : (
+                <div className="space-y-3">
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                    <span className="text-red-400 font-semibold">Recording...</span>
+                  </div>
+                  <Button
+                    onClick={stopVoiceNote}
+                    className="bg-red-600 hover:bg-red-700 text-white px-6 py-3"
+                  >
+                    <MicOff className="mr-2 h-5 w-5" />
+                    Stop Recording
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {/* Voice Notes List */}
+            <div className="space-y-2 max-h-[40vh] overflow-y-auto">
+              {voiceNotes.length === 0 ? (
+                <div className="text-center py-8">
+                  <Mic className="h-12 w-12 text-gray-600 mx-auto mb-3" />
+                  <p className="text-gray-400">No voice notes yet</p>
+                  <p className="text-gray-500 text-sm mt-1">Tap "Start Recording" to add notes</p>
+                </div>
+              ) : (
+                voiceNotes.map((note, index) => (
+                  <div
+                    key={note.id}
+                    className="p-3 bg-[#1a1d24] rounded-lg border border-[#2a2d35] flex items-center gap-3"
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs text-gray-500">Note #{index + 1}</span>
+                        <span className="text-xs text-pink-400">Round {note.round}</span>
+                      </div>
+                      <div className="text-xs text-gray-400">
+                        {new Date(note.timestamp).toLocaleString()}
+                      </div>
+                      <audio
+                        controls
+                        src={note.audioUrl}
+                        className="w-full mt-2"
+                        style={{ height: '32px' }}
+                      />
+                    </div>
+                    <Button
+                      onClick={() => deleteVoiceNote(note.id)}
+                      className="h-8 px-2 bg-red-900/50 hover:bg-red-900 text-red-200 border border-red-700/30"
+                      title="Delete note"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <div className="p-3 bg-blue-900/20 border border-blue-700/30 rounded-lg">
+              <p className="text-xs text-blue-300">
+                <strong>Tip:</strong> Voice notes are stored locally in this browser session. Export backup to save them permanently.
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 }
