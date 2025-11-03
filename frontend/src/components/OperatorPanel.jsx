@@ -791,11 +791,27 @@ export default function OperatorPanel() {
       return;
     }
 
-    // Open position dialog if not running, stop if running
-    if (controlTimers[selectedFighter].isRunning) {
+    const fighter = selectedFighter;
+    const currentTime = controlTimers[fighter].time;
+    
+    if (controlTimers[fighter].isRunning) {
+      // Stop position
       await stopPosition();
     } else {
-      setShowPositionDialog(true);
+      // Start with default "Ground Control" position
+      const position = "Ground Control";
+      setControlTimers(prev => ({
+        ...prev,
+        [fighter]: {
+          ...prev[fighter],
+          isRunning: true,
+          startTime: Date.now() - (currentTime * 1000),
+          currentPosition: position,
+          positionHistory: [...prev[fighter].positionHistory]
+        }
+      }));
+      
+      toast.info(`${position} started for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
     }
   };
 
