@@ -545,6 +545,66 @@ export default function OperatorPanel() {
     }
   };
 
+  const startVoiceNote = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      audioChunksRef.current = [];
+
+      recorder.ondataavailable = (e) => {
+        audioChunksRef.current.push(e.data);
+      };
+
+      recorder.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const timestamp = new Date().toISOString();
+        
+        const newNote = {
+          id: Date.now(),
+          audioUrl,
+          audioBlob,
+          timestamp,
+          round: bout.currentRound,
+          duration: 0
+        };
+
+        setVoiceNotes(prev => [...prev, newNote]);
+        toast.success('Voice note saved');
+
+        // Stop all tracks
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      recorder.start();
+      setMediaRecorder(recorder);
+      setIsRecording(true);
+      toast.info('Recording voice note...');
+    } catch (error) {
+      console.error('Voice recording error:', error);
+      toast.error('Failed to start recording. Check microphone permissions.');
+    }
+  };
+
+  const stopVoiceNote = () => {
+    if (mediaRecorder && isRecording) {
+      mediaRecorder.stop();
+      setIsRecording(false);
+      setMediaRecorder(null);
+    }
+  };
+
+  const deleteVoiceNote = (id) => {
+    setVoiceNotes(prev => {
+      const note = prev.find(n => n.id === id);
+      if (note) {
+        URL.revokeObjectURL(note.audioUrl);
+      }
+      return prev.filter(n => n.id !== id);
+    });
+    toast.success('Voice note deleted');
+  };
+
   const togglePause = () => {
     if (isPaused) {
       // Resume
