@@ -627,6 +627,12 @@ export default function JudgePanel() {
               </div>
             </div>
             <div className="flex items-center gap-3">
+              {activeViewers > 0 && (
+                <Badge className="bg-blue-900/30 text-blue-400 border-blue-700/30 px-3 py-1">
+                  <Users className="w-3 h-3 mr-1" />
+                  {activeViewers} Active
+                </Badge>
+              )}
               <Button
                 onClick={handleExportScorecard}
                 className="h-10 px-4 bg-purple-600 hover:bg-purple-700 text-white"
