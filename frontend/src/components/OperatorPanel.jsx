@@ -664,6 +664,15 @@ export default function OperatorPanel() {
                   <Button
                     onClick={() => {
                       setSelectedFighter('fighter1');
+                      logEvent('Rocked');
+                    }}
+                    className="h-16 text-sm font-bold bg-gradient-to-br from-red-700 to-red-800 hover:opacity-90 text-white"
+                  >
+                    Rocked
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedFighter('fighter1');
                       setShowSubDialog(true);
                     }}
                     className="h-16 text-sm font-bold bg-gradient-to-br from-red-800 to-rose-900 hover:opacity-90 text-white"
