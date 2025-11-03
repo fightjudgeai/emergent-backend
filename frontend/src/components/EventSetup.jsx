@@ -54,6 +54,23 @@ export default function EventSetup() {
   };
 
   const createEvent = async () => {
+    // Check if checklist is completed
+    if (!checklistCompleted) {
+      toast.error('Please complete the Pre-Flight Checklist first');
+      // Auto-open checklist
+      const judgeProfile = localStorage.getItem('judgeProfile');
+      setChecklist({
+        eventName: !!eventName,
+        fighters: fights.every(f => f.fighter1 && f.fighter2),
+        rounds: fights.every(f => f.rounds),
+        judgeLogin: !!judgeProfile,
+        internetCheck: navigator.onLine,
+        equipmentReady: false
+      });
+      setShowChecklist(true);
+      return;
+    }
+
     // Validation
     if (!eventName.trim()) {
       toast.error('Please enter an event name');
