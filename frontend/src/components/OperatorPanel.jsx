@@ -810,18 +810,23 @@ export default function OperatorPanel() {
 
   const nextRound = async () => {
     if (bout.currentRound < bout.totalRounds) {
+      const newRound = bout.currentRound + 1;
+      
       // Stop any running timers
       setControlTimers({
-        fighter1: { time: 0, isRunning: false, startTime: null },
-        fighter2: { time: 0, isRunning: false, startTime: null }
+        fighter1: { time: 0, isRunning: false, startTime: null, currentPosition: null, positionHistory: [] },
+        fighter2: { time: 0, isRunning: false, startTime: null, currentPosition: null, positionHistory: [] }
       });
       
+      // Update in Firebase
       await db.collection('bouts').doc(boutId).update({
-        currentRound: bout.currentRound + 1
+        currentRound: newRound
       });
       
-      loadBout();
-      toast.success(`Moving to Round ${bout.currentRound + 1}`);
+      // Update local state immediately
+      setBout(prev => ({ ...prev, currentRound: newRound }));
+      
+      toast.success(`Moving to Round ${newRound}`);
     } else {
       toast.info('All rounds completed');
     }
@@ -829,18 +834,23 @@ export default function OperatorPanel() {
 
   const previousRound = async () => {
     if (bout.currentRound > 1) {
+      const newRound = bout.currentRound - 1;
+      
       // Stop any running timers
       setControlTimers({
-        fighter1: { time: 0, isRunning: false, startTime: null },
-        fighter2: { time: 0, isRunning: false, startTime: null }
+        fighter1: { time: 0, isRunning: false, startTime: null, currentPosition: null, positionHistory: [] },
+        fighter2: { time: 0, isRunning: false, startTime: null, currentPosition: null, positionHistory: [] }
       });
       
+      // Update in Firebase
       await db.collection('bouts').doc(boutId).update({
-        currentRound: bout.currentRound - 1
+        currentRound: newRound
       });
       
-      loadBout();
-      toast.success(`Back to Round ${bout.currentRound - 1}`);
+      // Update local state immediately
+      setBout(prev => ({ ...prev, currentRound: newRound }));
+      
+      toast.success(`Back to Round ${newRound}`);
     }
   };
 
