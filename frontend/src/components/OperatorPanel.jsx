@@ -700,6 +700,14 @@ export default function OperatorPanel() {
                 Undo Last
               </Button>
               <Button
+                onClick={() => setShowEventHistory(true)}
+                className="h-10 px-4 bg-purple-600 hover:bg-purple-700 text-white"
+                title={`View event history (${eventHistory.length} events)`}
+              >
+                <History className="mr-2 h-4 w-4" />
+                History ({eventHistory.length})
+              </Button>
+              <Button
                 onClick={togglePause}
                 className={`h-10 px-4 ${
                   isPaused 
