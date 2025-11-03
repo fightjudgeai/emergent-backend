@@ -889,6 +889,20 @@ export default function OperatorPanel() {
                   Online & Synced
                 </Badge>
               )}
+              {activeViewers > 0 && (
+                <Badge className="bg-blue-900/30 text-blue-400 border-blue-700/30 px-3 py-1">
+                  <Users className="w-3 h-3 mr-1" />
+                  {activeViewers} Active {activeViewers === 1 ? 'Viewer' : 'Viewers'}
+                </Badge>
+              )}
+              <Button
+                onClick={() => setShowQRCode(true)}
+                className="h-10 px-4 bg-indigo-600 hover:bg-indigo-700 text-white"
+                title="QR Code for Multi-Device Access"
+              >
+                <QrCode className="mr-2 h-4 w-4" />
+                QR Code
+              </Button>
               <Button
                 onClick={() => setShowKeyboardShortcuts(true)}
                 className="h-10 px-4 bg-gray-700 hover:bg-gray-600 text-white"
