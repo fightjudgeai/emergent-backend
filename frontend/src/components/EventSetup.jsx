@@ -423,8 +423,9 @@ export default function EventSetup() {
               {Object.values(checklist).every(v => v) && (
                 <Button
                   onClick={() => {
+                    setChecklistCompleted(true);
                     setShowChecklist(false);
-                    toast.success('Pre-flight checklist complete!');
+                    toast.success('Pre-flight checklist complete! You can now create the event.');
                   }}
                   className="flex-1 bg-green-600 hover:bg-green-700 text-white"
                 >
