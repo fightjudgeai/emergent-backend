@@ -444,6 +444,102 @@ export default function OperatorPanel() {
     }
   };
 
+  const exportBackup = async () => {
+    try {
+      // Fetch all bout data
+      const boutDoc = await db.collection('bouts').doc(boutId).get();
+      const boutData = boutDoc.data();
+
+      // Fetch all events for this bout
+      const eventsSnapshot = await db.collection('events')
+        .where('boutId', '==', boutId)
+        .get();
+      const eventsData = eventsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      // Create backup object
+      const backup = {
+        version: '1.0',
+        timestamp: new Date().toISOString(),
+        bout: {
+          id: boutId,
+          ...boutData
+        },
+        events: eventsData,
+        metadata: {
+          totalEvents: eventsData.length,
+          exportedBy: JSON.parse(localStorage.getItem('judgeProfile') || '{}').judgeId || 'unknown'
+        }
+      };
+
+      // Convert to JSON and download
+      const dataStr = JSON.stringify(backup, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `backup_${bout.fighter1}_vs_${bout.fighter2}_${Date.now()}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+
+      setLastBackupTime(new Date());
+      toast.success('Backup exported successfully');
+    } catch (error) {
+      console.error('Backup export error:', error);
+      toast.error('Failed to export backup');
+    }
+  };
+
+  const importBackup = async (file) => {
+    try {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const backup = JSON.parse(e.target.result);
+          
+          // Validate backup
+          if (!backup.version || !backup.bout || !backup.events) {
+            toast.error('Invalid backup file format');
+            return;
+          }
+
+          // Restore bout data
+          const { id, ...boutData } = backup.bout;
+          await db.collection('bouts').doc(boutId).update(boutData);
+
+          // Restore events
+          const batch = db.batch();
+          backup.events.forEach(event => {
+            const { id, ...eventData } = event;
+            const eventRef = db.collection('events').doc();
+            batch.set(eventRef, eventData);
+          });
+          await batch.commit();
+
+          toast.success(`Backup restored: ${backup.events.length} events imported`);
+          loadBout();
+          loadEventHistory();
+        } catch (parseError) {
+          console.error('Backup parse error:', parseError);
+          toast.error('Failed to parse backup file');
+        }
+      };
+      reader.readAsText(file);
+    } catch (error) {
+      console.error('Backup import error:', error);
+      toast.error('Failed to import backup');
+    }
+  };
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      importBackup(file);
+    }
+  };
+
   const togglePause = () => {
     if (isPaused) {
       // Resume
