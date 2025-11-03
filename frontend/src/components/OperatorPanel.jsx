@@ -1001,24 +1001,24 @@ export default function OperatorPanel() {
       )}
       
       {/* Header */}
-      <div className="max-w-7xl mx-auto mb-6">
-        <Card className="bg-[#13151a] border-[#2a2d35] p-6">
+      <div className="max-w-7xl mx-auto mb-4">
+        <Card className="bg-[#13151a] border-[#2a2d35] p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Button
                 data-testid="back-to-fights-btn"
                 onClick={goBackToFightList}
-                className="h-10 px-4 bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35]"
+                className="h-9 px-3 bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35] text-sm"
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Fights
+                <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
+                Back
               </Button>
               <div>
-                <h1 className="text-3xl font-bold text-amber-500">Operator Panel</h1>
-                <p className="text-gray-400 mt-1">{bout.fighter1} vs {bout.fighter2}</p>
+                <h1 className="text-2xl font-bold text-amber-500">Operator Panel</h1>
+                <p className="text-gray-400 text-sm">{bout.fighter1} vs {bout.fighter2}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               {/* Offline Status */}
               {!syncStatus.isOnline && (
                 <div className="flex items-center gap-2">
