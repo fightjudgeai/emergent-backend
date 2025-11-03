@@ -393,6 +393,44 @@ class ScoringEngine:
                 if meta.get("on_ground"):
                     ground_iss_impacts.append(impact)
             
+            elif etype == "POSITION_START":
+                ctrl_start_time = event.timestamp
+                # Store position info for later scoring
+                current_position = meta.get("position", "mount")
+            
+            elif etype == "POSITION_CHANGE":
+                # Position change - continue timer, update position
+                current_position = meta.get("to", "mount")
+            
+            elif etype == "POSITION_STOP":
+                if ctrl_start_time is not None:
+                    duration = meta.get("duration", 0)
+                    position = meta.get("position", current_position if 'current_position' in locals() else "mount")
+                    
+                    # Position-based scoring weights
+                    position_weights = {
+                        "mount": 1.5,           # Highest - full control, strike capability
+                        "back-control": 1.5,    # Highest - finish threat
+                        "side-control": 1.2,    # Strong control
+                        "half-guard": 0.8,      # Moderate control
+                        "closed-guard": 0.6,    # Limited control
+                        "open-guard": 0.5,      # Minimal control
+                        "standing": 0.7         # Clinch control
+                    }
+                    
+                    weight = position_weights.get(position, 1.0)
+                    weighted_duration = duration * weight
+                    
+                    # Dominant positions get full credit
+                    if position in ["mount", "back-control", "side-control"]:
+                        ctrl_dom_seconds += weighted_duration
+                    else:
+                        # Other positions get partial credit
+                        ctrl_dom_seconds += weighted_duration * 0.6
+                    
+                    ctrl_start_time = None
+            
+            # Legacy CTRL_START/CTRL_STOP support (for backwards compatibility)
             elif etype == "CTRL_START":
                 ctrl_start_time = event.timestamp
             
