@@ -1204,6 +1204,17 @@ export default function OperatorPanel() {
         
         <Card className="bg-gradient-to-r from-[#1a1d24] to-[#13151a] border-[#2a2d35] p-4">
           <div className="text-center space-y-4">
+            {/* Judge Panel Button - Prominent */}
+            <div className="mb-4">
+              <Button
+                onClick={() => window.open(`/judge/${boutId}`, '_blank')}
+                className="w-full h-12 text-base font-bold bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg border-2 border-amber-400"
+              >
+                <Eye className="mr-2 h-5 w-5" />
+                Open Judge Panel (View Scores)
+              </Button>
+            </div>
+
             {/* Round Navigation + Split-Screen Toggle */}
             <div className="flex items-center justify-center gap-3">
               <Button
