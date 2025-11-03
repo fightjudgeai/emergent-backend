@@ -1048,6 +1048,14 @@ export default function OperatorPanel() {
                 )}
               </Button>
               <Button
+                onClick={() => setShowBackupDialog(true)}
+                className="h-10 px-4 bg-cyan-600 hover:bg-cyan-700 text-white"
+                title="Backup & Restore"
+              >
+                <Save className="mr-2 h-4 w-4" />
+                Backup
+              </Button>
+              <Button
                 data-testid="next-fight-btn"
                 onClick={goToNextFight}
                 className="h-10 px-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
