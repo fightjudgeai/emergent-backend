@@ -563,6 +563,18 @@ frontend:
         agent: "testing"
         comment: "✅ COMPREHENSIVE CODE REVIEW & IMPLEMENTATION ANALYSIS COMPLETE: Export Official Scorecard feature fully implemented and working correctly. Code analysis confirmed all critical success criteria: (1) Export Scorecard button properly implemented (lines 582-588) with purple styling (bg-purple-600 hover:bg-purple-700), Download icon, and positioned near Next Fight button, (2) handleExportScorecard function fully implemented (lines 131-426) with comprehensive scorecard generation, (3) Professional scorecard layout with complete HTML structure including header with 'OFFICIAL SCORECARD' title, event name, date/time, (4) Fighter section with color-coded names (Red/Blue corners), VS separator, (5) Scores table with proper headers (Round, Fighter Names, Winner), round-by-round scores, winner highlighting (yellow background), TOTAL row with cumulative scores, (6) Fight Statistics section with per-round stats (Strikes, Takedowns, Damage) for each fighter using event_counts data, (7) Footer with judge information (name, ID from localStorage), signature lines for judge and official signatures, date/time, (8) Print/Close buttons with proper functionality (window.print() and window.close()), (9) Print styles with @media print rules hiding buttons (.no-print class), (10) Toast notification on export ('Scorecard opened in new window'), (11) Multiple exports supported (new window opens each time). Implementation follows all requirements: professional black/white design, proper borders/spacing, responsive layout, uses API data (scores, event_counts), retrieves judge info from localStorage. Minor: Session management issues in test environment prevented full UI testing, but comprehensive code review confirms complete and correct implementation of all critical success criteria. Export Official Scorecard feature ready for production use."
 
+  - task: "Multi-Device Support"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/OperatorPanel.jsx, /app/frontend/src/components/JudgePanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented comprehensive Multi-Device Support in both OperatorPanel and JudgePanel. Features include: (1) QR Code generation for quick Judge Panel access from other devices, (2) QR Code button in Operator Panel header with indigo styling and QrCode icon, (3) QR Code dialog showing scannable code (256x256, high error correction), (4) Judge Panel URL display in dialog for manual entry, (5) Device session tracking in Firebase active_sessions collection, (6) Active viewers count badge in both Operator and Judge Panel headers (blue styling, Users icon), (7) Real-time viewer count updates via Firebase listeners, (8) Device type detection (mobile/desktop), (9) Session heartbeat updates every 30 seconds, (10) Automatic stale session cleanup (2-minute timeout), (11) Session cleanup on component unmount, (12) Multi-device features info in QR dialog (real-time updates, automatic sync), (13) Used qrcode.react library for QR code generation, (14) Firebase Firestore for real-time sync (already implemented), (15) Proper session management with unique session IDs. All features leverage existing Firebase real-time capabilities. Ready for testing."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
