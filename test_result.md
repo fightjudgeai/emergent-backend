@@ -118,8 +118,15 @@ user_problem_statement: |
   Additional Features:
   - Judge Profile Management System ✅
   - Owner-restricted audit log access ✅
+  - Detailed Scoring Enhancements (Event Counts, Split-Screen layouts, Strike rename, 10-8 threshold updates, Strength Score scaling) ✅
+  - Rocked event button ✅
+  - Grappling position tracking ✅
+  - Event timestamps ✅
+  - YouTube Live video integration (PIP) ✅
+  - Undo Last Event button ✅
+  - Medical Timeout / Pause button ✅
   
-  Currently completing: Judge Profile Management testing
+  Currently completing: Medical Timeout/Pause feature testing
 
 backend:
   - task: "Shadow Judging API - Seed Training Library"
