@@ -553,6 +553,15 @@ export default function OperatorPanel() {
                 </Badge>
               )}
               <Button
+                onClick={undoLastEvent}
+                disabled={!lastEvent}
+                className="h-10 px-4 bg-orange-600 hover:bg-orange-700 disabled:opacity-30 disabled:cursor-not-allowed text-white"
+                title={lastEvent ? `Undo: ${lastEvent.eventData.event_type}` : 'No event to undo'}
+              >
+                <Undo2 className="mr-2 h-4 w-4" />
+                Undo Last
+              </Button>
+              <Button
                 data-testid="next-fight-btn"
                 onClick={goToNextFight}
                 className="h-10 px-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
