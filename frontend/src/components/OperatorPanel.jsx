@@ -540,7 +540,25 @@ export default function OperatorPanel() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0b] p-4">
+    <div className="min-h-screen bg-[#0a0a0b] p-4 relative">
+      {/* PAUSED Banner Overlay */}
+      {isPaused && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center backdrop-blur-sm">
+          <div className="text-center animate-pulse">
+            <div className="text-8xl font-bold text-red-500 mb-4">⏸️ PAUSED</div>
+            <div className="text-2xl text-white mb-6">Medical Timeout / Doctor Stoppage</div>
+            <div className="text-lg text-gray-400">All timers frozen</div>
+            <Button
+              onClick={togglePause}
+              className="mt-8 h-16 px-8 bg-green-600 hover:bg-green-700 text-white text-xl font-bold"
+            >
+              <PlayCircle className="mr-3 h-8 w-8" />
+              RESUME FIGHT
+            </Button>
+          </div>
+        </div>
+      )}
+      
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-6">
         <Card className="bg-[#13151a] border-[#2a2d35] p-6">
