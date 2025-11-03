@@ -1509,18 +1509,6 @@ export default function OperatorPanel() {
                       <><Play className="mr-2 h-4 w-4" />Start</>
                     )}
                   </Button>
-                  {controlTimers.fighter2.isRunning && (
-                    <Button
-                      onClick={() => {
-                        setSelectedFighter('fighter2');
-                        setShowPositionDialog(true);
-                      }}
-                      disabled={isPaused}
-                      className="bg-amber-600 hover:bg-amber-700 text-white px-3 disabled:opacity-30 disabled:cursor-not-allowed"
-                    >
-                      Change
-                    </Button>
-                  )}
                 </div>
               </div>
               
