@@ -1947,6 +1947,70 @@ export default function OperatorPanel() {
         </DialogContent>
       </Dialog>
 
+      {/* Backup & Restore Dialog */}
+      <Dialog open={showBackupDialog} onOpenChange={setShowBackupDialog}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35] max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <Save className="h-5 w-5 text-cyan-400" />
+              Backup & Restore
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
+            <div className="space-y-3">
+              <div className="p-4 bg-[#1a1d24] rounded-lg border border-[#2a2d35]">
+                <h3 className="text-sm font-semibold text-gray-300 mb-2">Export Backup</h3>
+                <p className="text-xs text-gray-400 mb-3">
+                  Download all bout data, events, and scores as a JSON file for safekeeping.
+                </p>
+                <Button
+                  onClick={exportBackup}
+                  className="w-full bg-cyan-600 hover:bg-cyan-700 text-white"
+                >
+                  <Save className="mr-2 h-4 w-4" />
+                  Export Backup
+                </Button>
+                {lastBackupTime && (
+                  <p className="text-xs text-green-400 mt-2">
+                    Last backup: {lastBackupTime.toLocaleString()}
+                  </p>
+                )}
+              </div>
+
+              <div className="p-4 bg-[#1a1d24] rounded-lg border border-[#2a2d35]">
+                <h3 className="text-sm font-semibold text-gray-300 mb-2">Import/Restore Backup</h3>
+                <p className="text-xs text-gray-400 mb-3">
+                  Restore bout data from a previously exported backup file.
+                </p>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".json"
+                  onChange={handleFileSelect}
+                  className="hidden"
+                />
+                <Button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full bg-orange-600 hover:bg-orange-700 text-white"
+                >
+                  <Upload className="mr-2 h-4 w-4" />
+                  Import Backup
+                </Button>
+                <p className="text-xs text-amber-400 mt-2">
+                  ⚠️ This will overwrite current data
+                </p>
+              </div>
+            </div>
+
+            <div className="p-3 bg-blue-900/20 border border-blue-700/30 rounded-lg">
+              <p className="text-xs text-blue-300">
+                <strong>Tip:</strong> Export backups regularly to prevent data loss. Backups include all events, scores, and bout settings.
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 }
