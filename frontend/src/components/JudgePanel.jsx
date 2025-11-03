@@ -229,6 +229,12 @@ export default function JudgePanel() {
 
     if (positionEvents.length === 0) return null;
 
+    const formatTimestamp = (timestamp) => {
+      const minutes = Math.floor(timestamp / 60);
+      const seconds = Math.floor(timestamp % 60);
+      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    };
+
     return (
       <div className="mt-3 pt-3 border-t border-gray-700">
         <div className="text-xs text-gray-400 uppercase tracking-wide mb-2">Position History</div>
@@ -236,6 +242,7 @@ export default function JudgePanel() {
           {positionEvents.map((event, idx) => (
             <div key={idx} className="text-xs text-gray-500 flex items-center gap-2">
               <span className="text-amber-500">•</span>
+              <span className="text-gray-600 font-mono">{formatTimestamp(event.timestamp || 0)}</span>
               <span>
                 {event.eventType === 'POSITION_START' && `Started in ${event.metadata?.position}`}
                 {event.eventType === 'POSITION_CHANGE' && `${event.metadata?.from} → ${event.metadata?.to}`}
