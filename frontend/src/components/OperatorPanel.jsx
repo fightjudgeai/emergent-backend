@@ -44,6 +44,7 @@ export default function OperatorPanel() {
   const [isRecording, setIsRecording] = useState(false);
   const [voiceNotes, setVoiceNotes] = useState([]);
   const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [showVideo, setShowVideo] = useState(true);
   const timerRef = useRef(null);
   const fileInputRef = useRef(null);
   const audioChunksRef = useRef([]);
