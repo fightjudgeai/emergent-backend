@@ -19,6 +19,11 @@ export default function OperatorPanel() {
   const [bout, setBout] = useState(null);
   const [selectedFighter, setSelectedFighter] = useState('fighter1');
   const [splitScreenMode, setSplitScreenMode] = useState(false);
+  const [inputMode, setInputMode] = useState('manual'); // 'manual' or 'stats'
+  const [directStats, setDirectStats] = useState({
+    fighter1: { strikes: 0, takedowns: 0, knockdowns: 0, submissions: 0, controlTime: 0 },
+    fighter2: { strikes: 0, takedowns: 0, knockdowns: 0, submissions: 0, controlTime: 0 }
+  });
   const [controlTimers, setControlTimers] = useState({
     fighter1: { time: 0, isRunning: false, startTime: null, currentPosition: null, positionHistory: [] },
     fighter2: { time: 0, isRunning: false, startTime: null, currentPosition: null, positionHistory: [] }
