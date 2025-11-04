@@ -896,6 +896,32 @@ export default function OperatorPanel() {
     }
   };
 
+  const submitDirectStats = async () => {
+    try {
+      const currentRoundStats = {
+        fighter1: directStats.fighter1,
+        fighter2: directStats.fighter2
+      };
+
+      // Save to Firebase for the current round
+      await db.collection('bouts').doc(boutId).update({
+        [`directStats.round${bout.currentRound}`]: currentRoundStats
+      });
+
+      toast.success(`Stats submitted for Round ${bout.currentRound}`);
+    } catch (error) {
+      console.error('Error submitting direct stats:', error);
+      toast.error('Failed to submit stats');
+    }
+  };
+
+  const resetDirectStats = () => {
+    setDirectStats({
+      fighter1: { strikes: 0, takedowns: 0, knockdowns: 0, submissions: 0, controlTime: 0 },
+      fighter2: { strikes: 0, takedowns: 0, knockdowns: 0, submissions: 0, controlTime: 0 }
+    });
+  };
+
   const goBackToFightList = async () => {
     if (bout?.eventId) {
       // Mark fight as completed if on last round
