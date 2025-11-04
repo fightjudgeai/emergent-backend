@@ -1835,6 +1835,7 @@ export default function OperatorPanel() {
           </Card>
         </div>
       </div>
+      )}
       ) : (
         /* Traditional Mode: Fighter Selection + Shared Event Buttons */
         <>
