@@ -1299,9 +1299,201 @@ export default function OperatorPanel() {
                   {splitScreenMode ? 'Split ON' : 'Split OFF'}
                 </Button>
               </div>
+
+              <div className="ml-3">
+                <Button
+                  onClick={() => {
+                    setInputMode(inputMode === 'manual' ? 'stats' : 'manual');
+                    toast.info(inputMode === 'manual' ? 'Switched to Direct Stats Input' : 'Switched to Manual Event Tracking');
+                  }}
+                  className={`h-9 px-3 text-sm ${
+                    inputMode === 'stats'
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'bg-[#1a1d24] hover:bg-[#22252d] text-gray-300 border border-[#2a2d35]'
+                  }`}
+                >
+                  {inputMode === 'manual' ? (
+                    <><Hand className="mr-1.5 h-3.5 w-3.5" />Manual</>
+                  ) : (
+                    <><Calculator className="mr-1.5 h-3.5 w-3.5" />Stats</>
+                  )}
+                </Button>
+              </div>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-4">
+            {/* Direct Stats Input Mode */}
+            {inputMode === 'stats' ? (
+              <div className="space-y-4 mt-4">
+                <div className="p-4 bg-green-900/20 border border-green-700/30 rounded-lg">
+                  <h3 className="text-green-400 font-semibold mb-2 text-center">Direct Stats Input Mode</h3>
+                  <p className="text-xs text-green-300 text-center">Enter numbers directly for each fighter</p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  {/* RED CORNER */}
+                  <div className="p-4 bg-red-950/30 border-2 border-red-600 rounded-xl">
+                    <h4 className="text-red-400 font-bold text-center mb-3">{bout.fighter1} (RED)</h4>
+                    <div className="space-y-2">
+                      <div>
+                        <Label className="text-xs text-gray-400">Strikes</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          value={directStats.fighter1.strikes}
+                          onChange={(e) => setDirectStats({
+                            ...directStats,
+                            fighter1: { ...directStats.fighter1, strikes: parseInt(e.target.value) || 0 }
+                          })}
+                          className="bg-[#1a1d24] border-[#2a2d35] text-white h-9"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-400">Takedowns</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          value={directStats.fighter1.takedowns}
+                          onChange={(e) => setDirectStats({
+                            ...directStats,
+                            fighter1: { ...directStats.fighter1, takedowns: parseInt(e.target.value) || 0 }
+                          })}
+                          className="bg-[#1a1d24] border-[#2a2d35] text-white h-9"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-400">Knockdowns</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          value={directStats.fighter1.knockdowns}
+                          onChange={(e) => setDirectStats({
+                            ...directStats,
+                            fighter1: { ...directStats.fighter1, knockdowns: parseInt(e.target.value) || 0 }
+                          })}
+                          className="bg-[#1a1d24] border-[#2a2d35] text-white h-9"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-400">Sub Attempts</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          value={directStats.fighter1.submissions}
+                          onChange={(e) => setDirectStats({
+                            ...directStats,
+                            fighter1: { ...directStats.fighter1, submissions: parseInt(e.target.value) || 0 }
+                          })}
+                          className="bg-[#1a1d24] border-[#2a2d35] text-white h-9"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-400">Control Time (seconds)</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          value={directStats.fighter1.controlTime}
+                          onChange={(e) => setDirectStats({
+                            ...directStats,
+                            fighter1: { ...directStats.fighter1, controlTime: parseInt(e.target.value) || 0 }
+                          })}
+                          className="bg-[#1a1d24] border-[#2a2d35] text-white h-9"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* BLUE CORNER */}
+                  <div className="p-4 bg-blue-950/30 border-2 border-blue-600 rounded-xl">
+                    <h4 className="text-blue-400 font-bold text-center mb-3">{bout.fighter2} (BLUE)</h4>
+                    <div className="space-y-2">
+                      <div>
+                        <Label className="text-xs text-gray-400">Strikes</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          value={directStats.fighter2.strikes}
+                          onChange={(e) => setDirectStats({
+                            ...directStats,
+                            fighter2: { ...directStats.fighter2, strikes: parseInt(e.target.value) || 0 }
+                          })}
+                          className="bg-[#1a1d24] border-[#2a2d35] text-white h-9"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-400">Takedowns</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          value={directStats.fighter2.takedowns}
+                          onChange={(e) => setDirectStats({
+                            ...directStats,
+                            fighter2: { ...directStats.fighter2, takedowns: parseInt(e.target.value) || 0 }
+                          })}
+                          className="bg-[#1a1d24] border-[#2a2d35] text-white h-9"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-400">Knockdowns</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          value={directStats.fighter2.knockdowns}
+                          onChange={(e) => setDirectStats({
+                            ...directStats,
+                            fighter2: { ...directStats.fighter2, knockdowns: parseInt(e.target.value) || 0 }
+                          })}
+                          className="bg-[#1a1d24] border-[#2a2d35] text-white h-9"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-400">Sub Attempts</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          value={directStats.fighter2.submissions}
+                          onChange={(e) => setDirectStats({
+                            ...directStats,
+                            fighter2: { ...directStats.fighter2, submissions: parseInt(e.target.value) || 0 }
+                          })}
+                          className="bg-[#1a1d24] border-[#2a2d35] text-white h-9"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-400">Control Time (seconds)</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          value={directStats.fighter2.controlTime}
+                          onChange={(e) => setDirectStats({
+                            ...directStats,
+                            fighter2: { ...directStats.fighter2, controlTime: parseInt(e.target.value) || 0 }
+                          })}
+                          className="bg-[#1a1d24] border-[#2a2d35] text-white h-9"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 mt-4">
+                  <Button
+                    onClick={submitDirectStats}
+                    className="flex-1 h-11 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold"
+                  >
+                    <Calculator className="mr-2 h-4 w-4" />
+                    Submit Stats for Round {bout.currentRound}
+                  </Button>
+                  <Button
+                    onClick={resetDirectStats}
+                    className="h-11 px-4 bg-red-600 hover:bg-red-700 text-white"
+                  >
+                    Reset
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              // Manual Event Tracking Mode (existing UI)
+              <div className="grid md:grid-cols-2 gap-4">
               {/* Fighter 1 Control Timer */}
               <div className={`p-4 rounded-xl border-2 transition-all ${
                 selectedFighter === 'fighter1' 
