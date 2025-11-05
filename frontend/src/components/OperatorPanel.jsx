@@ -1501,6 +1501,7 @@ export default function OperatorPanel() {
               </div>
             ) : (
               // Manual Event Tracking Mode (existing UI)
+              <>
               <div className="grid md:grid-cols-2 gap-4">
               {/* Fighter 1 Control Timer */}
               <div className={`p-4 rounded-xl border-2 transition-all ${
@@ -1553,6 +1554,7 @@ export default function OperatorPanel() {
             </div>
           </div>
         </div>
+        </>
       )}
 
       {/* Traditional Mode Fighter Selection */}
