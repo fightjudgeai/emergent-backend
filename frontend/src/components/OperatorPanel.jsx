@@ -178,7 +178,16 @@ export default function OperatorPanel() {
       }
     }
 
-    toast.success(`Logged ${Object.values(quickStats).reduce((a, b) => a + b, 0)} events via Quick Stats`);
+    // Log control time if specified (in seconds)
+    if (quickStats.controlTime > 0) {
+      await logEvent('CTRL_START', { source: 'quick-input', duration: quickStats.controlTime });
+      await logEvent('CTRL_STOP', { source: 'quick-input', totalDuration: quickStats.controlTime });
+    }
+
+    const totalEvents = Object.entries(quickStats).reduce((sum, [key, val]) => {
+      return key === 'controlTime' ? sum : sum + val;
+    }, 0);
+    toast.success(`Logged ${totalEvents} events + ${quickStats.controlTime}s control time via Quick Stats`);
     
     // Reset and close
     setQuickStats({
@@ -188,7 +197,8 @@ export default function OperatorPanel() {
       issLeg: 0,
       takedown: 0,
       pass: 0,
-      reversal: 0
+      reversal: 0,
+      controlTime: 0
     });
     setShowQuickStatsDialog(false);
   };
