@@ -24,13 +24,18 @@ export default function JudgeLogin() {
       return;
     }
 
+    // Use custom organization if "Custom" is selected and custom name is provided
+    const finalOrganization = organization === 'Custom' 
+      ? (customOrganization.trim() || 'Independent')
+      : organization;
+
     setLoading(true);
     
     // Store in localStorage
     localStorage.setItem('judgeProfile', JSON.stringify({
       judgeId: judgeId.trim(),
       judgeName: judgeName.trim(),
-      organization
+      organization: finalOrganization
     }));
 
     toast.success(`Welcome, ${judgeName}!`);
