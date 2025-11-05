@@ -414,6 +414,41 @@ export default function OperatorPanel() {
         </div>
       </div>
 
+      {/* KD Dialog */}
+      <Dialog open={showKdDialog} onOpenChange={setShowKdDialog}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35]">
+          <DialogHeader>
+            <DialogTitle className="text-white">Knockdown</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label className="text-gray-300">KD Tier</Label>
+              <Select value={kdTier} onValueChange={setKdTier}>
+                <SelectTrigger className="bg-[#1a1d24] border-[#2a2d35] text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
+                  <SelectItem value="Flash">Flash KD</SelectItem>
+                  <SelectItem value="Hard">Hard KD</SelectItem>
+                  <SelectItem value="Near-Finish">Near-Finish KD</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Button
+              data-testid="submit-kd-btn"
+              onClick={handleKnockdown}
+              className={`w-full bg-gradient-to-r ${
+                selectedFighter === 'fighter1'
+                  ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
+                  : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+              } text-white font-bold`}
+            >
+              Log Knockdown
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 }
