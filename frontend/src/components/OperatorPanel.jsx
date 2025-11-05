@@ -1952,7 +1952,6 @@ export default function OperatorPanel() {
           </div>
         </>
       )}
-      )}
 
       {/* Dialogs for KD and Submission (shared between both modes) */}
       <Dialog open={showKdDialog} onOpenChange={setShowKdDialog}>
