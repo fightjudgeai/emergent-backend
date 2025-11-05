@@ -157,6 +157,40 @@ export default function OperatorPanel() {
     setKdTier('Flash');
   };
 
+  const handleQuickStats = async () => {
+    // Log each stat type based on the count entered
+    const statMap = {
+      kd: 'KD',
+      issHead: 'ISS Head',
+      issBody: 'ISS Body',
+      issLeg: 'ISS Leg',
+      takedown: 'Takedown',
+      pass: 'Pass',
+      reversal: 'Reversal'
+    };
+
+    for (const [key, eventType] of Object.entries(statMap)) {
+      const count = quickStats[key];
+      for (let i = 0; i < count; i++) {
+        await logEvent(eventType, { source: 'quick-input' });
+      }
+    }
+
+    toast.success(`Logged ${Object.values(quickStats).reduce((a, b) => a + b, 0)} events via Quick Stats`);
+    
+    // Reset and close
+    setQuickStats({
+      kd: 0,
+      issHead: 0,
+      issBody: 0,
+      issLeg: 0,
+      takedown: 0,
+      pass: 0,
+      reversal: 0
+    });
+    setShowQuickStatsDialog(false);
+  };
+
   const nextRound = async () => {
     if (bout.currentRound < bout.totalRounds) {
       // Stop any running timers
