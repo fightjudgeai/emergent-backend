@@ -1551,9 +1551,10 @@ export default function OperatorPanel() {
                 )}
               </Button>
             </div>
+          )}
           </div>
-        </div>
-      )}
+        </Card>
+      </div>
 
       {/* Traditional Mode Fighter Selection */}
       <div className="max-w-7xl mx-auto mb-6">
