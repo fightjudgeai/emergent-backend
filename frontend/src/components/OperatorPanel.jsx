@@ -32,7 +32,8 @@ export default function OperatorPanel() {
     issLeg: 0,
     takedown: 0,
     pass: 0,
-    reversal: 0
+    reversal: 0,
+    controlTime: 0
   });
   const timerRef = useRef(null);
 
