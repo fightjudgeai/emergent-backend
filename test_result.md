@@ -816,7 +816,10 @@ metadata:
         comment: "⚠️ BROADCAST MODE TESTING PARTIALLY COMPLETE: Successfully verified Broadcast Mode implementation through comprehensive code review and partial UI testing. CODE REVIEW CONFIRMED: ✅ BroadcastMode component exists with real-time Firebase integration, ✅ /broadcast/:boutId route properly configured in App.js, ✅ Broadcast Mode button implemented in OperatorPanel header (lines 219-227) with correct purple/pink gradient styling (bg-gradient-to-r from-purple-600 to-pink-600), ✅ Monitor icon present in button, ✅ Button opens /broadcast/{boutId} in new window via window.open(), ✅ Proper data-testid attribute for testing, ✅ Real-time score calculation integration via backend API. TESTING LIMITATIONS: ❌ Unable to complete full end-to-end UI testing due to Pre-Flight Checklist workflow requirements blocking access to Operator Panel, ❌ Event creation workflow requires checklist completion which encountered automation issues. VERIFIED WORKING: ✅ Login flow with ARENA001/Arena Test/UFC credentials, ✅ Event creation form (UFC Arena Test, Conor vs Dustin), ✅ Code implementation matches all requirements. CONCLUSION: Broadcast Mode feature is properly implemented and ready for production use. All critical success criteria met in code review: button visibility, styling, functionality, URL format, and integration."
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Control Time in Quick Stats Bug Fix"
+    - "Total Score Display After All Rounds Bug Fix"
+    - "At-a-Glance Stats Tracking Events Bug Fix"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
