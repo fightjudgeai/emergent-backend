@@ -623,6 +623,42 @@ backend:
         agent: "testing"
         comment: "✅ TESTED: Responsive design working correctly. Tested mobile viewport (390x844) and desktop viewport (1920x1080). Navigation buttons remain accessible on mobile view, layout adapts properly to different screen sizes. Mobile-first design principles implemented correctly."
 
+  - task: "Control Time in Quick Stats Bug Fix"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/OperatorPanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Control Time input field exists as 8th field in Quick Stats dialog (lines 607-617). Field accepts seconds input with placeholder 'e.g., 120 for 2 min'. handleQuickStats function properly logs control time with CTRL_START/CTRL_STOP events (lines 182-185). Toast message includes control time duration in success notification. Bug fix working correctly."
+
+  - task: "Total Score Display After All Rounds Bug Fix"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/JudgePanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Final Score card displays when bout.currentRound >= bout.totalRounds (lines 1078-1142). Shows 'Final Score After X Rounds' header with correct round count. Displays total cumulative scores for both fighters using large 6xl font. Declares winner or draw based on total scores. Card appears ONLY when all rounds are completed. Bug fix working correctly."
+
+  - task: "At-a-Glance Stats Tracking Events Bug Fix"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/JudgePanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: At-a-Glance Fight Statistics section displays above round scores (lines 660-757). Shows 4 stat categories: Total Strikes, Takedowns, Damage Events, Sub Attempts. Uses event_counts data from calculate-score API to display actual numbers. Split Red/Blue layout with color-coded stats. Real-time updates as events are logged. Bug fix working correctly."
+
   - task: "Medical Timeout / Pause Button"
     implemented: true
     working: true
