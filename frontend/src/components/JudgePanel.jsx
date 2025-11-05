@@ -406,8 +406,8 @@ export default function JudgePanel() {
     for (let i = 1; i <= bout.totalRounds; i++) {
       const roundScore = scores[i];
       if (roundScore) {
-        const f1Counts = roundScore.fighter1_event_counts || {};
-        const f2Counts = roundScore.fighter2_event_counts || {};
+        const f1Counts = roundScore.fighter1_score?.event_counts || {};
+        const f2Counts = roundScore.fighter2_score?.event_counts || {};
         
         html += `
           <div class="stat-item" style="grid-column: span 2;">
