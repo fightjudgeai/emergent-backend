@@ -788,6 +788,10 @@ test_plan:
     - "Event Logging Speed Bug Fix"
     - "YouTube Video Positioning Bug Fix"
     - "Judge Panel Round Variable Error Fix"
+  new_features_tested:
+    - "Custom Organization Name Feature"
+    - "KD Tiers Dropdown Feature" 
+    - "Quick Stats Input Feature"
 
 agent_communication:
   - agent: "main"
