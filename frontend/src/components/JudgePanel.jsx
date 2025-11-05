@@ -1036,7 +1036,7 @@ export default function JudgePanel() {
                   <Card className="bg-[#1a1d24] border-[#2a2d35] p-4 mt-6">
                     <div className="text-sm text-gray-400 uppercase tracking-wide mb-3">Round Event Log</div>
                     <div className="space-y-2 max-h-60 overflow-y-auto">
-                      {events.filter(e => e.round === round).map((event, idx) => {
+                      {events.filter(e => e.round === roundNum).map((event, idx) => {
                         const formatTimestamp = (timestamp) => {
                           const minutes = Math.floor(timestamp / 60);
                           const seconds = Math.floor(timestamp % 60);
