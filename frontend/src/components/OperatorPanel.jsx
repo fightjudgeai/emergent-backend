@@ -503,6 +503,121 @@ export default function OperatorPanel() {
         </DialogContent>
       </Dialog>
 
+      {/* Quick Stats Input Dialog */}
+      <Dialog open={showQuickStatsDialog} onOpenChange={setShowQuickStatsDialog}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35] max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <Zap className="h-5 w-5 text-green-500" />
+              Quick Stats Input for {selectedFighter === 'fighter1' ? bout?.fighter1 : bout?.fighter2}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-sm text-gray-400 mb-4">Enter the total count for each event type to log them all at once:</p>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-gray-300">Knockdowns</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quickStats.kd}
+                  onChange={(e) => setQuickStats({...quickStats, kd: parseInt(e.target.value) || 0})}
+                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label className="text-gray-300">ISS Head</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quickStats.issHead}
+                  onChange={(e) => setQuickStats({...quickStats, issHead: parseInt(e.target.value) || 0})}
+                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-gray-300">ISS Body</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quickStats.issBody}
+                  onChange={(e) => setQuickStats({...quickStats, issBody: parseInt(e.target.value) || 0})}
+                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-gray-300">ISS Leg</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quickStats.issLeg}
+                  onChange={(e) => setQuickStats({...quickStats, issLeg: parseInt(e.target.value) || 0})}
+                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-gray-300">Takedowns</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quickStats.takedown}
+                  onChange={(e) => setQuickStats({...quickStats, takedown: parseInt(e.target.value) || 0})}
+                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-gray-300">Passes</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quickStats.pass}
+                  onChange={(e) => setQuickStats({...quickStats, pass: parseInt(e.target.value) || 0})}
+                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-gray-300">Reversals</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quickStats.reversal}
+                  onChange={(e) => setQuickStats({...quickStats, reversal: parseInt(e.target.value) || 0})}
+                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                />
+              </div>
+            </div>
+
+            <div className="pt-4 flex gap-3">
+              <Button
+                onClick={() => setShowQuickStatsDialog(false)}
+                variant="outline"
+                className="flex-1 bg-[#1a1d24] border-[#2a2d35] text-gray-300 hover:bg-[#22252d]"
+              >
+                Cancel
+              </Button>
+              <Button
+                data-testid="submit-quick-stats-btn"
+                onClick={handleQuickStats}
+                className={`flex-1 bg-gradient-to-r ${
+                  selectedFighter === 'fighter1'
+                    ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
+                    : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+                } text-white font-bold`}
+              >
+                Log All Stats ({Object.values(quickStats).reduce((a, b) => a + b, 0)} events)
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 }
