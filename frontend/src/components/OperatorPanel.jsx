@@ -1553,13 +1553,16 @@ export default function OperatorPanel() {
               </Button>
             </div>
           </div>
-        </Card>
-      </div>
+        </div>
       </>
       )}
 
-      {/* Conditional: Split-Screen or Traditional Mode */}
-      {splitScreenMode ? (
+      {/* Traditional Mode Fighter Selection */}
+      <div className="max-w-7xl mx-auto mb-6">
+        <Card className="bg-gradient-to-r from-[#1a1d24] to-[#13151a] border-[#2a2d35] p-8">
+          <div className="text-center space-y-6">
+            
+            <div className="flex items-center justify-center gap-4 pt-4">
         /* Split-Screen Fighter Panels */
         <div className="max-w-7xl mx-auto mb-6">
           <div className="grid md:grid-cols-2 gap-4">
