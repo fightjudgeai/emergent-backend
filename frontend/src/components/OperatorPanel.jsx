@@ -4,11 +4,12 @@ import firebase from 'firebase/compat/app';
 import { db } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Play, Pause, ChevronRight, Eye, Monitor } from 'lucide-react';
+import { Play, Pause, ChevronRight, Eye, Monitor, Zap } from 'lucide-react';
 
 export default function OperatorPanel() {
   const { boutId } = useParams();
