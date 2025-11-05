@@ -1584,6 +1584,7 @@ export default function OperatorPanel() {
           </div>
         </Card>
       </div>
+      )}
 
       {/* Conditional: Split-Screen or Traditional Mode */}
       {splitScreenMode ? (
@@ -1951,6 +1952,7 @@ export default function OperatorPanel() {
             </div>
           </div>
         </>
+      )}
       )}
 
       {/* Dialogs for KD and Submission (shared between both modes) */}
