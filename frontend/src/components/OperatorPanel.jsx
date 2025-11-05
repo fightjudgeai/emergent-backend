@@ -1920,7 +1920,7 @@ export default function OperatorPanel() {
               </Dialog>
             </div>
           </div>
-        </div>
+        </>
       )}
       )}
 
