@@ -1555,6 +1555,7 @@ export default function OperatorPanel() {
           </div>
         </Card>
       </div>
+      </>
       )}
 
       {/* Conditional: Split-Screen or Traditional Mode */}
