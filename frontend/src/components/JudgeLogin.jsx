@@ -104,9 +104,23 @@ export default function JudgeLogin() {
                 <SelectItem value="ONE">ONE Championship</SelectItem>
                 <SelectItem value="PFL">PFL</SelectItem>
                 <SelectItem value="Regional">Regional</SelectItem>
+                <SelectItem value="Custom">Custom Organization</SelectItem>
               </SelectContent>
             </Select>
           </div>
+
+          {organization === 'Custom' && (
+            <div className="space-y-2">
+              <Label htmlFor="customOrg" className="text-gray-300 text-sm font-medium">Custom Organization Name</Label>
+              <Input
+                id="customOrg"
+                placeholder="Enter your organization name"
+                value={customOrganization}
+                onChange={(e) => setCustomOrganization(e.target.value)}
+                className="h-12 bg-[#1a1d24] border-[#2a2d35] text-white placeholder:text-gray-500 focus:border-amber-500 focus:ring-amber-500/20"
+              />
+            </div>
+          )}
 
           <div className="pt-4">
             <Button
