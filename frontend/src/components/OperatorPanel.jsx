@@ -1201,6 +1201,14 @@ export default function OperatorPanel() {
                 <SkipForward className="ml-1.5 h-3.5 w-3.5" />
               </Button>
               <Button
+                onClick={() => window.open(`/broadcast/${boutId}`, '_blank')}
+                className="h-9 px-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold text-sm border-2 border-purple-500"
+                title="Open Broadcast Mode for Arena Display"
+              >
+                <Monitor className="mr-1.5 h-4 w-4" />
+                Broadcast Mode
+              </Button>
+              <Button
                 data-testid="view-judge-panel-btn"
                 onClick={() => window.open(`/judge/${boutId}`, '_blank')}
                 className="h-9 px-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-semibold text-sm border-2 border-amber-500"
