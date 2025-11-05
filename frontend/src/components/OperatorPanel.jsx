@@ -1551,7 +1551,7 @@ export default function OperatorPanel() {
                 )}
               </Button>
             </div>
-          </div>
+          )}
         </Card>
       </div>
 
