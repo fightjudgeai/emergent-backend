@@ -1502,60 +1502,61 @@ export default function OperatorPanel() {
             ) : (
               // Manual Event Tracking Mode (existing UI)
               <>
-              <div className="grid md:grid-cols-2 gap-4">
-              {/* Fighter 1 Control Timer */}
-              <div className={`p-4 rounded-xl border-2 transition-all ${
-                selectedFighter === 'fighter1' 
-                  ? 'bg-red-950/30 border-red-600' 
-                  : 'bg-[#1a1d24] border-[#2a2d35]'
-              }`}>
-                <div className="text-sm text-red-400 font-medium mb-2">{bout.fighter1} (Red)</div>
-                <div className="text-5xl font-bold text-white tracking-wider" style={{ fontFamily: 'Space Grotesk' }}>
-                  {formatTime(controlTimers.fighter1.time)}
+                <div className="grid md:grid-cols-2 gap-4">
+                  {/* Fighter 1 Control Timer */}
+                  <div className={`p-4 rounded-xl border-2 transition-all ${
+                    selectedFighter === 'fighter1' 
+                      ? 'bg-red-950/30 border-red-600' 
+                      : 'bg-[#1a1d24] border-[#2a2d35]'
+                  }`}>
+                    <div className="text-sm text-red-400 font-medium mb-2">{bout.fighter1} (Red)</div>
+                    <div className="text-5xl font-bold text-white tracking-wider" style={{ fontFamily: 'Space Grotesk' }}>
+                      {formatTime(controlTimers.fighter1.time)}
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      {controlTimers.fighter1.isRunning ? 'CONTROL ACTIVE' : 'Stopped'}
+                    </div>
+                  </div>
+                  
+                  {/* Fighter 2 Control Timer */}
+                  <div className={`p-4 rounded-xl border-2 transition-all ${
+                    selectedFighter === 'fighter2' 
+                      ? 'bg-blue-950/30 border-blue-600' 
+                      : 'bg-[#1a1d24] border-[#2a2d35]'
+                  }`}>
+                    <div className="text-sm text-blue-400 font-medium mb-2">{bout.fighter2} (Blue)</div>
+                    <div className="text-5xl font-bold text-white tracking-wider" style={{ fontFamily: 'Space Grotesk' }}>
+                      {formatTime(controlTimers.fighter2.time)}
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      {controlTimers.fighter2.isRunning ? 'CONTROL ACTIVE' : 'Stopped'}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-xs text-gray-500 mt-1">
-                  {controlTimers.fighter1.isRunning ? 'CONTROL ACTIVE' : 'Stopped'}
+                
+                <div className="flex items-center justify-center gap-4 pt-4">
+                  <Button
+                    data-testid="control-timer-btn"
+                    onClick={toggleControl}
+                    disabled={isPaused}
+                    className={`h-14 px-8 font-semibold text-lg transition-all ${
+                      controlTimers[selectedFighter].isRunning
+                        ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg'
+                        : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white'
+                    } disabled:opacity-30 disabled:cursor-not-allowed`}
+                  >
+                    {controlTimers[selectedFighter].isRunning ? (
+                      <><Pause className="mr-2 h-5 w-5" />Stop Control</>
+                    ) : (
+                      <><Play className="mr-2 h-5 w-5" />Start Control</>
+                    )}
+                  </Button>
                 </div>
-              </div>
-              
-              {/* Fighter 2 Control Timer */}
-              <div className={`p-4 rounded-xl border-2 transition-all ${
-                selectedFighter === 'fighter2' 
-                  ? 'bg-blue-950/30 border-blue-600' 
-                  : 'bg-[#1a1d24] border-[#2a2d35]'
-              }`}>
-                <div className="text-sm text-blue-400 font-medium mb-2">{bout.fighter2} (Blue)</div>
-                <div className="text-5xl font-bold text-white tracking-wider" style={{ fontFamily: 'Space Grotesk' }}>
-                  {formatTime(controlTimers.fighter2.time)}
-                </div>
-                <div className="text-xs text-gray-500 mt-1">
-                  {controlTimers.fighter2.isRunning ? 'CONTROL ACTIVE' : 'Stopped'}
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-center gap-4 pt-4">
-              <Button
-                data-testid="control-timer-btn"
-                onClick={toggleControl}
-                disabled={isPaused}
-                className={`h-14 px-8 font-semibold text-lg transition-all ${
-                  controlTimers[selectedFighter].isRunning
-                    ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg'
-                    : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white'
-                } disabled:opacity-30 disabled:cursor-not-allowed`}
-              >
-                {controlTimers[selectedFighter].isRunning ? (
-                  <><Pause className="mr-2 h-5 w-5" />Stop Control</>
-                ) : (
-                  <><Play className="mr-2 h-5 w-5" />Start Control</>
-                )}
-              </Button>
-            </div>
+              </>
+            )}
           </div>
-        </div>
-        </>
-      )}
+        </Card>
+      </div>
 
       {/* Traditional Mode Fighter Selection */}
       <div className="max-w-7xl mx-auto mb-6">
