@@ -1072,6 +1072,72 @@ export default function JudgePanel() {
             </Card>
           );
         })}
+
+        {/* Total Score After All Rounds */}
+        {bout && bout.currentRound >= bout.totalRounds && (
+          <Card className="bg-gradient-to-br from-amber-950/40 to-amber-900/20 border-2 border-amber-600/50 p-8 max-w-7xl mx-auto mt-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-amber-500 mb-6">
+                Final Score After {bout.totalRounds} Rounds
+              </h2>
+              <div className="flex items-center justify-center gap-12">
+                {/* Fighter 1 Total */}
+                <div className="flex flex-col items-center">
+                  <div className="text-red-400 text-lg font-semibold mb-2">
+                    {bout.fighter1} (Red)
+                  </div>
+                  <div className="text-6xl font-black text-white">
+                    {(() => {
+                      let total = 0;
+                      for (let i = 1; i <= bout.totalRounds; i++) {
+                        total += scores[i]?.fighter1_score || 0;
+                      }
+                      return total;
+                    })()}
+                  </div>
+                </div>
+
+                {/* VS Divider */}
+                <div className="text-4xl font-bold text-gray-500">-</div>
+
+                {/* Fighter 2 Total */}
+                <div className="flex flex-col items-center">
+                  <div className="text-blue-400 text-lg font-semibold mb-2">
+                    {bout.fighter2} (Blue)
+                  </div>
+                  <div className="text-6xl font-black text-white">
+                    {(() => {
+                      let total = 0;
+                      for (let i = 1; i <= bout.totalRounds; i++) {
+                        total += scores[i]?.fighter2_score || 0;
+                      }
+                      return total;
+                    })()}
+                  </div>
+                </div>
+              </div>
+
+              {/* Winner Declaration */}
+              <div className="mt-8">
+                {(() => {
+                  let f1Total = 0, f2Total = 0;
+                  for (let i = 1; i <= bout.totalRounds; i++) {
+                    f1Total += scores[i]?.fighter1_score || 0;
+                    f2Total += scores[i]?.fighter2_score || 0;
+                  }
+                  const winner = f1Total > f2Total ? bout.fighter1 : f2Total > f1Total ? bout.fighter2 : 'Draw';
+                  const winnerColor = f1Total > f2Total ? 'text-red-500' : f2Total > f1Total ? 'text-blue-500' : 'text-gray-400';
+                  
+                  return (
+                    <div className={`text-2xl font-bold ${winnerColor}`}>
+                      {winner === 'Draw' ? 'DRAW' : `WINNER: ${winner.toUpperCase()}`}
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+          </Card>
+        )}
       </div>
     </div>
   );
