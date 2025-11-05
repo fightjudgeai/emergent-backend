@@ -1552,38 +1552,11 @@ export default function OperatorPanel() {
                 )}
               </Button>
             </div>
-          </>
-          )}
           </div>
         </Card>
       </div>
-
-      {/* Traditional Mode Fighter Selection */}
-      <div className="max-w-7xl mx-auto mb-6">
-        <Card className="bg-gradient-to-r from-[#1a1d24] to-[#13151a] border-[#2a2d35] p-8">
-          <div className="text-center space-y-6">
-            
-            <div className="flex items-center justify-center gap-4 pt-4">
-              <Button
-                data-testid="control-timer-btn"
-                onClick={toggleControl}
-                disabled={isPaused}
-                className={`h-14 px-8 font-semibold text-lg transition-all ${
-                  controlTimers[selectedFighter].isRunning
-                    ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg'
-                    : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white'
-                } disabled:opacity-30 disabled:cursor-not-allowed`}
-              >
-                {controlTimers[selectedFighter].isRunning ? (
-                  <><Pause className="mr-2 h-5 w-5" />Stop Control</>
-                ) : (
-                  <><Play className="mr-2 h-5 w-5" />Start Control</>
-                )}
-              </Button>
-            </div>
-          </div>
-        </Card>
-      </div>
+      </>
+      )}
 
       {/* Conditional: Split-Screen or Traditional Mode */}
       {splitScreenMode ? (
@@ -1951,6 +1924,7 @@ export default function OperatorPanel() {
             </div>
           </div>
         </>
+      )}
       )}
 
       {/* Dialogs for KD and Submission (shared between both modes) */}
