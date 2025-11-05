@@ -1519,7 +1519,7 @@ export default function OperatorPanel() {
               </div>
               
               {/* Fighter 2 Control Timer */}
-              <div className={`p-4 rounded-xl border-2 transition-all ${
+              <div className={`p-6 rounded-xl border-2 transition-all ${
                 selectedFighter === 'fighter2' 
                   ? 'bg-blue-950/30 border-blue-600' 
                   : 'bg-[#1a1d24] border-[#2a2d35]'
