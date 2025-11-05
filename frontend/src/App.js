@@ -6,6 +6,7 @@ import EventSetup from "@/components/EventSetup";
 import FightList from "@/components/FightList";
 import OperatorPanel from "@/components/OperatorPanel";
 import JudgePanel from "@/components/JudgePanel";
+import BroadcastMode from "@/components/BroadcastMode";
 import ShadowJudgingMode from "@/components/ShadowJudgingMode";
 import ReviewDashboard from "@/components/ReviewDashboard";
 import TuningProfileManager from "@/components/TuningProfileManager";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/event/:eventId/fights" element={<FightList />} />
           <Route path="/operator/:boutId" element={<OperatorPanel />} />
           <Route path="/judge/:boutId" element={<JudgePanel />} />
+          <Route path="/broadcast/:boutId" element={<BroadcastMode />} />
           <Route path="/shadow-judging" element={<ShadowJudgingMode />} />
           <Route path="/review-dashboard" element={<ReviewDashboard />} />
           <Route path="/tuning-profiles" element={<TuningProfileManager />} />
