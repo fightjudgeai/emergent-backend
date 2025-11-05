@@ -353,7 +353,13 @@ export default function OperatorPanel() {
             <Button
               key={btn.event}
               data-testid={`event-${btn.event.toLowerCase().replace(/ /g, '-')}-btn`}
-              onClick={() => logEvent(btn.event)}
+              onClick={() => {
+                if (btn.event === 'KD') {
+                  setShowKdDialog(true);
+                } else {
+                  logEvent(btn.event);
+                }
+              }}
               className={`h-24 text-xl font-bold bg-gradient-to-br ${getButtonColor(index)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
             >
               {btn.label}
