@@ -15,6 +15,7 @@ export default function JudgeLogin() {
   const [judgeId, setJudgeId] = useState('');
   const [judgeName, setJudgeName] = useState('');
   const [organization, setOrganization] = useState('UFC');
+  const [customOrganization, setCustomOrganization] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
