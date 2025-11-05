@@ -603,6 +603,18 @@ export default function OperatorPanel() {
                   className="bg-[#1a1d24] border-[#2a2d35] text-white"
                 />
               </div>
+
+              <div className="space-y-2">
+                <Label className="text-gray-300">Control Time (seconds)</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quickStats.controlTime}
+                  onChange={(e) => setQuickStats({...quickStats, controlTime: parseInt(e.target.value) || 0})}
+                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                  placeholder="e.g., 120 for 2 min"
+                />
+              </div>
             </div>
 
             <div className="pt-4 flex gap-3">
