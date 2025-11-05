@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Play, Pause, ChevronRight, Eye, ChevronLeft, ArrowLeft, SkipForward, Wifi, WifiOff, Cloud, CloudOff, RefreshCw, Columns2, Undo2, PauseCircle, PlayCircle, History, Trash2, Keyboard, QrCode, Users, Save, Upload, Mic, MicOff, Volume2, Calculator, Hand } from 'lucide-react';
+import { Play, Pause, ChevronRight, Eye, ChevronLeft, ArrowLeft, SkipForward, Wifi, WifiOff, Cloud, CloudOff, RefreshCw, Columns2, Undo2, PauseCircle, PlayCircle, History, Trash2, Keyboard, QrCode, Users, Save, Upload, Mic, MicOff, Volume2, Calculator, Hand, Monitor } from 'lucide-react';
 import syncManager from '@/utils/syncManager';
 import { QRCodeSVG } from 'qrcode.react';
 
