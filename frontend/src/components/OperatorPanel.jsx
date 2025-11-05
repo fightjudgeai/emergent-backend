@@ -215,14 +215,25 @@ export default function OperatorPanel() {
               <h1 className="text-3xl font-bold text-amber-500">Operator Panel</h1>
               <p className="text-gray-400 mt-1">{bout.fighter1} vs {bout.fighter2}</p>
             </div>
-            <Button
-              data-testid="view-judge-panel-btn"
-              onClick={() => window.open(`/judge/${boutId}`, '_blank')}
-              className="bg-[#1a1d24] hover:bg-[#22252d] text-amber-500 border border-amber-500/30"
-            >
-              <Eye className="mr-2 h-4 w-4" />
-              Judge Panel
-            </Button>
+            <div className="flex gap-3">
+              <Button
+                data-testid="view-broadcast-btn"
+                onClick={() => window.open(`/broadcast/${boutId}`, '_blank')}
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold border-2 border-purple-500"
+                title="Open Broadcast Mode for Arena Display"
+              >
+                <Monitor className="mr-2 h-4 w-4" />
+                Broadcast Mode
+              </Button>
+              <Button
+                data-testid="view-judge-panel-btn"
+                onClick={() => window.open(`/judge/${boutId}`, '_blank')}
+                className="bg-[#1a1d24] hover:bg-[#22252d] text-amber-500 border border-amber-500/30"
+              >
+                <Eye className="mr-2 h-4 w-4" />
+                Judge Panel
+              </Button>
+            </div>
           </div>
         </Card>
       </div>
