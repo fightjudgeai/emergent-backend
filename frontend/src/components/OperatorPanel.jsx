@@ -23,6 +23,16 @@ export default function OperatorPanel() {
   const [subDepth, setSubDepth] = useState('light');
   const [showKdDialog, setShowKdDialog] = useState(false);
   const [kdTier, setKdTier] = useState('Flash');
+  const [showQuickStatsDialog, setShowQuickStatsDialog] = useState(false);
+  const [quickStats, setQuickStats] = useState({
+    kd: 0,
+    issHead: 0,
+    issBody: 0,
+    issLeg: 0,
+    takedown: 0,
+    pass: 0,
+    reversal: 0
+  });
   const timerRef = useRef(null);
 
   useEffect(() => {
