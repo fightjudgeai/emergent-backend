@@ -879,7 +879,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Back Control & Top Control Timer Toggle Functionality"
+    - "New Scoring Engine V2 with Updated Event System"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -897,6 +897,7 @@ test_plan:
     - "TS (Total Strikes) Button"
     - "Event Type Breakdown Display"
     - "Back Control & Top Control Timer Toggle Functionality"
+    - "New Scoring Engine V2 with Updated Event System"
 
 agent_communication:
   - agent: "main"
