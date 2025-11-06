@@ -878,6 +878,8 @@ test_plan:
     - "Custom Organization Name Feature"
     - "KD Tiers Dropdown Feature" 
     - "Quick Stats Input Feature"
+    - "TS (Total Strikes) Button"
+    - "Event Type Breakdown Display"
 
 agent_communication:
   - agent: "main"
