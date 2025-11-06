@@ -14,6 +14,43 @@ import math
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
+# New Scoring Model Configuration
+SCORING_CONFIG = {
+    "categories": {
+        "striking": 50.0,
+        "grappling": 40.0,
+        "control_aggression": 10.0
+    },
+    "metrics": {
+        # Striking (50%)
+        "KD": {"category": "striking", "weight": 7.0, "tiers": {"Flash": 0.25, "Hard": 0.35, "Near-Finish": 0.40}},
+        "Rocked/Stunned": {"category": "striking", "weight": 6.0},
+        "Head Kick": {"category": "striking", "weight": 5.5},
+        "Elbow": {"category": "striking", "weight": 4.5},
+        "Knee": {"category": "striking", "weight": 3.5},
+        "Hook": {"category": "striking", "weight": 3.0},
+        "Cross": {"category": "striking", "weight": 3.0},
+        "Uppercut": {"category": "striking", "weight": 3.0},
+        "Body Kick": {"category": "striking", "weight": 3.0},
+        "Low Kick": {"category": "striking", "weight": 1.5},
+        "Jab": {"category": "striking", "weight": 1.5},
+        "Front Kick/Teep": {"category": "striking", "weight": 1.5},
+        # Grappling (40%)
+        "Submission Attempt": {"category": "grappling", "weight": 10.0, "tiers": {"light": 0.25, "deep": 0.35, "near_finish": 0.40}},
+        "Ground Back Control": {"category": "grappling", "weight": 10.0},
+        "Takedown Landed": {"category": "grappling", "weight": 9.0},
+        "Ground Top Control": {"category": "grappling", "weight": 9.0},
+        "Sweep/Reversal": {"category": "grappling", "weight": 2.0},
+        # Control/Aggression (10%)
+        "Cage Control Time": {"category": "control_aggression", "weight": 9.0},
+        "Takedown Stuffed": {"category": "control_aggression", "weight": 1.0}
+    },
+    "stacking_rules": {
+        "KD": {"primary_multiplier": 1.0, "additional_multiplier": 0.5, "cap_multiplier": 1.2},
+        "Submission Attempt": {"primary_multiplier": 1.0, "additional_multiplier": 0.4, "cap_multiplier": 1.2}
+    }
+}
+
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
