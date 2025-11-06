@@ -129,7 +129,7 @@ export default function JudgePanel() {
           metadata: e.metadata || {}
         }));
 
-        const response = await axios.post(`${API}/calculate-score`, {
+        const response = await axios.post(`${API}/calculate-score-v2`, {
           bout_id: boutId,
           round_num: round,
           events: formattedEvents,
