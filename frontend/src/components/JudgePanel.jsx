@@ -764,7 +764,38 @@ export default function JudgePanel() {
           return (
             <Card key={roundNum} className="bg-[#13151a] border-[#2a2d35] p-6 md:p-8" data-testid={`round-${roundNum}-card`}>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-amber-500">Round {roundNum}</h2>
+                <div className="flex items-center gap-4">
+                  <h2 className="text-2xl font-bold text-amber-500">Round {roundNum}</h2>
+                  {roundScore && (
+                    <div className="flex items-center gap-3">
+                      {/* Fighter 1 Event Count */}
+                      <div className="flex items-center gap-2 px-3 py-1 bg-red-950/30 border border-red-700/30 rounded-lg">
+                        <span className="text-xs text-red-400 font-semibold uppercase">
+                          {bout.fighter1}
+                        </span>
+                        <span className="text-sm font-bold text-red-300">
+                          {(() => {
+                            const f1Events = events.filter(e => e.round === roundNum && e.fighter === 'fighter1');
+                            return f1Events.length;
+                          })()} events
+                        </span>
+                      </div>
+                      
+                      {/* Fighter 2 Event Count */}
+                      <div className="flex items-center gap-2 px-3 py-1 bg-blue-950/30 border border-blue-700/30 rounded-lg">
+                        <span className="text-xs text-blue-400 font-semibold uppercase">
+                          {bout.fighter2}
+                        </span>
+                        <span className="text-sm font-bold text-blue-300">
+                          {(() => {
+                            const f2Events = events.filter(e => e.round === roundNum && e.fighter === 'fighter2');
+                            return f2Events.length;
+                          })()} events
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <div className="flex items-center gap-3">
                   {roundScore && (
                     <ExplainabilityCard 
