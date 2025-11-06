@@ -262,16 +262,38 @@ export default function OperatorPanel() {
     }
   };
 
-  const eventButtons = [
-    { label: 'KD', event: 'KD' },
-    { label: 'TS', event: 'TS' },
-    { label: 'ISS Head', event: 'ISS Head' },
-    { label: 'ISS Body', event: 'ISS Body' },
-    { label: 'ISS Leg', event: 'ISS Leg' },
-    { label: 'Takedown', event: 'Takedown' },
-    { label: 'Pass', event: 'Pass' },
-    { label: 'Reversal', event: 'Reversal' }
+  // Striking Events
+  const strikingButtons = [
+    { label: 'KD', event: 'KD', hasDialog: true },
+    { label: 'Rocked', event: 'Rocked/Stunned' },
+    { label: 'Head Kick', event: 'Head Kick' },
+    { label: 'Elbow', event: 'Elbow' },
+    { label: 'Knee', event: 'Knee' },
+    { label: 'Hook', event: 'Hook' },
+    { label: 'Cross', event: 'Cross' },
+    { label: 'Uppercut', event: 'Uppercut' },
+    { label: 'Body Kick', event: 'Body Kick' },
+    { label: 'Low Kick', event: 'Low Kick' },
+    { label: 'Jab', event: 'Jab' },
+    { label: 'Front Kick', event: 'Front Kick/Teep' }
   ];
+
+  // Grappling Events
+  const grapplingButtons = [
+    { label: 'Sub Attempt', event: 'Submission Attempt', hasDialog: true },
+    { label: 'Back Control', event: 'Ground Back Control' },
+    { label: 'Takedown', event: 'Takedown Landed' },
+    { label: 'Top Control', event: 'Ground Top Control' },
+    { label: 'Sweep/Reversal', event: 'Sweep/Reversal' }
+  ];
+
+  // Control/Aggression Events
+  const controlButtons = [
+    { label: 'Cage Control', event: 'Cage Control Time' },
+    { label: 'TD Stuffed', event: 'Takedown Stuffed' }
+  ];
+
+  const allEventButtons = [...strikingButtons, ...grapplingButtons, ...controlButtons];
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] p-4">
