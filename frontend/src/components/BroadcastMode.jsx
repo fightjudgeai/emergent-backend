@@ -105,6 +105,46 @@ export default function BroadcastMode() {
     return currentRoundScore?.[`${fighter}_score`] || 0;
   };
 
+  const getEventStats = (fighter) => {
+    const fighterEvents = events.filter(e => e.fighter === fighter);
+    const stats = {
+      knockdowns: 0,
+      significantStrikes: 0,
+      totalStrikes: 0,
+      takedowns: 0,
+      submissionAttempts: 0,
+      controlTime: 0
+    };
+
+    fighterEvents.forEach(event => {
+      if (event.eventType === 'KD') stats.knockdowns++;
+      if (event.eventType === 'Submission Attempt') stats.submissionAttempts++;
+      if (event.eventType === 'Takedown Landed') stats.takedowns++;
+      
+      // Count strikes
+      const strikeTypes = ['Hook', 'Cross', 'Jab', 'Uppercut', 'Head Kick', 'Body Kick', 'Low Kick', 'Elbow', 'Knee', 'Front Kick/Teep'];
+      if (strikeTypes.includes(event.eventType)) {
+        stats.totalStrikes++;
+        if (event.metadata?.significant !== false) {
+          stats.significantStrikes++;
+        }
+      }
+      
+      // Sum control time
+      if (event.eventType === 'Ground Back Control' || event.eventType === 'Ground Top Control' || event.eventType === 'Cage Control Time') {
+        stats.controlTime += event.metadata?.duration || 0;
+      }
+    });
+
+    return stats;
+  };
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   if (!bout) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
