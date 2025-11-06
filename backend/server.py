@@ -860,6 +860,118 @@ def parse_from_mongo(item):
         item['timestamp'] = datetime.fromisoformat(item['timestamp'])
     return item
 
+# New Scoring Engine Function
+def calculate_new_score(events: List[EventData], fighter: str) -> tuple[float, dict, dict]:
+    """
+    Calculate score using the new weighted scoring model
+    Returns: (total_score, category_scores, event_counts)
+    """
+    fighter_events = [e for e in events if e.fighter == fighter]
+    
+    # Category accumulator
+    striking_score = 0.0
+    grappling_score = 0.0
+    control_aggression_score = 0.0
+    
+    # Event counts for stats
+    event_counts = {}
+    
+    # Stacking tracking for KD and Sub Attempts
+    kd_events = []
+    sub_events = []
+    
+    for event in fighter_events:
+        event_type = event.event_type
+        meta = event.metadata or {}
+        
+        # Get event config
+        event_config = SCORING_CONFIG["metrics"].get(event_type)
+        if not event_config:
+            continue
+            
+        # Track event count
+        event_counts[event_type] = event_counts.get(event_type, 0) + 1
+        
+        # Get base weight
+        weight = event_config["weight"]
+        
+        # Apply tier multipliers if applicable
+        if "tiers" in event_config:
+            tier = meta.get("tier", meta.get("depth", "Flash" if event_type == "KD" else "light"))
+            tier_multiplier = event_config["tiers"].get(tier, 0.25)
+            weight = weight * tier_multiplier
+        
+        # Handle control time events (duration-based scoring)
+        if event_type in ["Ground Back Control", "Ground Top Control", "Cage Control Time"]:
+            duration = meta.get("duration", 0)
+            # Score per 10 seconds of control
+            weight = weight * (duration / 10.0) if duration > 0 else 0
+        
+        # Track for stacking rules
+        if event_type == "KD":
+            kd_events.append(weight)
+        elif event_type == "Submission Attempt":
+            sub_events.append(weight)
+        else:
+            # Add to appropriate category
+            category = event_config["category"]
+            if category == "striking":
+                striking_score += weight
+            elif category == "grappling":
+                grappling_score += weight
+            elif category == "control_aggression":
+                control_aggression_score += weight
+    
+    # Apply stacking rules for KD
+    if kd_events:
+        kd_stack_config = SCORING_CONFIG["stacking_rules"]["KD"]
+        if len(kd_events) == 1:
+            striking_score += kd_events[0] * kd_stack_config["primary_multiplier"]
+        else:
+            # First KD at full value
+            striking_score += kd_events[0] * kd_stack_config["primary_multiplier"]
+            # Additional KDs at reduced value
+            for kd in kd_events[1:]:
+                striking_score += kd * kd_stack_config["additional_multiplier"]
+            # Apply cap
+            max_kd_score = kd_events[0] * kd_stack_config["cap_multiplier"]
+            kd_total = sum([kd_events[0]] + [kd * kd_stack_config["additional_multiplier"] for kd in kd_events[1:]])
+            if kd_total > max_kd_score:
+                adjustment = max_kd_score / kd_total
+                striking_score = striking_score - kd_total + max_kd_score
+    
+    # Apply stacking rules for Submission Attempts
+    if sub_events:
+        sub_stack_config = SCORING_CONFIG["stacking_rules"]["Submission Attempt"]
+        if len(sub_events) == 1:
+            grappling_score += sub_events[0] * sub_stack_config["primary_multiplier"]
+        else:
+            grappling_score += sub_events[0] * sub_stack_config["primary_multiplier"]
+            for sub in sub_events[1:]:
+                grappling_score += sub * sub_stack_config["additional_multiplier"]
+            max_sub_score = sub_events[0] * sub_stack_config["cap_multiplier"]
+            sub_total = sum([sub_events[0]] + [sub * sub_stack_config["additional_multiplier"] for sub in sub_events[1:]])
+            if sub_total > max_sub_score:
+                grappling_score = grappling_score - sub_total + max_sub_score
+    
+    # Apply category weights
+    weighted_striking = striking_score * (SCORING_CONFIG["categories"]["striking"] / 100.0)
+    weighted_grappling = grappling_score * (SCORING_CONFIG["categories"]["grappling"] / 100.0)
+    weighted_control = control_aggression_score * (SCORING_CONFIG["categories"]["control_aggression"] / 100.0)
+    
+    total_score = weighted_striking + weighted_grappling + weighted_control
+    
+    category_scores = {
+        "striking": weighted_striking,
+        "grappling": weighted_grappling,
+        "control_aggression": weighted_control,
+        "striking_raw": striking_score,
+        "grappling_raw": grappling_score,
+        "control_aggression_raw": control_aggression_score
+    }
+    
+    return total_score, category_scores, event_counts
+
 # Routes
 @api_router.get("/")
 async def root():
