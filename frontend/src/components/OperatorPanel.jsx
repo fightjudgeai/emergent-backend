@@ -536,22 +536,40 @@ export default function OperatorPanel() {
         <div>
           <h3 className="text-blue-500 font-bold text-lg mb-3">🤼 Grappling</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {grapplingButtons.map((btn, index) => (
-              <Button
-                key={btn.event}
-                data-testid={`event-${btn.event.toLowerCase().replace(/[/ ]/g, '-')}-btn`}
-                onClick={() => {
-                  if (btn.event === 'Submission Attempt') {
-                    setShowSubDialog(true);
-                  } else {
-                    logEvent(btn.event);
-                  }
-                }}
-                className={`h-20 text-lg font-bold bg-gradient-to-br ${getButtonColor(index + 12)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
-              >
-                {btn.label}
-              </Button>
-            ))}
+            {grapplingButtons.map((btn, index) => {
+              const isControlType = btn.event === 'Ground Back Control' || btn.event === 'Ground Top Control';
+              const isActive = controlTimers[selectedFighter].isRunning && 
+                              controlTimers[selectedFighter].controlType === btn.event;
+              
+              return (
+                <Button
+                  key={btn.event}
+                  data-testid={`event-${btn.event.toLowerCase().replace(/[/ ]/g, '-')}-btn`}
+                  onClick={() => {
+                    if (btn.event === 'Submission Attempt') {
+                      setShowSubDialog(true);
+                    } else if (isControlType) {
+                      handleControlToggle(btn.event);
+                    } else {
+                      logEvent(btn.event);
+                    }
+                  }}
+                  className={`h-20 text-lg font-bold bg-gradient-to-br ${
+                    isActive 
+                      ? 'from-green-600 to-green-700 ring-4 ring-green-400 animate-pulse' 
+                      : getButtonColor(index + 12)
+                  } hover:opacity-90 text-white shadow-lg transition-all active:scale-95 relative`}
+                >
+                  {btn.label}
+                  {isActive && (
+                    <span className="absolute top-1 right-1 flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                  )}
+                </Button>
+              );
+            })}
           </div>
         </div>
 
