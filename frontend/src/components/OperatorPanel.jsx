@@ -17,8 +17,8 @@ export default function OperatorPanel() {
   const [bout, setBout] = useState(null);
   const [selectedFighter, setSelectedFighter] = useState('fighter1');
   const [controlTimers, setControlTimers] = useState({
-    fighter1: { time: 0, isRunning: false, startTime: null },
-    fighter2: { time: 0, isRunning: false, startTime: null }
+    fighter1: { time: 0, isRunning: false, startTime: null, controlType: null },
+    fighter2: { time: 0, isRunning: false, startTime: null, controlType: null }
   });
   const [showSubDialog, setShowSubDialog] = useState(false);
   const [subDepth, setSubDepth] = useState('light');
