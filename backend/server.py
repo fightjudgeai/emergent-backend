@@ -907,6 +907,16 @@ def calculate_new_score(events: List[EventData], fighter: str) -> tuple[float, d
             # Score per 10 seconds of control
             weight = weight * (duration / 10.0) if duration > 0 else 0
         
+        # Apply significant strike multiplier for striking events
+        is_significant = meta.get("significant", True)  # Default to significant if not specified
+        if event_config["category"] == "striking" and event_type not in ["KD", "Rocked/Stunned"]:
+            if is_significant:
+                # Significant strikes get 1.3x multiplier (reflects 80% weight in formula)
+                weight = weight * 1.3
+            else:
+                # Non-significant strikes get 0.7x multiplier (reflects 20% weight in formula)
+                weight = weight * 0.7
+        
         # Track for stacking rules
         if event_type == "KD":
             kd_events.append(weight)
