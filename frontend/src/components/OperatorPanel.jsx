@@ -164,6 +164,7 @@ export default function OperatorPanel() {
     // Log each stat type based on the count entered
     const statMap = {
       kd: 'KD',
+      ts: 'TS',
       issHead: 'ISS Head',
       issBody: 'ISS Body',
       issLeg: 'ISS Leg',
