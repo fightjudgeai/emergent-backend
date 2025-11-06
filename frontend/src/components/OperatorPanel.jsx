@@ -261,6 +261,7 @@ export default function OperatorPanel() {
 
   const eventButtons = [
     { label: 'KD', event: 'KD' },
+    { label: 'TS', event: 'TS' },
     { label: 'ISS Head', event: 'ISS Head' },
     { label: 'ISS Body', event: 'ISS Body' },
     { label: 'ISS Leg', event: 'ISS Leg' },
