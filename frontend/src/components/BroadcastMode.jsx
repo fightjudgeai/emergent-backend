@@ -9,6 +9,7 @@ export default function BroadcastMode() {
   const { boutId } = useParams();
   const [bout, setBout] = useState(null);
   const [scores, setScores] = useState({});
+  const [events, setEvents] = useState([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
