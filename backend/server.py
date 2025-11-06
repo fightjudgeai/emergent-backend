@@ -994,6 +994,89 @@ async def get_status_checks():
             check['timestamp'] = datetime.fromisoformat(check['timestamp'])
     return status_checks
 
+@api_router.post("/calculate-score-v2")
+async def calculate_score_v2(request: ScoreRequest):
+    """
+    NEW SCORING ENGINE - Uses weighted category system
+    Calculate round scores based on new scoring model with:
+    - Striking (50%), Grappling (40%), Control/Aggression (10%)
+    - Event-specific weights
+    - Tier multipliers for KD and Sub Attempts
+    - Stacking rules
+    """
+    try:
+        # Calculate scores using new model
+        f1_total, f1_categories, f1_counts = calculate_new_score(request.events, "fighter1")
+        f2_total, f2_categories, f2_counts = calculate_new_score(request.events, "fighter2")
+        
+        # Determine winner and card
+        score_diff = f1_total - f2_total
+        
+        # 10-Point Must System mapping
+        if abs(score_diff) < 5.0:  # Close round
+            card = "10-10"
+            winner = "DRAW"
+        elif abs(score_diff) < 15.0:  # Clear winner
+            card = "10-9"
+            winner = "fighter1" if score_diff > 0 else "fighter2"
+        elif abs(score_diff) < 30.0:  # Dominant round
+            card = "10-8"
+            winner = "fighter1" if score_diff > 0 else "fighter2"
+        else:  # Near-finish dominance
+            card = "10-7"
+            winner = "fighter1" if score_diff > 0 else "fighter2"
+        
+        # Create legacy-compatible subscores for compatibility
+        def create_legacy_subscores(categories):
+            return Subscores(
+                KD=categories["striking_raw"] * 0.3,  # Approximate mapping
+                ISS=categories["striking_raw"] * 0.5,
+                GCQ=categories["grappling_raw"] * 0.5,
+                TDQ=categories["grappling_raw"] * 0.3,
+                SUBQ=categories["grappling_raw"] * 0.2,
+                OC=categories["control_aggression_raw"],
+                AGG=categories["control_aggression_raw"] * 0.5,
+                RP=0.0,
+                TSR=categories["striking_raw"] * 0.2
+            )
+        
+        result = RoundScore(
+            bout_id=request.bout_id,
+            round_num=request.round_num,
+            fighter1_score=FighterScore(
+                fighter="fighter1",
+                subscores=create_legacy_subscores(f1_categories),
+                final_score=f1_total,
+                event_counts=f1_counts
+            ),
+            fighter2_score=FighterScore(
+                fighter="fighter2",
+                subscores=create_legacy_subscores(f2_categories),
+                final_score=f2_total,
+                event_counts=f2_counts
+            ),
+            score_gap=abs(score_diff),
+            card=card,
+            winner=winner,
+            reasons=RoundReasons(
+                delta=score_diff,
+                gates_winner=GateChecks(finish_threat=False, control_dom=False, multi_cat_dom=False),
+                gates_loser=GateChecks(finish_threat=False, control_dom=False, multi_cat_dom=False),
+                to_108=(card == "10-8"),
+                to_107=(card == "10-7"),
+                draw=(card == "10-10"),
+                tie_breaker=None
+            ),
+            uncertainty="medium_confidence",
+            uncertainty_factors=[]
+        )
+        
+        return result
+        
+    except Exception as e:
+        logging.error(f"Error in calculate_score_v2: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Scoring calculation failed: {str(e)}")
+
 @api_router.post("/calculate-score", response_model=RoundScore)
 async def calculate_score(request: ScoreRequest):
     """
