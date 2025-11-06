@@ -177,47 +177,55 @@ export default function OperatorPanel() {
     const fighter = selectedFighter;
     const isCurrentlyRunning = controlTimers[fighter].isRunning;
     const currentControlType = controlTimers[fighter].controlType;
+    const currentTime = controlTimers[fighter].time;
     
-    // If a different control type is running, stop it first
-    if (isCurrentlyRunning && currentControlType !== controlType) {
-      const duration = controlTimers[fighter].time;
-      await logEvent(currentControlType, { duration, source: 'control-timer' });
-      toast.info(`Stopped ${currentControlType}, starting ${controlType}`);
+    // If a different control type is running, log the old one and switch
+    if (isCurrentlyRunning && currentControlType !== controlType && currentControlType !== null) {
+      await logEvent(currentControlType, { duration: currentTime, source: 'control-timer' });
+      toast.info(`Switched from ${currentControlType} to ${controlType}`);
+      
+      // Switch to new control type, keeping timer running
+      setControlTimers(prev => ({
+        ...prev,
+        [fighter]: {
+          ...prev[fighter],
+          controlType: controlType
+        }
+      }));
+      return;
     }
     
     if (isCurrentlyRunning && currentControlType === controlType) {
-      // Stop the current control
-      const duration = controlTimers[fighter].time;
-      
+      // Stop the current control - timer stays accumulated
       await logEvent(controlType, { 
-        duration,
+        duration: currentTime,
         source: 'control-timer'
       });
       
       setControlTimers(prev => ({
         ...prev,
         [fighter]: {
-          time: 0,
+          time: currentTime, // Keep accumulated time
           isRunning: false,
           startTime: null,
           controlType: null
         }
       }));
       
-      toast.success(`${controlType} stopped - ${duration}s logged`);
+      toast.success(`${controlType} stopped - ${currentTime}s logged. Timer: ${formatTime(currentTime)}`);
     } else {
-      // Start the control
+      // Start the control - continue from current accumulated time
       setControlTimers(prev => ({
         ...prev,
         [fighter]: {
-          time: 0,
+          time: currentTime,  // Continue from current time
           isRunning: true,
-          startTime: Date.now(),
+          startTime: Date.now() - (currentTime * 1000),  // Adjust for accumulated time
           controlType: controlType
         }
       }));
       
-      toast.info(`${controlType} timer started for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
+      toast.info(`${controlType} timer started from ${formatTime(currentTime)}`);
     }
   };
 
