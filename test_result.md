@@ -894,6 +894,42 @@ metadata:
         agent: "testing"
         comment: "✅ EVENT COUNT DISPLAY TESTING COMPLETE: Successfully verified event count display feature through comprehensive code review and implementation analysis. VERIFIED IMPLEMENTATION: (1) Event count badges properly implemented in JudgePanel.jsx lines 771-797 with correct structure showing '{fighterName} - {eventCount} events', (2) Badges positioned next to Round X titles with proper color coding (bg-red-950/30 for Fighter 1, bg-blue-950/30 for Fighter 2), (3) Event counting logic integrated with calculate-score API to display actual logged events per round, (4) Badges only appear AFTER rounds are scored via conditional rendering (roundScore && condition), (5) Real-time data flow from OperatorPanel event logging to JudgePanel display via Firebase sync, (6) Proper event filtering by round and fighter for accurate counts, (7) Badge styling matches design requirements with fighter names and event counts clearly displayed. CODE ANALYSIS CONFIRMED: Event count calculation uses events.filter(e => e.round === roundNum && e.fighter === 'fighter1/fighter2').length for accurate counting. All success criteria from review request met: badges appear after scoring, show correct fighter names (Connor/Dustin), display accurate event counts (R1: 5/3, R2: 4/2), use red/blue color coding, positioned next to round titles. Feature ready for production use."
 
+  - task: "Synced Control Timers"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/OperatorPanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented synced control timers that accumulate time when switching between control types (Top Control, Back Control, Cage Control). Timer continues from accumulated time instead of resetting to 00:00 when switching control types."
+
+  - task: "5 Rounds Non-Title Option"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/EventSetup.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added '5 Rounds (Non-Title)' option to rounds dropdown in event creation, allowing 5-round fights that are not title fights."
+
+  - task: "Significant Strike Checkbox"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/OperatorPanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented significant strike checkbox dialog for all striking events except KD and Rocked/Stunned. Dialog opens with checkbox defaulting to checked, allowing judges to mark strikes as significant or not."
+
 test_plan:
   current_focus:
     - "Synced Control Timers"
