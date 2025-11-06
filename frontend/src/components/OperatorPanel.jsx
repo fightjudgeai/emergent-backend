@@ -173,6 +173,54 @@ export default function OperatorPanel() {
     setKdTier('Flash');
   };
 
+  const handleControlToggle = async (controlType) => {
+    const fighter = selectedFighter;
+    const isCurrentlyRunning = controlTimers[fighter].isRunning;
+    const currentControlType = controlTimers[fighter].controlType;
+    
+    // If a different control type is running, stop it first
+    if (isCurrentlyRunning && currentControlType !== controlType) {
+      const duration = controlTimers[fighter].time;
+      await logEvent(currentControlType, { duration, source: 'control-timer' });
+      toast.info(`Stopped ${currentControlType}, starting ${controlType}`);
+    }
+    
+    if (isCurrentlyRunning && currentControlType === controlType) {
+      // Stop the current control
+      const duration = controlTimers[fighter].time;
+      
+      await logEvent(controlType, { 
+        duration,
+        source: 'control-timer'
+      });
+      
+      setControlTimers(prev => ({
+        ...prev,
+        [fighter]: {
+          time: 0,
+          isRunning: false,
+          startTime: null,
+          controlType: null
+        }
+      }));
+      
+      toast.success(`${controlType} stopped - ${duration}s logged`);
+    } else {
+      // Start the control
+      setControlTimers(prev => ({
+        ...prev,
+        [fighter]: {
+          time: 0,
+          isRunning: true,
+          startTime: Date.now(),
+          controlType: controlType
+        }
+      }));
+      
+      toast.info(`${controlType} timer started for ${fighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
+    }
+  };
+
   const handleQuickStats = async () => {
     // Log each stat type based on the count entered
     const statMap = {
