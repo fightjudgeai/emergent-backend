@@ -628,10 +628,13 @@ export default function OperatorPanel() {
               Quick Stats Input for {selectedFighter === 'fighter1' ? bout?.fighter1 : bout?.fighter2}
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 py-4">
+          <div className="space-y-4 py-4 max-h-[70vh] overflow-y-auto">
             <p className="text-sm text-gray-400 mb-4">Enter the total count for each event type to log them all at once:</p>
             
-            <div className="grid grid-cols-2 gap-4">
+            {/* Striking Events */}
+            <div className="space-y-3">
+              <h4 className="text-amber-500 font-semibold text-sm uppercase tracking-wide">⚡ Striking</h4>
+              <div className="grid grid-cols-3 gap-3">
               <div className="space-y-2">
                 <Label className="text-gray-300">Knockdowns</Label>
                 <Input
