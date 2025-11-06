@@ -176,14 +176,28 @@ export default function OperatorPanel() {
   const handleQuickStats = async () => {
     // Log each stat type based on the count entered
     const statMap = {
+      // Striking
       kd: 'KD',
-      ts: 'TS',
-      issHead: 'ISS Head',
-      issBody: 'ISS Body',
-      issLeg: 'ISS Leg',
-      takedown: 'Takedown',
-      pass: 'Pass',
-      reversal: 'Reversal'
+      rocked: 'Rocked/Stunned',
+      headKick: 'Head Kick',
+      elbow: 'Elbow',
+      knee: 'Knee',
+      hook: 'Hook',
+      cross: 'Cross',
+      uppercut: 'Uppercut',
+      bodyKick: 'Body Kick',
+      lowKick: 'Low Kick',
+      jab: 'Jab',
+      frontKick: 'Front Kick/Teep',
+      // Grappling
+      subAttempt: 'Submission Attempt',
+      backControl: 'Ground Back Control',
+      takedown: 'Takedown Landed',
+      topControl: 'Ground Top Control',
+      sweep: 'Sweep/Reversal',
+      // Control
+      cageControl: 'Cage Control Time',
+      tdStuffed: 'Takedown Stuffed'
     };
 
     for (const [key, eventType] of Object.entries(statMap)) {
