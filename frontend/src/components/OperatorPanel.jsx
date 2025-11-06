@@ -546,54 +546,43 @@ export default function OperatorPanel() {
               {btn.label}
             </Button>
           ))}
-          
-          <Dialog open={showSubDialog} onOpenChange={setShowSubDialog}>
-            <DialogTrigger asChild>
-              <Button
-                data-testid="event-submission-btn"
-                className={`h-24 text-xl font-bold bg-gradient-to-br ${
-                  selectedFighter === 'fighter1' 
-                    ? 'from-red-800 to-rose-900' 
-                    : 'from-blue-800 to-cyan-900'
-                } hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
-              >
-                Sub Attempt
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-[#13151a] border-[#2a2d35]">
-              <DialogHeader>
-                <DialogTitle className="text-white">Submission Attempt</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 py-4">
-                <div className="space-y-2">
-                  <Label className="text-gray-300">Depth</Label>
-                  <Select value={subDepth} onValueChange={setSubDepth}>
-                    <SelectTrigger className="bg-[#1a1d24] border-[#2a2d35] text-white">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="tight">Tight</SelectItem>
-                      <SelectItem value="fight-ending">Fight-Ending</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <Button
-                  data-testid="submit-sub-attempt-btn"
-                  onClick={handleSubAttempt}
-                  className={`w-full bg-gradient-to-r ${
-                    selectedFighter === 'fighter1'
-                      ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
-                      : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
-                  } text-white`}
-                >
-                  Log Submission
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
         </div>
       </div>
+
+      {/* Submission Attempt Dialog */}
+      <Dialog open={showSubDialog} onOpenChange={setShowSubDialog}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35]">
+          <DialogHeader>
+            <DialogTitle className="text-white">Submission Attempt</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label className="text-gray-300">Depth</Label>
+              <Select value={subDepth} onValueChange={setSubDepth}>
+                <SelectTrigger className="bg-[#1a1d24] border-[#2a2d35] text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
+                  <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="deep">Deep</SelectItem>
+                  <SelectItem value="near_finish">Near-Finish</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Button
+              data-testid="submit-sub-attempt-btn"
+              onClick={handleSubAttempt}
+              className={`w-full bg-gradient-to-r ${
+                selectedFighter === 'fighter1'
+                  ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
+                  : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+              } text-white`}
+            >
+              Log Submission
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* KD Dialog */}
       <Dialog open={showKdDialog} onOpenChange={setShowKdDialog}>
