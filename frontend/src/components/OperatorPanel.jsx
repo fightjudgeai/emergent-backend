@@ -565,8 +565,13 @@ export default function OperatorPanel() {
                 onClick={() => {
                   if (btn.event === 'KD') {
                     setShowKdDialog(true);
+                  } else if (btn.event === 'Rocked/Stunned') {
+                    // Rocked always counts as significant
+                    logEvent(btn.event, { significant: true });
                   } else {
-                    logEvent(btn.event);
+                    // All other strikes - ask if significant
+                    setPendingStrikeEvent(btn.event);
+                    setShowStrikeDialog(true);
                   }
                 }}
                 className={`h-20 text-lg font-bold bg-gradient-to-br ${getButtonColor(index)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
