@@ -571,9 +571,9 @@ export default function OperatorPanel() {
                     // Rocked always counts as significant
                     logEvent(btn.event, { significant: true });
                   } else {
-                    // All other strikes - ask if significant
-                    setPendingStrikeEvent(btn.event);
-                    setShowStrikeDialog(true);
+                    // Quick mode - log immediately based on current mode
+                    logEvent(btn.event, { significant: quickStrikeMode === 'significant' });
+                    toast.success(`${btn.event} logged as ${quickStrikeMode === 'significant' ? 'Significant' : 'Non-Significant'}`);
                   }
                 }}
                 className={`h-20 text-lg font-bold bg-gradient-to-br ${getButtonColor(index)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
