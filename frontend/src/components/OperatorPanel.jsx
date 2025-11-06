@@ -504,6 +504,31 @@ export default function OperatorPanel() {
               {bout.fighter2} (Blue)
             </Button>
           </div>
+
+          {/* Active Control Timer Display */}
+          {(controlTimers.fighter1.isRunning || controlTimers.fighter2.isRunning) && (
+            <div className="mt-4 p-4 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border-2 border-green-500/50 rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-4 w-4">
+                    <span className="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-green-400">
+                      {controlTimers.fighter1.isRunning ? controlTimers.fighter1.controlType : controlTimers.fighter2.controlType} Active
+                    </div>
+                    <div className="text-xs text-gray-400">
+                      {controlTimers.fighter1.isRunning ? bout.fighter1 : bout.fighter2}
+                    </div>
+                  </div>
+                </div>
+                <div className="text-3xl font-bold text-green-300 font-mono">
+                  {formatTime(controlTimers.fighter1.isRunning ? controlTimers.fighter1.time : controlTimers.fighter2.time)}
+                </div>
+              </div>
+            </div>
+          )}
         </Card>
       </div>
 
