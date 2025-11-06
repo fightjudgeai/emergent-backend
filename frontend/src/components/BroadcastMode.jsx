@@ -54,10 +54,18 @@ export default function BroadcastMode() {
       }
     };
 
-    // Listen to events for score recalculation
+    // Listen to events for score recalculation and stats
     const unsubscribeEvents = db.collection('events')
       .where('boutId', '==', boutId)
+      .orderBy('timestamp', 'desc')
+      .limit(10)
       .onSnapshot((snapshot) => {
+        const eventsList = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setEvents(eventsList);
+        
         // Recalculate scores for all rounds
         if (bout) {
           for (let r = 1; r <= (bout.totalRounds || 3); r++) {
