@@ -756,6 +756,85 @@ export default function JudgePanel() {
         </div>
       )}
 
+      {/* Detailed Event Type Breakdown */}
+      {events.length > 0 && (
+        <div className="max-w-7xl mx-auto mb-6">
+          <Card className="bg-gradient-to-br from-[#1a1d24] to-[#13151a] border-purple-500/30 overflow-hidden">
+            <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-b border-purple-500/30 px-6 py-3">
+              <h2 className="text-lg font-bold text-purple-400 flex items-center gap-2">
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Event Type Breakdown (All Rounds)
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-2 divide-x divide-[#2a2d35]">
+              {/* RED CORNER */}
+              <div className="p-6 bg-gradient-to-br from-red-900/10 to-transparent">
+                <div className="text-center mb-4">
+                  <div className="text-xs text-red-400 font-semibold uppercase">Red Corner</div>
+                  <div className="text-xl font-bold text-white">{bout.fighter1}</div>
+                </div>
+                <div className="space-y-2">
+                  {(() => {
+                    const eventCounts = {};
+                    events.filter(e => e.fighter === 'fighter1').forEach(e => {
+                      const type = e.eventType;
+                      eventCounts[type] = (eventCounts[type] || 0) + 1;
+                    });
+                    
+                    // Sort by count descending
+                    const sortedEvents = Object.entries(eventCounts).sort((a, b) => b[1] - a[1]);
+                    
+                    return sortedEvents.length > 0 ? (
+                      sortedEvents.map(([type, count]) => (
+                        <div key={type} className="flex justify-between items-center px-3 py-2 bg-red-950/20 rounded border border-red-800/20">
+                          <span className="text-sm text-gray-300 font-medium">{type}</span>
+                          <span className="text-base font-bold text-red-400">{count}</span>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center text-gray-500 py-4">No events logged</div>
+                    );
+                  })()}
+                </div>
+              </div>
+
+              {/* BLUE CORNER */}
+              <div className="p-6 bg-gradient-to-br from-blue-900/10 to-transparent">
+                <div className="text-center mb-4">
+                  <div className="text-xs text-blue-400 font-semibold uppercase">Blue Corner</div>
+                  <div className="text-xl font-bold text-white">{bout.fighter2}</div>
+                </div>
+                <div className="space-y-2">
+                  {(() => {
+                    const eventCounts = {};
+                    events.filter(e => e.fighter === 'fighter2').forEach(e => {
+                      const type = e.eventType;
+                      eventCounts[type] = (eventCounts[type] || 0) + 1;
+                    });
+                    
+                    // Sort by count descending
+                    const sortedEvents = Object.entries(eventCounts).sort((a, b) => b[1] - a[1]);
+                    
+                    return sortedEvents.length > 0 ? (
+                      sortedEvents.map(([type, count]) => (
+                        <div key={type} className="flex justify-between items-center px-3 py-2 bg-blue-950/20 rounded border border-blue-800/20">
+                          <span className="text-sm text-gray-300 font-medium">{type}</span>
+                          <span className="text-base font-bold text-blue-400">{count}</span>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center text-gray-500 py-4">No events logged</div>
+                    );
+                  })()}
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      )}
+
       {/* Round Scores */}
       <div className="max-w-7xl mx-auto space-y-8">
         {[1, 2, 3].map((roundNum) => {
