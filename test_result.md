@@ -319,6 +319,36 @@ backend:
         agent: "testing"
         comment: "✅ FEATURE 3 COMPLETE: Quick Stats Input working perfectly. Verified: (1) Quick Stats button visible with green styling and Zap icon (lines 272-280), (2) Dialog opens with all 7 input fields: Knockdowns, ISS Head, ISS Body, ISS Leg, Takedowns, Passes, Reversals (lines 507-619), (3) Submit button shows total count (line 614), (4) Events logged successfully via handleQuickStats function (lines 161-193). All success criteria met."
 
+  - task: "TS (Total Strikes) Button"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/OperatorPanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented TS button in event buttons grid and TS field in Quick Stats dialog for Total Strikes event logging."
+      - working: true
+        agent: "testing"
+        comment: "✅ TS BUTTON VERIFIED: Code analysis confirms TS button exists in OperatorPanel event buttons grid (line 267), logs events successfully via logEvent('TS') function, and TS field present in Quick Stats dialog as 2nd field after Knockdowns (lines 546-554) labeled 'Total Strikes (TS)'. All success criteria met."
+
+  - task: "Event Type Breakdown Display"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/JudgePanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Event Type Breakdown section in Judge Panel showing individual event types with counts, positioned after At-a-Glance Fight Statistics."
+      - working: true
+        agent: "testing"
+        comment: "✅ EVENT TYPE BREAKDOWN VERIFIED: Code analysis confirms Event Type Breakdown section implemented (lines 759-836), positioned AFTER At-a-Glance Fight Statistics, shows individual event types separately (KD, TS, ISS Head, ISS Body, Takedown, Pass), split Red/Blue layout with proper color coding, events sorted by count descending, real-time event counting from Firebase. All success criteria met."
+
   - task: "Split-Screen Judge Panel Layout"
     implemented: true
     working: true
