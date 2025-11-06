@@ -981,6 +981,8 @@ test_plan:
     - "Event Type Breakdown Display"
     - "Back Control & Top Control Timer Toggle Functionality"
     - "New Scoring Engine V2 with Updated Event System"
+    - "Cage Control Timer Sync"
+    - "Quick Strike Mode Toggle"
 
 agent_communication:
   - agent: "testing"
