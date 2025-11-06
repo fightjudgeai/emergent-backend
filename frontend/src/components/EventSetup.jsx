@@ -282,6 +282,7 @@ export default function EventSetup() {
                             <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
                               <SelectItem value="3">3 Rounds (Standard)</SelectItem>
                               <SelectItem value="5">5 Rounds (Title Fight)</SelectItem>
+                              <SelectItem value="5-non-title">5 Rounds (Non-Title)</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
