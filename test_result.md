@@ -864,9 +864,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Control Time in Quick Stats Bug Fix"
-    - "Total Score Display After All Rounds Bug Fix"
-    - "At-a-Glance Stats Tracking Events Bug Fix"
+    - "Back Control & Top Control Timer Toggle Functionality"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -874,12 +872,16 @@ test_plan:
     - "Event Logging Speed Bug Fix"
     - "YouTube Video Positioning Bug Fix"
     - "Judge Panel Round Variable Error Fix"
+    - "Control Time in Quick Stats Bug Fix"
+    - "Total Score Display After All Rounds Bug Fix"
+    - "At-a-Glance Stats Tracking Events Bug Fix"
   new_features_tested:
     - "Custom Organization Name Feature"
     - "KD Tiers Dropdown Feature" 
     - "Quick Stats Input Feature"
     - "TS (Total Strikes) Button"
     - "Event Type Breakdown Display"
+    - "Back Control & Top Control Timer Toggle Functionality"
 
 agent_communication:
   - agent: "main"
