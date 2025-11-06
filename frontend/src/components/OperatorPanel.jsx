@@ -728,11 +728,12 @@ export default function OperatorPanel() {
                 <Input
                   type="number"
                   min="0"
-                  value={quickStats.controlTime}
-                  onChange={(e) => setQuickStats({...quickStats, controlTime: parseInt(e.target.value) || 0})}
+                  value={quickStats.cageControl}
+                  onChange={(e) => setQuickStats({...quickStats, cageControl: parseInt(e.target.value) || 0})}
                   className="bg-[#1a1d24] border-[#2a2d35] text-white"
                   placeholder="e.g., 120 for 2 min"
                 />
+              </div>
               </div>
             </div>
 
