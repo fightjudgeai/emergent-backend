@@ -459,16 +459,84 @@ export default function OperatorPanel() {
         </Card>
       </div>
 
-      {/* Event Buttons */}
-      <div className="max-w-7xl mx-auto mb-6">
+      {/* Event Buttons - Organized by Category */}
+      <div className="max-w-7xl mx-auto mb-6 space-y-6">
+        {/* Striking Events */}
+        <div>
+          <h3 className="text-amber-500 font-bold text-lg mb-3">⚡ Striking</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {strikingButtons.map((btn, index) => (
+              <Button
+                key={btn.event}
+                data-testid={`event-${btn.event.toLowerCase().replace(/[/ ]/g, '-')}-btn`}
+                onClick={() => {
+                  if (btn.event === 'KD') {
+                    setShowKdDialog(true);
+                  } else {
+                    logEvent(btn.event);
+                  }
+                }}
+                className={`h-20 text-lg font-bold bg-gradient-to-br ${getButtonColor(index)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+              >
+                {btn.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Grappling Events */}
+        <div>
+          <h3 className="text-blue-500 font-bold text-lg mb-3">🤼 Grappling</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {grapplingButtons.map((btn, index) => (
+              <Button
+                key={btn.event}
+                data-testid={`event-${btn.event.toLowerCase().replace(/[/ ]/g, '-')}-btn`}
+                onClick={() => {
+                  if (btn.event === 'Submission Attempt') {
+                    setShowSubDialog(true);
+                  } else {
+                    logEvent(btn.event);
+                  }
+                }}
+                className={`h-20 text-lg font-bold bg-gradient-to-br ${getButtonColor(index + 12)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+              >
+                {btn.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Control/Aggression Events */}
+        <div>
+          <h3 className="text-purple-500 font-bold text-lg mb-3">🎯 Control & Aggression</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {controlButtons.map((btn, index) => (
+              <Button
+                key={btn.event}
+                data-testid={`event-${btn.event.toLowerCase().replace(/[/ ]/g, '-')}-btn`}
+                onClick={() => logEvent(btn.event)}
+                className={`h-20 text-lg font-bold bg-gradient-to-br ${getButtonColor(index + 17)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+              >
+                {btn.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Old Sub Attempt Dialog Button - Now integrated above */}
+      <div className="hidden">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {eventButtons.map((btn, index) => (
+          {allEventButtons.map((btn, index) => (
             <Button
               key={btn.event}
               data-testid={`event-${btn.event.toLowerCase().replace(/ /g, '-')}-btn`}
               onClick={() => {
                 if (btn.event === 'KD') {
                   setShowKdDialog(true);
+                } else if (btn.event === 'Submission Attempt') {
+                  setShowSubDialog(true);
                 } else {
                   logEvent(btn.event);
                 }
