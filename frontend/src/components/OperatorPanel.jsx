@@ -29,6 +29,7 @@ export default function OperatorPanel() {
   const [showStrikeDialog, setShowStrikeDialog] = useState(false);
   const [pendingStrikeEvent, setPendingStrikeEvent] = useState(null);
   const [isSignificantStrike, setIsSignificantStrike] = useState(true);
+  const [quickStrikeMode, setQuickStrikeMode] = useState('significant'); // 'significant' or 'non-significant'
   const [quickStats, setQuickStats] = useState({
     // Striking
     kd: 0,
