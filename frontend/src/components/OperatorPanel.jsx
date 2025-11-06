@@ -176,6 +176,15 @@ export default function OperatorPanel() {
     setKdTier('Flash');
   };
 
+  const handleStrikeEvent = async () => {
+    if (pendingStrikeEvent) {
+      await logEvent(pendingStrikeEvent, { significant: isSignificantStrike });
+      setShowStrikeDialog(false);
+      setPendingStrikeEvent(null);
+      setIsSignificantStrike(true); // Reset to default
+    }
+  };
+
   const handleControlToggle = async (controlType) => {
     const fighter = selectedFighter;
     const isCurrentlyRunning = controlTimers[fighter].isRunning;
