@@ -27,6 +27,7 @@ export default function OperatorPanel() {
   const [showQuickStatsDialog, setShowQuickStatsDialog] = useState(false);
   const [quickStats, setQuickStats] = useState({
     kd: 0,
+    ts: 0,
     issHead: 0,
     issBody: 0,
     issLeg: 0,
