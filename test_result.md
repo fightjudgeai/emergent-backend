@@ -896,7 +896,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "New Scoring Engine V2 with Updated Event System"
+    - "Synced Control Timers"
+    - "5 Rounds Non-Title Option"
+    - "Significant Strike Checkbox"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
