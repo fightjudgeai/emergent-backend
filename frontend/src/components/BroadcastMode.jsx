@@ -294,6 +294,124 @@ export default function BroadcastMode() {
           </div>
         )}
 
+        {/* Fight Statistics */}
+        {events.length > 0 && (
+          <div className="mt-8 grid grid-cols-2 gap-6">
+            {/* Fighter 1 Stats */}
+            <Card className="bg-gradient-to-br from-red-950/40 to-black border-2 border-red-700/50 p-6">
+              <h3 className="text-2xl font-bold text-red-400 mb-4 text-center uppercase">{bout.fighter1} Stats</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {(() => {
+                  const stats = getEventStats('fighter1');
+                  return (
+                    <>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{stats.knockdowns}</div>
+                        <div className="text-sm text-red-300 uppercase">Knockdowns</div>
+                      </div>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{stats.significantStrikes}</div>
+                        <div className="text-sm text-red-300 uppercase">Sig. Strikes</div>
+                      </div>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{stats.takedowns}</div>
+                        <div className="text-sm text-red-300 uppercase">Takedowns</div>
+                      </div>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{formatTime(stats.controlTime)}</div>
+                        <div className="text-sm text-red-300 uppercase">Control Time</div>
+                      </div>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{stats.submissionAttempts}</div>
+                        <div className="text-sm text-red-300 uppercase">Sub Attempts</div>
+                      </div>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{stats.totalStrikes}</div>
+                        <div className="text-sm text-red-300 uppercase">Total Strikes</div>
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+            </Card>
+
+            {/* Fighter 2 Stats */}
+            <Card className="bg-gradient-to-br from-blue-950/40 to-black border-2 border-blue-700/50 p-6">
+              <h3 className="text-2xl font-bold text-blue-400 mb-4 text-center uppercase">{bout.fighter2} Stats</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {(() => {
+                  const stats = getEventStats('fighter2');
+                  return (
+                    <>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{stats.knockdowns}</div>
+                        <div className="text-sm text-blue-300 uppercase">Knockdowns</div>
+                      </div>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{stats.significantStrikes}</div>
+                        <div className="text-sm text-blue-300 uppercase">Sig. Strikes</div>
+                      </div>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{stats.takedowns}</div>
+                        <div className="text-sm text-blue-300 uppercase">Takedowns</div>
+                      </div>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{formatTime(stats.controlTime)}</div>
+                        <div className="text-sm text-blue-300 uppercase">Control Time</div>
+                      </div>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{stats.submissionAttempts}</div>
+                        <div className="text-sm text-blue-300 uppercase">Sub Attempts</div>
+                      </div>
+                      <div className="bg-black/40 rounded-lg p-3 text-center">
+                        <div className="text-4xl font-black text-white">{stats.totalStrikes}</div>
+                        <div className="text-sm text-blue-300 uppercase">Total Strikes</div>
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+            </Card>
+          </div>
+        )}
+
+        {/* Recent Events Ticker */}
+        {events.length > 0 && (
+          <div className="mt-6">
+            <Card className="bg-gradient-to-r from-amber-950/40 via-black to-amber-950/40 border-2 border-amber-700/50 p-4">
+              <h3 className="text-xl font-bold text-amber-400 mb-3 text-center uppercase">Recent Events</h3>
+              <div className="space-y-2">
+                {events.slice(0, 5).map((event, idx) => (
+                  <div
+                    key={event.id}
+                    className={`flex items-center justify-between p-2 rounded ${
+                      event.fighter === 'fighter1' 
+                        ? 'bg-red-950/30 border-l-4 border-red-600' 
+                        : 'bg-blue-950/30 border-l-4 border-blue-600'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Badge className={event.fighter === 'fighter1' ? 'bg-red-600' : 'bg-blue-600'}>
+                        {event.fighter === 'fighter1' ? bout.fighter1 : bout.fighter2}
+                      </Badge>
+                      <span className="text-white font-semibold">{event.eventType}</span>
+                      {event.metadata?.tier && (
+                        <span className="text-amber-400 text-sm">({event.metadata.tier})</span>
+                      )}
+                      {event.metadata?.depth && (
+                        <span className="text-amber-400 text-sm">({event.metadata.depth})</span>
+                      )}
+                    </div>
+                    <div className="text-gray-400 text-sm">
+                      Round {event.round}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+        )}
+
         {/* Footer */}
         <div className="text-center mt-8">
           <div className="text-2xl text-gray-500">
