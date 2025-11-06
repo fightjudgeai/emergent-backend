@@ -558,7 +558,22 @@ export default function OperatorPanel() {
       <div className="max-w-7xl mx-auto mb-6 space-y-6">
         {/* Striking Events */}
         <div>
-          <h3 className="text-amber-500 font-bold text-lg mb-3">⚡ Striking</h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-amber-500 font-bold text-lg">⚡ Striking</h3>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-400">Strike Mode:</span>
+              <Button
+                onClick={() => setQuickStrikeMode(quickStrikeMode === 'significant' ? 'non-significant' : 'significant')}
+                className={`h-8 px-4 text-sm font-semibold transition-all ${
+                  quickStrikeMode === 'significant'
+                    ? 'bg-green-600 hover:bg-green-700 text-white ring-2 ring-green-400'
+                    : 'bg-gray-600 hover:bg-gray-700 text-white ring-2 ring-gray-400'
+                }`}
+              >
+                {quickStrikeMode === 'significant' ? '✓ Significant' : '○ Non-Significant'}
+              </Button>
+            </div>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {strikingButtons.map((btn, index) => (
               <Button
