@@ -101,7 +101,7 @@ export default function EventSetup() {
           videoUrl: videoUrl.trim(),
           fighter1: fight.fighter1.trim(),
           fighter2: fight.fighter2.trim(),
-          totalRounds: parseInt(fight.rounds),
+          totalRounds: parseInt(fight.rounds === '5-non-title' ? '5' : fight.rounds),
           currentRound: 1,
           status: 'pending',
           fightOrder: index + 1,
