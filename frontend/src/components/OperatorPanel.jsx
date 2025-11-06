@@ -541,6 +541,17 @@ export default function OperatorPanel() {
                   className="bg-[#1a1d24] border-[#2a2d35] text-white"
                 />
               </div>
+
+              <div className="space-y-2">
+                <Label className="text-gray-300">Total Strikes (TS)</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quickStats.ts}
+                  onChange={(e) => setQuickStats({...quickStats, ts: parseInt(e.target.value) || 0})}
+                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                />
+              </div>
               
               <div className="space-y-2">
                 <Label className="text-gray-300">ISS Head</Label>
