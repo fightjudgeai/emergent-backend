@@ -958,6 +958,21 @@ metadata:
         agent: "testing"
         comment: "✅ SIGNIFICANT STRIKE CHECKBOX TESTING COMPLETE: Successfully verified significant strike checkbox functionality through comprehensive code analysis and implementation review. CODE ANALYSIS CONFIRMED: (1) Strike dialog implemented (lines 739-778) with proper title display showing strike type, (2) Significant Strike checkbox with id='significant' properly implemented (lines 747-751) with amber styling and correct labeling, (3) Checkbox defaults to checked state via isSignificantStrike state initialized to true (line 31), (4) Description text 'Check if this strike was significant (landed cleanly with impact)' properly implemented (lines 760-762), (5) handleStrikeEvent function logs events with significant metadata (line 182), (6) Strike button logic correctly differentiates between event types: KD opens tier dialog (lines 567-568), Rocked/Stunned auto-logs as significant (lines 569-572), all other strikes open significant dialog (lines 574-576), (7) Dialog state management via showStrikeDialog and pendingStrikeEvent states (lines 29-30), (8) Proper event logging with significant metadata passed to logEvent function (line 182). IMPLEMENTATION VERIFIED: All striking buttons except KD and Rocked/Stunned trigger significant strike dialog, checkbox defaults to checked, user can toggle checkbox state, events logged with correct significant metadata. All critical success criteria met: dialog appears for appropriate strikes, checkbox defaults to checked, description text present, significant metadata captured. Feature ready for production use."
 
+  - task: "Updated Scoring Thresholds & At-a-Glance Removal"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py, /app/frontend/src/components/JudgePanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated scoring system with more realistic thresholds: 10-10 for < 3.0 gap (tightened from 5.0), 10-9 for 3.0-25.0 gap (increased from 15.0), 10-8 for 25.0-60.0 gap (doubled from 30.0), 10-7 for 60+ gap. Removed At-a-Glance Fight Statistics section from JudgePanel while preserving Event Type Breakdown section."
+      - working: true
+        agent: "testing"
+        comment: "🎯 UPDATED SCORING THRESHOLDS & AT-A-GLANCE REMOVAL TESTING COMPLETE: Successfully verified all critical success criteria. PHASE 1 - AT-A-GLANCE REMOVAL VERIFIED: ✅ 'At-a-Glance Fight Statistics' section completely removed from JudgePanel.jsx, ✅ Event Type Breakdown section still present and functional. PHASE 2-6 - SCORING THRESHOLDS VERIFIED: ✅ 10-10 Draw (< 3.0 gap) working correctly for very close rounds, ✅ 10-9 Clear Winner (3.0-25.0 gap) - KD impact properly balanced, single Hard KD loses to 3x significant Hooks, ✅ 10-8 Much Harder (25.0-60.0 gap) - heavy dominance scenario (Near-Finish KD + 2x Rocked + 3x Elbow) still results in 10-9, ✅ 10-8 Threshold - massive dominance (2x KD + Rocked + 5x Head Kick) correctly achieves 10-8, ✅ 10-7 Nearly Impossible (60+ gap) - even extreme scenario (4x Near-Finish KD + 3x Rocked + 8x Head Kick) only reaches 10-8 with 48.68 point gap. Updated scoring system provides realistic MMA judging where single events don't auto-win unless accompanied by other dominance. All success criteria met."
+
 test_plan:
   current_focus:
     - "Updated Scoring Thresholds & At-a-Glance Removal"
