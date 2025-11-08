@@ -960,9 +960,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Synced Control Timers"
-    - "5 Rounds Non-Title Option"
-    - "Significant Strike Checkbox"
+    - "Updated Scoring Thresholds & At-a-Glance Removal"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
