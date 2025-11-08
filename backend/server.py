@@ -1022,17 +1022,20 @@ async def calculate_score_v2(request: ScoreRequest):
         # Determine winner and card
         score_diff = f1_total - f2_total
         
-        # 10-Point Must System mapping
-        if abs(score_diff) < 5.0:  # Close round
+        # 10-Point Must System mapping - MORE REALISTIC THRESHOLDS
+        # KD now has massive weight (12.0), so these thresholds account for that
+        if abs(score_diff) < 3.0:  # Very close round (tightened from 5.0)
             card = "10-10"
             winner = "DRAW"
-        elif abs(score_diff) < 15.0:  # Clear winner
+        elif abs(score_diff) < 25.0:  # Clear winner (increased from 15.0)
             card = "10-9"
             winner = "fighter1" if score_diff > 0 else "fighter2"
-        elif abs(score_diff) < 30.0:  # Dominant round
+        elif abs(score_diff) < 60.0:  # Massively dominant round (doubled from 30.0)
+            # 10-8 requires: Multiple KDs + dominance, or Near-Finish KD + complete control
             card = "10-8"
             winner = "fighter1" if score_diff > 0 else "fighter2"
-        else:  # Near-finish dominance
+        else:  # Near impossible - multiple near-finish KDs or extreme dominance
+            # 10-7 requires: 60+ point gap (3-4 Near-Finish KDs or equivalent)
             card = "10-7"
             winner = "fighter1" if score_diff > 0 else "fighter2"
         
