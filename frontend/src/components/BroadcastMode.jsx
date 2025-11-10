@@ -413,9 +413,9 @@ export default function BroadcastMode() {
         )}
 
         {/* Footer */}
-        <div className="text-center mt-8">
-          <div className="text-2xl text-gray-500">
-            Powered by FightJudge Scoring System
+        <div className="text-center mt-8 pb-6">
+          <div className="text-2xl font-semibold text-gray-400">
+            Powered By Fight Judge AI
           </div>
         </div>
       </div>
