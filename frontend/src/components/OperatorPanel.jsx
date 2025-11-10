@@ -231,56 +231,48 @@ export default function OperatorPanel() {
   };
 
   const handleQuickStats = async () => {
+    const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+    
     // Log each stat type based on the count entered
     const statMap = {
-      // Striking
       kd: 'KD',
-      rocked: 'Rocked/Stunned',
-      headKick: 'Head Kick',
-      elbow: 'Elbow',
-      knee: 'Knee',
-      hook: 'Hook',
-      cross: 'Cross',
-      uppercut: 'Uppercut',
-      bodyKick: 'Body Kick',
-      lowKick: 'Low Kick',
-      jab: 'Jab',
-      frontKick: 'Front Kick/Teep',
-      // Grappling
-      subAttempt: 'Submission Attempt',
-      backControl: 'Ground Back Control',
-      takedown: 'Takedown Landed',
-      topControl: 'Ground Top Control',
-      sweep: 'Sweep/Reversal',
-      // Control
-      cageControl: 'Cage Control Time',
-      tdStuffed: 'Takedown Stuffed'
+      ts: 'TS',
+      issHead: 'ISS Head',
+      issBody: 'ISS Body',
+      issLeg: 'ISS Leg',
+      takedown: 'Takedown',
+      pass: 'Pass',
+      reversal: 'Reversal'
     };
 
+    let totalEvents = 0;
     for (const [key, eventType] of Object.entries(statMap)) {
-      const count = quickStats[key];
+      const count = quickStats[key] || 0;
       for (let i = 0; i < count; i++) {
         await logEvent(eventType, { source: 'quick-input' });
+        totalEvents++;
       }
     }
 
     // Log control time if specified (in seconds)
-    if (quickStats.controlTime > 0) {
-      await logEvent('CTRL_START', { source: 'quick-input', duration: quickStats.controlTime });
-      await logEvent('CTRL_STOP', { source: 'quick-input', totalDuration: quickStats.controlTime });
+    if (quickStats.cageControl > 0) {
+      await logEvent('CTRL_START', { source: 'quick-input', duration: quickStats.cageControl });
+      await logEvent('CTRL_STOP', { source: 'quick-input', totalDuration: quickStats.cageControl });
     }
 
-    const totalEvents = Object.entries(quickStats).reduce((sum, [key, val]) => {
-      return key === 'controlTime' ? sum : sum + val;
-    }, 0);
-    toast.success(`Logged ${totalEvents} events + ${quickStats.controlTime}s control time via Quick Stats`);
+    toast.success(`Logged ${totalEvents} events + ${quickStats.cageControl || 0}s control time for ${fighterName}`);
     
     // Reset and close
     setQuickStats({
-      kd: 0, rocked: 0, headKick: 0, elbow: 0, knee: 0, hook: 0,
-      cross: 0, uppercut: 0, bodyKick: 0, lowKick: 0, jab: 0, frontKick: 0,
-      subAttempt: 0, backControl: 0, takedown: 0, topControl: 0, sweep: 0,
-      cageControl: 0, tdStuffed: 0
+      kd: 0,
+      ts: 0,
+      issHead: 0,
+      issBody: 0,
+      issLeg: 0,
+      takedown: 0,
+      pass: 0,
+      reversal: 0,
+      cageControl: 0
     });
     setShowQuickStatsDialog(false);
   };
