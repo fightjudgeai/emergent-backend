@@ -156,16 +156,18 @@ class OfflineDB {
     return new Promise((resolve, reject) => {
       const transaction = this.db.transaction([EVENT_QUEUE_STORE], 'readwrite');
       const store = transaction.objectStore(EVENT_QUEUE_STORE);
-      const index = store.index('synced');
-      const request = index.openCursor(IDBKeyRange.only(true)); // Get synced events
+      const request = store.openCursor();
 
       let deletedCount = 0;
 
       request.onsuccess = (event) => {
         const cursor = event.target.result;
         if (cursor) {
-          cursor.delete();
-          deletedCount++;
+          // Only delete if synced is true
+          if (cursor.value.synced === true) {
+            cursor.delete();
+            deletedCount++;
+          }
           cursor.continue();
         } else {
           console.log(`Deleted ${deletedCount} synced events from queue`);
