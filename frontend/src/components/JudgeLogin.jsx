@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { Shield, LogIn } from 'lucide-react';
 
@@ -14,8 +13,6 @@ export default function JudgeLogin() {
   const navigate = useNavigate();
   const [judgeId, setJudgeId] = useState('');
   const [judgeName, setJudgeName] = useState('');
-  const [organization, setOrganization] = useState('UFC');
-  const [customOrganization, setCustomOrganization] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
@@ -24,18 +21,13 @@ export default function JudgeLogin() {
       return;
     }
 
-    // Use custom organization if "Custom" is selected and custom name is provided
-    const finalOrganization = organization === 'Custom' 
-      ? (customOrganization.trim() || 'Independent')
-      : organization;
-
     setLoading(true);
     
     // Store in localStorage
     localStorage.setItem('judgeProfile', JSON.stringify({
       judgeId: judgeId.trim(),
       judgeName: judgeName.trim(),
-      organization: finalOrganization
+      organization: 'Independent'
     }));
 
     toast.success(`Welcome, ${judgeName}!`);
