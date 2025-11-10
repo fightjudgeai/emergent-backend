@@ -1145,8 +1145,13 @@ export default function JudgePanel() {
                 {(() => {
                   let f1Total = 0, f2Total = 0;
                   for (let i = 1; i <= bout.totalRounds; i++) {
-                    f1Total += scores[i]?.fighter1_score || 0;
-                    f2Total += scores[i]?.fighter2_score || 0;
+                    const roundScore = scores[i];
+                    if (roundScore && roundScore.card) {
+                      // Parse card like "10-9" or "9-10" or "10-10"
+                      const [score1, score2] = roundScore.card.split('-').map(Number);
+                      f1Total += score1;
+                      f2Total += score2;
+                    }
                   }
                   const winner = f1Total > f2Total ? bout.fighter1 : f2Total > f1Total ? bout.fighter2 : 'Draw';
                   const winnerColor = f1Total > f2Total ? 'text-red-500' : f2Total > f1Total ? 'text-blue-500' : 'text-gray-400';
