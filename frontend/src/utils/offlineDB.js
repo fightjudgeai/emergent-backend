@@ -188,7 +188,7 @@ class OfflineDB {
       const transaction = this.db.transaction([EVENT_QUEUE_STORE], 'readonly');
       const store = transaction.objectStore(EVENT_QUEUE_STORE);
       const index = store.index('synced');
-      const request = index.count(false);
+      const request = index.count(IDBKeyRange.only(false));
 
       request.onsuccess = () => {
         resolve(request.result);
