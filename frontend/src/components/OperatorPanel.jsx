@@ -821,10 +821,34 @@ export default function OperatorPanel() {
           <DialogHeader>
             <DialogTitle className="text-white flex items-center gap-2">
               <Zap className="h-5 w-5 text-green-500" />
-              Quick Stats Input for {selectedFighter === 'fighter1' ? bout?.fighter1 : bout?.fighter2}
+              Quick Stats Input
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4 max-h-[70vh] overflow-y-auto">
+            {/* Fighter Selection */}
+            <div className="space-y-2 pb-4 border-b border-[#2a2d35]">
+              <Label className="text-gray-300 font-semibold">Select Fighter</Label>
+              <Select value={selectedFighter} onValueChange={setSelectedFighter}>
+                <SelectTrigger className="h-12 bg-[#1a1d24] border-[#2a2d35] text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
+                  <SelectItem value="fighter1" className="text-white hover:bg-red-900/20">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      {bout?.fighter1} (Red Corner)
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="fighter2" className="text-white hover:bg-blue-900/20">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                      {bout?.fighter2} (Blue Corner)
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
             <p className="text-sm text-gray-400 mb-4">Enter the total count for each event type to log them all at once:</p>
             
             {/* Striking Events */}
