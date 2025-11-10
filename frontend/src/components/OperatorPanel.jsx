@@ -31,28 +31,15 @@ export default function OperatorPanel() {
   const [isSignificantStrike, setIsSignificantStrike] = useState(true);
   const [quickStrikeMode, setQuickStrikeMode] = useState('significant'); // 'significant' or 'non-significant'
   const [quickStats, setQuickStats] = useState({
-    // Striking
     kd: 0,
-    rocked: 0,
-    headKick: 0,
-    elbow: 0,
-    knee: 0,
-    hook: 0,
-    cross: 0,
-    uppercut: 0,
-    bodyKick: 0,
-    lowKick: 0,
-    jab: 0,
-    frontKick: 0,
-    // Grappling
-    subAttempt: 0,
-    backControl: 0,
+    ts: 0,
+    issHead: 0,
+    issBody: 0,
+    issLeg: 0,
     takedown: 0,
-    topControl: 0,
-    sweep: 0,
-    // Control
-    cageControl: 0,
-    tdStuffed: 0
+    pass: 0,
+    reversal: 0,
+    cageControl: 0
   });
   const timerRef = useRef(null);
 
