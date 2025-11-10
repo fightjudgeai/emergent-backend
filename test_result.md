@@ -1078,15 +1078,18 @@ agent_communication:
 frontend:
   - task: "Quick Stats with Fighter Selection"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/components/OperatorPanel.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Updated Quick Stats dialog to include fighter selection dropdown at the top. Dialog now shows 'Select Fighter' dropdown with red/blue dot indicators for Fighter Red (Red Corner) and Fighter Blue (Blue Corner). Events are logged for the selected fighter instead of always using the currently selected fighter."
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL BUGS FOUND: Quick Stats feature has multiple critical issues preventing it from working: (1) **Field Mismatch Bug**: Dialog uses field names (quickStats.ts, quickStats.issHead, quickStats.issBody, quickStats.issLeg, quickStats.pass, quickStats.reversal, quickStats.controlTime) that don't exist in the initial state (lines 33-56), which only defines old field names (kd, rocked, headKick, etc.), (2) **Processing Bug**: handleQuickStats function (lines 246-299) processes old field names that don't match the dialog fields, so entered values are ignored, (3) **Fighter Selection Bug**: handleQuickStats doesn't use the selectedFighter value when logging events, so events may not be logged for the correct fighter, (4) **State Reset Bug**: Reset function (lines 292-297) only resets old field names, not the new ones used in dialog. **UI VERIFICATION**: Fighter selection dropdown is properly implemented (lines 828-850) with correct styling, red/blue dot indicators, and proper SelectTrigger/SelectContent structure. **IMPACT**: Users can open dialog and select fighter, but submitting stats will fail silently or log incorrect data. Requires code fixes to align dialog fields with state and processing logic."
 
 metadata:
   created_by: "main_agent"
