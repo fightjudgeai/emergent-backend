@@ -400,7 +400,23 @@ export default function OperatorPanel() {
         <Card className="bg-[#13151a] border-[#2a2d35] p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-amber-500">Operator Panel</h1>
+              <div className="flex items-center gap-3">
+                <h1 className="text-3xl font-bold text-amber-500">Operator Panel</h1>
+                {/* Connection Status Indicator */}
+                <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-semibold ${
+                  isOnline 
+                    ? 'bg-green-900/30 text-green-400 border border-green-500/30' 
+                    : 'bg-red-900/30 text-red-400 border border-red-500/30'
+                }`}>
+                  {isOnline ? <Wifi className="h-4 w-4" /> : <WifiOff className="h-4 w-4" />}
+                  {isOnline ? 'Online' : 'Offline'}
+                  {queueCount > 0 && (
+                    <span className="ml-2 bg-amber-500 text-white px-2 py-0.5 rounded-full text-xs">
+                      {queueCount} queued
+                    </span>
+                  )}
+                </div>
+              </div>
               <p className="text-gray-400 mt-1">{bout.fighter1} vs {bout.fighter2}</p>
             </div>
             <div className="flex gap-3">
