@@ -118,16 +118,17 @@ export default function OperatorPanel() {
       // Get current control time for the selected fighter
       const currentTime = controlTimers[selectedFighter].time;
       
-      await db.collection('events').add({
-        boutId,
-        round: bout.currentRound,
+      // Use syncManager for offline-first event logging
+      const result = await syncManager.addEvent(boutId, bout.currentRound, {
         fighter: selectedFighter,
-        eventType,
+        event_type: eventType,
         timestamp: currentTime,
-        metadata,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        metadata
       });
-      toast.success(`${eventType} logged for ${selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2}`);
+      
+      const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+      const modeIndicator = result.mode === 'offline' ? ' (saved locally)' : '';
+      toast.success(`${eventType} logged for ${fighterName}${modeIndicator}`);
     } catch (error) {
       console.error('Error logging event:', error);
       toast.error('Failed to log event');
