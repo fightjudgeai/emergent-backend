@@ -18,6 +18,8 @@ export default function OperatorPanel() {
   const navigate = useNavigate();
   const [bout, setBout] = useState(null);
   const [selectedFighter, setSelectedFighter] = useState('fighter1');
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [queueCount, setQueueCount] = useState(0);
   const [controlTimers, setControlTimers] = useState({
     fighter1: { time: 0, isRunning: false, startTime: null, controlType: null },
     fighter2: { time: 0, isRunning: false, startTime: null, controlType: null }
