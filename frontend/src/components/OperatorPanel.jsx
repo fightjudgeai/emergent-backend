@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import { db } from '@/firebase';
+import syncManager from '@/utils/syncManager';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,7 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
-import { Play, Pause, ChevronRight, Eye, Monitor, Zap } from 'lucide-react';
+import { Play, Pause, ChevronRight, Eye, Monitor, Zap, Wifi, WifiOff } from 'lucide-react';
 
 export default function OperatorPanel() {
   const { boutId } = useParams();
