@@ -238,13 +238,6 @@ export default function BroadcastMode() {
                     {fighter2Current}
                   </div>
                 </div>
-                
-                <div className="bg-blue-900/30 rounded-xl p-4 border border-blue-700/50">
-                  <div className="text-blue-300 text-lg mb-1">Total Score</div>
-                  <div className="text-5xl font-bold text-white">
-                    {fighter2Total}
-                  </div>
-                </div>
               </div>
             </Card>
           </div>
