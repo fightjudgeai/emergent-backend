@@ -1103,7 +1103,12 @@ export default function JudgePanel() {
                     {(() => {
                       let total = 0;
                       for (let i = 1; i <= bout.totalRounds; i++) {
-                        total += scores[i]?.fighter1_score || 0;
+                        const roundScore = scores[i];
+                        if (roundScore && roundScore.card) {
+                          // Parse card like "10-9" or "9-10" or "10-10"
+                          const [score1, score2] = roundScore.card.split('-').map(Number);
+                          total += score1;
+                        }
                       }
                       return total;
                     })()}
