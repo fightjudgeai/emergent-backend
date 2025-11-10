@@ -84,36 +84,6 @@ export default function JudgeLogin() {
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="organization" className="text-gray-300 text-sm font-medium">Organization</Label>
-            <Select value={organization} onValueChange={setOrganization}>
-              <SelectTrigger className="h-12 bg-[#1a1d24] border-[#2a2d35] text-white">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="bg-[#1a1d24] border-[#2a2d35]">
-                <SelectItem value="UFC">UFC</SelectItem>
-                <SelectItem value="Bellator">Bellator</SelectItem>
-                <SelectItem value="ONE">ONE Championship</SelectItem>
-                <SelectItem value="PFL">PFL</SelectItem>
-                <SelectItem value="Regional">Regional</SelectItem>
-                <SelectItem value="Custom">Custom Organization</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {organization === 'Custom' && (
-            <div className="space-y-2">
-              <Label htmlFor="customOrg" className="text-gray-300 text-sm font-medium">Custom Organization Name</Label>
-              <Input
-                id="customOrg"
-                placeholder="Enter your organization name"
-                value={customOrganization}
-                onChange={(e) => setCustomOrganization(e.target.value)}
-                className="h-12 bg-[#1a1d24] border-[#2a2d35] text-white placeholder:text-gray-500 focus:border-amber-500 focus:ring-amber-500/20"
-              />
-            </div>
-          )}
-
           <div className="pt-4">
             <Button
               data-testid="login-btn"
