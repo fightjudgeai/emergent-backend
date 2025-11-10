@@ -48,6 +48,29 @@ export default function OperatorPanel() {
 
   useEffect(() => {
     loadBout();
+    
+    // Setup sync manager listener for connection status
+    const unsubscribe = syncManager.addListener(async (status) => {
+      if (status.type === 'online') {
+        setIsOnline(true);
+        toast.success('Connection restored - syncing events...');
+      } else if (status.type === 'offline') {
+        setIsOnline(false);
+        toast.warning('Connection lost - events will be saved locally');
+      } else if (status.type === 'syncComplete') {
+        toast.success(`Synced ${status.synced} events successfully`);
+      } else if (status.type === 'queued') {
+        setQueueCount(status.count);
+      }
+    });
+    
+    // Get initial status
+    syncManager.getStatus().then(status => {
+      setIsOnline(status.isOnline);
+      setQueueCount(status.queueCount);
+    });
+    
+    return () => unsubscribe();
   }, [boutId]);
 
   useEffect(() => {
