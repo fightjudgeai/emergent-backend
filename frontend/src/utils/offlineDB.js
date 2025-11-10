@@ -96,11 +96,12 @@ class OfflineDB {
     return new Promise((resolve, reject) => {
       const transaction = this.db.transaction([EVENT_QUEUE_STORE], 'readonly');
       const store = transaction.objectStore(EVENT_QUEUE_STORE);
-      const index = store.index('synced');
-      const request = index.getAll(IDBKeyRange.only(false));
+      const request = store.getAll();
 
       request.onsuccess = () => {
-        resolve(request.result);
+        // Filter for unsynced events in JavaScript instead of using index
+        const unsyncedEvents = request.result.filter(event => event.synced === false);
+        resolve(unsyncedEvents);
       };
 
       request.onerror = () => {
