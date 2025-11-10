@@ -156,7 +156,7 @@ class OfflineDB {
       const transaction = this.db.transaction([EVENT_QUEUE_STORE], 'readwrite');
       const store = transaction.objectStore(EVENT_QUEUE_STORE);
       const index = store.index('synced');
-      const request = index.openCursor(true); // Get synced events
+      const request = index.openCursor(IDBKeyRange.only(true)); // Get synced events
 
       let deletedCount = 0;
 
