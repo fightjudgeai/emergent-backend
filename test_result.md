@@ -1100,8 +1100,7 @@ metadata:
   test_sequence: 0
 
 test_plan:
-  current_focus:
-    - "Quick Stats with Fighter Selection"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
