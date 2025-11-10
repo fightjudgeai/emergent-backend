@@ -365,9 +365,9 @@ export default function JudgePanel() {
     
     for (let i = 1; i <= bout.totalRounds; i++) {
       const roundScore = scores[i];
-      if (roundScore) {
-        const f1Score = roundScore.fighter1_score || 10;
-        const f2Score = roundScore.fighter2_score || 10;
+      if (roundScore && roundScore.card) {
+        // Parse card like "10-9" or "9-10" or "10-10"
+        const [f1Score, f2Score] = roundScore.card.split('-').map(Number);
         fighter1Total += f1Score;
         fighter2Total += f2Score;
         
