@@ -114,7 +114,8 @@ export default function BroadcastMode() {
       const [score1, score2] = currentRoundScore.card.split('-').map(Number);
       return fighter === 'fighter1' ? score1 : score2;
     }
-    return '-';
+    // If no score yet for current round, show placeholder
+    return '—';
   };
 
   const getEventStats = (fighter) => {
