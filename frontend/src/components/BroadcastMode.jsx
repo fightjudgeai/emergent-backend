@@ -98,8 +98,10 @@ export default function BroadcastMode() {
   const getTotalScore = (fighter) => {
     let total = 0;
     Object.values(scores).forEach(roundScore => {
-      if (roundScore && roundScore[`${fighter}_score`]) {
-        total += roundScore[`${fighter}_score`];
+      if (roundScore && roundScore.card) {
+        // Parse card like "10-9" or "9-10"
+        const [score1, score2] = roundScore.card.split('-').map(Number);
+        total += fighter === 'fighter1' ? score1 : score2;
       }
     });
     return total;
@@ -107,7 +109,12 @@ export default function BroadcastMode() {
 
   const getCurrentRoundScore = (fighter) => {
     const currentRoundScore = scores[bout?.currentRound];
-    return currentRoundScore?.[`${fighter}_score`] || 0;
+    if (currentRoundScore && currentRoundScore.card) {
+      // Parse card like "10-9" or "9-10"
+      const [score1, score2] = currentRoundScore.card.split('-').map(Number);
+      return fighter === 'fighter1' ? score1 : score2;
+    }
+    return '-';
   };
 
   const getEventStats = (fighter) => {
