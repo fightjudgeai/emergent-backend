@@ -312,12 +312,23 @@ export default function BroadcastMode() {
               </div>
               
               <div className="space-y-6">
+                {/* Current Round Score */}
                 <div className="bg-blue-950/50 rounded-xl p-6 border-2 border-blue-700">
                   <div className="text-blue-300 text-xl mb-2">Round {bout.currentRound}</div>
                   <div className="text-8xl font-black text-white">
                     {fighter2Current}
                   </div>
                 </div>
+                
+                {/* Total Score */}
+                {Object.keys(scores).length > 0 && (
+                  <div className="bg-blue-900/30 rounded-xl p-4 border border-blue-700/50">
+                    <div className="text-blue-300 text-lg mb-1">Total Score</div>
+                    <div className="text-5xl font-bold text-white">
+                      {fighter2Total}
+                    </div>
+                  </div>
+                )}
               </div>
             </Card>
           </div>
