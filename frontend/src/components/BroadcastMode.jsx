@@ -20,20 +20,27 @@ export default function BroadcastMode() {
 
   const loadBout = async () => {
     try {
+      console.log('[Broadcast] Loading bout:', boutId);
       const boutDoc = await db.collection('bouts').doc(boutId).get();
       if (boutDoc.exists) {
         const boutData = { id: boutDoc.id, ...boutDoc.data() };
+        console.log('[Broadcast] Bout loaded:', boutData);
         setBout(boutData);
         
         // Fetch initial scores for all rounds up to current round
         if (boutData.currentRound) {
+          console.log('[Broadcast] Fetching scores for rounds 1 to', boutData.currentRound);
           for (let r = 1; r <= boutData.currentRound; r++) {
             fetchScoreForRound(r);
           }
+        } else {
+          console.log('[Broadcast] No current round set yet');
         }
+      } else {
+        console.error('[Broadcast] Bout not found:', boutId);
       }
     } catch (error) {
-      console.error('Error loading bout:', error);
+      console.error('[Broadcast] Error loading bout:', error);
     }
   };
   
