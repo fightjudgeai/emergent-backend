@@ -22,10 +22,35 @@ export default function BroadcastMode() {
     try {
       const boutDoc = await db.collection('bouts').doc(boutId).get();
       if (boutDoc.exists) {
-        setBout({ id: boutDoc.id, ...boutDoc.data() });
+        const boutData = { id: boutDoc.id, ...boutDoc.data() };
+        setBout(boutData);
+        
+        // Fetch initial scores for all rounds up to current round
+        if (boutData.currentRound) {
+          for (let r = 1; r <= boutData.currentRound; r++) {
+            fetchScoreForRound(r);
+          }
+        }
       }
     } catch (error) {
       console.error('Error loading bout:', error);
+    }
+  };
+  
+  const fetchScoreForRound = async (round) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/calculate-score-v2`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bout_id: boutId, round })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setScores(prev => ({ ...prev, [round]: data }));
+        console.log(`Loaded score for round ${round}:`, data.card);
+      }
+    } catch (error) {
+      console.error(`Error fetching score for round ${round}:`, error);
     }
   };
 
