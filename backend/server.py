@@ -1023,7 +1023,7 @@ async def calculate_score_v2(request: ScoreRequest):
         score_diff = f1_total - f2_total
         
         # Log the score differential for debugging
-        print(f"[SCORING] Round {round_num} - Fighter1 Total: {f1_total}, Fighter2 Total: {f2_total}, Diff: {score_diff}")
+        print(f"[SCORING] Round {request.round_num} - Fighter1 Total: {f1_total}, Fighter2 Total: {f2_total}, Diff: {score_diff}")
         
         # 10-Point Must System mapping - MORE REALISTIC THRESHOLDS
         # KD now has massive weight (12.0), so these thresholds account for that
