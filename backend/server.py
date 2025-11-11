@@ -1028,16 +1028,16 @@ async def calculate_score_v2(request: ScoreRequest):
             card = "10-10"
             winner = "DRAW"
         elif abs(score_diff) < 25.0:  # Clear winner (increased from 15.0)
-            card = "10-9"
             winner = "fighter1" if score_diff > 0 else "fighter2"
+            card = "10-9" if score_diff > 0 else "9-10"
         elif abs(score_diff) < 60.0:  # Massively dominant round (doubled from 30.0)
             # 10-8 requires: Multiple KDs + dominance, or Near-Finish KD + complete control
-            card = "10-8"
             winner = "fighter1" if score_diff > 0 else "fighter2"
+            card = "10-8" if score_diff > 0 else "8-10"
         else:  # Near impossible - multiple near-finish KDs or extreme dominance
             # 10-7 requires: 60+ point gap (3-4 Near-Finish KDs or equivalent)
-            card = "10-7"
             winner = "fighter1" if score_diff > 0 else "fighter2"
+            card = "10-7" if score_diff > 0 else "7-10"
         
         # Create legacy-compatible subscores for compatibility
         def create_legacy_subscores(categories):
