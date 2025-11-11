@@ -67,24 +67,6 @@ export default function BroadcastMode() {
         }
       });
 
-    // Listen to score changes
-    const calculateScoresForRound = async (round, boutData) => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/calculate-score-v2`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ bout_id: boutId, round })
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setScores(prev => ({ ...prev, [round]: data }));
-          console.log(`Updated score for round ${round}:`, data.card);
-        }
-      } catch (error) {
-        console.error('Error calculating scores:', error);
-      }
-    };
-
     // Listen to events for score recalculation and stats
     const unsubscribeEvents = db.collection('events')
       .where('boutId', '==', boutId)
@@ -97,10 +79,10 @@ export default function BroadcastMode() {
         }));
         setEvents(eventsList);
         
-        // Recalculate scores for current and past rounds
+        // Recalculate scores for current and past rounds when events change
         if (currentBout && currentBout.currentRound) {
           for (let r = 1; r <= currentBout.currentRound; r++) {
-            calculateScoresForRound(r, currentBout);
+            fetchScoreForRound(r);
           }
         }
       });
