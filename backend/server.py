@@ -1022,9 +1022,12 @@ async def calculate_score_v2(request: ScoreRequest):
         # Determine winner and card
         score_diff = f1_total - f2_total
         
+        # Log the score differential for debugging
+        print(f"[SCORING] Round {round_num} - Fighter1 Total: {f1_total}, Fighter2 Total: {f2_total}, Diff: {score_diff}")
+        
         # 10-Point Must System mapping - MORE REALISTIC THRESHOLDS
         # KD now has massive weight (12.0), so these thresholds account for that
-        if abs(score_diff) <= 0.5:  # Extremely rare draw - virtually identical performance
+        if abs(score_diff) <= 2.0:  # Extremely rare draw - virtually identical performance
             card = "10-10"
             winner = "DRAW"
         elif abs(score_diff) < 25.0:  # Clear winner (increased from 15.0)
