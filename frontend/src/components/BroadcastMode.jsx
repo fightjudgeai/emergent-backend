@@ -14,7 +14,8 @@ export default function BroadcastMode() {
 
   useEffect(() => {
     loadBout();
-    setupRealtimeListeners();
+    const cleanup = setupRealtimeListeners();
+    return cleanup;
   }, [boutId]);
 
   const loadBout = async () => {
