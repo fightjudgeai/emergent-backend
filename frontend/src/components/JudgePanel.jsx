@@ -642,6 +642,14 @@ export default function JudgePanel() {
                 Export Scorecard
               </Button>
               <Button
+                onClick={() => window.open(`/broadcast/${boutId}`, '_blank')}
+                className="h-10 px-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white"
+                title="Open Broadcast Mode for Arena Display"
+              >
+                <Monitor className="mr-2 h-4 w-4" />
+                Broadcast Mode
+              </Button>
+              <Button
                 data-testid="next-fight-btn-judge"
                 onClick={goToNextFight}
                 className="h-10 px-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
