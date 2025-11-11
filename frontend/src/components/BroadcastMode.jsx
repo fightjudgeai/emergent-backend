@@ -39,15 +39,35 @@ export default function BroadcastMode() {
   
   const fetchScoreForRound = async (round) => {
     try {
+      // Fetch events for this round from Firebase
+      const eventsSnapshot = await db.collection('events')
+        .where('boutId', '==', boutId)
+        .where('round', '==', round)
+        .get();
+      
+      const roundEvents = eventsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      
+      // Call backend API with correct parameters
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/calculate-score-v2`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bout_id: boutId, round })
+        body: JSON.stringify({ 
+          bout_id: boutId, 
+          round_num: round,  // Changed from 'round' to 'round_num'
+          events: roundEvents,
+          round_duration: 300  // 5 minutes in seconds
+        })
       });
+      
       if (response.ok) {
         const data = await response.json();
         setScores(prev => ({ ...prev, [round]: data }));
         console.log(`Loaded score for round ${round}:`, data.card);
+      } else {
+        console.error(`Failed to fetch score for round ${round}:`, response.status, await response.text());
       }
     } catch (error) {
       console.error(`Error fetching score for round ${round}:`, error);
