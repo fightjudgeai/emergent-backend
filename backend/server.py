@@ -46,7 +46,7 @@ SCORING_CONFIG = {
         "Takedown Stuffed": {"category": "control_aggression", "weight": 1.0}
     },
     "stacking_rules": {
-        "KD": {"primary_multiplier": 1.0, "additional_multiplier": 0.5, "cap_multiplier": 1.2},
+        "KD": {"primary_multiplier": 1.0, "additional_multiplier": 0.85, "cap_multiplier": 2.5},
         "Submission Attempt": {"primary_multiplier": 1.0, "additional_multiplier": 0.4, "cap_multiplier": 1.2}
     }
 }
