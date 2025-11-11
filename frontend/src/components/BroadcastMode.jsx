@@ -101,8 +101,17 @@ export default function BroadcastMode() {
       .onSnapshot((doc) => {
         if (doc.exists) {
           const boutData = { id: doc.id, ...doc.data() };
+          const previousRound = currentBout?.currentRound;
           setBout(boutData);
           currentBout = boutData;
+          
+          // Fetch score when round changes
+          if (previousRound && boutData.currentRound && boutData.currentRound > previousRound) {
+            console.log(`[Broadcast] Round changed from ${previousRound} to ${boutData.currentRound}, fetching new scores`);
+            for (let r = 1; r <= boutData.currentRound; r++) {
+              fetchScoreForRound(r);
+            }
+          }
         }
       });
 
