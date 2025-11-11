@@ -15,8 +15,22 @@ export default function BroadcastMode() {
   useEffect(() => {
     loadBout();
     const cleanup = setupRealtimeListeners();
-    return cleanup;
-  }, [boutId]);
+    
+    // Periodic score refresh every 5 seconds to ensure updates
+    const refreshInterval = setInterval(() => {
+      if (bout?.currentRound) {
+        console.log('[Broadcast] Periodic score refresh');
+        for (let r = 1; r <= bout.currentRound; r++) {
+          fetchScoreForRound(r);
+        }
+      }
+    }, 5000);
+    
+    return () => {
+      cleanup();
+      clearInterval(refreshInterval);
+    };
+  }, [boutId, bout?.currentRound]);
 
   const loadBout = async () => {
     try {
