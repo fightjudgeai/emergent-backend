@@ -263,8 +263,16 @@ export default function BroadcastMode() {
               <div className="flex justify-center gap-4">
                 {Array.from({ length: bout.totalRounds }, (_, i) => i + 1).map(roundNum => {
                   const roundScore = scores[roundNum];
-                  const f1Score = roundScore?.fighter1_score || '-';
-                  const f2Score = roundScore?.fighter2_score || '-';
+                  let f1Score = '-';
+                  let f2Score = '-';
+                  
+                  if (roundScore && roundScore.card) {
+                    // Parse card like "10-9" or "9-10"
+                    const [score1, score2] = roundScore.card.split('-').map(Number);
+                    f1Score = score1;
+                    f2Score = score2;
+                  }
+                  
                   const isCurrent = roundNum === bout.currentRound;
                   
                   return (
