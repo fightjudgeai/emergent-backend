@@ -46,6 +46,8 @@ export default function BroadcastMode() {
   
   const fetchScoreForRound = async (round) => {
     try {
+      console.log(`[Broadcast] Fetching events for round ${round}, boutId:`, boutId);
+      
       // Fetch events for this round from Firebase
       const eventsSnapshot = await db.collection('events')
         .where('boutId', '==', boutId)
@@ -57,27 +59,37 @@ export default function BroadcastMode() {
         ...doc.data()
       }));
       
+      console.log(`[Broadcast] Found ${roundEvents.length} events for round ${round}`);
+      
+      const requestBody = { 
+        bout_id: boutId, 
+        round_num: round,
+        events: roundEvents,
+        round_duration: 300
+      };
+      
+      console.log('[Broadcast] Calling API with:', requestBody);
+      
       // Call backend API with correct parameters
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/calculate-score-v2`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          bout_id: boutId, 
-          round_num: round,  // Changed from 'round' to 'round_num'
-          events: roundEvents,
-          round_duration: 300  // 5 minutes in seconds
-        })
+        body: JSON.stringify(requestBody)
       });
+      
+      console.log(`[Broadcast] API response status for round ${round}:`, response.status);
       
       if (response.ok) {
         const data = await response.json();
+        console.log(`[Broadcast] Score data for round ${round}:`, data);
         setScores(prev => ({ ...prev, [round]: data }));
-        console.log(`Loaded score for round ${round}:`, data.card);
+        console.log(`[Broadcast] ✅ Loaded score for round ${round}:`, data.card);
       } else {
-        console.error(`Failed to fetch score for round ${round}:`, response.status, await response.text());
+        const errorText = await response.text();
+        console.error(`[Broadcast] ❌ Failed to fetch score for round ${round}:`, response.status, errorText);
       }
     } catch (error) {
-      console.error(`Error fetching score for round ${round}:`, error);
+      console.error(`[Broadcast] ❌ Error fetching score for round ${round}:`, error);
     }
   };
 
