@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
-import { Shield, Check, TrendingUp, ArrowLeft, SkipForward, Download, Printer, Users } from 'lucide-react';
+import { Shield, Check, TrendingUp, ArrowLeft, SkipForward, Download, Printer, Users, Monitor } from 'lucide-react';
 import ExplainabilityCard from '@/components/ExplainabilityCard';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
