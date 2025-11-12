@@ -1008,11 +1008,11 @@ async def calculate_score_v2(request: ScoreRequest):
         
         if f1_has_near_finish and not f2_has_near_finish:
             # Fighter 1 wins with near-finish advantage
-            score_diff = 30.0  # Force 10-9 minimum
+            score_diff = max(f1_total - f2_total, 10.0)  # Ensure at least 10-9 win
             print(f"  [GUARDRAIL] F1 has near-finish, F2 does not - F1 wins")
         elif f2_has_near_finish and not f1_has_near_finish:
             # Fighter 2 wins with near-finish advantage
-            score_diff = -30.0  # Force 10-9 minimum
+            score_diff = min(f1_total - f2_total, -10.0)  # Ensure at least 10-9 win
             print(f"  [GUARDRAIL] F2 has near-finish, F1 does not - F2 wins")
         else:
             # Guardrail 2: Striking dominance override
