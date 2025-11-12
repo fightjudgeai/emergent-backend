@@ -995,26 +995,54 @@ async def calculate_score_v2(request: ScoreRequest):
         f1_total, f1_categories, f1_counts = calculate_new_score(request.events, "fighter1")
         f2_total, f2_categories, f2_counts = calculate_new_score(request.events, "fighter2")
         
-        # Determine winner and card
-        score_diff = f1_total - f2_total
-        
         # Log the score differential for debugging
-        print(f"[SCORING] Round {request.round_num} - Fighter1 Total: {f1_total}, Fighter2 Total: {f2_total}, Diff: {score_diff}")
+        print(f"[SCORING] Round {request.round_num} - Fighter1: {f1_total:.2f}, Fighter2: {f2_total:.2f}")
+        print(f"  F1 Categories - Striking: {f1_categories['striking_raw']:.2f}, Grappling: {f1_categories['grappling_raw']:.2f}, Other: {f1_categories['other_raw']:.2f}")
+        print(f"  F2 Categories - Striking: {f2_categories['striking_raw']:.2f}, Grappling: {f2_categories['grappling_raw']:.2f}, Other: {f2_categories['other_raw']:.2f}")
         
-        # 10-Point Must System mapping - MORE REALISTIC THRESHOLDS
-        # KD now has massive weight (12.0), so these thresholds account for that
-        if abs(score_diff) <= 0.5:  # Extremely rare draw - virtually identical performance
+        # UNIFIED RULES GUARDRAILS
+        
+        # Guardrail 1: Near-finish domination
+        f1_has_near_finish = f1_categories.get("has_near_finish_striking") or f1_categories.get("has_near_finish_grappling")
+        f2_has_near_finish = f2_categories.get("has_near_finish_striking") or f2_categories.get("has_near_finish_grappling")
+        
+        if f1_has_near_finish and not f2_has_near_finish:
+            # Fighter 1 wins with near-finish advantage
+            score_diff = 30.0  # Force 10-9 minimum
+            print(f"  [GUARDRAIL] F1 has near-finish, F2 does not - F1 wins")
+        elif f2_has_near_finish and not f1_has_near_finish:
+            # Fighter 2 wins with near-finish advantage
+            score_diff = -30.0  # Force 10-9 minimum
+            print(f"  [GUARDRAIL] F2 has near-finish, F1 does not - F2 wins")
+        else:
+            # Guardrail 2: Striking dominance override
+            striking_margin = f1_categories['striking'] - f2_categories['striking']
+            if abs(striking_margin) >= 20.0:
+                # Striking margin ≥ 20 points overrides unless opponent has near-finish grappling
+                if striking_margin > 0 and not f2_categories.get("has_near_finish_grappling"):
+                    score_diff = max(f1_total - f2_total, 30.0)
+                    print(f"  [GUARDRAIL] F1 striking dominance (margin: {striking_margin:.1f}) overrides")
+                elif striking_margin < 0 and not f1_categories.get("has_near_finish_grappling"):
+                    score_diff = min(f1_total - f2_total, -30.0)
+                    print(f"  [GUARDRAIL] F2 striking dominance (margin: {abs(striking_margin):.1f}) overrides")
+                else:
+                    score_diff = f1_total - f2_total
+            else:
+                score_diff = f1_total - f2_total
+        
+        print(f"  Final Diff: {score_diff:.2f}")
+        
+        # 10-Point Must System mapping
+        if abs(score_diff) <= 0.5:  # Extremely rare draw
             card = "10-10"
             winner = "DRAW"
-        elif abs(score_diff) < 25.0:  # Clear winner (increased from 15.0)
+        elif abs(score_diff) < 25.0:  # Clear winner
             winner = "fighter1" if score_diff > 0 else "fighter2"
             card = "10-9" if score_diff > 0 else "9-10"
-        elif abs(score_diff) < 60.0:  # Massively dominant round (doubled from 30.0)
-            # 10-8 requires: Multiple KDs + dominance, or Near-Finish KD + complete control
+        elif abs(score_diff) < 60.0:  # Dominant round
             winner = "fighter1" if score_diff > 0 else "fighter2"
             card = "10-8" if score_diff > 0 else "8-10"
-        else:  # Near impossible - multiple near-finish KDs or extreme dominance
-            # 10-7 requires: 60+ point gap (3-4 Near-Finish KDs or equivalent)
+        else:  # Extreme dominance
             winner = "fighter1" if score_diff > 0 else "fighter2"
             card = "10-7" if score_diff > 0 else "7-10"
         
