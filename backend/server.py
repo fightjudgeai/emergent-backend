@@ -1027,7 +1027,7 @@ async def calculate_score_v2(request: ScoreRequest):
         
         # 10-Point Must System mapping - MORE REALISTIC THRESHOLDS
         # KD now has massive weight (12.0), so these thresholds account for that
-        if abs(score_diff) <= 2.0:  # Extremely rare draw - virtually identical performance
+        if abs(score_diff) <= 0.5:  # Extremely rare draw - virtually identical performance
             card = "10-10"
             winner = "DRAW"
         elif abs(score_diff) < 25.0:  # Clear winner (increased from 15.0)
