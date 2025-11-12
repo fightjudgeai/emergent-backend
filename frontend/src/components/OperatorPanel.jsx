@@ -637,73 +637,50 @@ export default function OperatorPanel() {
         {/* Grappling Events */}
         <div>
           <h3 className="text-blue-500 font-bold text-lg mb-3">🤼 Grappling</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {grapplingButtons.map((btn, index) => {
-              const isControlType = btn.event === 'Ground Back Control' || btn.event === 'Ground Top Control';
-              const isActive = controlTimers[selectedFighter].isRunning && 
-                              controlTimers[selectedFighter].controlType === btn.event;
-              
-              return (
-                <Button
-                  key={btn.event}
-                  data-testid={`event-${btn.event.toLowerCase().replace(/[/ ]/g, '-')}-btn`}
-                  onClick={() => {
-                    if (btn.event === 'Submission Attempt') {
-                      setShowSubDialog(true);
-                    } else if (isControlType) {
-                      handleControlToggle(btn.event);
-                    } else {
-                      logEvent(btn.event);
-                    }
-                  }}
-                  className={`h-20 text-lg font-bold bg-gradient-to-br ${
-                    isActive 
-                      ? 'from-green-600 to-green-700 ring-4 ring-green-400 animate-pulse' 
-                      : getButtonColor(index + 12)
-                  } hover:opacity-90 text-white shadow-lg transition-all active:scale-95 relative`}
-                >
-                  {btn.label}
-                  {isActive && (
-                    <span className="absolute top-1 right-1 flex h-3 w-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                    </span>
-                  )}
-                </Button>
-              );
-            })}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+            {grapplingButtons.map((btn, index) => (
+              <Button
+                key={`${btn.event}-${btn.tier || 'base'}`}
+                onClick={() => {
+                  if (btn.tier) {
+                    logEvent(btn.event, { tier: btn.tier });
+                  } else {
+                    logEvent(btn.event);
+                  }
+                  toast.success(`${btn.label} logged`);
+                }}
+                className={`h-20 text-lg font-bold bg-gradient-to-br ${getButtonColor(index + 16)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+              >
+                {btn.label}
+              </Button>
+            ))}
           </div>
         </div>
 
-        {/* Control/Aggression Events */}
+        {/* Control Events */}
         <div>
-          <h3 className="text-purple-500 font-bold text-lg mb-3">🎯 Control & Aggression</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <h3 className="text-purple-500 font-bold text-lg mb-3">⏱️ Control</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {controlButtons.map((btn, index) => {
-              const isCageControl = btn.event === 'Cage Control Time';
               const isActive = controlTimers[selectedFighter].isRunning && 
                               controlTimers[selectedFighter].controlType === btn.event;
               
               return (
                 <Button
                   key={btn.event}
-                  data-testid={`event-${btn.event.toLowerCase().replace(/[/ ]/g, '-')}-btn`}
-                  onClick={() => {
-                    if (isCageControl) {
-                      handleControlToggle(btn.event);
-                    } else {
-                      logEvent(btn.event);
-                    }
-                  }}
-                  className={`h-20 text-lg font-bold bg-gradient-to-br ${
+                  onClick={() => handleControlToggle(btn.event)}
+                  className={`h-24 text-xl font-bold bg-gradient-to-br ${
                     isActive 
                       ? 'from-green-600 to-green-700 ring-4 ring-green-400 animate-pulse' 
-                      : getButtonColor(index + 17)
+                      : getButtonColor(index + 22)
                   } hover:opacity-90 text-white shadow-lg transition-all active:scale-95 relative`}
                 >
-                  {btn.label}
+                  <div className="flex flex-col items-center gap-1">
+                    <span>{btn.label}</span>
+                    <span className="text-sm opacity-75">{isActive ? '⏸ Stop' : '▶ Start'}</span>
+                  </div>
                   {isActive && (
-                    <span className="absolute top-1 right-1 flex h-3 w-3">
+                    <span className="absolute top-2 right-2 flex h-3 w-3">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                     </span>
