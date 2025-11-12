@@ -1054,8 +1054,8 @@ async def calculate_score_v2(request: ScoreRequest):
                 GCQ=categories["grappling_raw"] * 0.5,
                 TDQ=categories["grappling_raw"] * 0.3,
                 SUBQ=categories["grappling_raw"] * 0.2,
-                OC=categories["control_aggression_raw"],
-                AGG=categories["control_aggression_raw"] * 0.5,
+                OC=categories["other_raw"],
+                AGG=categories["other_raw"] * 0.5,
                 RP=0.0,
                 TSR=categories["striking_raw"] * 0.2
             )
