@@ -19,34 +19,32 @@ SCORING_CONFIG = {
     "categories": {
         "striking": 50.0,
         "grappling": 40.0,
-        "control_aggression": 10.0
+        "other": 10.0
     },
-    "metrics": {
-        # Striking (50% of total) - Raw weights calculated so effective % matches user specs
-        # KD with tiers: Flash=10%, Hard=8%, Near-Finish=5% of total score
-        "KD": {"category": "striking", "weight": 20.0, "tiers": {"Flash": 1.0, "Hard": 0.8, "Near-Finish": 0.5}},
-        "Rocked/Stunned": {"category": "striking", "weight": 9.0},  # 4.5% of total
-        # Regular strikes - will be multiplied for significant strikes
-        "Jab": {"category": "striking", "weight": 2.25},  # 1.125% of total, sig = 2.125%
-        "Cross": {"category": "striking", "weight": 3.0},  # 1.5% of total, sig = 2.5%
-        "Hook": {"category": "striking", "weight": 3.0},  # 1.5% of total, sig = 2.5%
-        "Uppercut": {"category": "striking", "weight": 3.0},  # 1.5% of total, sig = 2.5%
-        "Elbow": {"category": "striking", "weight": 3.0},  # 1.5% of total, sig = 2.5%
-        "Knee": {"category": "striking", "weight": 2.25},  # 1.125% of total, sig = 2.125%
-        # Grappling (40% of total)
-        # Submission with tiers: Light=3%, Deep=9%, Near-Finish=10% of total score
-        "Submission Attempt": {"category": "grappling", "weight": 25.0, "tiers": {"light": 0.3, "deep": 0.9, "near_finish": 1.0}},
-        "Takedown Landed": {"category": "grappling", "weight": 22.5},  # 9% of total
-        "Ground Top Control": {"category": "grappling", "weight": 10.0},  # 4% of total
-        "Ground Back Control": {"category": "grappling", "weight": 12.5},  # 5% of total
-        # Control/Aggression (10% of total)
-        "Cage Control Time": {"category": "control_aggression", "weight": 70.0},  # 7% of total
-        "Takedown Stuffed": {"category": "control_aggression", "weight": 20.0},  # 2% of total
-        "Sweep/Reversal": {"category": "control_aggression", "weight": 10.0}  # 1% of total
+    "base_values": {
+        # Striking - base values per occurrence (before normalization)
+        "KD": {"category": "striking", "Near-Finish": 1.00, "Hard": 0.70, "Flash": 0.40},
+        "Rocked/Stunned": {"category": "striking", "value": 0.30},
+        # Significant strikes (0.10-0.14 range)
+        "Cross": {"category": "striking", "sig": 0.14, "non_sig": 0.07},
+        "Hook": {"category": "striking", "sig": 0.14, "non_sig": 0.07},
+        "Uppercut": {"category": "striking", "sig": 0.14, "non_sig": 0.07},
+        "Elbow": {"category": "striking", "sig": 0.14, "non_sig": 0.07},
+        "Jab": {"category": "striking", "sig": 0.10, "non_sig": 0.05},
+        "Knee": {"category": "striking", "sig": 0.10, "non_sig": 0.05},
+        # Grappling - base values per occurrence or per second
+        "Submission Attempt": {"category": "grappling", "Near-Finish": 1.00, "Deep": 0.60, "Light": 0.25},
+        "Takedown Landed": {"category": "grappling", "value": 0.25},
+        "Sweep/Reversal": {"category": "grappling", "value": 0.05},
+        "Ground Back Control": {"category": "grappling", "value_per_sec": 0.012},
+        "Ground Top Control": {"category": "grappling", "value_per_sec": 0.010},
+        # Other - base values
+        "Cage Control Time": {"category": "other", "value_per_sec": 0.006},
+        "Takedown Stuffed": {"category": "other", "value": 0.04}
     },
-    "stacking_rules": {
-        "KD": {"primary_multiplier": 1.0, "additional_multiplier": 0.85, "cap_multiplier": 2.5},
-        "Submission Attempt": {"primary_multiplier": 1.0, "additional_multiplier": 0.4, "cap_multiplier": 1.2}
+    "volume_dampening": {
+        "non_sig_strike_threshold": 20,  # Beyond +20 advantage
+        "dampening_factor": 0.70  # Excess scores at 70%
     }
 }
 
