@@ -910,11 +910,14 @@ def calculate_new_score(events: List[EventData], fighter: str) -> tuple[float, d
         is_significant = meta.get("significant", True)  # Default to significant if not specified
         if event_config["category"] == "striking" and event_type not in ["KD", "Rocked/Stunned"]:
             if is_significant:
-                # Significant strikes get 1.3x multiplier (reflects 80% weight in formula)
-                weight = weight * 1.3
-            else:
-                # Non-significant strikes get 0.7x multiplier (reflects 20% weight in formula)
-                weight = weight * 0.7
+                # Different multipliers based on strike type
+                # Jab/Knee: 2.125/1.125 = 1.889x multiplier
+                # Cross/Hook/Uppercut/Elbow: 2.5/1.5 = 1.667x multiplier
+                if event_type in ["Jab", "Knee"]:
+                    weight = weight * 1.889
+                else:  # Cross, Hook, Uppercut, Elbow
+                    weight = weight * 1.667
+            # Non-significant strikes use base weight (no multiplier needed)
         
         # Track for stacking rules
         if event_type == "KD":
