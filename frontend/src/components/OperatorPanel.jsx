@@ -590,40 +590,43 @@ export default function OperatorPanel() {
       <div className="max-w-7xl mx-auto mb-6 space-y-6">
         {/* Striking Events */}
         <div>
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-amber-500 font-bold text-lg">⚡ Striking</h3>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-400">Strike Mode:</span>
-              <Button
-                onClick={() => setQuickStrikeMode(quickStrikeMode === 'significant' ? 'non-significant' : 'significant')}
-                className={`h-8 px-4 text-sm font-semibold transition-all ${
-                  quickStrikeMode === 'significant'
-                    ? 'bg-green-600 hover:bg-green-700 text-white ring-2 ring-green-400'
-                    : 'bg-gray-600 hover:bg-gray-700 text-white ring-2 ring-gray-400'
-                }`}
-              >
-                {quickStrikeMode === 'significant' ? '✓ Significant' : '○ Non-Significant'}
-              </Button>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <h3 className="text-amber-500 font-bold text-lg mb-3">⚡ Striking</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {strikingButtons.map((btn, index) => (
               <Button
-                key={btn.event}
-                data-testid={`event-${btn.event.toLowerCase().replace(/[/ ]/g, '-')}-btn`}
+                key={`${btn.event}-${btn.isSignificant ? 'sig' : 'non'}`}
                 onClick={() => {
-                  if (btn.event === 'KD') {
-                    setShowKdDialog(true);
-                  } else if (btn.event === 'Rocked/Stunned') {
-                    // Rocked always counts as significant
-                    logEvent(btn.event, { significant: true });
-                  } else {
-                    // Quick mode - log immediately based on current mode
-                    logEvent(btn.event, { significant: quickStrikeMode === 'significant' });
-                    toast.success(`${btn.event} logged as ${quickStrikeMode === 'significant' ? 'Significant' : 'Non-Significant'}`);
-                  }
+                  logEvent(btn.event, { significant: btn.isSignificant || false });
+                  toast.success(`${btn.label} logged`);
                 }}
-                className={`h-20 text-lg font-bold bg-gradient-to-br ${getButtonColor(index)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+                className={`h-16 text-sm font-bold bg-gradient-to-br ${
+                  btn.isSignificant 
+                    ? 'from-orange-600 to-red-600' 
+                    : 'from-gray-600 to-gray-700'
+                } hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+              >
+                {btn.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Damage Events */}
+        <div>
+          <h3 className="text-red-500 font-bold text-lg mb-3">💥 Damage</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {damageButtons.map((btn, index) => (
+              <Button
+                key={`${btn.event}-${btn.tier || 'base'}`}
+                onClick={() => {
+                  if (btn.tier) {
+                    logEvent(btn.event, { tier: btn.tier });
+                  } else {
+                    logEvent(btn.event, { significant: true });
+                  }
+                  toast.success(`${btn.label} logged`);
+                }}
+                className={`h-20 text-lg font-bold bg-gradient-to-br ${getButtonColor(index + 12)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
               >
                 {btn.label}
               </Button>
