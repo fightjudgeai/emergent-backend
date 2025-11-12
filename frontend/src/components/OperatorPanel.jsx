@@ -360,38 +360,48 @@ export default function OperatorPanel() {
     }
   };
 
-  // Striking Events
+  // Striking Events (regular and significant)
   const strikingButtons = [
-    { label: 'KD', event: 'KD', hasDialog: true },
-    { label: 'Rocked', event: 'Rocked/Stunned' },
-    { label: 'Head Kick', event: 'Head Kick' },
-    { label: 'Elbow', event: 'Elbow' },
-    { label: 'Knee', event: 'Knee' },
-    { label: 'Hook', event: 'Hook' },
-    { label: 'Cross', event: 'Cross' },
-    { label: 'Uppercut', event: 'Uppercut' },
-    { label: 'Body Kick', event: 'Body Kick' },
-    { label: 'Low Kick', event: 'Low Kick' },
     { label: 'Jab', event: 'Jab' },
-    { label: 'Front Kick', event: 'Front Kick/Teep' }
+    { label: 'SS Jab', event: 'Jab', isSignificant: true },
+    { label: 'Cross', event: 'Cross' },
+    { label: 'SS Cross', event: 'Cross', isSignificant: true },
+    { label: 'Hook', event: 'Hook' },
+    { label: 'SS Hook', event: 'Hook', isSignificant: true },
+    { label: 'Uppercut', event: 'Uppercut' },
+    { label: 'SS Uppercut', event: 'Uppercut', isSignificant: true },
+    { label: 'Elbow', event: 'Elbow' },
+    { label: 'SS Elbow', event: 'Elbow', isSignificant: true },
+    { label: 'Knee', event: 'Knee' },
+    { label: 'SS Knee', event: 'Knee', isSignificant: true }
+  ];
+
+  // Damage Events
+  const damageButtons = [
+    { label: 'Rocked', event: 'Rocked/Stunned' },
+    { label: 'KD (Flash)', event: 'KD', tier: 'Flash' },
+    { label: 'KD (Hard)', event: 'KD', tier: 'Hard' },
+    { label: 'KD (NF)', event: 'KD', tier: 'Near-Finish' }
   ];
 
   // Grappling Events
   const grapplingButtons = [
-    { label: 'Sub Attempt', event: 'Submission Attempt', hasDialog: true },
-    { label: 'Back Control', event: 'Ground Back Control' },
-    { label: 'Takedown', event: 'Takedown Landed' },
-    { label: 'Top Control', event: 'Ground Top Control' },
+    { label: 'TD Landed', event: 'Takedown Landed' },
+    { label: 'TD Stuffed', event: 'Takedown Stuffed' },
+    { label: 'SUB (Light)', event: 'Submission Attempt', tier: 'Light' },
+    { label: 'SUB (Deep)', event: 'Submission Attempt', tier: 'Deep' },
+    { label: 'SUB (NF)', event: 'Submission Attempt', tier: 'Near-Finish' },
     { label: 'Sweep/Reversal', event: 'Sweep/Reversal' }
   ];
 
-  // Control/Aggression Events
+  // Control Events (with start/stop timers)
   const controlButtons = [
-    { label: 'Cage Control', event: 'Cage Control Time' },
-    { label: 'TD Stuffed', event: 'Takedown Stuffed' }
+    { label: 'Top Control', event: 'Ground Top Control', isTimer: true },
+    { label: 'Back Control', event: 'Ground Back Control', isTimer: true },
+    { label: 'Cage Control', event: 'Cage Control Time', isTimer: true }
   ];
 
-  const allEventButtons = [...strikingButtons, ...grapplingButtons, ...controlButtons];
+  const allEventButtons = [...strikingButtons, ...damageButtons, ...grapplingButtons, ...controlButtons];
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] p-4">
