@@ -1020,10 +1020,10 @@ async def calculate_score_v2(request: ScoreRequest):
             if abs(striking_margin) >= 20.0:
                 # Striking margin ≥ 20 points overrides unless opponent has near-finish grappling
                 if striking_margin > 0 and not f2_categories.get("has_near_finish_grappling"):
-                    score_diff = max(f1_total - f2_total, 30.0)
+                    score_diff = max(f1_total - f2_total, 10.0)
                     print(f"  [GUARDRAIL] F1 striking dominance (margin: {striking_margin:.1f}) overrides")
                 elif striking_margin < 0 and not f1_categories.get("has_near_finish_grappling"):
-                    score_diff = min(f1_total - f2_total, -30.0)
+                    score_diff = min(f1_total - f2_total, -10.0)
                     print(f"  [GUARDRAIL] F2 striking dominance (margin: {abs(striking_margin):.1f}) overrides")
                 else:
                     score_diff = f1_total - f2_total
