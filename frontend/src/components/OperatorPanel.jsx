@@ -592,22 +592,30 @@ export default function OperatorPanel() {
         <div>
           <h3 className="text-amber-500 font-bold text-lg mb-3">⚡ Striking</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {strikingButtons.map((btn, index) => (
-              <Button
-                key={`${btn.event}-${btn.isSignificant ? 'sig' : 'non'}`}
-                onClick={() => {
-                  logEvent(btn.event, { significant: btn.isSignificant || false });
-                  toast.success(`${btn.label} logged`);
-                }}
-                className={`h-16 text-sm font-bold bg-gradient-to-br ${
-                  btn.isSignificant 
-                    ? 'from-orange-600 to-red-600' 
-                    : 'from-gray-600 to-gray-700'
-                } hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
-              >
-                {btn.label}
-              </Button>
-            ))}
+            {strikingButtons.map((btn, index) => {
+              // Determine button color based on fighter selection and significance
+              let buttonColor;
+              if (btn.isSignificant) {
+                buttonColor = selectedFighter === 'fighter1' 
+                  ? 'from-orange-600 to-red-600'  // Red corner - significant
+                  : 'from-blue-500 to-blue-700';   // Blue corner - significant
+              } else {
+                buttonColor = 'from-gray-600 to-gray-700';  // Non-significant (same for both)
+              }
+              
+              return (
+                <Button
+                  key={`${btn.event}-${btn.isSignificant ? 'sig' : 'non'}`}
+                  onClick={() => {
+                    logEvent(btn.event, { significant: btn.isSignificant || false });
+                    toast.success(`${btn.label} logged`);
+                  }}
+                  className={`h-16 text-sm font-bold bg-gradient-to-br ${buttonColor} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+                >
+                  {btn.label}
+                </Button>
+              );
+            })}
           </div>
         </div>
 
