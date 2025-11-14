@@ -260,31 +260,51 @@ export default function OperatorPanel() {
   const handleQuickStats = async () => {
     const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
     
-    // Log each stat type based on the count entered
-    const statMap = {
-      kd: 'KD',
-      ts: 'TS',
-      issHead: 'ISS Head',
-      issBody: 'ISS Body',
-      issLeg: 'ISS Leg',
-      takedown: 'Takedown',
-      pass: 'Pass',
-      reversal: 'Reversal'
-    };
-
     let totalEvents = 0;
-    for (const [key, eventType] of Object.entries(statMap)) {
-      const count = quickStats[key] || 0;
-      for (let i = 0; i < count; i++) {
-        await logEvent(eventType, { source: 'quick-input' });
-        totalEvents++;
-      }
+    
+    // Log KDs with Flash tier (default for quick stats)
+    const kdCount = quickStats.kd || 0;
+    for (let i = 0; i < kdCount; i++) {
+      await logEvent('KD', { tier: 'Flash', source: 'quick-input' });
+      totalEvents++;
     }
-
+    
+    // Log significant strikes (Cross as default strike type)
+    const sigStrikesHead = quickStats.issHead || 0;
+    for (let i = 0; i < sigStrikesHead; i++) {
+      await logEvent('Cross', { significant: true, source: 'quick-input' });
+      totalEvents++;
+    }
+    
+    const sigStrikesBody = quickStats.issBody || 0;
+    for (let i = 0; i < sigStrikesBody; i++) {
+      await logEvent('Cross', { significant: true, source: 'quick-input' });
+      totalEvents++;
+    }
+    
+    const sigStrikesLeg = quickStats.issLeg || 0;
+    for (let i = 0; i < sigStrikesLeg; i++) {
+      await logEvent('Cross', { significant: true, source: 'quick-input' });
+      totalEvents++;
+    }
+    
+    // Log takedowns
+    const takedownCount = quickStats.takedown || 0;
+    for (let i = 0; i < takedownCount; i++) {
+      await logEvent('Takedown Landed', { source: 'quick-input' });
+      totalEvents++;
+    }
+    
+    // Log sweeps/reversals
+    const sweepCount = quickStats.pass || 0;
+    for (let i = 0; i < sweepCount; i++) {
+      await logEvent('Sweep/Reversal', { source: 'quick-input' });
+      totalEvents++;
+    }
+    
     // Log control time if specified (in seconds)
     if (quickStats.cageControl > 0) {
-      await logEvent('CTRL_START', { source: 'quick-input', duration: quickStats.cageControl });
-      await logEvent('CTRL_STOP', { source: 'quick-input', totalDuration: quickStats.cageControl });
+      await logEvent('Cage Control Time', { duration: quickStats.cageControl, source: 'quick-input' });
     }
 
     toast.success(`Logged ${totalEvents} events + ${quickStats.cageControl || 0}s control time for ${fighterName}`);
