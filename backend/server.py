@@ -1032,20 +1032,20 @@ async def calculate_score_v2(request: ScoreRequest):
         
         print(f"  Final Diff: {score_diff:.2f}")
         
-        # 10-Point Must System mapping - VERY STRICT UFC THRESHOLDS
-        # 10-8 rounds rare but possible with 2 KDs + dominance
+        # 10-Point Must System mapping - EXTREMELY STRICT UFC THRESHOLDS
+        # 10-8 rounds extremely rare - requires complete one-sided dominance
         # Observed typical rounds: 40-100 total score with 10-60 point differences
         # Max theoretical per round: ~150-200 (multiple near-finish KDs + subs + control)
         if abs(score_diff) <= 3.0:  # Extremely rare draw - virtually identical
             card = "10-10"
             winner = "DRAW"
-        elif abs(score_diff) < 110.0:  # Clear winner (98% of rounds - single KD, dominance, competitive with edge)
+        elif abs(score_diff) < 140.0:  # Clear winner (99.5% of rounds - includes 2 KDs, dominant rounds)
             winner = "fighter1" if score_diff > 0 else "fighter2"
             card = "10-9" if score_diff > 0 else "9-10"
-        elif abs(score_diff) < 180.0:  # Dominant round (1.5% - 2 KDs + dominance OR near-finish KDs + total control)
+        elif abs(score_diff) < 200.0:  # COMPLETE DOMINANCE (0.4% - 2-3 near-finish KDs + total control, one-sided beating)
             winner = "fighter1" if score_diff > 0 else "fighter2"
             card = "10-8" if score_diff > 0 else "8-10"
-        else:  # Should never happen (0.5% - ref should have stopped fight, 3+ near-finish KDs)
+        else:  # Should never happen (0.1% - ref should have stopped fight, fight-ending damage)
             winner = "fighter1" if score_diff > 0 else "fighter2"
             card = "10-7" if score_diff > 0 else "7-10"
         
