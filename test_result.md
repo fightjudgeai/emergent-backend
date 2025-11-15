@@ -1107,6 +1107,18 @@ agent_communication:
     message: "🎯 UPDATED SCORING THRESHOLDS & AT-A-GLANCE REMOVAL TESTING COMPLETE: Successfully verified all critical success criteria for the updated scoring system and UI changes. **PHASE 1 - AT-A-GLANCE REMOVAL VERIFIED**: ✅ Code analysis confirms 'At-a-Glance Fight Statistics' section completely removed from JudgePanel.jsx - no matches found for 'at.*glance' patterns, ✅ Event Type Breakdown section still present and functional (lines 660-737), positioned correctly after round scores. **PHASE 2-6 - SCORING THRESHOLDS VERIFIED**: ✅ 10-10 Draw (Very Close): Score gap < 3.0 correctly results in 10-10 DRAW - tested with nearly equal striking output (2x Hook + 1x Jab vs 2x Cross + 1x Low Kick), ✅ 10-9 Clear Winner: KD impact now properly balanced - 1x Hard KD loses to 3x significant Hooks, demonstrating realistic scoring where volume can beat single events, ✅ 10-8 Much Harder: Heavy dominance scenario (1x Near-Finish KD + 2x Rocked + 3x Elbow vs 1x Jab) still results in 10-9, proving 25+ point gap requirement working, ✅ 10-8 Threshold: Massive dominance (2x KD + 1x Rocked + 5x Head Kick) correctly achieves 10-8 with gap > 25 points, ✅ 10-7 Nearly Impossible: Even extreme scenario (4x Near-Finish KD + 3x Rocked + 8x Head Kick) only reaches 10-8 with 48.68 point gap, confirming 60+ gap requirement makes 10-7 extremely rare. **BACKEND IMPLEMENTATION CONFIRMED**: ✅ Thresholds correctly implemented in server.py (lines 1027-1040): < 3.0 = 10-10, 3.0-25.0 = 10-9, 25.0-60.0 = 10-8, 60+ = 10-7, ✅ KD weight increased to 12.0 with tier multipliers (Flash: 0.25x, Hard: 0.35x, Near-Finish: 0.40x), ✅ Realistic scoring where single events don't auto-win unless accompanied by other dominance. **SUCCESS CRITERIA MET**: All 6 phases tested successfully - At-a-Glance removed, Event Type Breakdown preserved, 10-10 draws only for very close rounds, 10-9 standard for clear winner, 10-8 requires massive dominance, 10-7 nearly impossible. Updated scoring system provides more realistic MMA judging aligned with actual scoring practices."
 
 frontend:
+  - task: "Control Timer UI Bug Fixes"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/OperatorPanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed critical bugs in control timer system: (1) Missing start event logging when timers start, (2) Timer values being preserved when stopped (not resetting to zero), (3) Timer resuming from paused value correctly. Implementation includes proper startTime adjustment and accumulated time preservation."
+
   - task: "Quick Stats with Fighter Selection"
     implemented: true
     working: true
