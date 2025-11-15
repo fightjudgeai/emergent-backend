@@ -362,29 +362,42 @@ export default function OperatorPanel() {
     }
     
     if (isCurrentlyRunning && currentControlType === controlType) {
-      // Stop the current control - timer stays accumulated
+      // Stop the current control - log event with duration and pause timer
+      // Get the actual current time from state to ensure accuracy
+      const actualCurrentTime = controlTimers[fighter].time;
+      
       await logEvent(controlType, { 
-        duration: currentTime,
-        source: 'control-timer'
+        duration: actualCurrentTime,
+        source: 'control-timer',
+        type: 'stop'
       });
       
+      // Update state to pause the timer (keep accumulated time)
       setControlTimers(prev => ({
         ...prev,
         [fighter]: {
-          time: currentTime, // Keep accumulated time
+          time: actualCurrentTime, // Keep accumulated time - don't reset!
           isRunning: false,
           startTime: null,
           controlType: null
         }
       }));
       
-      toast.success(`${controlType} stopped - ${currentTime}s logged. Timer: ${formatTime(currentTime)}`);
+      toast.success(`${controlType} stopped - ${actualCurrentTime}s logged. Timer paused at: ${formatTime(actualCurrentTime)}`);
     } else {
-      // Start the control - continue from current accumulated time
+      // Start the control - log start event and begin timer
+      // Log the start event (required for backend tracking)
+      await logEvent(controlType, { 
+        startTime: currentTime,
+        source: 'control-timer',
+        type: 'start'
+      });
+      
+      // Start/resume timer from current accumulated time
       setControlTimers(prev => ({
         ...prev,
         [fighter]: {
-          time: currentTime,  // Continue from current time
+          time: currentTime,  // Continue from current time (or 0 if first start)
           isRunning: true,
           startTime: Date.now() - (currentTime * 1000),  // Adjust for accumulated time
           controlType: controlType
