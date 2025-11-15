@@ -136,10 +136,10 @@ export default function OperatorPanel() {
       } else if (key === 's' || key === 'S') {
         logEvent('Submission Attempt', { tier: 'Deep' });
         toast.success('SUB (Deep) logged via keyboard');
-      } else if (key === 'd' && shiftPressed) {
+      } else if (key === 'd' || key === 'D') {
         logEvent('Submission Attempt', { tier: 'Near-Finish' });
         toast.success('SUB (NF) logged via keyboard');
-      } else if (key === 'f' && shiftPressed) {
+      } else if (key === 'f' || key === 'F') {
         logEvent('Sweep/Reversal');
         toast.success('Sweep/Reversal logged via keyboard');
       }
