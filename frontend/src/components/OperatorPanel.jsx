@@ -98,8 +98,10 @@ export default function OperatorPanel() {
       
       // STRIKING - Numbers 1-6 (regular and significant with shift)
       if (key === '1' && !shiftPressed) {
+        console.log('Keyboard: Logging Jab');
         await logEvent('Jab', { significant: false });
       } else if (key === '!' || (key === '1' && shiftPressed)) {
+        console.log('Keyboard: Logging SS Jab');
         await logEvent('Jab', { significant: true });
       } else if (key === '2' && !shiftPressed) {
         await logEvent('Cross', { significant: false });
