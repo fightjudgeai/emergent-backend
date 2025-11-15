@@ -70,8 +70,152 @@ export default function OperatorPanel() {
       setQueueCount(status.queueCount);
     });
     
-    return () => unsubscribe();
-  }, [boutId]);
+    // Keyboard shortcuts handler
+    const handleKeyDown = (event) => {
+      const key = event.key;
+      const shiftPressed = event.shiftKey;
+      
+      // Prevent default for shortcut keys
+      const shortcutKeys = ['1', '2', '3', '4', '5', '6', 'v', 'b', 'a', 's', 'd', 'f', 'q', 'w', 'e', 'r', 'z', 'x', 'c', 'Escape', '/'];
+      if (shortcutKeys.includes(key) || key.startsWith('F')) {
+        event.preventDefault();
+      }
+      
+      // STRIKING - Numbers 1-6 (regular and significant with shift)
+      if (key === '1' && !shiftPressed) {
+        logEvent('Jab', { significant: false });
+        toast.success('Jab logged via keyboard');
+      } else if (key === '!' || (key === '1' && shiftPressed)) {
+        logEvent('Jab', { significant: true });
+        toast.success('SS Jab logged via keyboard');
+      } else if (key === '2' && !shiftPressed) {
+        logEvent('Cross', { significant: false });
+        toast.success('Cross logged via keyboard');
+      } else if (key === '@' || (key === '2' && shiftPressed)) {
+        logEvent('Cross', { significant: true });
+        toast.success('SS Cross logged via keyboard');
+      } else if (key === '3' && !shiftPressed) {
+        logEvent('Hook', { significant: false });
+        toast.success('Hook logged via keyboard');
+      } else if (key === '#' || (key === '3' && shiftPressed)) {
+        logEvent('Hook', { significant: true });
+        toast.success('SS Hook logged via keyboard');
+      } else if (key === '4' && !shiftPressed) {
+        logEvent('Uppercut', { significant: false });
+        toast.success('Uppercut logged via keyboard');
+      } else if (key === '$' || (key === '4' && shiftPressed)) {
+        logEvent('Uppercut', { significant: true });
+        toast.success('SS Uppercut logged via keyboard');
+      } else if (key === '5' && !shiftPressed) {
+        logEvent('Elbow', { significant: false });
+        toast.success('Elbow logged via keyboard');
+      } else if (key === '%' || (key === '5' && shiftPressed)) {
+        logEvent('Elbow', { significant: true });
+        toast.success('SS Elbow logged via keyboard');
+      } else if (key === '6' && !shiftPressed) {
+        logEvent('Knee', { significant: false });
+        toast.success('Knee logged via keyboard');
+      } else if (key === '^' || (key === '6' && shiftPressed)) {
+        logEvent('Knee', { significant: true });
+        toast.success('SS Knee logged via keyboard');
+      }
+      
+      // GRAPPLING - V and B
+      else if (key === 'v' || key === 'V') {
+        logEvent('Takedown Landed');
+        toast.success('TD Landed logged via keyboard');
+      } else if (key === 'b' || key === 'B') {
+        logEvent('Takedown Stuffed');
+        toast.success('TD Stuffed logged via keyboard');
+      }
+      
+      // SUBMISSIONS - A, S, D, F
+      else if (key === 'a' || key === 'A') {
+        logEvent('Submission Attempt', { tier: 'Light' });
+        toast.success('SUB (Light) logged via keyboard');
+      } else if (key === 's' || key === 'S') {
+        logEvent('Submission Attempt', { tier: 'Deep' });
+        toast.success('SUB (Deep) logged via keyboard');
+      } else if (key === 'd' && shiftPressed) {
+        logEvent('Submission Attempt', { tier: 'Near-Finish' });
+        toast.success('SUB (NF) logged via keyboard');
+      } else if (key === 'f' && shiftPressed) {
+        logEvent('Sweep/Reversal');
+        toast.success('Sweep/Reversal logged via keyboard');
+      }
+      
+      // DAMAGE - Q, W, E, R
+      else if (key === 'q' || key === 'Q') {
+        logEvent('Rocked/Stunned', { significant: true });
+        toast.success('Rocked logged via keyboard');
+      } else if (key === 'w' || key === 'W') {
+        logEvent('KD', { tier: 'Flash' });
+        toast.success('KD (Flash) logged via keyboard');
+      } else if (key === 'e' || key === 'E') {
+        logEvent('KD', { tier: 'Hard' });
+        toast.success('KD (Hard) logged via keyboard');
+      } else if (key === 'r' || key === 'R') {
+        logEvent('KD', { tier: 'Near-Finish' });
+        toast.success('KD (NF) logged via keyboard');
+      }
+      
+      // CONTROL TIMERS - Z, X, C (with shift to stop)
+      else if (key === 'z' && !shiftPressed) {
+        handleControlToggle('Ground Top Control');
+        toast.success('Top Control timer toggled via keyboard');
+      } else if (key === 'Z' && shiftPressed) {
+        handleControlToggle('Ground Top Control');
+        toast.success('Top Control timer toggled via keyboard');
+      } else if (key === 'x' && !shiftPressed) {
+        handleControlToggle('Ground Back Control');
+        toast.success('Back Control timer toggled via keyboard');
+      } else if (key === 'X' && shiftPressed) {
+        handleControlToggle('Ground Back Control');
+        toast.success('Back Control timer toggled via keyboard');
+      } else if (key === 'c' && !shiftPressed) {
+        handleControlToggle('Cage Control Time');
+        toast.success('Cage Control timer toggled via keyboard');
+      } else if (key === 'C' && shiftPressed) {
+        handleControlToggle('Cage Control Time');
+        toast.success('Cage Control timer toggled via keyboard');
+      }
+      
+      // FUNCTION KEYS - F1-F5 (or G1-G5 on gaming keyboards)
+      else if (key === 'F1') {
+        // undoLastEvent(); - function not implemented yet
+        toast.info('Undo (F1) - not implemented yet');
+      } else if (key === 'F2') {
+        // Start Round - would need to implement this function
+        toast.info('Start Round (F2) - not implemented yet');
+      } else if (key === 'F3') {
+        // End Round - would need to implement this function
+        toast.info('End Round (F3) - not implemented yet');
+      } else if (key === 'F4') {
+        nextRound();
+        toast.success('Next Round triggered via keyboard');
+      } else if (key === 'F5') {
+        // handleMedicalTimeout(); - function not implemented yet
+        toast.info('Pause/Medical Timeout (F5) - not implemented yet');
+      }
+      
+      // SPECIAL ACTIONS
+      else if (key === 'Escape') {
+        // Point Deduction - would need to implement
+        toast.info('Point Deduction (ESC) - not implemented yet');
+      } else if (key === '/') {
+        // Save and Sync
+        toast.success('Manual save triggered via keyboard');
+      }
+    };
+    
+    // Add keyboard event listener
+    window.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      unsubscribe();
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [boutId, selectedFighter, logEvent, handleControlToggle, nextRound]);
 
   useEffect(() => {
     // Update control timers every 100ms for smooth display
