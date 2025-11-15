@@ -987,7 +987,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Updated Scoring Thresholds & At-a-Glance Removal"
+    - "Control Timer Start/Stop Event Logging Fix"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
