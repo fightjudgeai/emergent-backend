@@ -209,7 +209,7 @@ export default function OperatorPanel() {
       unsubscribe();
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [boutId, selectedFighter, logEvent, handleControlToggle, nextRound]);
+  }, [boutId, selectedFighter, bout, controlTimers, logEvent, handleControlToggle, undoLastEvent, startRound, endRound, handlePointDeduction, handleMedicalTimeout, nextRound]);
 
   useEffect(() => {
     // Update control timers every 100ms for smooth display
