@@ -1003,6 +1003,9 @@ metadata:
       - working: "NA"
         agent: "main"
         comment: "Fixed critical bug in control timer functionality (handleControlToggle function, lines 342-409). Two issues resolved: (1) Missing start event logging - added logEvent call when starting control timers with metadata including startTime, source, and type='start', (2) Enhanced timer pause behavior - added actualCurrentTime variable to ensure accurate time capture when stopping, improved state management to prevent timer reset. Timer now correctly: logs events on both start and stop, pauses at current time instead of resetting to zero, resumes from paused time when restarted, maintains accumulated time across start/stop cycles. Events logged with proper metadata for backend scoring integration (duration, source, type)."
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed keyboard shortcuts event logging issue (lines 74-202). Problem: handleKeyDown was not async and wasn't awaiting logEvent calls, causing 'failed to log event' errors. Solution: Made handleKeyDown an async function and added await before all async operations (logEvent, handleControlToggle, undoLastEvent, etc.). Removed duplicate toast notifications since logEvent already shows success/failure messages. Keyboard shortcuts now properly wait for events to be saved before returning."
 
 test_plan:
   current_focus:
