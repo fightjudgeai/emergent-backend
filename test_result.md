@@ -1006,6 +1006,9 @@ metadata:
       - working: "NA"
         agent: "main"
         comment: "Fixed keyboard shortcuts event logging issue (lines 74-202). Problem: handleKeyDown was not async and wasn't awaiting logEvent calls, causing 'failed to log event' errors. Solution: Made handleKeyDown an async function and added await before all async operations (logEvent, handleControlToggle, undoLastEvent, etc.). Removed duplicate toast notifications since logEvent already shows success/failure messages. Keyboard shortcuts now properly wait for events to be saved before returning."
+      - working: "NA"
+        agent: "main"
+        comment: "Enhanced keyboard shortcuts error handling (lines 73-186). Added: (1) Guard check at start of handleKeyDown to ensure bout is loaded before processing shortcuts, (2) Comprehensive try-catch block wrapping all keyboard actions with detailed error logging and user-friendly error messages, (3) Guard check in logEvent function to prevent errors when bout is null. This fixes the issue where keyboard shortcuts were failing due to stale closures or trying to log events before bout was fully loaded. Frontend restarted successfully."
 
 test_plan:
   current_focus:
