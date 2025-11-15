@@ -180,6 +180,10 @@ export default function OperatorPanel() {
         // Save and Sync
         toast.success('Manual save triggered via keyboard');
       }
+      } catch (error) {
+        console.error('Keyboard shortcut error:', error);
+        toast.error(`Keyboard action failed: ${error.message}`);
+      }
     };
     
     // Add keyboard event listener
