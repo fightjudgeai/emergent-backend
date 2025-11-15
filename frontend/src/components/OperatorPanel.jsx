@@ -72,9 +72,16 @@ export default function OperatorPanel() {
     
     // Keyboard shortcuts handler
     const handleKeyDown = async (event) => {
+      // Guard: Don't trigger shortcuts when typing in input fields
+      const target = event.target;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+        return; // Allow normal typing in input fields
+      }
+      
       // Guard: Check if required state is loaded
       if (!bout) {
-        return; // Silently ignore if bout not loaded yet
+        console.log('Keyboard shortcut ignored - bout not loaded yet');
+        return;
       }
       
       const key = event.key;
