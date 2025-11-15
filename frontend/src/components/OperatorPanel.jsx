@@ -225,6 +225,12 @@ export default function OperatorPanel() {
 
   const logEvent = async (eventType, metadata = {}) => {
     try {
+      // Guard: Check if bout is loaded
+      if (!bout) {
+        toast.error('Please wait for bout to load');
+        return;
+      }
+      
       // Get current control time for the selected fighter
       const currentTime = controlTimers[selectedFighter].time;
       
