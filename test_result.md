@@ -973,6 +973,18 @@ metadata:
         agent: "testing"
         comment: "🎯 UPDATED SCORING THRESHOLDS & AT-A-GLANCE REMOVAL TESTING COMPLETE: Successfully verified all critical success criteria. PHASE 1 - AT-A-GLANCE REMOVAL VERIFIED: ✅ 'At-a-Glance Fight Statistics' section completely removed from JudgePanel.jsx, ✅ Event Type Breakdown section still present and functional. PHASE 2-6 - SCORING THRESHOLDS VERIFIED: ✅ 10-10 Draw (< 3.0 gap) working correctly for very close rounds, ✅ 10-9 Clear Winner (3.0-25.0 gap) - KD impact properly balanced, single Hard KD loses to 3x significant Hooks, ✅ 10-8 Much Harder (25.0-60.0 gap) - heavy dominance scenario (Near-Finish KD + 2x Rocked + 3x Elbow) still results in 10-9, ✅ 10-8 Threshold - massive dominance (2x KD + Rocked + 5x Head Kick) correctly achieves 10-8, ✅ 10-7 Nearly Impossible (60+ gap) - even extreme scenario (4x Near-Finish KD + 3x Rocked + 8x Head Kick) only reaches 10-8 with 48.68 point gap. Updated scoring system provides realistic MMA judging where single events don't auto-win unless accompanied by other dominance. All success criteria met."
 
+  - task: "Control Timer Start/Stop Event Logging Fix"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/OperatorPanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed critical bug in control timer functionality (handleControlToggle function, lines 342-409). Two issues resolved: (1) Missing start event logging - added logEvent call when starting control timers with metadata including startTime, source, and type='start', (2) Enhanced timer pause behavior - added actualCurrentTime variable to ensure accurate time capture when stopping, improved state management to prevent timer reset. Timer now correctly: logs events on both start and stop, pauses at current time instead of resetting to zero, resumes from paused time when restarted, maintains accumulated time across start/stop cycles. Events logged with proper metadata for backend scoring integration (duration, source, type)."
+
 test_plan:
   current_focus:
     - "Updated Scoring Thresholds & At-a-Glance Removal"
