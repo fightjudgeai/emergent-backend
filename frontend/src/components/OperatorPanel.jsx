@@ -46,8 +46,8 @@ export default function OperatorPanel() {
   });
   const timerRef = useRef(null);
 
-  // Keyboard shortcuts handler - defined outside useEffect to access current state
-  const handleKeyDown = async (event) => {
+  // Keyboard shortcuts handler - using useCallback to access current state
+  const handleKeyDown = useCallback(async (event) => {
       // Guard: Don't trigger shortcuts when typing in input fields
       const target = event.target;
       if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
