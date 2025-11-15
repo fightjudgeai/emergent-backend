@@ -182,26 +182,20 @@ export default function OperatorPanel() {
       
       // FUNCTION KEYS - F1-F5 (or G1-G5 on gaming keyboards)
       else if (key === 'F1') {
-        // undoLastEvent(); - function not implemented yet
-        toast.info('Undo (F1) - not implemented yet');
+        undoLastEvent();
       } else if (key === 'F2') {
-        // Start Round - would need to implement this function
-        toast.info('Start Round (F2) - not implemented yet');
+        startRound();
       } else if (key === 'F3') {
-        // End Round - would need to implement this function
-        toast.info('End Round (F3) - not implemented yet');
+        endRound();
       } else if (key === 'F4') {
         nextRound();
-        toast.success('Next Round triggered via keyboard');
       } else if (key === 'F5') {
-        // handleMedicalTimeout(); - function not implemented yet
-        toast.info('Pause/Medical Timeout (F5) - not implemented yet');
+        handleMedicalTimeout();
       }
       
       // SPECIAL ACTIONS
       else if (key === 'Escape') {
-        // Point Deduction - would need to implement
-        toast.info('Point Deduction (ESC) - not implemented yet');
+        handlePointDeduction();
       } else if (key === '/') {
         // Save and Sync
         toast.success('Manual save triggered via keyboard');
