@@ -8,7 +8,7 @@
       "success": false,
       "expected_status": 403,
       "actual_status": 500,
-      "url": "https://fight-metrics.preview.emergentagent.com/api/audit/stats?judge_id=JUDGE001",
+      "url": "https://judgepro.preview.emergentagent.com/api/audit/stats?judge_id=JUDGE001",
       "error": "{\"detail\":\"403: Access denied. Only owner can access audit logs.\"}"
     }
   ]
