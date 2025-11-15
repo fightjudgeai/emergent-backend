@@ -169,7 +169,7 @@ export default function OperatorPanel() {
         console.error('Keyboard shortcut error:', error);
         toast.error(`Keyboard action failed: ${error.message}`);
       }
-    }, [bout, selectedFighter, controlTimers, logEvent, handleControlToggle, undoLastEvent, startRound, endRound, nextRound, handleMedicalTimeout, handlePointDeduction]);
+    }, [bout, selectedFighter, controlTimers]);
 
   useEffect(() => {
     loadBout();
