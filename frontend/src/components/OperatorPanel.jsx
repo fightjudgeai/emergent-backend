@@ -202,7 +202,7 @@ export default function OperatorPanel() {
       unsubscribe();
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [boutId]);
+  }, [boutId, handleKeyDown]);
 
   useEffect(() => {
     // Update control timers every 100ms for smooth display
