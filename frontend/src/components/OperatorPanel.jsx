@@ -72,6 +72,11 @@ export default function OperatorPanel() {
     
     // Keyboard shortcuts handler
     const handleKeyDown = async (event) => {
+      // Guard: Check if required state is loaded
+      if (!bout) {
+        return; // Silently ignore if bout not loaded yet
+      }
+      
       const key = event.key;
       const shiftPressed = event.shiftKey;
       
@@ -80,6 +85,9 @@ export default function OperatorPanel() {
       if (shortcutKeys.includes(key) || key.startsWith('F')) {
         event.preventDefault();
       }
+      
+      // Wrap all keyboard actions in try-catch for error handling
+      try {
       
       // STRIKING - Numbers 1-6 (regular and significant with shift)
       if (key === '1' && !shiftPressed) {
