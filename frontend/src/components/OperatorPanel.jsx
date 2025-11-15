@@ -468,12 +468,90 @@ export default function OperatorPanel() {
     setShowQuickStatsDialog(false);
   };
 
+  const undoLastEvent = async () => {
+    try {
+      const eventsSnapshot = await db.collection('events')
+        .where('boutId', '==', boutId)
+        .orderBy('createdAt', 'desc')
+        .limit(1)
+        .get();
+      
+      if (!eventsSnapshot.empty) {
+        const lastEvent = eventsSnapshot.docs[0];
+        await lastEvent.ref.delete();
+        toast.success('Last event undone');
+      } else {
+        toast.info('No events to undo');
+      }
+    } catch (error) {
+      console.error('Error undoing event:', error);
+      toast.error('Failed to undo event');
+    }
+  };
+
+  const startRound = async () => {
+    try {
+      // Reset timers for new round
+      setControlTimers({
+        fighter1: { time: 0, isRunning: false, startTime: null, controlType: null },
+        fighter2: { time: 0, isRunning: false, startTime: null, controlType: null }
+      });
+      
+      toast.success(`Round ${bout.currentRound} started`);
+    } catch (error) {
+      console.error('Error starting round:', error);
+      toast.error('Failed to start round');
+    }
+  };
+
+  const endRound = async () => {
+    try {
+      // Stop any running timers
+      setControlTimers({
+        fighter1: { ...controlTimers.fighter1, isRunning: false },
+        fighter2: { ...controlTimers.fighter2, isRunning: false }
+      });
+      
+      toast.success(`Round ${bout.currentRound} ended`);
+    } catch (error) {
+      console.error('Error ending round:', error);
+      toast.error('Failed to end round');
+    }
+  };
+
+  const handlePointDeduction = async () => {
+    try {
+      const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+      await logEvent('Point Deduction', { fighter: selectedFighter });
+      toast.warning(`Point deduction for ${fighterName}`);
+    } catch (error) {
+      console.error('Error logging point deduction:', error);
+      toast.error('Failed to log point deduction');
+    }
+  };
+
+  const handleMedicalTimeout = async () => {
+    try {
+      // Pause all timers
+      setControlTimers({
+        fighter1: { ...controlTimers.fighter1, isRunning: false },
+        fighter2: { ...controlTimers.fighter2, isRunning: false }
+      });
+      
+      await logEvent('Medical Timeout', { round: bout.currentRound });
+      toast.info('Medical timeout / Pause activated');
+    } catch (error) {
+      console.error('Error handling medical timeout:', error);
+      toast.error('Failed to activate medical timeout');
+    }
+  };
+
   const nextRound = async () => {
     if (bout.currentRound < bout.totalRounds) {
       // Stop any running timers
       setControlTimers({
-        fighter1: { time: 0, isRunning: false, startTime: null },
-        fighter2: { time: 0, isRunning: false, startTime: null }
+        fighter1: { time: 0, isRunning: false, startTime: null, controlType: null },
+        fighter2: { time: 0, isRunning: false, startTime: null, controlType: null }
       });
       
       await db.collection('bouts').doc(boutId).update({
