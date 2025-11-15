@@ -71,7 +71,7 @@ export default function OperatorPanel() {
     });
     
     // Keyboard shortcuts handler
-    const handleKeyDown = (event) => {
+    const handleKeyDown = async (event) => {
       const key = event.key;
       const shiftPressed = event.shiftKey;
       
@@ -83,119 +83,91 @@ export default function OperatorPanel() {
       
       // STRIKING - Numbers 1-6 (regular and significant with shift)
       if (key === '1' && !shiftPressed) {
-        logEvent('Jab', { significant: false });
-        toast.success('Jab logged via keyboard');
+        await logEvent('Jab', { significant: false });
       } else if (key === '!' || (key === '1' && shiftPressed)) {
-        logEvent('Jab', { significant: true });
-        toast.success('SS Jab logged via keyboard');
+        await logEvent('Jab', { significant: true });
       } else if (key === '2' && !shiftPressed) {
-        logEvent('Cross', { significant: false });
-        toast.success('Cross logged via keyboard');
+        await logEvent('Cross', { significant: false });
       } else if (key === '@' || (key === '2' && shiftPressed)) {
-        logEvent('Cross', { significant: true });
-        toast.success('SS Cross logged via keyboard');
+        await logEvent('Cross', { significant: true });
       } else if (key === '3' && !shiftPressed) {
-        logEvent('Hook', { significant: false });
-        toast.success('Hook logged via keyboard');
+        await logEvent('Hook', { significant: false });
       } else if (key === '#' || (key === '3' && shiftPressed)) {
-        logEvent('Hook', { significant: true });
-        toast.success('SS Hook logged via keyboard');
+        await logEvent('Hook', { significant: true });
       } else if (key === '4' && !shiftPressed) {
-        logEvent('Uppercut', { significant: false });
-        toast.success('Uppercut logged via keyboard');
+        await logEvent('Uppercut', { significant: false });
       } else if (key === '$' || (key === '4' && shiftPressed)) {
-        logEvent('Uppercut', { significant: true });
-        toast.success('SS Uppercut logged via keyboard');
+        await logEvent('Uppercut', { significant: true });
       } else if (key === '5' && !shiftPressed) {
-        logEvent('Elbow', { significant: false });
-        toast.success('Elbow logged via keyboard');
+        await logEvent('Elbow', { significant: false });
       } else if (key === '%' || (key === '5' && shiftPressed)) {
-        logEvent('Elbow', { significant: true });
-        toast.success('SS Elbow logged via keyboard');
+        await logEvent('Elbow', { significant: true });
       } else if (key === '6' && !shiftPressed) {
-        logEvent('Knee', { significant: false });
-        toast.success('Knee logged via keyboard');
+        await logEvent('Knee', { significant: false });
       } else if (key === '^' || (key === '6' && shiftPressed)) {
-        logEvent('Knee', { significant: true });
-        toast.success('SS Knee logged via keyboard');
+        await logEvent('Knee', { significant: true });
       }
       
       // GRAPPLING - V and B
       else if (key === 'v' || key === 'V') {
-        logEvent('Takedown Landed');
-        toast.success('TD Landed logged via keyboard');
+        await logEvent('Takedown Landed');
       } else if (key === 'b' || key === 'B') {
-        logEvent('Takedown Stuffed');
-        toast.success('TD Stuffed logged via keyboard');
+        await logEvent('Takedown Stuffed');
       }
       
       // SUBMISSIONS - A, S, D, F
       else if (key === 'a' || key === 'A') {
-        logEvent('Submission Attempt', { tier: 'Light' });
-        toast.success('SUB (Light) logged via keyboard');
+        await logEvent('Submission Attempt', { tier: 'Light' });
       } else if (key === 's' || key === 'S') {
-        logEvent('Submission Attempt', { tier: 'Deep' });
-        toast.success('SUB (Deep) logged via keyboard');
+        await logEvent('Submission Attempt', { tier: 'Deep' });
       } else if (key === 'd' || key === 'D') {
-        logEvent('Submission Attempt', { tier: 'Near-Finish' });
-        toast.success('SUB (NF) logged via keyboard');
+        await logEvent('Submission Attempt', { tier: 'Near-Finish' });
       } else if (key === 'f' || key === 'F') {
-        logEvent('Sweep/Reversal');
-        toast.success('Sweep/Reversal logged via keyboard');
+        await logEvent('Sweep/Reversal');
       }
       
       // DAMAGE - Q, W, E, R
       else if (key === 'q' || key === 'Q') {
-        logEvent('Rocked/Stunned', { significant: true });
-        toast.success('Rocked logged via keyboard');
+        await logEvent('Rocked/Stunned', { significant: true });
       } else if (key === 'w' || key === 'W') {
-        logEvent('KD', { tier: 'Flash' });
-        toast.success('KD (Flash) logged via keyboard');
+        await logEvent('KD', { tier: 'Flash' });
       } else if (key === 'e' || key === 'E') {
-        logEvent('KD', { tier: 'Hard' });
-        toast.success('KD (Hard) logged via keyboard');
+        await logEvent('KD', { tier: 'Hard' });
       } else if (key === 'r' || key === 'R') {
-        logEvent('KD', { tier: 'Near-Finish' });
-        toast.success('KD (NF) logged via keyboard');
+        await logEvent('KD', { tier: 'Near-Finish' });
       }
       
       // CONTROL TIMERS - Z, X, C (with shift to stop)
       else if (key === 'z' && !shiftPressed) {
-        handleControlToggle('Ground Top Control');
-        toast.success('Top Control timer toggled via keyboard');
+        await handleControlToggle('Ground Top Control');
       } else if (key === 'Z' && shiftPressed) {
-        handleControlToggle('Ground Top Control');
-        toast.success('Top Control timer toggled via keyboard');
+        await handleControlToggle('Ground Top Control');
       } else if (key === 'x' && !shiftPressed) {
-        handleControlToggle('Ground Back Control');
-        toast.success('Back Control timer toggled via keyboard');
+        await handleControlToggle('Ground Back Control');
       } else if (key === 'X' && shiftPressed) {
-        handleControlToggle('Ground Back Control');
-        toast.success('Back Control timer toggled via keyboard');
+        await handleControlToggle('Ground Back Control');
       } else if (key === 'c' && !shiftPressed) {
-        handleControlToggle('Cage Control Time');
-        toast.success('Cage Control timer toggled via keyboard');
+        await handleControlToggle('Cage Control Time');
       } else if (key === 'C' && shiftPressed) {
-        handleControlToggle('Cage Control Time');
-        toast.success('Cage Control timer toggled via keyboard');
+        await handleControlToggle('Cage Control Time');
       }
       
       // FUNCTION KEYS - F1-F5 (or G1-G5 on gaming keyboards)
       else if (key === 'F1') {
-        undoLastEvent();
+        await undoLastEvent();
       } else if (key === 'F2') {
-        startRound();
+        await startRound();
       } else if (key === 'F3') {
-        endRound();
+        await endRound();
       } else if (key === 'F4') {
-        nextRound();
+        await nextRound();
       } else if (key === 'F5') {
-        handleMedicalTimeout();
+        await handleMedicalTimeout();
       }
       
       // SPECIAL ACTIONS
       else if (key === 'Escape') {
-        handlePointDeduction();
+        await handlePointDeduction();
       } else if (key === '/') {
         // Save and Sync
         toast.success('Manual save triggered via keyboard');
