@@ -2861,6 +2861,9 @@ class CombatJudgingAPITester:
         # Test event counts with ACTUAL frontend event types
         self.test_event_counts_with_actual_frontend_types()
         
+        # Test Control Timer Event Logging (NEW - 6 scenarios)
+        self.test_control_timer_complete_flow()
+        
         # Test Shadow Judging Training Mode (5 APIs)
         self.test_shadow_judging_complete_flow()
         
