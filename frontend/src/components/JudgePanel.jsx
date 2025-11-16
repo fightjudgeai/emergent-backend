@@ -746,7 +746,7 @@ export default function JudgePanel() {
 
       {/* Round Scores */}
       <div className="max-w-7xl mx-auto space-y-8">
-        {[1, 2, 3].map((roundNum) => {
+        {Array.from({ length: bout?.totalRounds || 3 }, (_, i) => i + 1).map((roundNum) => {
           const roundScore = scores[roundNum];
           
           return (
