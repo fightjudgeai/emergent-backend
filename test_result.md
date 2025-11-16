@@ -992,6 +992,18 @@ metadata:
         agent: "testing"
         comment: "🎯 UPDATED SCORING THRESHOLDS & AT-A-GLANCE REMOVAL TESTING COMPLETE: Successfully verified all critical success criteria. PHASE 1 - AT-A-GLANCE REMOVAL VERIFIED: ✅ 'At-a-Glance Fight Statistics' section completely removed from JudgePanel.jsx, ✅ Event Type Breakdown section still present and functional. PHASE 2-6 - SCORING THRESHOLDS VERIFIED: ✅ 10-10 Draw (< 3.0 gap) working correctly for very close rounds, ✅ 10-9 Clear Winner (3.0-25.0 gap) - KD impact properly balanced, single Hard KD loses to 3x significant Hooks, ✅ 10-8 Much Harder (25.0-60.0 gap) - heavy dominance scenario (Near-Finish KD + 2x Rocked + 3x Elbow) still results in 10-9, ✅ 10-8 Threshold - massive dominance (2x KD + Rocked + 5x Head Kick) correctly achieves 10-8, ✅ 10-7 Nearly Impossible (60+ gap) - even extreme scenario (4x Near-Finish KD + 3x Rocked + 8x Head Kick) only reaches 10-8 with 48.68 point gap. Updated scoring system provides realistic MMA judging where single events don't auto-win unless accompanied by other dominance. All success criteria met."
 
+  - task: "5-Round Fight Display Bug Fix"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/JudgePanel.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed hardcoded round limit in JudgePanel.jsx (line 749). Changed from hardcoded [1, 2, 3] array to dynamic Array.from({ length: bout?.totalRounds || 3 }, (_, i) => i + 1) which generates round numbers based on actual bout.totalRounds value. This fixes the issue where rounds 4 and 5 were not displayed in 5-round fights. Now all rounds (3 or 5) display correctly with scores and statistics."
+
   - task: "Control Timer Start/Stop Event Logging Fix"
     implemented: true
     working: "NA"
