@@ -992,6 +992,18 @@ metadata:
         agent: "testing"
         comment: "🎯 UPDATED SCORING THRESHOLDS & AT-A-GLANCE REMOVAL TESTING COMPLETE: Successfully verified all critical success criteria. PHASE 1 - AT-A-GLANCE REMOVAL VERIFIED: ✅ 'At-a-Glance Fight Statistics' section completely removed from JudgePanel.jsx, ✅ Event Type Breakdown section still present and functional. PHASE 2-6 - SCORING THRESHOLDS VERIFIED: ✅ 10-10 Draw (< 3.0 gap) working correctly for very close rounds, ✅ 10-9 Clear Winner (3.0-25.0 gap) - KD impact properly balanced, single Hard KD loses to 3x significant Hooks, ✅ 10-8 Much Harder (25.0-60.0 gap) - heavy dominance scenario (Near-Finish KD + 2x Rocked + 3x Elbow) still results in 10-9, ✅ 10-8 Threshold - massive dominance (2x KD + Rocked + 5x Head Kick) correctly achieves 10-8, ✅ 10-7 Nearly Impossible (60+ gap) - even extreme scenario (4x Near-Finish KD + 3x Rocked + 8x Head Kick) only reaches 10-8 with 48.68 point gap. Updated scoring system provides realistic MMA judging where single events don't auto-win unless accompanied by other dominance. All success criteria met."
 
+  - task: "Stricter 10-8 and 10-7 Scoring Guardrails"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented much stricter requirements for 10-8 and 10-7 rounds (lines 1036-1093). Added mandatory guardrails: To achieve 10-8 or 10-7, fighter MUST have EITHER (1) 2+ knockdown advantage over opponent, OR (2) 100+ total strike differential. System now counts all KDs and all strikes (Jab, Cross, Hook, Uppercut, Elbow, Knee, all kicks) to determine if extreme scores are allowed. Even with large score differential (140-200 range), system will cap at 10-9 unless guardrails are met. For 10-7, requires guardrails PLUS score_diff >= 250. Logging shows '[10-8 AWARDED]' or '[10-8 DENIED]' with reasoning. This makes 10-8 rounds extremely rare and realistic to UFC standards."
+
   - task: "5-Round Fight Display Bug Fix"
     implemented: true
     working: "NA"
