@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combat Sports Judging - Damage Scoring Guide</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            padding: 20px;
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #c62828;
+        }
+        
+        h1 {
+            color: #c62828;
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .category-weights {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .category-weights h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .weights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .weight-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 5px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .weight-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+        
+        .weight-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .weight-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .section {
+            margin: 30px 0;
+            page-break-inside: avoid;
+        }
+        
+        h2 {
+            color: #c62828;
+            font-size: 22px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #c62828;
+        }
+        
+        h3 {
+            color: #1976d2;
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        thead {
+            background: #f5f5f5;
+        }
+        
+        th {
+            background: #c62828;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+        
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+        
+        tr:hover {
+            background: #f0f0f0;
+        }
+        
+        .value-high {
+            color: #c62828;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .value-medium {
+            color: #f57c00;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .value-low {
+            color: #1976d2;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .critical-box {
+            background: #ffebee;
+            border-left: 4px solid #c62828;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .critical-box h3 {
+            color: #c62828;
+            margin-top: 0;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #1976d2;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        ul {
+            margin: 10px 0 10px 20px;
+        }
+        
+        li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        
+        .icon {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        
+        .comparison-table {
+            margin: 20px 0;
+        }
+        
+        .comparison-table td:first-child {
+            font-weight: 600;
+            background: #f5f5f5;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🥊 Combat Sports Judging</h1>
+        <div class="subtitle">Damage Scoring & Weight Distribution Guide</div>
+    </div>
+
+    <div class="category-weights">
+        <h2>Category Weight Distribution</h2>
+        <div class="weights-grid">
+            <div class="weight-box">
+                <div class="weight-label">Category</div>
+                <div class="weight-value">50%</div>
+                <div class="weight-name">🥊 Striking</div>
+            </div>
+            <div class="weight-box">
+                <div class="weight-label">Category</div>
+                <div class="weight-value">40%</div>
+                <div class="weight-name">🤼 Grappling</div>
+            </div>
+            <div class="weight-box">
+                <div class="weight-label">Category</div>
+                <div class="weight-value">10%</div>
+                <div class="weight-name">🎯 Control/Defense</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🥊 STRIKING DAMAGE (50% Total Weight)</h2>
+        
+        <h3>Knockdowns & Major Damage Events</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event Type</th>
+                    <th>Tier/Severity</th>
+                    <th>Base Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Knockdown (KD)</strong></td>
+                    <td>Near-Finish</td>
+                    <td class="value-high">1.00</td>
+                    <td>Fighter nearly finished, close to stoppage, severe damage</td>
+                </tr>
+                <tr>
+                    <td><strong>Knockdown (KD)</strong></td>
+                    <td>Hard</td>
+                    <td class="value-high">0.70</td>
+                    <td>Clear knockdown with significant impact, obvious damage</td>
+                </tr>
+                <tr>
+                    <td><strong>Knockdown (KD)</strong></td>
+                    <td>Flash</td>
+                    <td class="value-medium">0.40</td>
+                    <td>Brief knockdown, fighter recovers quickly</td>
+                </tr>
+                <tr>
+                    <td><strong>Rocked/Stunned</strong></td>
+                    <td>-</td>
+                    <td class="value-medium">0.30</td>
+                    <td>Visible wobble, hurt but not knocked down</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Significant Strikes (Clean, Powerful Shots)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Strike Type</th>
+                    <th>Significant</th>
+                    <th>Non-Significant</th>
+                    <th>Impact Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cross</strong></td>
+                    <td class="value-low">0.14</td>
+                    <td>0.07</td>
+                    <td>Power punch - head or body</td>
+                </tr>
+                <tr>
+                    <td><strong>Hook</strong></td>
+                    <td class="value-low">0.14</td>
+                    <td>0.07</td>
+                    <td>Power punch - head or body</td>
+                </tr>
+                <tr>
+                    <td><strong>Uppercut</strong></td>
+                    <td class="value-low">0.14</td>
+                    <td>0.07</td>
+                    <td>Power punch - head or body</td>
+                </tr>
+                <tr>
+                    <td><strong>Elbow</strong></td>
+                    <td class="value-low">0.14</td>
+                    <td>0.07</td>
+                    <td>Close-range strike, high damage potential</td>
+                </tr>
+                <tr>
+                    <td><strong>Jab</strong></td>
+                    <td class="value-low">0.10</td>
+                    <td>0.05</td>
+                    <td>Setup strike, lighter impact</td>
+                </tr>
+                <tr>
+                    <td><strong>Knee</strong></td>
+                    <td class="value-low">0.10</td>
+                    <td>0.05</td>
+                    <td>Head, body, or clinch knee</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="highlight-box">
+            <strong>📊 Volume Dampening Rule:</strong><br>
+            After achieving a +20 non-significant strike advantage, all additional non-significant strikes are counted at only 70% of their base value. This prevents pure volume point-fighting from dominating without actual damage.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🤼 GRAPPLING DAMAGE (40% Total Weight)</h2>
+        
+        <h3>Submission Attempts</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event Type</th>
+                    <th>Tier/Depth</th>
+                    <th>Base Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Submission Attempt</strong></td>
+                    <td>Near-Finish</td>
+                    <td class="value-high">1.00</td>
+                    <td>Fighter nearly tapped, extremely close to finish</td>
+                </tr>
+                <tr>
+                    <td><strong>Submission Attempt</strong></td>
+                    <td>Deep</td>
+                    <td class="value-medium">0.60</td>
+                    <td>Submission locked in, significant threat</td>
+                </tr>
+                <tr>
+                    <td><strong>Submission Attempt</strong></td>
+                    <td>Light</td>
+                    <td class="value-low">0.25</td>
+                    <td>Attempted but not threatening, easily escaped</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Positional Control & Transitions</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event Type</th>
+                    <th>Value Type</th>
+                    <th>Base Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Ground Back Control</strong></td>
+                    <td>Per Second</td>
+                    <td class="value-low">0.012/sec</td>
+                    <td>Most dominant ground position, hooks in</td>
+                </tr>
+                <tr>
+                    <td><strong>Ground Top Control</strong></td>
+                    <td>Per Second</td>
+                    <td class="value-low">0.010/sec</td>
+                    <td>Dominant top position (mount, side control, etc.)</td>
+                </tr>
+                <tr>
+                    <td><strong>Takedown Landed</strong></td>
+                    <td>Per Occurrence</td>
+                    <td class="value-low">0.25</td>
+                    <td>Successfully taking opponent to ground</td>
+                </tr>
+                <tr>
+                    <td><strong>Sweep/Reversal</strong></td>
+                    <td>Per Occurrence</td>
+                    <td>0.05</td>
+                    <td>Reversing position from bottom to top</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            <strong>⏱️ Time-Based Calculation Examples:</strong>
+            <ul>
+                <li><strong>30 seconds Back Control:</strong> 0.012 × 30 = 0.36 points</li>
+                <li><strong>1 minute Back Control:</strong> 0.012 × 60 = 0.72 points</li>
+                <li><strong>2 minutes Top Control:</strong> 0.010 × 120 = 1.20 points</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🎯 OTHER SCORING (10% Total Weight)</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Event Type</th>
+                    <th>Value Type</th>
+                    <th>Base Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cage Control Time</strong></td>
+                    <td>Per Second</td>
+                    <td>0.006/sec</td>
+                    <td>Controlling opponent against the cage</td>
+                </tr>
+                <tr>
+                    <td><strong>Takedown Stuffed</strong></td>
+                    <td>Per Occurrence</td>
+                    <td>0.04</td>
+                    <td>Successfully defending a takedown attempt</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>📊 10-POINT MUST SYSTEM MAPPING</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Score Card</th>
+                    <th>Score Differential</th>
+                    <th>Additional Requirements</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>10-10 (Draw)</strong></td>
+                    <td>≤ 3.0 points</td>
+                    <td>None - Virtually identical round</td>
+                </tr>
+                <tr>
+                    <td><strong>10-9 (Clear Win)</strong></td>
+                    <td>3.0 - 140.0 points</td>
+                    <td>None - Standard winning round</td>
+                </tr>
+                <tr>
+                    <td><strong>10-8 (Dominant)</strong></td>
+                    <td>140.0 - 200.0 points</td>
+                    <td><strong>Must have 2+ KD advantage OR 100+ strike differential</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>10-7 (Near Finish)</strong></td>
+                    <td>250.0+ points</td>
+                    <td><strong>Must have 2+ KD advantage OR 100+ strike differential</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="critical-box">
+            <h3>🚨 CRITICAL: 10-8 & 10-7 GUARDRAILS</h3>
+            <p><strong>To award a 10-8 or 10-7 round, the winning fighter MUST meet at least ONE of these conditions:</strong></p>
+            <ul>
+                <li><strong>2 or more knockdown advantage</strong> over opponent</li>
+                <li><strong>100+ total strike differential</strong> (all strike types counted)</li>
+            </ul>
+            <p><strong>Without meeting these guardrails, the maximum score is 10-9, regardless of point differential.</strong></p>
+            <p>This ensures 10-8 and 10-7 rounds are extremely rare and reflect true dominance or near-finish scenarios, aligned with professional MMA judging standards.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>💡 SCORING EXAMPLES & COMPARISONS</h2>
+        
+        <h3>Value Equivalencies</h3>
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">What equals 1.00 points?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Striking</td>
+                        <td>1 Near-Finish KD = 7 Sig Crosses = 10 Sig Jabs</td>
+                    </tr>
+                    <tr>
+                        <td>Grappling</td>
+                        <td>1 Near-Finish Sub = 1.4 min Back Control = 4 Takedowns</td>
+                    </tr>
+                    <tr>
+                        <td>Mixed</td>
+                        <td>1 Hard KD + 1 Deep Sub = 1.30 points combined</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Typical Round Scenarios</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Scenario</th>
+                    <th>Events</th>
+                    <th>Approx. Points</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Competitive Striking</strong></td>
+                    <td>Fighter A: 25 sig strikes<br>Fighter B: 20 sig strikes</td>
+                    <td>~3.5 vs ~2.8</td>
+                    <td>10-9 Fighter A</td>
+                </tr>
+                <tr>
+                    <td><strong>Knockdown + Volume</strong></td>
+                    <td>Fighter A: 1 Hard KD + 15 strikes<br>Fighter B: 10 strikes</td>
+                    <td>~2.8 vs ~1.2</td>
+                    <td>10-9 Fighter A</td>
+                </tr>
+                <tr>
+                    <td><strong>Double Knockdown</strong></td>
+                    <td>Fighter A: 2 Hard KDs + 10 strikes<br>Fighter B: 8 strikes</td>
+                    <td>~2.6 vs ~0.96</td>
+                    <td><strong>10-8 Fighter A ✓</strong><br>(2 KD advantage met)</td>
+                </tr>
+                <tr>
+                    <td><strong>Grappling Control</strong></td>
+                    <td>Fighter A: 2 min back control + 1 Deep Sub<br>Fighter B: 5 strikes</td>
+                    <td>~2.0 vs ~0.5</td>
+                    <td>10-9 Fighter A<br>(No guardrails met)</td>
+                </tr>
+                <tr>
+                    <td><strong>Volume Dominance</strong></td>
+                    <td>Fighter A: 120 strikes<br>Fighter B: 15 strikes</td>
+                    <td>~15 vs ~1.5</td>
+                    <td><strong>10-8 Fighter A ✓</strong><br>(105 strike differential met)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>🎯 KEY PRINCIPLES</h2>
+        <div class="info-box">
+            <ul>
+                <li><strong>Damage > Volume:</strong> One near-finish moment is worth far more than many light strikes</li>
+                <li><strong>Quality > Quantity:</strong> Significant strikes are worth 2× non-significant strikes</li>
+                <li><strong>Balance Matters:</strong> 50/40/10 split means both striking and grappling can win rounds</li>
+                <li><strong>10-8 is Rare:</strong> Requires meeting specific guardrails (2+ KDs or 100+ strike differential)</li>
+                <li><strong>Control Accumulates:</strong> Time-based control can add up to significant points over a round</li>
+                <li><strong>Near-Finish Wins:</strong> Near-finish knockdowns or submissions almost always secure round victories</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>Combat Sports Judging System</strong></p>
+        <p>Version 1.0 | Updated with Strict 10-8/10-7 Guardrails</p>
+        <p>© 2024 | For Official Use Only</p>
+    </div>
+</body>
+</html>
