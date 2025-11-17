@@ -1032,22 +1032,75 @@ async def calculate_score_v2(request: ScoreRequest):
         
         print(f"  Final Diff: {score_diff:.2f}")
         
+        # ADDITIONAL GUARDRAILS FOR 10-8 AND 10-7 ROUNDS
+        # Count total knockdowns for each fighter
+        f1_kd_count = f1_counts.get("KD", 0)
+        f2_kd_count = f2_counts.get("KD", 0)
+        kd_differential = abs(f1_kd_count - f2_kd_count)
+        
+        # Calculate total strikes differential (all strike types)
+        f1_total_strikes = sum([
+            f1_counts.get("Jab", 0),
+            f1_counts.get("Cross", 0),
+            f1_counts.get("Hook", 0),
+            f1_counts.get("Uppercut", 0),
+            f1_counts.get("Elbow", 0),
+            f1_counts.get("Knee", 0),
+            f1_counts.get("Head Kick", 0),
+            f1_counts.get("Body Kick", 0),
+            f1_counts.get("Low Kick", 0),
+            f1_counts.get("Front Kick/Teep", 0)
+        ])
+        f2_total_strikes = sum([
+            f2_counts.get("Jab", 0),
+            f2_counts.get("Cross", 0),
+            f2_counts.get("Hook", 0),
+            f2_counts.get("Uppercut", 0),
+            f2_counts.get("Elbow", 0),
+            f2_counts.get("Knee", 0),
+            f2_counts.get("Head Kick", 0),
+            f2_counts.get("Body Kick", 0),
+            f2_counts.get("Low Kick", 0),
+            f2_counts.get("Front Kick/Teep", 0)
+        ])
+        strike_differential = abs(f1_total_strikes - f2_total_strikes)
+        
+        print(f"  [GUARDRAILS] KD Diff: {kd_differential}, Strike Diff: {strike_differential}")
+        
+        # Determine if 10-8 or 10-7 is allowed based on guardrails
+        # For 10-8/10-7: Need EITHER 2+ KD advantage OR 100+ strike differential
+        allow_extreme_score = (kd_differential >= 2) or (strike_differential >= 100)
+        
         # 10-Point Must System mapping - EXTREMELY STRICT UFC THRESHOLDS
         # 10-8 rounds extremely rare - requires complete one-sided dominance
-        # Observed typical rounds: 40-100 total score with 10-60 point differences
-        # Max theoretical per round: ~150-200 (multiple near-finish KDs + subs + control)
+        # 10-7 should basically never happen
         if abs(score_diff) <= 3.0:  # Extremely rare draw - virtually identical
             card = "10-10"
             winner = "DRAW"
-        elif abs(score_diff) < 140.0:  # Clear winner (99.5% of rounds - includes 2 KDs, dominant rounds)
+        elif abs(score_diff) < 140.0:  # Clear winner (99.5% of rounds)
             winner = "fighter1" if score_diff > 0 else "fighter2"
             card = "10-9" if score_diff > 0 else "9-10"
-        elif abs(score_diff) < 200.0:  # COMPLETE DOMINANCE (0.4% - 2-3 near-finish KDs + total control, one-sided beating)
+        elif abs(score_diff) < 200.0:  # Potential 10-8 territory
             winner = "fighter1" if score_diff > 0 else "fighter2"
-            card = "10-8" if score_diff > 0 else "8-10"
-        else:  # Should never happen (0.1% - ref should have stopped fight, fight-ending damage)
+            # Only award 10-8 if guardrails are met
+            if allow_extreme_score:
+                card = "10-8" if score_diff > 0 else "8-10"
+                print(f"  [10-8 AWARDED] Guardrails met: {kd_differential} KD diff, {strike_differential} strike diff")
+            else:
+                card = "10-9" if score_diff > 0 else "9-10"
+                print(f"  [10-8 DENIED] Guardrails not met: Only {kd_differential} KD diff, {strike_differential} strike diff (need 2+ KD or 100+ strikes)")
+        else:  # Potential 10-7 territory (should almost never happen)
             winner = "fighter1" if score_diff > 0 else "fighter2"
-            card = "10-7" if score_diff > 0 else "7-10"
+            # Only award 10-7 if guardrails are met AND difference is massive
+            if allow_extreme_score and abs(score_diff) >= 250.0:
+                card = "10-7" if score_diff > 0 else "7-10"
+                print(f"  [10-7 AWARDED] Extreme guardrails met: {kd_differential} KD diff, {strike_differential} strike diff")
+            elif allow_extreme_score:
+                card = "10-8" if score_diff > 0 else "8-10"
+                print(f"  [10-8 AWARDED] Guardrails met but not extreme enough for 10-7")
+            else:
+                card = "10-9" if score_diff > 0 else "9-10"
+                print(f"  [10-7/10-8 DENIED] Guardrails not met: Only {kd_differential} KD diff, {strike_differential} strike diff")
         
         # Create legacy-compatible subscores for compatibility
         def create_legacy_subscores(categories):
