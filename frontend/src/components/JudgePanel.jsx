@@ -222,11 +222,40 @@ export default function JudgePanel() {
   };
 
   const handleLockScore = async (roundNum) => {
+    // Try to reload judge info if it's missing
     if (!judgeInfo) {
+      console.warn('Judge info missing, attempting to reload from localStorage...');
+      const storedProfile = localStorage.getItem('judgeProfile');
+      
+      if (storedProfile) {
+        try {
+          const profile = JSON.parse(storedProfile);
+          if (profile.judgeId && profile.judgeName) {
+            // Use the reloaded info directly for this request
+            await lockScoreWithInfo(roundNum, {
+              judgeId: profile.judgeId,
+              judgeName: profile.judgeName
+            });
+            // Also update state for future requests
+            setJudgeInfo({
+              judgeId: profile.judgeId,
+              judgeName: profile.judgeName
+            });
+            return;
+          }
+        } catch (e) {
+          console.error('Error parsing stored profile:', e);
+        }
+      }
+      
       toast.error('Judge information not found. Please log in again.');
       return;
     }
 
+    await lockScoreWithInfo(roundNum, judgeInfo);
+  };
+
+  const lockScoreWithInfo = async (roundNum, judgeData) => {
     const roundScore = scores[roundNum];
     if (!roundScore) {
       toast.error('No score available to lock');
