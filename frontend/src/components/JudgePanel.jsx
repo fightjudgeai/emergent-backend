@@ -8,8 +8,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
-import { Shield, Check, TrendingUp, ArrowLeft, SkipForward, Download, Printer, Users, Monitor, Lock, Unlock } from 'lucide-react';
+import { Shield, Check, TrendingUp, ArrowLeft, SkipForward, Download, Printer, Users, Monitor, Lock, Unlock, Wifi } from 'lucide-react';
 import ExplainabilityCard from '@/components/ExplainabilityCard';
+import deviceSyncManager from '@/utils/deviceSync';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
