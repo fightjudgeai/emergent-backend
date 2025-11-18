@@ -277,7 +277,7 @@ export default function JudgePanel() {
         return;
       }
 
-      console.log('Locking score:', { roundNum, card, fighter1Score, fighter2Score });
+      console.log('Locking score:', { roundNum, card, fighter1Score, fighter2Score, judgeData });
 
       const response = await fetch(`${API}/judge-scores/lock`, {
         method: 'POST',
@@ -285,8 +285,8 @@ export default function JudgePanel() {
         body: JSON.stringify({
           bout_id: boutId,
           round_num: roundNum,
-          judge_id: judgeInfo.judgeId,
-          judge_name: judgeInfo.judgeName,
+          judge_id: judgeData.judgeId,
+          judge_name: judgeData.judgeName,
           fighter1_score: fighter1Score,
           fighter2_score: fighter2Score,
           card: card
