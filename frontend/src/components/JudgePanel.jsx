@@ -166,10 +166,10 @@ export default function JudgePanel() {
         });
       });
 
-      toast.success('Multi-device sync enabled', { duration: 3000 });
+      console.log('Multi-device sync initialized successfully');
     } catch (error) {
-      console.error('Error initializing multi-device sync:', error);
-      toast.error('Failed to enable multi-device sync');
+      console.warn('Multi-device sync not available:', error.message);
+      // Don't show error toast - app works fine without device presence tracking
     }
   };
 
