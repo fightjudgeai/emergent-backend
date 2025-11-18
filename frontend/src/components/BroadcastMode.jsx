@@ -17,6 +17,32 @@ export default function BroadcastMode() {
     loadBout();
     const cleanup = setupRealtimeListeners();
     
+    // Initialize device sync for broadcast
+    const initBroadcastSync = async () => {
+      try {
+        await deviceSyncManager.initializeDevice(boutId, 'broadcast', {
+          role: 'broadcast_display'
+        });
+        
+        // Listen for real-time score updates
+        deviceSyncManager.listenToCollection('events', { boutId }, (updates) => {
+          // Automatically refresh scores when new events come in
+          if (updates.length > 0 && bout?.currentRound) {
+            console.log('[Broadcast] Auto-refreshing scores due to new events');
+            for (let r = 1; r <= bout.currentRound; r++) {
+              fetchScoreForRound(r);
+            }
+          }
+        });
+      } catch (error) {
+        console.error('[Broadcast] Failed to initialize sync:', error);
+      }
+    };
+    
+    if (boutId) {
+      initBroadcastSync();
+    }
+    
     // Periodic score refresh every 5 seconds to ensure updates
     const refreshInterval = setInterval(() => {
       if (bout?.currentRound) {
@@ -30,6 +56,7 @@ export default function BroadcastMode() {
     return () => {
       cleanup();
       clearInterval(refreshInterval);
+      deviceSyncManager.cleanup();
     };
   }, [boutId, bout?.currentRound]);
 
