@@ -757,6 +757,13 @@ export default function OperatorPanel() {
                     </span>
                   )}
                 </div>
+                {/* Multi-Device Sync Indicator */}
+                {connectedDevices.length > 1 && (
+                  <div className="flex items-center gap-2 px-3 py-1 rounded-full text-sm font-semibold bg-blue-900/30 text-blue-400 border border-blue-500/30 animate-pulse">
+                    <Monitor className="h-4 w-4" />
+                    {connectedDevices.length} Devices Synced
+                  </div>
+                )}
               </div>
               <p className="text-gray-400 mt-1">{bout.fighter1} vs {bout.fighter2}</p>
             </div>
