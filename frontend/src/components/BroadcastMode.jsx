@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from '@/firebase';
+import deviceSyncManager from '@/utils/deviceSync';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Maximize2 } from 'lucide-react';
