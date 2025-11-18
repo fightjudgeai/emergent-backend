@@ -2606,6 +2606,168 @@ async def get_judge_history(judge_id: str, limit: int = 50):
         logger.error(f"Error fetching judge history: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Judge Score Synchronization Endpoints
+SUPERVISOR_CODE = os.environ.get('SUPERVISOR_CODE', 'SUPER2024')  # Default code, should be in .env
+
+@api_router.post("/judge-scores/lock")
+async def lock_judge_score(score: JudgeScoreLock):
+    """Lock a judge's score for a specific round"""
+    try:
+        score_data = {
+            "judge_id": score.judge_id,
+            "judge_name": score.judge_name,
+            "bout_id": score.bout_id,
+            "round_num": score.round_num,
+            "fighter1_score": score.fighter1_score,
+            "fighter2_score": score.fighter2_score,
+            "card": score.card,
+            "locked": True,
+            "locked_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        # Update or insert judge score
+        await db.judge_scores.update_one(
+            {
+                "bout_id": score.bout_id,
+                "round_num": score.round_num,
+                "judge_id": score.judge_id
+            },
+            {"$set": score_data},
+            upsert=True
+        )
+        
+        # Check if all judges have locked for this round
+        all_scores = await db.judge_scores.find({
+            "bout_id": score.bout_id,
+            "round_num": score.round_num
+        }).to_list(100)
+        
+        all_locked = all([s.get("locked", False) for s in all_scores])
+        
+        return {
+            "success": True,
+            "message": "Score locked successfully",
+            "all_judges_locked": all_locked,
+            "total_judges": len(all_scores),
+            "locked_judges": len([s for s in all_scores if s.get("locked", False)])
+        }
+    except Exception as e:
+        logging.error(f"Error locking judge score: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/judge-scores/unlock")
+async def unlock_judge_score(unlock_request: JudgeScoreUnlock):
+    """Unlock a judge's score (supervisor only)"""
+    try:
+        # Verify supervisor code
+        if unlock_request.supervisor_code != SUPERVISOR_CODE:
+            raise HTTPException(status_code=403, detail="Invalid supervisor code")
+        
+        # Unlock the score
+        result = await db.judge_scores.update_one(
+            {
+                "bout_id": unlock_request.bout_id,
+                "round_num": unlock_request.round_num,
+                "judge_id": unlock_request.judge_id
+            },
+            {"$set": {"locked": False, "locked_at": None}}
+        )
+        
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Judge score not found")
+        
+        return {"success": True, "message": "Score unlocked successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error unlocking judge score: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/judge-scores/{bout_id}/{round_num}")
+async def get_judge_scores(bout_id: str, round_num: int):
+    """Get all judge scores for a specific bout and round"""
+    try:
+        scores = await db.judge_scores.find({
+            "bout_id": bout_id,
+            "round_num": round_num
+        }).to_list(100)
+        
+        # Parse timestamps
+        for score in scores:
+            if isinstance(score.get('locked_at'), str):
+                score['locked_at'] = datetime.fromisoformat(score['locked_at'])
+            score.pop('_id', None)
+        
+        all_locked = all([s.get("locked", False) for s in scores])
+        
+        return {
+            "scores": scores,
+            "total_judges": len(scores),
+            "locked_judges": len([s for s in scores if s.get("locked", False)]),
+            "all_judges_locked": all_locked
+        }
+    except Exception as e:
+        logging.error(f"Error fetching judge scores: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/judge-scores/{bout_id}")
+async def get_all_judge_scores_for_bout(bout_id: str):
+    """Get all judge scores for all rounds of a bout"""
+    try:
+        scores = await db.judge_scores.find({
+            "bout_id": bout_id
+        }).to_list(1000)
+        
+        # Parse timestamps and organize by round
+        for score in scores:
+            if isinstance(score.get('locked_at'), str):
+                score['locked_at'] = datetime.fromisoformat(score['locked_at'])
+            score.pop('_id', None)
+        
+        # Group by round
+        by_round = {}
+        for score in scores:
+            round_num = score["round_num"]
+            if round_num not in by_round:
+                by_round[round_num] = []
+            by_round[round_num].append(score)
+        
+        return {
+            "bout_id": bout_id,
+            "rounds": by_round,
+            "total_scores": len(scores)
+        }
+    except Exception as e:
+        logging.error(f"Error fetching all judge scores: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/rounds/force-close")
+async def force_close_round(request: ForceCloseRound):
+    """Force close a round (supervisor override)"""
+    try:
+        # Verify supervisor code
+        if request.supervisor_code != SUPERVISOR_CODE:
+            raise HTTPException(status_code=403, detail="Invalid supervisor code")
+        
+        # Mark round as force-closed in database
+        await db.force_closed_rounds.insert_one({
+            "bout_id": request.bout_id,
+            "round_num": request.round_num,
+            "closed_by": request.closed_by,
+            "closed_at": datetime.now(timezone.utc).isoformat()
+        })
+        
+        return {
+            "success": True,
+            "message": f"Round {request.round_num} force-closed successfully",
+            "closed_by": request.closed_by
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error force-closing round: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
