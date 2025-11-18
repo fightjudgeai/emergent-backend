@@ -352,6 +352,18 @@ class SyncManager {
   async manualSync() {
     return await this.syncAll();
   }
+
+  /**
+   * Cleanup - call this when component unmounts
+   */
+  cleanup() {
+    if (this.retryTimer) {
+      clearTimeout(this.retryTimer);
+    }
+    if (this.networkCheckInterval) {
+      clearInterval(this.networkCheckInterval);
+    }
+  }
 }
 
 // Create singleton instance
