@@ -474,31 +474,31 @@ export default function BroadcastMode() {
               )}
             </div>
 
-            {/* BLUE CORNER */}
-            <Card className="bg-gradient-to-br from-blue-900/50 to-blue-950/50 border-4 border-blue-600 p-12 text-center transform hover:scale-105 transition-transform">
-              <div className="mb-4">
-                <div className="text-blue-400 text-2xl font-bold uppercase tracking-wider mb-2">
-                  Blue Corner
+            {/* BLUE CORNER - TV Optimized */}
+            <Card className="bg-gradient-to-br from-blue-900/60 to-blue-950/60 border-[6px] border-blue-600 p-12 text-center shadow-2xl backdrop-blur">
+              <div className="mb-6">
+                <div className="text-blue-400 text-3xl font-bold uppercase tracking-wider mb-4 drop-shadow">
+                  🔵 Blue Corner
                 </div>
-                <h2 className="text-7xl font-black text-white mb-8 break-words">
+                <h2 className="text-8xl md:text-9xl font-black text-white mb-10 break-words drop-shadow-2xl leading-tight">
                   {bout.fighter2}
                 </h2>
               </div>
               
-              <div className="space-y-6">
-                {/* Current Round Score */}
-                <div className="bg-blue-950/50 rounded-xl p-6 border-2 border-blue-700">
-                  <div className="text-blue-300 text-xl mb-2">Round {bout.currentRound}</div>
-                  <div className="text-8xl font-black text-white">
+              <div className="space-y-8">
+                {/* Current Round Score - Extra Large for TV */}
+                <div className="bg-blue-950/70 rounded-2xl p-8 border-4 border-blue-700 shadow-xl">
+                  <div className="text-blue-300 text-2xl md:text-3xl mb-3 font-semibold">Round {bout.currentRound}</div>
+                  <div className="text-[120px] md:text-[140px] font-black text-white drop-shadow-2xl leading-none">
                     {fighter2Current}
                   </div>
                 </div>
                 
                 {/* Total Score */}
                 {Object.keys(scores).length > 0 && (
-                  <div className="bg-blue-900/30 rounded-xl p-4 border border-blue-700/50">
-                    <div className="text-blue-300 text-lg mb-1">Total Score</div>
-                    <div className="text-5xl font-bold text-white">
+                  <div className="bg-blue-900/40 rounded-xl p-6 border-2 border-blue-700/50 shadow-lg">
+                    <div className="text-blue-300 text-xl md:text-2xl mb-2 font-semibold">Total Score</div>
+                    <div className="text-6xl md:text-7xl font-bold text-white drop-shadow-lg">
                       {fighter2Total}
                     </div>
                   </div>
