@@ -44,7 +44,10 @@ export default function OperatorPanel() {
     reversal: 0,
     cageControl: 0
   });
+  const [judgeScores, setJudgeScores] = useState({});
+  const [pendingJudges, setPendingJudges] = useState([]);
   const timerRef = useRef(null);
+  const backendUrl = import.meta.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
 
   // Keyboard shortcuts handler - using useCallback to access current state
   const handleKeyDown = useCallback(async (event) => {
