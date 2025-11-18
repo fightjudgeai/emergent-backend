@@ -734,54 +734,6 @@ export default function JudgePanel() {
           </tbody>
         </table>
 
-        <div class="stats-section">
-          <h3>Fight Statistics</h3>
-          <div class="stats-grid">
-    `;
-
-    // Add statistics for each fighter
-    for (let i = 1; i <= bout.totalRounds; i++) {
-      const roundScore = scores[i];
-      if (roundScore) {
-        const f1Counts = roundScore.fighter1_score?.event_counts || {};
-        const f2Counts = roundScore.fighter2_score?.event_counts || {};
-        
-        html += `
-          <div class="stat-item" style="grid-column: span 2;">
-            <div class="stat-label">Round ${i} Stats</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">${bout.fighter1} - Strikes</div>
-            <div class="stat-value">${f1Counts['Significant Strikes'] || 0}</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">${bout.fighter2} - Strikes</div>
-            <div class="stat-value">${f2Counts['Significant Strikes'] || 0}</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">${bout.fighter1} - Takedowns</div>
-            <div class="stat-value">${f1Counts['Takedowns'] || 0}</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">${bout.fighter2} - Takedowns</div>
-            <div class="stat-value">${f2Counts['Takedowns'] || 0}</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">${bout.fighter1} - Damage</div>
-            <div class="stat-value">${f1Counts['Damage'] || 0}</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">${bout.fighter2} - Damage</div>
-            <div class="stat-value">${f2Counts['Damage'] || 0}</div>
-          </div>
-        `;
-      }
-    }
-
-    html += `
-          </div>
-        </div>
-
         <div class="footer">
           <div class="signature">
             <div><strong>Judge:</strong> ${judgeInfo.name || 'N/A'}</div>
