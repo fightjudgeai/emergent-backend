@@ -27,6 +27,12 @@ export default function JudgePanel() {
   const [judgeInfo, setJudgeInfo] = useState(null); // { judgeId, judgeName }
   const [lockedRounds, setLockedRounds] = useState({}); // { roundNum: boolean }
   const [connectedDevices, setConnectedDevices] = useState([]);
+  
+  // Round Notes State
+  const [roundNotes, setRoundNotes] = useState({}); // { roundNum: [notes] }
+  const [newNoteText, setNewNoteText] = useState({}); // { roundNum: text }
+  const [editingNoteId, setEditingNoteId] = useState(null);
+  const [editNoteText, setEditNoteText] = useState('');
 
   useEffect(() => {
     loadBout();
