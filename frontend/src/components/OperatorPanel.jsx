@@ -49,7 +49,7 @@ export default function OperatorPanel() {
   const [pendingJudges, setPendingJudges] = useState([]);
   const [connectedDevices, setConnectedDevices] = useState([]);
   const timerRef = useRef(null);
-  const backendUrl = import.meta.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   // Keyboard shortcuts handler - using useCallback to access current state
   const handleKeyDown = useCallback(async (event) => {
