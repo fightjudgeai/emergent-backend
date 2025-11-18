@@ -3283,8 +3283,6 @@ async def get_bout_notes(bout_id: str, judge_id: Optional[str] = None):
         logger.error(f"Error fetching bout notes: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-from fastapi import Form
-
 @api_router.put("/round-notes/{note_id}")
 async def update_round_note(note_id: str, note_text: str = Form(...)):
     """Update an existing round note"""
