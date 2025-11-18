@@ -548,12 +548,16 @@ export default function OperatorPanel() {
 
   const undoLastEvent = async () => {
     try {
+      console.log('[Undo] Starting undo for bout:', boutId, 'round:', bout.currentRound);
+      
       // Get all events for this bout and current round
       // Note: We fetch all and sort in memory to avoid needing a Firebase composite index
       const eventsSnapshot = await db.collection('events')
         .where('boutId', '==', boutId)
         .where('round', '==', bout.currentRound)
         .get();
+      
+      console.log('[Undo] Found', eventsSnapshot.docs.length, 'events in round', bout.currentRound);
       
       if (eventsSnapshot.empty) {
         toast.info('No events to undo in this round');
@@ -567,6 +571,13 @@ export default function OperatorPanel() {
         data: doc.data()
       }));
       
+      console.log('[Undo] All events:', events.map(e => ({
+        id: e.id,
+        createdAt: e.data.createdAt,
+        eventType: e.data.eventType || e.data.event_type,
+        fighter: e.data.fighter
+      })));
+      
       // Sort by createdAt descending (most recent first)
       events.sort((a, b) => {
         const aTime = a.data.createdAt ? new Date(a.data.createdAt).getTime() : 0;
@@ -577,12 +588,17 @@ export default function OperatorPanel() {
       const lastEvent = events[0];
       const eventData = lastEvent.data;
       
+      console.log('[Undo] Most recent event:', {
+        id: lastEvent.id,
+        data: eventData
+      });
+      
       // Show confirmation with event details
       const fighterName = eventData.fighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
       const eventType = eventData.eventType || eventData.event_type;
       
       const confirmed = window.confirm(
-        `Undo last event?\n\nFighter: ${fighterName}\nEvent: ${eventType}\n\nThis cannot be undone.`
+        `Undo last event?\n\nRound: ${bout.currentRound}\nFighter: ${fighterName}\nEvent: ${eventType}\n\nThis cannot be undone.`
       );
       
       if (!confirmed) {
@@ -590,19 +606,24 @@ export default function OperatorPanel() {
         return;
       }
 
+      console.log('[Undo] Deleting event from Firebase:', lastEvent.id);
+      
       // Delete from Firebase
       await lastEvent.ref.delete();
+      
+      console.log('[Undo] Event deleted from Firebase');
       
       // Also delete from offline DB if it exists there
       try {
         await syncManager.deleteEvent(lastEvent.id);
+        console.log('[Undo] Event deleted from offline DB');
       } catch (err) {
-        console.warn('Event not in offline DB or already synced:', err);
+        console.warn('[Undo] Event not in offline DB or already synced:', err);
       }
 
-      toast.success(`Undone: ${eventType} for ${fighterName}`, { duration: 4000 });
+      toast.success(`Undone: ${eventType} for ${fighterName} (Round ${bout.currentRound})`, { duration: 4000 });
       
-      console.log('Event undone:', {
+      console.log('[Undo] Event successfully undone:', {
         id: lastEvent.id,
         fighter: fighterName,
         event: eventType,
