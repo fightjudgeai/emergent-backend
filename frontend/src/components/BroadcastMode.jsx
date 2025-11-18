@@ -360,13 +360,56 @@ export default function BroadcastMode() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden">
-      {/* Fullscreen Toggle */}
-      <button
-        onClick={toggleFullscreen}
-        className="fixed top-4 right-4 z-50 bg-white/10 hover:bg-white/20 p-3 rounded-lg backdrop-blur"
-      >
-        <Maximize2 className="h-6 w-6 text-white" />
-      </button>
+      {/* TV-Optimized Controls (Auto-hide) */}
+      <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${showControls ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
+        <div className="bg-black/80 backdrop-blur-lg border-b border-white/10 p-4">
+          <div className="container mx-auto flex items-center justify-between">
+            {/* Connection Status Indicator */}
+            <div className="flex items-center gap-4">
+              <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
+                connectionStatus === 'connected' ? 'bg-green-600/20 border border-green-500/30' :
+                connectionStatus === 'connecting' ? 'bg-yellow-600/20 border border-yellow-500/30' :
+                'bg-red-600/20 border border-red-500/30'
+              }`}>
+                <div className={`w-3 h-3 rounded-full animate-pulse ${
+                  connectionStatus === 'connected' ? 'bg-green-500' :
+                  connectionStatus === 'connecting' ? 'bg-yellow-500' :
+                  'bg-red-500'
+                }`} />
+                <span className="text-sm font-semibold uppercase tracking-wider">
+                  {connectionStatus === 'connected' ? '🟢 Live' :
+                   connectionStatus === 'connecting' ? '🟡 Connecting...' :
+                   '🔴 Disconnected'}
+                </span>
+              </div>
+              
+              {/* Last Update Time */}
+              <div className="text-xs text-gray-400">
+                Updated: {new Date(lastUpdateTime).toLocaleTimeString()}
+              </div>
+            </div>
+            
+            {/* Fullscreen Toggle Button */}
+            <button
+              onClick={toggleFullscreen}
+              className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg backdrop-blur flex items-center gap-2 text-lg font-semibold transition-all hover:scale-105"
+              title="Press Enter or OK button to toggle fullscreen"
+            >
+              <Maximize2 className="h-5 w-5" />
+              <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
+            </button>
+          </div>
+        </div>
+        
+        {/* Fire Stick Instructions */}
+        {!isFullscreen && (
+          <div className="bg-amber-600/10 border-b border-amber-500/20 px-4 py-2">
+            <div className="container mx-auto text-center text-amber-400 text-sm">
+              🎮 <strong>Fire Stick Users:</strong> Press OK/Enter button for fullscreen • Press Back/ESC to exit • Controls auto-hide in 5s
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className="container mx-auto p-8 h-screen flex flex-col justify-between">
         {/* Header */}
