@@ -3263,7 +3263,7 @@ async def get_bout_notes(bout_id: str, judge_id: Optional[str] = None):
         if judge_id:
             query["judge_id"] = judge_id
         
-        notes_cursor = db.round_notes.find(query).sort("round_num", 1).sort("timestamp", 1)
+        notes_cursor = db.round_notes.find(query, {"_id": 0}).sort("round_num", 1).sort("timestamp", 1)
         notes = await notes_cursor.to_list(length=None)
         
         # Group by round
