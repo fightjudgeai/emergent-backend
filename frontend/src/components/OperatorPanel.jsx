@@ -1161,6 +1161,57 @@ export default function OperatorPanel() {
             })}
           </div>
         </div>
+
+        {/* Point Deductions */}
+        <div>
+          <h3 className="text-yellow-500 font-bold text-lg mb-3">⚠️ Point Deductions & Warnings</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {pointDeductionButtons.map((btn, index) => (
+              <Button
+                key={`${btn.event}-${btn.points}`}
+                onClick={() => {
+                  const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+                  
+                  // Confirmation dialog for point deductions
+                  if (btn.points > 0) {
+                    const confirmed = window.confirm(
+                      `Deduct ${btn.points} point(s) from ${fighterName}?\n\nReason: ${btn.reason}\n\nThis will affect the round score.`
+                    );
+                    if (!confirmed) return;
+                  }
+                  
+                  logEvent(btn.event, { 
+                    points: btn.points,
+                    reason: btn.reason,
+                    fighter: selectedFighter
+                  });
+                  
+                  if (btn.points > 0) {
+                    toast.error(`-${btn.points} point deduction for ${fighterName}`);
+                  } else {
+                    toast.warning(`Warning issued to ${fighterName}`);
+                  }
+                }}
+                className={`h-20 text-lg font-bold ${
+                  btn.points === 2 ? 'bg-gradient-to-br from-red-600 to-red-700' :
+                  btn.points === 1 ? 'bg-gradient-to-br from-yellow-600 to-orange-600' :
+                  'bg-gradient-to-br from-gray-600 to-gray-700'
+                } hover:opacity-90 text-white shadow-lg transition-all active:scale-95 border-2 ${
+                  btn.points > 0 ? 'border-red-400 animate-pulse' : 'border-gray-500'
+                }`}
+              >
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-2xl">{btn.points === 2 ? '🚫' : btn.points === 1 ? '⚠️' : '⚡'}</span>
+                  <span>{btn.label}</span>
+                </div>
+              </Button>
+            ))}
+          </div>
+          <div className="mt-3 p-3 bg-yellow-900/20 border border-yellow-600/30 rounded-lg text-sm text-yellow-200">
+            <strong>⚠️ Important:</strong> Point deductions will be applied to the selected fighter's score for this round. 
+            Confirm carefully before deducting points.
+          </div>
+        </div>
       </div>
 
       {/* Old Sub Attempt Dialog Button - Now integrated above */}
