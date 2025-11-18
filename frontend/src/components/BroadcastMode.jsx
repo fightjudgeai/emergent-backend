@@ -430,31 +430,31 @@ export default function BroadcastMode() {
         {/* Main Scoreboard */}
         <div className="flex-1 flex items-center justify-center">
           <div className="grid grid-cols-3 gap-12 w-full max-w-7xl">
-            {/* RED CORNER */}
-            <Card className="bg-gradient-to-br from-red-900/50 to-red-950/50 border-4 border-red-600 p-12 text-center transform hover:scale-105 transition-transform">
-              <div className="mb-4">
-                <div className="text-red-400 text-2xl font-bold uppercase tracking-wider mb-2">
-                  Red Corner
+            {/* RED CORNER - TV Optimized */}
+            <Card className="bg-gradient-to-br from-red-900/60 to-red-950/60 border-[6px] border-red-600 p-12 text-center shadow-2xl backdrop-blur">
+              <div className="mb-6">
+                <div className="text-red-400 text-3xl font-bold uppercase tracking-wider mb-4 drop-shadow">
+                  🔴 Red Corner
                 </div>
-                <h2 className="text-7xl font-black text-white mb-8 break-words">
+                <h2 className="text-8xl md:text-9xl font-black text-white mb-10 break-words drop-shadow-2xl leading-tight">
                   {bout.fighter1}
                 </h2>
               </div>
               
-              <div className="space-y-6">
-                {/* Current Round Score */}
-                <div className="bg-red-950/50 rounded-xl p-6 border-2 border-red-700">
-                  <div className="text-red-300 text-xl mb-2">Round {bout.currentRound}</div>
-                  <div className="text-8xl font-black text-white">
+              <div className="space-y-8">
+                {/* Current Round Score - Extra Large for TV */}
+                <div className="bg-red-950/70 rounded-2xl p-8 border-4 border-red-700 shadow-xl">
+                  <div className="text-red-300 text-2xl md:text-3xl mb-3 font-semibold">Round {bout.currentRound}</div>
+                  <div className="text-[120px] md:text-[140px] font-black text-white drop-shadow-2xl leading-none">
                     {fighter1Current}
                   </div>
                 </div>
                 
                 {/* Total Score */}
                 {Object.keys(scores).length > 0 && (
-                  <div className="bg-red-900/30 rounded-xl p-4 border border-red-700/50">
-                    <div className="text-red-300 text-lg mb-1">Total Score</div>
-                    <div className="text-5xl font-bold text-white">
+                  <div className="bg-red-900/40 rounded-xl p-6 border-2 border-red-700/50 shadow-lg">
+                    <div className="text-red-300 text-xl md:text-2xl mb-2 font-semibold">Total Score</div>
+                    <div className="text-6xl md:text-7xl font-bold text-white drop-shadow-lg">
                       {fighter1Total}
                     </div>
                   </div>
