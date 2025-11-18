@@ -548,12 +548,11 @@ export default function OperatorPanel() {
 
   const undoLastEvent = async () => {
     try {
-      // Get the last event for this bout and current round
+      // Get all events for this bout and current round
+      // Note: We fetch all and sort in memory to avoid needing a Firebase composite index
       const eventsSnapshot = await db.collection('events')
         .where('boutId', '==', boutId)
         .where('round', '==', bout.currentRound)
-        .orderBy('createdAt', 'desc')
-        .limit(1)
         .get();
       
       if (eventsSnapshot.empty) {
@@ -561,8 +560,22 @@ export default function OperatorPanel() {
         return;
       }
 
-      const lastEvent = eventsSnapshot.docs[0];
-      const eventData = lastEvent.data();
+      // Sort by createdAt in memory and get the last one
+      const events = eventsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ref: doc.ref,
+        data: doc.data()
+      }));
+      
+      // Sort by createdAt descending (most recent first)
+      events.sort((a, b) => {
+        const aTime = a.data.createdAt ? new Date(a.data.createdAt).getTime() : 0;
+        const bTime = b.data.createdAt ? new Date(b.data.createdAt).getTime() : 0;
+        return bTime - aTime;
+      });
+      
+      const lastEvent = events[0];
+      const eventData = lastEvent.data;
       
       // Show confirmation with event details
       const fighterName = eventData.fighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
