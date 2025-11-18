@@ -2886,6 +2886,295 @@ async def force_close_round(request: ForceCloseRound):
         logging.error(f"Error force-closing round: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ============================================================================
+# II. ROUND REPLAY ENGINE
+# ============================================================================
+
+@api_router.get("/replay/{bout_id}/{round_id}")
+async def get_round_replay(bout_id: str, round_id: int, round_length: int = 300):
+    """
+    Reconstruct round second-by-second timeline with accumulated scores
+    Performance target: <150ms
+    """
+    try:
+        start_time = time.time()
+        
+        replay_data = await reconstruct_round_timeline(db, bout_id, round_id, round_length)
+        
+        elapsed = (time.time() - start_time) * 1000
+        logging.info(f"Replay generated in {elapsed:.2f}ms")
+        
+        return {
+            "success": True,
+            "performance_ms": round(elapsed, 2),
+            **replay_data
+        }
+    except Exception as e:
+        logging.error(f"Error generating replay: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============================================================================
+# III. BROADCAST API LAYER
+# ============================================================================
+
+@api_router.get("/live/{bout_id}")
+async def get_live_broadcast_data(bout_id: str):
+    """
+    Real-time broadcast endpoint for jumbotrons, TV graphics, commentary
+    Performance target: <100ms
+    Refresh rate: 250-500ms
+    """
+    try:
+        start_time = time.time()
+        
+        # Get bout info
+        bout = await db.bouts.find_one({"_id": bout_id})
+        if not bout:
+            raise HTTPException(status_code=404, detail="Bout not found")
+        
+        round_id = bout.get('currentRound', 1)
+        
+        # Get latest events (last 5 seconds)
+        five_sec_ago = int((time.time() - 5) * 1000)
+        recent_events = await db.events_v2.find({
+            "bout_id": bout_id,
+            "round_id": round_id,
+            "server_timestamp_ms": {"$gte": five_sec_ago}
+        }).sort("sequence_index", -1).limit(20).to_list(20)
+        
+        # Calculate live totals using replay engine (cached)
+        replay_data = await reconstruct_round_timeline(db, bout_id, round_id)
+        summary = replay_data.get('round_summary', {})
+        
+        # Identify redline moments (major damage events)
+        redline_moments = []
+        for event in recent_events:
+            if event.get('event_type') in ['KD', 'Rocked/Stunned']:
+                redline_moments.append({
+                    "timestamp": event.get('server_timestamp_ms', 0),
+                    "fighter_id": event.get('fighter_id'),
+                    "event_type": event.get('event_type'),
+                    "severity": event.get('metadata', {}).get('tier', 'Unknown')
+                })
+        
+        elapsed = (time.time() - start_time) * 1000
+        
+        return {
+            "bout_id": bout_id,
+            "round_id": round_id,
+            "round_status": bout.get('status', 'IN_PROGRESS'),
+            "red_totals": {
+                "damage": summary.get('damage_score', {}).get('red', 0),
+                "grappling": summary.get('grappling_score', {}).get('red', 0),
+                "control": summary.get('control_score', {}).get('red', 0),
+                "weighted_score": summary.get('total_score', {}).get('red', 0)
+            },
+            "blue_totals": {
+                "damage": summary.get('damage_score', {}).get('blue', 0),
+                "grappling": summary.get('grappling_score', {}).get('blue', 0),
+                "control": summary.get('control_score', {}).get('blue', 0),
+                "weighted_score": summary.get('total_score', {}).get('blue', 0)
+            },
+            "time_remaining": bout.get('timeRemaining', '5:00'),
+            "events_last_5_sec": len(recent_events),
+            "redline_moments": redline_moments,
+            "performance_ms": round(elapsed, 2)
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error in live broadcast: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/final/{bout_id}")
+async def get_final_broadcast_data(bout_id: str):
+    """
+    Final bout results for post-fight broadcast
+    """
+    try:
+        # Get bout info
+        bout = await db.bouts.find_one({"_id": bout_id})
+        if not bout:
+            raise HTTPException(status_code=404, detail="Bout not found")
+        
+        # Get all judge scorecards
+        judge_scores = await db.judge_scores.find({"bout_id": bout_id}).to_list(100)
+        
+        # Get all rounds and verify chain
+        all_valid = True
+        for round_id in range(1, bout.get('totalRounds', 3) + 1):
+            events = await db.events_v2.find({
+                "bout_id": bout_id,
+                "round_id": round_id
+            }).to_list(10000)
+            if not verify_event_chain(events):
+                all_valid = False
+                break
+        
+        # Format scorecards
+        scorecards = []
+        for score in judge_scores:
+            score.pop('_id', None)
+            scorecards.append(score)
+        
+        return {
+            "bout_id": bout_id,
+            "fighter1": bout.get('fighter1'),
+            "fighter2": bout.get('fighter2'),
+            "final_scores": scorecards,
+            "winner": bout.get('winner', 'TBD'),
+            "full_event_log_hash_chain_valid": all_valid,
+            "total_rounds": bout.get('totalRounds', 3)
+        }
+    except Exception as e:
+        logging.error(f"Error in final broadcast: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============================================================================
+# VI. TELEMETRY & DEVICE HEALTH ENGINE
+# ============================================================================
+
+@api_router.post("/telemetry/report")
+async def report_device_telemetry(telemetry: DeviceTelemetry):
+    """
+    Ingest device health telemetry
+    Performance target: <20ms
+    """
+    try:
+        start_time = time.time()
+        
+        telemetry_doc = {
+            "device_id": telemetry.device_id,
+            "judge_id": telemetry.judge_id,
+            "bout_id": telemetry.bout_id,
+            "battery_percent": telemetry.battery_percent,
+            "network_strength_percent": telemetry.network_strength_percent,
+            "latency_ms": telemetry.latency_ms,
+            "fps": telemetry.fps,
+            "dropped_event_count": telemetry.dropped_event_count,
+            "event_rate_per_second": telemetry.event_rate_per_second,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+        
+        await db.telemetry.insert_one(telemetry_doc)
+        
+        # Generate alerts
+        alerts = []
+        if telemetry.battery_percent and telemetry.battery_percent < 20:
+            alerts.append({"type": "battery_low", "value": telemetry.battery_percent})
+        if telemetry.latency_ms and telemetry.latency_ms > 350:
+            alerts.append({"type": "high_latency", "value": telemetry.latency_ms})
+        if telemetry.network_strength_percent and telemetry.network_strength_percent < 30:
+            alerts.append({"type": "poor_network", "value": telemetry.network_strength_percent})
+        if telemetry.dropped_event_count > 0:
+            alerts.append({"type": "dropped_events", "value": telemetry.dropped_event_count})
+        
+        elapsed = (time.time() - start_time) * 1000
+        
+        return {
+            "success": True,
+            "alerts": alerts,
+            "performance_ms": round(elapsed, 2)
+        }
+    except Exception as e:
+        logging.error(f"Error reporting telemetry: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/telemetry/{bout_id}")
+async def get_bout_telemetry(bout_id: str):
+    """
+    Get real-time telemetry for all devices in a bout
+    """
+    try:
+        # Get recent telemetry (last 30 seconds)
+        thirty_sec_ago = datetime.now(timezone.utc).timestamp() - 30
+        
+        telemetry_data = await db.telemetry.find({
+            "bout_id": bout_id
+        }).sort("timestamp", -1).limit(100).to_list(100)
+        
+        # Group by device
+        devices = {}
+        for t in telemetry_data:
+            device_id = t.get('device_id')
+            if device_id not in devices:
+                devices[device_id] = t
+        
+        return {
+            "bout_id": bout_id,
+            "devices": list(devices.values()),
+            "total_devices": len(devices)
+        }
+    except Exception as e:
+        logging.error(f"Error fetching telemetry: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============================================================================
+# V. JUDGE SESSION & HOT-SWAP ENGINE
+# ============================================================================
+
+@api_router.post("/judge-session/create")
+async def create_judge_session(session: JudgeSession):
+    """
+    Create or restore judge session for hot-swap capability
+    """
+    try:
+        session_doc = {
+            "judge_session_id": session.judge_session_id,
+            "judge_id": session.judge_id,
+            "bout_id": session.bout_id,
+            "round_id": session.round_id,
+            "last_event_sequence": session.last_event_sequence,
+            "session_state": session.session_state,
+            "unsent_event_queue": session.unsent_event_queue,
+            "last_updated": datetime.now(timezone.utc).isoformat()
+        }
+        
+        # Upsert session
+        await db.judge_sessions.update_one(
+            {"judge_session_id": session.judge_session_id},
+            {"$set": session_doc},
+            upsert=True
+        )
+        
+        return {
+            "success": True,
+            "judge_session_id": session.judge_session_id,
+            "message": "Session saved"
+        }
+    except Exception as e:
+        logging.error(f"Error creating session: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/judge-session/{judge_session_id}")
+async def restore_judge_session(judge_session_id: str):
+    """
+    Restore judge session for hot-swap (device change mid-fight)
+    Performance target: <200ms
+    """
+    try:
+        start_time = time.time()
+        
+        session = await db.judge_sessions.find_one({"judge_session_id": judge_session_id})
+        
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+        
+        session.pop('_id', None)
+        
+        elapsed = (time.time() - start_time) * 1000
+        
+        return {
+            "success": True,
+            "session": session,
+            "performance_ms": round(elapsed, 2)
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error restoring session: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
