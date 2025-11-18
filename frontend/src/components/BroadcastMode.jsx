@@ -125,7 +125,15 @@ export default function BroadcastMode() {
       if (response.ok) {
         const data = await response.json();
         console.log(`[Broadcast] Score data for round ${round}:`, data);
-        setScores(prev => ({ ...prev, [round]: data }));
+        console.log(`[Broadcast] Score card for round ${round}:`, data.card);
+        console.log(`[Broadcast] Fighter1 score:`, data.fighter1_score);
+        console.log(`[Broadcast] Fighter2 score:`, data.fighter2_score);
+        
+        setScores(prev => {
+          const newScores = { ...prev, [round]: data };
+          console.log(`[Broadcast] Updated scores state:`, newScores);
+          return newScores;
+        });
         console.log(`[Broadcast] ✅ Loaded score for round ${round}:`, data.card);
       } else {
         const errorText = await response.text();
