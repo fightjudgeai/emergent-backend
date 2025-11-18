@@ -29,6 +29,7 @@ export default function JudgePanel() {
     loadBout();
     setupEventListener();
     setupDeviceSession();
+    loadJudgeInfo();
   }, [boutId]);
 
   useEffect(() => {
@@ -36,6 +37,13 @@ export default function JudgePanel() {
       calculateScores();
     }
   }, [events, bout]);
+
+  useEffect(() => {
+    // Load locked rounds status from backend
+    if (judgeInfo && boutId) {
+      loadLockedRounds();
+    }
+  }, [judgeInfo, boutId]);
 
   const loadBout = async () => {
     try {
