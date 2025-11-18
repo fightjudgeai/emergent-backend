@@ -1406,6 +1406,103 @@ export default function JudgePanel() {
                       })}
                     </div>
                   </Card>
+
+                  {/* Round Notes (System 2) */}
+                  <Card className="bg-gradient-to-br from-purple-950/20 to-purple-900/10 border-purple-800/30 p-4 mt-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <StickyNote className="w-4 h-4 text-purple-400" />
+                      <div className="text-sm text-purple-400 uppercase tracking-wide font-semibold">Round Notes</div>
+                      <Badge className="bg-purple-900/30 text-purple-300 border-purple-700/30 text-xs">
+                        {roundNotes[roundNum]?.length || 0} notes
+                      </Badge>
+                    </div>
+
+                    {/* Add New Note */}
+                    <div className="mb-4">
+                      <Textarea
+                        placeholder="Add a note for this round... (e.g., 'Fighter 1 dominated striking', 'Close round, slight edge to Fighter 2')"
+                        value={newNoteText[roundNum] || ''}
+                        onChange={(e) => setNewNoteText(prev => ({ ...prev, [roundNum]: e.target.value }))}
+                        className="bg-[#13151a] border-purple-800/30 text-white placeholder:text-gray-500 min-h-[80px] mb-2"
+                      />
+                      <Button
+                        onClick={() => handleAddNote(roundNum)}
+                        disabled={!newNoteText[roundNum]?.trim()}
+                        className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
+                      >
+                        <StickyNote className="mr-2 h-4 w-4" />
+                        Add Note
+                      </Button>
+                    </div>
+
+                    {/* Display Existing Notes */}
+                    <div className="space-y-3">
+                      {roundNotes[roundNum]?.length > 0 ? (
+                        roundNotes[roundNum].map((note) => (
+                          <div key={note.id} className="bg-[#1a1d24] border border-purple-800/20 rounded-lg p-3">
+                            {editingNoteId === note.id ? (
+                              // Edit Mode
+                              <div className="space-y-2">
+                                <Textarea
+                                  value={editNoteText}
+                                  onChange={(e) => setEditNoteText(e.target.value)}
+                                  className="bg-[#13151a] border-purple-800/30 text-white min-h-[60px]"
+                                />
+                                <div className="flex gap-2">
+                                  <Button
+                                    onClick={() => handleUpdateNote(note.id, roundNum)}
+                                    className="bg-green-600 hover:bg-green-700 text-white text-xs"
+                                  >
+                                    <Save className="mr-1 h-3 w-3" />
+                                    Save
+                                  </Button>
+                                  <Button
+                                    onClick={cancelEditNote}
+                                    className="bg-gray-600 hover:bg-gray-700 text-white text-xs"
+                                  >
+                                    <X className="mr-1 h-3 w-3" />
+                                    Cancel
+                                  </Button>
+                                </div>
+                              </div>
+                            ) : (
+                              // View Mode
+                              <div>
+                                <div className="text-sm text-white mb-2">
+                                  {note.note_text}
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-3 text-xs text-gray-500">
+                                    <span className="text-purple-400 font-semibold">{note.judge_name}</span>
+                                    <span>•</span>
+                                    <span>{new Date(note.timestamp).toLocaleString()}</span>
+                                  </div>
+                                  <div className="flex gap-2">
+                                    <Button
+                                      onClick={() => startEditNote(note)}
+                                      className="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border-blue-600/30 text-xs h-7 px-2"
+                                    >
+                                      <Edit className="h-3 w-3" />
+                                    </Button>
+                                    <Button
+                                      onClick={() => handleDeleteNote(note.id, roundNum)}
+                                      className="bg-red-600/20 hover:bg-red-600/30 text-red-400 border-red-600/30 text-xs h-7 px-2"
+                                    >
+                                      <Trash2 className="h-3 w-3" />
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center text-gray-500 text-sm py-4">
+                          No notes yet. Add your first note above.
+                        </div>
+                      )}
+                    </div>
+                  </Card>
                 </div>
               )}
             </Card>
