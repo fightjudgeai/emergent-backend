@@ -342,6 +342,123 @@ export default function JudgePanel() {
     }
   };
 
+  // ============================================================================
+  // ROUND NOTES HANDLERS (System 2)
+  // ============================================================================
+
+  const loadRoundNotes = async (roundNum) => {
+    if (!judgeInfo || !boutId) return;
+    
+    try {
+      const response = await axios.get(`${API}/round-notes/${boutId}/${roundNum}`, {
+        params: { judge_id: judgeInfo.judgeId }
+      });
+      
+      setRoundNotes(prev => ({
+        ...prev,
+        [roundNum]: response.data.notes || []
+      }));
+    } catch (error) {
+      console.error('Error loading round notes:', error);
+    }
+  };
+
+  const handleAddNote = async (roundNum) => {
+    if (!judgeInfo || !boutId || !newNoteText[roundNum]?.trim()) {
+      toast.error('Please enter a note');
+      return;
+    }
+    
+    try {
+      const response = await axios.post(`${API}/round-notes`, {
+        bout_id: boutId,
+        round_num: roundNum,
+        judge_id: judgeInfo.judgeId,
+        judge_name: judgeInfo.judgeName,
+        note_text: newNoteText[roundNum].trim()
+      });
+      
+      // Reload notes for this round
+      await loadRoundNotes(roundNum);
+      
+      // Clear input
+      setNewNoteText(prev => ({ ...prev, [roundNum]: '' }));
+      
+      toast.success('Note added successfully');
+    } catch (error) {
+      console.error('Error adding note:', error);
+      toast.error('Failed to add note');
+    }
+  };
+
+  const handleUpdateNote = async (noteId, roundNum) => {
+    if (!editNoteText.trim()) {
+      toast.error('Please enter note text');
+      return;
+    }
+    
+    try {
+      const formData = new FormData();
+      formData.append('note_text', editNoteText.trim());
+      
+      await axios.put(`${API}/round-notes/${noteId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      // Reload notes
+      await loadRoundNotes(roundNum);
+      
+      // Clear edit state
+      setEditingNoteId(null);
+      setEditNoteText('');
+      
+      toast.success('Note updated successfully');
+    } catch (error) {
+      console.error('Error updating note:', error);
+      toast.error('Failed to update note');
+    }
+  };
+
+  const handleDeleteNote = async (noteId, roundNum) => {
+    if (!confirm('Are you sure you want to delete this note?')) {
+      return;
+    }
+    
+    try {
+      await axios.delete(`${API}/round-notes/${noteId}`);
+      
+      // Reload notes
+      await loadRoundNotes(roundNum);
+      
+      toast.success('Note deleted successfully');
+    } catch (error) {
+      console.error('Error deleting note:', error);
+      toast.error('Failed to delete note');
+    }
+  };
+
+  const startEditNote = (note) => {
+    setEditingNoteId(note.id);
+    setEditNoteText(note.note_text);
+  };
+
+  const cancelEditNote = () => {
+    setEditingNoteId(null);
+    setEditNoteText('');
+  };
+
+  // Load notes when judge info or bout changes
+  useEffect(() => {
+    if (judgeInfo && boutId && bout) {
+      // Load notes for all rounds
+      for (let i = 1; i <= (bout.totalRounds || 3); i++) {
+        loadRoundNotes(i);
+      }
+    }
+  }, [judgeInfo, boutId, bout]);
+
   const goBackToFightList = async () => {
     if (bout?.eventId) {
       navigate(`/event/${bout.eventId}/fights`);
