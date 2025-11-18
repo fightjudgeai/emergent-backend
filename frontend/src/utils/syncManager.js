@@ -1,5 +1,6 @@
 /**
  * Sync Manager for handling online/offline event synchronization
+ * Enhanced with retry logic, network monitoring, and queue health metrics
  */
 
 import offlineDB from './offlineDB';
@@ -10,10 +11,17 @@ class SyncManager {
     this.isOnline = navigator.onLine;
     this.isSyncing = false;
     this.listeners = [];
+    this.retryTimer = null;
+    this.maxRetries = 5;
+    this.baseRetryDelay = 2000; // 2 seconds base delay
+    this.networkCheckInterval = null;
     
     // Setup online/offline listeners
     window.addEventListener('online', () => this.handleOnline());
     window.addEventListener('offline', () => this.handleOffline());
+    
+    // Start periodic network quality checks
+    this.startNetworkMonitoring();
   }
 
   /**
