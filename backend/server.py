@@ -3197,6 +3197,134 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ============================================================================
+# SYSTEM 2: ROUND NOTES ENGINE
+# ============================================================================
+
+class RoundNote(BaseModel):
+    """Model for round notes"""
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    bout_id: str
+    round_num: int
+    judge_id: str
+    judge_name: str
+    note_text: str
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    metadata: Optional[Dict[str, Any]] = None
+
+class RoundNoteCreate(BaseModel):
+    """Model for creating a round note"""
+    bout_id: str
+    round_num: int
+    judge_id: str
+    judge_name: str
+    note_text: str
+    metadata: Optional[Dict[str, Any]] = None
+
+@api_router.post("/round-notes", response_model=RoundNote)
+async def create_round_note(note: RoundNoteCreate):
+    """Create a new round note"""
+    try:
+        note_data = RoundNote(
+            bout_id=note.bout_id,
+            round_num=note.round_num,
+            judge_id=note.judge_id,
+            judge_name=note.judge_name,
+            note_text=note.note_text,
+            metadata=note.metadata or {}
+        )
+        
+        result = await db.round_notes.insert_one(note_data.model_dump())
+        logger.info(f"Round note created: {note_data.id} for bout {note.bout_id} round {note.round_num}")
+        
+        return note_data
+    except Exception as e:
+        logger.error(f"Error creating round note: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/round-notes/{bout_id}/{round_num}")
+async def get_round_notes(bout_id: str, round_num: int, judge_id: Optional[str] = None):
+    """Get all notes for a specific bout and round"""
+    try:
+        query = {"bout_id": bout_id, "round_num": round_num}
+        if judge_id:
+            query["judge_id"] = judge_id
+        
+        notes_cursor = db.round_notes.find(query).sort("timestamp", 1)
+        notes = await notes_cursor.to_list(length=None)
+        
+        return {"notes": notes, "count": len(notes)}
+    except Exception as e:
+        logger.error(f"Error fetching round notes: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/round-notes/{bout_id}")
+async def get_bout_notes(bout_id: str, judge_id: Optional[str] = None):
+    """Get all notes for a bout"""
+    try:
+        query = {"bout_id": bout_id}
+        if judge_id:
+            query["judge_id"] = judge_id
+        
+        notes_cursor = db.round_notes.find(query).sort("round_num", 1).sort("timestamp", 1)
+        notes = await notes_cursor.to_list(length=None)
+        
+        # Group by round
+        notes_by_round = {}
+        for note in notes:
+            round_num = note.get("round_num")
+            if round_num not in notes_by_round:
+                notes_by_round[round_num] = []
+            notes_by_round[round_num].append(note)
+        
+        return {
+            "notes": notes,
+            "notes_by_round": notes_by_round,
+            "total_count": len(notes)
+        }
+    except Exception as e:
+        logger.error(f"Error fetching bout notes: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/round-notes/{note_id}")
+async def update_round_note(note_id: str, note_text: str):
+    """Update an existing round note"""
+    try:
+        result = await db.round_notes.update_one(
+            {"id": note_id},
+            {"$set": {
+                "note_text": note_text,
+                "updated_at": datetime.now(timezone.utc).isoformat()
+            }}
+        )
+        
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Note not found")
+        
+        return {"success": True, "message": "Note updated successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating round note: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/round-notes/{note_id}")
+async def delete_round_note(note_id: str):
+    """Delete a round note"""
+    try:
+        result = await db.round_notes.delete_one({"id": note_id})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Note not found")
+        
+        return {"success": True, "message": "Note deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting round note: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
