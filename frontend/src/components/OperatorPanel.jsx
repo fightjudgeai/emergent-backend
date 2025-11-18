@@ -150,7 +150,7 @@ export default function OperatorPanel() {
         await handleControlToggle('Cage Control Time');
       }
       
-      // FUNCTION KEYS - F1-F5 (or G1-G5 on gaming keyboards)
+      // FUNCTION KEYS - F1-F7 (or G1-G7 on gaming keyboards)
       else if (key === 'F1') {
         await undoLastEvent();
       } else if (key === 'F2') {
@@ -161,12 +161,19 @@ export default function OperatorPanel() {
         await nextRound();
       } else if (key === 'F5') {
         await handleMedicalTimeout();
+      } else if (key === 'F6') {
+        // -1 Point Deduction
+        await handlePointDeductionQuick(1, 'Foul');
+      } else if (key === 'F7') {
+        // -2 Point Deduction
+        await handlePointDeductionQuick(2, 'Serious Foul');
+      } else if (key === 'F8') {
+        // Warning (no deduction)
+        await handlePointDeductionQuick(0, 'Warning');
       }
       
       // SPECIAL ACTIONS
-      else if (key === 'Escape') {
-        await handlePointDeduction();
-      } else if (key === '/') {
+      else if (key === '/') {
         // Save and Sync
         toast.success('Manual save triggered via keyboard');
       }
