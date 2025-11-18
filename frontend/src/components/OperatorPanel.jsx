@@ -814,7 +814,14 @@ export default function OperatorPanel() {
     { label: 'Cage Control', event: 'Cage Control Time', isTimer: true }
   ];
 
-  const allEventButtons = [...strikingButtons, ...damageButtons, ...grapplingButtons, ...controlButtons];
+  // Point Deduction Events
+  const pointDeductionButtons = [
+    { label: '-1 Point (Foul)', event: 'Point Deduction', points: 1, reason: 'Foul' },
+    { label: '-2 Points (Serious Foul)', event: 'Point Deduction', points: 2, reason: 'Serious Foul' },
+    { label: 'Warning (No Deduction)', event: 'Warning', points: 0, reason: 'Warning' }
+  ];
+
+  const allEventButtons = [...strikingButtons, ...damageButtons, ...grapplingButtons, ...controlButtons, ...pointDeductionButtons];
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] p-4">
