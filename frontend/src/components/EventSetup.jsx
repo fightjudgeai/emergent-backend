@@ -23,6 +23,22 @@ export default function EventSetup() {
   const [loading, setLoading] = useState(false);
   const [showChecklist, setShowChecklist] = useState(false);
   const [checklistCompleted, setChecklistCompleted] = useState(false);
+
+  // Initialize device sync for event setup
+  useEffect(() => {
+    const initSync = async () => {
+      try {
+        await deviceSyncManager.initializeDevice('event-setup', 'admin', {
+          role: 'event_admin',
+          page: 'event_setup'
+        });
+      } catch (error) {
+        console.error('Device sync init failed:', error);
+      }
+    };
+    initSync();
+    return () => deviceSyncManager.cleanup();
+  }, []);
   const [checklist, setChecklist] = useState({
     eventName: false,
     fighters: false,
