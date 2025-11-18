@@ -82,6 +82,21 @@ export default function BroadcastMode() {
       initBroadcastSync();
     }
     
+    // Network monitoring
+    const handleOnline = () => {
+      console.log('[Broadcast] Network restored');
+      setConnectionStatus('connected');
+      loadBout(); // Reload data when connection restored
+    };
+    
+    const handleOffline = () => {
+      console.log('[Broadcast] Network lost');
+      setConnectionStatus('disconnected');
+    };
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
     // Periodic score refresh every 5 seconds to ensure updates
     const refreshInterval = setInterval(() => {
       if (bout?.currentRound) {
