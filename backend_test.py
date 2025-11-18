@@ -3115,9 +3115,13 @@ class CombatJudgingAPITester:
         """Test deleting round notes"""
         print("\n🗑️ Testing Round Notes Engine - Delete Notes...")
         
+        # Use unique bout ID for this test
+        import time
+        delete_bout_id = f"test-bout-delete-{int(time.time())}"
+        
         # First create a note to delete
         note_data = {
-            "bout_id": "test-bout-789",
+            "bout_id": delete_bout_id,
             "round_num": 1,
             "judge_id": "DELETE_TEST",
             "judge_name": "Delete Test",
