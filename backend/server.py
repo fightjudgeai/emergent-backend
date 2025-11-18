@@ -3148,6 +3148,7 @@ async def create_judge_session(session: JudgeSession):
         
         return {
             "success": True,
+            "session_id": session.judge_session_id,
             "judge_session_id": session.judge_session_id,
             "message": "Session saved"
         }
