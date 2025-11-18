@@ -548,22 +548,56 @@ export default function OperatorPanel() {
 
   const undoLastEvent = async () => {
     try {
+      // Get the last event for this bout and current round
       const eventsSnapshot = await db.collection('events')
         .where('boutId', '==', boutId)
+        .where('round', '==', bout.currentRound)
         .orderBy('createdAt', 'desc')
         .limit(1)
         .get();
       
-      if (!eventsSnapshot.empty) {
-        const lastEvent = eventsSnapshot.docs[0];
-        await lastEvent.ref.delete();
-        toast.success('Last event undone');
-      } else {
-        toast.info('No events to undo');
+      if (eventsSnapshot.empty) {
+        toast.info('No events to undo in this round');
+        return;
       }
+
+      const lastEvent = eventsSnapshot.docs[0];
+      const eventData = lastEvent.data();
+      
+      // Show confirmation with event details
+      const fighterName = eventData.fighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+      const eventType = eventData.event_type;
+      
+      const confirmed = window.confirm(
+        `Undo last event?\n\nFighter: ${fighterName}\nEvent: ${eventType}\n\nThis cannot be undone.`
+      );
+      
+      if (!confirmed) {
+        toast.info('Undo cancelled');
+        return;
+      }
+
+      // Delete from Firebase
+      await lastEvent.ref.delete();
+      
+      // Also delete from offline DB if it exists there
+      try {
+        await syncManager.deleteEvent(lastEvent.id);
+      } catch (err) {
+        console.warn('Event not in offline DB or already synced:', err);
+      }
+
+      toast.success(`Undone: ${eventType} for ${fighterName}`, { duration: 4000 });
+      
+      console.log('Event undone:', {
+        id: lastEvent.id,
+        fighter: fighterName,
+        event: eventType,
+        round: bout.currentRound
+      });
     } catch (error) {
       console.error('Error undoing event:', error);
-      toast.error('Failed to undo event');
+      toast.error(`Failed to undo event: ${error.message}`);
     }
   };
 
