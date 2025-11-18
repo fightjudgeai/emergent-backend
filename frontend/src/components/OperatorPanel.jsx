@@ -704,6 +704,14 @@ export default function OperatorPanel() {
                 <Eye className="mr-2 h-4 w-4" />
                 Judge Panel
               </Button>
+              <Button
+                onClick={() => window.open(`/supervisor/${boutId}`, '_blank')}
+                className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-semibold border-2 border-orange-500"
+                title="Supervisor Panel - Monitor & Override Judge Scores"
+              >
+                <Shield className="mr-2 h-4 w-4" />
+                Supervisor Panel
+              </Button>
             </div>
           </div>
         </Card>
