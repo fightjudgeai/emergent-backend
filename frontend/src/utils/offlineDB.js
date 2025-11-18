@@ -88,6 +88,30 @@ class OfflineDB {
   }
 
   /**
+   * Remove event from queue (for undo functionality)
+   */
+  async removeFromQueue(eventId) {
+    if (!this.db) await this.init();
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([EVENT_QUEUE_STORE], 'readwrite');
+      const store = transaction.objectStore(EVENT_QUEUE_STORE);
+
+      const request = store.delete(eventId);
+
+      request.onsuccess = () => {
+        console.log('Event removed from offline queue:', eventId);
+        resolve();
+      };
+
+      request.onerror = () => {
+        console.error('Failed to remove event from queue:', request.error);
+        reject(request.error);
+      };
+    });
+  }
+
+  /**
    * Get all unsynced events
    */
   async getUnsyncedEvents() {
