@@ -316,14 +316,22 @@ export default function JudgePanel() {
   };
 
   const setupEventListener = () => {
+    console.log('[JudgePanel] Setting up real-time event listener for bout:', boutId);
+    
     const unsubscribe = db.collection('events')
       .where('boutId', '==', boutId)
       .onSnapshot((snapshot) => {
+        console.log('[JudgePanel] Events snapshot received, doc count:', snapshot.docs.length);
+        
         const eventsList = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
+        
+        console.log('[JudgePanel] Updating events state with', eventsList.length, 'events');
         setEvents(eventsList);
+      }, (error) => {
+        console.error('[JudgePanel] Error in event listener:', error);
       });
 
     return unsubscribe;
