@@ -126,6 +126,53 @@ export default function JudgePanel() {
     }
   };
 
+  const initializeMultiDeviceSync = async () => {
+    try {
+      const storedProfile = localStorage.getItem('judgeProfile');
+      const profile = storedProfile ? JSON.parse(storedProfile) : {};
+      
+      // Initialize device with metadata
+      await deviceSyncManager.initializeDevice(boutId, 'judge', {
+        judgeName: profile.judgeName || 'Anonymous Judge',
+        judgeId: profile.judgeId || 'unknown',
+        userAgent: navigator.userAgent,
+        deviceType: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'tablet' : 'desktop'
+      });
+
+      // Listen for other active devices
+      deviceSyncManager.listenToActiveDevices(boutId, (devices) => {
+        setConnectedDevices(devices);
+        console.log(`Connected devices: ${devices.length}`, devices);
+      });
+
+      // Listen for real-time event updates
+      deviceSyncManager.listenToCollection('events', { boutId }, (updates) => {
+        updates.forEach(update => {
+          if (update.type === 'added' && !update.fromCurrentDevice) {
+            // Event added from another device - recalculate scores
+            console.log('New event from another device:', update.data.event_type);
+            toast.info(`New event logged from another device`, { duration: 2000 });
+          }
+        });
+      });
+
+      // Listen for real-time judge score updates
+      deviceSyncManager.listenToCollection('judge_scores', { boutId }, (updates) => {
+        updates.forEach(update => {
+          if ((update.type === 'added' || update.type === 'modified') && !update.fromCurrentDevice) {
+            console.log('Judge score updated from another device');
+            loadLockedRounds(); // Refresh locked status
+          }
+        });
+      });
+
+      toast.success('Multi-device sync enabled', { duration: 3000 });
+    } catch (error) {
+      console.error('Error initializing multi-device sync:', error);
+      toast.error('Failed to enable multi-device sync');
+    }
+  };
+
   const loadLockedRounds = async () => {
     if (!judgeInfo || !boutId) return;
     
