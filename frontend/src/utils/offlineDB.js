@@ -151,6 +151,7 @@ class OfflineDB {
         if (event) {
           event.synced = true;
           event.syncedAt = new Date().toISOString();
+          event.retryCount = 0; // Reset retry count on successful sync
           const updateRequest = store.put(event);
 
           updateRequest.onsuccess = () => {
@@ -162,6 +163,42 @@ class OfflineDB {
           };
         } else {
           resolve(false);
+        }
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+
+  /**
+   * Increment retry count for failed event
+   */
+  async incrementRetryCount(eventId) {
+    if (!this.db) await this.init();
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([EVENT_QUEUE_STORE], 'readwrite');
+      const store = transaction.objectStore(EVENT_QUEUE_STORE);
+      const request = store.get(eventId);
+
+      request.onsuccess = () => {
+        const event = request.result;
+        if (event) {
+          event.retryCount = (event.retryCount || 0) + 1;
+          event.lastRetryAt = new Date().toISOString();
+          const updateRequest = store.put(event);
+
+          updateRequest.onsuccess = () => {
+            resolve(event.retryCount);
+          };
+
+          updateRequest.onerror = () => {
+            reject(updateRequest.error);
+          };
+        } else {
+          resolve(0);
         }
       };
 
