@@ -2996,10 +2996,14 @@ async def get_final_broadcast_data(bout_id: str):
     Final bout results for post-fight broadcast
     """
     try:
-        # Get bout info
-        bout = await db.bouts.find_one({"_id": bout_id})
+        # Get bout info - try both _id and boutId fields for compatibility
+        bout = await db.bouts.find_one({"$or": [{"_id": bout_id}, {"boutId": bout_id}]})
         if not bout:
-            raise HTTPException(status_code=404, detail="Bout not found")
+            # Try without filter to see if any bouts exist
+            any_bout = await db.bouts.find_one({})
+            if any_bout:
+                logging.warning(f"Bout {bout_id} not found, but other bouts exist")
+            raise HTTPException(status_code=404, detail=f"Bout {bout_id} not found")
         
         # Get all judge scorecards
         judge_scores = await db.judge_scores.find({"bout_id": bout_id}).to_list(100)
