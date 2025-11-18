@@ -3091,7 +3091,7 @@ class CombatJudgingAPITester:
             return False
         
         # Verify the update worked by getting the note
-        success_verify, response_verify = self.run_test("Verify Update", "GET", "round-notes/test-bout-456/1", 200)
+        success_verify, response_verify = self.run_test("Verify Update", "GET", f"round-notes/{update_bout_id}/1", 200)
         
         if success_verify and response_verify:
             notes = response_verify.get('notes', [])
