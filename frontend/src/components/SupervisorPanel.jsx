@@ -61,17 +61,30 @@ export default function SupervisorPanel() {
 
   const loadAllJudgeScores = async () => {
     try {
+      console.log('[Supervisor] Loading judge scores for bout:', boutId);
       const response = await fetch(`${backendUrl}/api/judge-scores/${boutId}`);
+      
+      if (!response.ok) {
+        console.error('[Supervisor] Failed to fetch scores:', response.status);
+        return;
+      }
+      
       const data = await response.json();
+      console.log('[Supervisor] Received data from API:', data);
       
       // Convert to the format expected by state
       const scores = {};
-      Object.keys(data.rounds).forEach(roundNum => {
-        scores[parseInt(roundNum)] = data.rounds[roundNum];
-      });
-      setJudgeScores(scores);
+      if (data.rounds) {
+        Object.keys(data.rounds).forEach(roundNum => {
+          scores[parseInt(roundNum)] = data.rounds[roundNum];
+        });
+        console.log('[Supervisor] Converted scores:', scores);
+        setJudgeScores(scores);
+      } else {
+        console.warn('[Supervisor] No rounds data in response');
+      }
     } catch (error) {
-      console.error('Error loading judge scores:', error);
+      console.error('[Supervisor] Error loading judge scores:', error);
     }
   };
 
