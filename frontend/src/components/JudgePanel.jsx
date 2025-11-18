@@ -886,6 +886,22 @@ export default function JudgePanel() {
                     />
                   )}
                   {roundScore && (
+                    lockedRounds[roundNum] ? (
+                      <Badge className="bg-green-600 text-white px-4 py-2">
+                        <Lock className="mr-2 h-4 w-4" />
+                        Score Locked
+                      </Badge>
+                    ) : (
+                      <Button
+                        onClick={() => handleLockScore(roundNum)}
+                        className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white"
+                      >
+                        <Lock className="mr-2 h-4 w-4" />
+                        Lock Score
+                      </Button>
+                    )
+                  )}
+                  {roundScore && (
                     <Button
                       data-testid={`confirm-round-${roundNum}-btn`}
                       onClick={() => confirmRound(roundNum)}
