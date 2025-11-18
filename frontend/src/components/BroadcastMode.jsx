@@ -102,6 +102,7 @@ export default function BroadcastMode() {
       }));
       
       console.log(`[Broadcast] Found ${roundEvents.length} events for round ${round}`);
+      console.log(`[Broadcast] Sample events:`, roundEvents.slice(0, 3));
       
       const requestBody = { 
         bout_id: boutId, 
