@@ -286,6 +286,21 @@ backend:
         agent: "testing"
         comment: "✅ ACTUAL FRONTEND EVENT TYPES TESTING COMPLETE: Successfully tested event counts with EXACT frontend event types used by OperatorPanel. Verified with test scenario using actual event strings: Fighter1 (3x 'SS Head', 2x 'SS Body', 1x 'SS Leg', 2x 'Takedown', 1x 'CTRL_START', 1x 'CTRL_STOP', 1x 'Pass') correctly counted as Significant Strikes: 6, Grappling Control: 3, Aggression: 6, Damage: 0, Takedowns: 2. Fighter2 (2x 'SS Head', 1x 'KD', 1x 'Submission Attempt') correctly counted as Significant Strikes: 3, Grappling Control: 0, Aggression: 2, Damage: 2, Takedowns: 0. All event type strings with spaces working correctly ('SS Head' not 'SS_HEAD', 'Takedown' not 'TD', 'Submission Attempt' not 'SUB_ATT'). Event counting logic properly handles frontend event format. All 71/71 backend tests passed."
 
+  - task: "Round Notes Engine Backend API"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Round Notes Engine backend API with 5 endpoints: POST /api/round-notes (create), GET /api/round-notes/{bout_id}/{round_num} (get round notes), GET /api/round-notes/{bout_id} (get bout notes), PUT /api/round-notes/{note_id} (update), DELETE /api/round-notes/{note_id} (delete). Features include: automatic UUID generation, timestamp creation, judge filtering, round grouping, proper error handling, MongoDB integration with ObjectId exclusion for JSON serialization."
+      - working: true
+        agent: "testing"
+        comment: "✅ ROUND NOTES ENGINE BACKEND TESTING COMPLETE: Successfully tested all 5 API endpoints with comprehensive scenarios. VERIFIED: (1) POST /api/round-notes - Creates notes with 201 status, proper structure (id, bout_id, round_num, judge_id, judge_name, note_text, timestamp, metadata), automatic UUID/timestamp generation, (2) GET /api/round-notes/{bout_id}/{round_num} - Retrieves round notes with optional judge filtering, proper response structure with notes array and count, (3) GET /api/round-notes/{bout_id} - Gets all bout notes with grouping by round (notes_by_round object), judge filtering, accurate total_count, (4) PUT /api/round-notes/{note_id} - Updates notes with form data, proper success response, verified text updates with updated_at timestamp, (5) DELETE /api/round-notes/{note_id} - Deletes notes correctly, verified by subsequent GET requests. ERROR HANDLING: 404 for non-existent updates/deletes, empty arrays for non-existent bouts. Fixed logger definition order and MongoDB ObjectId serialization issues. All 92/92 backend tests passed (100% success rate). Production-ready with proper data structure, CRUD operations, filtering, grouping, and error handling."
+
   - task: "Custom Organization Name Feature"
     implemented: true
     working: true
