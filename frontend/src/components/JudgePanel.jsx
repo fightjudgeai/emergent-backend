@@ -32,6 +32,12 @@ export default function JudgePanel() {
     setupEventListener();
     setupDeviceSession();
     loadJudgeInfo();
+    initializeMultiDeviceSync();
+    
+    return () => {
+      // Cleanup on unmount
+      deviceSyncManager.cleanup();
+    };
   }, [boutId]);
 
   useEffect(() => {
