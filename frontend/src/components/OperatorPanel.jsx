@@ -47,6 +47,7 @@ export default function OperatorPanel() {
   });
   const [judgeScores, setJudgeScores] = useState({});
   const [pendingJudges, setPendingJudges] = useState([]);
+  const [connectedDevices, setConnectedDevices] = useState([]);
   const timerRef = useRef(null);
   const backendUrl = import.meta.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
 
