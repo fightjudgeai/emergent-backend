@@ -294,6 +294,108 @@ class OfflineDB {
   }
 
   /**
+   * Get queue statistics for health monitoring
+   */
+  async getQueueStats() {
+    if (!this.db) await this.init();
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([EVENT_QUEUE_STORE], 'readonly');
+      const store = transaction.objectStore(EVENT_QUEUE_STORE);
+      const request = store.getAll();
+
+      request.onsuccess = () => {
+        const allEvents = request.result;
+        const unsyncedEvents = allEvents.filter(e => !e.synced);
+        const failedEvents = unsyncedEvents.filter(e => e.retryCount > 3);
+        
+        const stats = {
+          totalEvents: allEvents.length,
+          unsyncedEvents: unsyncedEvents.length,
+          syncedEvents: allEvents.filter(e => e.synced).length,
+          failedEvents: failedEvents.length,
+          oldestUnsynced: unsyncedEvents.length > 0 
+            ? Math.min(...unsyncedEvents.map(e => new Date(e.queuedAt).getTime()))
+            : null,
+          averageRetryCount: unsyncedEvents.length > 0
+            ? unsyncedEvents.reduce((sum, e) => sum + (e.retryCount || 0), 0) / unsyncedEvents.length
+            : 0
+        };
+        
+        resolve(stats);
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+
+  /**
+   * Get recent sync history
+   */
+  async getRecentSyncHistory(limit = 10) {
+    if (!this.db) await this.init();
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([SYNC_LOG_STORE], 'readonly');
+      const store = transaction.objectStore(SYNC_LOG_STORE);
+      const index = store.index('syncedAt');
+      const request = index.openCursor(null, 'prev'); // Reverse order (newest first)
+
+      const results = [];
+
+      request.onsuccess = (event) => {
+        const cursor = event.target.result;
+        if (cursor && results.length < limit) {
+          results.push(cursor.value);
+          cursor.continue();
+        } else {
+          resolve(results);
+        }
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+
+  /**
+   * Clear failed events (emergency recovery)
+   */
+  async clearFailedEvents() {
+    if (!this.db) await this.init();
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([EVENT_QUEUE_STORE], 'readwrite');
+      const store = transaction.objectStore(EVENT_QUEUE_STORE);
+      const request = store.openCursor();
+
+      let deletedCount = 0;
+
+      request.onsuccess = (event) => {
+        const cursor = event.target.result;
+        if (cursor) {
+          // Delete if unsynced and retryCount > 3
+          if (!cursor.value.synced && cursor.value.retryCount > 3) {
+            cursor.delete();
+            deletedCount++;
+          }
+          cursor.continue();
+        } else {
+          console.log(`Cleared ${deletedCount} failed events from queue`);
+          resolve(deletedCount);
+        }
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+
+  /**
    * Clear all data (for testing/reset)
    */
   async clearAll() {
