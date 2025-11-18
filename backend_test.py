@@ -2954,7 +2954,7 @@ class CombatJudgingAPITester:
             return False
         
         # Test Scenario 2: Get notes for specific judge and round
-        success2, response2 = self.run_test("Get Round 1 Notes - Judge Filter", "GET", "round-notes/test-bout-123/1?judge_id=JUDGE001", 200)
+        success2, response2 = self.run_test("Get Round 1 Notes - Judge Filter", "GET", f"round-notes/{self.test_bout_id}/1?judge_id=JUDGE001", 200)
         
         if success2 and response2:
             notes = response2.get('notes', [])
