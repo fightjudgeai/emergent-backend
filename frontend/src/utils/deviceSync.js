@@ -17,43 +17,63 @@ class DeviceSyncManager {
    * Initialize device presence and sync
    */
   async initializeDevice(boutId, deviceType = 'judge', metadata = {}) {
-    // Generate unique device ID
-    this.deviceId = `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
-    const deviceData = {
-      deviceId: this.deviceId,
-      boutId,
-      deviceType, // 'judge', 'operator', 'broadcast'
-      ...metadata,
-      status: 'online',
-      lastHeartbeat: firebase.firestore.FieldValue.serverTimestamp(),
-      connectedAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-
-    // Create device presence document
-    this.presenceRef = db.collection('device_presence').doc(this.deviceId);
-    await this.presenceRef.set(deviceData);
-
-    // Set up heartbeat (every 5 seconds)
-    this.heartbeatInterval = setInterval(() => {
-      this.presenceRef.update({
+    try {
+      // Generate unique device ID
+      this.deviceId = `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      const deviceData = {
+        deviceId: this.deviceId,
+        boutId,
+        deviceType, // 'judge', 'operator', 'broadcast'
+        ...metadata,
+        status: 'online',
         lastHeartbeat: firebase.firestore.FieldValue.serverTimestamp(),
-        status: 'online'
-      }).catch(err => console.error('Heartbeat error:', err));
-    }, 5000);
+        connectedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
 
-    // Handle disconnect
-    this.presenceRef.onDisconnect().update({
-      status: 'offline',
-      disconnectedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+      // Create device presence document
+      this.presenceRef = db.collection('device_presence').doc(this.deviceId);
+      await this.presenceRef.set(deviceData);
 
-    // Clean up on page unload
-    window.addEventListener('beforeunload', () => {
-      this.cleanup();
-    });
+      // Set up heartbeat (every 5 seconds)
+      this.heartbeatInterval = setInterval(() => {
+        if (this.presenceRef) {
+          this.presenceRef.update({
+            lastHeartbeat: firebase.firestore.FieldValue.serverTimestamp(),
+            status: 'online'
+          }).catch(err => {
+            console.warn('Heartbeat skipped (device presence disabled)');
+            // Don't spam console - clear interval if persistently failing
+            if (err.code === 'permission-denied') {
+              clearInterval(this.heartbeatInterval);
+            }
+          });
+        }
+      }, 5000);
 
-    return this.deviceId;
+      // Handle disconnect (optional - may fail silently if permissions issue)
+      try {
+        this.presenceRef.onDisconnect().update({
+          status: 'offline',
+          disconnectedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      } catch (err) {
+        console.warn('OnDisconnect handler not available:', err.message);
+      }
+
+      // Clean up on page unload
+      window.addEventListener('beforeunload', () => {
+        this.cleanup();
+      });
+
+      console.log('Device sync initialized:', this.deviceId);
+      return this.deviceId;
+    } catch (error) {
+      console.error('Device sync initialization error:', error);
+      // Don't throw - allow app to continue without device presence
+      this.deviceId = `offline_${Date.now()}`;
+      return this.deviceId;
+    }
   }
 
   /**
