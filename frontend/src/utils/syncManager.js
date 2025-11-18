@@ -179,7 +179,7 @@ class SyncManager {
   }
 
   /**
-   * Sync all queued events
+   * Sync all queued events with enhanced retry logic
    */
   async syncAll() {
     if (this.isSyncing) {
@@ -208,6 +208,7 @@ class SyncManager {
       console.log(`Syncing ${unsyncedEvents.length} queued events`);
       let syncedCount = 0;
       let failedCount = 0;
+      const failedEvents = [];
 
       for (const event of unsyncedEvents) {
         try {
@@ -223,12 +224,20 @@ class SyncManager {
             createdAt: new Date().toISOString()
           });
 
-          // Mark as synced
+          // Mark as synced and reset retry count
           await offlineDB.markAsSynced(event.id);
           syncedCount++;
         } catch (error) {
           console.error(`Failed to sync event ${event.id}:`, error);
+          
+          // Increment retry count for this event
+          await offlineDB.incrementRetryCount(event.id);
           failedCount++;
+          failedEvents.push({
+            id: event.id,
+            error: error.message,
+            retryCount: event.retryCount + 1
+          });
         }
       }
 
@@ -241,19 +250,34 @@ class SyncManager {
       }
 
       this.isSyncing = false;
-      this.notifyListeners({ 
+      
+      const result = {
         type: 'syncComplete', 
         synced: syncedCount, 
         failed: failedCount,
-        remaining: await offlineDB.getQueueCount()
-      });
+        remaining: await offlineDB.getQueueCount(),
+        failedEvents: failedEvents
+      };
+      
+      this.notifyListeners(result);
 
       console.log(`Sync complete: ${syncedCount} synced, ${failedCount} failed`);
-      return { success: true, synced: syncedCount, failed: failedCount };
+      
+      // Schedule retry for failed events if any
+      if (failedCount > 0 && this.isOnline) {
+        console.log(`Scheduling retry for ${failedCount} failed events`);
+        this.scheduleRetrySync(1);
+      }
+      
+      return { success: true, synced: syncedCount, failed: failedCount, failedEvents };
     } catch (error) {
       console.error('Sync error:', error);
       this.isSyncing = false;
       this.notifyListeners({ type: 'syncError', error });
+      
+      // Schedule retry on error
+      this.scheduleRetrySync(1);
+      
       return { success: false, error: error.message };
     }
   }
