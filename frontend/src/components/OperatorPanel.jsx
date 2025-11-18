@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import { db } from '@/firebase';
 import syncManager from '@/utils/syncManager';
+import deviceSyncManager from '@/utils/deviceSync';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
