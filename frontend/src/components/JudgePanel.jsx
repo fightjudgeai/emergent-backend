@@ -775,6 +775,18 @@ export default function JudgePanel() {
               </div>
             </div>
             <div className="flex items-center gap-3">
+              {connectedDevices.length > 0 && (
+                <div className="flex flex-col gap-1">
+                  <Badge className="bg-green-900/30 text-green-400 border-green-700/30 px-3 py-1 animate-pulse">
+                    <Wifi className="w-3 h-3 mr-1" />
+                    {connectedDevices.length} Device{connectedDevices.length > 1 ? 's' : ''} Synced
+                  </Badge>
+                  <div className="text-xs text-gray-400">
+                    {connectedDevices.filter(d => d.deviceType === 'judge').length} Judge{connectedDevices.filter(d => d.deviceType === 'judge').length !== 1 ? 's' : ''}, {' '}
+                    {connectedDevices.filter(d => d.deviceType === 'operator').length} Operator{connectedDevices.filter(d => d.deviceType === 'operator').length !== 1 ? 's' : ''}
+                  </div>
+                </div>
+              )}
               {activeViewers > 0 && (
                 <Badge className="bg-blue-900/30 text-blue-400 border-blue-700/30 px-3 py-1">
                   <Users className="w-3 h-3 mr-1" />
