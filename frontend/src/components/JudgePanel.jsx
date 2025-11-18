@@ -209,6 +209,22 @@ export default function JudgePanel() {
     }
 
     try {
+      // Parse the card to get individual scores (e.g., "10-9" -> fighter1=10, fighter2=9)
+      const card = roundScore.card;
+      let fighter1Score, fighter2Score;
+      
+      if (card.includes('-')) {
+        const parts = card.split('-');
+        fighter1Score = parseInt(parts[0]);
+        fighter2Score = parseInt(parts[1]);
+      } else {
+        // Shouldn't happen, but fallback
+        toast.error('Invalid score card format');
+        return;
+      }
+
+      console.log('Locking score:', { roundNum, card, fighter1Score, fighter2Score });
+
       const response = await fetch(`${API}/judge-scores/lock`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -217,14 +233,16 @@ export default function JudgePanel() {
           round_num: roundNum,
           judge_id: judgeInfo.judgeId,
           judge_name: judgeInfo.judgeName,
-          fighter1_score: roundScore.fighter1_score.score,
-          fighter2_score: roundScore.fighter2_score.score,
-          card: roundScore.card
+          fighter1_score: fighter1Score,
+          fighter2_score: fighter2Score,
+          card: card
         })
       });
 
       if (!response.ok) {
-        throw new Error('Failed to lock score');
+        const errorData = await response.json();
+        console.error('Lock score error:', errorData);
+        throw new Error(errorData.detail || 'Failed to lock score');
       }
 
       const result = await response.json();
@@ -237,7 +255,7 @@ export default function JudgePanel() {
       }
     } catch (error) {
       console.error('Error locking score:', error);
-      toast.error('Failed to lock score');
+      toast.error(`Failed to lock score: ${error.message}`);
     }
   };
 
