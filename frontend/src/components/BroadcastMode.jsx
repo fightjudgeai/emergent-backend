@@ -158,19 +158,28 @@ export default function BroadcastMode() {
       });
 
     // Listen to events for score recalculation and stats
+    // Note: Removed orderBy to avoid Firebase index requirement
     const unsubscribeEvents = db.collection('events')
       .where('boutId', '==', boutId)
-      .orderBy('timestamp', 'desc')
-      .limit(10)
       .onSnapshot((snapshot) => {
         const eventsList = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
+        
+        // Sort by timestamp in memory (descending - most recent first)
+        eventsList.sort((a, b) => {
+          const aTime = a.timestamp || 0;
+          const bTime = b.timestamp || 0;
+          return bTime - aTime;
+        });
+        
         setEvents(eventsList);
+        console.log('[Broadcast] Events updated, total count:', eventsList.length);
         
         // Recalculate scores for current and past rounds when events change
         if (currentBout && currentBout.currentRound) {
+          console.log('[Broadcast] Recalculating scores for rounds 1 to', currentBout.currentRound);
           for (let r = 1; r <= currentBout.currentRound; r++) {
             fetchScoreForRound(r);
           }
