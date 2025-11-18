@@ -3704,6 +3704,9 @@ class CombatJudgingAPITester:
         # Test Round Notes Engine APIs (5 APIs) - NEW
         self.test_round_notes_complete_flow()
         
+        # Test Phase 2 & 3 Mission-Critical Systems - NEW
+        self.test_phase2_phase3_mission_critical_systems()
+        
         # Print summary
         print("\n" + "=" * 60)
         print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
