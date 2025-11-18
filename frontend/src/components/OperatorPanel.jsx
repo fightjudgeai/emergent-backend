@@ -530,13 +530,24 @@ export default function OperatorPanel() {
 
   const endRound = async () => {
     try {
+      // Check if all judges have locked their scores
+      const allLocked = await checkJudgeLockStatus(bout.currentRound);
+      
+      if (!allLocked && pendingJudges.length > 0) {
+        toast.error(`Cannot end round - waiting for judges to lock: ${pendingJudges.join(', ')}`, {
+          duration: 5000
+        });
+        return;
+      }
+      
       // Stop any running timers
       setControlTimers({
         fighter1: { ...controlTimers.fighter1, isRunning: false },
         fighter2: { ...controlTimers.fighter2, isRunning: false }
       });
       
-      toast.success(`Round ${bout.currentRound} ended`);
+      toast.success(`Round ${bout.currentRound} ended - All judges locked`);
+      setPendingJudges([]); // Clear pending judges list
     } catch (error) {
       console.error('Error ending round:', error);
       toast.error('Failed to end round');
