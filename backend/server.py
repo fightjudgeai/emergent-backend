@@ -1197,6 +1197,30 @@ async def calculate_score_v2(request: ScoreRequest):
                 card = "10-9" if score_diff > 0 else "9-10"
                 print(f"  [10-7/10-8 DENIED] Guardrails not met: Only {kd_differential} KD diff, {strike_differential} strike diff")
         
+        # Apply Point Deductions to the card
+        if f1_deductions > 0 or f2_deductions > 0:
+            # Parse the current card
+            scores = card.split("-")
+            f1_card_score = int(scores[0])
+            f2_card_score = int(scores[1])
+            
+            # Apply deductions
+            f1_card_score -= f1_deductions
+            f2_card_score -= f2_deductions
+            
+            # Update card
+            card = f"{f1_card_score}-{f2_card_score}"
+            
+            # Determine winner after deductions
+            if f1_card_score > f2_card_score:
+                winner = "fighter1"
+            elif f2_card_score > f1_card_score:
+                winner = "fighter2"
+            else:
+                winner = "DRAW"
+            
+            print(f"  [DEDUCTIONS APPLIED] Final card after deductions: {card} (Winner: {winner})")
+        
         # Create legacy-compatible subscores for compatibility
         def create_legacy_subscores(categories):
             return Subscores(
