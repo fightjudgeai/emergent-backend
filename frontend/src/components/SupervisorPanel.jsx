@@ -18,7 +18,7 @@ export default function SupervisorPanel() {
   const [showUnlockDialog, setShowUnlockDialog] = useState(false);
   const [selectedJudge, setSelectedJudge] = useState(null);
   const [selectedRound, setSelectedRound] = useState(null);
-  const backendUrl = import.meta.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     if (boutId) {
