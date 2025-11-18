@@ -103,6 +103,89 @@ export default function JudgePanel() {
     };
   };
 
+  const loadJudgeInfo = () => {
+    try {
+      const storedProfile = localStorage.getItem('judgeProfile');
+      if (storedProfile) {
+        const profile = JSON.parse(storedProfile);
+        setJudgeInfo({
+          judgeId: profile.judgeId,
+          judgeName: profile.judgeName
+        });
+      }
+    } catch (error) {
+      console.error('Error loading judge info:', error);
+    }
+  };
+
+  const loadLockedRounds = async () => {
+    if (!judgeInfo || !boutId) return;
+    
+    try {
+      const response = await fetch(`${API}/judge-scores/${boutId}`);
+      const data = await response.json();
+      
+      // Build locked rounds map
+      const locked = {};
+      Object.keys(data.rounds || {}).forEach(roundNum => {
+        const roundScores = data.rounds[roundNum];
+        const myScore = roundScores.find(s => s.judge_id === judgeInfo.judgeId);
+        if (myScore && myScore.locked) {
+          locked[parseInt(roundNum)] = true;
+        }
+      });
+      
+      setLockedRounds(locked);
+    } catch (error) {
+      console.error('Error loading locked rounds:', error);
+    }
+  };
+
+  const handleLockScore = async (roundNum) => {
+    if (!judgeInfo) {
+      toast.error('Judge information not found. Please log in again.');
+      return;
+    }
+
+    const roundScore = scores[roundNum];
+    if (!roundScore) {
+      toast.error('No score available to lock');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API}/judge-scores/lock`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          round_num: roundNum,
+          judge_id: judgeInfo.judgeId,
+          judge_name: judgeInfo.judgeName,
+          fighter1_score: roundScore.fighter1_score.score,
+          fighter2_score: roundScore.fighter2_score.score,
+          card: roundScore.card
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to lock score');
+      }
+
+      const result = await response.json();
+      
+      setLockedRounds(prev => ({ ...prev, [roundNum]: true }));
+      toast.success(`Round ${roundNum} score locked successfully`);
+      
+      if (result.all_judges_locked) {
+        toast.success('All judges have locked their scores for this round!', { duration: 5000 });
+      }
+    } catch (error) {
+      console.error('Error locking score:', error);
+      toast.error('Failed to lock score');
+    }
+  };
+
   const setupEventListener = () => {
     const unsubscribe = db.collection('events')
       .where('boutId', '==', boutId)
