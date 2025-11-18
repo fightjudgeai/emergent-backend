@@ -48,7 +48,9 @@ export default function JudgePanel() {
   }, [boutId]);
 
   useEffect(() => {
-    if (events.length > 0 && bout) {
+    // Recalculate scores whenever events change (including deletions)
+    if (bout) {
+      console.log('[JudgePanel] Events changed, recalculating scores. Event count:', events.length);
       calculateScores();
     }
   }, [events, bout]);
