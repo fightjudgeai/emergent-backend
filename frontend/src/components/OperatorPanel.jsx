@@ -553,6 +553,35 @@ export default function OperatorPanel() {
     setShowQuickStatsDialog(false);
   };
 
+  const handlePointDeductionQuick = async (points, reason) => {
+    if (!bout) {
+      toast.error('Bout not loaded');
+      return;
+    }
+    
+    const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+    
+    // Confirmation for point deductions
+    if (points > 0) {
+      const confirmed = window.confirm(
+        `Deduct ${points} point(s) from ${fighterName}?\n\nReason: ${reason}\n\nThis will affect the round score.`
+      );
+      if (!confirmed) return;
+    }
+    
+    await logEvent(points > 0 ? 'Point Deduction' : 'Warning', { 
+      points,
+      reason,
+      fighter: selectedFighter
+    });
+    
+    if (points > 0) {
+      toast.error(`-${points} point deduction for ${fighterName}`, { duration: 5000 });
+    } else {
+      toast.warning(`Warning issued to ${fighterName}`, { duration: 4000 });
+    }
+  };
+
   const undoLastEvent = async () => {
     console.log('[Undo] Function called - Button clicked!');
     
