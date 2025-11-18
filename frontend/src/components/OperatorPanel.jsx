@@ -247,6 +247,21 @@ export default function OperatorPanel() {
     }
   };
 
+  const checkJudgeLockStatus = async (roundNum) => {
+    try {
+      const response = await fetch(`${backendUrl}/api/judge-scores/${boutId}/${roundNum}`);
+      const data = await response.json();
+      
+      const pending = data.scores.filter(s => !s.locked).map(s => s.judge_name);
+      setPendingJudges(pending);
+      
+      return data.all_judges_locked;
+    } catch (error) {
+      console.error('Error checking judge lock status:', error);
+      return false;
+    }
+  };
+
   const logEvent = async (eventType, metadata = {}) => {
     try {
       // Guard: Check if bout is loaded
