@@ -121,15 +121,33 @@ export default function JudgePanel() {
   const loadJudgeInfo = () => {
     try {
       const storedProfile = localStorage.getItem('judgeProfile');
+      console.log('Loading judge profile from localStorage:', storedProfile);
+      
       if (storedProfile) {
         const profile = JSON.parse(storedProfile);
-        setJudgeInfo({
-          judgeId: profile.judgeId,
-          judgeName: profile.judgeName
-        });
+        console.log('Parsed judge profile:', profile);
+        
+        // Check if profile has the required fields
+        if (profile.judgeId && profile.judgeName) {
+          setJudgeInfo({
+            judgeId: profile.judgeId,
+            judgeName: profile.judgeName
+          });
+          console.log('Judge info set successfully:', { judgeId: profile.judgeId, judgeName: profile.judgeName });
+        } else {
+          console.error('Judge profile missing required fields:', profile);
+          toast.error('Invalid judge profile. Please log in again.');
+        }
+      } else {
+        console.warn('No judge profile found in localStorage');
+        toast.error('Please log in to access this page');
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
       }
     } catch (error) {
       console.error('Error loading judge info:', error);
+      toast.error('Error loading judge information');
     }
   };
 
