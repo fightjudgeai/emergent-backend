@@ -2923,7 +2923,7 @@ class CombatJudgingAPITester:
         print("\n📖 Testing Round Notes Engine - Get Round Notes...")
         
         # Test Scenario 1: Get all notes for Round 1
-        success1, response1 = self.run_test("Get Round 1 Notes", "GET", "round-notes/test-bout-123/1", 200)
+        success1, response1 = self.run_test("Get Round 1 Notes", "GET", f"round-notes/{self.test_bout_id}/1", 200)
         
         if success1 and response1:
             notes = response1.get('notes', [])
