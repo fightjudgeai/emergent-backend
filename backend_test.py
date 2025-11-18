@@ -2838,6 +2838,406 @@ class CombatJudgingAPITester:
         
         return all_success
 
+    def test_round_notes_create(self):
+        """Test creating round notes"""
+        print("\n📝 Testing Round Notes Engine - Create Notes...")
+        
+        # Test Scenario 1: Create note for Round 1
+        note_data_1 = {
+            "bout_id": "test-bout-123",
+            "round_num": 1,
+            "judge_id": "JUDGE001",
+            "judge_name": "Test Judge",
+            "note_text": "Fighter1 dominated with strikes and ground control",
+            "metadata": {"category": "general"}
+        }
+        
+        success1, response1 = self.run_test("Create Round Note - Round 1", "POST", "round-notes", 201, note_data_1)
+        
+        if success1 and response1:
+            print(f"   ✅ Round 1 note created successfully")
+            print(f"   Note ID: {response1.get('id', 'N/A')}")
+            print(f"   Timestamp: {response1.get('timestamp', 'N/A')}")
+            
+            # Store note ID for later tests
+            self.round1_note_id = response1.get('id')
+            
+            # Verify response structure
+            required_fields = ['id', 'bout_id', 'round_num', 'judge_id', 'judge_name', 'note_text', 'timestamp', 'metadata']
+            missing_fields = [field for field in required_fields if field not in response1]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                return False
+        else:
+            return False
+        
+        # Test Scenario 2: Create note for Round 2
+        note_data_2 = {
+            "bout_id": "test-bout-123",
+            "round_num": 2,
+            "judge_id": "JUDGE001",
+            "judge_name": "Test Judge",
+            "note_text": "Close round, both fighters traded strikes"
+        }
+        
+        success2, response2 = self.run_test("Create Round Note - Round 2", "POST", "round-notes", 201, note_data_2)
+        
+        if success2 and response2:
+            print(f"   ✅ Round 2 note created successfully")
+            self.round2_note_id = response2.get('id')
+        else:
+            return False
+        
+        # Test Scenario 3: Create another note for Round 1 (different judge)
+        note_data_3 = {
+            "bout_id": "test-bout-123",
+            "round_num": 1,
+            "judge_id": "JUDGE002",
+            "judge_name": "Second Judge",
+            "note_text": "Agreed - Fighter1 clearly won this round"
+        }
+        
+        success3, response3 = self.run_test("Create Round Note - Round 1 Judge 2", "POST", "round-notes", 201, note_data_3)
+        
+        if success3 and response3:
+            print(f"   ✅ Round 1 note for second judge created successfully")
+            self.round1_judge2_note_id = response3.get('id')
+        else:
+            return False
+        
+        return success1 and success2 and success3
+
+    def test_round_notes_get_round(self):
+        """Test getting notes for specific round"""
+        print("\n📖 Testing Round Notes Engine - Get Round Notes...")
+        
+        # Test Scenario 1: Get all notes for Round 1
+        success1, response1 = self.run_test("Get Round 1 Notes", "GET", "round-notes/test-bout-123/1", 200)
+        
+        if success1 and response1:
+            notes = response1.get('notes', [])
+            count = response1.get('count', 0)
+            
+            print(f"   ✅ Retrieved {count} notes for Round 1")
+            
+            # Should have 2 notes for round 1 (from JUDGE001 and JUDGE002)
+            if count != 2:
+                print(f"   ⚠️  Expected 2 notes for Round 1, got {count}")
+                return False
+            
+            # Verify notes structure
+            for i, note in enumerate(notes):
+                required_fields = ['id', 'bout_id', 'round_num', 'judge_id', 'judge_name', 'note_text', 'timestamp']
+                missing_fields = [field for field in required_fields if field not in note]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in note {i+1}: {missing_fields}")
+                    return False
+                
+                if note['round_num'] != 1:
+                    print(f"   ⚠️  Note {i+1} has wrong round number: {note['round_num']}")
+                    return False
+            
+            print(f"   ✅ All notes have correct structure and round number")
+        else:
+            return False
+        
+        # Test Scenario 2: Get notes for specific judge and round
+        success2, response2 = self.run_test("Get Round 1 Notes - Judge Filter", "GET", "round-notes/test-bout-123/1?judge_id=JUDGE001", 200)
+        
+        if success2 and response2:
+            notes = response2.get('notes', [])
+            count = response2.get('count', 0)
+            
+            print(f"   ✅ Retrieved {count} notes for Round 1, Judge JUDGE001")
+            
+            # Should have 1 note for JUDGE001 in round 1
+            if count != 1:
+                print(f"   ⚠️  Expected 1 note for JUDGE001 in Round 1, got {count}")
+                return False
+            
+            # Verify it's the correct judge
+            if notes[0]['judge_id'] != 'JUDGE001':
+                print(f"   ⚠️  Wrong judge in filtered result: {notes[0]['judge_id']}")
+                return False
+            
+            print(f"   ✅ Judge filter working correctly")
+        else:
+            return False
+        
+        return success1 and success2
+
+    def test_round_notes_get_bout(self):
+        """Test getting all notes for a bout"""
+        print("\n📚 Testing Round Notes Engine - Get Bout Notes...")
+        
+        # Test Scenario 1: Get all notes for bout
+        success1, response1 = self.run_test("Get All Bout Notes", "GET", "round-notes/test-bout-123", 200)
+        
+        if success1 and response1:
+            notes = response1.get('notes', [])
+            notes_by_round = response1.get('notes_by_round', {})
+            total_count = response1.get('total_count', 0)
+            
+            print(f"   ✅ Retrieved {total_count} total notes for bout")
+            
+            # Should have 3 notes total (2 for round 1, 1 for round 2)
+            if total_count != 3:
+                print(f"   ⚠️  Expected 3 total notes, got {total_count}")
+                return False
+            
+            # Verify notes_by_round structure
+            if '1' not in notes_by_round or '2' not in notes_by_round:
+                print(f"   ⚠️  Missing rounds in notes_by_round: {list(notes_by_round.keys())}")
+                return False
+            
+            # Round 1 should have 2 notes, Round 2 should have 1 note
+            if len(notes_by_round['1']) != 2:
+                print(f"   ⚠️  Expected 2 notes for Round 1, got {len(notes_by_round['1'])}")
+                return False
+            
+            if len(notes_by_round['2']) != 1:
+                print(f"   ⚠️  Expected 1 note for Round 2, got {len(notes_by_round['2'])}")
+                return False
+            
+            print(f"   ✅ Notes grouped by round correctly")
+            print(f"   Round 1: {len(notes_by_round['1'])} notes")
+            print(f"   Round 2: {len(notes_by_round['2'])} notes")
+        else:
+            return False
+        
+        # Test Scenario 2: Get bout notes for specific judge
+        success2, response2 = self.run_test("Get Bout Notes - Judge Filter", "GET", "round-notes/test-bout-123?judge_id=JUDGE002", 200)
+        
+        if success2 and response2:
+            notes = response2.get('notes', [])
+            total_count = response2.get('total_count', 0)
+            
+            print(f"   ✅ Retrieved {total_count} notes for JUDGE002")
+            
+            # Should have 1 note for JUDGE002
+            if total_count != 1:
+                print(f"   ⚠️  Expected 1 note for JUDGE002, got {total_count}")
+                return False
+            
+            # Verify it's the correct judge
+            if notes[0]['judge_id'] != 'JUDGE002':
+                print(f"   ⚠️  Wrong judge in filtered result: {notes[0]['judge_id']}")
+                return False
+            
+            print(f"   ✅ Judge filter working correctly for bout notes")
+        else:
+            return False
+        
+        return success1 and success2
+
+    def test_round_notes_update(self):
+        """Test updating round notes"""
+        print("\n✏️ Testing Round Notes Engine - Update Notes...")
+        
+        # First create a note to update
+        note_data = {
+            "bout_id": "test-bout-456",
+            "round_num": 1,
+            "judge_id": "UPDATE_TEST",
+            "judge_name": "Update Test",
+            "note_text": "Original note text"
+        }
+        
+        success_create, response_create = self.run_test("Create Note for Update Test", "POST", "round-notes", 201, note_data)
+        
+        if not success_create or not response_create:
+            print("   ❌ Failed to create note for update test")
+            return False
+        
+        note_id = response_create.get('id')
+        print(f"   ✅ Created note for update test: {note_id}")
+        
+        # Now update the note - need to send as form data
+        import urllib.parse
+        update_data = urllib.parse.urlencode({"note_text": "Updated note text after review"})
+        
+        success_update, response_update = self.run_test("Update Round Note", "PUT", f"round-notes/{note_id}", 200, update_data)
+        
+        if success_update and response_update:
+            print(f"   ✅ Note updated successfully")
+            
+            # Verify response structure
+            if 'success' not in response_update or 'message' not in response_update:
+                print(f"   ⚠️  Missing fields in update response")
+                return False
+            
+            if not response_update['success']:
+                print(f"   ⚠️  Update response indicates failure")
+                return False
+            
+            print(f"   Message: {response_update['message']}")
+        else:
+            return False
+        
+        # Verify the update worked by getting the note
+        success_verify, response_verify = self.run_test("Verify Update", "GET", "round-notes/test-bout-456/1", 200)
+        
+        if success_verify and response_verify:
+            notes = response_verify.get('notes', [])
+            
+            if not notes:
+                print(f"   ⚠️  No notes found after update")
+                return False
+            
+            updated_note = notes[0]
+            if updated_note['note_text'] != "Updated note text after review":
+                print(f"   ⚠️  Note text not updated correctly: {updated_note['note_text']}")
+                return False
+            
+            print(f"   ✅ Update verified: {updated_note['note_text']}")
+        else:
+            return False
+        
+        return success_create and success_update and success_verify
+
+    def test_round_notes_delete(self):
+        """Test deleting round notes"""
+        print("\n🗑️ Testing Round Notes Engine - Delete Notes...")
+        
+        # First create a note to delete
+        note_data = {
+            "bout_id": "test-bout-789",
+            "round_num": 1,
+            "judge_id": "DELETE_TEST",
+            "judge_name": "Delete Test",
+            "note_text": "This note will be deleted"
+        }
+        
+        success_create, response_create = self.run_test("Create Note for Delete Test", "POST", "round-notes", 201, note_data)
+        
+        if not success_create or not response_create:
+            print("   ❌ Failed to create note for delete test")
+            return False
+        
+        note_id = response_create.get('id')
+        print(f"   ✅ Created note for delete test: {note_id}")
+        
+        # Now delete the note
+        success_delete, response_delete = self.run_test("Delete Round Note", "DELETE", f"round-notes/{note_id}", 200)
+        
+        if success_delete and response_delete:
+            print(f"   ✅ Note deleted successfully")
+            
+            # Verify response structure
+            if 'success' not in response_delete or 'message' not in response_delete:
+                print(f"   ⚠️  Missing fields in delete response")
+                return False
+            
+            if not response_delete['success']:
+                print(f"   ⚠️  Delete response indicates failure")
+                return False
+            
+            print(f"   Message: {response_delete['message']}")
+        else:
+            return False
+        
+        # Verify the deletion worked by getting the notes (should be empty)
+        success_verify, response_verify = self.run_test("Verify Deletion", "GET", "round-notes/test-bout-789/1", 200)
+        
+        if success_verify and response_verify:
+            notes = response_verify.get('notes', [])
+            count = response_verify.get('count', 0)
+            
+            if count != 0:
+                print(f"   ⚠️  Expected 0 notes after deletion, got {count}")
+                return False
+            
+            print(f"   ✅ Deletion verified: {count} notes remaining")
+        else:
+            return False
+        
+        return success_create and success_delete and success_verify
+
+    def test_round_notes_error_cases(self):
+        """Test error cases for round notes"""
+        print("\n⚠️ Testing Round Notes Engine - Error Cases...")
+        
+        # Test 1: Update non-existent note
+        import urllib.parse
+        update_data = urllib.parse.urlencode({"note_text": "Updated text"})
+        success1, _ = self.run_test("Update Non-existent Note", "PUT", "round-notes/fake-note-id-999", 404, update_data)
+        
+        if success1:
+            print(f"   ✅ Update non-existent note returns 404 as expected")
+        else:
+            return False
+        
+        # Test 2: Delete non-existent note
+        success2, _ = self.run_test("Delete Non-existent Note", "DELETE", "round-notes/fake-note-id-999", 404)
+        
+        if success2:
+            print(f"   ✅ Delete non-existent note returns 404 as expected")
+        else:
+            return False
+        
+        # Test 3: Get notes for non-existent bout
+        success3, response3 = self.run_test("Get Notes for Non-existent Bout", "GET", "round-notes/non-existent-bout/1", 200)
+        
+        if success3 and response3:
+            notes = response3.get('notes', [])
+            count = response3.get('count', 0)
+            
+            if count != 0:
+                print(f"   ⚠️  Expected 0 notes for non-existent bout, got {count}")
+                return False
+            
+            print(f"   ✅ Non-existent bout returns empty array as expected")
+        else:
+            return False
+        
+        return success1 and success2 and success3
+
+    def test_round_notes_complete_flow(self):
+        """Test the complete Round Notes Engine flow"""
+        print("\n🎯 Testing Complete Round Notes Engine Flow...")
+        
+        # Step 1: Create multiple notes
+        print("   Step 1: Creating round notes...")
+        if not self.test_round_notes_create():
+            return False
+        
+        # Step 2: Get notes by round
+        print("   Step 2: Testing round note retrieval...")
+        if not self.test_round_notes_get_round():
+            return False
+        
+        # Step 3: Get notes by bout
+        print("   Step 3: Testing bout note retrieval...")
+        if not self.test_round_notes_get_bout():
+            return False
+        
+        # Step 4: Update notes
+        print("   Step 4: Testing note updates...")
+        if not self.test_round_notes_update():
+            return False
+        
+        # Step 5: Delete notes
+        print("   Step 5: Testing note deletion...")
+        if not self.test_round_notes_delete():
+            return False
+        
+        # Step 6: Test error cases
+        print("   Step 6: Testing error cases...")
+        if not self.test_round_notes_error_cases():
+            return False
+        
+        print("   🎉 Complete Round Notes Engine flow test passed!")
+        print("   ✅ All 5 API endpoints working correctly")
+        print("   ✅ Notes stored with proper structure (id, bout_id, round_num, judge_id, judge_name, note_text, timestamp, metadata)")
+        print("   ✅ Query filtering by judge_id working")
+        print("   ✅ Grouping by round working correctly")
+        print("   ✅ Update and delete operations working")
+        print("   ✅ Proper error handling for 404 cases")
+        print("   ✅ Timestamps automatically generated")
+        return True
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Combat Judging API Tests")
