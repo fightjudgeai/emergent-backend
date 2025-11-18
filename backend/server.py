@@ -2717,6 +2717,7 @@ async def get_events_v2(bout_id: str, round_id: int):
         return {
             "bout_id": bout_id,
             "round_id": round_id,
+            "count": len(events),
             "total_events": len(events),
             "events": events
         }
