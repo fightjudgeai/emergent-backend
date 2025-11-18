@@ -20,16 +20,52 @@ export default function BroadcastMode() {
     loadBout();
     const cleanup = setupRealtimeListeners();
     
+    // Auto-hide controls after 5 seconds
+    const hideControlsTimer = setTimeout(() => {
+      setShowControls(false);
+    }, 5000);
+    
+    // Show controls on any mouse movement or key press
+    const handleInteraction = () => {
+      setShowControls(true);
+      clearTimeout(hideControlsTimer);
+      setTimeout(() => setShowControls(false), 5000);
+    };
+    
+    // Remote control support (Fire Stick arrows/OK button)
+    const handleKeyPress = (e) => {
+      handleInteraction();
+      
+      // Fire Stick OK button or Enter = toggle fullscreen
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleFullscreen();
+      }
+      
+      // Fire Stick Back button or Escape = exit fullscreen
+      if (e.key === 'Escape' && isFullscreen) {
+        toggleFullscreen();
+      }
+    };
+    
+    window.addEventListener('mousemove', handleInteraction);
+    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener('click', handleInteraction);
+    
     // Initialize device sync for broadcast
     const initBroadcastSync = async () => {
       try {
+        setConnectionStatus('connecting');
         await deviceSyncManager.initializeDevice(boutId, 'broadcast', {
           role: 'broadcast_display'
         });
+        setConnectionStatus('connected');
+        setLastUpdateTime(Date.now());
         
         // Listen for real-time score updates
         deviceSyncManager.listenToCollection('events', { boutId }, (updates) => {
           // Automatically refresh scores when new events come in
+          setLastUpdateTime(Date.now());
           if (updates.length > 0 && bout?.currentRound) {
             console.log('[Broadcast] Auto-refreshing scores due to new events');
             for (let r = 1; r <= bout.currentRound; r++) {
