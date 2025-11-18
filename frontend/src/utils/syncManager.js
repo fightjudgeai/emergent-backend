@@ -283,14 +283,50 @@ class SyncManager {
   }
 
   /**
-   * Get current status
+   * Get queue health metrics
+   */
+  async getQueueHealthMetrics() {
+    try {
+      const queueStats = await offlineDB.getQueueStats();
+      const syncHistory = await offlineDB.getRecentSyncHistory(10);
+      const networkQuality = await this.checkNetworkQuality();
+      
+      return {
+        queueStats,
+        syncHistory,
+        networkQuality,
+        isHealthy: queueStats.failedEvents === 0 && this.isOnline
+      };
+    } catch (error) {
+      console.error('Failed to get queue health metrics:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get current status with enhanced metrics
    */
   async getStatus() {
     return {
       isOnline: this.isOnline,
       isSyncing: this.isSyncing,
-      queueCount: await offlineDB.getQueueCount()
+      queueCount: await offlineDB.getQueueCount(),
+      healthMetrics: await this.getQueueHealthMetrics()
     };
+  }
+
+  /**
+   * Force clear failed events (emergency recovery)
+   */
+  async clearFailedEvents() {
+    try {
+      await offlineDB.clearFailedEvents();
+      this.notifyListeners({ type: 'failedEventsCleared' });
+      return { success: true };
+    } catch (error) {
+      console.error('Failed to clear failed events:', error);
+      return { success: false, error: error.message };
+    }
   }
 
   /**
