@@ -338,6 +338,7 @@ export default function JudgePanel() {
   };
 
   const calculateScores = async () => {
+    console.log('[JudgePanel] calculateScores called with', events.length, 'total events');
     setLoading(true);
     try {
       const roundScores = {};
@@ -345,7 +346,10 @@ export default function JudgePanel() {
       for (let round = 1; round <= (bout?.totalRounds || 3); round++) {
         const roundEvents = events.filter(e => e.round === round);
         
+        console.log(`[JudgePanel] Round ${round}: ${roundEvents.length} events`);
+        
         if (roundEvents.length === 0) {
+          console.log(`[JudgePanel] Round ${round}: No events, setting score to null`);
           roundScores[round] = null;
           continue;
         }
