@@ -17,6 +17,32 @@ export default function FightList() {
 
   useEffect(() => {
     loadEventAndFights();
+    
+    // Initialize device sync
+    const initSync = async () => {
+      try {
+        await deviceSyncManager.initializeDevice(eventId || 'fight-list', 'admin', {
+          role: 'fight_manager',
+          eventId
+        });
+        
+        // Listen for fight updates from other devices
+        deviceSyncManager.listenToCollection('bouts', { eventId }, (updates) => {
+          if (updates.length > 0) {
+            console.log('Fight updates from other device');
+            loadEventAndFights();
+          }
+        });
+      } catch (error) {
+        console.error('Device sync init failed:', error);
+      }
+    };
+    
+    if (eventId) {
+      initSync();
+    }
+    
+    return () => deviceSyncManager.cleanup();
   }, [eventId]);
 
   const loadEventAndFights = async () => {
