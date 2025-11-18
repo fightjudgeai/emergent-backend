@@ -1,6 +1,6 @@
 {
-  "total_tests": 92,
-  "passed_tests": 92,
+  "total_tests": 105,
+  "passed_tests": 105,
   "success_rate": 100.0,
   "results": [
     {
@@ -20,9 +20,9 @@
       "actual_status": 200,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/status",
       "response": {
-        "id": "0bdac67d-565e-4a26-a732-401a9c03f666",
-        "client_name": "test_client_050546",
-        "timestamp": "2025-11-18T05:05:46.828023Z"
+        "id": "7686923a-8c9c-4640-88f7-c5076b74a9b7",
+        "client_name": "test_client_051556",
+        "timestamp": "2025-11-18T05:15:56.271817Z"
       }
     },
     {
@@ -101,6 +101,11 @@
           "id": "0bdac67d-565e-4a26-a732-401a9c03f666",
           "client_name": "test_client_050546",
           "timestamp": "2025-11-18T05:05:46.828023Z"
+        },
+        {
+          "id": "7686923a-8c9c-4640-88f7-c5076b74a9b7",
+          "client_name": "test_client_051556",
+          "timestamp": "2025-11-18T05:15:56.271817Z"
         }
       ]
     },
@@ -921,7 +926,7 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/rounds",
       "response": [
         {
-          "id": "eb670013-2c3c-4558-868b-ab6523e073a5",
+          "id": "96cdc095-6a15-41fd-b662-b3dffa1708b0",
           "event": "UFC 299: O'Malley vs. Vera 2",
           "fighters": "Dustin Poirier vs. Benoit Saint Denis",
           "roundNumber": 2,
@@ -933,10 +938,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480239Z"
+          "createdAt": "2025-11-18T05:15:56.912088Z"
         },
         {
-          "id": "d2c1d3df-ee39-44e8-bd23-1a80ed4b6293",
+          "id": "04f31dbe-37ff-4cad-92fa-8fea0c9a96da",
           "event": "UFC 300: Pereira vs. Hill",
           "fighters": "Max Holloway vs. Justin Gaethje",
           "roundNumber": 5,
@@ -948,10 +953,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480283Z"
+          "createdAt": "2025-11-18T05:15:56.912148Z"
         },
         {
-          "id": "24156a08-c71b-4b6f-b503-faeb40ea3b93",
+          "id": "3c7ff38d-f21a-4922-9bfb-84d6c978cc30",
           "event": "UFC 296: Edwards vs. Covington",
           "fighters": "Alexandre Pantoja vs. Brandon Royval",
           "roundNumber": 1,
@@ -963,10 +968,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480296Z"
+          "createdAt": "2025-11-18T05:15:56.912162Z"
         },
         {
-          "id": "44103391-9a66-46d2-b1bd-6ebdc59ac8ab",
+          "id": "87dc01db-6556-4ad2-b351-089331dacd6a",
           "event": "UFC 298: Volkanovski vs. Topuria",
           "fighters": "Ian Garry vs. Geoff Neal",
           "roundNumber": 3,
@@ -978,10 +983,10 @@
           ],
           "officialCard": "10-10",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480305Z"
+          "createdAt": "2025-11-18T05:15:56.912172Z"
         },
         {
-          "id": "3ada50e1-1f3e-4238-9b1a-d2b9b5f84615",
+          "id": "09074f66-701f-48dc-ab78-42aa60e43f05",
           "event": "UFC 297: Strickland vs. Du Plessis",
           "fighters": "Sean Strickland vs. Dricus Du Plessis",
           "roundNumber": 2,
@@ -993,10 +998,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480314Z"
+          "createdAt": "2025-11-18T05:15:56.912182Z"
         },
         {
-          "id": "7e72ca43-8f47-4e46-8df7-db97f8c3764d",
+          "id": "f859c20f-12ec-4758-9ea5-6803b5680ffc",
           "event": "UFC 295: Prochazka vs. Pereira",
           "fighters": "Jiri Prochazka vs. Alex Pereira",
           "roundNumber": 1,
@@ -1008,10 +1013,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480323Z"
+          "createdAt": "2025-11-18T05:15:56.912192Z"
         },
         {
-          "id": "4e694c88-3c51-457d-8ad1-1c776da3dc3b",
+          "id": "15590910-7c1f-4124-a56f-3dbb0089330f",
           "event": "UFC 294: Makhachev vs. Volkanovski 2",
           "fighters": "Islam Makhachev vs. Alexander Volkanovski",
           "roundNumber": 1,
@@ -1023,10 +1028,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480333Z"
+          "createdAt": "2025-11-18T05:15:56.912202Z"
         },
         {
-          "id": "20b0d790-dcc7-44c3-9d5f-01ab276f2740",
+          "id": "0a8bb3ea-87a0-41e2-9b75-0125a7e954c3",
           "event": "UFC 293: Adesanya vs. Strickland",
           "fighters": "Israel Adesanya vs. Sean Strickland",
           "roundNumber": 3,
@@ -1038,10 +1043,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480344Z"
+          "createdAt": "2025-11-18T05:15:56.912214Z"
         },
         {
-          "id": "cb951ec5-dced-474c-afaf-cbf22b6377ff",
+          "id": "b7c4e36b-547e-4607-9bbf-678134928191",
           "event": "UFC 292: Sterling vs. O'Malley",
           "fighters": "Aljamain Sterling vs. Sean O'Malley",
           "roundNumber": 1,
@@ -1053,10 +1058,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480352Z"
+          "createdAt": "2025-11-18T05:15:56.912222Z"
         },
         {
-          "id": "e5c6cbfc-5215-48ab-8bfe-6a989e8ebdcb",
+          "id": "760d8343-142d-4f93-acc6-11afd8a3095b",
           "event": "UFC 291: Poirier vs. Gaethje 2",
           "fighters": "Dustin Poirier vs. Justin Gaethje",
           "roundNumber": 2,
@@ -1068,10 +1073,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480361Z"
+          "createdAt": "2025-11-18T05:15:56.912231Z"
         },
         {
-          "id": "ad350097-630c-492f-bdbd-fdc0d50c8700",
+          "id": "6b1f4d83-46f0-43bc-9ba7-d6bfd712dc0d",
           "event": "UFC 290: Volkanovski vs. Rodriguez",
           "fighters": "Brandon Moreno vs. Alexandre Pantoja",
           "roundNumber": 4,
@@ -1083,10 +1088,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480369Z"
+          "createdAt": "2025-11-18T05:15:56.912239Z"
         },
         {
-          "id": "647dfc1d-9fd9-4033-b4af-f0394521c9d7",
+          "id": "052ccd02-dbcd-4d43-b2c9-57e0cd90d962",
           "event": "UFC 289: Nunes vs. Aldana",
           "fighters": "Charles Oliveira vs. Beneil Dariush",
           "roundNumber": 1,
@@ -1098,10 +1103,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480377Z"
+          "createdAt": "2025-11-18T05:15:56.912247Z"
         },
         {
-          "id": "d9f13b4c-c132-46bb-af6a-93abbda7c240",
+          "id": "25e14a13-0649-4250-86cf-4416e8be55d8",
           "event": "UFC 288: Sterling vs. Cejudo",
           "fighters": "Aljamain Sterling vs. Henry Cejudo",
           "roundNumber": 2,
@@ -1113,10 +1118,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480385Z"
+          "createdAt": "2025-11-18T05:15:56.912255Z"
         },
         {
-          "id": "d0137453-9e3b-4b3a-ba87-db1daada926d",
+          "id": "47b5035e-ee97-4262-b8cd-9e8faa62e4a0",
           "event": "UFC 287: Pereira vs. Adesanya 2",
           "fighters": "Alex Pereira vs. Israel Adesanya",
           "roundNumber": 2,
@@ -1128,10 +1133,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480394Z"
+          "createdAt": "2025-11-18T05:15:56.912263Z"
         },
         {
-          "id": "7fe10eb3-51ab-4ceb-884d-6ae4401bfdc5",
+          "id": "4c218f22-be1c-41d8-85f3-b6051e633a0b",
           "event": "UFC 286: Edwards vs. Usman 3",
           "fighters": "Leon Edwards vs. Kamaru Usman",
           "roundNumber": 1,
@@ -1143,10 +1148,10 @@
           ],
           "officialCard": "10-10",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480402Z"
+          "createdAt": "2025-11-18T05:15:56.912271Z"
         },
         {
-          "id": "40b11782-837c-4d70-86e3-8a21ba8d3150",
+          "id": "13a845b5-047f-4578-98a6-7470483b89e6",
           "event": "UFC 285: Jones vs. Gane",
           "fighters": "Jon Jones vs. Ciryl Gane",
           "roundNumber": 1,
@@ -1158,7 +1163,7 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-18T05:05:47.480410Z"
+          "createdAt": "2025-11-18T05:15:56.912278Z"
         }
       ]
     },
@@ -1169,17 +1174,17 @@
       "actual_status": 200,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "95de98d0-3232-4641-b78b-5fa09423834a",
+        "id": "4618759a-57ee-41fb-8368-d00889769d1e",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "eb670013-2c3c-4558-868b-ab6523e073a5",
+        "roundId": "96cdc095-6a15-41fd-b662-b3dffa1708b0",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-18T05:05:47.555781Z"
+        "timestamp": "2025-11-18T05:15:57.038605Z"
       }
     },
     {
@@ -1189,17 +1194,17 @@
       "actual_status": 200,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "affb9e5b-86a0-48ee-8f24-e564357c5f1a",
+        "id": "7f815039-8a22-42af-942c-4af9c5ab8baf",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "eb670013-2c3c-4558-868b-ab6523e073a5",
+        "roundId": "96cdc095-6a15-41fd-b662-b3dffa1708b0",
         "myScore": "10-8",
         "officialScore": "10-9",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 85.0,
         "match": false,
-        "timestamp": "2025-11-18T05:05:47.592561Z"
+        "timestamp": "2025-11-18T05:15:57.112499Z"
       }
     },
     {
@@ -1209,17 +1214,17 @@
       "actual_status": 200,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "cc51e2c7-cdf0-4cc5-babe-982b5da37a9b",
+        "id": "4e81f934-cdaa-44f5-9b71-4ff400b764b8",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "eb670013-2c3c-4558-868b-ab6523e073a5",
+        "roundId": "96cdc095-6a15-41fd-b662-b3dffa1708b0",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-18T05:05:47.629850Z"
+        "timestamp": "2025-11-18T05:15:57.164976Z"
       }
     },
     {
@@ -1229,17 +1234,17 @@
       "actual_status": 200,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "90dd55a3-d619-4da5-8e5d-854c3f91838b",
+        "id": "2db12cbe-7565-4da5-b2b1-101dbc2b435b",
         "judgeId": "test-judge-2",
         "judgeName": "Maria Santos",
-        "roundId": "eb670013-2c3c-4558-868b-ab6523e073a5",
+        "roundId": "96cdc095-6a15-41fd-b662-b3dffa1708b0",
         "myScore": "10-9",
         "officialScore": "10-8",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 75.0,
         "match": false,
-        "timestamp": "2025-11-18T05:05:47.665675Z"
+        "timestamp": "2025-11-18T05:15:57.200562Z"
       }
     },
     {
@@ -1249,17 +1254,17 @@
       "actual_status": 200,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "1454eae2-364b-4729-8a87-ed7633d25bdd",
+        "id": "6a8f3824-1631-4187-bfdb-6e3941dc8e7a",
         "judgeId": "test-judge-2",
         "judgeName": "Maria Santos",
-        "roundId": "eb670013-2c3c-4558-868b-ab6523e073a5",
+        "roundId": "96cdc095-6a15-41fd-b662-b3dffa1708b0",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-18T05:05:47.738329Z"
+        "timestamp": "2025-11-18T05:15:57.237517Z"
       }
     },
     {
@@ -1269,17 +1274,17 @@
       "actual_status": 200,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "047eb720-2e59-496d-99c6-045018d3af8a",
+        "id": "911e8dad-4c68-4f86-b14c-d8caf7a9fd69",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "eb670013-2c3c-4558-868b-ab6523e073a5",
+        "roundId": "96cdc095-6a15-41fd-b662-b3dffa1708b0",
         "myScore": "10-8",
         "officialScore": "10-8",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-18T05:05:47.792913Z"
+        "timestamp": "2025-11-18T05:15:57.275446Z"
       }
     },
     {
@@ -1289,17 +1294,17 @@
       "actual_status": 200,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "e19a4b33-8353-44b3-9eea-9d8d3972276f",
+        "id": "8dcaf909-e250-4acd-8277-a025268ec1c2",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "eb670013-2c3c-4558-868b-ab6523e073a5",
+        "roundId": "96cdc095-6a15-41fd-b662-b3dffa1708b0",
         "myScore": "10-9",
         "officialScore": "10-8",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 80.0,
         "match": false,
-        "timestamp": "2025-11-18T05:05:47.828375Z"
+        "timestamp": "2025-11-18T05:15:57.347680Z"
       }
     },
     {
@@ -1309,17 +1314,17 @@
       "actual_status": 200,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "a0f4129a-bb4e-47ee-b0c5-9ba2e42600ac",
+        "id": "df32817f-c465-47b7-894c-a6cb00b35f8c",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "eb670013-2c3c-4558-868b-ab6523e073a5",
+        "roundId": "96cdc095-6a15-41fd-b662-b3dffa1708b0",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-18T05:05:47.908181Z"
+        "timestamp": "2025-11-18T05:15:57.401590Z"
       }
     },
     {
@@ -1329,17 +1334,17 @@
       "actual_status": 200,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "3ecdc9de-5586-4654-af6e-443100637de2",
+        "id": "5a3d1809-2847-4fed-a815-09cc7ff047fb",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "eb670013-2c3c-4558-868b-ab6523e073a5",
+        "roundId": "96cdc095-6a15-41fd-b662-b3dffa1708b0",
         "myScore": "10-8",
         "officialScore": "10-8",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-18T05:05:47.942500Z"
+        "timestamp": "2025-11-18T05:15:57.438992Z"
       }
     },
     {
@@ -1351,11 +1356,11 @@
       "response": {
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "totalAttempts": 36,
+        "totalAttempts": 39,
         "averageAccuracy": 95.0,
         "averageMAE": 0.33,
         "sensitivity108Rate": 66.67,
-        "perfectMatches": 24
+        "perfectMatches": 26
       }
     },
     {
@@ -1366,7 +1371,7 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "23474933-84f4-495f-8c7b-fae6b8a84415"
+        "log_id": "582398f5-688b-4059-b25b-0df8e611c392"
       }
     },
     {
@@ -1377,7 +1382,7 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "be673381-1cf9-4fa8-a67e-f1e8a51e997f"
+        "log_id": "a00429ab-2639-4790-a493-fcadf6058fbe"
       }
     },
     {
@@ -1388,7 +1393,7 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "d0a9c80f-0c50-4454-ba91-69f949432d94"
+        "log_id": "b2baa37b-50b5-4413-b8a3-bb06b0f0585d"
       }
     },
     {
@@ -1399,6 +1404,161 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/logs?judge_id=owner-001",
       "response": {
         "logs": [
+          {
+            "id": "b2baa37b-50b5-4413-b8a3-bb06b0f0585d",
+            "timestamp": "2025-11-18T05:15:57.636608+00:00",
+            "action_type": "profile_changed",
+            "user_id": "judge-002",
+            "user_name": "Maria Garcia",
+            "resource_type": "tuning_profile",
+            "resource_id": "profile_ufc_001",
+            "action_data": {
+              "changes": [
+                "weights.KD",
+                "thresholds.threshold_10_8"
+              ],
+              "promotion": "UFC"
+            },
+            "signature": "3cf61cf2c8743105362be0fe86261abee9d72171b5ab5a48455ada71d1a6f8f4",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "a00429ab-2639-4790-a493-fcadf6058fbe",
+            "timestamp": "2025-11-18T05:15:57.601064+00:00",
+            "action_type": "flag_created",
+            "user_id": "admin-001",
+            "user_name": "Admin User",
+            "resource_type": "discrepancy_flag",
+            "resource_id": "flag_456",
+            "action_data": {
+              "flag_type": "boundary_case",
+              "severity": "medium",
+              "bout_id": "bout_123"
+            },
+            "signature": "2e128cdb77c8793bd938c154cbc50fc20beb4293e669300295f9c66e5ff2a2ee",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "582398f5-688b-4059-b25b-0df8e611c392",
+            "timestamp": "2025-11-18T05:15:57.565758+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "488b1a5731b52eacf784e0ac3ab4fca51ea4a2f9b4cc32acd9427fe42793a05e",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
+          {
+            "id": "981a05ac-482f-42d4-87d2-7c26b56ce361",
+            "timestamp": "2025-11-18T05:15:56.639300+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_actual_round_1",
+            "action_data": {
+              "bout_id": "test_bout_actual",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 2892.06,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "5fdaf6343c1b37d61d250519b20591d249a603fb826cdfcb4e06fb8e05c127e1",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "99afa210-ea0e-4637-9d4b-a9759e63726e",
+            "timestamp": "2025-11-18T05:15:56.601906+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_counts_round_1",
+            "action_data": {
+              "bout_id": "test_bout_counts",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 3534.3,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "086b507c632e5d140601f39aa8d9f8778f099a6797739c6b47a5a639308d122f",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "816b9104-3af3-41ae-9314-46e177555a9f",
+            "timestamp": "2025-11-18T05:15:56.542521+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_invalid_round_1",
+            "action_data": {
+              "bout_id": "test_bout_invalid",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "6b7c0f45f82809695e7dc4efbfd3ea686ff868b1064e641a7b91f769f4d1b181",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "f1936979-c1ac-4c40-9645-ece9bdd3ed93",
+            "timestamp": "2025-11-18T05:15:56.451020+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_empty_round_1",
+            "action_data": {
+              "bout_id": "test_bout_empty",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "0e5f73718bdefa22554a116e57054bfc6bb838d391740a650063576ec1af3cce",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "6a6e89e4-b64a-4ba9-a8e7-c6d91e9d88bc",
+            "timestamp": "2025-11-18T05:15:56.375439+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_123_round_1",
+            "action_data": {
+              "bout_id": "test_bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 1510.38,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "484ee0dfd733d866b5e1f09b9774d89795156a9a47d99abc6e3d2c9f43045ea7",
+            "ip_address": null,
+            "immutable": true
+          },
           {
             "id": "d0a9c80f-0c50-4454-ba91-69f949432d94",
             "timestamp": "2025-11-18T05:05:48.127097+00:00",
@@ -3213,157 +3373,6 @@
             "signature": "2861006520571453f133d35378d241e43e5c0a548e6752ad8a7f032740c0ab92",
             "ip_address": null,
             "immutable": true
-          },
-          {
-            "id": "af503308-eda0-44a6-9c50-58df9e15e57b",
-            "timestamp": "2025-10-30T01:43:05.706096+00:00",
-            "action_type": "profile_changed",
-            "user_id": "judge-002",
-            "user_name": "Maria Garcia",
-            "resource_type": "tuning_profile",
-            "resource_id": "profile_ufc_001",
-            "action_data": {
-              "changes": [
-                "weights.KD",
-                "thresholds.threshold_10_8"
-              ],
-              "promotion": "UFC"
-            },
-            "signature": "3ae616d50ff74692edd566d73b7c97010cfd88ad142e98ba82ad626ede205957",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "63c581c1-1584-4fef-ad62-21baf3771530",
-            "timestamp": "2025-10-30T01:43:05.669626+00:00",
-            "action_type": "flag_created",
-            "user_id": "admin-001",
-            "user_name": "Admin User",
-            "resource_type": "discrepancy_flag",
-            "resource_id": "flag_456",
-            "action_data": {
-              "flag_type": "boundary_case",
-              "severity": "medium",
-              "bout_id": "bout_123"
-            },
-            "signature": "41f0d54e4c7ffb207fbb131d0572872cc737fdb56b264591ea28a898086b7bc7",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "f6ebef71-df6f-4ba6-a411-3641881ffe0e",
-            "timestamp": "2025-10-30T01:43:05.632286+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "db912c76dc489fe1f87b8b80cd83320e0e5ffcd1e6e6dd38b986eb59793c541b",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          },
-          {
-            "id": "50a7bb2d-ccf3-4f24-bd86-37f14f689949",
-            "timestamp": "2025-10-30T01:43:05.144951+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_invalid_round_1",
-            "action_data": {
-              "bout_id": "test_bout_invalid",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "b80daa5944652d2776d024928218c95f723141fbeb1e82862d3bcb9907c512fb",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "b954b572-dcb8-4986-9835-f28cca2daaac",
-            "timestamp": "2025-10-30T01:43:05.106640+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_empty_round_1",
-            "action_data": {
-              "bout_id": "test_bout_empty",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "30ac08bbee8d48dda527845ad4565a59835d4de612e96b4185891216de4c5107",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "9ca3afb1-b42c-4913-b840-1d54d9243fbe",
-            "timestamp": "2025-10-30T01:43:05.066546+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_123_round_1",
-            "action_data": {
-              "bout_id": "test_bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 167.82,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "ee5289cc456caac131e4f1fe0745f6030be97def508b08461c15644ff36cd8df",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "6f2072b2-5eb0-43f7-afcb-737d12b560fd",
-            "timestamp": "2025-10-30T01:42:22.393552+00:00",
-            "action_type": "profile_changed",
-            "user_id": "judge-002",
-            "user_name": "Maria Garcia",
-            "resource_type": "tuning_profile",
-            "resource_id": "profile_ufc_001",
-            "action_data": {
-              "changes": [
-                "weights.KD",
-                "thresholds.threshold_10_8"
-              ],
-              "promotion": "UFC"
-            },
-            "signature": "70dd55be317904cb5ac2c5a5462c5a74088038128744b654380dfc506ef03f4d",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "2601baab-7e94-4df7-b74c-63a90569e918",
-            "timestamp": "2025-10-30T01:42:22.356708+00:00",
-            "action_type": "flag_created",
-            "user_id": "admin-001",
-            "user_name": "Admin User",
-            "resource_type": "discrepancy_flag",
-            "resource_id": "flag_456",
-            "action_data": {
-              "flag_type": "boundary_case",
-              "severity": "medium",
-              "bout_id": "bout_123"
-            },
-            "signature": "a6881eae174998538576d977a35893d60dd9e5ef64f2f677d50db592ce9cf002",
-            "ip_address": null,
-            "immutable": true
           }
         ],
         "count": 100,
@@ -3379,6 +3388,125 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation",
       "response": {
         "logs": [
+          {
+            "id": "582398f5-688b-4059-b25b-0df8e611c392",
+            "timestamp": "2025-11-18T05:15:57.565758+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "488b1a5731b52eacf784e0ac3ab4fca51ea4a2f9b4cc32acd9427fe42793a05e",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
+          {
+            "id": "981a05ac-482f-42d4-87d2-7c26b56ce361",
+            "timestamp": "2025-11-18T05:15:56.639300+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_actual_round_1",
+            "action_data": {
+              "bout_id": "test_bout_actual",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 2892.06,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "5fdaf6343c1b37d61d250519b20591d249a603fb826cdfcb4e06fb8e05c127e1",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "99afa210-ea0e-4637-9d4b-a9759e63726e",
+            "timestamp": "2025-11-18T05:15:56.601906+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_counts_round_1",
+            "action_data": {
+              "bout_id": "test_bout_counts",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 3534.3,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "086b507c632e5d140601f39aa8d9f8778f099a6797739c6b47a5a639308d122f",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "816b9104-3af3-41ae-9314-46e177555a9f",
+            "timestamp": "2025-11-18T05:15:56.542521+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_invalid_round_1",
+            "action_data": {
+              "bout_id": "test_bout_invalid",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "6b7c0f45f82809695e7dc4efbfd3ea686ff868b1064e641a7b91f769f4d1b181",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "f1936979-c1ac-4c40-9645-ece9bdd3ed93",
+            "timestamp": "2025-11-18T05:15:56.451020+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_empty_round_1",
+            "action_data": {
+              "bout_id": "test_bout_empty",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "0e5f73718bdefa22554a116e57054bfc6bb838d391740a650063576ec1af3cce",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "6a6e89e4-b64a-4ba9-a8e7-c6d91e9d88bc",
+            "timestamp": "2025-11-18T05:15:56.375439+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_123_round_1",
+            "action_data": {
+              "bout_id": "test_bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 1510.38,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "484ee0dfd733d866b5e1f09b9774d89795156a9a47d99abc6e3d2c9f43045ea7",
+            "ip_address": null,
+            "immutable": true
+          },
           {
             "id": "23474933-84f4-495f-8c7b-fae6b8a84415",
             "timestamp": "2025-11-18T05:05:48.054919+00:00",
@@ -5248,124 +5376,6 @@
             },
             "signature": "eebcecf30172bfe8bccee218a61eba7b3ac2e64cbfe0a5525ef6475b82e0f2c5",
             "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "ce72e215-5a7c-4ef2-b720-a0a3c79a5466",
-            "timestamp": "2025-10-30T01:39:32.417993+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_123_round_1",
-            "action_data": {
-              "bout_id": "test_bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 167.82,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "59bc3164a62819256dde9f2c70c63754282c5cbbd097d1a3f3b4ae13b824b6ea",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "7ff5e1ec-e7cf-413a-a892-0ba98b1a25b5",
-            "timestamp": "2025-10-30T01:27:54.373626+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "c2acb37dd281e84f3214abaa23ed646a5b6a73ba9a03576d3052a4f75bff678f",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          },
-          {
-            "id": "5cc03ac1-dda4-4a8b-ac28-102e639f87e3",
-            "timestamp": "2025-10-30T01:27:53.873076+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_invalid_round_1",
-            "action_data": {
-              "bout_id": "test_bout_invalid",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "50a9bad6bebc8915ea8ad2fbca68c3802ead645f034f41a50e7e675e654993e3",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "7aaede2e-b7e3-4f0d-b94b-eab5430a48c0",
-            "timestamp": "2025-10-30T01:27:53.835217+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_empty_round_1",
-            "action_data": {
-              "bout_id": "test_bout_empty",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "aaba1f82c5e37403a6a291b54156bea9884b1eaaf42503dcebcd958b5599b04a",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "215f3601-df21-4d1d-871f-a369ab9055b8",
-            "timestamp": "2025-10-30T01:27:53.783162+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_123_round_1",
-            "action_data": {
-              "bout_id": "test_bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 167.82,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "776c76028ca2b7559ca20d97c7e0ea1011cbeb6642adcae934ca1463e2d06cb7",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "f5946830-97bb-42d7-a943-c93b5a0a9bef",
-            "timestamp": "2025-10-29T17:21:41.327823+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "27cee781a59a5efe93912abe91a667c88f83e6d6dfbca0ec6de70aa84a144c62",
-            "ip_address": "192.168.1.100",
             "immutable": true
           }
         ],
@@ -5383,6 +5393,25 @@
       "response": {
         "logs": [
           {
+            "id": "582398f5-688b-4059-b25b-0df8e611c392",
+            "timestamp": "2025-11-18T05:15:57.565758+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "488b1a5731b52eacf784e0ac3ab4fca51ea4a2f9b4cc32acd9427fe42793a05e",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
+          {
             "id": "23474933-84f4-495f-8c7b-fae6b8a84415",
             "timestamp": "2025-11-18T05:05:48.054919+00:00",
             "action_type": "score_calculation",
@@ -5611,7 +5640,7 @@
             "immutable": true
           }
         ],
-        "count": 12,
+        "count": 13,
         "immutable": true,
         "message": "These logs are WORM (Write Once Read Many) and cannot be modified"
       }
@@ -5624,6 +5653,125 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&resource_type=round_score",
       "response": {
         "logs": [
+          {
+            "id": "582398f5-688b-4059-b25b-0df8e611c392",
+            "timestamp": "2025-11-18T05:15:57.565758+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "488b1a5731b52eacf784e0ac3ab4fca51ea4a2f9b4cc32acd9427fe42793a05e",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
+          {
+            "id": "981a05ac-482f-42d4-87d2-7c26b56ce361",
+            "timestamp": "2025-11-18T05:15:56.639300+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_actual_round_1",
+            "action_data": {
+              "bout_id": "test_bout_actual",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 2892.06,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "5fdaf6343c1b37d61d250519b20591d249a603fb826cdfcb4e06fb8e05c127e1",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "99afa210-ea0e-4637-9d4b-a9759e63726e",
+            "timestamp": "2025-11-18T05:15:56.601906+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_counts_round_1",
+            "action_data": {
+              "bout_id": "test_bout_counts",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 3534.3,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "086b507c632e5d140601f39aa8d9f8778f099a6797739c6b47a5a639308d122f",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "816b9104-3af3-41ae-9314-46e177555a9f",
+            "timestamp": "2025-11-18T05:15:56.542521+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_invalid_round_1",
+            "action_data": {
+              "bout_id": "test_bout_invalid",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "6b7c0f45f82809695e7dc4efbfd3ea686ff868b1064e641a7b91f769f4d1b181",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "f1936979-c1ac-4c40-9645-ece9bdd3ed93",
+            "timestamp": "2025-11-18T05:15:56.451020+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_empty_round_1",
+            "action_data": {
+              "bout_id": "test_bout_empty",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "0e5f73718bdefa22554a116e57054bfc6bb838d391740a650063576ec1af3cce",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "6a6e89e4-b64a-4ba9-a8e7-c6d91e9d88bc",
+            "timestamp": "2025-11-18T05:15:56.375439+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_123_round_1",
+            "action_data": {
+              "bout_id": "test_bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 1510.38,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "484ee0dfd733d866b5e1f09b9774d89795156a9a47d99abc6e3d2c9f43045ea7",
+            "ip_address": null,
+            "immutable": true
+          },
           {
             "id": "23474933-84f4-495f-8c7b-fae6b8a84415",
             "timestamp": "2025-11-18T05:05:48.054919+00:00",
@@ -7494,124 +7642,6 @@
             "signature": "eebcecf30172bfe8bccee218a61eba7b3ac2e64cbfe0a5525ef6475b82e0f2c5",
             "ip_address": null,
             "immutable": true
-          },
-          {
-            "id": "ce72e215-5a7c-4ef2-b720-a0a3c79a5466",
-            "timestamp": "2025-10-30T01:39:32.417993+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_123_round_1",
-            "action_data": {
-              "bout_id": "test_bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 167.82,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "59bc3164a62819256dde9f2c70c63754282c5cbbd097d1a3f3b4ae13b824b6ea",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "7ff5e1ec-e7cf-413a-a892-0ba98b1a25b5",
-            "timestamp": "2025-10-30T01:27:54.373626+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "c2acb37dd281e84f3214abaa23ed646a5b6a73ba9a03576d3052a4f75bff678f",
-            "ip_address": "192.168.1.100",
-            "immutable": true
-          },
-          {
-            "id": "5cc03ac1-dda4-4a8b-ac28-102e639f87e3",
-            "timestamp": "2025-10-30T01:27:53.873076+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_invalid_round_1",
-            "action_data": {
-              "bout_id": "test_bout_invalid",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "50a9bad6bebc8915ea8ad2fbca68c3802ead645f034f41a50e7e675e654993e3",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "7aaede2e-b7e3-4f0d-b94b-eab5430a48c0",
-            "timestamp": "2025-10-30T01:27:53.835217+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_empty_round_1",
-            "action_data": {
-              "bout_id": "test_bout_empty",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "aaba1f82c5e37403a6a291b54156bea9884b1eaaf42503dcebcd958b5599b04a",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "215f3601-df21-4d1d-871f-a369ab9055b8",
-            "timestamp": "2025-10-30T01:27:53.783162+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_123_round_1",
-            "action_data": {
-              "bout_id": "test_bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 167.82,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "776c76028ca2b7559ca20d97c7e0ea1011cbeb6642adcae934ca1463e2d06cb7",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "f5946830-97bb-42d7-a943-c93b5a0a9bef",
-            "timestamp": "2025-10-29T17:21:41.327823+00:00",
-            "action_type": "score_calculation",
-            "user_id": "judge-001",
-            "user_name": "John Smith",
-            "resource_type": "round_score",
-            "resource_id": "bout_123_round_1",
-            "action_data": {
-              "bout_id": "bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 450.5
-            },
-            "signature": "27cee781a59a5efe93912abe91a667c88f83e6d6dfbca0ec6de70aa84a144c62",
-            "ip_address": "192.168.1.100",
-            "immutable": true
           }
         ],
         "count": 100,
@@ -7627,6 +7657,25 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation&user_id=judge-001",
       "response": {
         "logs": [
+          {
+            "id": "582398f5-688b-4059-b25b-0df8e611c392",
+            "timestamp": "2025-11-18T05:15:57.565758+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "488b1a5731b52eacf784e0ac3ab4fca51ea4a2f9b4cc32acd9427fe42793a05e",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
           {
             "id": "23474933-84f4-495f-8c7b-fae6b8a84415",
             "timestamp": "2025-11-18T05:05:48.054919+00:00",
@@ -7856,7 +7905,7 @@
             "immutable": true
           }
         ],
-        "count": 12,
+        "count": 13,
         "immutable": true,
         "message": "These logs are WORM (Write Once Read Many) and cannot be modified"
       }
@@ -7866,11 +7915,11 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/verify/23474933-84f4-495f-8c7b-fae6b8a84415?judge_id=owner-001",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/verify/582398f5-688b-4059-b25b-0df8e611c392?judge_id=owner-001",
       "response": {
         "valid": true,
-        "signature": "a6c79a9344ab52a5cdf791eb59fd211ecc17a4715106f3280f754d8bc85f072f",
-        "computed_signature": "a6c79a9344ab52a5cdf791eb59fd211ecc17a4715106f3280f754d8bc85f072f",
+        "signature": "488b1a5731b52eacf784e0ac3ab4fca51ea4a2f9b4cc32acd9427fe42793a05e",
+        "computed_signature": "488b1a5731b52eacf784e0ac3ab4fca51ea4a2f9b4cc32acd9427fe42793a05e",
         "message": "Signature is valid - log has not been tampered with"
       }
     },
@@ -7879,11 +7928,11 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/verify/be673381-1cf9-4fa8-a67e-f1e8a51e997f?judge_id=owner-001",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/verify/a00429ab-2639-4790-a493-fcadf6058fbe?judge_id=owner-001",
       "response": {
         "valid": true,
-        "signature": "d21cf41e391b89fce7b2f524abea690983f1d9a27e37b43e761c617d0d252eb7",
-        "computed_signature": "d21cf41e391b89fce7b2f524abea690983f1d9a27e37b43e761c617d0d252eb7",
+        "signature": "2e128cdb77c8793bd938c154cbc50fc20beb4293e669300295f9c66e5ff2a2ee",
+        "computed_signature": "2e128cdb77c8793bd938c154cbc50fc20beb4293e669300295f9c66e5ff2a2ee",
         "message": "Signature is valid - log has not been tampered with"
       }
     },
@@ -7892,11 +7941,11 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/verify/d0a9c80f-0c50-4454-ba91-69f949432d94?judge_id=owner-001",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/verify/b2baa37b-50b5-4413-b8a3-bb06b0f0585d?judge_id=owner-001",
       "response": {
         "valid": true,
-        "signature": "65db8b247cba01fdabe2ac0140e6d6b768c2c1b0f71c9b15a414da3ec4a8a651",
-        "computed_signature": "65db8b247cba01fdabe2ac0140e6d6b768c2c1b0f71c9b15a414da3ec4a8a651",
+        "signature": "3cf61cf2c8743105362be0fe86261abee9d72171b5ab5a48455ada71d1a6f8f4",
+        "computed_signature": "3cf61cf2c8743105362be0fe86261abee9d72171b5ab5a48455ada71d1a6f8f4",
         "message": "Signature is valid - log has not been tampered with"
       }
     },
@@ -7917,41 +7966,41 @@
       "actual_status": 200,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/stats?judge_id=owner-001",
       "response": {
-        "total_logs": 126,
+        "total_logs": 134,
         "by_action_type": [
           {
             "type": "score_calculation",
-            "count": 104
-          },
-          {
-            "type": "flag_created",
-            "count": 11
+            "count": 110
           },
           {
             "type": "profile_changed",
-            "count": 11
+            "count": 12
+          },
+          {
+            "type": "flag_created",
+            "count": 12
           }
         ],
         "top_users": [
           {
             "user_id": "system",
             "user_name": "Scoring System",
-            "count": 92
+            "count": 97
           },
           {
             "user_id": "judge-001",
             "user_name": "John Smith",
-            "count": 12
+            "count": 13
           },
           {
             "user_id": "admin-001",
             "user_name": "Admin User",
-            "count": 11
+            "count": 12
           },
           {
             "user_id": "judge-002",
             "user_name": "Maria Garcia",
-            "count": 11
+            "count": 12
           }
         ],
         "immutable": true,
@@ -7966,8 +8015,8 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/export?judge_id=owner-001",
       "response": {
         "export_format": "json",
-        "export_timestamp": "2025-11-18T05:05:48.684498+00:00",
-        "record_count": 126,
+        "export_timestamp": "2025-11-18T05:15:58.258735+00:00",
+        "record_count": 134,
         "logs": [
           {
             "id": "32001e02-70a9-4b9c-936a-b6e37fcdc6a7",
@@ -10432,6 +10481,161 @@
             "signature": "65db8b247cba01fdabe2ac0140e6d6b768c2c1b0f71c9b15a414da3ec4a8a651",
             "ip_address": null,
             "immutable": true
+          },
+          {
+            "id": "6a6e89e4-b64a-4ba9-a8e7-c6d91e9d88bc",
+            "timestamp": "2025-11-18T05:15:56.375439+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_123_round_1",
+            "action_data": {
+              "bout_id": "test_bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 1510.38,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "484ee0dfd733d866b5e1f09b9774d89795156a9a47d99abc6e3d2c9f43045ea7",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "f1936979-c1ac-4c40-9645-ece9bdd3ed93",
+            "timestamp": "2025-11-18T05:15:56.451020+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_empty_round_1",
+            "action_data": {
+              "bout_id": "test_bout_empty",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "0e5f73718bdefa22554a116e57054bfc6bb838d391740a650063576ec1af3cce",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "816b9104-3af3-41ae-9314-46e177555a9f",
+            "timestamp": "2025-11-18T05:15:56.542521+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_invalid_round_1",
+            "action_data": {
+              "bout_id": "test_bout_invalid",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "6b7c0f45f82809695e7dc4efbfd3ea686ff868b1064e641a7b91f769f4d1b181",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "99afa210-ea0e-4637-9d4b-a9759e63726e",
+            "timestamp": "2025-11-18T05:15:56.601906+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_counts_round_1",
+            "action_data": {
+              "bout_id": "test_bout_counts",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 3534.3,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "086b507c632e5d140601f39aa8d9f8778f099a6797739c6b47a5a639308d122f",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "981a05ac-482f-42d4-87d2-7c26b56ce361",
+            "timestamp": "2025-11-18T05:15:56.639300+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_actual_round_1",
+            "action_data": {
+              "bout_id": "test_bout_actual",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 2892.06,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "5fdaf6343c1b37d61d250519b20591d249a603fb826cdfcb4e06fb8e05c127e1",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "582398f5-688b-4059-b25b-0df8e611c392",
+            "timestamp": "2025-11-18T05:15:57.565758+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "488b1a5731b52eacf784e0ac3ab4fca51ea4a2f9b4cc32acd9427fe42793a05e",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
+          {
+            "id": "a00429ab-2639-4790-a493-fcadf6058fbe",
+            "timestamp": "2025-11-18T05:15:57.601064+00:00",
+            "action_type": "flag_created",
+            "user_id": "admin-001",
+            "user_name": "Admin User",
+            "resource_type": "discrepancy_flag",
+            "resource_id": "flag_456",
+            "action_data": {
+              "flag_type": "boundary_case",
+              "severity": "medium",
+              "bout_id": "bout_123"
+            },
+            "signature": "2e128cdb77c8793bd938c154cbc50fc20beb4293e669300295f9c66e5ff2a2ee",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "b2baa37b-50b5-4413-b8a3-bb06b0f0585d",
+            "timestamp": "2025-11-18T05:15:57.636608+00:00",
+            "action_type": "profile_changed",
+            "user_id": "judge-002",
+            "user_name": "Maria Garcia",
+            "resource_type": "tuning_profile",
+            "resource_id": "profile_ufc_001",
+            "action_data": {
+              "changes": [
+                "weights.KD",
+                "thresholds.threshold_10_8"
+              ],
+              "promotion": "UFC"
+            },
+            "signature": "3cf61cf2c8743105362be0fe86261abee9d72171b5ab5a48455ada71d1a6f8f4",
+            "ip_address": null,
+            "immutable": true
           }
         ],
         "immutable": true,
@@ -10491,7 +10695,7 @@
           "Muay Thai"
         ],
         "createdAt": "2025-10-30T01:27:54.764121+00:00",
-        "updatedAt": "2025-11-18T05:05:48.724932+00:00",
+        "updatedAt": "2025-11-18T05:15:58.336026+00:00",
         "totalRoundsJudged": 2,
         "averageAccuracy": 92.5,
         "perfectMatches": 1
@@ -10513,7 +10717,7 @@
           "BJJ Black Belt"
         ],
         "createdAt": "2025-10-30T01:27:54.822022+00:00",
-        "updatedAt": "2025-11-18T05:05:48.764987+00:00",
+        "updatedAt": "2025-11-18T05:15:58.389743+00:00",
         "totalRoundsJudged": 1,
         "averageAccuracy": 100.0,
         "perfectMatches": 1
@@ -10535,7 +10739,7 @@
           "MMA Level 3"
         ],
         "createdAt": "2025-10-30T01:27:54.856389+00:00",
-        "updatedAt": "2025-11-18T05:05:48.801873+00:00",
+        "updatedAt": "2025-11-18T05:15:58.425505+00:00",
         "totalRoundsJudged": 0,
         "averageAccuracy": 0.0
       }
@@ -10596,16 +10800,16 @@
         "avg_passes": 1.0,
         "avg_reversals": 0.0,
         "avg_round_score": 8.5,
-        "avg_ss_per_round": 1.4,
+        "avg_ss_per_round": 1.2727272727272727,
         "avg_sub_attempts": 0.0,
         "avg_td_per_round": 1.0,
         "id": "cbbd0923-eaf0-4e2e-8c7e-ad3fcf10fb65",
-        "last_updated": "2025-11-18T05:05:48.979000",
+        "last_updated": "2025-11-18T05:15:58.697000",
         "rate_10_7": 0.0,
         "rate_10_8": 1.0,
         "rounds_drawn": 0,
         "rounds_lost": 0,
-        "rounds_won": 10,
+        "rounds_won": 11,
         "tendencies": {
           "striking_style": {
             "head": 0.33,
@@ -10618,7 +10822,7 @@
           "aggression_level": 1.5
         },
         "total_fights": 0,
-        "total_rounds": 10
+        "total_rounds": 11
       }
     },
     {
@@ -10633,16 +10837,16 @@
         "avg_kd_per_round": 0.0,
         "avg_passes": 0.0,
         "avg_reversals": 0.0,
-        "avg_round_score": 6.200000000000001,
-        "avg_ss_per_round": 1.4,
+        "avg_round_score": 6.200000000000002,
+        "avg_ss_per_round": 1.2727272727272727,
         "avg_sub_attempts": 1.0,
         "avg_td_per_round": 1.0,
         "id": "3931d545-ae92-4ea6-a7de-f99c12f1dbf7",
-        "last_updated": "2025-11-18T05:05:49.019000",
+        "last_updated": "2025-11-18T05:15:58.750000",
         "rate_10_7": 0.0,
         "rate_10_8": 1.0,
         "rounds_drawn": 0,
-        "rounds_lost": 10,
+        "rounds_lost": 11,
         "rounds_won": 0,
         "tendencies": {
           "striking_style": {
@@ -10656,7 +10860,7 @@
           "aggression_level": 1.0
         },
         "total_fights": 0,
-        "total_rounds": 10
+        "total_rounds": 11
       }
     },
     {
@@ -10671,17 +10875,17 @@
         "avg_kd_per_round": 1.0,
         "avg_passes": 0.0,
         "avg_reversals": 0.0,
-        "avg_round_score": 9.099999999999998,
-        "avg_ss_per_round": 2.1,
+        "avg_round_score": 9.099999999999996,
+        "avg_ss_per_round": 1.9090909090909092,
         "avg_sub_attempts": 0.0,
         "avg_td_per_round": 0.0,
         "id": "88683c83-150d-48e7-8410-857acfce7028",
-        "last_updated": "2025-11-18T05:05:49.056000",
+        "last_updated": "2025-11-18T05:15:58.786000",
         "rate_10_7": 0.0,
         "rate_10_8": 0.0,
         "rounds_drawn": 0,
         "rounds_lost": 0,
-        "rounds_won": 10,
+        "rounds_won": 11,
         "tendencies": {
           "striking_style": {
             "head": 0.33,
@@ -10694,7 +10898,7 @@
           "aggression_level": 0.5
         },
         "total_fights": 0,
-        "total_rounds": 10
+        "total_rounds": 11
       }
     },
     {
@@ -10715,7 +10919,7 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
-        "flag_id": "8d7e3bba-9791-41cf-9d8e-859df4e55351"
+        "flag_id": "fbcc0c8a-e7b7-4635-af24-159563a7a5b5"
       }
     },
     {
@@ -10726,7 +10930,7 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
-        "flag_id": "c21f4ce4-0910-4885-9439-2a700b444810"
+        "flag_id": "447c0227-8fbe-4782-ac64-bad11a58a5b0"
       }
     },
     {
@@ -10737,7 +10941,7 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
-        "flag_id": "72c92d86-10b8-4e53-95d0-76bfb0fe8a1e"
+        "flag_id": "42b0d30c-27d2-41f1-a625-ddbafd960b92"
       }
     },
     {
@@ -10748,7 +10952,7 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
-        "flag_id": "c6eae4ee-4314-43bc-9c30-9ae62d1dcea2"
+        "flag_id": "abcceadb-3d4a-4b50-ac2d-3b67c5579ab9"
       }
     },
     {
@@ -10759,6 +10963,131 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/review/flags",
       "response": {
         "flags": [
+          {
+            "id": "abcceadb-3d4a-4b50-ac2d-3b67c5579ab9",
+            "bout_id": "UFC_299_004",
+            "round_num": 1,
+            "flag_type": "statistical_anomaly",
+            "severity": "high",
+            "description": "10-8 without standard dominance gates",
+            "context": {
+              "card": "10-8",
+              "gates": {
+                "finish_threat": false,
+                "control_dom": false,
+                "multi_cat_dom": false
+              }
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.245000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "42b0d30c-27d2-41f1-a625-ddbafd960b92",
+            "bout_id": "UFC_299_003",
+            "round_num": 3,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round",
+            "context": {
+              "event_count": 3,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.095000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "447c0227-8fbe-4782-ac64-bad11a58a5b0",
+            "bout_id": "UFC_299_002",
+            "round_num": 2,
+            "flag_type": "tie_breaker",
+            "severity": "high",
+            "description": "Round decided by damage tie-breaker",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 1.0,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.059000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "fbcc0c8a-e7b7-4635-af24-159563a7a5b5",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.020000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "db421e6b-dc52-446f-b561-c321351d5d5a",
+            "bout_id": "test_bout_invalid",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 1 logged events",
+            "context": {
+              "event_count": 1,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:56.543000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "ee7b149e-e73c-48fb-90e6-656787ea984c",
+            "bout_id": "test_bout_empty",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 0 logged events",
+            "context": {
+              "event_count": 0,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:56.452000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "10dfd74e-67c1-4121-813e-05812253a2e2",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:56.376000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
           {
             "id": "c6eae4ee-4314-43bc-9c30-9ae62d1dcea2",
             "bout_id": "UFC_299_004",
@@ -12413,132 +12742,6 @@
             "resolved_at": null,
             "resolved_by": null,
             "resolution_notes": null
-          },
-          {
-            "id": "58a12878-1f14-4880-a47f-684d8ed51255",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "tie_breaker_used",
-            "severity": "medium",
-            "description": "Round decided by tie-breaker: damage",
-            "context": {
-              "tie_breaker": "damage",
-              "delta": 0.0,
-              "card": "9-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:25.090000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "4ce231e7-8824-4d9d-8c06-398cd6d5cd37",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "very_close_decision",
-            "severity": "low",
-            "description": "Extremely close round with only 0 point difference",
-            "context": {
-              "delta": 0.0,
-              "card": "9-10",
-              "winner": "fighter2"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:23.060000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "4523f540-c489-4bbb-b0b3-4c67dce01131",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "tie_breaker_used",
-            "severity": "medium",
-            "description": "Round decided by tie-breaker: damage",
-            "context": {
-              "tie_breaker": "damage",
-              "delta": 0.0,
-              "card": "9-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:23.059000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "bdd290d2-d7da-488b-8e56-7a82333a4e39",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "very_close_decision",
-            "severity": "low",
-            "description": "Extremely close round with only 0 point difference",
-            "context": {
-              "delta": 0.0,
-              "card": "9-10",
-              "winner": "fighter2"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:22.856000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "70f2db78-5cc3-4904-9fad-7719b1865b31",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "tie_breaker_used",
-            "severity": "medium",
-            "description": "Round decided by tie-breaker: damage",
-            "context": {
-              "tie_breaker": "damage",
-              "delta": 0.0,
-              "card": "9-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:22.855000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "7c69244a-a042-440a-8a70-abfcdc3ac9a8",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "tie_breaker_used",
-            "severity": "medium",
-            "description": "Round decided by tie-breaker: damage",
-            "context": {
-              "tie_breaker": "damage",
-              "delta": 0.0,
-              "card": "9-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:22.683000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "084cab2d-1b23-4d40-a38f-4fbdd6823329",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "very_close_decision",
-            "severity": "low",
-            "description": "Extremely close round with only 0 point difference",
-            "context": {
-              "delta": 0.0,
-              "card": "9-10",
-              "winner": "fighter2"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:22.683000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
           }
         ],
         "count": 100
@@ -12552,6 +12755,131 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/review/flags?status=pending",
       "response": {
         "flags": [
+          {
+            "id": "abcceadb-3d4a-4b50-ac2d-3b67c5579ab9",
+            "bout_id": "UFC_299_004",
+            "round_num": 1,
+            "flag_type": "statistical_anomaly",
+            "severity": "high",
+            "description": "10-8 without standard dominance gates",
+            "context": {
+              "card": "10-8",
+              "gates": {
+                "finish_threat": false,
+                "control_dom": false,
+                "multi_cat_dom": false
+              }
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.245000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "42b0d30c-27d2-41f1-a625-ddbafd960b92",
+            "bout_id": "UFC_299_003",
+            "round_num": 3,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round",
+            "context": {
+              "event_count": 3,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.095000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "447c0227-8fbe-4782-ac64-bad11a58a5b0",
+            "bout_id": "UFC_299_002",
+            "round_num": 2,
+            "flag_type": "tie_breaker",
+            "severity": "high",
+            "description": "Round decided by damage tie-breaker",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 1.0,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.059000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "fbcc0c8a-e7b7-4635-af24-159563a7a5b5",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.020000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "db421e6b-dc52-446f-b561-c321351d5d5a",
+            "bout_id": "test_bout_invalid",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 1 logged events",
+            "context": {
+              "event_count": 1,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:56.543000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "ee7b149e-e73c-48fb-90e6-656787ea984c",
+            "bout_id": "test_bout_empty",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 0 logged events",
+            "context": {
+              "event_count": 0,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:56.452000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "10dfd74e-67c1-4121-813e-05812253a2e2",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:56.376000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
           {
             "id": "c6eae4ee-4314-43bc-9c30-9ae62d1dcea2",
             "bout_id": "UFC_299_004",
@@ -14208,132 +14536,6 @@
             "resolved_at": null,
             "resolved_by": null,
             "resolution_notes": null
-          },
-          {
-            "id": "4523f540-c489-4bbb-b0b3-4c67dce01131",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "tie_breaker_used",
-            "severity": "medium",
-            "description": "Round decided by tie-breaker: damage",
-            "context": {
-              "tie_breaker": "damage",
-              "delta": 0.0,
-              "card": "9-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:23.059000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "bdd290d2-d7da-488b-8e56-7a82333a4e39",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "very_close_decision",
-            "severity": "low",
-            "description": "Extremely close round with only 0 point difference",
-            "context": {
-              "delta": 0.0,
-              "card": "9-10",
-              "winner": "fighter2"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:22.856000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "70f2db78-5cc3-4904-9fad-7719b1865b31",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "tie_breaker_used",
-            "severity": "medium",
-            "description": "Round decided by tie-breaker: damage",
-            "context": {
-              "tie_breaker": "damage",
-              "delta": 0.0,
-              "card": "9-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:22.855000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "7c69244a-a042-440a-8a70-abfcdc3ac9a8",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "tie_breaker_used",
-            "severity": "medium",
-            "description": "Round decided by tie-breaker: damage",
-            "context": {
-              "tie_breaker": "damage",
-              "delta": 0.0,
-              "card": "9-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:22.683000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "084cab2d-1b23-4d40-a38f-4fbdd6823329",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "very_close_decision",
-            "severity": "low",
-            "description": "Extremely close round with only 0 point difference",
-            "context": {
-              "delta": 0.0,
-              "card": "9-10",
-              "winner": "fighter2"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:22.683000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "2293635e-9a97-4f05-adc2-4ce238c1c9b3",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "very_close_decision",
-            "severity": "low",
-            "description": "Extremely close round with only 0 point difference",
-            "context": {
-              "delta": 0.0,
-              "card": "9-10",
-              "winner": "fighter2"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:22.513000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "9e8dae91-a362-46f9-802b-4fc4e62b7b8c",
-            "bout_id": "ZoNjD8DiYtwTYUrde1M8",
-            "round_num": 1,
-            "flag_type": "tie_breaker_used",
-            "severity": "medium",
-            "description": "Round decided by tie-breaker: damage",
-            "context": {
-              "tie_breaker": "damage",
-              "delta": 0.0,
-              "card": "9-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-29T16:48:22.512000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
           }
         ],
         "count": 100
@@ -14347,6 +14549,45 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/review/flags?severity=high",
       "response": {
         "flags": [
+          {
+            "id": "abcceadb-3d4a-4b50-ac2d-3b67c5579ab9",
+            "bout_id": "UFC_299_004",
+            "round_num": 1,
+            "flag_type": "statistical_anomaly",
+            "severity": "high",
+            "description": "10-8 without standard dominance gates",
+            "context": {
+              "card": "10-8",
+              "gates": {
+                "finish_threat": false,
+                "control_dom": false,
+                "multi_cat_dom": false
+              }
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.245000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "447c0227-8fbe-4782-ac64-bad11a58a5b0",
+            "bout_id": "UFC_299_002",
+            "round_num": 2,
+            "flag_type": "tie_breaker",
+            "severity": "high",
+            "description": "Round decided by damage tie-breaker",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 1.0,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.059000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
           {
             "id": "c6eae4ee-4314-43bc-9c30-9ae62d1dcea2",
             "bout_id": "UFC_299_004",
@@ -14679,7 +14920,7 @@
             "resolution_notes": null
           }
         ],
-        "count": 17
+        "count": 19
       }
     },
     {
@@ -14690,6 +14931,24 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/review/flags?flag_type=boundary_case",
       "response": {
         "flags": [
+          {
+            "id": "fbcc0c8a-e7b7-4635-af24-159563a7a5b5",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.020000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
           {
             "id": "8d7e3bba-9791-41cf-9d8e-859df4e55351",
             "bout_id": "UFC_299_001",
@@ -14835,7 +15094,7 @@
             "resolution_notes": null
           }
         ],
-        "count": 8
+        "count": 9
       }
     },
     {
@@ -14989,9 +15248,27 @@
             "resolved_at": null,
             "resolved_by": null,
             "resolution_notes": null
+          },
+          {
+            "id": "fbcc0c8a-e7b7-4635-af24-159563a7a5b5",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-18T05:15:59.020000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
           }
         ],
-        "count": 8
+        "count": 9
       }
     },
     {
@@ -15002,9 +15279,9 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
-        "profile_id": "9e5a4352-c46e-4587-87ba-5ca8076d7781",
+        "profile_id": "30b6af1e-c72f-4439-b2eb-bdc464c32758",
         "profile": {
-          "id": "9e5a4352-c46e-4587-87ba-5ca8076d7781",
+          "id": "30b6af1e-c72f-4439-b2eb-bdc464c32758",
           "name": "UFC Standard",
           "promotion": "UFC",
           "description": "Standard UFC judging criteria with emphasis on damage",
@@ -15034,8 +15311,8 @@
           },
           "is_default": false,
           "created_by": "admin-001",
-          "created_at": "2025-11-18T05:05:49.635702Z",
-          "updated_at": "2025-11-18T05:05:49.635733Z"
+          "created_at": "2025-11-18T05:15:59.465260Z",
+          "updated_at": "2025-11-18T05:15:59.465263Z"
         }
       }
     },
@@ -15047,9 +15324,9 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
-        "profile_id": "df5e28c3-dbdc-4cb5-b06b-08a46840f46c",
+        "profile_id": "bbcecc30-9184-4ad2-b6f7-4be6eadac21b",
         "profile": {
-          "id": "df5e28c3-dbdc-4cb5-b06b-08a46840f46c",
+          "id": "bbcecc30-9184-4ad2-b6f7-4be6eadac21b",
           "name": "Bellator Aggressive",
           "promotion": "Bellator",
           "description": "Bellator style with higher aggression weighting",
@@ -15079,8 +15356,8 @@
           },
           "is_default": false,
           "created_by": "bellator-admin",
-          "created_at": "2025-11-18T05:05:49.682266Z",
-          "updated_at": "2025-11-18T05:05:49.682269Z"
+          "created_at": "2025-11-18T05:15:59.503525Z",
+          "updated_at": "2025-11-18T05:15:59.503528Z"
         }
       }
     },
@@ -15092,9 +15369,9 @@
       "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
-        "profile_id": "3438c448-fdc7-4c99-b0d3-4a847e172f47",
+        "profile_id": "60a9e0cf-4c29-4f85-901f-04b5d30e8782",
         "profile": {
-          "id": "3438c448-fdc7-4c99-b0d3-4a847e172f47",
+          "id": "60a9e0cf-4c29-4f85-901f-04b5d30e8782",
           "name": "ONE Championship",
           "promotion": "ONE Championship",
           "description": "ONE FC criteria emphasizing technical skill",
@@ -15124,8 +15401,8 @@
           },
           "is_default": false,
           "created_by": "one-admin",
-          "created_at": "2025-11-18T05:05:49.717144Z",
-          "updated_at": "2025-11-18T05:05:49.717148Z"
+          "created_at": "2025-11-18T05:15:59.540663Z",
+          "updated_at": "2025-11-18T05:15:59.540667Z"
         }
       }
     },
@@ -15683,18 +15960,18 @@
           },
           {
             "id": "9e5a4352-c46e-4587-87ba-5ca8076d7781",
-            "name": "UFC Standard",
+            "name": "UFC Standard v2.0",
             "promotion": "UFC",
-            "description": "Standard UFC judging criteria with emphasis on damage",
+            "description": "Updated UFC judging criteria with refined damage weighting",
             "weights": {
-              "KD": 0.35,
+              "KD": 0.4,
               "ISS": 0.25,
               "TSR": 0.15,
               "GCQ": 0.08,
               "TDQ": 0.07,
-              "OC": 0.05,
-              "SUBQ": 0.03,
-              "AGG": 0.02,
+              "OC": 0.03,
+              "SUBQ": 0.02,
+              "AGG": 0.0,
               "RP": 0.0
             },
             "thresholds": {
@@ -15713,7 +15990,7 @@
             "is_default": false,
             "created_by": "admin-001",
             "created_at": "2025-11-18T05:05:49.635000",
-            "updated_at": "2025-11-18T05:05:49.635000"
+            "updated_at": "2025-11-18T05:05:50.037397+00:00"
           },
           {
             "id": "df5e28c3-dbdc-4cb5-b06b-08a46840f46c",
@@ -15750,7 +16027,75 @@
             "updated_at": "2025-11-18T05:05:49.682000"
           },
           {
-            "id": "3438c448-fdc7-4c99-b0d3-4a847e172f47",
+            "id": "30b6af1e-c72f-4439-b2eb-bdc464c32758",
+            "name": "UFC Standard",
+            "promotion": "UFC",
+            "description": "Standard UFC judging criteria with emphasis on damage",
+            "weights": {
+              "KD": 0.35,
+              "ISS": 0.25,
+              "TSR": 0.15,
+              "GCQ": 0.08,
+              "TDQ": 0.07,
+              "OC": 0.05,
+              "SUBQ": 0.03,
+              "AGG": 0.02,
+              "RP": 0.0
+            },
+            "thresholds": {
+              "threshold_10_9": 550,
+              "threshold_10_8": 850
+            },
+            "gate_sensitivity": {
+              "finish_threat_kd_threshold": 0.8,
+              "finish_threat_subq_threshold": 7.5,
+              "finish_threat_iss_threshold": 8.5,
+              "control_dom_gcq_threshold": 7.0,
+              "control_dom_time_share": 0.6,
+              "multi_cat_dom_count": 3,
+              "multi_cat_dom_score_threshold": 7.0
+            },
+            "is_default": false,
+            "created_by": "admin-001",
+            "created_at": "2025-11-18T05:15:59.465000",
+            "updated_at": "2025-11-18T05:15:59.465000"
+          },
+          {
+            "id": "bbcecc30-9184-4ad2-b6f7-4be6eadac21b",
+            "name": "Bellator Aggressive",
+            "promotion": "Bellator",
+            "description": "Bellator style with higher aggression weighting",
+            "weights": {
+              "KD": 0.3,
+              "ISS": 0.2,
+              "TSR": 0.18,
+              "GCQ": 0.1,
+              "TDQ": 0.08,
+              "OC": 0.06,
+              "SUBQ": 0.05,
+              "AGG": 0.03,
+              "RP": 0.0
+            },
+            "thresholds": {
+              "threshold_10_9": 600,
+              "threshold_10_8": 900
+            },
+            "gate_sensitivity": {
+              "finish_threat_kd_threshold": 1.0,
+              "finish_threat_subq_threshold": 8.0,
+              "finish_threat_iss_threshold": 9.0,
+              "control_dom_gcq_threshold": 7.5,
+              "control_dom_time_share": 0.5,
+              "multi_cat_dom_count": 3,
+              "multi_cat_dom_score_threshold": 7.5
+            },
+            "is_default": false,
+            "created_by": "bellator-admin",
+            "created_at": "2025-11-18T05:15:59.503000",
+            "updated_at": "2025-11-18T05:15:59.503000"
+          },
+          {
+            "id": "60a9e0cf-4c29-4f85-901f-04b5d30e8782",
             "name": "ONE Championship",
             "promotion": "ONE Championship",
             "description": "ONE FC criteria emphasizing technical skill",
@@ -15780,21 +16125,21 @@
             },
             "is_default": false,
             "created_by": "one-admin",
-            "created_at": "2025-11-18T05:05:49.717000",
-            "updated_at": "2025-11-18T05:05:49.717000"
+            "created_at": "2025-11-18T05:15:59.540000",
+            "updated_at": "2025-11-18T05:15:59.540000"
           }
         ],
-        "count": 19
+        "count": 21
       }
     },
     {
-      "test": "Get Tuning Profile - 9e5a4352-c46e-4587-87ba-5ca8076d7781",
+      "test": "Get Tuning Profile - 30b6af1e-c72f-4439-b2eb-bdc464c32758",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/9e5a4352-c46e-4587-87ba-5ca8076d7781",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/30b6af1e-c72f-4439-b2eb-bdc464c32758",
       "response": {
-        "id": "9e5a4352-c46e-4587-87ba-5ca8076d7781",
+        "id": "30b6af1e-c72f-4439-b2eb-bdc464c32758",
         "name": "UFC Standard",
         "promotion": "UFC",
         "description": "Standard UFC judging criteria with emphasis on damage",
@@ -15824,18 +16169,18 @@
         },
         "is_default": false,
         "created_by": "admin-001",
-        "created_at": "2025-11-18T05:05:49.635000",
-        "updated_at": "2025-11-18T05:05:49.635000"
+        "created_at": "2025-11-18T05:15:59.465000",
+        "updated_at": "2025-11-18T05:15:59.465000"
       }
     },
     {
-      "test": "Get Tuning Profile - df5e28c3-dbdc-4cb5-b06b-08a46840f46c",
+      "test": "Get Tuning Profile - bbcecc30-9184-4ad2-b6f7-4be6eadac21b",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/df5e28c3-dbdc-4cb5-b06b-08a46840f46c",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/bbcecc30-9184-4ad2-b6f7-4be6eadac21b",
       "response": {
-        "id": "df5e28c3-dbdc-4cb5-b06b-08a46840f46c",
+        "id": "bbcecc30-9184-4ad2-b6f7-4be6eadac21b",
         "name": "Bellator Aggressive",
         "promotion": "Bellator",
         "description": "Bellator style with higher aggression weighting",
@@ -15865,18 +16210,18 @@
         },
         "is_default": false,
         "created_by": "bellator-admin",
-        "created_at": "2025-11-18T05:05:49.682000",
-        "updated_at": "2025-11-18T05:05:49.682000"
+        "created_at": "2025-11-18T05:15:59.503000",
+        "updated_at": "2025-11-18T05:15:59.503000"
       }
     },
     {
-      "test": "Get Tuning Profile - 3438c448-fdc7-4c99-b0d3-4a847e172f47",
+      "test": "Get Tuning Profile - 60a9e0cf-4c29-4f85-901f-04b5d30e8782",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/3438c448-fdc7-4c99-b0d3-4a847e172f47",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/60a9e0cf-4c29-4f85-901f-04b5d30e8782",
       "response": {
-        "id": "3438c448-fdc7-4c99-b0d3-4a847e172f47",
+        "id": "60a9e0cf-4c29-4f85-901f-04b5d30e8782",
         "name": "ONE Championship",
         "promotion": "ONE Championship",
         "description": "ONE FC criteria emphasizing technical skill",
@@ -15906,8 +16251,8 @@
         },
         "is_default": false,
         "created_by": "one-admin",
-        "created_at": "2025-11-18T05:05:49.717000",
-        "updated_at": "2025-11-18T05:05:49.717000"
+        "created_at": "2025-11-18T05:15:59.540000",
+        "updated_at": "2025-11-18T05:15:59.540000"
       }
     },
     {
@@ -15921,13 +16266,13 @@
       }
     },
     {
-      "test": "Update Tuning Profile - 9e5a4352-c46e-4587-87ba-5ca8076d7781",
+      "test": "Update Tuning Profile - 30b6af1e-c72f-4439-b2eb-bdc464c32758",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/9e5a4352-c46e-4587-87ba-5ca8076d7781",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/30b6af1e-c72f-4439-b2eb-bdc464c32758",
       "response": {
-        "id": "9e5a4352-c46e-4587-87ba-5ca8076d7781",
+        "id": "30b6af1e-c72f-4439-b2eb-bdc464c32758",
         "name": "UFC Standard v2.0",
         "promotion": "UFC",
         "description": "Updated UFC judging criteria with refined damage weighting",
@@ -15957,8 +16302,8 @@
         },
         "is_default": false,
         "created_by": "admin-001",
-        "created_at": "2025-11-18T05:05:49.635000",
-        "updated_at": "2025-11-18T05:05:50.037397+00:00"
+        "created_at": "2025-11-18T05:15:59.465000",
+        "updated_at": "2025-11-18T05:15:59.806997+00:00"
       }
     },
     {
@@ -15972,22 +16317,22 @@
       }
     },
     {
-      "test": "Delete Tuning Profile - 3438c448-fdc7-4c99-b0d3-4a847e172f47",
+      "test": "Delete Tuning Profile - 60a9e0cf-4c29-4f85-901f-04b5d30e8782",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/3438c448-fdc7-4c99-b0d3-4a847e172f47",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/60a9e0cf-4c29-4f85-901f-04b5d30e8782",
       "response": {
         "success": true,
         "message": "Profile deleted"
       }
     },
     {
-      "test": "Verify Deletion - 3438c448-fdc7-4c99-b0d3-4a847e172f47",
+      "test": "Verify Deletion - 60a9e0cf-4c29-4f85-901f-04b5d30e8782",
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/3438c448-fdc7-4c99-b0d3-4a847e172f47",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/60a9e0cf-4c29-4f85-901f-04b5d30e8782",
       "response": {
         "detail": "Profile not found"
       }
@@ -16009,13 +16354,13 @@
       "actual_status": 201,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes",
       "response": {
-        "id": "74ce0c9c-eb9e-412f-842a-95cf506856e9",
-        "bout_id": "test-bout-1763442350",
+        "id": "490b85d2-052f-4798-a9d0-7bb39f6655a4",
+        "bout_id": "test-bout-1763442960",
         "round_num": 1,
         "judge_id": "JUDGE001",
         "judge_name": "Test Judge",
         "note_text": "Fighter1 dominated with strikes and ground control",
-        "timestamp": "2025-11-18T05:05:50.211827Z",
+        "timestamp": "2025-11-18T05:16:00.130654Z",
         "metadata": {
           "category": "general"
         }
@@ -16028,13 +16373,13 @@
       "actual_status": 201,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes",
       "response": {
-        "id": "79703151-1e26-4220-90e9-5621795536c6",
-        "bout_id": "test-bout-1763442350",
+        "id": "dbda63a4-a278-48af-b3b2-e9e778c54661",
+        "bout_id": "test-bout-1763442960",
         "round_num": 2,
         "judge_id": "JUDGE001",
         "judge_name": "Test Judge",
         "note_text": "Close round, both fighters traded strikes",
-        "timestamp": "2025-11-18T05:05:50.249289Z",
+        "timestamp": "2025-11-18T05:16:00.166341Z",
         "metadata": {}
       }
     },
@@ -16045,13 +16390,13 @@
       "actual_status": 201,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes",
       "response": {
-        "id": "a7f48dbf-c9ba-42cc-a98e-f9ab29bc3c96",
-        "bout_id": "test-bout-1763442350",
+        "id": "a27c3576-135e-446e-9db9-521b9e1a7e4e",
+        "bout_id": "test-bout-1763442960",
         "round_num": 1,
         "judge_id": "JUDGE002",
         "judge_name": "Second Judge",
         "note_text": "Agreed - Fighter1 clearly won this round",
-        "timestamp": "2025-11-18T05:05:50.285137Z",
+        "timestamp": "2025-11-18T05:16:00.203434Z",
         "metadata": {}
       }
     },
@@ -16060,29 +16405,29 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442350/1",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442960/1",
       "response": {
         "notes": [
           {
-            "id": "74ce0c9c-eb9e-412f-842a-95cf506856e9",
-            "bout_id": "test-bout-1763442350",
+            "id": "490b85d2-052f-4798-a9d0-7bb39f6655a4",
+            "bout_id": "test-bout-1763442960",
             "round_num": 1,
             "judge_id": "JUDGE001",
             "judge_name": "Test Judge",
             "note_text": "Fighter1 dominated with strikes and ground control",
-            "timestamp": "2025-11-18T05:05:50.211000",
+            "timestamp": "2025-11-18T05:16:00.130000",
             "metadata": {
               "category": "general"
             }
           },
           {
-            "id": "a7f48dbf-c9ba-42cc-a98e-f9ab29bc3c96",
-            "bout_id": "test-bout-1763442350",
+            "id": "a27c3576-135e-446e-9db9-521b9e1a7e4e",
+            "bout_id": "test-bout-1763442960",
             "round_num": 1,
             "judge_id": "JUDGE002",
             "judge_name": "Second Judge",
             "note_text": "Agreed - Fighter1 clearly won this round",
-            "timestamp": "2025-11-18T05:05:50.285000",
+            "timestamp": "2025-11-18T05:16:00.203000",
             "metadata": {}
           }
         ],
@@ -16094,17 +16439,17 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442350/1?judge_id=JUDGE001",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442960/1?judge_id=JUDGE001",
       "response": {
         "notes": [
           {
-            "id": "74ce0c9c-eb9e-412f-842a-95cf506856e9",
-            "bout_id": "test-bout-1763442350",
+            "id": "490b85d2-052f-4798-a9d0-7bb39f6655a4",
+            "bout_id": "test-bout-1763442960",
             "round_num": 1,
             "judge_id": "JUDGE001",
             "judge_name": "Test Judge",
             "note_text": "Fighter1 dominated with strikes and ground control",
-            "timestamp": "2025-11-18T05:05:50.211000",
+            "timestamp": "2025-11-18T05:16:00.130000",
             "metadata": {
               "category": "general"
             }
@@ -16118,76 +16463,76 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442350",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442960",
       "response": {
         "notes": [
           {
-            "id": "74ce0c9c-eb9e-412f-842a-95cf506856e9",
-            "bout_id": "test-bout-1763442350",
+            "id": "490b85d2-052f-4798-a9d0-7bb39f6655a4",
+            "bout_id": "test-bout-1763442960",
             "round_num": 1,
             "judge_id": "JUDGE001",
             "judge_name": "Test Judge",
             "note_text": "Fighter1 dominated with strikes and ground control",
-            "timestamp": "2025-11-18T05:05:50.211000",
+            "timestamp": "2025-11-18T05:16:00.130000",
             "metadata": {
               "category": "general"
             }
           },
           {
-            "id": "79703151-1e26-4220-90e9-5621795536c6",
-            "bout_id": "test-bout-1763442350",
+            "id": "dbda63a4-a278-48af-b3b2-e9e778c54661",
+            "bout_id": "test-bout-1763442960",
             "round_num": 2,
             "judge_id": "JUDGE001",
             "judge_name": "Test Judge",
             "note_text": "Close round, both fighters traded strikes",
-            "timestamp": "2025-11-18T05:05:50.249000",
+            "timestamp": "2025-11-18T05:16:00.166000",
             "metadata": {}
           },
           {
-            "id": "a7f48dbf-c9ba-42cc-a98e-f9ab29bc3c96",
-            "bout_id": "test-bout-1763442350",
+            "id": "a27c3576-135e-446e-9db9-521b9e1a7e4e",
+            "bout_id": "test-bout-1763442960",
             "round_num": 1,
             "judge_id": "JUDGE002",
             "judge_name": "Second Judge",
             "note_text": "Agreed - Fighter1 clearly won this round",
-            "timestamp": "2025-11-18T05:05:50.285000",
+            "timestamp": "2025-11-18T05:16:00.203000",
             "metadata": {}
           }
         ],
         "notes_by_round": {
           "1": [
             {
-              "id": "74ce0c9c-eb9e-412f-842a-95cf506856e9",
-              "bout_id": "test-bout-1763442350",
+              "id": "490b85d2-052f-4798-a9d0-7bb39f6655a4",
+              "bout_id": "test-bout-1763442960",
               "round_num": 1,
               "judge_id": "JUDGE001",
               "judge_name": "Test Judge",
               "note_text": "Fighter1 dominated with strikes and ground control",
-              "timestamp": "2025-11-18T05:05:50.211000",
+              "timestamp": "2025-11-18T05:16:00.130000",
               "metadata": {
                 "category": "general"
               }
             },
             {
-              "id": "a7f48dbf-c9ba-42cc-a98e-f9ab29bc3c96",
-              "bout_id": "test-bout-1763442350",
+              "id": "a27c3576-135e-446e-9db9-521b9e1a7e4e",
+              "bout_id": "test-bout-1763442960",
               "round_num": 1,
               "judge_id": "JUDGE002",
               "judge_name": "Second Judge",
               "note_text": "Agreed - Fighter1 clearly won this round",
-              "timestamp": "2025-11-18T05:05:50.285000",
+              "timestamp": "2025-11-18T05:16:00.203000",
               "metadata": {}
             }
           ],
           "2": [
             {
-              "id": "79703151-1e26-4220-90e9-5621795536c6",
-              "bout_id": "test-bout-1763442350",
+              "id": "dbda63a4-a278-48af-b3b2-e9e778c54661",
+              "bout_id": "test-bout-1763442960",
               "round_num": 2,
               "judge_id": "JUDGE001",
               "judge_name": "Test Judge",
               "note_text": "Close round, both fighters traded strikes",
-              "timestamp": "2025-11-18T05:05:50.249000",
+              "timestamp": "2025-11-18T05:16:00.166000",
               "metadata": {}
             }
           ]
@@ -16200,30 +16545,30 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442350?judge_id=JUDGE002",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442960?judge_id=JUDGE002",
       "response": {
         "notes": [
           {
-            "id": "a7f48dbf-c9ba-42cc-a98e-f9ab29bc3c96",
-            "bout_id": "test-bout-1763442350",
+            "id": "a27c3576-135e-446e-9db9-521b9e1a7e4e",
+            "bout_id": "test-bout-1763442960",
             "round_num": 1,
             "judge_id": "JUDGE002",
             "judge_name": "Second Judge",
             "note_text": "Agreed - Fighter1 clearly won this round",
-            "timestamp": "2025-11-18T05:05:50.285000",
+            "timestamp": "2025-11-18T05:16:00.203000",
             "metadata": {}
           }
         ],
         "notes_by_round": {
           "1": [
             {
-              "id": "a7f48dbf-c9ba-42cc-a98e-f9ab29bc3c96",
-              "bout_id": "test-bout-1763442350",
+              "id": "a27c3576-135e-446e-9db9-521b9e1a7e4e",
+              "bout_id": "test-bout-1763442960",
               "round_num": 1,
               "judge_id": "JUDGE002",
               "judge_name": "Second Judge",
               "note_text": "Agreed - Fighter1 clearly won this round",
-              "timestamp": "2025-11-18T05:05:50.285000",
+              "timestamp": "2025-11-18T05:16:00.203000",
               "metadata": {}
             }
           ]
@@ -16238,13 +16583,13 @@
       "actual_status": 201,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes",
       "response": {
-        "id": "d14402cf-f315-415b-aea6-36f0d4800d36",
-        "bout_id": "test-bout-update-1763442350",
+        "id": "0d380f4c-0f8a-4cde-91bf-3aa4e5a32825",
+        "bout_id": "test-bout-update-1763442960",
         "round_num": 1,
         "judge_id": "UPDATE_TEST",
         "judge_name": "Update Test",
         "note_text": "Original note text",
-        "timestamp": "2025-11-18T05:05:50.461074Z",
+        "timestamp": "2025-11-18T05:16:00.550249Z",
         "metadata": {}
       }
     },
@@ -16253,7 +16598,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/d14402cf-f315-415b-aea6-36f0d4800d36",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/0d380f4c-0f8a-4cde-91bf-3aa4e5a32825",
       "response": {
         "success": true,
         "message": "Note updated successfully"
@@ -16264,19 +16609,19 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-update-1763442350/1",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-update-1763442960/1",
       "response": {
         "notes": [
           {
-            "id": "d14402cf-f315-415b-aea6-36f0d4800d36",
-            "bout_id": "test-bout-update-1763442350",
+            "id": "0d380f4c-0f8a-4cde-91bf-3aa4e5a32825",
+            "bout_id": "test-bout-update-1763442960",
             "round_num": 1,
             "judge_id": "UPDATE_TEST",
             "judge_name": "Update Test",
             "note_text": "Updated note text after review",
-            "timestamp": "2025-11-18T05:05:50.461000",
+            "timestamp": "2025-11-18T05:16:00.550000",
             "metadata": {},
-            "updated_at": "2025-11-18T05:05:50.497444+00:00"
+            "updated_at": "2025-11-18T05:16:00.639139+00:00"
           }
         ],
         "count": 1
@@ -16289,13 +16634,13 @@
       "actual_status": 201,
       "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes",
       "response": {
-        "id": "6960b597-3f82-438f-9ec5-4c72e7d71a84",
-        "bout_id": "test-bout-delete-1763442350",
+        "id": "73ad710c-ddfd-4d5d-a009-e652004badef",
+        "bout_id": "test-bout-delete-1763442960",
         "round_num": 1,
         "judge_id": "DELETE_TEST",
         "judge_name": "Delete Test",
         "note_text": "This note will be deleted",
-        "timestamp": "2025-11-18T05:05:50.571518Z",
+        "timestamp": "2025-11-18T05:16:00.765122Z",
         "metadata": {}
       }
     },
@@ -16304,7 +16649,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/6960b597-3f82-438f-9ec5-4c72e7d71a84",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/73ad710c-ddfd-4d5d-a009-e652004badef",
       "response": {
         "success": true,
         "message": "Note deleted successfully"
@@ -16315,7 +16660,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-delete-1763442350/1",
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-delete-1763442960/1",
       "response": {
         "notes": [],
         "count": 0
@@ -16350,6 +16695,213 @@
       "response": {
         "notes": [],
         "count": 0
+      }
+    },
+    {
+      "test": "Get Supervisor Dashboard",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/supervisor/dashboard/test-bout-supervisor-123",
+      "response": {
+        "bout_id": "test-bout-supervisor-123",
+        "judge_scores": [],
+        "rounds_data": {},
+        "total_events": 0,
+        "total_notes": 0,
+        "anomalies": [],
+        "timestamp": "2025-11-18T05:16:01.147978+00:00"
+      }
+    },
+    {
+      "test": "Detect Variance - Insufficient Judges",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/variance/detect/test-bout-variance-123/1",
+      "response": {
+        "bout_id": "test-bout-variance-123",
+        "round_num": 1,
+        "variance_detected": false,
+        "message": "Insufficient judges for variance detection",
+        "judge_count": 0
+      }
+    },
+    {
+      "test": "Detect Variance - With Variance",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/variance/detect/test-bout-variance-456/1",
+      "response": {
+        "bout_id": "test-bout-variance-456",
+        "round_num": 1,
+        "variance_detected": false,
+        "message": "Insufficient judges for variance detection",
+        "judge_count": 0
+      }
+    },
+    {
+      "test": "Create Promotion Branding - UFC",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/branding/promotion",
+      "response": {
+        "id": "2e033883-7689-4068-bf2e-84f6b2cdf6ba",
+        "promotion_name": "UFC",
+        "logo_url": "https://example.com/ufc-logo.png",
+        "primary_color": "#D20A0A",
+        "secondary_color": "#000000",
+        "accent_color": "#FFD700",
+        "font_family": "Arial",
+        "created_at": "2025-11-18T05:16:01.288867Z",
+        "updated_at": null
+      }
+    },
+    {
+      "test": "Get Promotion Branding - UFC",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/branding/promotion/UFC",
+      "response": {
+        "id": "2e033883-7689-4068-bf2e-84f6b2cdf6ba",
+        "promotion_name": "UFC",
+        "logo_url": "https://example.com/ufc-logo.png",
+        "primary_color": "#D20A0A",
+        "secondary_color": "#000000",
+        "accent_color": "#FFD700",
+        "font_family": "Arial",
+        "created_at": "2025-11-18T05:16:01.288000",
+        "updated_at": null,
+        "is_default": false
+      }
+    },
+    {
+      "test": "Get Promotion Branding - Bellator (Non-existent)",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/branding/promotion/Bellator",
+      "response": {
+        "promotion_name": "Bellator",
+        "logo_url": null,
+        "primary_color": "#FF6B35",
+        "secondary_color": "#004E89",
+        "accent_color": "#F7931E",
+        "font_family": "Inter",
+        "is_default": true
+      }
+    },
+    {
+      "test": "Update Promotion Branding - UFC",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/branding/promotion",
+      "response": {
+        "id": "93d2c627-2b60-472c-84d8-9d0852c74544",
+        "promotion_name": "UFC",
+        "logo_url": "https://example.com/ufc-logo-new.png",
+        "primary_color": "#FF0000",
+        "secondary_color": "#FFFFFF",
+        "accent_color": "#FFAA00",
+        "font_family": "Roboto",
+        "created_at": "2025-11-18T05:16:01.511931Z",
+        "updated_at": null
+      }
+    },
+    {
+      "test": "Configure Broadcast Buffer - 10s delay",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/config",
+      "response": {
+        "success": true,
+        "config": {
+          "bout_id": "test-bout-buffer-123",
+          "delay_seconds": 10,
+          "enabled": true,
+          "updated_at": "2025-11-18T05:16:01.548631+00:00"
+        }
+      }
+    },
+    {
+      "test": "Get Buffered Data - 10s delay",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/test-bout-buffer-123",
+      "response": {
+        "bout_id": "test-bout-buffer-123",
+        "delay_seconds": 10,
+        "enabled": true,
+        "cutoff_time": 1763442951.5947595,
+        "message": "Data delayed by 10 seconds for broadcast"
+      }
+    },
+    {
+      "test": "Configure Buffer - 5s, enabled=True",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/config",
+      "response": {
+        "success": true,
+        "config": {
+          "bout_id": "test-bout-5s",
+          "delay_seconds": 5,
+          "enabled": true,
+          "updated_at": "2025-11-18T05:16:01.629604+00:00"
+        }
+      }
+    },
+    {
+      "test": "Configure Buffer - 30s, enabled=True",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/config",
+      "response": {
+        "success": true,
+        "config": {
+          "bout_id": "test-bout-30s",
+          "delay_seconds": 30,
+          "enabled": true,
+          "updated_at": "2025-11-18T05:16:01.664863+00:00"
+        }
+      }
+    },
+    {
+      "test": "Configure Buffer - 10s, enabled=False",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/config",
+      "response": {
+        "success": true,
+        "config": {
+          "bout_id": "test-bout-disabled",
+          "delay_seconds": 10,
+          "enabled": false,
+          "updated_at": "2025-11-18T05:16:01.778613+00:00"
+        }
+      }
+    },
+    {
+      "test": "Get Buffer - Non-existent bout",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/non-existent-bout-999",
+      "response": {
+        "bout_id": "non-existent-bout-999",
+        "delay_seconds": 5,
+        "enabled": true,
+        "cutoff_time": 1763442956.834129,
+        "message": "Data delayed by 5 seconds for broadcast"
       }
     }
   ]
