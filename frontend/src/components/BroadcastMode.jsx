@@ -508,11 +508,49 @@ export default function BroadcastMode() {
           </div>
         </div>
 
+        {/* Fire Stick Setup Guide (Only when not fullscreen) */}
+        {!isFullscreen && showControls && (
+          <div className="mt-8 bg-gradient-to-r from-purple-900/30 to-blue-900/30 border-2 border-purple-500/30 rounded-2xl p-6 backdrop-blur">
+            <h3 className="text-2xl font-bold text-center text-purple-400 mb-4">
+              📺 FIRE STICK / TV SETUP GUIDE
+            </h3>
+            <div className="grid md:grid-cols-3 gap-6 text-sm">
+              <div className="bg-black/30 rounded-lg p-4 border border-purple-500/20">
+                <div className="text-amber-500 font-bold mb-2">🔗 STEP 1: Access URL</div>
+                <div className="text-gray-300 leading-relaxed">
+                  • Open Fire Stick browser (Silk/Firefox)<br/>
+                  • Navigate to this page<br/>
+                  • Bookmark for quick access
+                </div>
+              </div>
+              <div className="bg-black/30 rounded-lg p-4 border border-purple-500/20">
+                <div className="text-green-500 font-bold mb-2">🎮 STEP 2: Go Fullscreen</div>
+                <div className="text-gray-300 leading-relaxed">
+                  • Press OK/Enter button<br/>
+                  • Or click Fullscreen button above<br/>
+                  • Controls auto-hide after 5s
+                </div>
+              </div>
+              <div className="bg-black/30 rounded-lg p-4 border border-purple-500/20">
+                <div className="text-blue-500 font-bold mb-2">📡 STEP 3: Monitor Status</div>
+                <div className="text-gray-300 leading-relaxed">
+                  • Green dot = Live connection<br/>
+                  • Scores update in real-time<br/>
+                  • Auto-reconnects if WiFi drops
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 text-center text-amber-400 text-xs">
+              💡 <strong>Pro Tip:</strong> Use hardwired ethernet adapter for Fire Stick for maximum reliability
+            </div>
+          </div>
+        )}
+
         {/* Round Breakdown */}
         {Object.keys(scores).length > 0 && (
-          <div className="mt-8">
+          <div className="mt-12">
             <div className="bg-black/50 backdrop-blur rounded-xl p-6 border border-gray-700">
-              <h3 className="text-3xl font-bold text-amber-500 mb-4 text-center">Round Breakdown</h3>
+              <h3 className="text-4xl md:text-5xl font-bold text-center text-amber-500 mb-8 drop-shadow-lg">ROUND-BY-ROUND SCORECARD</h3>
               <div className="flex justify-center gap-4">
                 {Array.from({ length: bout.totalRounds }, (_, i) => i + 1).map(roundNum => {
                   const roundScore = scores[roundNum];
