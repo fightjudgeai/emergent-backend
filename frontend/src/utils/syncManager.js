@@ -74,6 +74,21 @@ class SyncManager {
   }
 
   /**
+   * Delete event (for undo functionality)
+   */
+  async deleteEvent(eventId) {
+    try {
+      // Try to delete from offline DB first
+      await offlineDB.removeFromQueue(eventId);
+      console.log('Event removed from offline queue:', eventId);
+      return { success: true };
+    } catch (error) {
+      console.warn('Event not in offline queue or already synced:', error);
+      throw error;
+    }
+  }
+
+  /**
    * Sync all queued events
    */
   async syncAll() {
