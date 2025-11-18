@@ -12,6 +12,9 @@ export default function BroadcastMode() {
   const [scores, setScores] = useState({});
   const [events, setEvents] = useState([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState('connecting'); // connecting, connected, disconnected
+  const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
+  const [showControls, setShowControls] = useState(true);
 
   useEffect(() => {
     loadBout();
