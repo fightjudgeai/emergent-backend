@@ -3046,9 +3046,13 @@ class CombatJudgingAPITester:
         """Test updating round notes"""
         print("\n✏️ Testing Round Notes Engine - Update Notes...")
         
+        # Use unique bout ID for this test
+        import time
+        update_bout_id = f"test-bout-update-{int(time.time())}"
+        
         # First create a note to update
         note_data = {
-            "bout_id": "test-bout-456",
+            "bout_id": update_bout_id,
             "round_num": 1,
             "judge_id": "UPDATE_TEST",
             "judge_name": "Update Test",
