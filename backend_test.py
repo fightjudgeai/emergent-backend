@@ -3256,6 +3256,406 @@ class CombatJudgingAPITester:
         print("   ✅ Timestamps automatically generated")
         return True
 
+    def test_supervisor_dashboard(self):
+        """Test System 3: Supervisor Dashboard Data Feeds"""
+        print("\n🎯 Testing System 3: Supervisor Dashboard Data Feeds...")
+        
+        # Test the dashboard endpoint directly
+        bout_id = "test-bout-supervisor-123"
+        success, response = self.run_test(
+            "Get Supervisor Dashboard",
+            "GET",
+            f"supervisor/dashboard/{bout_id}",
+            200
+        )
+        
+        if success and response:
+            print(f"   ✅ Supervisor dashboard retrieved successfully")
+            
+            # Verify response structure
+            required_fields = ['bout_id', 'judge_scores', 'rounds_data', 'total_events', 'total_notes', 'anomalies', 'timestamp']
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                print(f"   ❌ Missing fields in dashboard response: {missing_fields}")
+                return False
+            
+            print(f"   Bout ID: {response['bout_id']}")
+            print(f"   Judge Scores Count: {len(response['judge_scores'])}")
+            print(f"   Total Events: {response['total_events']}")
+            print(f"   Total Notes: {response['total_notes']}")
+            print(f"   Anomalies Count: {len(response['anomalies'])}")
+            print(f"   Timestamp: {response['timestamp']}")
+            
+            # Verify rounds_data structure
+            rounds_data = response.get('rounds_data', {})
+            print(f"   Rounds Data: {rounds_data}")
+            
+            # Verify anomalies structure
+            anomalies = response.get('anomalies', [])
+            for anomaly in anomalies:
+                if 'round' not in anomaly or 'type' not in anomaly or 'severity' not in anomaly:
+                    print(f"   ❌ Invalid anomaly structure: {anomaly}")
+                    return False
+                print(f"   Anomaly: Round {anomaly['round']}, Type: {anomaly['type']}, Severity: {anomaly['severity']}")
+        
+        return success
+
+    def test_variance_detection(self):
+        """Test System 4: AI Judge Variance Detection"""
+        print("\n🔍 Testing System 4: AI Judge Variance Detection...")
+        
+        # Test 1: Insufficient judges scenario
+        bout_id_insufficient = "test-bout-variance-123"
+        success1, response1 = self.run_test(
+            "Detect Variance - Insufficient Judges",
+            "GET", 
+            f"variance/detect/{bout_id_insufficient}/1",
+            200
+        )
+        
+        if success1 and response1:
+            print(f"   ✅ Insufficient judges test passed")
+            
+            # Verify response structure
+            required_fields = ['bout_id', 'round_num', 'variance_detected', 'message', 'judge_count']
+            missing_fields = [field for field in required_fields if field not in response1]
+            
+            if missing_fields:
+                print(f"   ❌ Missing fields in variance response: {missing_fields}")
+                return False
+            
+            if response1['variance_detected'] != False:
+                print(f"   ❌ Expected variance_detected=False for insufficient judges")
+                return False
+            
+            print(f"   Variance Detected: {response1['variance_detected']}")
+            print(f"   Message: {response1['message']}")
+            print(f"   Judge Count: {response1['judge_count']}")
+        
+        # Test 2: Variance detection with sufficient judges
+        bout_id_variance = "test-bout-variance-456"
+        success2, response2 = self.run_test(
+            "Detect Variance - With Variance",
+            "GET",
+            f"variance/detect/{bout_id_variance}/1", 
+            200
+        )
+        
+        if success2 and response2:
+            print(f"   ✅ Variance detection test completed")
+            
+            # Verify response structure for variance detection
+            required_fields = ['bout_id', 'round_num', 'variance_detected', 'max_variance', 
+                             'fighter1_variance', 'fighter2_variance', 'severity', 'outliers', 'judge_count']
+            missing_fields = [field for field in required_fields if field not in response2]
+            
+            if missing_fields:
+                print(f"   ❌ Missing fields in variance response: {missing_fields}")
+                return False
+            
+            print(f"   Variance Detected: {response2['variance_detected']}")
+            print(f"   Max Variance: {response2['max_variance']}")
+            print(f"   Fighter 1 Variance: {response2['fighter1_variance']}")
+            print(f"   Fighter 2 Variance: {response2['fighter2_variance']}")
+            print(f"   Severity: {response2['severity']}")
+            print(f"   Outliers Count: {len(response2['outliers'])}")
+            print(f"   Judge Count: {response2['judge_count']}")
+            
+            # Verify outliers structure
+            for outlier in response2['outliers']:
+                required_outlier_fields = ['judge_id', 'judge_name', 'card', 'fighter1_score', 'fighter2_score']
+                missing_outlier_fields = [field for field in required_outlier_fields if field not in outlier]
+                if missing_outlier_fields:
+                    print(f"   ❌ Missing fields in outlier: {missing_outlier_fields}")
+                    return False
+        
+        return success1 and success2
+
+    def test_promotion_branding(self):
+        """Test System 6: Promotion Branding Engine"""
+        print("\n🎨 Testing System 6: Promotion Branding Engine...")
+        
+        # Test 1: Create promotion branding
+        ufc_branding = {
+            "promotion_name": "UFC",
+            "logo_url": "https://example.com/ufc-logo.png",
+            "primary_color": "#D20A0A",
+            "secondary_color": "#000000", 
+            "accent_color": "#FFD700",
+            "font_family": "Arial"
+        }
+        
+        success1, response1 = self.run_test(
+            "Create Promotion Branding - UFC",
+            "POST",
+            "branding/promotion",
+            200,
+            ufc_branding
+        )
+        
+        if success1 and response1:
+            print(f"   ✅ UFC branding created successfully")
+            
+            # Verify response structure
+            required_fields = ['id', 'promotion_name', 'primary_color', 'secondary_color', 'accent_color', 'created_at']
+            missing_fields = [field for field in required_fields if field not in response1]
+            
+            if missing_fields:
+                print(f"   ❌ Missing fields in branding response: {missing_fields}")
+                return False
+            
+            print(f"   Promotion: {response1['promotion_name']}")
+            print(f"   Primary Color: {response1['primary_color']}")
+            print(f"   Secondary Color: {response1['secondary_color']}")
+            print(f"   Accent Color: {response1['accent_color']}")
+            print(f"   Font Family: {response1.get('font_family', 'N/A')}")
+        
+        # Test 2: Get existing promotion branding
+        success2, response2 = self.run_test(
+            "Get Promotion Branding - UFC",
+            "GET",
+            "branding/promotion/UFC",
+            200
+        )
+        
+        if success2 and response2:
+            print(f"   ✅ UFC branding retrieved successfully")
+            
+            if response2.get('is_default') != False:
+                print(f"   ❌ Expected is_default=False for existing branding")
+                return False
+            
+            print(f"   Is Default: {response2.get('is_default')}")
+            print(f"   Retrieved Promotion: {response2['promotion_name']}")
+        
+        # Test 3: Get non-existent promotion (should return defaults)
+        success3, response3 = self.run_test(
+            "Get Promotion Branding - Bellator (Non-existent)",
+            "GET", 
+            "branding/promotion/Bellator",
+            200
+        )
+        
+        if success3 and response3:
+            print(f"   ✅ Default branding returned for non-existent promotion")
+            
+            if response3.get('is_default') != True:
+                print(f"   ❌ Expected is_default=True for non-existent promotion")
+                return False
+            
+            print(f"   Is Default: {response3.get('is_default')}")
+            print(f"   Default Promotion: {response3['promotion_name']}")
+            print(f"   Default Primary Color: {response3['primary_color']}")
+        
+        # Test 4: Update existing promotion branding
+        updated_ufc_branding = {
+            "promotion_name": "UFC",
+            "logo_url": "https://example.com/ufc-logo-new.png",
+            "primary_color": "#FF0000",
+            "secondary_color": "#FFFFFF",
+            "accent_color": "#FFAA00", 
+            "font_family": "Roboto"
+        }
+        
+        success4, response4 = self.run_test(
+            "Update Promotion Branding - UFC",
+            "POST",
+            "branding/promotion", 
+            200,
+            updated_ufc_branding
+        )
+        
+        if success4 and response4:
+            print(f"   ✅ UFC branding updated successfully")
+            
+            # Verify updated values
+            if response4['primary_color'] != updated_ufc_branding['primary_color']:
+                print(f"   ❌ Primary color not updated correctly")
+                return False
+            
+            if response4['font_family'] != updated_ufc_branding['font_family']:
+                print(f"   ❌ Font family not updated correctly")
+                return False
+            
+            print(f"   Updated Primary Color: {response4['primary_color']}")
+            print(f"   Updated Font Family: {response4['font_family']}")
+        
+        return success1 and success2 and success3 and success4
+
+    def test_broadcast_buffer(self):
+        """Test System 7: Production Output Buffers"""
+        print("\n📡 Testing System 7: Production Output Buffers...")
+        
+        # Test 1: Configure broadcast buffer with 10 second delay
+        buffer_config = {
+            "bout_id": "test-bout-buffer-123",
+            "delay_seconds": 10,
+            "enabled": True
+        }
+        
+        success1, response1 = self.run_test(
+            "Configure Broadcast Buffer - 10s delay",
+            "POST",
+            "broadcast/buffer/config",
+            200,
+            buffer_config
+        )
+        
+        if success1 and response1:
+            print(f"   ✅ Broadcast buffer configured successfully")
+            
+            # Verify response structure
+            required_fields = ['success', 'config']
+            missing_fields = [field for field in required_fields if field not in response1]
+            
+            if missing_fields:
+                print(f"   ❌ Missing fields in buffer config response: {missing_fields}")
+                return False
+            
+            if response1['success'] != True:
+                print(f"   ❌ Expected success=True")
+                return False
+            
+            config = response1['config']
+            print(f"   Bout ID: {config['bout_id']}")
+            print(f"   Delay Seconds: {config['delay_seconds']}")
+            print(f"   Enabled: {config['enabled']}")
+            print(f"   Updated At: {config.get('updated_at', 'N/A')}")
+        
+        # Test 2: Get buffered data
+        success2, response2 = self.run_test(
+            "Get Buffered Data - 10s delay",
+            "GET",
+            "broadcast/buffer/test-bout-buffer-123",
+            200
+        )
+        
+        if success2 and response2:
+            print(f"   ✅ Buffered data retrieved successfully")
+            
+            # Verify response structure
+            required_fields = ['bout_id', 'delay_seconds', 'enabled', 'cutoff_time', 'message']
+            missing_fields = [field for field in required_fields if field not in response2]
+            
+            if missing_fields:
+                print(f"   ❌ Missing fields in buffered data response: {missing_fields}")
+                return False
+            
+            if response2['delay_seconds'] != 10:
+                print(f"   ❌ Expected delay_seconds=10, got {response2['delay_seconds']}")
+                return False
+            
+            print(f"   Bout ID: {response2['bout_id']}")
+            print(f"   Delay Seconds: {response2['delay_seconds']}")
+            print(f"   Enabled: {response2['enabled']}")
+            print(f"   Message: {response2['message']}")
+        
+        # Test 3: Configure different delay values
+        test_configs = [
+            {"bout_id": "test-bout-5s", "delay_seconds": 5, "enabled": True},
+            {"bout_id": "test-bout-30s", "delay_seconds": 30, "enabled": True},
+            {"bout_id": "test-bout-disabled", "delay_seconds": 10, "enabled": False}
+        ]
+        
+        all_config_success = True
+        for i, config in enumerate(test_configs):
+            success, response = self.run_test(
+                f"Configure Buffer - {config['delay_seconds']}s, enabled={config['enabled']}",
+                "POST",
+                "broadcast/buffer/config",
+                200,
+                config
+            )
+            
+            if success and response:
+                print(f"   ✅ Config {i+1} successful: {config['bout_id']}")
+                
+                if response['success'] != True:
+                    print(f"   ❌ Config {i+1} failed: success != True")
+                    all_config_success = False
+            else:
+                all_config_success = False
+        
+        # Test 4: Get buffer for non-existent bout (should return defaults)
+        success4, response4 = self.run_test(
+            "Get Buffer - Non-existent bout",
+            "GET",
+            "broadcast/buffer/non-existent-bout-999",
+            200
+        )
+        
+        if success4 and response4:
+            print(f"   ✅ Default buffer returned for non-existent bout")
+            
+            # Should return default 5 second delay, enabled=True
+            if response4['delay_seconds'] != 5:
+                print(f"   ❌ Expected default delay_seconds=5, got {response4['delay_seconds']}")
+                return False
+            
+            if response4['enabled'] != True:
+                print(f"   ❌ Expected default enabled=True, got {response4['enabled']}")
+                return False
+            
+            print(f"   Default Delay: {response4['delay_seconds']}s")
+            print(f"   Default Enabled: {response4['enabled']}")
+        
+        return success1 and success2 and all_config_success and success4
+
+    def test_phase2_phase3_mission_critical_systems(self):
+        """Test all Phase 2 & 3 Mission-Critical Systems"""
+        print("\n🎯 Testing Phase 2 & 3 Mission-Critical Systems...")
+        
+        # Test System 3: Supervisor Dashboard Data Feeds
+        print("\n" + "="*60)
+        print("SYSTEM 3: SUPERVISOR DASHBOARD DATA FEEDS")
+        print("="*60)
+        success_system3 = self.test_supervisor_dashboard()
+        
+        # Test System 4: AI Judge Variance Detection
+        print("\n" + "="*60)
+        print("SYSTEM 4: AI JUDGE VARIANCE DETECTION")
+        print("="*60)
+        success_system4 = self.test_variance_detection()
+        
+        # Test System 6: Promotion Branding Engine
+        print("\n" + "="*60)
+        print("SYSTEM 6: PROMOTION BRANDING ENGINE")
+        print("="*60)
+        success_system6 = self.test_promotion_branding()
+        
+        # Test System 7: Production Output Buffers
+        print("\n" + "="*60)
+        print("SYSTEM 7: PRODUCTION OUTPUT BUFFERS")
+        print("="*60)
+        success_system7 = self.test_broadcast_buffer()
+        
+        # Summary
+        print("\n" + "="*60)
+        print("PHASE 2 & 3 MISSION-CRITICAL SYSTEMS SUMMARY")
+        print("="*60)
+        
+        systems_results = {
+            "System 3 - Supervisor Dashboard": success_system3,
+            "System 4 - Variance Detection": success_system4,
+            "System 6 - Promotion Branding": success_system6,
+            "System 7 - Broadcast Buffers": success_system7
+        }
+        
+        for system_name, success in systems_results.items():
+            status = "✅ PASSED" if success else "❌ FAILED"
+            print(f"   {system_name}: {status}")
+        
+        all_systems_passed = all(systems_results.values())
+        
+        if all_systems_passed:
+            print(f"\n🎉 ALL PHASE 2 & 3 MISSION-CRITICAL SYSTEMS PASSED! 🎉")
+        else:
+            failed_systems = [name for name, success in systems_results.items() if not success]
+            print(f"\n❌ FAILED SYSTEMS: {', '.join(failed_systems)}")
+        
+        return all_systems_passed
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Combat Judging API Tests")
