@@ -80,32 +80,45 @@ class DeviceSyncManager {
    * Get all active devices for a bout
    */
   listenToActiveDevices(boutId, callback) {
-    const unsubscribe = db.collection('device_presence')
-      .where('boutId', '==', boutId)
-      .where('status', '==', 'online')
-      .onSnapshot((snapshot) => {
-        const devices = [];
-        const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+    try {
+      const unsubscribe = db.collection('device_presence')
+        .where('boutId', '==', boutId)
+        .where('status', '==', 'online')
+        .onSnapshot(
+          (snapshot) => {
+            const devices = [];
+            const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
 
-        snapshot.docs.forEach(doc => {
-          const data = doc.data();
-          const lastHeartbeat = data.lastHeartbeat?.toMillis() || 0;
-          
-          // Only include devices with recent heartbeat
-          if (lastHeartbeat > fiveMinutesAgo) {
-            devices.push({
-              id: doc.id,
-              ...data,
-              isCurrentDevice: doc.id === this.deviceId
+            snapshot.docs.forEach(doc => {
+              const data = doc.data();
+              const lastHeartbeat = data.lastHeartbeat?.toMillis() || 0;
+              
+              // Only include devices with recent heartbeat
+              if (lastHeartbeat > fiveMinutesAgo) {
+                devices.push({
+                  id: doc.id,
+                  ...data,
+                  isCurrentDevice: doc.id === this.deviceId
+                });
+              }
             });
+
+            callback(devices);
+          },
+          (error) => {
+            console.warn('Device presence listener error (feature disabled):', error.code);
+            // Call callback with empty array - app continues without device tracking
+            callback([]);
           }
-        });
+        );
 
-        callback(devices);
-      });
-
-    this.listeners.push(unsubscribe);
-    return unsubscribe;
+      this.listeners.push(unsubscribe);
+      return unsubscribe;
+    } catch (error) {
+      console.warn('Could not setup device listener:', error.message);
+      // Return empty unsubscribe function
+      return () => {};
+    }
   }
 
   /**
