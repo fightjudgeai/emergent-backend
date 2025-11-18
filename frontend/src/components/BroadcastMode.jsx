@@ -110,6 +110,12 @@ export default function BroadcastMode() {
     return () => {
       cleanup();
       clearInterval(refreshInterval);
+      clearTimeout(hideControlsTimer);
+      window.removeEventListener('mousemove', handleInteraction);
+      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
       deviceSyncManager.cleanup();
     };
   }, [boutId, bout?.currentRound]);
