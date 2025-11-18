@@ -28,7 +28,12 @@ class CombatJudgingAPITester:
             elif method == 'POST':
                 response = requests.post(url, json=data, headers=headers, timeout=10)
             elif method == 'PUT':
-                response = requests.put(url, json=data, headers=headers, timeout=10)
+                # Handle form data for PUT requests (for round notes update)
+                if isinstance(data, str) and 'note_text=' in data:
+                    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+                    response = requests.put(url, data=data, headers=headers, timeout=10)
+                else:
+                    response = requests.put(url, json=data, headers=headers, timeout=10)
             elif method == 'DELETE':
                 response = requests.delete(url, headers=headers, timeout=10)
 
