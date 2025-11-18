@@ -112,6 +112,39 @@ class ForceCloseRound(BaseModel):
     supervisor_code: str
     closed_by: str
 
+class EventV2(BaseModel):
+    """Enhanced event model with deduplication support"""
+    bout_id: str
+    round_id: int
+    judge_id: str
+    fighter_id: str  # "fighter1" or "fighter2"
+    event_type: str
+    timestamp_ms: int
+    device_id: str
+    metadata: Optional[Dict[str, Any]] = {}
+
+class JudgeSession(BaseModel):
+    """Judge session for hot-swap capability"""
+    judge_session_id: str
+    judge_id: str
+    bout_id: str
+    round_id: int
+    last_event_sequence: int = 0
+    session_state: str = "OPEN"  # OPEN, LOCKED, SYNCED
+    unsent_event_queue: List[Dict[str, Any]] = []
+
+class DeviceTelemetry(BaseModel):
+    """Real-time device health telemetry"""
+    device_id: str
+    judge_id: str
+    bout_id: str
+    battery_percent: Optional[int] = None
+    network_strength_percent: Optional[int] = None
+    latency_ms: Optional[int] = None
+    fps: Optional[int] = None
+    dropped_event_count: int = 0
+    event_rate_per_second: float = 0.0
+
 class ScoreRequest(BaseModel):
     bout_id: str
     round_num: int
