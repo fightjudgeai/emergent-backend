@@ -24,6 +24,20 @@ export default function ReviewDashboard() {
 
   useEffect(() => {
     loadData();
+    
+    // Initialize device sync
+    const initSync = async () => {
+      try {
+        await deviceSyncManager.initializeDevice('review-dashboard', 'admin', {
+          role: 'reviewer'
+        });
+      } catch (error) {
+        console.error('Device sync init failed:', error);
+      }
+    };
+    initSync();
+    
+    return () => deviceSyncManager.cleanup();
   }, [filter]);
 
   const loadData = async () => {
