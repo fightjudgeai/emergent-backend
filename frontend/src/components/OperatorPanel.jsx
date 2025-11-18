@@ -547,6 +547,20 @@ export default function OperatorPanel() {
   };
 
   const undoLastEvent = async () => {
+    console.log('[Undo] Function called - Button clicked!');
+    
+    if (!bout || !boutId) {
+      toast.error('Bout information not loaded');
+      console.error('[Undo] Missing bout or boutId:', { bout, boutId });
+      return;
+    }
+    
+    if (!bout.currentRound) {
+      toast.error('No current round set');
+      console.error('[Undo] No current round:', bout);
+      return;
+    }
+    
     try {
       console.log('[Undo] Starting undo for bout:', boutId, 'round:', bout.currentRound);
       
