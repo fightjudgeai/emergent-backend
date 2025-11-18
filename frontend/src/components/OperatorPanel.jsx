@@ -247,6 +247,45 @@ export default function OperatorPanel() {
     }
   }, [bout, boutId]);
 
+  useEffect(() => {
+    // Initialize multi-device sync for operator
+    const initOperatorSync = async () => {
+      try {
+        await deviceSyncManager.initializeDevice(boutId, 'operator', {
+          role: 'operator',
+          deviceType: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'tablet' : 'desktop'
+        });
+
+        // Listen for connected devices
+        deviceSyncManager.listenToActiveDevices(boutId, (devices) => {
+          setConnectedDevices(devices);
+          console.log(`Operator: ${devices.length} devices connected`);
+        });
+
+        // Listen for real-time event updates from other devices
+        deviceSyncManager.listenToCollection('events', { boutId }, (updates) => {
+          updates.forEach(update => {
+            if (!update.fromCurrentDevice) {
+              console.log('Event synced from another device:', update.type);
+            }
+          });
+        });
+
+        toast.success('Multi-device sync active', { duration: 2000 });
+      } catch (error) {
+        console.error('Failed to initialize operator sync:', error);
+      }
+    };
+
+    if (boutId) {
+      initOperatorSync();
+    }
+
+    return () => {
+      deviceSyncManager.cleanup();
+    };
+  }, [boutId]);
+
   const loadBout = async () => {
     try {
       const boutDoc = await db.collection('bouts').doc(boutId).get();
