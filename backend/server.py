@@ -2644,8 +2644,87 @@ async def get_judge_history(judge_id: str, limit: int = 50):
         logger.error(f"Error fetching judge history: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ============================================================================
+# I. EVENT DEDUPLICATION + IDEMPOTENT UPSERT ENGINE
+# ============================================================================
+
+@api_router.post("/events/v2/log")
+async def log_event_v2(event: EventV2):
+    """
+    Enhanced event logging with deduplication and hash chain
+    Prevents duplicate events from double-taps, resends, or reconnections
+    """
+    try:
+        result = await dedup_engine.upsert_event(
+            bout_id=event.bout_id,
+            round_id=event.round_id,
+            judge_id=event.judge_id,
+            fighter_id=event.fighter_id,
+            event_type=event.event_type,
+            timestamp_ms=event.timestamp_ms,
+            device_id=event.device_id,
+            metadata=event.metadata
+        )
+        
+        return {
+            "success": True,
+            **result
+        }
+    except Exception as e:
+        logging.error(f"Error logging event v2: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/events/v2/verify/{bout_id}/{round_id}")
+async def verify_event_chain_integrity(bout_id: str, round_id: int):
+    """
+    Verify tamper-proof hash chain integrity for a round
+    """
+    try:
+        events = await db.events_v2.find({
+            "bout_id": bout_id,
+            "round_id": round_id
+        }).to_list(10000)
+        
+        is_valid = verify_event_chain(events)
+        
+        return {
+            "bout_id": bout_id,
+            "round_id": round_id,
+            "total_events": len(events),
+            "chain_valid": is_valid,
+            "message": "Hash chain intact" if is_valid else "TAMPERING DETECTED"
+        }
+    except Exception as e:
+        logging.error(f"Error verifying chain: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/events/v2/{bout_id}/{round_id}")
+async def get_events_v2(bout_id: str, round_id: int):
+    """
+    Get all events for a bout/round in correct sequence order
+    """
+    try:
+        events = await db.events_v2.find({
+            "bout_id": bout_id,
+            "round_id": round_id
+        }).sort("sequence_index", 1).to_list(10000)
+        
+        # Remove MongoDB _id for JSON serialization
+        for event in events:
+            event.pop('_id', None)
+        
+        return {
+            "bout_id": bout_id,
+            "round_id": round_id,
+            "total_events": len(events),
+            "events": events
+        }
+    except Exception as e:
+        logging.error(f"Error fetching events v2: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Judge Score Synchronization Endpoints
-SUPERVISOR_CODE = os.environ.get('SUPERVISOR_CODE', 'SUPER2024')  # Default code, should be in .env
+SUPERVISOR_CODE = os.environ.get('SUPERVISOR_CODE', '199215')
 
 @api_router.post("/judge-scores/lock")
 async def lock_judge_score(score: JudgeScoreLock):
