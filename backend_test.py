@@ -3157,7 +3157,7 @@ class CombatJudgingAPITester:
             return False
         
         # Verify the deletion worked by getting the notes (should be empty)
-        success_verify, response_verify = self.run_test("Verify Deletion", "GET", "round-notes/test-bout-789/1", 200)
+        success_verify, response_verify = self.run_test("Verify Deletion", "GET", f"round-notes/{delete_bout_id}/1", 200)
         
         if success_verify and response_verify:
             notes = response_verify.get('notes', [])
