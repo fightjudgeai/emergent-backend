@@ -25,29 +25,16 @@ export default function SupervisorPanel() {
       loadBout();
       loadAllJudgeScores();
       
-      // Real-time listener for judge scores from Firebase
-      console.log('[Supervisor] Setting up real-time listener for judgeScores');
-      const unsubscribe = db.collection('judgeScores')
-        .where('boutId', '==', boutId)
-        .onSnapshot((snapshot) => {
-          console.log('[Supervisor] Received real-time update, docs count:', snapshot.docs.length);
-          const scores = {};
-          snapshot.docs.forEach(doc => {
-            const data = doc.data();
-            console.log('[Supervisor] Judge score doc:', { id: doc.id, data });
-            const roundNum = data.roundNum;
-            if (!scores[roundNum]) {
-              scores[roundNum] = [];
-            }
-            scores[roundNum].push({ id: doc.id, ...data });
-          });
-          console.log('[Supervisor] Updated scores state:', scores);
-          setJudgeScores(scores);
-        }, (error) => {
-          console.error('[Supervisor] Error in real-time listener:', error);
-        });
+      // Poll for updates every 3 seconds (since backend stores in MongoDB, not Firebase real-time)
+      console.log('[Supervisor] Setting up polling for judge scores');
+      const pollInterval = setInterval(() => {
+        console.log('[Supervisor] Polling for judge scores update');
+        loadAllJudgeScores();
+      }, 3000);
 
-      return () => unsubscribe();
+      return () => {
+        clearInterval(pollInterval);
+      };
     }
   }, [boutId]);
 
