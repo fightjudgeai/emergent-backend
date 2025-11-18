@@ -3247,7 +3247,7 @@ async def get_round_notes(bout_id: str, round_num: int, judge_id: Optional[str] 
         if judge_id:
             query["judge_id"] = judge_id
         
-        notes_cursor = db.round_notes.find(query).sort("timestamp", 1)
+        notes_cursor = db.round_notes.find(query, {"_id": 0}).sort("timestamp", 1)
         notes = await notes_cursor.to_list(length=None)
         
         return {"notes": notes, "count": len(notes)}
