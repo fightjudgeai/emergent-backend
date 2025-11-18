@@ -579,7 +579,7 @@ export default function OperatorPanel() {
       
       // Show confirmation with event details
       const fighterName = eventData.fighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
-      const eventType = eventData.event_type;
+      const eventType = eventData.eventType || eventData.event_type;
       
       const confirmed = window.confirm(
         `Undo last event?\n\nFighter: ${fighterName}\nEvent: ${eventType}\n\nThis cannot be undone.`
