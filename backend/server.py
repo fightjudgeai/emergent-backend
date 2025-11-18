@@ -77,6 +77,39 @@ class EventData(BaseModel):
     timestamp: float
     metadata: Optional[Dict[str, Any]] = None
 
+class JudgeScore(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    judge_id: str
+    judge_name: str
+    bout_id: str
+    round_num: int
+    fighter1_score: int
+    fighter2_score: int
+    card: str  # "10-9", "10-8", etc.
+    locked: bool = False
+    locked_at: Optional[datetime] = None
+
+class JudgeScoreLock(BaseModel):
+    bout_id: str
+    round_num: int
+    judge_id: str
+    judge_name: str
+    fighter1_score: int
+    fighter2_score: int
+    card: str
+
+class JudgeScoreUnlock(BaseModel):
+    bout_id: str
+    round_num: int
+    judge_id: str
+    supervisor_code: str
+
+class ForceCloseRound(BaseModel):
+    bout_id: str
+    round_num: int
+    supervisor_code: str
+    closed_by: str
+
 class ScoreRequest(BaseModel):
     bout_id: str
     round_num: int
