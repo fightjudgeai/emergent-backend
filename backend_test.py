@@ -2883,6 +2883,9 @@ class CombatJudgingAPITester:
         # Test Tuning Profiles APIs (5 APIs)
         self.test_tuning_profiles_integration_flow()
         
+        # Test Round Notes Engine APIs (5 APIs) - NEW
+        self.test_round_notes_complete_flow()
+        
         # Print summary
         print("\n" + "=" * 60)
         print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
