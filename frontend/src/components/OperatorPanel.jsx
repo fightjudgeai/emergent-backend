@@ -271,9 +271,9 @@ export default function OperatorPanel() {
           });
         });
 
-        toast.success('Multi-device sync active', { duration: 2000 });
+        console.log('Multi-device sync initialized for operator');
       } catch (error) {
-        console.error('Failed to initialize operator sync:', error);
+        console.warn('Multi-device sync not available:', error.message);
       }
     };
 
