@@ -3218,7 +3218,7 @@ class RoundNoteCreate(BaseModel):
     note_text: str
     metadata: Optional[Dict[str, Any]] = None
 
-@api_router.post("/round-notes", response_model=RoundNote)
+@api_router.post("/round-notes", response_model=RoundNote, status_code=201)
 async def create_round_note(note: RoundNoteCreate):
     """Create a new round note"""
     try:
