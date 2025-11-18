@@ -3193,17 +3193,6 @@ async def restore_judge_session(judge_session_id: str):
         logging.error(f"Error restoring session: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-# Include the router in the main app
-app.include_router(api_router)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 # ============================================================================
 # SYSTEM 2: ROUND NOTES ENGINE
 # ============================================================================
@@ -3331,6 +3320,17 @@ async def delete_round_note(note_id: str):
     except Exception as e:
         logger.error(f"Error deleting round note: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+# Include the router in the main app
+app.include_router(api_router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
