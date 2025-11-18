@@ -3321,6 +3321,291 @@ async def delete_round_note(note_id: str):
         logger.error(f"Error deleting round note: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ============================================================================
+# SYSTEM 3: SUPERVISOR DASHBOARD DATA FEEDS
+# ============================================================================
+
+@api_router.get("/supervisor/dashboard/{bout_id}")
+async def get_supervisor_dashboard(bout_id: str):
+    """Get comprehensive dashboard data for supervisor"""
+    try:
+        # Get all judge scores
+        judge_scores_cursor = db.judge_scores.find({"bout_id": bout_id}, {"_id": 0})
+        judge_scores = await judge_scores_cursor.to_list(length=None)
+        
+        # Get all events
+        events_cursor = db.events.find({"boutId": bout_id}, {"_id": 0})
+        events = await events_cursor.to_list(length=None)
+        
+        # Get round notes
+        notes_cursor = db.round_notes.find({"bout_id": bout_id}, {"_id": 0})
+        notes = await notes_cursor.to_list(length=None)
+        
+        # Calculate stats per round
+        rounds_data = {}
+        for score in judge_scores:
+            round_num = score.get("round_num")
+            if round_num not in rounds_data:
+                rounds_data[round_num] = {
+                    "scores": [],
+                    "locked_count": 0,
+                    "total_judges": 0
+                }
+            rounds_data[round_num]["scores"].append(score)
+            rounds_data[round_num]["total_judges"] += 1
+            if score.get("locked"):
+                rounds_data[round_num]["locked_count"] += 1
+        
+        # Detect anomalies
+        anomalies = []
+        for round_num, data in rounds_data.items():
+            if data["total_judges"] >= 2:
+                scores = [s.get("fighter1_score", 10) for s in data["scores"]]
+                max_variance = max(scores) - min(scores)
+                if max_variance > 2:  # More than 2 point variance
+                    anomalies.append({
+                        "round": round_num,
+                        "type": "variance",
+                        "severity": "high" if max_variance > 3 else "medium",
+                        "message": f"High score variance ({max_variance} points) in Round {round_num}"
+                    })
+        
+        return {
+            "bout_id": bout_id,
+            "judge_scores": judge_scores,
+            "rounds_data": rounds_data,
+            "total_events": len(events),
+            "total_notes": len(notes),
+            "anomalies": anomalies,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error getting supervisor dashboard: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============================================================================
+# SYSTEM 4: AI JUDGE VARIANCE DETECTION (Rule-Based)
+# ============================================================================
+
+@api_router.get("/variance/detect/{bout_id}/{round_num}")
+async def detect_judge_variance(bout_id: str, round_num: int):
+    """Detect variance between judge scores using rule-based algorithm"""
+    try:
+        # Get all judge scores for this round
+        judge_scores_cursor = db.judge_scores.find({
+            "bout_id": bout_id,
+            "round_num": round_num
+        }, {"_id": 0})
+        judge_scores = await judge_scores_cursor.to_list(length=None)
+        
+        if len(judge_scores) < 2:
+            return {
+                "bout_id": bout_id,
+                "round_num": round_num,
+                "variance_detected": False,
+                "message": "Insufficient judges for variance detection",
+                "judge_count": len(judge_scores)
+            }
+        
+        # Extract scores
+        fighter1_scores = [s.get("fighter1_score", 10) for s in judge_scores]
+        fighter2_scores = [s.get("fighter2_score", 10) for s in judge_scores]
+        
+        # Calculate variance metrics
+        f1_variance = max(fighter1_scores) - min(fighter1_scores)
+        f2_variance = max(fighter2_scores) - min(fighter2_scores)
+        max_variance = max(f1_variance, f2_variance)
+        
+        # Detect outliers
+        outliers = []
+        for i, score in enumerate(judge_scores):
+            f1_score = score.get("fighter1_score", 10)
+            f2_score = score.get("fighter2_score", 10)
+            
+            # Check if this judge's score is outlier (>2 points from any other judge)
+            is_outlier = False
+            for j, other_score in enumerate(judge_scores):
+                if i != j:
+                    other_f1 = other_score.get("fighter1_score", 10)
+                    other_f2 = other_score.get("fighter2_score", 10)
+                    
+                    if abs(f1_score - other_f1) > 2 or abs(f2_score - other_f2) > 2:
+                        is_outlier = True
+                        break
+            
+            if is_outlier:
+                outliers.append({
+                    "judge_id": score.get("judge_id"),
+                    "judge_name": score.get("judge_name"),
+                    "card": score.get("card"),
+                    "fighter1_score": f1_score,
+                    "fighter2_score": f2_score
+                })
+        
+        # Determine severity
+        severity = "low"
+        if max_variance > 3:
+            severity = "critical"
+        elif max_variance > 2:
+            severity = "high"
+        elif max_variance > 1:
+            severity = "medium"
+        
+        variance_detected = max_variance > 2  # Threshold: 2+ points
+        
+        return {
+            "bout_id": bout_id,
+            "round_num": round_num,
+            "variance_detected": variance_detected,
+            "max_variance": max_variance,
+            "fighter1_variance": f1_variance,
+            "fighter2_variance": f2_variance,
+            "severity": severity,
+            "outliers": outliers,
+            "judge_count": len(judge_scores),
+            "all_scores": judge_scores,
+            "message": f"{'Variance detected' if variance_detected else 'No significant variance'} ({max_variance} points max)"
+        }
+    except Exception as e:
+        logger.error(f"Error detecting variance: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============================================================================
+# SYSTEM 6: PROMOTION BRANDING ENGINE
+# ============================================================================
+
+class PromotionBranding(BaseModel):
+    """Model for promotion branding"""
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    promotion_name: str
+    logo_url: Optional[str] = None
+    primary_color: str = "#FF6B35"  # Default orange
+    secondary_color: str = "#004E89"  # Default blue
+    accent_color: str = "#F7931E"  # Default amber
+    font_family: Optional[str] = "Inter"
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
+@api_router.post("/branding/promotion", response_model=PromotionBranding)
+async def create_promotion_branding(branding: PromotionBranding):
+    """Create or update promotion branding"""
+    try:
+        branding_data = branding.model_dump()
+        
+        # Check if branding already exists for this promotion
+        existing = await db.promotion_branding.find_one({"promotion_name": branding.promotion_name})
+        
+        if existing:
+            # Update existing
+            branding_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+            await db.promotion_branding.update_one(
+                {"promotion_name": branding.promotion_name},
+                {"$set": branding_data}
+            )
+            logger.info(f"Updated branding for {branding.promotion_name}")
+        else:
+            # Create new
+            await db.promotion_branding.insert_one(branding_data)
+            logger.info(f"Created branding for {branding.promotion_name}")
+        
+        return branding
+    except Exception as e:
+        logger.error(f"Error creating/updating branding: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/branding/promotion/{promotion_name}")
+async def get_promotion_branding(promotion_name: str):
+    """Get branding for a promotion"""
+    try:
+        branding = await db.promotion_branding.find_one(
+            {"promotion_name": promotion_name},
+            {"_id": 0}
+        )
+        
+        if not branding:
+            # Return default branding
+            return {
+                "promotion_name": promotion_name,
+                "logo_url": None,
+                "primary_color": "#FF6B35",
+                "secondary_color": "#004E89",
+                "accent_color": "#F7931E",
+                "font_family": "Inter",
+                "is_default": True
+            }
+        
+        branding["is_default"] = False
+        return branding
+    except Exception as e:
+        logger.error(f"Error getting branding: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============================================================================
+# SYSTEM 7: PRODUCTION OUTPUT BUFFERS
+# ============================================================================
+
+class BroadcastBuffer(BaseModel):
+    """Model for broadcast buffer configuration"""
+    bout_id: str
+    delay_seconds: int = 5  # Default 5 second delay
+    enabled: bool = True
+
+@api_router.post("/broadcast/buffer/config")
+async def configure_broadcast_buffer(config: BroadcastBuffer):
+    """Configure broadcast delay buffer"""
+    try:
+        config_data = config.model_dump()
+        config_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+        
+        await db.broadcast_buffers.update_one(
+            {"bout_id": config.bout_id},
+            {"$set": config_data},
+            upsert=True
+        )
+        
+        logger.info(f"Configured broadcast buffer for {config.bout_id}: {config.delay_seconds}s delay")
+        return {"success": True, "config": config_data}
+    except Exception as e:
+        logger.error(f"Error configuring broadcast buffer: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/broadcast/buffer/{bout_id}")
+async def get_buffered_data(bout_id: str, timestamp: Optional[float] = None):
+    """Get buffered broadcast data with configured delay"""
+    try:
+        # Get buffer configuration
+        buffer_config = await db.broadcast_buffers.find_one({"bout_id": bout_id})
+        delay_seconds = buffer_config.get("delay_seconds", 5) if buffer_config else 5
+        enabled = buffer_config.get("enabled", True) if buffer_config else True
+        
+        if not enabled:
+            delay_seconds = 0  # No delay if disabled
+        
+        # Calculate cutoff time
+        cutoff_time = time.time() - delay_seconds
+        
+        # Get bout data
+        bout_data = await db.bouts.find_one({"_id": bout_id}, {"_id": 0})
+        
+        # Get events up to cutoff time
+        if timestamp:
+            cutoff_timestamp = timestamp - delay_seconds
+        else:
+            cutoff_timestamp = cutoff_time
+        
+        # This is a simplified version - in production you'd want more sophisticated buffering
+        return {
+            "bout_id": bout_id,
+            "delay_seconds": delay_seconds,
+            "enabled": enabled,
+            "cutoff_time": cutoff_time,
+            "message": f"Data delayed by {delay_seconds} seconds for broadcast"
+        }
+    except Exception as e:
+        logger.error(f"Error getting buffered data: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
