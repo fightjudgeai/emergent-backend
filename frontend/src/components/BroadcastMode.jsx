@@ -411,17 +411,17 @@ export default function BroadcastMode() {
         )}
       </div>
 
-      <div className="container mx-auto p-8 h-screen flex flex-col justify-between">
-        {/* Header */}
+      <div className={`container mx-auto p-8 h-screen flex flex-col justify-between ${showControls ? 'pt-32' : 'pt-8'} transition-all duration-500`}>
+        {/* Header - TV Optimized (Larger Text) */}
         <div className="text-center mb-8">
-          <h1 className="text-6xl font-black text-amber-500 mb-2 uppercase tracking-wider">
+          <h1 className="text-7xl md:text-8xl font-black text-amber-500 mb-4 uppercase tracking-wider drop-shadow-2xl">
             {bout.eventName || 'Combat Event'}
           </h1>
           <div className="flex items-center justify-center gap-8 mt-6">
-            <Badge className="bg-red-600 text-white text-2xl px-6 py-2">
-              LIVE
+            <Badge className="bg-red-600 text-white text-3xl md:text-4xl px-8 py-3 animate-pulse">
+              ⚡ LIVE
             </Badge>
-            <div className="text-4xl font-bold text-gray-300">
+            <div className="text-5xl md:text-6xl font-bold text-gray-300 drop-shadow-lg">
               ROUND {bout.currentRound} OF {bout.totalRounds}
             </div>
           </div>
