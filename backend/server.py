@@ -17,6 +17,13 @@ from replay_engine import reconstruct_round_timeline
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 # New Scoring Model Configuration
 SCORING_CONFIG = {
     "categories": {
