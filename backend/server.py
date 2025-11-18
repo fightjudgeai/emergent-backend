@@ -3101,9 +3101,10 @@ async def get_bout_telemetry(bout_id: str):
             "bout_id": bout_id
         }).sort("timestamp", -1).limit(100).to_list(100)
         
-        # Group by device
+        # Group by device and remove MongoDB _id
         devices = {}
         for t in telemetry_data:
+            t.pop('_id', None)  # Remove ObjectId for JSON serialization
             device_id = t.get('device_id')
             if device_id not in devices:
                 devices[device_id] = t
