@@ -3332,13 +3332,6 @@ async def delete_round_note(note_id: str):
         logger.error(f"Error deleting round note: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
-
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
