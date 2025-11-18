@@ -1244,10 +1244,62 @@ metadata:
   version: "1.0"
   test_sequence: 0
 
+  - task: "System 3: Supervisor Dashboard Data Feeds - Backend API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Supervisor Dashboard Data Feeds API: GET /api/supervisor/dashboard/{bout_id} returns comprehensive dashboard data including all judge scores, rounds data with locked counts, total events/notes, and anomaly detection. Detects high score variance (>2 points) between judges and flags as anomalies with severity levels (high >3 points, medium >2 points). Ready for backend testing."
+
+  - task: "System 4: AI Judge Variance Detection - Backend API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Rule-Based Judge Variance Detection: GET /api/variance/detect/{bout_id}/{round_num} analyzes judge scores and detects outliers using rule-based algorithm. Calculates variance metrics for both fighters, identifies outlier judges (>2 points difference), determines severity levels (critical >3, high >2, medium >1, low <=1), returns detailed variance report with outliers list. Ready for backend testing."
+
+  - task: "System 6: Promotion Branding Engine - Backend API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Promotion Branding Engine APIs: (1) POST /api/branding/promotion - create/update promotion branding with logo_url, primary_color, secondary_color, accent_color, font_family, (2) GET /api/branding/promotion/{promotion_name} - get branding for promotion with default fallback colors if not configured. MongoDB storage in promotion_branding collection. Ready for backend testing."
+
+  - task: "System 7: Production Output Buffers - Backend API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Production Output Buffers APIs: (1) POST /api/broadcast/buffer/config - configure broadcast delay (default 5s, configurable 5-30s) with enabled/disabled toggle, (2) GET /api/broadcast/buffer/{bout_id} - get buffered data with configured delay, calculates cutoff time for preventing live spoilers. MongoDB storage in broadcast_buffers collection. Ready for backend testing."
+
 test_plan:
   current_focus:
     - "System 1: Offline Queue Workflow Enhancement"
-    - "System 2: Round Notes Engine - Backend API"
+    - "System 2: Round Notes Engine - Frontend UI"
+    - "System 3: Supervisor Dashboard Data Feeds - Backend API"
+    - "System 4: AI Judge Variance Detection - Backend API"
+    - "System 6: Promotion Branding Engine - Backend API"
+    - "System 7: Production Output Buffers - Backend API"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
