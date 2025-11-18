@@ -25,12 +25,64 @@ class SyncManager {
   }
 
   /**
+   * Start periodic network quality monitoring
+   */
+  startNetworkMonitoring() {
+    // Check network every 30 seconds
+    this.networkCheckInterval = setInterval(async () => {
+      await this.checkNetworkQuality();
+    }, 30000);
+  }
+
+  /**
+   * Check network quality and connection
+   */
+  async checkNetworkQuality() {
+    try {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      
+      const quality = {
+        online: navigator.onLine,
+        effectiveType: connection?.effectiveType || 'unknown',
+        downlink: connection?.downlink || 'unknown',
+        rtt: connection?.rtt || 'unknown',
+        saveData: connection?.saveData || false
+      };
+      
+      this.notifyListeners({ type: 'networkQuality', quality });
+      
+      // Auto-trigger sync if online and queue has items
+      if (quality.online && !this.isSyncing) {
+        const queueCount = await offlineDB.getQueueCount();
+        if (queueCount > 0) {
+          console.log(`Network available with ${queueCount} queued events - auto-syncing`);
+          await this.syncAll();
+        }
+      }
+      
+      return quality;
+    } catch (error) {
+      console.error('Network quality check failed:', error);
+      return null;
+    }
+  }
+
+  /**
    * Handle coming online
    */
   async handleOnline() {
     console.log('Connection restored - initiating sync');
     this.isOnline = true;
     this.notifyListeners({ type: 'online' });
+    
+    // Clear any pending retry timers
+    if (this.retryTimer) {
+      clearTimeout(this.retryTimer);
+      this.retryTimer = null;
+    }
+    
+    // Check network quality before syncing
+    await this.checkNetworkQuality();
     await this.syncAll();
   }
 
@@ -41,6 +93,36 @@ class SyncManager {
     console.log('Connection lost - entering offline mode');
     this.isOnline = false;
     this.notifyListeners({ type: 'offline' });
+    
+    // Schedule retry attempts with exponential backoff
+    this.scheduleRetrySync(1);
+  }
+
+  /**
+   * Schedule retry sync with exponential backoff
+   */
+  scheduleRetrySync(attempt) {
+    if (attempt > this.maxRetries) {
+      console.log('Max retry attempts reached');
+      return;
+    }
+    
+    // Exponential backoff: 2s, 4s, 8s, 16s, 32s
+    const delay = this.baseRetryDelay * Math.pow(2, attempt - 1);
+    
+    console.log(`Scheduling sync retry #${attempt} in ${delay}ms`);
+    
+    this.retryTimer = setTimeout(async () => {
+      if (!this.isOnline) {
+        // Check if connection is back
+        const isActuallyOnline = navigator.onLine;
+        if (isActuallyOnline) {
+          await this.handleOnline();
+        } else {
+          this.scheduleRetrySync(attempt + 1);
+        }
+      }
+    }, delay);
   }
 
   /**
