@@ -1074,8 +1074,24 @@ async def calculate_score_v2(request: ScoreRequest):
         f1_total, f1_categories, f1_counts = calculate_new_score(request.events, "fighter1")
         f2_total, f2_categories, f2_counts = calculate_new_score(request.events, "fighter2")
         
+        # Handle Point Deductions
+        f1_deductions = 0
+        f2_deductions = 0
+        
+        for event in request.events:
+            if event.event_type == "Point Deduction":
+                fighter_deducted = event.metadata.get("fighter", event.fighter)
+                points = event.metadata.get("points", 1)
+                
+                if fighter_deducted == "fighter1":
+                    f1_deductions += points
+                elif fighter_deducted == "fighter2":
+                    f2_deductions += points
+                
+                print(f"[DEDUCTION] {fighter_deducted} deducted {points} point(s)")
+        
         # Log the score differential for debugging
-        print(f"[SCORING] Round {request.round_num} - Fighter1: {f1_total:.2f}, Fighter2: {f2_total:.2f}")
+        print(f"[SCORING] Round {request.round_num} - Fighter1: {f1_total:.2f} (-{f1_deductions}), Fighter2: {f2_total:.2f} (-{f2_deductions})")
         print(f"  F1 Categories - Striking: {f1_categories['striking_raw']:.2f}, Grappling: {f1_categories['grappling_raw']:.2f}, Other: {f1_categories['other_raw']:.2f}")
         print(f"  F2 Categories - Striking: {f2_categories['striking_raw']:.2f}, Grappling: {f2_categories['grappling_raw']:.2f}, Other: {f2_categories['other_raw']:.2f}")
         
