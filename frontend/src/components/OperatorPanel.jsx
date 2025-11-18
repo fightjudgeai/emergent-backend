@@ -232,6 +232,19 @@ export default function OperatorPanel() {
     };
   }, []);
 
+  useEffect(() => {
+    // Periodically check judge lock status for current round
+    if (bout && boutId) {
+      checkJudgeLockStatus(bout.currentRound);
+      
+      const interval = setInterval(() => {
+        checkJudgeLockStatus(bout.currentRound);
+      }, 5000); // Check every 5 seconds
+      
+      return () => clearInterval(interval);
+    }
+  }, [bout, boutId]);
+
   const loadBout = async () => {
     try {
       const boutDoc = await db.collection('bouts').doc(boutId).get();
