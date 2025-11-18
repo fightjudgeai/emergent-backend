@@ -2901,7 +2901,7 @@ class CombatJudgingAPITester:
         
         # Test Scenario 3: Create another note for Round 1 (different judge)
         note_data_3 = {
-            "bout_id": "test-bout-123",
+            "bout_id": unique_bout_id,
             "round_num": 1,
             "judge_id": "JUDGE002",
             "judge_name": "Second Judge",
