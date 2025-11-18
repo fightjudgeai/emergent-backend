@@ -216,12 +216,23 @@ export default function BroadcastMode() {
 
   const getCurrentRoundScore = (fighter) => {
     const currentRoundScore = scores[bout?.currentRound];
+    console.log('[Broadcast] getCurrentRoundScore called:', {
+      fighter,
+      currentRound: bout?.currentRound,
+      allScores: scores,
+      currentRoundScore,
+      card: currentRoundScore?.card
+    });
+    
     if (currentRoundScore && currentRoundScore.card) {
       // Parse card like "10-9" or "9-10"
       const [score1, score2] = currentRoundScore.card.split('-').map(Number);
-      return fighter === 'fighter1' ? score1 : score2;
+      const score = fighter === 'fighter1' ? score1 : score2;
+      console.log('[Broadcast] Returning score:', score, 'for', fighter);
+      return score;
     }
     // If no score yet for current round, show placeholder
+    console.log('[Broadcast] No score available yet');
     return '—';
   };
 
