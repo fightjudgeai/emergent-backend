@@ -3649,6 +3649,13 @@ async def get_buffered_data(bout_id: str, timestamp: Optional[float] = None):
 # Include the router in the main app
 app.include_router(api_router)
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 # ============================================================================
 # ICVSS INTEGRATION
 # ============================================================================
