@@ -3649,6 +3649,32 @@ async def get_buffered_data(bout_id: str, timestamp: Optional[float] = None):
 # Include the router in the main app
 app.include_router(api_router)
 
+# ============================================================================
+# ICVSS INTEGRATION
+# ============================================================================
+
+try:
+    from icvss.routes import icvss_router
+    from icvss.round_engine import RoundEngine
+    import icvss.routes as icvss_routes_module
+    
+    # Initialize ICVSS Round Engine with database
+    icvss_round_engine = RoundEngine(db)
+    icvss_routes_module.round_engine = icvss_round_engine
+    
+    # Mount ICVSS router
+    app.include_router(icvss_router)
+    
+    logger.info("✓ ICVSS (Intelligent Combat Vision Scoring System) loaded")
+    logger.info("  - Event processing with 80-150ms deduplication")
+    logger.info("  - Hybrid CV + Judge scoring (70/30 split)")
+    logger.info("  - Real-time WebSocket feeds")
+    logger.info("  - SHA256 audit logging")
+    
+except Exception as e:
+    logger.warning(f"ICVSS module not loaded: {e}")
+    logger.info("  System will run in legacy mode only")
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
