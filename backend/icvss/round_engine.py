@@ -202,13 +202,17 @@ class RoundEngine:
             }}
         )
         
-        # Audit log
+        # Audit log with proper datetime serialization
+        audit_data = {"event_hash": event_hash}
+        if final_score:
+            audit_data["final_score"] = serialize_for_mongo(final_score.model_dump())
+        
         await self.audit_logger.log_action(
             bout_id=round_data.bout_id,
             round_id=round_id,
             action="round_locked",
             actor="system",
-            data={"event_hash": event_hash, "final_score": final_score.model_dump() if final_score else None}
+            data=audit_data
         )
         
         logger.info(f"Round locked: {round_id} with hash {event_hash}")
