@@ -1519,9 +1519,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Calibration API Backend"
-    - "Performance Profiler Backend"
-    - "Performance Metrics Display in Monitoring Dashboard"
+    - "Heartbeat Monitor Backend"
+    - "Service Health Display in Monitoring Dashboard"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
