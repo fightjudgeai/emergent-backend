@@ -87,6 +87,9 @@ export default function BroadcastMode() {
     
     if (boutId) {
       initBroadcastSync();
+      
+      // Connect to ICVSS broadcast feed
+      connectCVBroadcastFeed();
     }
     
     // Network monitoring
@@ -124,8 +127,53 @@ export default function BroadcastMode() {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
       deviceSyncManager.cleanup();
+      
+      // Cleanup CV WebSocket
+      if (cvWebSocket) {
+        cvWebSocket.close();
+      }
     };
   }, [boutId, bout?.currentRound]);
+  
+  // Connect to ICVSS broadcast feed
+  const connectCVBroadcastFeed = () => {
+    const wsUrl = `${API}/api/icvss/ws/broadcast/${boutId}`.replace('https://', 'wss://').replace('http://', 'ws://');
+    
+    console.log('[Broadcast] Connecting to CV feed:', wsUrl);
+    
+    try {
+      const ws = new WebSocket(wsUrl);
+      
+      ws.onopen = () => {
+        console.log('[Broadcast] CV feed connected');
+        setCvMode(true);
+      };
+      
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log('[Broadcast] CV message:', data);
+        
+        if (data.type === 'broadcast' && data.data.action === 'score_updated') {
+          // Update CV score when received
+          setCvScore(data.data);
+        }
+      };
+      
+      ws.onerror = (error) => {
+        console.error('[Broadcast] CV feed error:', error);
+        setCvMode(false);
+      };
+      
+      ws.onclose = () => {
+        console.log('[Broadcast] CV feed disconnected');
+        setCvMode(false);
+      };
+      
+      setCvWebSocket(ws);
+    } catch (error) {
+      console.error('[Broadcast] Failed to connect CV feed:', error);
+    }
+  };
 
   const loadBout = async () => {
     try {
