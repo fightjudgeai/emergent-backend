@@ -3870,6 +3870,74 @@ try:
 except Exception as e:
     logger.warning(f"Storage Manager not loaded: {e}")
 
+# ============================================================================
+# ADVANCED AUDIT LOGGER
+# ============================================================================
+try:
+    from advanced_audit.routes import advanced_audit_api
+    from advanced_audit.audit_engine import AdvancedAuditEngine
+    import advanced_audit.routes as audit_routes_module
+    
+    audit_logger = AdvancedAuditEngine()
+    audit_routes_module.audit_engine = audit_logger
+    
+    api_router.include_router(advanced_audit_api, prefix="/audit")
+    logger.info("✓ Advanced Audit Logger loaded - Blockchain-style tamper-proof logging")
+    
+except Exception as e:
+    logger.warning(f"Advanced Audit not loaded: {e}")
+
+# ============================================================================
+# SCORING SIMULATOR
+# ============================================================================
+try:
+    from scoring_simulator.routes import scoring_simulator_api
+    from scoring_simulator.simulator_engine import ScoringSimulatorEngine
+    import scoring_simulator.routes as simulator_routes_module
+    
+    simulator = ScoringSimulatorEngine()
+    simulator_routes_module.simulator_engine = simulator
+    
+    api_router.include_router(scoring_simulator_api, prefix="/simulator")
+    logger.info("✓ Scoring Simulator loaded - Event replay & validation")
+    
+except Exception as e:
+    logger.warning(f"Scoring Simulator not loaded: {e}")
+
+# ============================================================================
+# FAILOVER ENGINE
+# ============================================================================
+try:
+    from failover_engine.routes import failover_engine_api
+    from failover_engine.failover_manager import FailoverManager
+    import failover_engine.routes as failover_routes_module
+    
+    failover = FailoverManager()
+    failover_routes_module.failover_manager = failover
+    
+    api_router.include_router(failover_engine_api, prefix="/failover")
+    logger.info("✓ Failover Engine loaded - Cloud/Local/Manual auto-failover")
+    
+except Exception as e:
+    logger.warning(f"Failover Engine not loaded: {e}")
+
+# ============================================================================
+# TIME SYNC SERVICE
+# ============================================================================
+try:
+    from time_sync.routes import time_sync_api
+    from time_sync.sync_engine import TimeSyncEngine
+    import time_sync.routes as time_sync_routes_module
+    
+    time_sync = TimeSyncEngine()
+    time_sync_routes_module.sync_engine = time_sync
+    
+    api_router.include_router(time_sync_api, prefix="/timesync")
+    logger.info("✓ Time Sync Service loaded - NTP-like unified timestamps")
+    
+except Exception as e:
+    logger.warning(f"Time Sync not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
