@@ -15,6 +15,21 @@ from .audit_logger import AuditLogger
 logger = logging.getLogger(__name__)
 
 
+def serialize_for_mongo(data: Dict[str, Any]) -> Dict[str, Any]:
+    """Convert datetime objects to ISO strings for MongoDB storage"""
+    serialized = {}
+    for key, value in data.items():
+        if isinstance(value, datetime):
+            serialized[key] = value.isoformat()
+        elif isinstance(value, dict):
+            serialized[key] = serialize_for_mongo(value)
+        elif isinstance(value, list):
+            serialized[key] = [serialize_for_mongo(item) if isinstance(item, dict) else item for item in value]
+        else:
+            serialized[key] = value
+    return serialized
+
+
 class RoundEngine:
     """Manage ICVSS round lifecycle"""
     
