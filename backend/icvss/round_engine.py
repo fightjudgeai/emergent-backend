@@ -76,10 +76,17 @@ class RoundEngine:
             else:
                 round_data.judge_events.append(event.model_dump())
             
-            # Update database
+            # Update database with proper datetime serialization
+            event_dict = event.model_dump()
+            # Convert datetime objects to ISO strings for MongoDB
+            if 'created_at' in event_dict and event_dict['created_at']:
+                event_dict['created_at'] = event_dict['created_at'].isoformat() if hasattr(event_dict['created_at'], 'isoformat') else event_dict['created_at']
+            if 'processed_at' in event_dict and event_dict['processed_at']:
+                event_dict['processed_at'] = event_dict['processed_at'].isoformat() if hasattr(event_dict['processed_at'], 'isoformat') else event_dict['processed_at']
+            
             await self.db.icvss_rounds.update_one(
                 {"round_id": round_id},
-                {"$push": {"cv_events" if event.source.value == "cv_system" else "judge_events": event.model_dump()}}
+                {"$push": {"cv_events" if event.source.value == "cv_system" else "judge_events": event_dict}}
             )
             
             # Audit log
