@@ -3639,9 +3639,6 @@ async def get_buffered_data(bout_id: str, timestamp: Optional[float] = None):
         logger.error(f"Error getting buffered data: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-# Include the router in the main app
-app.include_router(api_router)
-
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -3674,6 +3671,9 @@ try:
 except Exception as e:
     logger.warning(f"ICVSS module not loaded: {e}")
     logger.info("  System will run in legacy mode only")
+
+# Include the router in the main app
+app.include_router(api_router)
 
 app.add_middleware(
     CORSMiddleware,
