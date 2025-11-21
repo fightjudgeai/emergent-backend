@@ -3672,6 +3672,51 @@ except Exception as e:
     logger.warning(f"ICVSS module not loaded: {e}")
     logger.info("  System will run in legacy mode only")
 
+
+# ============================================================================
+# FIGHT JUDGE AI - Integrated Scoring Engine (E1)
+# ============================================================================
+try:
+    import fjai.routes as fjai_routes_module
+    from fjai.routes import fjai_router
+    from fjai.round_manager import RoundManager as FJAIRoundManager
+    
+    # Initialize FJAI round manager
+    fjai_round_manager = FJAIRoundManager(db)
+    fjai_routes_module.round_manager = fjai_round_manager
+    
+    # Mount FJAI router
+    api_router.include_router(fjai_router, prefix="/fjai")
+    
+    logger.info("✓ Fight Judge AI (E1) - Integrated Scoring Engine loaded")
+    logger.info("  - Damage primacy rule with weighted scoring")
+    logger.info("  - 10-Point-Must system")
+    logger.info("  - SHA256 audit trails")
+    logger.info("  - Multi-camera event fusion")
+    
+except Exception as e:
+    logger.warning(f"Fight Judge AI module not loaded: {e}")
+
+# ============================================================================
+# CV ANALYTICS ENGINE (E2)
+# ============================================================================
+try:
+    from cv_analytics.routes import cv_analytics_router
+    
+    # Mount CV Analytics router
+    api_router.include_router(cv_analytics_router, prefix="/cv-analytics")
+    
+    logger.info("✓ CV Analytics Engine (E2) loaded")
+    logger.info("  - Raw CV → Standardized events")
+    logger.info("  - Temporal smoothing & optical flow validation")
+    logger.info("  - Multi-camera consensus fusion")
+    logger.info("  - Momentum swing detection")
+    logger.info("  - Fighter style classification")
+    
+except Exception as e:
+    logger.warning(f"CV Analytics Engine not loaded: {e}")
+
+
 # Include the router in the main app
 app.include_router(api_router)
 
