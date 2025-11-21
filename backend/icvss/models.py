@@ -145,6 +145,7 @@ class ScoreRequest(BaseModel):
 
 class ScoreResponse(BaseModel):
     """Hybrid score calculation response"""
+    model_config = ConfigDict(extra="ignore", json_encoders={datetime: lambda v: v.isoformat()})
     bout_id: str
     round_id: str
     round_num: int
