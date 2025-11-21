@@ -3795,18 +3795,21 @@ except Exception as e:
     logger.warning(f"Normalization Engine not loaded: {e}")
 
 # ============================================================================
-# ROUND VALIDATOR
+# ROUND VALIDATOR (Enhanced with Postgres storage)
 # ============================================================================
 try:
     from round_validator.routes import round_validator_api
     from round_validator.validator_engine import RoundValidatorEngine
     import round_validator.routes as validator_routes_module
     
-    validator_engine = RoundValidatorEngine()
+    # Pass Postgres session if available
+    validator_engine = RoundValidatorEngine(
+        postgres_session=SessionLocal if postgres_available else None
+    )
     validator_routes_module.validator_engine = validator_engine
     
     api_router.include_router(round_validator_api, prefix="/validator")
-    logger.info("✓ Round Validator loaded")
+    logger.info(f"✓ Round Validator loaded [{'Postgres storage' if postgres_available else 'In-memory cache'}]")
     
 except Exception as e:
     logger.warning(f"Round Validator not loaded: {e}")
