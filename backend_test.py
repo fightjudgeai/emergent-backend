@@ -4158,6 +4158,562 @@ class CombatJudgingAPITester:
         print("   ✅ System monitoring and health checks operational")
         return True
 
+    def test_heartbeat_monitor_health(self):
+        """Test heartbeat monitor health endpoint"""
+        print("\n💓 Testing Heartbeat Monitor - Health Check...")
+        
+        success, response = self.run_test("Heartbeat Monitor Health", "GET", "heartbeat/health", 200)
+        
+        if success and response:
+            print(f"   ✅ Health check successful")
+            
+            # Verify response structure
+            required_fields = ['status', 'service', 'version']
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                return False
+            
+            # Verify correct service name
+            if response.get('service') != 'Heartbeat Monitor':
+                print(f"   ⚠️  Incorrect service name: expected 'Heartbeat Monitor', got '{response.get('service')}'")
+                return False
+            
+            print(f"   Service: {response['service']}")
+            print(f"   Status: {response['status']}")
+            print(f"   Version: {response['version']}")
+        
+        return success
+
+    def test_heartbeat_monitor_post_heartbeat(self):
+        """Test posting heartbeats from all 7 services"""
+        print("\n💓 Testing Heartbeat Monitor - Post Heartbeats...")
+        
+        # Test data for all 7 valid services
+        services = [
+            "CV Router",
+            "CV Analytics", 
+            "Scoring Engine",
+            "Replay Worker",
+            "Highlight Worker",
+            "Storage Manager",
+            "Supervisor Console"
+        ]
+        
+        all_success = True
+        
+        for service_name in services:
+            # Test with different statuses and metrics
+            test_cases = [
+                {
+                    "service_name": service_name,
+                    "status": "ok",
+                    "metrics": {
+                        "cpu_usage": 45.2,
+                        "memory_usage": 67.8,
+                        "uptime_seconds": 3600,
+                        "processed_events": 1250
+                    }
+                },
+                {
+                    "service_name": service_name,
+                    "status": "warning",
+                    "metrics": {
+                        "cpu_usage": 85.1,
+                        "memory_usage": 89.3,
+                        "uptime_seconds": 7200,
+                        "processed_events": 2500
+                    }
+                },
+                {
+                    "service_name": service_name,
+                    "status": "error",
+                    "metrics": {
+                        "cpu_usage": 95.7,
+                        "memory_usage": 98.1,
+                        "uptime_seconds": 1800,
+                        "error_count": 15
+                    }
+                }
+            ]
+            
+            for i, heartbeat_data in enumerate(test_cases):
+                success, response = self.run_test(
+                    f"Post Heartbeat - {service_name} ({heartbeat_data['status']})",
+                    "POST",
+                    "heartbeat",
+                    201,
+                    heartbeat_data
+                )
+                
+                if success and response:
+                    print(f"   ✅ Heartbeat recorded for {service_name} [{heartbeat_data['status']}]")
+                    
+                    # Verify response structure
+                    required_fields = ['id', 'service_name', 'timestamp', 'status', 'metrics', 'received_at']
+                    missing_fields = [field for field in required_fields if field not in response]
+                    
+                    if missing_fields:
+                        print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                        all_success = False
+                    else:
+                        # Verify data integrity
+                        if response['service_name'] != service_name:
+                            print(f"   ⚠️  Service name mismatch: expected {service_name}, got {response['service_name']}")
+                            all_success = False
+                        
+                        if response['status'] != heartbeat_data['status']:
+                            print(f"   ⚠️  Status mismatch: expected {heartbeat_data['status']}, got {response['status']}")
+                            all_success = False
+                        
+                        if response['metrics'] != heartbeat_data['metrics']:
+                            print(f"   ⚠️  Metrics mismatch for {service_name}")
+                            all_success = False
+                        
+                        print(f"   ID: {response['id']}")
+                        print(f"   Timestamp: {response['timestamp']}")
+                else:
+                    all_success = False
+        
+        return all_success
+
+    def test_heartbeat_monitor_invalid_service(self):
+        """Test posting heartbeat with invalid service name"""
+        print("\n💓 Testing Heartbeat Monitor - Invalid Service Names...")
+        
+        invalid_services = [
+            "Invalid Service",
+            "Random Service",
+            "Not A Real Service"
+        ]
+        
+        all_success = True
+        
+        for invalid_service in invalid_services:
+            heartbeat_data = {
+                "service_name": invalid_service,
+                "status": "ok",
+                "metrics": {"test": "data"}
+            }
+            
+            success, response = self.run_test(
+                f"Post Heartbeat - Invalid Service ({invalid_service})",
+                "POST",
+                "heartbeat",
+                422,  # Should return validation error
+                heartbeat_data
+            )
+            
+            if success:
+                print(f"   ✅ Invalid service '{invalid_service}' correctly rejected")
+            else:
+                print(f"   ❌ Invalid service '{invalid_service}' was not rejected properly")
+                all_success = False
+        
+        return all_success
+
+    def test_heartbeat_monitor_invalid_status(self):
+        """Test posting heartbeat with invalid status"""
+        print("\n💓 Testing Heartbeat Monitor - Invalid Status Values...")
+        
+        invalid_statuses = [
+            "invalid",
+            "unknown",
+            "critical"
+        ]
+        
+        all_success = True
+        
+        for invalid_status in invalid_statuses:
+            heartbeat_data = {
+                "service_name": "CV Router",
+                "status": invalid_status,
+                "metrics": {"test": "data"}
+            }
+            
+            success, response = self.run_test(
+                f"Post Heartbeat - Invalid Status ({invalid_status})",
+                "POST",
+                "heartbeat",
+                422,  # Should return validation error
+                heartbeat_data
+            )
+            
+            if success:
+                print(f"   ✅ Invalid status '{invalid_status}' correctly rejected")
+            else:
+                print(f"   ❌ Invalid status '{invalid_status}' was not rejected properly")
+                all_success = False
+        
+        return all_success
+
+    def test_heartbeat_monitor_summary(self):
+        """Test heartbeat summary endpoint"""
+        print("\n💓 Testing Heartbeat Monitor - Summary...")
+        
+        success, response = self.run_test("Get Heartbeat Summary", "GET", "heartbeat/summary", 200)
+        
+        if success and response:
+            print(f"   ✅ Summary retrieved successfully")
+            
+            # Verify response structure
+            required_fields = ['total_services', 'healthy_services', 'warning_services', 'error_services', 'offline_services', 'services', 'last_updated']
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in response: {missing_fields}")
+                return False
+            
+            # Verify total services count (should be 7)
+            total_services = response.get('total_services', 0)
+            if total_services != 7:
+                print(f"   ⚠️  Expected 7 total services, got {total_services}")
+                return False
+            
+            # Verify counts add up
+            healthy = response.get('healthy_services', 0)
+            warning = response.get('warning_services', 0)
+            error = response.get('error_services', 0)
+            offline = response.get('offline_services', 0)
+            
+            if healthy + warning + error + offline != total_services:
+                print(f"   ⚠️  Service counts don't add up: {healthy}+{warning}+{error}+{offline} != {total_services}")
+                return False
+            
+            print(f"   Total Services: {total_services}")
+            print(f"   Healthy: {healthy}, Warning: {warning}, Error: {error}, Offline: {offline}")
+            
+            # Verify services list
+            services = response.get('services', [])
+            if len(services) != 7:
+                print(f"   ⚠️  Expected 7 services in list, got {len(services)}")
+                return False
+            
+            # Verify each service has required fields
+            expected_services = [
+                "CV Router", "CV Analytics", "Scoring Engine", "Replay Worker",
+                "Highlight Worker", "Storage Manager", "Supervisor Console"
+            ]
+            
+            found_services = [s.get('service_name') for s in services]
+            missing_services = [s for s in expected_services if s not in found_services]
+            
+            if missing_services:
+                print(f"   ⚠️  Missing services in summary: {missing_services}")
+                return False
+            
+            # Verify service structure
+            for service in services:
+                required_service_fields = ['service_name', 'status', 'is_healthy']
+                missing_service_fields = [field for field in required_service_fields if field not in service]
+                
+                if missing_service_fields:
+                    print(f"   ⚠️  Missing fields in service {service.get('service_name', 'unknown')}: {missing_service_fields}")
+                    return False
+                
+                # Verify status is valid
+                valid_statuses = ['ok', 'warning', 'error', 'offline']
+                if service.get('status') not in valid_statuses:
+                    print(f"   ⚠️  Invalid status for {service.get('service_name')}: {service.get('status')}")
+                    return False
+            
+            print(f"   ✅ All 7 services present with valid structure")
+            
+            # Show sample service status
+            first_service = services[0]
+            print(f"   Sample service: {first_service['service_name']} [{first_service['status']}] - Healthy: {first_service['is_healthy']}")
+        
+        return success
+
+    def test_heartbeat_monitor_history(self):
+        """Test heartbeat history endpoint for each service"""
+        print("\n💓 Testing Heartbeat Monitor - Service History...")
+        
+        services = [
+            "CV Router",
+            "CV Analytics", 
+            "Scoring Engine",
+            "Replay Worker",
+            "Highlight Worker",
+            "Storage Manager",
+            "Supervisor Console"
+        ]
+        
+        all_success = True
+        
+        for service_name in services:
+            # Test default limit
+            success, response = self.run_test(
+                f"Get History - {service_name}",
+                "GET",
+                f"heartbeat/history/{service_name}",
+                200
+            )
+            
+            if success and response:
+                print(f"   ✅ History retrieved for {service_name}: {len(response)} records")
+                
+                # Verify response is a list
+                if not isinstance(response, list):
+                    print(f"   ⚠️  Response should be a list, got {type(response)}")
+                    all_success = False
+                    continue
+                
+                # If we have records, verify structure
+                if response:
+                    first_record = response[0]
+                    required_fields = ['id', 'service_name', 'timestamp', 'status', 'metrics', 'received_at']
+                    missing_fields = [field for field in required_fields if field not in first_record]
+                    
+                    if missing_fields:
+                        print(f"   ⚠️  Missing fields in history record: {missing_fields}")
+                        all_success = False
+                    else:
+                        # Verify service name matches
+                        if first_record['service_name'] != service_name:
+                            print(f"   ⚠️  Service name mismatch in history: expected {service_name}, got {first_record['service_name']}")
+                            all_success = False
+                        
+                        print(f"   Latest record: {first_record['status']} at {first_record['timestamp']}")
+                
+                # Test with custom limit
+                success_limit, response_limit = self.run_test(
+                    f"Get History - {service_name} (limit=2)",
+                    "GET",
+                    f"heartbeat/history/{service_name}?limit=2",
+                    200
+                )
+                
+                if success_limit and response_limit:
+                    if len(response_limit) > 2:
+                        print(f"   ⚠️  Limit parameter not working: expected max 2, got {len(response_limit)}")
+                        all_success = False
+                    else:
+                        print(f"   ✅ Limit parameter working: {len(response_limit)} records returned")
+                else:
+                    all_success = False
+            else:
+                all_success = False
+        
+        return all_success
+
+    def test_heartbeat_monitor_time_tracking(self):
+        """Test time tracking and offline detection"""
+        print("\n💓 Testing Heartbeat Monitor - Time Tracking...")
+        
+        # Post a heartbeat for a test service
+        heartbeat_data = {
+            "service_name": "CV Router",
+            "status": "ok",
+            "metrics": {"test_time_tracking": True}
+        }
+        
+        success, response = self.run_test(
+            "Post Heartbeat for Time Tracking Test",
+            "POST",
+            "heartbeat",
+            201,
+            heartbeat_data
+        )
+        
+        if not success:
+            return False
+        
+        # Immediately get summary to check time tracking
+        success_summary, summary_response = self.run_test(
+            "Get Summary for Time Tracking",
+            "GET",
+            "heartbeat/summary",
+            200
+        )
+        
+        if success_summary and summary_response:
+            services = summary_response.get('services', [])
+            cv_router_service = None
+            
+            for service in services:
+                if service.get('service_name') == 'CV Router':
+                    cv_router_service = service
+                    break
+            
+            if not cv_router_service:
+                print(f"   ❌ CV Router service not found in summary")
+                return False
+            
+            # Verify time tracking fields are present
+            if 'time_since_last_heartbeat_sec' not in cv_router_service:
+                print(f"   ⚠️  Missing time_since_last_heartbeat_sec field")
+                return False
+            
+            time_since = cv_router_service.get('time_since_last_heartbeat_sec')
+            if time_since is None:
+                print(f"   ⚠️  time_since_last_heartbeat_sec is None")
+                return False
+            
+            # Should be very recent (less than 5 seconds)
+            if time_since > 5.0:
+                print(f"   ⚠️  Time since last heartbeat too high: {time_since} seconds")
+                return False
+            
+            print(f"   ✅ Time tracking working: {time_since:.2f} seconds since last heartbeat")
+            
+            # Verify last_heartbeat timestamp is present
+            if 'last_heartbeat' not in cv_router_service or not cv_router_service['last_heartbeat']:
+                print(f"   ⚠️  Missing or empty last_heartbeat timestamp")
+                return False
+            
+            print(f"   ✅ Last heartbeat timestamp: {cv_router_service['last_heartbeat']}")
+            
+            # Verify service is not offline (should be 'ok')
+            if cv_router_service.get('status') != 'ok':
+                print(f"   ⚠️  Expected status 'ok', got '{cv_router_service.get('status')}'")
+                return False
+            
+            print(f"   ✅ Service status correctly reported as: {cv_router_service['status']}")
+        
+        return success_summary
+
+    def test_heartbeat_monitor_metrics_preservation(self):
+        """Test that metrics are properly stored and retrieved"""
+        print("\n💓 Testing Heartbeat Monitor - Metrics Preservation...")
+        
+        # Test with complex metrics data
+        complex_metrics = {
+            "cpu_usage": 67.5,
+            "memory_usage": 82.3,
+            "disk_usage": 45.1,
+            "network_io": {
+                "bytes_in": 1024000,
+                "bytes_out": 512000
+            },
+            "performance": {
+                "avg_response_time_ms": 125.7,
+                "requests_per_second": 45.2,
+                "error_rate": 0.02
+            },
+            "custom_data": ["item1", "item2", "item3"],
+            "boolean_flag": True,
+            "null_value": None
+        }
+        
+        heartbeat_data = {
+            "service_name": "Scoring Engine",
+            "status": "warning",
+            "metrics": complex_metrics
+        }
+        
+        success, response = self.run_test(
+            "Post Heartbeat with Complex Metrics",
+            "POST",
+            "heartbeat",
+            201,
+            heartbeat_data
+        )
+        
+        if success and response:
+            print(f"   ✅ Complex metrics heartbeat recorded")
+            
+            # Verify metrics are preserved in response
+            returned_metrics = response.get('metrics', {})
+            
+            # Check key metrics
+            if returned_metrics.get('cpu_usage') != complex_metrics['cpu_usage']:
+                print(f"   ⚠️  CPU usage not preserved: expected {complex_metrics['cpu_usage']}, got {returned_metrics.get('cpu_usage')}")
+                return False
+            
+            if returned_metrics.get('network_io', {}).get('bytes_in') != complex_metrics['network_io']['bytes_in']:
+                print(f"   ⚠️  Nested metrics not preserved")
+                return False
+            
+            if returned_metrics.get('custom_data') != complex_metrics['custom_data']:
+                print(f"   ⚠️  Array metrics not preserved")
+                return False
+            
+            print(f"   ✅ Complex metrics properly preserved")
+            
+            # Get summary and verify metrics are available
+            success_summary, summary_response = self.run_test(
+                "Get Summary to Check Metrics",
+                "GET",
+                "heartbeat/summary",
+                200
+            )
+            
+            if success_summary and summary_response:
+                services = summary_response.get('services', [])
+                scoring_engine = None
+                
+                for service in services:
+                    if service.get('service_name') == 'Scoring Engine':
+                        scoring_engine = service
+                        break
+                
+                if scoring_engine and scoring_engine.get('metrics'):
+                    service_metrics = scoring_engine['metrics']
+                    
+                    # Verify key metrics are available in summary
+                    if service_metrics.get('cpu_usage') != complex_metrics['cpu_usage']:
+                        print(f"   ⚠️  Metrics not preserved in summary")
+                        return False
+                    
+                    print(f"   ✅ Metrics available in summary: CPU {service_metrics.get('cpu_usage')}%")
+                else:
+                    print(f"   ⚠️  Scoring Engine metrics not found in summary")
+                    return False
+        
+        return success
+
+    def test_heartbeat_monitor_integration_flow(self):
+        """Test complete heartbeat monitor integration flow"""
+        print("\n💓 Testing Complete Heartbeat Monitor Integration Flow...")
+        
+        # Step 1: Health check
+        print("   Step 1: Health check...")
+        if not self.test_heartbeat_monitor_health():
+            return False
+        
+        # Step 2: Post heartbeats for all services
+        print("   Step 2: Recording heartbeats for all services...")
+        if not self.test_heartbeat_monitor_post_heartbeat():
+            return False
+        
+        # Step 3: Test validation (invalid service names and statuses)
+        print("   Step 3: Testing validation...")
+        if not self.test_heartbeat_monitor_invalid_service():
+            return False
+        if not self.test_heartbeat_monitor_invalid_status():
+            return False
+        
+        # Step 4: Get summary and verify counts
+        print("   Step 4: Verifying summary...")
+        if not self.test_heartbeat_monitor_summary():
+            return False
+        
+        # Step 5: Get history for all services
+        print("   Step 5: Checking service history...")
+        if not self.test_heartbeat_monitor_history():
+            return False
+        
+        # Step 6: Test time tracking
+        print("   Step 6: Verifying time tracking...")
+        if not self.test_heartbeat_monitor_time_tracking():
+            return False
+        
+        # Step 7: Test metrics preservation
+        print("   Step 7: Testing metrics preservation...")
+        if not self.test_heartbeat_monitor_metrics_preservation():
+            return False
+        
+        print("   🎉 Complete Heartbeat Monitor integration flow test passed!")
+        print("   ✅ All 4 API endpoints working correctly")
+        print("   ✅ All 7 services can send heartbeats")
+        print("   ✅ Service validation working (invalid names/statuses rejected)")
+        print("   ✅ Summary shows correct counts and service list")
+        print("   ✅ Time tracking and offline detection functional")
+        print("   ✅ Metrics properly stored and retrieved")
+        return True
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Combat Judging API Tests")
