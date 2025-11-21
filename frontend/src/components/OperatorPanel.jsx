@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { Play, Pause, ChevronRight, Eye, Monitor, Zap, Wifi, WifiOff, Clock, Shield } from 'lucide-react';
+import ICVSSPanel from '@/components/ICVSSPanel';
 
 export default function OperatorPanel() {
   const { boutId } = useParams();
