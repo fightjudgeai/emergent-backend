@@ -1,0 +1,50 @@
+# Normalization Engine Configuration
+# Global weight caps and event normalization rules
+
+# Global caps (prevent metric drift)
+global_caps:
+  damage_max: 100.0
+  control_max: 300.0  # seconds
+  aggression_max: 50.0
+  defense_max: 25.0
+
+# Event base weights (0-1 scale)
+event_weights:
+  # Knockdowns
+  kd_nf: 0.95
+  kd_hard: 0.75
+  kd_flash: 0.50
+  
+  # Damage
+  rocked: 0.40
+  strike_highimpact: 0.25
+  strike_sig: 0.10
+  
+  # Grappling
+  td_land: 0.20
+  td_attempt: 0.05
+  sub_attempt: 0.35
+  
+  # Control (per second)
+  control_time: 0.003  # 0.3% per second
+  
+  # Momentum
+  momentum_swing: 0.30
+
+# CV intensity mapping (raw CV values → normalized)
+cv_intensity_mapping:
+  critical: 1.0
+  heavy: 0.75
+  medium: 0.50
+  light: 0.25
+
+# Severity multipliers
+severity_multipliers:
+  min: 0.5
+  max: 1.5
+
+# Confidence boosts
+confidence_boosts:
+  high_confidence: 1.1  # >0.9
+  medium_confidence: 1.0  # 0.7-0.9
+  low_confidence: 0.9  # <0.7
