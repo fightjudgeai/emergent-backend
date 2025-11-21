@@ -6,6 +6,7 @@ import asyncio
 from typing import List
 import logging
 import uuid
+from datetime import datetime
 import sys
 sys.path.append('/app/backend')
 from fjai.models import CombatEvent, EventType
