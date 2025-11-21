@@ -1030,6 +1030,11 @@ export default function OperatorPanel() {
         </Card>
       </div>
 
+      {/* ICVSS - Computer Vision Scoring */}
+      <div className="max-w-7xl mx-auto mb-6">
+        <ICVSSPanel boutId={boutId} currentRound={bout?.currentRound || 1} />
+      </div>
+
       {/* Fighter Selection */}
       <div className="max-w-7xl mx-auto mb-6">
         <Card className="bg-[#13151a] border-[#2a2d35] p-6">
