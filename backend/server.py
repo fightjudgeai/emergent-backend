@@ -3716,6 +3716,74 @@ try:
 except Exception as e:
     logger.warning(f"CV Analytics Engine not loaded: {e}")
 
+# ============================================================================
+# CV ROUTER
+# ============================================================================
+try:
+    from cv_router.routes import cv_router_api
+    from cv_router.router_engine import CVRouterEngine
+    import cv_router.routes as cv_router_routes_module
+    
+    # Initialize CV Router
+    cv_router_engine = CVRouterEngine()
+    cv_router_routes_module.router_engine = cv_router_engine
+    
+    # Mount router
+    api_router.include_router(cv_router_api, prefix="/cv-router")
+    
+    logger.info("✓ CV Router loaded")
+    logger.info("  - Multi-camera stream ingestion")
+    logger.info("  - Worker load balancing")
+    logger.info("  - Failover & health monitoring")
+    
+except Exception as e:
+    logger.warning(f"CV Router not loaded: {e}")
+
+# ============================================================================
+# EVENT HARMONIZER
+# ============================================================================
+try:
+    from event_harmonizer.routes import event_harmonizer_api
+    from event_harmonizer.harmonizer_engine import EventHarmonizerEngine
+    import event_harmonizer.routes as harmonizer_routes_module
+    
+    # Initialize Event Harmonizer
+    event_harmonizer = EventHarmonizerEngine()
+    harmonizer_routes_module.harmonizer_engine = event_harmonizer
+    
+    # Mount router
+    api_router.include_router(event_harmonizer_api, prefix="/harmonizer")
+    
+    logger.info("✓ Event Harmonizer loaded")
+    logger.info("  - Judge vs CV conflict resolution")
+    logger.info("  - Weighted confidence logic")
+    logger.info("  - Hybrid event merging")
+    
+except Exception as e:
+    logger.warning(f"Event Harmonizer not loaded: {e}")
+
+# ============================================================================
+# NORMALIZATION ENGINE
+# ============================================================================
+try:
+    from normalization_engine.routes import normalization_api
+    from normalization_engine.normalization_engine import NormalizationEngine
+    import normalization_engine.routes as norm_routes_module
+    
+    # Initialize Normalization Engine
+    normalization_engine = NormalizationEngine()
+    norm_routes_module.norm_engine = normalization_engine
+    
+    # Mount router
+    api_router.include_router(normalization_api, prefix="/normalization")
+    
+    logger.info("✓ Normalization Engine loaded")
+    logger.info("  - Event weight normalization (0-1 scale)")
+    logger.info("  - Global caps & metric drift prevention")
+    logger.info("  - Transparent weight breakdown")
+    
+except Exception as e:
+    logger.warning(f"Normalization Engine not loaded: {e}")
 
 # Include the router in the main app
 app.include_router(api_router)
