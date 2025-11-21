@@ -3982,6 +3982,23 @@ try:
 except Exception as e:
     logger.warning(f"Performance Profiler not loaded: {e}")
 
+# ============================================================================
+# HEARTBEAT MONITOR
+# ============================================================================
+try:
+    from heartbeat_monitor.routes import heartbeat_api
+    from heartbeat_monitor.monitor_engine import HeartbeatMonitor
+    import heartbeat_monitor.routes as heartbeat_routes_module
+    
+    heartbeat_mon = HeartbeatMonitor(db=db)
+    heartbeat_routes_module.monitor = heartbeat_mon
+    
+    api_router.include_router(heartbeat_api, prefix="")
+    logger.info("✓ Heartbeat Monitor loaded - Service health tracking for FJAIPOS modules")
+    
+except Exception as e:
+    logger.warning(f"Heartbeat Monitor not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
