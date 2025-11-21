@@ -4720,6 +4720,9 @@ class CombatJudgingAPITester:
         print(f"Testing against: {self.base_url}")
         print("=" * 60)
         
+        # Test Enhanced Services (Priority from review request)
+        self.test_enhanced_services_comprehensive()
+        
         # Test basic connectivity
         self.test_root_endpoint()
         
