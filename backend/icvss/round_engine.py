@@ -203,3 +203,43 @@ class RoundEngine:
         if round_doc:
             return ICVSSRound(**round_doc)
         return None
+
+    async def get_active_rounds_count(self) -> int:
+        """Get count of currently active rounds"""
+        return len([r for r in self.active_rounds.values() if r.status == "open"])
+    
+    async def get_event_processing_stats(self) -> Dict:
+        """Get event processing statistics from last 5 minutes"""
+        from datetime import timedelta
+        
+        # Calculate time window (last 5 minutes)
+        time_cutoff = datetime.now(timezone.utc) - timedelta(minutes=5)
+        
+        # Get recent events from all active rounds
+        total_events = 0
+        total_latency = 0
+        error_count = 0
+        dedup_count = 0
+        
+        for round_data in self.active_rounds.values():
+            # Count CV and judge events
+            cv_events = len(round_data.cv_events)
+            judge_events = len(round_data.judge_events)
+            total_events += cv_events + judge_events
+            
+            # Get dedup stats from event processor
+            dedup_count += self.event_processor.dedup_count
+        
+        # Calculate metrics
+        avg_latency = total_latency / total_events if total_events > 0 else 0
+        error_rate = error_count / total_events if total_events > 0 else 0
+        dedup_rate = dedup_count / total_events if total_events > 0 else 0
+        
+        return {
+            "total_processed": total_events,
+            "recent_count": total_events,
+            "processing_latency_ms": round(avg_latency, 2),
+            "error_rate": round(error_rate, 4),
+            "dedup_rate": round(dedup_rate, 4)
+        }
+
