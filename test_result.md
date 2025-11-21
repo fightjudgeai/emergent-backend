@@ -319,6 +319,30 @@ backend:
         agent: "testing"
         comment: "✅ ROUND NOTES ENGINE BACKEND TESTING COMPLETE: Successfully tested all 5 API endpoints with comprehensive scenarios. VERIFIED: (1) POST /api/round-notes - Creates notes with 201 status, proper structure (id, bout_id, round_num, judge_id, judge_name, note_text, timestamp, metadata), automatic UUID/timestamp generation, (2) GET /api/round-notes/{bout_id}/{round_num} - Retrieves round notes with optional judge filtering, proper response structure with notes array and count, (3) GET /api/round-notes/{bout_id} - Gets all bout notes with grouping by round (notes_by_round object), judge filtering, accurate total_count, (4) PUT /api/round-notes/{note_id} - Updates notes with form data, proper success response, verified text updates with updated_at timestamp, (5) DELETE /api/round-notes/{note_id} - Deletes notes correctly, verified by subsequent GET requests. ERROR HANDLING: 404 for non-existent updates/deletes, empty arrays for non-existent bouts. Fixed logger definition order and MongoDB ObjectId serialization issues. All 92/92 backend tests passed (100% success rate). Production-ready with proper data structure, CRUD operations, filtering, grouping, and error handling."
 
+  - task: "Calibration API Backend"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/calibration_api/"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Calibration API service for AI model threshold tuning with 5 endpoints: GET /api/calibration/get (get config), POST /api/calibration/set (update config), POST /api/calibration/reset (reset to defaults), GET /api/calibration/history (change history), GET /api/calibration/health (health check). Features: KD/Rocked/High-impact strike thresholds, timing window adjustments, confidence thresholds, change history tracking, parameter validation (0-1 range for thresholds), automatic timestamp tracking. Integrated into server.py with CalibrationManager."
+
+  - task: "Performance Profiler Backend"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/performance_profiler/"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented Performance Profiler service for real-time metrics tracking with 6 endpoints: GET /api/perf/summary (performance summary with avg/p95/p99), POST /api/perf/record/cv_inference (record CV inference time), POST /api/perf/record/event_ingestion (record event ingestion time), POST /api/perf/record/scoring (record scoring calc time), POST /api/perf/record/websocket (record WS roundtrip time), WebSocket /api/perf/live (live streaming), GET /api/perf/health (health check). Features: Rolling window (1000 samples), percentile calculations, mock data generation for testing, WebSocket broadcasting, measurement period tracking. Integrated into server.py with PerformanceProfiler engine."
+
   - task: "Custom Organization Name Feature"
     implemented: true
     working: true
