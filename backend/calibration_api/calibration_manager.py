@@ -82,16 +82,72 @@ class CalibrationManager:
         config.modified_by = modified_by
         self.config = config
         
-        # Save to database
-        if self.db:
-            # In production: save to Postgres
-            pass
+        # Save to Postgres
+        await self._save_to_postgres(config)
+        
+        # Broadcast via Redis pub/sub
+        await self._broadcast_config_change(config)
         
         # Replicate to CV Analytics Engine
         await self._replicate_to_cv_engine()
         
         logger.info(f"Calibration updated by {modified_by}")
         return self.config
+    
+    async def _save_to_postgres(self, config: CalibrationConfig):
+        """Save configuration to Postgres"""
+        if not self.postgres_session:
+            logger.debug("Postgres not available, skipping save")
+            return
+        
+        try:
+            from db_utils import CalibrationConfigDB
+            from sqlalchemy import select, update
+            
+            async with self.postgres_session() as session:
+                # Deactivate all existing configs
+                await session.execute(
+                    update(CalibrationConfigDB).values(is_active=0)
+                )
+                
+                # Insert new active config
+                new_config = CalibrationConfigDB(
+                    kd_threshold=config.kd_threshold,
+                    rocked_threshold=config.rocked_threshold,
+                    highimpact_strike_threshold=config.highimpact_strike_threshold,
+                    momentum_swing_window_ms=config.momentum_swing_window_ms,
+                    multicam_merge_window_ms=config.multicam_merge_window_ms,
+                    confidence_threshold=config.confidence_threshold,
+                    deduplication_window_ms=config.deduplication_window_ms,
+                    version=config.version,
+                    modified_by=config.modified_by,
+                    is_active=1
+                )
+                
+                session.add(new_config)
+                await session.commit()
+                logger.info("Configuration saved to Postgres")
+        
+        except Exception as e:
+            logger.error(f"Error saving to Postgres: {e}")
+    
+    async def _broadcast_config_change(self, config: CalibrationConfig):
+        """Broadcast config change via Redis pub/sub"""
+        if not self.redis_pubsub:
+            logger.debug("Redis pub/sub not available, skipping broadcast")
+            return
+        
+        try:
+            message = {
+                "type": "config_update",
+                "config": config.model_dump(),
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            }
+            await self.redis_pubsub.publish(message)
+            logger.info("Configuration change broadcasted via Redis")
+        
+        except Exception as e:
+            logger.error(f"Error broadcasting config change: {e}")
     
     async def reset_config(self) -> CalibrationConfig:
         """
