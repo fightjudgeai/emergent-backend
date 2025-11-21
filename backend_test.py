@@ -4212,6 +4212,9 @@ class CombatJudgingAPITester:
         # Test ICVSS (Intelligent Combat Vision Scoring System) - NEW
         self.test_icvss_integration_flow()
         
+        # Test Heartbeat Monitor APIs (4 APIs) - NEW
+        self.test_heartbeat_monitor_integration_flow()
+        
         # Print summary
         print("\n" + "=" * 60)
         print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
