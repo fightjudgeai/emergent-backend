@@ -72,3 +72,34 @@ async def get_clock_now():
     """Get unified time + timer state"""
     engine = get_sync_engine()
     return engine.get_clock_now()
+
+
+
+@time_sync_api.websocket("/clock/ws")
+async def websocket_clock_broadcast(websocket: WebSocket):
+    """
+    WebSocket endpoint for real-time clock broadcasts
+    
+    Broadcasts timer state every 100ms
+    """
+    engine = get_sync_engine()
+    
+    await websocket.accept()
+    engine.websocket_connections.append(websocket)
+    
+    try:
+        while True:
+            # Broadcast current timer state
+            state = engine.get_clock_now()
+            await websocket.send_json(state)
+            
+            # Send updates every 100ms
+            await asyncio.sleep(0.1)
+    
+    except WebSocketDisconnect:
+        engine.websocket_connections.remove(websocket)
+        logger.info("Clock WebSocket disconnected")
+    except Exception as e:
+        logger.error(f"Clock WebSocket error: {e}")
+        if websocket in engine.websocket_connections:
+            engine.websocket_connections.remove(websocket)
