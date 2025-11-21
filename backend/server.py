@@ -3662,8 +3662,8 @@ try:
     icvss_round_engine = RoundEngine(db)
     icvss_routes_module.round_engine = icvss_round_engine
     
-    # Mount ICVSS router under API prefix (remove icvss prefix to avoid double prefix)
-    api_router.include_router(icvss_router, prefix="")
+    # Mount ICVSS router under API prefix
+    api_router.include_router(icvss_router, prefix="/icvss")
     
     logger.info("✓ ICVSS (Intelligent Combat Vision Scoring System) loaded")
     logger.info("  - Event processing with 80-150ms deduplication")
