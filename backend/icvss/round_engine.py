@@ -3,9 +3,10 @@ ICVSS Live Round Engine
 /round/open, /round/event, /round/score, /round/lock
 """
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from datetime import datetime, timezone
 import logging
+import json
 from .models import ICVSSRound, CVEvent, ScoreResponse
 from .event_processor import EventProcessor
 from .scoring_engine import HybridScoringEngine
