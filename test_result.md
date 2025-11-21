@@ -1482,12 +1482,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "System 1: Offline Queue Workflow Enhancement"
-    - "System 2: Round Notes Engine - Frontend UI"
-    - "System 3: Supervisor Dashboard Data Feeds - Backend API"
-    - "System 4: AI Judge Variance Detection - Backend API"
-    - "System 6: Promotion Branding Engine - Backend API"
-    - "System 7: Production Output Buffers - Backend API"
+    - "Calibration API Backend"
+    - "Performance Profiler Backend"
+    - "Performance Metrics Display in Monitoring Dashboard"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
