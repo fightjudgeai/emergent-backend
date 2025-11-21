@@ -12,8 +12,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
-import { Play, Pause, ChevronRight, Eye, Monitor, Zap, Wifi, WifiOff, Clock, Shield } from 'lucide-react';
+import { Play, Pause, ChevronRight, Eye, Monitor, Zap, Wifi, WifiOff, Clock, Shield, Activity } from 'lucide-react';
 import ICVSSPanel from '@/components/ICVSSPanel';
+import ICVSSMonitoringDashboard from '@/components/ICVSSMonitoringDashboard';
 
 export default function OperatorPanel() {
   const { boutId } = useParams();
