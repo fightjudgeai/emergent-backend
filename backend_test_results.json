@@ -8,7 +8,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/",
+      "url": "https://combatscore.preview.emergentagent.com/api/",
       "response": {
         "message": "Combat Sports Judging API"
       }
@@ -18,7 +18,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/status",
+      "url": "https://combatscore.preview.emergentagent.com/api/status",
       "response": {
         "id": "6321c926-4b5b-4c28-b464-9458f3623d38",
         "client_name": "test_client_020140",
@@ -30,7 +30,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/status",
+      "url": "https://combatscore.preview.emergentagent.com/api/status",
       "response": [
         {
           "id": "05ea4451-e778-4d4b-831e-7fa6f0a4ead5",
@@ -119,7 +119,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_123",
         "round_num": 1,
@@ -198,7 +198,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_empty",
         "round_num": 1,
@@ -277,7 +277,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_invalid",
         "round_num": 1,
@@ -356,7 +356,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_counts",
         "round_num": 1,
@@ -433,7 +433,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_actual",
         "round_num": 1,
@@ -510,7 +510,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatscore.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_001",
         "round_num": 1,
@@ -577,7 +577,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatscore.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_002",
         "round_num": 1,
@@ -644,7 +644,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatscore.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_003",
         "round_num": 1,
@@ -712,7 +712,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatscore.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_004",
         "round_num": 1,
@@ -779,7 +779,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatscore.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_005",
         "round_num": 1,
@@ -846,7 +846,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatscore.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_006",
         "round_num": 1,
@@ -916,7 +916,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/seed",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/seed",
       "response": {
         "success": true,
         "message": "Seeded 16 training rounds",
@@ -928,7 +928,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/rounds",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/rounds",
       "response": [
         {
           "id": "a7fcc6a9-ab9c-4996-9725-a5687facf296",
@@ -1177,7 +1177,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "51c112e9-77b0-4560-9175-70b08ae469d1",
         "judgeId": "test-judge-1",
@@ -1197,7 +1197,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "a908c2f1-b884-4ac8-82c1-33b0a1f9f954",
         "judgeId": "test-judge-1",
@@ -1217,7 +1217,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "0ee999df-a0f5-4346-b195-b1378bf15ae3",
         "judgeId": "test-judge-1",
@@ -1237,7 +1237,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "275714af-0e4b-41a8-987a-0b6cbb8a0cbd",
         "judgeId": "test-judge-2",
@@ -1257,7 +1257,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "22c5e678-9fe3-4541-8e19-6d288b16f70c",
         "judgeId": "test-judge-2",
@@ -1277,7 +1277,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "b6fb8728-7ca6-43de-909d-c13d0191087a",
         "judgeId": "test-judge-3",
@@ -1297,7 +1297,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "c9f15a5e-2e23-4b9f-9bcf-b916a32a78f5",
         "judgeId": "test-judge-3",
@@ -1317,7 +1317,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "bbe9066d-2022-4842-ade3-3bc7871a1d03",
         "judgeId": "test-judge-3",
@@ -1337,7 +1337,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "58ee3ec6-860b-447f-9ae0-8cd14479ac30",
         "judgeId": "test-judge-3",
@@ -1357,7 +1357,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/judge-stats/test-judge-1",
+      "url": "https://combatscore.preview.emergentagent.com/api/training-library/judge-stats/test-judge-1",
       "response": {
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
@@ -1373,7 +1373,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/log",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "817bb1f7-faa9-4f01-9bdb-cc3c957ba7fe"
@@ -1384,7 +1384,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/log",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "004fffae-3362-4239-a9db-5ba8796e9ff8"
@@ -1395,7 +1395,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/log",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "92342eae-4268-4465-86c1-ee65d73de4df"
@@ -1406,7 +1406,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/logs?judge_id=owner-001",
       "response": {
         "logs": [
           {
@@ -3390,7 +3390,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation",
       "response": {
         "logs": [
           {
@@ -5394,7 +5394,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&user_id=judge-001",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&user_id=judge-001",
       "response": {
         "logs": [
           {
@@ -5674,7 +5674,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&resource_type=round_score",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&resource_type=round_score",
       "response": {
         "logs": [
           {
@@ -7678,7 +7678,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation&user_id=judge-001",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation&user_id=judge-001",
       "response": {
         "logs": [
           {
@@ -7958,7 +7958,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/verify/817bb1f7-faa9-4f01-9bdb-cc3c957ba7fe?judge_id=owner-001",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/verify/817bb1f7-faa9-4f01-9bdb-cc3c957ba7fe?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "ce62d48d73eb5923f8c45c1c0f922689a88983415a763f3efd5fd15cef57c574",
@@ -7971,7 +7971,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/verify/004fffae-3362-4239-a9db-5ba8796e9ff8?judge_id=owner-001",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/verify/004fffae-3362-4239-a9db-5ba8796e9ff8?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "43c29d1280a16390d0978711b73bcafbe6bdbdcdc5ac6a3cc444e0015852ac0c",
@@ -7984,7 +7984,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/verify/92342eae-4268-4465-86c1-ee65d73de4df?judge_id=owner-001",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/verify/92342eae-4268-4465-86c1-ee65d73de4df?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "acb92a7bf0473abbcb52336dcb8e0952adcc3d475b3ae2bf3abec1e221dbf887",
@@ -7997,7 +7997,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/verify/non-existent-log-id?judge_id=owner-001",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/verify/non-existent-log-id?judge_id=owner-001",
       "response": {
         "detail": "Audit log not found"
       }
@@ -8007,7 +8007,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/stats?judge_id=owner-001",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/stats?judge_id=owner-001",
       "response": {
         "total_logs": 142,
         "by_action_type": [
@@ -8055,7 +8055,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/audit/export?judge_id=owner-001",
+      "url": "https://combatscore.preview.emergentagent.com/api/audit/export?judge_id=owner-001",
       "response": {
         "export_format": "json",
         "export_timestamp": "2025-11-21T02:01:42.302948+00:00",
@@ -10845,7 +10845,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/judges",
+      "url": "https://combatscore.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -10857,7 +10857,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/judges",
+      "url": "https://combatscore.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -10869,7 +10869,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/judges",
+      "url": "https://combatscore.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -10881,7 +10881,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/judges/JUDGE001",
+      "url": "https://combatscore.preview.emergentagent.com/api/judges/JUDGE001",
       "response": {
         "judgeId": "JUDGE001",
         "judgeName": "Sarah Mitchell",
@@ -10904,7 +10904,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/judges/JUDGE002",
+      "url": "https://combatscore.preview.emergentagent.com/api/judges/JUDGE002",
       "response": {
         "judgeId": "JUDGE002",
         "judgeName": "Carlos Rodriguez",
@@ -10926,7 +10926,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/judges/owner-001",
+      "url": "https://combatscore.preview.emergentagent.com/api/judges/owner-001",
       "response": {
         "judgeId": "owner-001",
         "judgeName": "Owner Judge",
@@ -10947,7 +10947,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://combatjudge.preview.emergentagent.com/api/judges/NON_EXISTENT",
+      "url": "https://combatscore.preview.emergentagent.com/api/judges/NON_EXISTENT",
       "response": {
         "detail": "Judge profile not found"
       }
@@ -10957,7 +10957,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://combatscore.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Jon Jones"
@@ -10968,7 +10968,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://combatscore.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Daniel Cormier"
@@ -10979,7 +10979,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://combatscore.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Amanda Nunes"
@@ -10990,7 +10990,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/Jon%20Jones/stats",
+      "url": "https://combatscore.preview.emergentagent.com/api/fighters/Jon%20Jones/stats",
       "response": {
         "fighter_name": "Jon Jones",
         "avg_control_time": 120.0,
@@ -11028,7 +11028,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/Daniel%20Cormier/stats",
+      "url": "https://combatscore.preview.emergentagent.com/api/fighters/Daniel%20Cormier/stats",
       "response": {
         "fighter_name": "Daniel Cormier",
         "avg_control_time": 45.0,
@@ -11066,7 +11066,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/Amanda%20Nunes/stats",
+      "url": "https://combatscore.preview.emergentagent.com/api/fighters/Amanda%20Nunes/stats",
       "response": {
         "fighter_name": "Amanda Nunes",
         "avg_control_time": 0.0,
@@ -11104,7 +11104,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/NonExistentFighter/stats",
+      "url": "https://combatscore.preview.emergentagent.com/api/fighters/NonExistentFighter/stats",
       "response": {
         "detail": "No stats found for NonExistentFighter"
       }
@@ -11114,7 +11114,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://combatscore.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "4a56dc53-6859-4213-8b1c-c055593384a9"
@@ -11125,7 +11125,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://combatscore.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "551f236f-8645-4a4b-b7f8-eb7b8d5187ef"
@@ -11136,7 +11136,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://combatscore.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "b6ff8f6d-5dca-4196-9943-33c8e41e9c96"
@@ -11147,7 +11147,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://combatscore.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "681cb02f-c919-4f0c-a846-617c47c24688"
@@ -11158,7 +11158,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/review/flags",
+      "url": "https://combatscore.preview.emergentagent.com/api/review/flags",
       "response": {
         "flags": [
           {
@@ -12953,7 +12953,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/review/flags?status=pending",
+      "url": "https://combatscore.preview.emergentagent.com/api/review/flags?status=pending",
       "response": {
         "flags": [
           {
@@ -14748,7 +14748,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/review/flags?severity=high",
+      "url": "https://combatscore.preview.emergentagent.com/api/review/flags?severity=high",
       "response": {
         "flags": [
           {
@@ -15169,7 +15169,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/review/flags?flag_type=boundary_case",
+      "url": "https://combatscore.preview.emergentagent.com/api/review/flags?flag_type=boundary_case",
       "response": {
         "flags": [
           {
@@ -15361,7 +15361,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/review/flags/UFC_299_001",
+      "url": "https://combatscore.preview.emergentagent.com/api/review/flags/UFC_299_001",
       "response": {
         "flags": [
           {
@@ -15553,7 +15553,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "65acd734-cc54-4a4f-84c8-893679ab94e1",
@@ -15598,7 +15598,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "5bc51fdc-c74f-4f82-ad62-96d93638d117",
@@ -15643,7 +15643,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "c0c025ef-2f53-4dae-9a1f-4a479b727aae",
@@ -15688,7 +15688,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles",
       "response": {
         "profiles": [
           {
@@ -16482,7 +16482,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/65acd734-cc54-4a4f-84c8-893679ab94e1",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/65acd734-cc54-4a4f-84c8-893679ab94e1",
       "response": {
         "id": "65acd734-cc54-4a4f-84c8-893679ab94e1",
         "name": "UFC Standard",
@@ -16523,7 +16523,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/5bc51fdc-c74f-4f82-ad62-96d93638d117",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/5bc51fdc-c74f-4f82-ad62-96d93638d117",
       "response": {
         "id": "5bc51fdc-c74f-4f82-ad62-96d93638d117",
         "name": "Bellator Aggressive",
@@ -16564,7 +16564,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/c0c025ef-2f53-4dae-9a1f-4a479b727aae",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/c0c025ef-2f53-4dae-9a1f-4a479b727aae",
       "response": {
         "id": "c0c025ef-2f53-4dae-9a1f-4a479b727aae",
         "name": "ONE Championship",
@@ -16605,7 +16605,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -16615,7 +16615,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/65acd734-cc54-4a4f-84c8-893679ab94e1",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/65acd734-cc54-4a4f-84c8-893679ab94e1",
       "response": {
         "id": "65acd734-cc54-4a4f-84c8-893679ab94e1",
         "name": "UFC Standard v2.0",
@@ -16656,7 +16656,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -16666,7 +16666,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/c0c025ef-2f53-4dae-9a1f-4a479b727aae",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/c0c025ef-2f53-4dae-9a1f-4a479b727aae",
       "response": {
         "success": true,
         "message": "Profile deleted"
@@ -16677,7 +16677,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/c0c025ef-2f53-4dae-9a1f-4a479b727aae",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/c0c025ef-2f53-4dae-9a1f-4a479b727aae",
       "response": {
         "detail": "Profile not found"
       }
@@ -16687,7 +16687,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://combatscore.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -16697,7 +16697,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "064aabea-6350-404c-8c34-b223e7b06bb4",
         "bout_id": "test-bout-1763690503",
@@ -16716,7 +16716,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "35a7ad85-9a1e-431a-b2f4-4999866da7ce",
         "bout_id": "test-bout-1763690503",
@@ -16733,7 +16733,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "43285f9b-733b-455a-987f-0a84b2d1d11d",
         "bout_id": "test-bout-1763690503",
@@ -16750,7 +16750,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-1763690503/1",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes/test-bout-1763690503/1",
       "response": {
         "notes": [
           {
@@ -16784,7 +16784,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-1763690503/1?judge_id=JUDGE001",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes/test-bout-1763690503/1?judge_id=JUDGE001",
       "response": {
         "notes": [
           {
@@ -16808,7 +16808,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-1763690503",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes/test-bout-1763690503",
       "response": {
         "notes": [
           {
@@ -16890,7 +16890,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-1763690503?judge_id=JUDGE002",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes/test-bout-1763690503?judge_id=JUDGE002",
       "response": {
         "notes": [
           {
@@ -16926,7 +16926,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "e4cea551-9cd3-42dd-8e11-e9e9e4addbc3",
         "bout_id": "test-bout-update-1763690504",
@@ -16943,7 +16943,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/e4cea551-9cd3-42dd-8e11-e9e9e4addbc3",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes/e4cea551-9cd3-42dd-8e11-e9e9e4addbc3",
       "response": {
         "success": true,
         "message": "Note updated successfully"
@@ -16954,7 +16954,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-update-1763690504/1",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes/test-bout-update-1763690504/1",
       "response": {
         "notes": [
           {
@@ -16977,7 +16977,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "c3f121df-14e8-4b9e-adbf-e755778f4be7",
         "bout_id": "test-bout-delete-1763690504",
@@ -16994,7 +16994,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/c3f121df-14e8-4b9e-adbf-e755778f4be7",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes/c3f121df-14e8-4b9e-adbf-e755778f4be7",
       "response": {
         "success": true,
         "message": "Note deleted successfully"
@@ -17005,7 +17005,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-delete-1763690504/1",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes/test-bout-delete-1763690504/1",
       "response": {
         "notes": [],
         "count": 0
@@ -17016,7 +17016,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/fake-note-id-999",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes/fake-note-id-999",
       "response": {
         "detail": "Note not found"
       }
@@ -17026,7 +17026,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/fake-note-id-999",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes/fake-note-id-999",
       "response": {
         "detail": "Note not found"
       }
@@ -17036,7 +17036,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/non-existent-bout/1",
+      "url": "https://combatscore.preview.emergentagent.com/api/round-notes/non-existent-bout/1",
       "response": {
         "notes": [],
         "count": 0
@@ -17047,7 +17047,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/supervisor/dashboard/test-bout-supervisor-123",
+      "url": "https://combatscore.preview.emergentagent.com/api/supervisor/dashboard/test-bout-supervisor-123",
       "response": {
         "bout_id": "test-bout-supervisor-123",
         "judge_scores": [],
@@ -17063,7 +17063,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/variance/detect/test-bout-variance-123/1",
+      "url": "https://combatscore.preview.emergentagent.com/api/variance/detect/test-bout-variance-123/1",
       "response": {
         "bout_id": "test-bout-variance-123",
         "round_num": 1,
@@ -17077,7 +17077,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/variance/detect/test-bout-variance-456/1",
+      "url": "https://combatscore.preview.emergentagent.com/api/variance/detect/test-bout-variance-456/1",
       "response": {
         "bout_id": "test-bout-variance-456",
         "round_num": 1,
@@ -17091,7 +17091,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/branding/promotion",
+      "url": "https://combatscore.preview.emergentagent.com/api/branding/promotion",
       "response": {
         "id": "84617bb0-6f32-46f6-8708-09e24321efa1",
         "promotion_name": "UFC",
@@ -17109,7 +17109,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/branding/promotion/UFC",
+      "url": "https://combatscore.preview.emergentagent.com/api/branding/promotion/UFC",
       "response": {
         "id": "84617bb0-6f32-46f6-8708-09e24321efa1",
         "promotion_name": "UFC",
@@ -17128,7 +17128,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/branding/promotion/Bellator",
+      "url": "https://combatscore.preview.emergentagent.com/api/branding/promotion/Bellator",
       "response": {
         "promotion_name": "Bellator",
         "logo_url": null,
@@ -17144,7 +17144,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/branding/promotion",
+      "url": "https://combatscore.preview.emergentagent.com/api/branding/promotion",
       "response": {
         "id": "d86cca5d-0f35-4130-8657-9b5bf5d63bdd",
         "promotion_name": "UFC",
@@ -17162,7 +17162,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://combatscore.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -17178,7 +17178,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/test-bout-buffer-123",
+      "url": "https://combatscore.preview.emergentagent.com/api/broadcast/buffer/test-bout-buffer-123",
       "response": {
         "bout_id": "test-bout-buffer-123",
         "delay_seconds": 10,
@@ -17192,7 +17192,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://combatscore.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -17208,7 +17208,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://combatscore.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -17224,7 +17224,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://combatscore.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -17240,7 +17240,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/non-existent-bout-999",
+      "url": "https://combatscore.preview.emergentagent.com/api/broadcast/buffer/non-existent-bout-999",
       "response": {
         "bout_id": "non-existent-bout-999",
         "delay_seconds": 5,
@@ -17254,7 +17254,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 404,
-      "url": "https://combatjudge.preview.emergentagent.com/api/icvss/health",
+      "url": "https://combatscore.preview.emergentagent.com/api/icvss/health",
       "error": "{\"detail\":\"Not Found\"}"
     }
   ]
