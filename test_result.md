@@ -57,8 +57,8 @@
 ##   test_priority: "high_first"  # or "sequential" or "stuck_first"
 ##
 ## agent_communication:
-##     -agent: "main"  # or "testing" or "user"
-##     -message: "Communication message between agents"
+##   - agent: "main"
+##     message: "✅ CALIBRATION API & PERFORMANCE PROFILER IMPLEMENTATION COMPLETE: Successfully completed implementation of both tuning services. CALIBRATION API: Implemented complete service with CalibrationManager engine and 5 API endpoints (get config, set config, reset, history, health). Features include AI model threshold tuning (KD, Rocked, High-impact strikes), timing window adjustments (momentum swing, multicam merge), confidence thresholds, change history tracking, parameter validation, and replication to CV Analytics Engine. PERFORMANCE PROFILER: Implemented complete service with PerformanceProfiler engine and 6 API endpoints (summary, record cv_inference, record event_ingestion, record scoring, record websocket, live WebSocket, health). Features include rolling window (1000 samples), percentile calculations (avg/p95/p99), mock data generation for testing, WebSocket broadcasting for real-time metrics, measurement period tracking. BACKEND INTEGRATION: Both services integrated into server.py with proper initialization, router mounting at /api/calibration and /api/perf prefixes, health checks, and startup tasks. Backend logs confirm successful loading. FRONTEND INTEGRATION: Enhanced ICVSSMonitoringDashboard with Performance Metrics section displaying real-time data via WebSocket connection to /api/perf/live with fallback to REST polling. Shows 4 metric categories (CV Inference, Event Ingestion, Scoring Calc, WS Roundtrip) with avg/p95/p99 percentiles, connection status indicator, and summary stats. TESTING: Created comprehensive test suite (test_tuning_services.py) with 20+ tests covering all API endpoints, parameter validation, percentile calculations, rolling window, integration testing, and end-to-end tuning workflow. Ready for backend testing via deep_testing_backend_v2 agent."
 
 # Protocol Guidelines for Main agent
 #
