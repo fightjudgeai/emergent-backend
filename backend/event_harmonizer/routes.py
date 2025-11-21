@@ -3,7 +3,7 @@ Event Harmonizer - FastAPI Routes
 """
 
 from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
-from typing import Optional
+from typing import Optional, List
 import logging
 from datetime import datetime, timezone
 import sys
