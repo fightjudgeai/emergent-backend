@@ -55,7 +55,7 @@ class HeartbeatMonitor:
         self.latest_heartbeats[heartbeat.service_name] = record
         
         # Store in database if available
-        if self.db:
+        if self.db is not None:
             try:
                 # Convert to dict for MongoDB
                 record_dict = record.model_dump()
