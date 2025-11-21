@@ -1,0 +1,141 @@
+"""
+Calibration API - Calibration Manager
+"""
+
+import logging
+from typing import List, Optional
+from datetime import datetime, timezone
+from .models import CalibrationConfig, CalibrationHistory
+
+logger = logging.getLogger(__name__)
+
+
+class CalibrationManager:
+    """Manage system calibration parameters"""
+    
+    def __init__(self, db=None):
+        self.db = db
+        
+        # Default configuration
+        self.config = CalibrationConfig()
+        
+        # History tracking
+        self.history: List[CalibrationHistory] = []
+        
+        # Load from database if available
+        if self.db:
+            # In production: load from Postgres
+            pass
+    
+    def get_config(self) -> CalibrationConfig:
+        """
+        Get current calibration configuration
+        
+        Returns:
+            CalibrationConfig
+        """
+        return self.config
+    
+    async def set_config(
+        self,
+        config: CalibrationConfig,
+        modified_by: str = "system"
+    ) -> CalibrationConfig:
+        """
+        Update calibration configuration
+        
+        Args:
+            config: New configuration
+            modified_by: Who made the change
+        
+        Returns:
+            Updated CalibrationConfig
+        """
+        # Track changes
+        old_config = self.config
+        
+        # Record history for each changed parameter
+        if config.kd_threshold != old_config.kd_threshold:
+            self._record_change("kd_threshold", old_config.kd_threshold, config.kd_threshold, modified_by)
+        
+        if config.rocked_threshold != old_config.rocked_threshold:
+            self._record_change("rocked_threshold", old_config.rocked_threshold, config.rocked_threshold, modified_by)
+        
+        if config.highimpact_strike_threshold != old_config.highimpact_strike_threshold:
+            self._record_change("highimpact_strike_threshold", old_config.highimpact_strike_threshold, config.highimpact_strike_threshold, modified_by)
+        
+        if config.momentum_swing_window_ms != old_config.momentum_swing_window_ms:
+            self._record_change("momentum_swing_window_ms", float(old_config.momentum_swing_window_ms), float(config.momentum_swing_window_ms), modified_by)
+        
+        if config.multicam_merge_window_ms != old_config.multicam_merge_window_ms:
+            self._record_change("multicam_merge_window_ms", float(old_config.multicam_merge_window_ms), float(config.multicam_merge_window_ms), modified_by)
+        
+        # Update configuration
+        config.last_modified = datetime.now(timezone.utc)
+        config.modified_by = modified_by
+        self.config = config
+        
+        # Save to database
+        if self.db:
+            # In production: save to Postgres
+            pass
+        
+        # Replicate to CV Analytics Engine
+        await self._replicate_to_cv_engine()
+        
+        logger.info(f"Calibration updated by {modified_by}")
+        return self.config
+    
+    async def reset_config(self) -> CalibrationConfig:
+        """
+        Reset to default configuration
+        
+        Returns:
+            Default CalibrationConfig
+        """
+        self.config = CalibrationConfig()
+        
+        # Save to database
+        if self.db:
+            pass
+        
+        # Replicate
+        await self._replicate_to_cv_engine()
+        
+        logger.info("Calibration reset to defaults")
+        return self.config
+    
+    def _record_change(self, parameter: str, old_value: float, new_value: float, modified_by: str):
+        """Record calibration change in history"""
+        change = CalibrationHistory(
+            timestamp=datetime.now(timezone.utc),
+            parameter=parameter,
+            old_value=old_value,
+            new_value=new_value,
+            modified_by=modified_by
+        )
+        
+        self.history.append(change)
+        
+        # Keep only recent history
+        if len(self.history) > 100:
+            self.history = self.history[-100:]
+        
+        logger.info(f"Calibration change: {parameter} {old_value} → {new_value}")
+    
+    async def _replicate_to_cv_engine(self):
+        """
+        Replicate configuration to CV Analytics Engine
+        
+        In production:
+        - Push to CV Analytics Engine via API
+        - Update event pipeline thresholds
+        - Update multicam fusion timing
+        """
+        logger.info("Replicating calibration to CV Analytics Engine")
+        # Mock replication
+        pass
+    
+    def get_history(self, limit: int = 50) -> List[CalibrationHistory]:
+        """Get calibration change history"""
+        return self.history[-limit:]
