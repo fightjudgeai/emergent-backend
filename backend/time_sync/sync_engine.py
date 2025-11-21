@@ -131,3 +131,87 @@ class TimeSyncEngine:
             avg_jitter_ms=sum(jitters) / len(jitters),
             client_stats=list(self.clients.values())
         )
+
+    # =========================================================================
+    # FightClock Features
+    # =========================================================================
+    
+    def start_timer(self) -> dict:
+        """Start or resume the round timer"""
+        current_time = int(time.time() * 1000)
+        
+        if self.is_paused:
+            # Resume from pause
+            pause_duration = current_time - self.timer_pause_time
+            self.timer_start_time += pause_duration
+            self.is_paused = False
+            self.is_running = True
+            logger.info(f"Timer resumed after {pause_duration}ms pause")
+        else:
+            # Fresh start
+            self.timer_start_time = current_time
+            self.timer_elapsed_ms = 0
+            self.is_running = True
+            self.is_paused = False
+            logger.info("Timer started")
+        
+        return self.get_timer_state()
+    
+    def pause_timer(self) -> dict:
+        """Pause the round timer"""
+        if not self.is_running:
+            return {"error": "Timer not running"}
+        
+        current_time = int(time.time() * 1000)
+        self.timer_pause_time = current_time
+        self.timer_elapsed_ms = current_time - self.timer_start_time
+        self.is_paused = True
+        self.is_running = False
+        
+        logger.info(f"Timer paused at {self.timer_elapsed_ms}ms")
+        return self.get_timer_state()
+    
+    def reset_timer(self) -> dict:
+        """Reset the round timer"""
+        self.timer_start_time = 0
+        self.timer_pause_time = 0
+        self.timer_elapsed_ms = 0
+        self.is_running = False
+        self.is_paused = False
+        
+        logger.info("Timer reset")
+        return self.get_timer_state()
+    
+    def get_timer_state(self) -> dict:
+        """Get current timer state"""
+        current_time = int(time.time() * 1000)
+        
+        if self.is_running and not self.is_paused:
+            # Calculate current elapsed time
+            elapsed = current_time - self.timer_start_time
+        elif self.is_paused:
+            # Use stored elapsed time
+            elapsed = self.timer_elapsed_ms
+        else:
+            # Timer not running
+            elapsed = 0
+        
+        return {
+            "elapsed_ms": elapsed,
+            "elapsed_seconds": round(elapsed / 1000, 2),
+            "is_running": self.is_running,
+            "is_paused": self.is_paused,
+            "server_time_ms": current_time,
+            "server_time_iso": datetime.now(timezone.utc).isoformat()
+        }
+    
+    def get_clock_now(self) -> dict:
+        """Get current unified time + timer state"""
+        time_sync = self.get_current_time()
+        timer_state = self.get_timer_state()
+        
+        return {
+            **time_sync.model_dump(),
+            "timer": timer_state
+        }
+
