@@ -4,7 +4,9 @@ import { db } from '@/firebase';
 import deviceSyncManager from '@/utils/deviceSync';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Maximize2 } from 'lucide-react';
+import { Maximize2, Activity, Zap } from 'lucide-react';
+
+const API = process.env.REACT_APP_BACKEND_URL || import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
 export default function BroadcastMode() {
   const { boutId } = useParams();
@@ -15,6 +17,11 @@ export default function BroadcastMode() {
   const [connectionStatus, setConnectionStatus] = useState('connecting'); // connecting, connected, disconnected
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
   const [showControls, setShowControls] = useState(true);
+  
+  // ICVSS State
+  const [cvMode, setCvMode] = useState(false);
+  const [cvScore, setCvScore] = useState(null);
+  const [cvWebSocket, setCvWebSocket] = useState(null);
 
   useEffect(() => {
     loadBout();
