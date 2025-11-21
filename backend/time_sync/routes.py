@@ -2,9 +2,10 @@
 Time Sync Service - FastAPI Routes
 """
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
 from typing import Optional
 import logging
+import asyncio
 from .sync_engine import TimeSyncEngine
 from .models import TimeSync, ClientSync, TimeSyncStats
 
