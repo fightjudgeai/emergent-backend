@@ -41,8 +41,12 @@ class FailoverManager:
         self.failover_history: List[FailoverEvent] = []
         self.alerts = []
         
-        # Start health monitoring
-        asyncio.create_task(self._health_monitor())
+        # Start health monitoring (only if event loop is running)
+        try:
+            asyncio.create_task(self._health_monitor())
+        except RuntimeError:
+            # No event loop - tests will handle this manually
+            pass
     
     async def _health_monitor(self):
         """Background health monitoring"""
