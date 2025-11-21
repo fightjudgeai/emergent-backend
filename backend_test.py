@@ -4794,6 +4794,524 @@ class CombatJudgingAPITester:
             'results': self.results
         }
 
+    def test_enhanced_services_comprehensive(self):
+        """Test all enhanced services mentioned in the review request"""
+        print("\n🔧 Testing Enhanced Services Comprehensive Suite...")
+        
+        # Test Time Sync / FightClock (NEWLY ENHANCED)
+        if not self.test_time_sync_fightclock():
+            return False
+        
+        # Test Calibration API (ENHANCED - Postgres/Redis)
+        if not self.test_calibration_api_enhanced():
+            return False
+        
+        # Test Round Validator (ENHANCED - GET endpoints)
+        if not self.test_round_validator_enhanced():
+            return False
+        
+        # Test Event Harmonizer (ENHANCED - Unified endpoint)
+        if not self.test_event_harmonizer_enhanced():
+            return False
+        
+        # Test Performance Profiler
+        if not self.test_performance_profiler():
+            return False
+        
+        # Test Heartbeat Monitor
+        if not self.test_heartbeat_monitor():
+            return False
+        
+        print("   🎉 Enhanced Services comprehensive test completed successfully!")
+        return True
+
+    def test_time_sync_fightclock(self):
+        """Test Time Sync / FightClock (NEWLY ENHANCED) - v2.0.0"""
+        print("\n⏰ Testing Time Sync / FightClock (v2.0.0)...")
+        
+        # Test GET /api/timesync/now - Get unified timestamp
+        success1, response1 = self.run_test("Time Sync - Get Current Time", "GET", "timesync/now", 200)
+        
+        # Test GET /api/timesync/health - Health check (should show v2.0.0)
+        success2, response2 = self.run_test("Time Sync - Health Check", "GET", "timesync/health", 200)
+        
+        if success2 and response2:
+            version = response2.get('version', '')
+            if version != '2.0.0':
+                print(f"   ⚠️  Expected version 2.0.0, got {version}")
+                return False
+            print(f"   ✅ Version confirmed: {version}")
+        
+        # Test GET /api/timesync/clock/now - Get time + timer state
+        success3, response3 = self.run_test("FightClock - Get Clock Now", "GET", "timesync/clock/now", 200)
+        
+        # Test POST /api/timesync/clock/start - Start timer
+        success4, response4 = self.run_test("FightClock - Start Timer", "POST", "timesync/clock/start", 200)
+        
+        # Test POST /api/timesync/clock/pause - Pause timer
+        success5, response5 = self.run_test("FightClock - Pause Timer", "POST", "timesync/clock/pause", 200)
+        
+        # Test POST /api/timesync/clock/reset - Reset timer
+        success6, response6 = self.run_test("FightClock - Reset Timer", "POST", "timesync/clock/reset", 200)
+        
+        # Test timer flow: start → pause → resume → reset
+        print("   🔄 Testing timer flow...")
+        
+        # Start timer
+        start_success, start_response = self.run_test("Timer Flow - Start", "POST", "timesync/clock/start", 200)
+        if start_success and start_response:
+            print(f"   Timer started: {start_response.get('is_running', False)}")
+        
+        # Get current state
+        state_success, state_response = self.run_test("Timer Flow - Get State", "GET", "timesync/clock/now", 200)
+        if state_success and state_response:
+            elapsed = state_response.get('elapsed_seconds', 0)
+            print(f"   Elapsed time: {elapsed}s")
+        
+        # Pause timer
+        pause_success, pause_response = self.run_test("Timer Flow - Pause", "POST", "timesync/clock/pause", 200)
+        if pause_success and pause_response:
+            print(f"   Timer paused: {not pause_response.get('is_running', True)}")
+        
+        # Resume timer
+        resume_success, resume_response = self.run_test("Timer Flow - Resume", "POST", "timesync/clock/start", 200)
+        if resume_success and resume_response:
+            print(f"   Timer resumed: {resume_response.get('is_running', False)}")
+        
+        # Reset timer
+        reset_success, reset_response = self.run_test("Timer Flow - Reset", "POST", "timesync/clock/reset", 200)
+        if reset_success and reset_response:
+            elapsed_after_reset = reset_response.get('elapsed_seconds', -1)
+            print(f"   Timer reset - elapsed: {elapsed_after_reset}s")
+            if elapsed_after_reset != 0:
+                print(f"   ⚠️  Timer should be 0 after reset, got {elapsed_after_reset}")
+                return False
+        
+        return success1 and success2 and success3 and success4 and success5 and success6
+
+    def test_calibration_api_enhanced(self):
+        """Test Calibration API (ENHANCED - Postgres/Redis)"""
+        print("\n🎛️ Testing Calibration API (Enhanced)...")
+        
+        # Test GET /api/calibration/get - Get config
+        success1, response1 = self.run_test("Calibration - Get Config", "GET", "calibration/get", 200)
+        
+        if success1 and response1:
+            # Verify all required parameters are present
+            required_params = ['kd_threshold', 'rocked_threshold', 'highimpact_strike_threshold', 
+                             'momentum_swing_window_ms', 'multicam_merge_window_ms', 'confidence_threshold']
+            missing_params = [param for param in required_params if param not in response1]
+            
+            if missing_params:
+                print(f"   ⚠️  Missing calibration parameters: {missing_params}")
+                return False
+            
+            print(f"   ✅ All calibration parameters present")
+            print(f"   KD Threshold: {response1.get('kd_threshold')}")
+            print(f"   Rocked Threshold: {response1.get('rocked_threshold')}")
+        
+        # Test POST /api/calibration/set - Update config
+        test_config = {
+            "kd_threshold": 0.80,
+            "rocked_threshold": 0.70,
+            "highimpact_strike_threshold": 0.75,
+            "momentum_swing_window_ms": 1500,
+            "multicam_merge_window_ms": 200,
+            "confidence_threshold": 0.6
+        }
+        
+        success2, response2 = self.run_test("Calibration - Set Config", "POST", "calibration/set?modified_by=test_user", 200, test_config)
+        
+        if success2 and response2:
+            # Verify the config was updated
+            if response2.get('kd_threshold') != test_config['kd_threshold']:
+                print(f"   ⚠️  Config update failed - KD threshold not updated")
+                return False
+            print(f"   ✅ Config updated successfully")
+        
+        # Test POST /api/calibration/reset - Reset to defaults
+        success3, response3 = self.run_test("Calibration - Reset Config", "POST", "calibration/reset", 200)
+        
+        if success3 and response3:
+            # Verify reset to defaults
+            default_kd = response3.get('kd_threshold')
+            if default_kd != 0.75:  # Expected default
+                print(f"   ⚠️  Reset failed - expected KD threshold 0.75, got {default_kd}")
+                return False
+            print(f"   ✅ Config reset to defaults")
+        
+        # Test GET /api/calibration/history - Change history
+        success4, response4 = self.run_test("Calibration - Get History", "GET", "calibration/history?limit=10", 200)
+        
+        if success4 and response4:
+            if not isinstance(response4, list):
+                print(f"   ⚠️  History should be a list, got {type(response4)}")
+                return False
+            print(f"   ✅ History retrieved: {len(response4)} entries")
+        
+        # Test GET /api/calibration/health - Health check
+        success5, response5 = self.run_test("Calibration - Health Check", "GET", "calibration/health", 200)
+        
+        if success5 and response5:
+            service_name = response5.get('service', '')
+            if 'Calibration API' not in service_name:
+                print(f"   ⚠️  Expected 'Calibration API' in service name, got '{service_name}'")
+                return False
+            print(f"   ✅ Health check passed: {service_name}")
+        
+        return success1 and success2 and success3 and success4 and success5
+
+    def test_round_validator_enhanced(self):
+        """Test Round Validator (ENHANCED - GET endpoints)"""
+        print("\n✅ Testing Round Validator (Enhanced GET endpoints)...")
+        
+        # First, create a validation by POSTing
+        test_events = [
+            {
+                "event_id": "test_event_1",
+                "bout_id": "test_bout_validator",
+                "round_id": 1,
+                "judge_id": "test_judge",
+                "fighter_id": "fighter1",
+                "event_type": "strike",
+                "timestamp_ms": 1000,
+                "device_id": "test_device",
+                "metadata": {"type": "jab"}
+            }
+        ]
+        
+        validation_data = {
+            "round_id": "test_round_123",
+            "bout_id": "test_bout_validator",
+            "round_num": 1,
+            "events": test_events,
+            "round_start_time": 0,
+            "round_end_time": 300000
+        }
+        
+        # Test POST /api/validator/validate - Validate round (stores result)
+        success1, response1 = self.run_test("Round Validator - Validate Round", "POST", "validator/validate", 200, validation_data)
+        
+        if success1 and response1:
+            round_id = response1.get('round_id', 'test_round_123')
+            bout_id = response1.get('bout_id', 'test_bout_validator')
+            
+            print(f"   ✅ Round validation created for round_id: {round_id}")
+            
+            # Test GET /api/validator/rounds/{round_id}/validate - Retrieve validation
+            success2, response2 = self.run_test("Round Validator - Get Round Validation", "GET", f"validator/rounds/{round_id}/validate", 200)
+            
+            if success2 and response2:
+                retrieved_round_id = response2.get('round_id')
+                if retrieved_round_id != round_id:
+                    print(f"   ⚠️  Retrieved round_id mismatch: expected {round_id}, got {retrieved_round_id}")
+                    return False
+                print(f"   ✅ Round validation retrieved successfully")
+            
+            # Test GET /api/validator/bouts/{bout_id}/validate - Get bout validations
+            success3, response3 = self.run_test("Round Validator - Get Bout Validations", "GET", f"validator/bouts/{bout_id}/validate", 200)
+            
+            if success3 and response3:
+                total_rounds = response3.get('total_rounds', 0)
+                validations = response3.get('validations', [])
+                
+                if total_rounds == 0:
+                    print(f"   ⚠️  Expected at least 1 validation for bout, got {total_rounds}")
+                    return False
+                
+                print(f"   ✅ Bout validations retrieved: {total_rounds} rounds")
+                
+                # Verify validation structure
+                if validations and len(validations) > 0:
+                    first_validation = validations[0]
+                    required_fields = ['round_id', 'bout_id', 'round_num', 'is_valid']
+                    missing_fields = [field for field in required_fields if field not in first_validation]
+                    
+                    if missing_fields:
+                        print(f"   ⚠️  Missing fields in validation: {missing_fields}")
+                        return False
+                    
+                    print(f"   ✅ Validation structure verified")
+            
+            return success2 and success3
+        
+        return False
+
+    def test_event_harmonizer_enhanced(self):
+        """Test Event Harmonizer (ENHANCED - Unified endpoint)"""
+        print("\n🎵 Testing Event Harmonizer (Enhanced Unified endpoint)...")
+        
+        # Test data for unified endpoint
+        judge_events = [
+            {
+                "event_id": "judge_event_1",
+                "bout_id": "test_bout_harmonizer",
+                "round_id": 1,
+                "judge_id": "test_judge",
+                "fighter_id": "fighter1",
+                "event_type": "strike",
+                "timestamp_ms": 1000,
+                "device_id": "judge_device",
+                "metadata": {"type": "jab", "source": "judge"}
+            }
+        ]
+        
+        cv_events = [
+            {
+                "event_id": "cv_event_1",
+                "bout_id": "test_bout_harmonizer",
+                "round_id": 1,
+                "judge_id": "cv_system",
+                "fighter_id": "fighter1",
+                "event_type": "strike",
+                "timestamp_ms": 1050,
+                "device_id": "cv_device",
+                "metadata": {"type": "jab", "source": "cv", "confidence": 0.85}
+            }
+        ]
+        
+        # Test POST /api/harmonizer/events/harmonize - Unified harmonization
+        unified_data = {
+            "judge_events": judge_events,
+            "cv_events": cv_events
+        }
+        
+        success1, response1 = self.run_test("Event Harmonizer - Unified Harmonize", "POST", "harmonizer/events/harmonize", 200, unified_data)
+        
+        if success1 and response1:
+            judge_count = response1.get('judge_events_count', 0)
+            cv_count = response1.get('cv_events_count', 0)
+            harmonized_count = response1.get('harmonized_events_count', 0)
+            
+            if judge_count != len(judge_events):
+                print(f"   ⚠️  Judge events count mismatch: expected {len(judge_events)}, got {judge_count}")
+                return False
+            
+            if cv_count != len(cv_events):
+                print(f"   ⚠️  CV events count mismatch: expected {len(cv_events)}, got {cv_count}")
+                return False
+            
+            print(f"   ✅ Unified harmonization successful")
+            print(f"   Judge events: {judge_count}, CV events: {cv_count}, Harmonized: {harmonized_count}")
+        
+        # Test POST /api/harmonizer/cv/events - CV events (backward compat)
+        cv_event_single = cv_events[0]
+        success2, response2 = self.run_test("Event Harmonizer - CV Event (Backward Compat)", "POST", "harmonizer/cv/events", 200, cv_event_single)
+        
+        if success2 and response2:
+            event_id = response2.get('event_id')
+            if event_id != cv_event_single['event_id']:
+                print(f"   ⚠️  CV event ID mismatch: expected {cv_event_single['event_id']}, got {event_id}")
+                return False
+            print(f"   ✅ CV event backward compatibility working")
+        
+        # Test POST /api/harmonizer/judge/events - Judge events (backward compat)
+        judge_event_single = judge_events[0]
+        success3, response3 = self.run_test("Event Harmonizer - Judge Event (Backward Compat)", "POST", "harmonizer/judge/events", 200, judge_event_single)
+        
+        if success3 and response3:
+            event_id = response3.get('event_id')
+            if event_id != judge_event_single['event_id']:
+                print(f"   ⚠️  Judge event ID mismatch: expected {judge_event_single['event_id']}, got {event_id}")
+                return False
+            print(f"   ✅ Judge event backward compatibility working")
+        
+        # Test mixed judge+CV events in unified endpoint
+        mixed_data = {
+            "judge_events": judge_events + [
+                {
+                    "event_id": "judge_event_2",
+                    "bout_id": "test_bout_harmonizer",
+                    "round_id": 1,
+                    "judge_id": "test_judge",
+                    "fighter_id": "fighter2",
+                    "event_type": "takedown",
+                    "timestamp_ms": 2000,
+                    "device_id": "judge_device",
+                    "metadata": {"source": "judge"}
+                }
+            ],
+            "cv_events": cv_events + [
+                {
+                    "event_id": "cv_event_2",
+                    "bout_id": "test_bout_harmonizer",
+                    "round_id": 1,
+                    "judge_id": "cv_system",
+                    "fighter_id": "fighter2",
+                    "event_type": "takedown",
+                    "timestamp_ms": 2100,
+                    "device_id": "cv_device",
+                    "metadata": {"source": "cv", "confidence": 0.92}
+                }
+            ]
+        }
+        
+        success4, response4 = self.run_test("Event Harmonizer - Mixed Events", "POST", "harmonizer/events/harmonize", 200, mixed_data)
+        
+        if success4 and response4:
+            judge_count = response4.get('judge_events_count', 0)
+            cv_count = response4.get('cv_events_count', 0)
+            
+            if judge_count != 2 or cv_count != 2:
+                print(f"   ⚠️  Mixed events count mismatch: expected 2 judge + 2 CV, got {judge_count} judge + {cv_count} CV")
+                return False
+            
+            print(f"   ✅ Mixed judge+CV events harmonization working")
+        
+        return success1 and success2 and success3 and success4
+
+    def test_performance_profiler(self):
+        """Test Performance Profiler"""
+        print("\n📊 Testing Performance Profiler...")
+        
+        # Test GET /api/perf/health - Health check
+        success1, response1 = self.run_test("Performance Profiler - Health Check", "GET", "perf/health", 200)
+        
+        if success1 and response1:
+            service_name = response1.get('service', '')
+            if 'Performance Profiler' not in service_name:
+                print(f"   ⚠️  Expected 'Performance Profiler' in service name, got '{service_name}'")
+                return False
+            print(f"   ✅ Health check passed: {service_name}")
+        
+        # Test POST /api/perf/record/* - Record metrics
+        metrics_to_test = [
+            ("cv_inference", 45.2),
+            ("event_ingestion", 12.8),
+            ("scoring", 28.5),
+            ("websocket", 18.3)
+        ]
+        
+        record_success = True
+        for metric_type, duration in metrics_to_test:
+            success, response = self.run_test(f"Performance Profiler - Record {metric_type}", "POST", f"perf/record/{metric_type}?duration_ms={duration}", 200)
+            if not success:
+                record_success = False
+            else:
+                print(f"   ✅ Recorded {metric_type}: {duration}ms")
+        
+        # Test GET /api/perf/summary - Performance metrics
+        success2, response2 = self.run_test("Performance Profiler - Get Summary", "GET", "perf/summary", 200)
+        
+        if success2 and response2:
+            # Verify all 4 metric categories are present
+            required_metrics = ['cv_inference', 'event_ingestion', 'scoring_calc', 'websocket_roundtrip']
+            
+            for metric in required_metrics:
+                if metric not in response2:
+                    print(f"   ⚠️  Missing metric category: {metric}")
+                    return False
+                
+                metric_data = response2[metric]
+                required_stats = ['avg', 'p95', 'p99']
+                
+                for stat in required_stats:
+                    if stat not in metric_data:
+                        print(f"   ⚠️  Missing statistic {stat} for {metric}")
+                        return False
+                
+                # Verify percentile ordering (p99 >= p95 >= avg)
+                avg = metric_data['avg']
+                p95 = metric_data['p95']
+                p99 = metric_data['p99']
+                
+                if not (p99 >= p95 >= avg):
+                    print(f"   ⚠️  Invalid percentile ordering for {metric}: avg={avg}, p95={p95}, p99={p99}")
+                    return False
+                
+                print(f"   ✅ {metric}: avg={avg:.1f}ms, p95={p95:.1f}ms, p99={p99:.1f}ms")
+            
+            # Verify summary stats
+            total_measurements = response2.get('total_measurements', 0)
+            measurement_period = response2.get('measurement_period_minutes', 0)
+            
+            print(f"   ✅ Total measurements: {total_measurements}")
+            print(f"   ✅ Measurement period: {measurement_period} minutes")
+        
+        return success1 and record_success and success2
+
+    def test_heartbeat_monitor(self):
+        """Test Heartbeat Monitor"""
+        print("\n💓 Testing Heartbeat Monitor...")
+        
+        # Test GET /api/heartbeat/health - Health check
+        success1, response1 = self.run_test("Heartbeat Monitor - Health Check", "GET", "heartbeat/health", 200)
+        
+        if success1 and response1:
+            service_name = response1.get('service', '')
+            if 'Heartbeat Monitor' not in service_name:
+                print(f"   ⚠️  Expected 'Heartbeat Monitor' in service name, got '{service_name}'")
+                return False
+            print(f"   ✅ Health check passed: {service_name}")
+        
+        # Test POST /api/heartbeat - Send heartbeat for all 7 services
+        services_to_test = [
+            "CV Router",
+            "CV Analytics", 
+            "Scoring Engine",
+            "Replay Worker",
+            "Highlight Worker",
+            "Storage Manager",
+            "Supervisor Console"
+        ]
+        
+        heartbeat_success = True
+        for service_name in services_to_test:
+            heartbeat_data = {
+                "service_name": service_name,
+                "status": "ok",
+                "metrics": {
+                    "cpu_usage": 45.2,
+                    "memory_usage": 67.8,
+                    "active_connections": 12
+                }
+            }
+            
+            success, response = self.run_test(f"Heartbeat Monitor - Send Heartbeat ({service_name})", "POST", "heartbeat", 201, heartbeat_data)
+            
+            if success and response:
+                # Verify response structure
+                required_fields = ['id', 'service_name', 'timestamp', 'status', 'metrics', 'received_at']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in heartbeat response: {missing_fields}")
+                    heartbeat_success = False
+                else:
+                    print(f"   ✅ Heartbeat sent for {service_name}")
+            else:
+                heartbeat_success = False
+        
+        # Test GET /api/heartbeat/summary - Service health
+        success2, response2 = self.run_test("Heartbeat Monitor - Get Summary", "GET", "heartbeat/summary", 200)
+        
+        if success2 and response2:
+            total_services = response2.get('total_services', 0)
+            service_status = response2.get('service_status', {})
+            services = response2.get('services', [])
+            
+            # Verify all 7 services are tracked
+            if total_services != 7:
+                print(f"   ⚠️  Expected 7 services, got {total_services}")
+                return False
+            
+            print(f"   ✅ All 7 services tracked")
+            print(f"   Service status counts: {service_status}")
+            
+            # Verify service structure
+            if services and len(services) > 0:
+                first_service = services[0]
+                required_service_fields = ['service_name', 'status', 'last_heartbeat', 'time_since_last_heartbeat_sec']
+                missing_service_fields = [field for field in required_service_fields if field not in first_service]
+                
+                if missing_service_fields:
+                    print(f"   ⚠️  Missing fields in service data: {missing_service_fields}")
+                    return False
+                
+                print(f"   ✅ Service data structure verified")
+        
+        return success1 and heartbeat_success and success2
+
 def main():
     tester = CombatJudgingAPITester()
     exit_code = tester.run_all_tests()
