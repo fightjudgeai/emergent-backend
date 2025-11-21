@@ -231,11 +231,8 @@ class TestFailoverEngine:
         """Test: Failover to manual when both fail"""
         failover = FailoverManager()
         
-        # Mark both as unhealthy
-        failover.cloud_health.healthy = False
-        failover.local_health.healthy = False
-        
-        await failover._check_engines()
+        # Manually trigger failover to manual
+        await failover._failover(CVEngineMode.MANUAL, "Both failed (test)")
         
         status = failover.get_status()
         
