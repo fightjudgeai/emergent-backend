@@ -30,9 +30,45 @@ async def validate_round(
     round_start_time: Optional[int] = None,
     round_end_time: Optional[int] = None
 ):
-    """Validate round before scoring"""
+    """Validate round before scoring (POST)"""
     engine = get_validator_engine()
-    return engine.validate_round(round_id, bout_id, round_num, events, round_start_time, round_end_time)
+    result = engine.validate_round(round_id, bout_id, round_num, events, round_start_time, round_end_time)
+    
+    # Store result for later retrieval
+    await engine.store_validation_result(result)
+    
+    return result
+
+@round_validator_api.get("/rounds/{round_id}/validate", response_model=RoundValidationResult)
+async def get_round_validation(round_id: str):
+    """
+    Get validation result for a round (GET endpoint)
+    
+    Returns cached validation result if available.
+    Supervisor dashboard can call this endpoint to retrieve results.
+    """
+    engine = get_validator_engine()
+    result = await engine.get_validation_result(round_id)
+    
+    if result is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No validation result found for round_id: {round_id}"
+        )
+    
+    return result
+
+@round_validator_api.get("/bouts/{bout_id}/validate")
+async def get_bout_validations(bout_id: str):
+    """Get all validation results for a bout"""
+    engine = get_validator_engine()
+    results = await engine.get_bout_validations(bout_id)
+    
+    return {
+        "bout_id": bout_id,
+        "total_rounds": len(results),
+        "validations": results
+    }
 
 @round_validator_api.get("/health")
 async def health_check():
