@@ -104,7 +104,7 @@ class CVEvent(BaseModel):
 
 class ICVSSRound(BaseModel):
     """ICVSS Round with hybrid CV + Judge data"""
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", json_encoders={datetime: lambda v: v.isoformat()})
     
     round_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     bout_id: str
