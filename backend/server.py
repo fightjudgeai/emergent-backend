@@ -4019,6 +4019,35 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("startup")
+async def startup_databases():
+    """Initialize Postgres and Redis on startup"""
+    global postgres_available, redis_available
+    
+    # Initialize Postgres
+    try:
+        await init_db()
+        postgres_available = True
+        logger.info("✓ Postgres initialized successfully")
+    except Exception as e:
+        logger.warning(f"Postgres initialization skipped: {e}")
+        postgres_available = False
+    
+    # Initialize Redis
+    try:
+        redis_client = await init_redis()
+        redis_available = redis_client is not None
+        if redis_available:
+            logger.info("✓ Redis initialized successfully")
+    except Exception as e:
+        logger.warning(f"Redis initialization skipped: {e}")
+        redis_available = False
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
+    
+    # Close Redis
+    if redis_available:
+        from redis_utils import close_redis
+        await close_redis()
