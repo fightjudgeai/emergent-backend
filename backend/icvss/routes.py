@@ -398,3 +398,59 @@ async def health_check():
         "version": "1.0.0",
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
+
+
+@icvss_router.get("/system/status")
+async def get_system_status(engine: RoundEngine = Depends(get_round_engine)):
+    """
+    Get comprehensive system status and health metrics
+    
+    Returns:
+        System health metrics including event processing stats, active rounds, and performance metrics
+    """
+    try:
+        # Get active rounds count
+        active_rounds = await engine.get_active_rounds_count()
+        
+        # Get event processing stats (from last 5 minutes)
+        event_stats = await engine.get_event_processing_stats()
+        
+        # Get WebSocket connection stats
+        ws_stats = ws_manager.get_connection_stats()
+        
+        # Calculate system health status
+        health_status = "healthy"
+        if event_stats.get("error_rate", 0) > 0.1:  # More than 10% errors
+            health_status = "degraded"
+        if event_stats.get("processing_latency_ms", 0) > 1000:  # More than 1 second latency
+            health_status = "slow"
+        
+        return {
+            "status": health_status,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "active_rounds": active_rounds,
+            "event_processing": {
+                "total_events_processed": event_stats.get("total_processed", 0),
+                "events_last_5min": event_stats.get("recent_count", 0),
+                "processing_latency_ms": event_stats.get("processing_latency_ms", 0),
+                "error_rate": event_stats.get("error_rate", 0),
+                "deduplication_rate": event_stats.get("dedup_rate", 0)
+            },
+            "websocket": {
+                "active_connections": ws_stats.get("active_connections", 0),
+                "total_messages_sent": ws_stats.get("messages_sent", 0),
+                "connection_errors": ws_stats.get("connection_errors", 0)
+            },
+            "fusion_engine": {
+                "cv_weight": 0.7,
+                "judge_weight": 0.3,
+                "active": True
+            }
+        }
+    except Exception as e:
+        logger.error(f"Error getting system status: {e}")
+        return {
+            "status": "error",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "error": str(e)
+        }
