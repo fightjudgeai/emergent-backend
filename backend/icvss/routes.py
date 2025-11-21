@@ -399,6 +399,11 @@ async def health_check():
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
+@icvss_router.get("/test")
+async def test_endpoint():
+    """Simple test endpoint"""
+    return {"message": "ICVSS test endpoint working"}
+
 
 @icvss_router.get("/system/status")
 async def get_system_status(engine: RoundEngine = Depends(get_round_engine)):
