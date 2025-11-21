@@ -4209,6 +4209,9 @@ class CombatJudgingAPITester:
         # Test Phase 2 & 3 Mission-Critical Systems - NEW
         self.test_phase2_phase3_mission_critical_systems()
         
+        # Test ICVSS (Intelligent Combat Vision Scoring System) - NEW
+        self.test_icvss_integration_flow()
+        
         # Print summary
         print("\n" + "=" * 60)
         print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
