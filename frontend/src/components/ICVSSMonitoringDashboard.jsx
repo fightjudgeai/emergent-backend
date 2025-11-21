@@ -56,12 +56,60 @@ export default function ICVSSMonitoringDashboard() {
   // Auto-refresh every 5 seconds
   useEffect(() => {
     fetchSystemStatus();
+    fetchPerformanceSummary();
     
     if (autoRefresh) {
-      const interval = setInterval(fetchSystemStatus, 5000);
+      const interval = setInterval(() => {
+        fetchSystemStatus();
+        fetchPerformanceSummary();
+      }, 5000);
       return () => clearInterval(interval);
     }
   }, [autoRefresh]);
+
+  // WebSocket connection for live performance metrics
+  useEffect(() => {
+    const wsUrl = API.replace('http', 'ws') + '/api/perf/live';
+    let ws;
+    
+    try {
+      ws = new WebSocket(wsUrl);
+      
+      ws.onopen = () => {
+        console.log('[Perf] WebSocket connected');
+        setWsConnected(true);
+      };
+      
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === 'summary') {
+            setPerfMetrics(data.data);
+          }
+        } catch (error) {
+          console.error('[Perf] Error parsing WebSocket message:', error);
+        }
+      };
+      
+      ws.onerror = (error) => {
+        console.error('[Perf] WebSocket error:', error);
+        setWsConnected(false);
+      };
+      
+      ws.onclose = () => {
+        console.log('[Perf] WebSocket disconnected');
+        setWsConnected(false);
+      };
+    } catch (error) {
+      console.error('[Perf] Error creating WebSocket:', error);
+    }
+    
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, []);
 
   // Get status color
   const getStatusColor = (status) => {
