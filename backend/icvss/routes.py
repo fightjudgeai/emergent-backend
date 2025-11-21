@@ -15,8 +15,8 @@ from .event_processor import EventNormalizer
 
 logger = logging.getLogger(__name__)
 
-# Create ICVSS router
-icvss_router = APIRouter(prefix="/icvss", tags=["ICVSS"])
+# Create ICVSS router (no prefix - will be added when included)
+icvss_router = APIRouter(tags=["ICVSS"])
 
 # Global round engine (will be initialized with db)
 round_engine: Optional[RoundEngine] = None
