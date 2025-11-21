@@ -1175,7 +1175,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Phase 2 & 3 Mission-Critical Systems Testing Complete"
+    - "ICVSS Module Testing - Backend and Frontend Integration"
+    - "Point Deduction Functionality Validation"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
