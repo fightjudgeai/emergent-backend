@@ -93,7 +93,8 @@ async def init_db():
 async def get_db():
     """Get database session"""
     if SessionLocal is None:
-        return None
+        yield None
+        return
     
     async with SessionLocal() as session:
         try:
