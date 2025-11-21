@@ -390,6 +390,98 @@ export default function ICVSSMonitoringDashboard() {
         </div>
       </Card>
 
+      {/* Service Health Status */}
+      {serviceHealth && (
+        <Card className="bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Activity className="w-6 h-6 text-indigo-400" />
+              <h3 className="text-xl font-bold text-white">FJAIPOS Module Health</h3>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-green-500" />
+                <span className="text-xs text-gray-400">{serviceHealth.healthy_services} Healthy</span>
+              </div>
+              {serviceHealth.warning_services > 0 && (
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                  <span className="text-xs text-gray-400">{serviceHealth.warning_services} Warning</span>
+                </div>
+              )}
+              {serviceHealth.error_services > 0 && (
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500" />
+                  <span className="text-xs text-gray-400">{serviceHealth.error_services} Error</span>
+                </div>
+              )}
+              {serviceHealth.offline_services > 0 && (
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-gray-500" />
+                  <span className="text-xs text-gray-400">{serviceHealth.offline_services} Offline</span>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {serviceHealth.services.map((service) => (
+              <div
+                key={service.service_name}
+                className={`bg-black/30 rounded-lg p-4 border-l-4 ${
+                  service.status === 'ok' ? 'border-green-500' :
+                  service.status === 'warning' ? 'border-yellow-500' :
+                  service.status === 'error' ? 'border-red-500' :
+                  'border-gray-500'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-semibold text-white">
+                    {service.service_name}
+                  </span>
+                  <Badge className={`${
+                    service.status === 'ok' ? 'bg-green-600' :
+                    service.status === 'warning' ? 'bg-yellow-600' :
+                    service.status === 'error' ? 'bg-red-600' :
+                    'bg-gray-600'
+                  } text-white text-xs px-2 py-0.5`}>
+                    {service.status.toUpperCase()}
+                  </Badge>
+                </div>
+                
+                {service.last_heartbeat && (
+                  <div className="text-xs text-gray-400 mt-2">
+                    Last heartbeat: {service.time_since_last_heartbeat_sec?.toFixed(1)}s ago
+                  </div>
+                )}
+                
+                {!service.last_heartbeat && (
+                  <div className="text-xs text-gray-500 mt-2">
+                    No heartbeat received
+                  </div>
+                )}
+                
+                {service.metrics && Object.keys(service.metrics).length > 0 && (
+                  <div className="mt-2 pt-2 border-t border-gray-700">
+                    <div className="text-xs text-gray-400 space-y-1">
+                      {service.metrics.event_count !== undefined && (
+                        <div>Events: {service.metrics.event_count}</div>
+                      )}
+                      {service.metrics.error_count !== undefined && (
+                        <div>Errors: {service.metrics.error_count}</div>
+                      )}
+                      {service.metrics.latency_ms !== undefined && (
+                        <div>Latency: {service.metrics.latency_ms}ms</div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+
       {/* Performance Metrics */}
       {perfMetrics && (
         <Card className="bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 p-6">
