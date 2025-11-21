@@ -101,12 +101,7 @@ class RoundEngine:
             )
             
             # Audit log with proper datetime serialization
-            audit_data = event.model_dump()
-            # Convert datetime objects to ISO strings for audit log
-            if 'created_at' in audit_data and audit_data['created_at']:
-                audit_data['created_at'] = audit_data['created_at'].isoformat() if hasattr(audit_data['created_at'], 'isoformat') else audit_data['created_at']
-            if 'processed_at' in audit_data and audit_data['processed_at']:
-                audit_data['processed_at'] = audit_data['processed_at'].isoformat() if hasattr(audit_data['processed_at'], 'isoformat') else audit_data['processed_at']
+            audit_data = serialize_for_mongo(event.model_dump())
             
             await self.audit_logger.log_action(
                 bout_id=round_data.bout_id,
