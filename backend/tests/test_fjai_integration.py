@@ -195,32 +195,35 @@ class TestCVAnalyticsPipeline:
         """Test: Raw CV input converts to CombatEvent"""
         engine = CVAnalyticsEngine()
         
-        # Create mock raw input
-        raw_input = RawCVInput(
-            frame_id=1,
-            timestamp_ms=1000,
-            camera_id="cam_1",
-            fighter_id="fighter_a",
-            action_type=ActionType.PUNCH,
-            action_logits={"punch": 0.92, "kick": 0.05, "knee": 0.03},
-            fighter_bbox=[0.3, 0.4, 0.2, 0.4],
-            keypoints=[(0.5, 0.5, 0.9) for _ in range(17)],
-            impact_detected=True,
-            impact_level=ImpactLevel.HEAVY,
-            motion_vectors={"vx": 5.0, "vy": -2.0, "magnitude": 7.5},
-            camera_angle=90.0,
-            camera_distance=5.0
-        )
+        # Create mock raw input (send 5 frames to fill temporal buffer)
+        events = []
+        for i in range(5):
+            raw_input = RawCVInput(
+                frame_id=i+1,
+                timestamp_ms=1000 + (i * 100),
+                camera_id="cam_1",
+                fighter_id="fighter_a",
+                action_type=ActionType.PUNCH,
+                action_logits={"punch": 0.92, "kick": 0.05, "knee": 0.03},
+                fighter_bbox=[0.3, 0.4, 0.2, 0.4],
+                keypoints=[(0.5, 0.5, 0.9) for _ in range(17)],
+                impact_detected=True,
+                impact_level=ImpactLevel.HEAVY,
+                motion_vectors={"vx": 5.0, "vy": -2.0, "magnitude": 7.5},
+                camera_angle=90.0,
+                camera_distance=5.0
+            )
+            
+            # Process
+            frame_events = engine.process_raw_input(raw_input, "test_bout", "test_round")
+            events.extend(frame_events)
         
-        # Process
-        events = engine.process_raw_input(raw_input, "test_bout", "test_round")
-        
-        # Should generate combat event
+        # Should generate combat event after temporal smoothing
         assert len(events) >= 1
         assert events[0].event_type == EventType.STRIKE_HIGHIMPACT
         assert events[0].source == EventSource.CV_SYSTEM
         
-        print(f"✓ Raw CV → CombatEvent: {raw_input.action_type} → {events[0].event_type}")
+        print(f"✓ Raw CV → CombatEvent: PUNCH → {events[0].event_type}")
     
     def test_kd_tier_classification(self):
         """Test: KD correctly classified by impact level"""
