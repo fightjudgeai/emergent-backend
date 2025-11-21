@@ -158,7 +158,7 @@ class RoundEngine:
         round_data.winner = response.winner
         round_data.score_breakdown = score_result
         
-        # Save to database
+        # Save to database with proper datetime serialization
         await self.db.icvss_rounds.update_one(
             {"round_id": round_id},
             {"$set": {
@@ -166,7 +166,7 @@ class RoundEngine:
                 "fighter2_score": response.fighter2_score,
                 "score_card": response.score_card,
                 "winner": response.winner,
-                "score_breakdown": score_result
+                "score_breakdown": serialize_for_mongo(score_result)
             }}
         )
         
