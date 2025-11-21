@@ -13,13 +13,23 @@ logger = logging.getLogger(__name__)
 
 
 class TimeSyncEngine:
-    """NTP-like time synchronization"""
+    """NTP-like time synchronization + FightClock"""
     
     def __init__(self):
         self.clients: Dict[str, ClientSync] = {}
         
         # Drift history for jitter calculation
         self.drift_history: Dict[str, deque] = {}
+        
+        # FightClock state
+        self.timer_start_time: int = 0  # Timestamp when timer started
+        self.timer_pause_time: int = 0  # Timestamp when paused
+        self.timer_elapsed_ms: int = 0  # Total elapsed time
+        self.is_running: bool = False
+        self.is_paused: bool = False
+        
+        # WebSocket connections for broadcasting
+        self.websocket_connections: List = []
     
     def get_current_time(self) -> TimeSync:
         """
