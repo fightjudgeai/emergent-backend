@@ -3785,6 +3785,91 @@ try:
 except Exception as e:
     logger.warning(f"Normalization Engine not loaded: {e}")
 
+# ============================================================================
+# ROUND VALIDATOR
+# ============================================================================
+try:
+    from round_validator.routes import round_validator_api
+    from round_validator.validator_engine import RoundValidatorEngine
+    import round_validator.routes as validator_routes_module
+    
+    validator_engine = RoundValidatorEngine()
+    validator_routes_module.validator_engine = validator_engine
+    
+    api_router.include_router(round_validator_api, prefix="/validator")
+    logger.info("✓ Round Validator loaded")
+    
+except Exception as e:
+    logger.warning(f"Round Validator not loaded: {e}")
+
+# ============================================================================
+# REPORT GENERATOR
+# ============================================================================
+try:
+    from report_generator.routes import report_generator_api
+    from report_generator.generator_engine import ReportGeneratorEngine
+    import report_generator.routes as report_routes_module
+    
+    report_engine = ReportGeneratorEngine()
+    report_routes_module.report_engine = report_engine
+    
+    api_router.include_router(report_generator_api, prefix="/report")
+    logger.info("✓ Report Generator loaded")
+    
+except Exception as e:
+    logger.warning(f"Report Generator not loaded: {e}")
+
+# ============================================================================
+# HIGHLIGHT WORKER
+# ============================================================================
+try:
+    from highlight_worker.routes import highlight_worker_api
+    from highlight_worker.worker_engine import HighlightWorkerEngine
+    import highlight_worker.routes as highlight_routes_module
+    
+    highlight_engine = HighlightWorkerEngine()
+    highlight_routes_module.highlight_engine = highlight_engine
+    
+    api_router.include_router(highlight_worker_api, prefix="/highlights")
+    logger.info("✓ Highlight Worker loaded")
+    
+except Exception as e:
+    logger.warning(f"Highlight Worker not loaded: {e}")
+
+# ============================================================================
+# REPLAY SERVICE
+# ============================================================================
+try:
+    from replay_service.routes import replay_service_api
+    from replay_service.replay_engine import ReplayEngine
+    import replay_service.routes as replay_routes_module
+    
+    replay_engine = ReplayEngine()
+    replay_routes_module.replay_engine = replay_engine
+    
+    api_router.include_router(replay_service_api, prefix="/replay")
+    logger.info("✓ Replay Service loaded")
+    
+except Exception as e:
+    logger.warning(f"Replay Service not loaded: {e}")
+
+# ============================================================================
+# STORAGE MANAGER
+# ============================================================================
+try:
+    from storage_manager.routes import storage_manager_api
+    from storage_manager.manager_engine import StorageManagerEngine
+    import storage_manager.routes as storage_routes_module
+    
+    storage_engine = StorageManagerEngine()
+    storage_routes_module.storage_engine = storage_engine
+    
+    api_router.include_router(storage_manager_api, prefix="/storage")
+    logger.info("✓ Storage Manager loaded")
+    
+except Exception as e:
+    logger.warning(f"Storage Manager not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
