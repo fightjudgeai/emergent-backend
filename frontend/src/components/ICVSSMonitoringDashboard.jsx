@@ -23,6 +23,8 @@ export default function ICVSSMonitoringDashboard() {
   const [loading, setLoading] = useState(true);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [lastUpdate, setLastUpdate] = useState(null);
+  const [perfMetrics, setPerfMetrics] = useState(null);
+  const [wsConnected, setWsConnected] = useState(false);
 
   // Fetch system status
   const fetchSystemStatus = async () => {
@@ -38,6 +40,16 @@ export default function ICVSSMonitoringDashboard() {
         error: error.message
       });
       setLoading(false);
+    }
+  };
+
+  // Fetch performance summary
+  const fetchPerformanceSummary = async () => {
+    try {
+      const response = await axios.get(`${API}/api/perf/summary`);
+      setPerfMetrics(response.data);
+    } catch (error) {
+      console.error('[Perf] Error fetching performance summary:', error);
     }
   };
 
