@@ -8,7 +8,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/",
+      "url": "https://combatjudge.preview.emergentagent.com/api/",
       "response": {
         "message": "Combat Sports Judging API"
       }
@@ -18,7 +18,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/status",
+      "url": "https://combatjudge.preview.emergentagent.com/api/status",
       "response": {
         "id": "7686923a-8c9c-4640-88f7-c5076b74a9b7",
         "client_name": "test_client_051556",
@@ -30,7 +30,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/status",
+      "url": "https://combatjudge.preview.emergentagent.com/api/status",
       "response": [
         {
           "id": "05ea4451-e778-4d4b-831e-7fa6f0a4ead5",
@@ -114,7 +114,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/calculate-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_123",
         "round_num": 1,
@@ -193,7 +193,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/calculate-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_empty",
         "round_num": 1,
@@ -272,7 +272,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/calculate-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_invalid",
         "round_num": 1,
@@ -351,7 +351,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/calculate-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_counts",
         "round_num": 1,
@@ -428,7 +428,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/calculate-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_actual",
         "round_num": 1,
@@ -505,7 +505,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_001",
         "round_num": 1,
@@ -572,7 +572,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_002",
         "round_num": 1,
@@ -639,7 +639,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_003",
         "round_num": 1,
@@ -707,7 +707,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_004",
         "round_num": 1,
@@ -774,7 +774,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_005",
         "round_num": 1,
@@ -841,7 +841,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://combatjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_006",
         "round_num": 1,
@@ -911,7 +911,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/seed",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/seed",
       "response": {
         "success": true,
         "message": "Seeded 16 training rounds",
@@ -923,7 +923,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/rounds",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/rounds",
       "response": [
         {
           "id": "96cdc095-6a15-41fd-b662-b3dffa1708b0",
@@ -1172,7 +1172,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "4618759a-57ee-41fb-8368-d00889769d1e",
         "judgeId": "test-judge-1",
@@ -1192,7 +1192,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "7f815039-8a22-42af-942c-4af9c5ab8baf",
         "judgeId": "test-judge-1",
@@ -1212,7 +1212,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "4e81f934-cdaa-44f5-9b71-4ff400b764b8",
         "judgeId": "test-judge-1",
@@ -1232,7 +1232,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "2db12cbe-7565-4da5-b2b1-101dbc2b435b",
         "judgeId": "test-judge-2",
@@ -1252,7 +1252,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "6a8f3824-1631-4187-bfdb-6e3941dc8e7a",
         "judgeId": "test-judge-2",
@@ -1272,7 +1272,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "911e8dad-4c68-4f86-b14c-d8caf7a9fd69",
         "judgeId": "test-judge-3",
@@ -1292,7 +1292,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "8dcaf909-e250-4acd-8277-a025268ec1c2",
         "judgeId": "test-judge-3",
@@ -1312,7 +1312,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "df32817f-c465-47b7-894c-a6cb00b35f8c",
         "judgeId": "test-judge-3",
@@ -1332,7 +1332,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "5a3d1809-2847-4fed-a815-09cc7ff047fb",
         "judgeId": "test-judge-3",
@@ -1352,7 +1352,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/training-library/judge-stats/test-judge-1",
+      "url": "https://combatjudge.preview.emergentagent.com/api/training-library/judge-stats/test-judge-1",
       "response": {
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
@@ -1368,7 +1368,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/log",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "582398f5-688b-4059-b25b-0df8e611c392"
@@ -1379,7 +1379,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/log",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "a00429ab-2639-4790-a493-fcadf6058fbe"
@@ -1390,7 +1390,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/log",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "b2baa37b-50b5-4413-b8a3-bb06b0f0585d"
@@ -1401,7 +1401,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/logs?judge_id=owner-001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001",
       "response": {
         "logs": [
           {
@@ -3385,7 +3385,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation",
       "response": {
         "logs": [
           {
@@ -5389,7 +5389,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&user_id=judge-001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&user_id=judge-001",
       "response": {
         "logs": [
           {
@@ -5650,7 +5650,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&resource_type=round_score",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&resource_type=round_score",
       "response": {
         "logs": [
           {
@@ -7654,7 +7654,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation&user_id=judge-001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation&user_id=judge-001",
       "response": {
         "logs": [
           {
@@ -7915,7 +7915,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/verify/582398f5-688b-4059-b25b-0df8e611c392?judge_id=owner-001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/verify/582398f5-688b-4059-b25b-0df8e611c392?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "488b1a5731b52eacf784e0ac3ab4fca51ea4a2f9b4cc32acd9427fe42793a05e",
@@ -7928,7 +7928,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/verify/a00429ab-2639-4790-a493-fcadf6058fbe?judge_id=owner-001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/verify/a00429ab-2639-4790-a493-fcadf6058fbe?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "2e128cdb77c8793bd938c154cbc50fc20beb4293e669300295f9c66e5ff2a2ee",
@@ -7941,7 +7941,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/verify/b2baa37b-50b5-4413-b8a3-bb06b0f0585d?judge_id=owner-001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/verify/b2baa37b-50b5-4413-b8a3-bb06b0f0585d?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "3cf61cf2c8743105362be0fe86261abee9d72171b5ab5a48455ada71d1a6f8f4",
@@ -7954,7 +7954,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/verify/non-existent-log-id?judge_id=owner-001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/verify/non-existent-log-id?judge_id=owner-001",
       "response": {
         "detail": "Audit log not found"
       }
@@ -7964,7 +7964,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/stats?judge_id=owner-001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/stats?judge_id=owner-001",
       "response": {
         "total_logs": 134,
         "by_action_type": [
@@ -8012,7 +8012,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/audit/export?judge_id=owner-001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/audit/export?judge_id=owner-001",
       "response": {
         "export_format": "json",
         "export_timestamp": "2025-11-18T05:15:58.258735+00:00",
@@ -10647,7 +10647,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/judges",
+      "url": "https://combatjudge.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -10659,7 +10659,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/judges",
+      "url": "https://combatjudge.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -10671,7 +10671,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/judges",
+      "url": "https://combatjudge.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -10683,7 +10683,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/judges/JUDGE001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/judges/JUDGE001",
       "response": {
         "judgeId": "JUDGE001",
         "judgeName": "Sarah Mitchell",
@@ -10706,7 +10706,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/judges/JUDGE002",
+      "url": "https://combatjudge.preview.emergentagent.com/api/judges/JUDGE002",
       "response": {
         "judgeId": "JUDGE002",
         "judgeName": "Carlos Rodriguez",
@@ -10728,7 +10728,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/judges/owner-001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/judges/owner-001",
       "response": {
         "judgeId": "owner-001",
         "judgeName": "Owner Judge",
@@ -10749,7 +10749,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/judges/NON_EXISTENT",
+      "url": "https://combatjudge.preview.emergentagent.com/api/judges/NON_EXISTENT",
       "response": {
         "detail": "Judge profile not found"
       }
@@ -10759,7 +10759,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Jon Jones"
@@ -10770,7 +10770,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Daniel Cormier"
@@ -10781,7 +10781,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Amanda Nunes"
@@ -10792,7 +10792,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/fighters/Jon%20Jones/stats",
+      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/Jon%20Jones/stats",
       "response": {
         "fighter_name": "Jon Jones",
         "avg_control_time": 120.0,
@@ -10830,7 +10830,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/fighters/Daniel%20Cormier/stats",
+      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/Daniel%20Cormier/stats",
       "response": {
         "fighter_name": "Daniel Cormier",
         "avg_control_time": 45.0,
@@ -10868,7 +10868,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/fighters/Amanda%20Nunes/stats",
+      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/Amanda%20Nunes/stats",
       "response": {
         "fighter_name": "Amanda Nunes",
         "avg_control_time": 0.0,
@@ -10906,7 +10906,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/fighters/NonExistentFighter/stats",
+      "url": "https://combatjudge.preview.emergentagent.com/api/fighters/NonExistentFighter/stats",
       "response": {
         "detail": "No stats found for NonExistentFighter"
       }
@@ -10916,7 +10916,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://combatjudge.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "fbcc0c8a-e7b7-4635-af24-159563a7a5b5"
@@ -10927,7 +10927,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://combatjudge.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "447c0227-8fbe-4782-ac64-bad11a58a5b0"
@@ -10938,7 +10938,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://combatjudge.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "42b0d30c-27d2-41f1-a625-ddbafd960b92"
@@ -10949,7 +10949,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://combatjudge.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "abcceadb-3d4a-4b50-ac2d-3b67c5579ab9"
@@ -10960,7 +10960,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/review/flags",
+      "url": "https://combatjudge.preview.emergentagent.com/api/review/flags",
       "response": {
         "flags": [
           {
@@ -12752,7 +12752,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/review/flags?status=pending",
+      "url": "https://combatjudge.preview.emergentagent.com/api/review/flags?status=pending",
       "response": {
         "flags": [
           {
@@ -14546,7 +14546,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/review/flags?severity=high",
+      "url": "https://combatjudge.preview.emergentagent.com/api/review/flags?severity=high",
       "response": {
         "flags": [
           {
@@ -14928,7 +14928,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/review/flags?flag_type=boundary_case",
+      "url": "https://combatjudge.preview.emergentagent.com/api/review/flags?flag_type=boundary_case",
       "response": {
         "flags": [
           {
@@ -15102,7 +15102,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/review/flags/UFC_299_001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/review/flags/UFC_299_001",
       "response": {
         "flags": [
           {
@@ -15276,7 +15276,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "30b6af1e-c72f-4439-b2eb-bdc464c32758",
@@ -15321,7 +15321,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "bbcecc30-9184-4ad2-b6f7-4be6eadac21b",
@@ -15366,7 +15366,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "60a9e0cf-4c29-4f85-901f-04b5d30e8782",
@@ -15411,7 +15411,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles",
       "response": {
         "profiles": [
           {
@@ -16137,7 +16137,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/30b6af1e-c72f-4439-b2eb-bdc464c32758",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/30b6af1e-c72f-4439-b2eb-bdc464c32758",
       "response": {
         "id": "30b6af1e-c72f-4439-b2eb-bdc464c32758",
         "name": "UFC Standard",
@@ -16178,7 +16178,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/bbcecc30-9184-4ad2-b6f7-4be6eadac21b",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/bbcecc30-9184-4ad2-b6f7-4be6eadac21b",
       "response": {
         "id": "bbcecc30-9184-4ad2-b6f7-4be6eadac21b",
         "name": "Bellator Aggressive",
@@ -16219,7 +16219,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/60a9e0cf-4c29-4f85-901f-04b5d30e8782",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/60a9e0cf-4c29-4f85-901f-04b5d30e8782",
       "response": {
         "id": "60a9e0cf-4c29-4f85-901f-04b5d30e8782",
         "name": "ONE Championship",
@@ -16260,7 +16260,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -16270,7 +16270,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/30b6af1e-c72f-4439-b2eb-bdc464c32758",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/30b6af1e-c72f-4439-b2eb-bdc464c32758",
       "response": {
         "id": "30b6af1e-c72f-4439-b2eb-bdc464c32758",
         "name": "UFC Standard v2.0",
@@ -16311,7 +16311,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -16321,7 +16321,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/60a9e0cf-4c29-4f85-901f-04b5d30e8782",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/60a9e0cf-4c29-4f85-901f-04b5d30e8782",
       "response": {
         "success": true,
         "message": "Profile deleted"
@@ -16332,7 +16332,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/60a9e0cf-4c29-4f85-901f-04b5d30e8782",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/60a9e0cf-4c29-4f85-901f-04b5d30e8782",
       "response": {
         "detail": "Profile not found"
       }
@@ -16342,7 +16342,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://combatjudge.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -16352,7 +16352,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "490b85d2-052f-4798-a9d0-7bb39f6655a4",
         "bout_id": "test-bout-1763442960",
@@ -16371,7 +16371,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "dbda63a4-a278-48af-b3b2-e9e778c54661",
         "bout_id": "test-bout-1763442960",
@@ -16388,7 +16388,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "a27c3576-135e-446e-9db9-521b9e1a7e4e",
         "bout_id": "test-bout-1763442960",
@@ -16405,7 +16405,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442960/1",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-1763442960/1",
       "response": {
         "notes": [
           {
@@ -16439,7 +16439,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442960/1?judge_id=JUDGE001",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-1763442960/1?judge_id=JUDGE001",
       "response": {
         "notes": [
           {
@@ -16463,7 +16463,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442960",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-1763442960",
       "response": {
         "notes": [
           {
@@ -16545,7 +16545,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-1763442960?judge_id=JUDGE002",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-1763442960?judge_id=JUDGE002",
       "response": {
         "notes": [
           {
@@ -16581,7 +16581,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "0d380f4c-0f8a-4cde-91bf-3aa4e5a32825",
         "bout_id": "test-bout-update-1763442960",
@@ -16598,7 +16598,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/0d380f4c-0f8a-4cde-91bf-3aa4e5a32825",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/0d380f4c-0f8a-4cde-91bf-3aa4e5a32825",
       "response": {
         "success": true,
         "message": "Note updated successfully"
@@ -16609,7 +16609,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-update-1763442960/1",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-update-1763442960/1",
       "response": {
         "notes": [
           {
@@ -16632,7 +16632,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "73ad710c-ddfd-4d5d-a009-e652004badef",
         "bout_id": "test-bout-delete-1763442960",
@@ -16649,7 +16649,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/73ad710c-ddfd-4d5d-a009-e652004badef",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/73ad710c-ddfd-4d5d-a009-e652004badef",
       "response": {
         "success": true,
         "message": "Note deleted successfully"
@@ -16660,7 +16660,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/test-bout-delete-1763442960/1",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/test-bout-delete-1763442960/1",
       "response": {
         "notes": [],
         "count": 0
@@ -16671,7 +16671,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/fake-note-id-999",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/fake-note-id-999",
       "response": {
         "detail": "Note not found"
       }
@@ -16681,7 +16681,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/fake-note-id-999",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/fake-note-id-999",
       "response": {
         "detail": "Note not found"
       }
@@ -16691,7 +16691,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/round-notes/non-existent-bout/1",
+      "url": "https://combatjudge.preview.emergentagent.com/api/round-notes/non-existent-bout/1",
       "response": {
         "notes": [],
         "count": 0
@@ -16702,7 +16702,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/supervisor/dashboard/test-bout-supervisor-123",
+      "url": "https://combatjudge.preview.emergentagent.com/api/supervisor/dashboard/test-bout-supervisor-123",
       "response": {
         "bout_id": "test-bout-supervisor-123",
         "judge_scores": [],
@@ -16718,7 +16718,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/variance/detect/test-bout-variance-123/1",
+      "url": "https://combatjudge.preview.emergentagent.com/api/variance/detect/test-bout-variance-123/1",
       "response": {
         "bout_id": "test-bout-variance-123",
         "round_num": 1,
@@ -16732,7 +16732,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/variance/detect/test-bout-variance-456/1",
+      "url": "https://combatjudge.preview.emergentagent.com/api/variance/detect/test-bout-variance-456/1",
       "response": {
         "bout_id": "test-bout-variance-456",
         "round_num": 1,
@@ -16746,7 +16746,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/branding/promotion",
+      "url": "https://combatjudge.preview.emergentagent.com/api/branding/promotion",
       "response": {
         "id": "2e033883-7689-4068-bf2e-84f6b2cdf6ba",
         "promotion_name": "UFC",
@@ -16764,7 +16764,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/branding/promotion/UFC",
+      "url": "https://combatjudge.preview.emergentagent.com/api/branding/promotion/UFC",
       "response": {
         "id": "2e033883-7689-4068-bf2e-84f6b2cdf6ba",
         "promotion_name": "UFC",
@@ -16783,7 +16783,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/branding/promotion/Bellator",
+      "url": "https://combatjudge.preview.emergentagent.com/api/branding/promotion/Bellator",
       "response": {
         "promotion_name": "Bellator",
         "logo_url": null,
@@ -16799,7 +16799,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/branding/promotion",
+      "url": "https://combatjudge.preview.emergentagent.com/api/branding/promotion",
       "response": {
         "id": "93d2c627-2b60-472c-84d8-9d0852c74544",
         "promotion_name": "UFC",
@@ -16817,7 +16817,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -16833,7 +16833,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/test-bout-buffer-123",
+      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/test-bout-buffer-123",
       "response": {
         "bout_id": "test-bout-buffer-123",
         "delay_seconds": 10,
@@ -16847,7 +16847,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -16863,7 +16863,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -16879,7 +16879,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -16895,7 +16895,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judge-sync-app.preview.emergentagent.com/api/broadcast/buffer/non-existent-bout-999",
+      "url": "https://combatjudge.preview.emergentagent.com/api/broadcast/buffer/non-existent-bout-999",
       "response": {
         "bout_id": "non-existent-bout-999",
         "delay_seconds": 5,

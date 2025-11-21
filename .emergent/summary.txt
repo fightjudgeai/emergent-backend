@@ -1,76 +1,67 @@
 <analysis>
-My analysis of the trajectory indicates a comprehensive development cycle, taking a combat sports judging application from a functional MVP to a professional-grade tool. The process involved implementing numerous features and iteratively refining the core scoring logic based on detailed user feedback.
+The trajectory details the evolution of a combat sports judging application from a functional MVP to a professional-grade system. The development process was highly iterative, driven by specific user requests and feedback.
 
-Initially, the work focused on bug fixes and preparing for deployment, such as resolving a critical Firebase credential-handling issue. Following this, a series of feature requests were addressed: UI adjustments to the login and broadcast screens, fixing a bug where Quick Stats only worked for one fighter, and resolving a score display issue on the .
+The initial phase involved implementing a large set of seven mission-critical backend systems, including an offline queue workflow, a round notes engine, and AI judge variance detection. This was followed by a significant amount of frontend work and debugging. Multiple user-reported bugs were addressed, including issues with judge score locking (caused by a state management/localStorage race condition), Firebase index requirements for undoing events (solved by refactoring the query client-side), and a critical data architecture mismatch where the Supervisor Panel was reading from Firebase while scores were being written to MongoDB (solved by pointing the panel to the correct backend API).
 
-A significant portion of the work involved a complete overhaul and continuous fine-tuning of the backend scoring algorithm in . This started with fixing score card formatting, then moved to multiple adjustments of the draw threshold, and culminated in implementing a complex, user-defined scoring model with normalized base values, volume dampening, and Unified Rules guardrails. This overhaul caused several downstream bugs in the  and  components, which were systematically diagnosed (sometimes with the help of a ) and resolved.
+The most recent and substantial task was the design and implementation of an entirely new Intelligent Combat Vision Scoring System (ICVSS) as a self-contained module within the FastAPI backend. This involved creating new models, an event processing pipeline, a hybrid scoring engine, WebSocket feeds, and API routes. The ICVSS was then integrated into the frontend  and .
 
-The final phase focused on improving the operator's user experience by reorganizing the  event layout and implementing a comprehensive set of keyboard shortcuts. The last task initiated was debugging an issue with the control timers, which reportedly reset upon being stopped and failed to log events. The user's primary language throughout the trajectory is English, so all future communications should be in English.
+Work is currently focused on adding production-readiness features to the new ICVSS module. The user's primary language is English; all future communications should be in English.
 </analysis>
-
 <product_requirements>
-The application is a sophisticated real-time combat sports judging tool. An Operator uses the  to log granular fight events (e.g., Jabs, Crosses, Takedowns, Knockdowns, Control Time). These events are processed by a custom scoring engine on a FastAPI backend.
+The application is a real-time combat sports judging and scoring platform designed for professional use. It comprises three main user interfaces: an **Operator Panel** for logging fight events, a **Judge Panel** for viewing algorithm-calculated scores and locking rounds, and a **Broadcast Mode** for public display.
 
-The scoring system calculates a Strength Score for each fighter per round, which is then mapped to the traditional 10-Point-Must system (10-9, 10-8, etc.). The scoring logic is highly detailed, based on weighted event categories (Striking 50%, Grappling 40%, Other 10%), normalized base values for each event, volume dampening for non-significant strikes, and Unified Rules guardrails that prioritize near-finishes and significant damage.
+The system's core is a FastAPI backend featuring a custom scoring engine. Recent development has expanded the system with two major sets of features. The first included an enhanced offline sync system, a round notes engine, supervisor dashboard feeds, and AI judge variance detection. The second, and most significant, was the creation of the **Intelligent Combat Vision Scoring System (ICVSS)**.
 
-Judges view the fight on the , which displays real-time scores, round-by-round breakdowns, and explainability data. A  provides a simplified, live-updating view for arena displays.
-
-Key features implemented include offline-first data persistence using IndexedDB to ensure data integrity during connection loss, a full suite of keyboard shortcuts for rapid event logging, and highly-tuned scoring thresholds to make 10-8 and 10-7 rounds rare, reflecting professional judging standards. The immediate goal is to fix a bug with the control timers.
+ICVSS is a new backend module designed to process event data from computer vision systems. It features a deduplication pipeline, a standardized event schema, and a hybrid scoring algorithm that fuses CV data with manual judge inputs. This new system has been integrated into the frontend, with a new control panel for operators and real-time score displays in the broadcast mode, enabling a new layer of AI-assisted judging. The system also supports point deductions, which are factored directly into the scoring algorithm.
 </product_requirements>
-
 <key_technical_concepts>
-- **Full-Stack Architecture**: React frontend, FastAPI (Python) backend, MongoDB database.
-- **Real-time Synchronization**: Firebase Firestore for real-time event updates across clients (Operator, Judge, Broadcast).
-- **Offline-First Capability**:  () to cache events locally, with a  to handle synchronization when connectivity is restored.
-- **Complex Scoring Algorithm**: A custom, multi-layered scoring engine in  featuring weighted categories, normalized base values, volume dampening, and rule-based guardrails.
-- **UI/Component Library**: React with Shadcn UI components for a consistent interface.
-- **Event-Driven UI**: The Operator Panel features an elaborate system of buttons and keyboard shortcuts for logging a wide array of distinct fight events.
+- **Full-Stack Architecture**: React frontend with a Python FastAPI backend.
+- **Hybrid Database System**: MongoDB for primary application data (scores, bouts); PostgreSQL was specified for the new ICVSS module.
+- **Real-time Data Sync**: Firebase Firestore for real-time UI updates across clients and WebSocket for ICVSS feeds.
+- **Offline First**: IndexedDB (, ) for robust event caching, synchronization, and retry logic.
+- **Complex Scoring Engine**: Custom algorithm in  and a new hybrid engine in  that merges manual and CV data.
+- **API and Data Validation**: Pydantic models for strict data validation across all REST and WebSocket endpoints.
 </key_technical_concepts>
-
 <code_architecture>
-The application is a standard monorepo with a  and  directory.
+The application uses a monorepo structure with distinct  and  services. A new modular  service and corresponding tests were added to the backend.
 
 
 
--   ****
-    -   **Importance**: This file is the core of the application's logic. It contains the FastAPI server, all API endpoints, and most critically, the entire custom scoring algorithm (, , thresholds, guardrails).
-    -   **Recent Changes**: The file underwent a major rewrite to implement a new normalized scoring system based on user specifications. This included adding new base event values, volume dampening logic, and Unified Rules guardrails. Multiple adjustments were made to the  to make 10-8 rounds much rarer, and a bug in score card string formatting (e.g., 9-10 vs. 10-9) was fixed.
+- ****
+    - **Importance**: The main FastAPI application file. It orchestrates all API endpoints and application logic.
+    - **Changes**: Heavily modified to integrate the new ICVSS module by including its API router (). The core scoring logic was also updated to handle point deductions.
 
--   ****
-    -   **Importance**: This is the primary interface for the fight operator to log events in real-time. It contains the logic for event buttons, control timers, fighter selection, and keyboard shortcuts.
-    -   **Recent Changes**: The event button layout was completely reorganized into Striking, Damage, Grappling, and Control categories. A comprehensive keyboard shortcut handler ( with  listener) was added to map keys to specific actions and event logs. The offline  was integrated to make event logging resilient to network issues. An uninitialized variable error related to the keyboard shortcuts was fixed by adjusting the  dependency array.
+- ** (New Directory)**
+    - **Importance**: This new directory contains the entire Intelligent Combat Vision Scoring System as a modular service.
+    - **Summary**:  defines all FastAPI endpoints and WebSocket feeds.  contains the logic for fusing CV and manual judge data.  handles deduplication and normalization.  manages real-time communication.  was just added to create validation scripts.
 
--   ****
-    -   **Importance**: This component displays the official scores and round breakdowns to the judges. It fetches calculated scores from the backend.
-    -   **Recent Changes**: Fixed a critical bug where final scores were displayed as . The fix involved parsing the  string (e.g., 10-9) from the API response to extract numerical scores. A Broadcast Mode button was also added to this panel for easier access.
+- ****
+    - **Importance**: The main interface for the fight operator.
+    - **Changes**: A Point Deduction button and corresponding logic () were added. A new  component was imported and rendered in the UI to allow operators to interact with the new CV system. A bug with the Undo Last Event button was fixed by refactoring the Firebase query to sort events client-side.
 
--   ****
-    -   **Importance**: Provides a public-facing, simplified view of the scores for an arena setting. It needs to update in real-time.
-    -   **Recent Changes**: This component was heavily debugged. Fixes included changing the API endpoint to , correctly parsing the score , ensuring the  was passed correctly, and fixing the API request payload to include . A periodic refresh was added to ensure scores update reliably. The UI was updated to add a Powered By footer and later to include a Total Score display beneath the round score.
+- ****
+    - **Importance**: The public-facing display for arena screens.
+    - **Changes**: This component was significantly enhanced to support a Fire Stick + HDMI hybrid setup, adding features like auto-fullscreen, a connection status indicator, a QR code for setup, and TV-optimized fonts. Crucially, it was integrated with the ICVSS module to connect to the CV WebSocket feed and display real-time CV scores alongside official scores.
 
--   ****
-    -   **Importance**: Manages all IndexedDB operations, providing the foundation for the app's offline-first capability.
-    -   **Recent Changes**: This file was debugged to fix a crash on the Operator Panel. The issue was with using , which is not universally supported. The logic was refactored to iterate through records to get unsynced event counts and data, resolving the Provided data is inadequate error.
+- ****
+    - **Importance**: Allows a supervisor to monitor and override judging.
+    - **Changes**: A critical bug was fixed where the panel was incorrectly listening to Firebase for score data instead of fetching it from the backend API. The code was refactored to call the  endpoint, resolving the data inconsistency.
 </code_architecture>
-
 <pending_tasks>
-- No major feature requests are pending. The primary focus is on bug fixing and stabilization before another deployment readiness check.
+- Complete the implementation of the real-time system health monitoring dashboard for the ICVSS module.
+- Perform full end-to-end testing of the ICVSS integration, including the new , the  CV scores, and the backend data fusion.
+- Validate the point deduction functionality across all user interfaces and in the final scoring.
 </pending_tasks>
-
 <current_work>
-The immediate task is to fix a critical bug with the control timers (, , ) in the  component.
+The AI engineer just finished a massive, multi-stage development cycle. The work began with implementing seven mission-critical backend systems and fixing numerous user-reported bugs related to score locking, the undo feature, and data display in the Supervisor and Broadcast panels.
 
-According to the user's report, when a control timer is stopped, it incorrectly resets its accumulated time to zero instead of pausing. The user also reported that the corresponding start and stop events for these timers are failing to be logged, which means control time is not being factored into the backend scoring.
+The most recent and significant effort was building the entire Intelligent Combat Vision Scoring System (ICVSS) from the ground up. This included a full Python FastAPI backend module with its own event processing pipeline, hybrid scoring engine, WebSocket feeds, and API routes. This new backend was then integrated into the frontend, with a new  added to the  and live CV score-feeds added to the .
 
-The previous engineer had begun investigating this issue by examining the  function and the  responsible for updating the timer state in . The investigation was in its early stages, trying to determine if the reset was happening in the state update logic or elsewhere, and why the  function was not being triggered correctly for these specific actions.
+Immediately before this summary, the work pivoted to adding production-readiness tools for the new ICVSS. The user confirmed to continue, and the engineer began by creating a validation suite () and was in the process of creating a monitoring dashboard component for real-time system health.
 </current_work>
-
 <optional_next_step>
-Continue debugging the control timer functionality in  to resolve the two reported issues: the timer resetting on stop and the failure to log control events.
+Create the new frontend component for the ICVSS monitoring dashboard to display real-time system health, as planned in the most recent step.
 </optional_next_step>
-
 <direct_quotes>
-**User:** when using top control, back control, cage control stop it resets the clock but make it where it stops the clock where the timer is and if restored picks up where left off. Also on all of them it is failing to log events
-
-**AI Engineer:** Let me fix the control timer issues. First, let me find and view the handleControlToggle function:
+Now let me create a monitoring dashboard component for real-time system health - Assistant, Chat Message 467.
 </direct_quotes>
