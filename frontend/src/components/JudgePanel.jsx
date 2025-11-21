@@ -12,6 +12,7 @@ import { Shield, Check, TrendingUp, ArrowLeft, SkipForward, Download, Printer, U
 import ExplainabilityCard from '@/components/ExplainabilityCard';
 import deviceSyncManager from '@/utils/deviceSync';
 import { Textarea } from '@/components/ui/textarea';
+import ICVSSPanel from '@/components/ICVSSPanel';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
