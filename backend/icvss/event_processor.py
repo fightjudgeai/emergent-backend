@@ -43,6 +43,7 @@ class EventProcessor:
         
         # Step 2: Deduplication check
         if self._is_duplicate(event):
+            self.dedup_count += 1  # Increment duplicate counter
             logger.info(f"Event {event.event_id} rejected: duplicate within {self.dedup_window_ms}ms window")
             return False, "Duplicate event"
         
