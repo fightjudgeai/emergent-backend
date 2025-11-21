@@ -19,8 +19,12 @@ logger = logging.getLogger(__name__)
 class RoundValidatorEngine:
     """Validate rounds before scoring"""
     
-    def __init__(self, config: ValidationConfig = None):
+    def __init__(self, config: ValidationConfig = None, postgres_session=None):
         self.config = config or ValidationConfig()
+        self.postgres_session = postgres_session
+        
+        # In-memory cache for quick lookups
+        self.validation_cache = {}
     
     def validate_round(
         self,
