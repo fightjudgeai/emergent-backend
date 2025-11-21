@@ -71,7 +71,7 @@ class EventSource(str, Enum):
 
 class CVEvent(BaseModel):
     """Standardized CV Event Schema"""
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", json_encoders={datetime: lambda v: v.isoformat()})
     
     # Core identifiers
     event_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
