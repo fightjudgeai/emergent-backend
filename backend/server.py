@@ -3938,6 +3938,50 @@ try:
 except Exception as e:
     logger.warning(f"Time Sync not loaded: {e}")
 
+# ============================================================================
+# CALIBRATION API
+# ============================================================================
+try:
+    from calibration_api.routes import calibration_api
+    from calibration_api.calibration_manager import CalibrationManager
+    import calibration_api.routes as calibration_routes_module
+    
+    calibration_mgr = CalibrationManager(db=db)
+    calibration_routes_module.calibration_manager = calibration_mgr
+    
+    api_router.include_router(calibration_api, prefix="/calibration")
+    logger.info("✓ Calibration API loaded - AI model threshold tuning")
+    
+except Exception as e:
+    logger.warning(f"Calibration API not loaded: {e}")
+
+# ============================================================================
+# PERFORMANCE PROFILER
+# ============================================================================
+try:
+    from performance_profiler.routes import performance_profiler_api
+    from performance_profiler.profiler_engine import PerformanceProfiler
+    import performance_profiler.routes as profiler_routes_module
+    import asyncio
+    
+    profiler_engine = PerformanceProfiler(window_size=1000)
+    profiler_routes_module.profiler = profiler_engine
+    
+    # Start background task for mock data generation (for testing)
+    async def start_profiler_mock_data():
+        asyncio.create_task(profiler_engine.generate_mock_data())
+    
+    # Schedule mock data generation
+    @app.on_event("startup")
+    async def startup_profiler():
+        asyncio.create_task(profiler_engine.generate_mock_data())
+    
+    api_router.include_router(performance_profiler_api, prefix="/perf")
+    logger.info("✓ Performance Profiler loaded - Real-time metrics & WebSocket streaming")
+    
+except Exception as e:
+    logger.warning(f"Performance Profiler not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
