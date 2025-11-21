@@ -479,6 +479,12 @@ export default function BroadcastMode() {
             <div className="text-5xl md:text-6xl font-bold text-gray-300 drop-shadow-lg">
               ROUND {bout.currentRound} OF {bout.totalRounds}
             </div>
+            {cvMode && (
+              <Badge className="bg-purple-600 text-white text-2xl md:text-3xl px-6 py-2 flex items-center gap-2">
+                <Activity className="h-6 w-6" />
+                CV MODE
+              </Badge>
+            )}
           </div>
         </div>
 
