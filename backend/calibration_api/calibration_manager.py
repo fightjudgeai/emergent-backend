@@ -158,9 +158,11 @@ class CalibrationManager:
         """
         self.config = CalibrationConfig()
         
-        # Save to database
-        if self.db:
-            pass
+        # Save to Postgres
+        await self._save_to_postgres(self.config)
+        
+        # Broadcast via Redis
+        await self._broadcast_config_change(self.config)
         
         # Replicate
         await self._replicate_to_cv_engine()
