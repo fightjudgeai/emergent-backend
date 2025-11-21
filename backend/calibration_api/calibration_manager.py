@@ -27,10 +27,10 @@ class CalibrationManager:
         self.history: List[CalibrationHistory] = []
         
         # Load from database if available
-        if self.postgres_session:
+        if self.postgres_session is not None:
             # Load from Postgres (async initialization will be handled separately)
             logger.info("Postgres session available for calibration storage")
-        elif self.db:
+        elif self.db is not None:
             # Fallback to MongoDB
             logger.info("Using MongoDB for calibration storage")
     
