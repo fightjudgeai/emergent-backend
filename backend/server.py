@@ -60,6 +60,14 @@ db = client[os.environ['DB_NAME']]
 # Initialize Event Deduplication Engine
 dedup_engine = EventDedupEngine(db)
 
+# Initialize Postgres and Redis
+from db_utils import init_db, SessionLocal
+from redis_utils import init_redis, calibration_pubsub
+
+# Will be initialized on startup
+postgres_available = False
+redis_available = False
+
 # Create the main app without a prefix
 app = FastAPI()
 
