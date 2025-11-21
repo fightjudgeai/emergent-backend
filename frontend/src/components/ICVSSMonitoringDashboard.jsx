@@ -377,6 +377,140 @@ export default function ICVSSMonitoringDashboard() {
         </div>
       </Card>
 
+      {/* Performance Metrics */}
+      {perfMetrics && (
+        <Card className="bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Cpu className="w-6 h-6 text-cyan-400" />
+              <h3 className="text-xl font-bold text-white">Performance Metrics</h3>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className={`w-3 h-3 rounded-full ${wsConnected ? 'bg-green-500' : 'bg-gray-500'} animate-pulse`} />
+              <span className="text-xs text-gray-400">
+                {wsConnected ? 'Live Streaming' : 'Polling'}
+              </span>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* CV Inference */}
+            <div className="bg-black/30 rounded-lg p-4">
+              <div className="text-sm text-gray-400 mb-2">CV Inference</div>
+              <div className="space-y-1">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Avg:</span>
+                  <span className="text-lg text-cyan-400 font-bold">
+                    {perfMetrics.cv_inference_avg_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">P95:</span>
+                  <span className="text-sm text-cyan-300">
+                    {perfMetrics.cv_inference_p95_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">P99:</span>
+                  <span className="text-sm text-cyan-200">
+                    {perfMetrics.cv_inference_p99_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Event Ingestion */}
+            <div className="bg-black/30 rounded-lg p-4">
+              <div className="text-sm text-gray-400 mb-2">Event Ingestion</div>
+              <div className="space-y-1">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Avg:</span>
+                  <span className="text-lg text-purple-400 font-bold">
+                    {perfMetrics.event_ingestion_avg_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">P95:</span>
+                  <span className="text-sm text-purple-300">
+                    {perfMetrics.event_ingestion_p95_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">P99:</span>
+                  <span className="text-sm text-purple-200">
+                    {perfMetrics.event_ingestion_p99_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Scoring Calculation */}
+            <div className="bg-black/30 rounded-lg p-4">
+              <div className="text-sm text-gray-400 mb-2">Scoring Calc</div>
+              <div className="space-y-1">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Avg:</span>
+                  <span className="text-lg text-green-400 font-bold">
+                    {perfMetrics.scoring_calc_avg_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">P95:</span>
+                  <span className="text-sm text-green-300">
+                    {perfMetrics.scoring_calc_p95_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">P99:</span>
+                  <span className="text-sm text-green-200">
+                    {perfMetrics.scoring_calc_p99_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* WebSocket Roundtrip */}
+            <div className="bg-black/30 rounded-lg p-4">
+              <div className="text-sm text-gray-400 mb-2">WS Roundtrip</div>
+              <div className="space-y-1">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">Avg:</span>
+                  <span className="text-lg text-amber-400 font-bold">
+                    {perfMetrics.websocket_roundtrip_avg_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">P95:</span>
+                  <span className="text-sm text-amber-300">
+                    {perfMetrics.websocket_roundtrip_p95_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500">P99:</span>
+                  <span className="text-sm text-amber-200">
+                    {perfMetrics.websocket_roundtrip_p99_ms?.toFixed(1) || '0.0'}ms
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Summary Stats */}
+          <div className="mt-4 pt-4 border-t border-gray-700 grid grid-cols-2 gap-4">
+            <div className="text-center">
+              <div className="text-2xl text-white font-bold">{perfMetrics.total_measurements || 0}</div>
+              <div className="text-xs text-gray-400">Total Measurements</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl text-white font-bold">
+                {perfMetrics.measurement_period_sec ? (perfMetrics.measurement_period_sec / 60).toFixed(1) : '0.0'}m
+              </div>
+              <div className="text-xs text-gray-400">Measurement Period</div>
+            </div>
+          </div>
+        </Card>
+      )}
+
       {/* Error Display */}
       {systemStatus?.status === 'error' && systemStatus?.error && (
         <Card className="bg-gradient-to-br from-red-950/50 to-red-900/50 border-red-600/50 p-6">
