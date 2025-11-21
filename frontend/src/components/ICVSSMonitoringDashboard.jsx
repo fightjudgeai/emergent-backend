@@ -25,6 +25,7 @@ export default function ICVSSMonitoringDashboard() {
   const [lastUpdate, setLastUpdate] = useState(null);
   const [perfMetrics, setPerfMetrics] = useState(null);
   const [wsConnected, setWsConnected] = useState(false);
+  const [serviceHealth, setServiceHealth] = useState(null);
 
   // Fetch system status
   const fetchSystemStatus = async () => {
@@ -50,6 +51,16 @@ export default function ICVSSMonitoringDashboard() {
       setPerfMetrics(response.data);
     } catch (error) {
       console.error('[Perf] Error fetching performance summary:', error);
+    }
+  };
+
+  // Fetch service health
+  const fetchServiceHealth = async () => {
+    try {
+      const response = await axios.get(`${API}/api/heartbeat/summary`);
+      setServiceHealth(response.data);
+    } catch (error) {
+      console.error('[Heartbeat] Error fetching service health:', error);
     }
   };
 
