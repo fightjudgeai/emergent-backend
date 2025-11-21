@@ -127,6 +127,22 @@
 #====================================================================================================
 
 user_problem_statement: |
+  Complete implementation of Calibration API and Performance Profiler services for production tuning and monitoring.
+  
+  Previous features implemented:
+  - Intelligent Combat Vision Scoring System (ICVSS) with 15+ microservices ✅
+  - Fight Judge AI (FJAI) scoring engine ✅
+  - CV Analytics, Router, Event Harmonizer, Normalization Engine ✅
+  - Round Validator, Report Generator, Highlight Worker, Replay Service ✅
+  - Storage Manager, Advanced Audit, Scoring Simulator, Failover Engine ✅
+  - Time Sync Service ✅
+  
+  Current Task:
+  - Calibration API: AI model threshold tuning (KD, Rocked, High-impact strikes, timing windows) ✅
+  - Performance Profiler: Real-time metrics tracking (CV inference, event ingestion, scoring calc, WebSocket roundtrip) ✅
+  - Frontend Integration: Display performance metrics in ICVSSMonitoringDashboard with WebSocket streaming ✅
+  - Comprehensive Testing: Backend API endpoints and integration testing ⏳
+  
   Implement advanced features for combat sports judging tool in order:
   1. Shadow-Judging/Training Mode - Complete with metrics tracking, hidden official cards, calibration scoring ✅
   2. Offline-First + Sync - Full IndexedDB queue, reconciliation logic, conflict resolution ✅
