@@ -48,8 +48,8 @@ class RoundEngine:
             status="open"
         )
         
-        # Save to database
-        await self.db.icvss_rounds.insert_one(round_data.model_dump())
+        # Save to database with proper datetime serialization
+        await self.db.icvss_rounds.insert_one(serialize_for_mongo(round_data.model_dump()))
         
         # Add to active rounds
         self.active_rounds[round_data.round_id] = round_data
