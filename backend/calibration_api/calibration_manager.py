@@ -6,6 +6,8 @@ import logging
 from typing import List, Optional
 from datetime import datetime, timezone
 from .models import CalibrationConfig, CalibrationHistory
+import sys
+sys.path.append('/app/backend')
 
 logger = logging.getLogger(__name__)
 
@@ -13,8 +15,10 @@ logger = logging.getLogger(__name__)
 class CalibrationManager:
     """Manage system calibration parameters"""
     
-    def __init__(self, db=None):
-        self.db = db
+    def __init__(self, db=None, postgres_session=None, redis_pubsub=None):
+        self.db = db  # MongoDB
+        self.postgres_session = postgres_session  # Postgres session factory
+        self.redis_pubsub = redis_pubsub  # Redis pub/sub for broadcasting
         
         # Default configuration
         self.config = CalibrationConfig()
@@ -23,9 +27,12 @@ class CalibrationManager:
         self.history: List[CalibrationHistory] = []
         
         # Load from database if available
-        if self.db:
-            # In production: load from Postgres
-            pass
+        if self.postgres_session:
+            # Load from Postgres (async initialization will be handled separately)
+            logger.info("Postgres session available for calibration storage")
+        elif self.db:
+            # Fallback to MongoDB
+            logger.info("Using MongoDB for calibration storage")
     
     def get_config(self) -> CalibrationConfig:
         """
