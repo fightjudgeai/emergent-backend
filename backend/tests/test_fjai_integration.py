@@ -229,23 +229,28 @@ class TestCVAnalyticsPipeline:
         """Test: KD correctly classified by impact level"""
         engine = CVAnalyticsEngine()
         
-        # Flash KD
-        flash_kd = RawCVInput(
-            frame_id=1,
-            timestamp_ms=1000,
-            camera_id="cam_1",
-            fighter_id="fighter_a",
-            action_type=ActionType.KNOCKDOWN,
-            action_logits={"knockdown": 0.95},
-            fighter_bbox=[0.3, 0.4, 0.2, 0.4],
-            keypoints=[(0.5, 0.5, 0.9) for _ in range(17)],
-            impact_detected=True,
-            impact_level=ImpactLevel.LIGHT,
-            camera_angle=90.0,
-            camera_distance=5.0
-        )
+        # Send 5 frames to fill temporal buffer
+        events = []
+        for i in range(5):
+            flash_kd = RawCVInput(
+                frame_id=i+1,
+                timestamp_ms=1000 + (i * 100),
+                camera_id="cam_1",
+                fighter_id="fighter_a",
+                action_type=ActionType.KNOCKDOWN,
+                action_logits={"knockdown": 0.95},
+                fighter_bbox=[0.3, 0.4, 0.2, 0.4],
+                keypoints=[(0.5, 0.5, 0.9) for _ in range(17)],
+                impact_detected=True,
+                impact_level=ImpactLevel.LIGHT,
+                camera_angle=90.0,
+                camera_distance=5.0
+            )
+            
+            frame_events = engine.process_raw_input(flash_kd, "test_bout", "test_round")
+            events.extend(frame_events)
         
-        events = engine.process_raw_input(flash_kd, "test_bout", "test_round")
+        assert len(events) >= 1
         assert events[0].event_type == EventType.KD_FLASH
         
         print(f"✓ KD classification: LIGHT impact → KD_FLASH")
