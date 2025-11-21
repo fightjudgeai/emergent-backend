@@ -3948,18 +3948,30 @@ except Exception as e:
     logger.warning(f"Time Sync not loaded: {e}")
 
 # ============================================================================
-# CALIBRATION API
+# CALIBRATION API (Enhanced with Postgres + Redis)
 # ============================================================================
 try:
     from calibration_api.routes import calibration_api
     from calibration_api.calibration_manager import CalibrationManager
     import calibration_api.routes as calibration_routes_module
     
-    calibration_mgr = CalibrationManager(db=None)  # Don't pass MongoDB for now
+    # Pass Postgres session and Redis pub/sub if available
+    calibration_mgr = CalibrationManager(
+        db=db,
+        postgres_session=SessionLocal if postgres_available else None,
+        redis_pubsub=calibration_pubsub if redis_available else None
+    )
     calibration_routes_module.calibration_manager = calibration_mgr
     
     api_router.include_router(calibration_api, prefix="/calibration")
-    logger.info("✓ Calibration API loaded - AI model threshold tuning")
+    
+    features = []
+    if postgres_available:
+        features.append("Postgres")
+    if redis_available:
+        features.append("Redis pub/sub")
+    
+    logger.info(f"✓ Calibration API loaded - AI model threshold tuning [{', '.join(features) if features else 'In-memory'}]")
     
 except Exception as e:
     logger.warning(f"Calibration API not loaded: {e}")
