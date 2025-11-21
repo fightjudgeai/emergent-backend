@@ -3946,7 +3946,7 @@ try:
     from calibration_api.calibration_manager import CalibrationManager
     import calibration_api.routes as calibration_routes_module
     
-    calibration_mgr = CalibrationManager(db=db)
+    calibration_mgr = CalibrationManager(db=None)  # Don't pass MongoDB for now
     calibration_routes_module.calibration_manager = calibration_mgr
     
     api_router.include_router(calibration_api, prefix="/calibration")
