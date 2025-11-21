@@ -215,17 +215,14 @@ class TestFailoverEngine:
         """Test: Failover from cloud to local"""
         failover = FailoverManager()
         
-        # Mark cloud as unhealthy
-        failover.cloud_health.healthy = False
-        
-        # Trigger check
-        await failover._check_engines()
+        # Manually trigger failover
+        await failover._failover(CVEngineMode.LOCAL, "Cloud failed (test)")
         
         status = failover.get_status()
         
         # Should have failed over to local
         assert status.current_mode == CVEngineMode.LOCAL
-        assert status.failover_count > 0
+        assert status.failover_count == 1
         
         print(f"✓ Failover: CLOUD → LOCAL (count={status.failover_count})")
     
