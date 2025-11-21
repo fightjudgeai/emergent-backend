@@ -192,6 +192,11 @@ class EventHarmonizerEngine:
         if self.output_callback:
             await self.output_callback(harmonized)
     
+
+    def get_harmonized_events(self, limit: int = 100) -> List[CombatEvent]:
+        """Get harmonized events (most recent first)"""
+        return self.harmonized_events[-limit:] if len(self.harmonized_events) > limit else self.harmonized_events
+
     def get_stats(self) -> HarmonizerStats:
         """Get harmonizer statistics"""
         return HarmonizerStats(
