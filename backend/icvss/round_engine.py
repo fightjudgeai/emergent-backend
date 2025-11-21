@@ -93,12 +93,7 @@ class RoundEngine:
                 round_data.judge_events.append(event.model_dump())
             
             # Update database with proper datetime serialization
-            event_dict = event.model_dump()
-            # Convert datetime objects to ISO strings for MongoDB
-            if 'created_at' in event_dict and event_dict['created_at']:
-                event_dict['created_at'] = event_dict['created_at'].isoformat() if hasattr(event_dict['created_at'], 'isoformat') else event_dict['created_at']
-            if 'processed_at' in event_dict and event_dict['processed_at']:
-                event_dict['processed_at'] = event_dict['processed_at'].isoformat() if hasattr(event_dict['processed_at'], 'isoformat') else event_dict['processed_at']
+            event_dict = serialize_for_mongo(event.model_dump())
             
             await self.db.icvss_rounds.update_one(
                 {"round_id": round_id},
