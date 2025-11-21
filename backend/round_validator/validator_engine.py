@@ -248,3 +248,134 @@ class RoundValidatorEngine:
             ))
         
         return issues
+
+    async def store_validation_result(self, result: RoundValidationResult):
+        """Store validation result in Postgres and cache"""
+        # Store in cache
+        self.validation_cache[result.round_id] = result
+        
+        # Store in Postgres
+        if not self.postgres_session:
+            logger.debug("Postgres not available, result only cached in memory")
+            return
+        
+        try:
+            from db_utils import RoundValidationResultDB
+            
+            async with self.postgres_session() as session:
+                # Check if result already exists  
+                from sqlalchemy import select
+                stmt = select(RoundValidationResultDB).where(
+                    RoundValidationResultDB.round_id == result.round_id
+                )
+                existing_result = await session.execute(stmt)
+                existing = existing_result.scalar_one_or_none()
+                
+                if existing:
+                    # Update existing
+                    existing.status = result.status
+                    existing.issues = [issue.model_dump() for issue in result.issues]
+                    existing.event_count = len(result.issues)
+                    existing.validated_at = datetime.now(timezone.utc)
+                else:
+                    # Insert new
+                    db_result = RoundValidationResultDB(
+                        round_id=result.round_id,
+                        bout_id=result.bout_id,
+                        round_num=result.round_num,
+                        status=result.status,
+                        issues=[issue.model_dump() for issue in result.issues],
+                        event_count=len(result.issues)
+                    )
+                    session.add(db_result)
+                
+                await session.commit()
+                logger.info(f"Validation result stored for round {result.round_id}")
+        
+        except Exception as e:
+            logger.error(f"Error storing validation result: {e}")
+    
+    async def get_validation_result(self, round_id: str) -> Optional[RoundValidationResult]:
+        """Get validation result from cache or Postgres"""
+        # Check cache first
+        if round_id in self.validation_cache:
+            return self.validation_cache[round_id]
+        
+        # Try Postgres
+        if not self.postgres_session:
+            return None
+        
+        try:
+            from db_utils import RoundValidationResultDB
+            from sqlalchemy import select
+            
+            async with self.postgres_session() as session:
+                result = await session.execute(
+                    select(RoundValidationResultDB).where(
+                        RoundValidationResultDB.round_id == round_id
+                    )
+                )
+                db_result = result.scalar_one_or_none()
+                
+                if db_result:
+                    # Convert to RoundValidationResult
+                    issues = [
+                        ValidationIssue(**issue_data)
+                        for issue_data in db_result.issues
+                    ]
+                    
+                    validation_result = RoundValidationResult(
+                        round_id=db_result.round_id,
+                        bout_id=db_result.bout_id,
+                        round_num=db_result.round_num,
+                        status=db_result.status,
+                        issues=issues
+                    )
+                    
+                    # Update cache
+                    self.validation_cache[round_id] = validation_result
+                    
+                    return validation_result
+        
+        except Exception as e:
+            logger.error(f"Error retrieving validation result: {e}")
+        
+        return None
+    
+    async def get_bout_validations(self, bout_id: str) -> List[dict]:
+        """Get all validation results for a bout"""
+        if not self.postgres_session:
+            # Return cached results only
+            return [
+                result.model_dump()
+                for result in self.validation_cache.values()
+                if result.bout_id == bout_id
+            ]
+        
+        try:
+            from db_utils import RoundValidationResultDB
+            from sqlalchemy import select
+            
+            async with self.postgres_session() as session:
+                result = await session.execute(
+                    select(RoundValidationResultDB).where(
+                        RoundValidationResultDB.bout_id == bout_id
+                    ).order_by(RoundValidationResultDB.round_num)
+                )
+                db_results = result.scalars().all()
+                
+                return [
+                    {
+                        "round_id": r.round_id,
+                        "round_num": r.round_num,
+                        "status": r.status,
+                        "issue_count": r.event_count,
+                        "validated_at": r.validated_at.isoformat()
+                    }
+                    for r in db_results
+                ]
+        
+        except Exception as e:
+            logger.error(f"Error retrieving bout validations: {e}")
+            return []
+
