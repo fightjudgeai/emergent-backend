@@ -42,4 +42,32 @@ async def get_sync_stats():
 
 @time_sync_api.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "Time Sync", "version": "1.0.0"}
+    return {"status": "healthy", "service": "Time Sync + FightClock", "version": "2.0.0"}
+
+# ============================================================================
+# FightClock Endpoints
+# ============================================================================
+
+@time_sync_api.post("/clock/start")
+async def start_clock():
+    """Start or resume round timer"""
+    engine = get_sync_engine()
+    return engine.start_timer()
+
+@time_sync_api.post("/clock/pause")
+async def pause_clock():
+    """Pause round timer"""
+    engine = get_sync_engine()
+    return engine.pause_timer()
+
+@time_sync_api.post("/clock/reset")
+async def reset_clock():
+    """Reset round timer"""
+    engine = get_sync_engine()
+    return engine.reset_timer()
+
+@time_sync_api.get("/clock/now")
+async def get_clock_now():
+    """Get unified time + timer state"""
+    engine = get_sync_engine()
+    return engine.get_clock_now()
