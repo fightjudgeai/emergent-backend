@@ -751,6 +751,19 @@ backend:
         agent: "testing"
         comment: "✅ VERIFIED: Control Time input field exists as 8th field in Quick Stats dialog (lines 607-617). Field accepts seconds input with placeholder 'e.g., 120 for 2 min'. handleQuickStats function properly logs control time with CTRL_START/CTRL_STOP events (lines 182-185). Toast message includes control time duration in success notification. Bug fix working correctly."
 
+frontend:
+  - task: "Performance Metrics Display in Monitoring Dashboard"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/ICVSSMonitoringDashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Enhanced ICVSSMonitoringDashboard with Performance Metrics section displaying real-time data from Performance Profiler. Features: (1) WebSocket connection to /api/perf/live for live streaming, (2) Fallback to REST polling every 5 seconds, (3) Display of 4 metric categories: CV Inference, Event Ingestion, Scoring Calc, WebSocket Roundtrip, (4) Each metric shows Avg/P95/P99 percentiles, (5) Connection status indicator (Live Streaming vs Polling), (6) Summary stats: Total Measurements and Measurement Period, (7) Color-coded metrics (cyan, purple, green, amber), (8) Professional card-based layout matching dashboard style. Added useState hooks for perfMetrics and wsConnected, fetchPerformanceSummary function, WebSocket setup in useEffect with error handling."
+
   - task: "Total Score Display After All Rounds Bug Fix"
     implemented: true
     working: true
