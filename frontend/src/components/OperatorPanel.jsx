@@ -930,10 +930,26 @@ export default function OperatorPanel() {
                 <Shield className="mr-2 h-4 w-4" />
                 Supervisor Panel
               </Button>
+              <Button
+                onClick={() => setShowMonitoring(!showMonitoring)}
+                className={`${showMonitoring ? 'bg-gradient-to-r from-cyan-600 to-teal-600' : 'bg-gradient-to-r from-slate-600 to-slate-700'} hover:from-cyan-700 hover:to-teal-700 text-white font-semibold border-2 border-cyan-500`}
+                title="ICVSS System Monitoring - Real-time Health Metrics"
+              >
+                <Activity className="mr-2 h-4 w-4" />
+                {showMonitoring ? 'Hide' : 'Show'} Monitoring
+              </Button>
             </div>
           </div>
         </Card>
       </div>
+
+      {/* ICVSS Monitoring Dashboard */}
+      {showMonitoring && (
+        <div className="max-w-7xl mx-auto mb-6">
+          <ICVSSMonitoringDashboard />
+        </div>
+      )}
+
 
       {/* Control Timers */}
       <div className="max-w-7xl mx-auto mb-6">
