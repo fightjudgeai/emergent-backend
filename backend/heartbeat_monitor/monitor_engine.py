@@ -170,7 +170,7 @@ class HeartbeatMonitor:
         Returns:
             List of HeartbeatRecord
         """
-        if not self.db:
+        if self.db is None:
             # Return in-memory data only
             latest = self.latest_heartbeats.get(service_name)
             return [latest] if latest else []
