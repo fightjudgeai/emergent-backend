@@ -188,6 +188,28 @@ class ConnectionManager:
                 "total_broadcast_feed": sum(len(connections) for connections in self.broadcast_feed_connections.values())
             }
 
+    def get_connection_stats(self) -> Dict:
+        """Get comprehensive WebSocket connection statistics"""
+        total_connections = (
+            sum(len(connections) for connections in self.cv_feed_connections.values()) +
+            sum(len(connections) for connections in self.judge_feed_connections.values()) +
+            sum(len(connections) for connections in self.score_feed_connections.values()) +
+            sum(len(connections) for connections in self.broadcast_feed_connections.values())
+        )
+        
+        return {
+            "active_connections": total_connections,
+            "messages_sent": 0,  # Can be tracked if needed
+            "connection_errors": 0,  # Can be tracked if needed
+            "by_feed_type": {
+                "cv_feed": sum(len(connections) for connections in self.cv_feed_connections.values()),
+                "judge_feed": sum(len(connections) for connections in self.judge_feed_connections.values()),
+                "score_feed": sum(len(connections) for connections in self.score_feed_connections.values()),
+                "broadcast_feed": sum(len(connections) for connections in self.broadcast_feed_connections.values())
+            }
+        }
+
+
 
 # Global connection manager instance
 ws_manager = ConnectionManager()
