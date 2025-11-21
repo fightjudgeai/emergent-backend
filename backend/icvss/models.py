@@ -174,7 +174,7 @@ class ScoreResponse(BaseModel):
 
 class AuditLog(BaseModel):
     """Immutable audit log entry"""
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", json_encoders={datetime: lambda v: v.isoformat()})
     
     log_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     bout_id: str
