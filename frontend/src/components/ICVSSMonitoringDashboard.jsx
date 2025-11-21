@@ -68,11 +68,13 @@ export default function ICVSSMonitoringDashboard() {
   useEffect(() => {
     fetchSystemStatus();
     fetchPerformanceSummary();
+    fetchServiceHealth();
     
     if (autoRefresh) {
       const interval = setInterval(() => {
         fetchSystemStatus();
         fetchPerformanceSummary();
+        fetchServiceHealth();
       }, 5000);
       return () => clearInterval(interval);
     }
