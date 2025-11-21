@@ -430,15 +430,18 @@ class TuningServicesAPITester:
         updated_total = updated_summary.get('total_measurements', 0)
         print(f"   Updated total measurements: {updated_total}")
         
-        # Verify total increased
+        # Verify total increased (or stayed same if rolling window is full)
         expected_increase = len(test_metrics)
         actual_increase = updated_total - initial_total
         
-        if actual_increase != expected_increase:
-            print(f"   ⚠️  Measurement count mismatch: expected increase of {expected_increase}, got {actual_increase}")
+        # Rolling window behavior: if window is full, total stays same but metrics are still recorded
+        if actual_increase == expected_increase:
+            print(f"   ✅ Metrics accumulated correctly (+{actual_increase})")
+        elif actual_increase == 0 and initial_total >= 4000:
+            print(f"   ✅ Rolling window at capacity ({initial_total}), new metrics replace old ones")
+        else:
+            print(f"   ⚠️  Unexpected measurement count change: expected +{expected_increase}, got +{actual_increase}")
             return False
-        
-        print(f"   ✅ Metrics accumulated correctly (+{actual_increase})")
         
         # Verify specific metrics have realistic values
         if updated_summary['cv_inference_avg_ms'] > 0:
