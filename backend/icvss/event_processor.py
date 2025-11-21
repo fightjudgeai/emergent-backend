@@ -27,6 +27,7 @@ class EventProcessor:
         self.dedup_window_ms = dedup_window_ms
         self.confidence_threshold = confidence_threshold
         self.processed_events: List[CVEvent] = []
+        self.dedup_count = 0  # Track deduplicated events
     
     def process_event(self, event: CVEvent) -> Tuple[bool, str]:
         """
