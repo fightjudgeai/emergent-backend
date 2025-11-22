@@ -4074,6 +4074,23 @@ try:
 except Exception as e:
     logger.warning(f"Blockchain Audit not loaded: {e}")
 
+# ============================================================================
+# BROADCAST CONTROL (Phase 4)
+# ============================================================================
+try:
+    from broadcast_control.routes import broadcast_control_api
+    from broadcast_control.broadcast_engine import BroadcastEngine
+    import broadcast_control.routes as broadcast_routes_module
+    
+    broadcast_eng = BroadcastEngine(db=db)
+    broadcast_routes_module.broadcast_engine = broadcast_eng
+    
+    api_router.include_router(broadcast_control_api, prefix="")
+    logger.info("✓ Broadcast Control loaded - Multi-camera, Graphics overlays, Sponsor management")
+    
+except Exception as e:
+    logger.warning(f"Broadcast Control not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
