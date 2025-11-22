@@ -4040,6 +4040,23 @@ try:
 except Exception as e:
     logger.warning(f"Fighter Analytics not loaded: {e}")
 
+# ============================================================================
+# CV MOMENTS - AI DETECTION (Phase 2)
+# ============================================================================
+try:
+    from cv_moments.routes import cv_moments_api
+    from cv_moments.detection_engine import MomentDetectionEngine
+    import cv_moments.routes as cv_moments_routes_module
+    
+    cv_moments_eng = MomentDetectionEngine(db=db)
+    cv_moments_routes_module.detection_engine = cv_moments_eng
+    
+    api_router.include_router(cv_moments_api, prefix="")
+    logger.info("✓ CV Moments AI loaded - Knockdown/Strike/Submission detection, Auto-highlights")
+    
+except Exception as e:
+    logger.warning(f"CV Moments AI not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
