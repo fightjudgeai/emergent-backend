@@ -4108,6 +4108,40 @@ try:
 except Exception as e:
     logger.warning(f"Professional CV Analytics not loaded: {e}")
 
+# ============================================================================
+# SOCIAL MEDIA INTEGRATION (Phase 5)
+# ============================================================================
+try:
+    from social_media.routes import social_media_api
+    from social_media.social_engine import SocialMediaEngine
+    import social_media.routes as social_routes_module
+    
+    social_eng = SocialMediaEngine(db=db)
+    social_routes_module.social_engine = social_eng
+    
+    api_router.include_router(social_media_api, prefix="")
+    logger.info("✓ Social Media Integration loaded - Auto-post to Twitter/Instagram")
+    
+except Exception as e:
+    logger.warning(f"Social Media Integration not loaded: {e}")
+
+# ============================================================================
+# BRANDING & THEMES (Phase 7)
+# ============================================================================
+try:
+    from branding_themes.routes import branding_api
+    from branding_themes.theme_engine import ThemeEngine
+    import branding_themes.routes as branding_routes_module
+    
+    theme_eng = ThemeEngine(db=db)
+    branding_routes_module.theme_engine = theme_eng
+    
+    api_router.include_router(branding_api, prefix="")
+    logger.info("✓ Branding & Themes loaded - Custom themes, logo management, CSS generation")
+    
+except Exception as e:
+    logger.warning(f"Branding & Themes not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
