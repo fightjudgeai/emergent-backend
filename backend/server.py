@@ -4057,6 +4057,23 @@ try:
 except Exception as e:
     logger.warning(f"CV Moments AI not loaded: {e}")
 
+# ============================================================================
+# BLOCKCHAIN AUDIT (Phase 3)
+# ============================================================================
+try:
+    from blockchain_audit.routes import blockchain_audit_api
+    from blockchain_audit.blockchain_engine import BlockchainEngine
+    import blockchain_audit.routes as blockchain_routes_module
+    
+    blockchain_eng = BlockchainEngine(db=db)
+    blockchain_routes_module.blockchain_engine = blockchain_eng
+    
+    api_router.include_router(blockchain_audit_api, prefix="")
+    logger.info("✓ Blockchain Audit loaded - Immutable records, Digital signatures, Tamper-proof trail")
+    
+except Exception as e:
+    logger.warning(f"Blockchain Audit not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
