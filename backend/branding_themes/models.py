@@ -11,7 +11,7 @@ class BrandTheme(BaseModel):
     """Custom brand theme"""
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
-    organization: str
+    organization: str = "Default Organization"
     
     # Colors
     primary_color: str = "#FF0000"
