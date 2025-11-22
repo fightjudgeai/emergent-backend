@@ -4080,7 +4080,7 @@ except Exception as e:
 try:
     from broadcast_control.routes import broadcast_control_api
     from broadcast_control.broadcast_engine import BroadcastEngine
-    import broadcast_control.routes as broadcast_routes_module
+    import broadcast_routes_module
     
     broadcast_eng = BroadcastEngine(db=db)
     broadcast_routes_module.broadcast_engine = broadcast_eng
@@ -4090,6 +4090,23 @@ try:
     
 except Exception as e:
     logger.warning(f"Broadcast Control not loaded: {e}")
+
+# ============================================================================
+# PROFESSIONAL CV ANALYTICS (Elite System)
+# ============================================================================
+try:
+    from pro_cv_analytics.routes import pro_cv_api
+    from pro_cv_analytics.analytics_engine import ProfessionalCVEngine
+    import pro_cv_analytics.routes as pro_cv_routes_module
+    
+    pro_cv_eng = ProfessionalCVEngine(db=db)
+    pro_cv_routes_module.cv_engine = pro_cv_eng
+    
+    api_router.include_router(pro_cv_api, prefix="")
+    logger.info("✓ Professional CV Analytics loaded - Elite strike/ground/defense analysis (Jabbr/DeepStrike grade)")
+    
+except Exception as e:
+    logger.warning(f"Professional CV Analytics not loaded: {e}")
 
 # Include the router in the main app
 app.include_router(api_router)
