@@ -1335,9 +1335,12 @@ metadata:
 
 test_plan:
   current_focus:
-    - "ICVSS Module Testing - Backend and Frontend Integration"
-    - "Point Deduction Functionality Validation"
-  stuck_tasks: []
+    - "Professional CV Analytics Backend"
+    - "Social Media Integration Backend"
+    - "Branding & Themes Backend"
+  stuck_tasks:
+    - "Social Media Integration Backend"
+    - "Branding & Themes Backend"
   test_all: false
   test_priority: "high_first"
   bug_fixes_tested: 
