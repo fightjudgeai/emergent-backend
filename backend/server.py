@@ -4023,6 +4023,23 @@ try:
 except Exception as e:
     logger.warning(f"Heartbeat Monitor not loaded: {e}")
 
+# ============================================================================
+# FIGHTER ANALYTICS (Phase 1)
+# ============================================================================
+try:
+    from fighter_analytics.routes import fighter_analytics_api
+    from fighter_analytics.analytics_engine import FighterAnalyticsEngine
+    import fighter_analytics.routes as fighter_analytics_routes_module
+    
+    fighter_analytics_eng = FighterAnalyticsEngine(db=db)
+    fighter_analytics_routes_module.analytics_engine = fighter_analytics_eng
+    
+    api_router.include_router(fighter_analytics_api, prefix="")
+    logger.info("✓ Fighter Analytics loaded - Historical stats, performance trends, leaderboards")
+    
+except Exception as e:
+    logger.warning(f"Fighter Analytics not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
