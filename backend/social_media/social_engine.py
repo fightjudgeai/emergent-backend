@@ -52,8 +52,13 @@ class SocialMediaEngine:
         self.posts_cache.append(post)
         logger.info(f"Posted to Twitter: {content[:50]}...")
         
-        if self.db:
-            await self.db.social_posts.insert_one(post.model_dump())
+        if self.db is not None:
+            try:
+                post_dict = post.model_dump()
+                post_dict['created_at'] = post_dict['created_at'].isoformat()
+                await self.db.social_posts.insert_one(post_dict)
+            except Exception as e:
+                logger.error(f"Error storing post: {e}")
         
         return post
     
@@ -69,8 +74,13 @@ class SocialMediaEngine:
         self.posts_cache.append(post)
         logger.info("Posted Instagram story")
         
-        if self.db:
-            await self.db.social_posts.insert_one(post.model_dump())
+        if self.db is not None:
+            try:
+                post_dict = post.model_dump()
+                post_dict['created_at'] = post_dict['created_at'].isoformat()
+                await self.db.social_posts.insert_one(post_dict)
+            except Exception as e:
+                logger.error(f"Error storing post: {e}")
         
         return post
     
