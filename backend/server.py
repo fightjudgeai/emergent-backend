@@ -4142,6 +4142,31 @@ try:
 except Exception as e:
     logger.warning(f"Branding & Themes not loaded: {e}")
 
+# ============================================================================
+# REAL-TIME CV SYSTEM (Professional Computer Vision)
+# ============================================================================
+try:
+    from realtime_cv.routes import router as realtime_cv_api
+    from realtime_cv.data_routes import router as cv_data_api
+    import realtime_cv.routes as cv_routes_module
+    import realtime_cv.data_routes as cv_data_routes_module
+    
+    # Initialize CV engine
+    cv_routes_module.init_cv_engine(db=db)
+    
+    # Initialize data collector
+    cv_data_routes_module.init_data_collector(db=db)
+    
+    # Include both routers
+    app.include_router(realtime_cv_api)
+    app.include_router(cv_data_api)
+    
+    logger.info("✓ Real-Time CV System loaded - MediaPipe + YOLO for live video analysis")
+    logger.info("✓ CV Data Collection loaded - Training dataset management (GitHub/Kaggle)")
+    
+except Exception as e:
+    logger.warning(f"Real-Time CV System not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
