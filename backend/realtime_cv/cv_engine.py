@@ -233,7 +233,7 @@ class RealtimeCVEngine:
     async def _store_detections(self, detections: List[ActionDetection]):
         """Store detections in database"""
         
-        if not self.db:
+        if self.db is None:
             return
         
         try:
