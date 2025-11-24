@@ -144,7 +144,7 @@ class RealtimeCVEngine:
             self.recent_detections[frame.bout_id][-100:]
         
         # Store in database
-        if self.db and detections:
+        if self.db is not None and detections:
             await self._store_detections(detections)
         
         return detections
