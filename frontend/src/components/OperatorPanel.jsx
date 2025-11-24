@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { Play, Pause, ChevronRight, Eye, Monitor, Zap, Wifi, WifiOff, Clock, Shield, Activity } from 'lucide-react';
 import ICVSSPanel from '@/components/ICVSSPanel';
 import ICVSSMonitoringDashboard from '@/components/ICVSSMonitoringDashboard';
+import RealtimeCVPanel from '@/components/RealtimeCVPanel';
 
 export default function OperatorPanel() {
   const { boutId } = useParams();
