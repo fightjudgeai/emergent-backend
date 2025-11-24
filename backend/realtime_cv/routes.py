@@ -120,6 +120,8 @@ async def stop_stream_analysis(stream_id: str):
             "message": "Stream analysis stopped successfully"
         }
     
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error stopping stream: {e}")
         raise HTTPException(status_code=500, detail=str(e))
