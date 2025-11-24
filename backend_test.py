@@ -4774,6 +4774,9 @@ class CombatJudgingAPITester:
         # Test Heartbeat Monitor APIs (4 APIs) - NEW
         self.test_heartbeat_monitor_integration_flow()
         
+        # Test Real-Time CV System & Data Collection (20 APIs) - NEW
+        self.test_realtime_cv_complete_flow()
+        
         # Print summary
         print("\n" + "=" * 60)
         print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
