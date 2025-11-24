@@ -4714,6 +4714,474 @@ class CombatJudgingAPITester:
         print("   ✅ Metrics properly stored and retrieved")
         return True
 
+    def test_realtime_cv_health_checks(self):
+        """Test Real-Time CV System health checks"""
+        print("\n🎥 Testing Real-Time CV System - Health Checks...")
+        
+        # Test CV engine health
+        success1, response1 = self.run_test("Real-Time CV Health", "GET", "realtime-cv/health", 200)
+        
+        if success1 and response1:
+            print(f"   ✅ CV Engine: {response1.get('service')} v{response1.get('version')}")
+            print(f"   Models loaded: {response1.get('models_loaded', 0)}")
+            print(f"   Active streams: {response1.get('active_streams', 0)}")
+        
+        # Test data collector health
+        success2, response2 = self.run_test("CV Data Collection Health", "GET", "cv-data/health", 200)
+        
+        if success2 and response2:
+            print(f"   ✅ Data Collector: {response2.get('service')} v{response2.get('version')}")
+        
+        return success1 and success2
+
+    def test_cv_models_management(self):
+        """Test CV model management"""
+        print("\n🤖 Testing CV Models Management...")
+        
+        success, response = self.run_test("Get Loaded CV Models", "GET", "realtime-cv/models", 200)
+        
+        if success and response:
+            models = response.get('models', [])
+            count = response.get('count', 0)
+            total_loaded = response.get('total_loaded', 0)
+            
+            print(f"   ✅ Models available: {count}, Loaded: {total_loaded}")
+            
+            # Verify model structure
+            if models:
+                model = models[0]
+                required_fields = ['model_id', 'model_name', 'model_type', 'framework', 'version', 'inference_time_ms', 'is_loaded']
+                missing_fields = [field for field in required_fields if field not in model]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in model structure: {missing_fields}")
+                    return False
+                
+                print(f"   Sample model: {model['model_name']} ({model['framework']}) - {model['model_type']}")
+                
+                # Should have at least MediaPipe and YOLO models
+                model_names = [m['model_name'] for m in models]
+                expected_models = ['MediaPipe', 'YOLO']
+                
+                for expected in expected_models:
+                    if not any(expected in name for name in model_names):
+                        print(f"   ⚠️  Expected model '{expected}' not found")
+                        return False
+                
+                print(f"   ✅ All expected models found: {', '.join(model_names)}")
+        
+        return success
+
+    def test_stream_management(self):
+        """Test video stream management"""
+        print("\n📹 Testing Stream Management...")
+        
+        # Test starting a stream
+        stream_config = {
+            "bout_id": "cv_test_001",
+            "camera_id": "main_camera",
+            "stream_url": "rtsp://test.example.com/stream",
+            "stream_type": "rtsp",
+            "fps_target": 30,
+            "analysis_fps": 10,
+            "enable_pose_estimation": True,
+            "enable_action_detection": True,
+            "enable_object_tracking": True
+        }
+        
+        success1, response1 = self.run_test("Start Video Stream", "POST", "realtime-cv/streams/start", 200, stream_config)
+        
+        stream_id = None
+        if success1 and response1:
+            stream_id = response1.get('stream_id')
+            print(f"   ✅ Stream started: {stream_id}")
+            print(f"   Status: {response1.get('status')}")
+            print(f"   Bout ID: {response1.get('bout_id')}")
+            
+            # Verify response structure
+            required_fields = ['stream_id', 'bout_id', 'camera_id', 'status', 'config']
+            missing_fields = [field for field in required_fields if field not in response1]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in start stream response: {missing_fields}")
+                return False
+        
+        # Test getting active streams
+        success2, response2 = self.run_test("Get Active Streams", "GET", "realtime-cv/streams/active", 200)
+        
+        if success2 and response2:
+            active_streams = response2.get('active_streams', [])
+            count = response2.get('count', 0)
+            
+            print(f"   ✅ Active streams: {count}")
+            
+            # Verify our stream is in the list
+            if stream_id:
+                stream_ids = [s.get('stream_id') for s in active_streams]
+                if stream_id not in stream_ids:
+                    print(f"   ⚠️  Started stream {stream_id} not found in active streams")
+                    return False
+        
+        # Test stopping the stream
+        success3 = True
+        if stream_id:
+            success3, response3 = self.run_test("Stop Video Stream", "POST", f"realtime-cv/streams/stop/{stream_id}", 200)
+            
+            if success3 and response3:
+                print(f"   ✅ Stream stopped: {stream_id}")
+                print(f"   Status: {response3.get('status')}")
+        
+        # Test stopping non-existent stream (should return 404)
+        success4, _ = self.run_test("Stop Non-existent Stream", "POST", "realtime-cv/streams/stop/nonexistent_stream_123", 404)
+        
+        return success1 and success2 and success3 and success4
+
+    def test_frame_analysis(self):
+        """Test single frame analysis"""
+        print("\n🖼️ Testing Frame Analysis...")
+        
+        # Test analyzing a single frame
+        frame_data = {
+            "bout_id": "cv_test_002",
+            "camera_id": "main_camera",
+            "timestamp_ms": 1000,
+            "frame_number": 30,
+            "width": 1920,
+            "height": 1080
+        }
+        
+        success1, response1 = self.run_test("Analyze Single Frame", "POST", "realtime-cv/frames/analyze", 200, frame_data)
+        
+        if success1 and response1:
+            detections = response1.get('detections', [])
+            detection_count = response1.get('detection_count', 0)
+            processing_time = response1.get('processing_time_ms', 0)
+            
+            print(f"   ✅ Frame analyzed: {detection_count} detections in {processing_time}ms")
+            
+            # Verify response structure
+            required_fields = ['frame_id', 'bout_id', 'timestamp_ms', 'detections', 'detection_count', 'processing_time_ms']
+            missing_fields = [field for field in required_fields if field not in response1]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in frame analysis response: {missing_fields}")
+                return False
+            
+            # Verify detection structure if any detections
+            if detections:
+                detection = detections[0]
+                required_det_fields = ['id', 'action_type', 'fighter_id', 'confidence', 'detected_at']
+                missing_det_fields = [field for field in required_det_fields if field not in detection]
+                
+                if missing_det_fields:
+                    print(f"   ⚠️  Missing fields in detection structure: {missing_det_fields}")
+                    return False
+                
+                print(f"   Sample detection: {detection['action_type']} (confidence: {detection['confidence']:.2f})")
+        
+        # Test simulated frame analysis
+        success2, response2 = self.run_test("Simulate Frame Analysis", "POST", "realtime-cv/simulate/frame?bout_id=cv_test_003&camera_id=main&frame_count=10", 200)
+        
+        if success2 and response2:
+            frames_analyzed = response2.get('frames_analyzed', 0)
+            total_detections = response2.get('total_detections', 0)
+            
+            print(f"   ✅ Simulated {frames_analyzed} frames: {total_detections} total detections")
+            
+            # Verify response structure
+            required_fields = ['bout_id', 'frames_analyzed', 'total_detections', 'detections']
+            missing_fields = [field for field in required_fields if field not in response2]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in simulation response: {missing_fields}")
+                return False
+        
+        return success1 and success2
+
+    def test_detection_retrieval_and_stats(self):
+        """Test detection retrieval and statistics"""
+        print("\n📊 Testing Detection Retrieval & Stats...")
+        
+        # First, simulate some frames to generate detections
+        bout_id = "cv_test_004"
+        simulate_success, _ = self.run_test("Simulate Frames for Testing", "POST", f"realtime-cv/simulate/frame?bout_id={bout_id}&frame_count=15", 200)
+        
+        if not simulate_success:
+            print("   ❌ Failed to simulate frames for testing")
+            return False
+        
+        # Test getting bout detections
+        success1, response1 = self.run_test("Get Bout Detections", "GET", f"realtime-cv/detections/{bout_id}", 200)
+        
+        if success1 and response1:
+            detections = response1.get('detections', [])
+            count = response1.get('count', 0)
+            
+            print(f"   ✅ Retrieved {count} detections for bout")
+            
+            # Verify response structure
+            required_fields = ['bout_id', 'detections', 'count']
+            missing_fields = [field for field in required_fields if field not in response1]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in detections response: {missing_fields}")
+                return False
+        
+        # Test getting detections with limit filter
+        success2, response2 = self.run_test("Get Detections with Limit", "GET", f"realtime-cv/detections/{bout_id}?limit=5", 200)
+        
+        if success2 and response2:
+            limited_count = response2.get('count', 0)
+            print(f"   ✅ Limited detections: {limited_count} (max 5)")
+            
+            if limited_count > 5:
+                print(f"   ⚠️  Limit filter not working: expected max 5, got {limited_count}")
+                return False
+        
+        # Test getting detection statistics
+        success3, response3 = self.run_test("Get Detection Statistics", "GET", f"realtime-cv/stats/{bout_id}", 200)
+        
+        if success3 and response3:
+            total_detections = response3.get('total_detections', 0)
+            actions = response3.get('actions', {})
+            avg_confidence = response3.get('avg_confidence', 0)
+            
+            print(f"   ✅ Detection stats: {total_detections} total, avg confidence: {avg_confidence:.2f}")
+            
+            # Verify response structure
+            required_fields = ['bout_id', 'total_detections', 'actions', 'avg_confidence']
+            missing_fields = [field for field in required_fields if field not in response3]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in stats response: {missing_fields}")
+                return False
+            
+            if actions:
+                print(f"   Action breakdown: {actions}")
+        
+        return success1 and success2 and success3
+
+    def test_cv_data_collection(self):
+        """Test CV data collection system"""
+        print("\n📚 Testing CV Data Collection System...")
+        
+        # Test listing available datasets
+        success1, response1 = self.run_test("List Available Datasets", "GET", "cv-data/datasets", 200)
+        
+        dataset_id = None
+        if success1 and response1:
+            datasets = response1.get('datasets', [])
+            count = response1.get('count', 0)
+            
+            print(f"   ✅ Found {count} available datasets")
+            
+            # Verify response structure
+            required_fields = ['datasets', 'count']
+            missing_fields = [field for field in required_fields if field not in response1]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in datasets list response: {missing_fields}")
+                return False
+            
+            # Should have predefined datasets
+            if count == 0:
+                print(f"   ⚠️  Expected predefined datasets but found none")
+                return False
+            
+            # Verify dataset structure
+            if datasets:
+                dataset = datasets[0]
+                dataset_id = dataset.get('source_id')
+                
+                required_ds_fields = ['source_id', 'source_type', 'name', 'description', 'categories', 'is_downloaded', 'is_processed']
+                missing_ds_fields = [field for field in required_ds_fields if field not in dataset]
+                
+                if missing_ds_fields:
+                    print(f"   ⚠️  Missing fields in dataset structure: {missing_ds_fields}")
+                    return False
+                
+                print(f"   Sample dataset: {dataset['name']} ({dataset['source_type']})")
+        
+        # Test getting dataset info
+        success2 = True
+        if dataset_id:
+            success2, response2 = self.run_test("Get Dataset Info", "GET", f"cv-data/datasets/{dataset_id}", 200)
+            
+            if success2 and response2:
+                print(f"   ✅ Dataset info retrieved: {response2.get('name')}")
+                
+                # Verify response structure
+                required_fields = ['source_id', 'name', 'description', 'categories']
+                missing_fields = [field for field in required_fields if field not in response2]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in dataset info response: {missing_fields}")
+                    return False
+        
+        # Test getting non-existent dataset (should return 404)
+        success3, _ = self.run_test("Get Non-existent Dataset", "GET", "cv-data/datasets/nonexistent_dataset_xyz", 404)
+        
+        # Test downloading a dataset
+        success4 = True
+        if dataset_id:
+            success4, response4 = self.run_test("Download Dataset", "POST", f"cv-data/datasets/{dataset_id}/download", 200)
+            
+            if success4 and response4:
+                print(f"   ✅ Dataset downloaded: {dataset_id}")
+                
+                # Verify response structure
+                required_fields = ['source_id', 'success', 'message']
+                missing_fields = [field for field in required_fields if field not in response4]
+                
+                if missing_fields:
+                    print(f"   ⚠️  Missing fields in download response: {missing_fields}")
+                    return False
+        
+        # Test processing a dataset
+        success5 = True
+        if dataset_id:
+            success5, response5 = self.run_test("Process Dataset", "POST", f"cv-data/datasets/{dataset_id}/process", 200)
+            
+            if success5 and response5:
+                stats = response5.get('stats', {})
+                print(f"   ✅ Dataset processed: {stats.get('total_samples', 0)} samples")
+                
+                # Verify response structure
+                if 'success' not in response5 or 'stats' not in response5:
+                    print(f"   ⚠️  Missing fields in process response")
+                    return False
+                
+                # Verify stats structure
+                required_stats = ['total_samples', 'train_samples', 'val_samples', 'test_samples', 'categories']
+                missing_stats = [field for field in required_stats if field not in stats]
+                
+                if missing_stats:
+                    print(f"   ⚠️  Missing fields in processing stats: {missing_stats}")
+                    return False
+                
+                print(f"   Train: {stats['train_samples']}, Val: {stats['val_samples']}, Test: {stats['test_samples']}")
+        
+        # Test getting collection statistics
+        success6, response6 = self.run_test("Get Collection Statistics", "GET", "cv-data/stats", 200)
+        
+        if success6 and response6:
+            total_datasets = response6.get('total_datasets', 0)
+            downloaded = response6.get('downloaded', 0)
+            processed = response6.get('processed', 0)
+            total_size_mb = response6.get('total_size_mb', 0)
+            
+            print(f"   ✅ Collection stats:")
+            print(f"   Total datasets: {total_datasets}, Downloaded: {downloaded}, Processed: {processed}")
+            print(f"   Total size: {total_size_mb}MB")
+            
+            # Verify response structure
+            required_fields = ['total_datasets', 'downloaded', 'processed', 'pending', 'total_files', 'total_size_mb', 'categories', 'storage_dir']
+            missing_fields = [field for field in required_fields if field not in response6]
+            
+            if missing_fields:
+                print(f"   ⚠️  Missing fields in collection stats response: {missing_fields}")
+                return False
+        
+        return success1 and success2 and success3 and success4 and success5 and success6
+
+    def test_cv_integration_workflow(self):
+        """Test complete CV integration workflow"""
+        print("\n🔄 Testing Complete CV Integration Workflow...")
+        
+        bout_id = "cv_integration_test_001"
+        
+        # Step 1: Start stream
+        stream_config = {
+            "bout_id": bout_id,
+            "camera_id": "main",
+            "stream_url": "rtsp://test.example.com/stream",
+            "stream_type": "rtsp",
+            "fps_target": 30,
+            "analysis_fps": 10,
+            "enable_pose_estimation": True,
+            "enable_action_detection": True
+        }
+        
+        success1, response1 = self.run_test("Integration - Start Stream", "POST", "realtime-cv/streams/start", 200, stream_config)
+        
+        stream_id = None
+        if success1 and response1:
+            stream_id = response1.get('stream_id')
+            print(f"   ✅ Step 1: Stream started ({stream_id})")
+        
+        # Step 2: Simulate frames
+        success2, response2 = self.run_test("Integration - Simulate Frames", "POST", f"realtime-cv/simulate/frame?bout_id={bout_id}&frame_count=20", 200)
+        
+        if success2 and response2:
+            frames_analyzed = response2.get('frames_analyzed', 0)
+            total_detections = response2.get('total_detections', 0)
+            print(f"   ✅ Step 2: Analyzed {frames_analyzed} frames, {total_detections} detections")
+        
+        # Step 3: Get detections
+        success3, response3 = self.run_test("Integration - Get Detections", "GET", f"realtime-cv/detections/{bout_id}", 200)
+        
+        if success3 and response3:
+            detection_count = response3.get('count', 0)
+            print(f"   ✅ Step 3: Retrieved {detection_count} detections")
+        
+        # Step 4: Get stats
+        success4, response4 = self.run_test("Integration - Get Stats", "GET", f"realtime-cv/stats/{bout_id}", 200)
+        
+        if success4 and response4:
+            total_detections = response4.get('total_detections', 0)
+            avg_confidence = response4.get('avg_confidence', 0)
+            print(f"   ✅ Step 4: Stats - {total_detections} total detections, avg confidence: {avg_confidence:.2f}")
+        
+        # Step 5: Stop stream
+        success5 = True
+        if stream_id:
+            success5, response5 = self.run_test("Integration - Stop Stream", "POST", f"realtime-cv/streams/stop/{stream_id}", 200)
+            
+            if success5 and response5:
+                print(f"   ✅ Step 5: Stream stopped ({stream_id})")
+        
+        all_success = success1 and success2 and success3 and success4 and success5
+        
+        if all_success:
+            print("   🎉 Complete CV integration workflow test passed!")
+        
+        return all_success
+
+    def test_realtime_cv_complete_flow(self):
+        """Test complete Real-Time CV System flow"""
+        print("\n🎯 Testing Complete Real-Time CV System Flow...")
+        
+        # Step 1: Health checks
+        if not self.test_realtime_cv_health_checks():
+            return False
+        
+        # Step 2: Model management
+        if not self.test_cv_models_management():
+            return False
+        
+        # Step 3: Stream management
+        if not self.test_stream_management():
+            return False
+        
+        # Step 4: Frame analysis
+        if not self.test_frame_analysis():
+            return False
+        
+        # Step 5: Detection retrieval and stats
+        if not self.test_detection_retrieval_and_stats():
+            return False
+        
+        # Step 6: Data collection
+        if not self.test_cv_data_collection():
+            return False
+        
+        # Step 7: Integration workflow
+        if not self.test_cv_integration_workflow():
+            return False
+        
+        print("   🎉 Complete Real-Time CV System flow test passed!")
+        return True
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Combat Judging API Tests")
