@@ -1362,12 +1362,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Professional CV Analytics Backend"
-    - "Social Media Integration Backend"
-    - "Branding & Themes Backend"
-  stuck_tasks:
-    - "Social Media Integration Backend"
-    - "Branding & Themes Backend"
+    - "Real-Time CV System Backend"
+    - "CV Data Collection System Backend"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
   bug_fixes_tested: 
