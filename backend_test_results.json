@@ -1,7 +1,7 @@
 {
-  "total_tests": 176,
-  "passed_tests": 174,
-  "success_rate": 98.86363636363636,
+  "total_tests": 184,
+  "passed_tests": 181,
+  "success_rate": 98.36956521739131,
   "results": [
     {
       "test": "Time Sync - Get Current Time",
@@ -10,10 +10,10 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/now",
       "response": {
-        "server_timestamp_ms": 1763701084016,
-        "server_time_iso": "2025-11-21T04:58:04.016653+00:00",
-        "request_received_ms": 1763701084016,
-        "response_sent_ms": 1763701084016
+        "server_timestamp_ms": 1763956969597,
+        "server_time_iso": "2025-11-24T04:02:49.597179+00:00",
+        "request_received_ms": 1763956969597,
+        "response_sent_ms": 1763956969597
       }
     },
     {
@@ -35,17 +35,17 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/now",
       "response": {
-        "server_timestamp_ms": 1763701084094,
-        "server_time_iso": "2025-11-21T04:58:04.094283+00:00",
-        "request_received_ms": 1763701084094,
-        "response_sent_ms": 1763701084094,
+        "server_timestamp_ms": 1763956969680,
+        "server_time_iso": "2025-11-24T04:02:49.680847+00:00",
+        "request_received_ms": 1763956969680,
+        "response_sent_ms": 1763956969680,
         "timer": {
           "elapsed_ms": 0,
           "elapsed_seconds": 0.0,
           "is_running": false,
           "is_paused": false,
-          "server_time_ms": 1763701084094,
-          "server_time_iso": "2025-11-21T04:58:04.094313+00:00"
+          "server_time_ms": 1763956969680,
+          "server_time_iso": "2025-11-24T04:02:49.680882+00:00"
         }
       }
     },
@@ -60,8 +60,8 @@
         "elapsed_seconds": 0.0,
         "is_running": true,
         "is_paused": false,
-        "server_time_ms": 1763701084132,
-        "server_time_iso": "2025-11-21T04:58:04.132261+00:00"
+        "server_time_ms": 1763956969714,
+        "server_time_iso": "2025-11-24T04:02:49.714575+00:00"
       }
     },
     {
@@ -71,12 +71,12 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/pause",
       "response": {
-        "elapsed_ms": 37,
-        "elapsed_seconds": 0.04,
+        "elapsed_ms": 33,
+        "elapsed_seconds": 0.03,
         "is_running": false,
         "is_paused": true,
-        "server_time_ms": 1763701084170,
-        "server_time_iso": "2025-11-21T04:58:04.170015+00:00"
+        "server_time_ms": 1763956969748,
+        "server_time_iso": "2025-11-24T04:02:49.748033+00:00"
       }
     },
     {
@@ -90,8 +90,8 @@
         "elapsed_seconds": 0.0,
         "is_running": false,
         "is_paused": false,
-        "server_time_ms": 1763701084204,
-        "server_time_iso": "2025-11-21T04:58:04.204724+00:00"
+        "server_time_ms": 1763956969784,
+        "server_time_iso": "2025-11-24T04:02:49.784876+00:00"
       }
     },
     {
@@ -105,8 +105,8 @@
         "elapsed_seconds": 0.0,
         "is_running": true,
         "is_paused": false,
-        "server_time_ms": 1763701084285,
-        "server_time_iso": "2025-11-21T04:58:04.285818+00:00"
+        "server_time_ms": 1763956969820,
+        "server_time_iso": "2025-11-24T04:02:49.820793+00:00"
       }
     },
     {
@@ -116,17 +116,17 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/now",
       "response": {
-        "server_timestamp_ms": 1763701084325,
-        "server_time_iso": "2025-11-21T04:58:04.325947+00:00",
-        "request_received_ms": 1763701084325,
-        "response_sent_ms": 1763701084325,
+        "server_timestamp_ms": 1763956969862,
+        "server_time_iso": "2025-11-24T04:02:49.862916+00:00",
+        "request_received_ms": 1763956969862,
+        "response_sent_ms": 1763956969862,
         "timer": {
-          "elapsed_ms": 40,
+          "elapsed_ms": 42,
           "elapsed_seconds": 0.04,
           "is_running": true,
           "is_paused": false,
-          "server_time_ms": 1763701084325,
-          "server_time_iso": "2025-11-21T04:58:04.325979+00:00"
+          "server_time_ms": 1763956969862,
+          "server_time_iso": "2025-11-24T04:02:49.862954+00:00"
         }
       }
     },
@@ -137,12 +137,12 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/pause",
       "response": {
-        "elapsed_ms": 81,
+        "elapsed_ms": 77,
         "elapsed_seconds": 0.08,
         "is_running": false,
         "is_paused": true,
-        "server_time_ms": 1763701084366,
-        "server_time_iso": "2025-11-21T04:58:04.366464+00:00"
+        "server_time_ms": 1763956969897,
+        "server_time_iso": "2025-11-24T04:02:49.897488+00:00"
       }
     },
     {
@@ -152,12 +152,12 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/start",
       "response": {
-        "elapsed_ms": 81,
+        "elapsed_ms": 77,
         "elapsed_seconds": 0.08,
         "is_running": true,
         "is_paused": false,
-        "server_time_ms": 1763701084404,
-        "server_time_iso": "2025-11-21T04:58:04.404252+00:00"
+        "server_time_ms": 1763956969976,
+        "server_time_iso": "2025-11-24T04:02:49.976663+00:00"
       }
     },
     {
@@ -171,8 +171,8 @@
         "elapsed_seconds": 0.0,
         "is_running": false,
         "is_paused": false,
-        "server_time_ms": 1763701084440,
-        "server_time_iso": "2025-11-21T04:58:04.440684+00:00"
+        "server_time_ms": 1763956970015,
+        "server_time_iso": "2025-11-24T04:02:50.015130+00:00"
       }
     },
     {
@@ -190,7 +190,7 @@
         "confidence_threshold": 0.5,
         "deduplication_window_ms": 100,
         "version": "1.0.0",
-        "last_modified": "2025-11-21T04:49:47.484550Z",
+        "last_modified": "2025-11-24T03:56:17.316955Z",
         "modified_by": "system"
       }
     },
@@ -209,17 +209,28 @@
         "confidence_threshold": 0.6,
         "deduplication_window_ms": 100,
         "version": "1.0.0",
-        "last_modified": "2025-11-21T04:58:04.552334Z",
+        "last_modified": "2025-11-24T04:02:50.127519Z",
         "modified_by": "test_user"
       }
     },
     {
       "test": "Calibration - Reset Config",
-      "success": false,
+      "success": true,
       "expected_status": 200,
-      "actual_status": 500,
+      "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/calibration/reset",
-      "error": "Internal Server Error"
+      "response": {
+        "kd_threshold": 0.75,
+        "rocked_threshold": 0.65,
+        "highimpact_strike_threshold": 0.7,
+        "momentum_swing_window_ms": 1200,
+        "multicam_merge_window_ms": 150,
+        "confidence_threshold": 0.5,
+        "deduplication_window_ms": 100,
+        "version": "1.0.0",
+        "last_modified": "2025-11-24T04:02:50.162462Z",
+        "modified_by": "system"
+      }
     },
     {
       "test": "Calibration - Get History",
@@ -229,35 +240,35 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/calibration/history?limit=10",
       "response": [
         {
-          "timestamp": "2025-11-21T04:58:04.552167Z",
+          "timestamp": "2025-11-24T04:02:50.127323Z",
           "parameter": "kd_threshold",
           "old_value": 0.75,
           "new_value": 0.8,
           "modified_by": "test_user"
         },
         {
-          "timestamp": "2025-11-21T04:58:04.552261Z",
+          "timestamp": "2025-11-24T04:02:50.127440Z",
           "parameter": "rocked_threshold",
           "old_value": 0.65,
           "new_value": 0.7,
           "modified_by": "test_user"
         },
         {
-          "timestamp": "2025-11-21T04:58:04.552287Z",
+          "timestamp": "2025-11-24T04:02:50.127469Z",
           "parameter": "highimpact_strike_threshold",
           "old_value": 0.7,
           "new_value": 0.75,
           "modified_by": "test_user"
         },
         {
-          "timestamp": "2025-11-21T04:58:04.552305Z",
+          "timestamp": "2025-11-24T04:02:50.127488Z",
           "parameter": "momentum_swing_window_ms",
           "old_value": 1200.0,
           "new_value": 1500.0,
           "modified_by": "test_user"
         },
         {
-          "timestamp": "2025-11-21T04:58:04.552320Z",
+          "timestamp": "2025-11-24T04:02:50.127505Z",
           "parameter": "multicam_merge_window_ms",
           "old_value": 150.0,
           "new_value": 200.0,
@@ -278,6 +289,14 @@
       }
     },
     {
+      "test": "Round Validator - Validate Round",
+      "success": false,
+      "expected_status": 200,
+      "actual_status": 422,
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/validator/validate",
+      "error": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"round_id\"],\"msg\":\"Field required\",\"input\":null,\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"},{\"type\":\"missing\",\"loc\":[\"query\",\"bout_id\"],\"msg\":\"Field"
+    },
+    {
       "test": "Root API Endpoint",
       "success": true,
       "expected_status": 200,
@@ -294,9 +313,9 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/status",
       "response": {
-        "id": "7b968fff-0b12-44d7-872f-c97c8e5433ea",
-        "client_name": "test_client_045804",
-        "timestamp": "2025-11-21T04:58:04.736127Z"
+        "id": "e0bc103d-7ab7-4836-801b-e0405de3c0b6",
+        "client_name": "test_client_040250",
+        "timestamp": "2025-11-24T04:02:50.377605Z"
       }
     },
     {
@@ -395,6 +414,11 @@
           "id": "7b968fff-0b12-44d7-872f-c97c8e5433ea",
           "client_name": "test_client_045804",
           "timestamp": "2025-11-21T04:58:04.736127Z"
+        },
+        {
+          "id": "e0bc103d-7ab7-4836-801b-e0405de3c0b6",
+          "client_name": "test_client_040250",
+          "timestamp": "2025-11-24T04:02:50.377605Z"
         }
       ]
     },
@@ -1215,7 +1239,7 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/rounds",
       "response": [
         {
-          "id": "e4a11df9-e38b-4815-8bf9-42e1d77b2528",
+          "id": "eacc70e5-740f-46de-b189-ff19530ad7d9",
           "event": "UFC 299: O'Malley vs. Vera 2",
           "fighters": "Dustin Poirier vs. Benoit Saint Denis",
           "roundNumber": 2,
@@ -1227,10 +1251,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206490Z"
+          "createdAt": "2025-11-24T04:02:50.872018Z"
         },
         {
-          "id": "b82672cc-4daf-49dd-aae2-55ea6795a8c6",
+          "id": "2f608a06-0a1c-45b8-b4d0-3c7ca6be2bb5",
           "event": "UFC 300: Pereira vs. Hill",
           "fighters": "Max Holloway vs. Justin Gaethje",
           "roundNumber": 5,
@@ -1242,10 +1266,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206524Z"
+          "createdAt": "2025-11-24T04:02:50.872061Z"
         },
         {
-          "id": "e7d82c60-7f07-43aa-a7ee-d1abd14c2d29",
+          "id": "c0fcb6d0-a483-4ccb-9341-dd468ed0b466",
           "event": "UFC 296: Edwards vs. Covington",
           "fighters": "Alexandre Pantoja vs. Brandon Royval",
           "roundNumber": 1,
@@ -1257,10 +1281,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206537Z"
+          "createdAt": "2025-11-24T04:02:50.872075Z"
         },
         {
-          "id": "353556eb-daa9-4b63-8a5f-21d1c7146301",
+          "id": "ba29706e-7188-4423-a4e7-10cca11e75f2",
           "event": "UFC 298: Volkanovski vs. Topuria",
           "fighters": "Ian Garry vs. Geoff Neal",
           "roundNumber": 3,
@@ -1272,10 +1296,10 @@
           ],
           "officialCard": "10-10",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206546Z"
+          "createdAt": "2025-11-24T04:02:50.872085Z"
         },
         {
-          "id": "a3fc7b86-b2ab-4b41-8857-de4f0158a690",
+          "id": "b1666f4e-eab2-4893-b9ab-8d9e0632307e",
           "event": "UFC 297: Strickland vs. Du Plessis",
           "fighters": "Sean Strickland vs. Dricus Du Plessis",
           "roundNumber": 2,
@@ -1287,10 +1311,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206556Z"
+          "createdAt": "2025-11-24T04:02:50.872094Z"
         },
         {
-          "id": "6cab5d8f-c186-49d8-b627-f6e6865fa326",
+          "id": "a4ff0d25-0f35-4fdb-8268-02a79569ceb6",
           "event": "UFC 295: Prochazka vs. Pereira",
           "fighters": "Jiri Prochazka vs. Alex Pereira",
           "roundNumber": 1,
@@ -1302,10 +1326,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206564Z"
+          "createdAt": "2025-11-24T04:02:50.872108Z"
         },
         {
-          "id": "1661fa4d-976e-493b-9f2f-e12a55163635",
+          "id": "99e55622-385a-48cf-9ad9-51762e5ab803",
           "event": "UFC 294: Makhachev vs. Volkanovski 2",
           "fighters": "Islam Makhachev vs. Alexander Volkanovski",
           "roundNumber": 1,
@@ -1317,10 +1341,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206574Z"
+          "createdAt": "2025-11-24T04:02:50.872119Z"
         },
         {
-          "id": "f0455d2f-0661-4e8c-a203-1c575c134293",
+          "id": "9b277589-277f-4600-a86f-11e029327b84",
           "event": "UFC 293: Adesanya vs. Strickland",
           "fighters": "Israel Adesanya vs. Sean Strickland",
           "roundNumber": 3,
@@ -1332,10 +1356,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206584Z"
+          "createdAt": "2025-11-24T04:02:50.872130Z"
         },
         {
-          "id": "dc1e17a9-fad6-4988-994a-7c454a5d471b",
+          "id": "cb908991-008f-42f3-9be3-49db8c713d91",
           "event": "UFC 292: Sterling vs. O'Malley",
           "fighters": "Aljamain Sterling vs. Sean O'Malley",
           "roundNumber": 1,
@@ -1347,10 +1371,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206593Z"
+          "createdAt": "2025-11-24T04:02:50.872139Z"
         },
         {
-          "id": "d4150ac9-14d3-49d8-96f6-9db2c6d2e439",
+          "id": "bbec6b6c-12d5-4e34-a563-04e4bcc12671",
           "event": "UFC 291: Poirier vs. Gaethje 2",
           "fighters": "Dustin Poirier vs. Justin Gaethje",
           "roundNumber": 2,
@@ -1362,10 +1386,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206607Z"
+          "createdAt": "2025-11-24T04:02:50.872147Z"
         },
         {
-          "id": "6996bac3-72ce-4c48-a271-601247a98005",
+          "id": "30b46fd4-73a5-407d-be05-c75eb3ddd1a4",
           "event": "UFC 290: Volkanovski vs. Rodriguez",
           "fighters": "Brandon Moreno vs. Alexandre Pantoja",
           "roundNumber": 4,
@@ -1377,10 +1401,10 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206616Z"
+          "createdAt": "2025-11-24T04:02:50.872156Z"
         },
         {
-          "id": "0d76789e-72aa-4531-8e23-87849ac2be34",
+          "id": "28232c1f-7d7f-49b8-8201-69e698b436a2",
           "event": "UFC 289: Nunes vs. Aldana",
           "fighters": "Charles Oliveira vs. Beneil Dariush",
           "roundNumber": 1,
@@ -1392,10 +1416,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206624Z"
+          "createdAt": "2025-11-24T04:02:50.872164Z"
         },
         {
-          "id": "e248941d-cee5-4a07-a6ac-dbf79b18d5f7",
+          "id": "672d58e0-7caf-420c-8267-9d7a37b8aa4f",
           "event": "UFC 288: Sterling vs. Cejudo",
           "fighters": "Aljamain Sterling vs. Henry Cejudo",
           "roundNumber": 2,
@@ -1407,10 +1431,10 @@
           ],
           "officialCard": "10-9",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206632Z"
+          "createdAt": "2025-11-24T04:02:50.872172Z"
         },
         {
-          "id": "547f1d98-7362-457e-865a-4aa5bff18207",
+          "id": "5cf75fe1-687b-47f4-9d07-3d0ae8ea68bb",
           "event": "UFC 287: Pereira vs. Adesanya 2",
           "fighters": "Alex Pereira vs. Israel Adesanya",
           "roundNumber": 2,
@@ -1422,10 +1446,10 @@
           ],
           "officialCard": "10-7",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206640Z"
+          "createdAt": "2025-11-24T04:02:50.872180Z"
         },
         {
-          "id": "74c8dd6d-83b9-488d-be6f-1afb51031e27",
+          "id": "350af7cd-1e43-411d-9d4c-4d7aa1598676",
           "event": "UFC 286: Edwards vs. Usman 3",
           "fighters": "Leon Edwards vs. Kamaru Usman",
           "roundNumber": 1,
@@ -1437,10 +1461,10 @@
           ],
           "officialCard": "10-10",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206647Z"
+          "createdAt": "2025-11-24T04:02:50.872195Z"
         },
         {
-          "id": "86249068-87ba-4cfb-aade-aca0de6250f1",
+          "id": "24e30cdf-96ec-4ebd-a546-32f3d56c9c7c",
           "event": "UFC 285: Jones vs. Gane",
           "fighters": "Jon Jones vs. Ciryl Gane",
           "roundNumber": 1,
@@ -1452,7 +1476,7 @@
           ],
           "officialCard": "10-8",
           "type": "historical",
-          "createdAt": "2025-11-21T04:58:05.206655Z"
+          "createdAt": "2025-11-24T04:02:50.872203Z"
         }
       ]
     },
@@ -1463,17 +1487,17 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "ddb4e6d8-2b90-4d43-80f1-52d5496c876d",
+        "id": "aec07ca5-5fea-4f82-b739-9880a7cd1283",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "e4a11df9-e38b-4815-8bf9-42e1d77b2528",
+        "roundId": "eacc70e5-740f-46de-b189-ff19530ad7d9",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-21T04:58:05.278907Z"
+        "timestamp": "2025-11-24T04:02:50.941426Z"
       }
     },
     {
@@ -1483,17 +1507,17 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "b8946bb6-9040-4965-ae38-1b831660609b",
+        "id": "09fa5a8d-89e4-4790-974f-b42cda7f5424",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "e4a11df9-e38b-4815-8bf9-42e1d77b2528",
+        "roundId": "eacc70e5-740f-46de-b189-ff19530ad7d9",
         "myScore": "10-8",
         "officialScore": "10-9",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 85.0,
         "match": false,
-        "timestamp": "2025-11-21T04:58:05.314336Z"
+        "timestamp": "2025-11-24T04:02:50.979073Z"
       }
     },
     {
@@ -1503,17 +1527,17 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "f735c3f9-403b-46d0-bfc8-a5b2a1e51f39",
+        "id": "3587f521-1c7e-40fb-9a9d-2db88a812821",
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "roundId": "e4a11df9-e38b-4815-8bf9-42e1d77b2528",
+        "roundId": "eacc70e5-740f-46de-b189-ff19530ad7d9",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-21T04:58:05.348522Z"
+        "timestamp": "2025-11-24T04:02:51.012093Z"
       }
     },
     {
@@ -1523,17 +1547,17 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "1653e9cd-8394-4c16-aa89-0ad8a7f7ec33",
+        "id": "04f11d1d-2752-4c94-948b-a11b2479ef9b",
         "judgeId": "test-judge-2",
         "judgeName": "Maria Santos",
-        "roundId": "e4a11df9-e38b-4815-8bf9-42e1d77b2528",
+        "roundId": "eacc70e5-740f-46de-b189-ff19530ad7d9",
         "myScore": "10-9",
         "officialScore": "10-8",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 75.0,
         "match": false,
-        "timestamp": "2025-11-21T04:58:05.383502Z"
+        "timestamp": "2025-11-24T04:02:51.044979Z"
       }
     },
     {
@@ -1543,17 +1567,17 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "c70e8588-ac54-4d3d-9204-107715f1ab1f",
+        "id": "9e8dc496-55c1-41ff-98f0-3ee128a0b44b",
         "judgeId": "test-judge-2",
         "judgeName": "Maria Santos",
-        "roundId": "e4a11df9-e38b-4815-8bf9-42e1d77b2528",
+        "roundId": "eacc70e5-740f-46de-b189-ff19530ad7d9",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-21T04:58:05.418110Z"
+        "timestamp": "2025-11-24T04:02:51.089378Z"
       }
     },
     {
@@ -1563,17 +1587,17 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "d3a2c961-a337-4076-a617-5e0469c5e08c",
+        "id": "15884371-a7a0-4c23-bf86-c8dd279d8e23",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "e4a11df9-e38b-4815-8bf9-42e1d77b2528",
+        "roundId": "eacc70e5-740f-46de-b189-ff19530ad7d9",
         "myScore": "10-8",
         "officialScore": "10-8",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-21T04:58:05.461178Z"
+        "timestamp": "2025-11-24T04:02:51.125158Z"
       }
     },
     {
@@ -1583,17 +1607,17 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "21ee2f03-d74d-4923-abb4-b9fa74d7d0d0",
+        "id": "b65110a0-196e-4261-a85b-9db43d2c0574",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "e4a11df9-e38b-4815-8bf9-42e1d77b2528",
+        "roundId": "eacc70e5-740f-46de-b189-ff19530ad7d9",
         "myScore": "10-9",
         "officialScore": "10-8",
         "mae": 1.0,
         "sensitivity108": false,
         "accuracy": 80.0,
         "match": false,
-        "timestamp": "2025-11-21T04:58:05.496500Z"
+        "timestamp": "2025-11-24T04:02:51.160323Z"
       }
     },
     {
@@ -1603,17 +1627,17 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "a6164ea4-351a-43f9-95b6-27cc08f06df3",
+        "id": "c0aedcc7-0820-4744-b411-d5e0cf987c2d",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "e4a11df9-e38b-4815-8bf9-42e1d77b2528",
+        "roundId": "eacc70e5-740f-46de-b189-ff19530ad7d9",
         "myScore": "10-9",
         "officialScore": "10-9",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-21T04:58:05.530650Z"
+        "timestamp": "2025-11-24T04:02:51.235856Z"
       }
     },
     {
@@ -1623,17 +1647,17 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
-        "id": "50cb1ae5-f201-4166-9c75-56e724b26532",
+        "id": "c86a32fe-576f-40a4-82f8-ddce22277ab1",
         "judgeId": "test-judge-3",
         "judgeName": "John Thompson",
-        "roundId": "e4a11df9-e38b-4815-8bf9-42e1d77b2528",
+        "roundId": "eacc70e5-740f-46de-b189-ff19530ad7d9",
         "myScore": "10-8",
         "officialScore": "10-8",
         "mae": 0.0,
         "sensitivity108": true,
         "accuracy": 100.0,
         "match": true,
-        "timestamp": "2025-11-21T04:58:05.563660Z"
+        "timestamp": "2025-11-24T04:02:51.271035Z"
       }
     },
     {
@@ -1645,11 +1669,11 @@
       "response": {
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
-        "totalAttempts": 48,
+        "totalAttempts": 51,
         "averageAccuracy": 95.0,
         "averageMAE": 0.33,
         "sensitivity108Rate": 66.67,
-        "perfectMatches": 32
+        "perfectMatches": 34
       }
     },
     {
@@ -1660,7 +1684,7 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "5b7cbb4c-7602-4dca-abe5-0b2f978d7d6a"
+        "log_id": "52372cd7-7baa-45bd-bb43-20519dde37d9"
       }
     },
     {
@@ -1671,7 +1695,7 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "3d0bb98b-5bd7-40b0-a87a-3e50dc6daa62"
+        "log_id": "a6513ca4-9d02-441e-8f1e-d2c19ed98f30"
       }
     },
     {
@@ -1682,7 +1706,7 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
-        "log_id": "c4141e9d-b515-4552-9a97-5bf55d871999"
+        "log_id": "fadc8247-7f10-4ea9-a60c-e08be2aa1b45"
       }
     },
     {
@@ -1693,6 +1717,161 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001",
       "response": {
         "logs": [
+          {
+            "id": "fadc8247-7f10-4ea9-a60c-e08be2aa1b45",
+            "timestamp": "2025-11-24T04:02:51.408371+00:00",
+            "action_type": "profile_changed",
+            "user_id": "judge-002",
+            "user_name": "Maria Garcia",
+            "resource_type": "tuning_profile",
+            "resource_id": "profile_ufc_001",
+            "action_data": {
+              "changes": [
+                "weights.KD",
+                "thresholds.threshold_10_8"
+              ],
+              "promotion": "UFC"
+            },
+            "signature": "7fed39aa5ad429aa8cc2a5198747dc82f5f38999ce29add89674633a9af10875",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "a6513ca4-9d02-441e-8f1e-d2c19ed98f30",
+            "timestamp": "2025-11-24T04:02:51.371835+00:00",
+            "action_type": "flag_created",
+            "user_id": "admin-001",
+            "user_name": "Admin User",
+            "resource_type": "discrepancy_flag",
+            "resource_id": "flag_456",
+            "action_data": {
+              "flag_type": "boundary_case",
+              "severity": "medium",
+              "bout_id": "bout_123"
+            },
+            "signature": "485f4b323e45020c16b2b4669e2968cd94e5837698ac5bfadcddd6a1eab671c5",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "52372cd7-7baa-45bd-bb43-20519dde37d9",
+            "timestamp": "2025-11-24T04:02:51.339105+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "bcb4669ff46eec09410c570ddcb9337e136f8113e8a0d656cac3a63159edd1f2",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
+          {
+            "id": "97a33130-5078-423f-8c4b-16ceec377f4f",
+            "timestamp": "2025-11-24T04:02:50.620823+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_actual_round_1",
+            "action_data": {
+              "bout_id": "test_bout_actual",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 2892.06,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "83eb8d19f19e50e23be91ec35e7d635618f06955a5b6ed1d8e72201fdff52d8f",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "baa8913f-62aa-4e46-800d-1fd5db0c0521",
+            "timestamp": "2025-11-24T04:02:50.582161+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_counts_round_1",
+            "action_data": {
+              "bout_id": "test_bout_counts",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 3534.3,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "8660fa6fa436fa8a1f7bd4469411f79cba210da3e5dc21120d5e3497953f18e5",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "b6fd5728-0a2d-4833-8487-efe196b01fb8",
+            "timestamp": "2025-11-24T04:02:50.546859+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_invalid_round_1",
+            "action_data": {
+              "bout_id": "test_bout_invalid",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "df26a5c7a2f3a9d19c96171ee9acc2f4fe386d49ae541c413da85b0c4996d19b",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "7b2aab96-535d-4050-a236-cbf2ae8e3630",
+            "timestamp": "2025-11-24T04:02:50.511293+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_empty_round_1",
+            "action_data": {
+              "bout_id": "test_bout_empty",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "9b00e5868e333904df1c08668ad83833623951299943b8d3c5f4a111c6acc013",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "b11b4b73-7afa-4ebc-a0fb-27cf8160fe23",
+            "timestamp": "2025-11-24T04:02:50.456781+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_123_round_1",
+            "action_data": {
+              "bout_id": "test_bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 1510.38,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "ae6c7427cb0e3fcf66817984a5305e6e7e09bacf35faa41b259b429ad9a26299",
+            "ip_address": null,
+            "immutable": true
+          },
           {
             "id": "c4141e9d-b515-4552-9a97-5bf55d871999",
             "timestamp": "2025-11-21T04:58:05.834080+00:00",
@@ -3497,166 +3676,6 @@
             "signature": "428de90aa85f188700f1cabf7c30a47105171abddebdfa74575820c3337b053d",
             "ip_address": null,
             "immutable": true
-          },
-          {
-            "id": "252b4d66-8268-4b48-bfb2-692af9329f39",
-            "timestamp": "2025-11-02T02:48:05.569124+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "xEMjuGCsvCcQdVRJZvv9_round_2",
-            "action_data": {
-              "bout_id": "xEMjuGCsvCcQdVRJZvv9",
-              "round_num": 2,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "e6fe2b043c1ee68d6bc62ab0659aaa0f565ac52233af6038229cd5656ee86837",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "aaca685d-3d9a-4c89-b289-609739c67305",
-            "timestamp": "2025-11-02T02:48:05.526061+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "xEMjuGCsvCcQdVRJZvv9_round_1",
-            "action_data": {
-              "bout_id": "xEMjuGCsvCcQdVRJZvv9",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "bccfb1dcef7101978a1055c0df70ef23478c217bd86b57e64d5e6cf8dea1b795",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "58176c82-0713-446c-8e88-12fd603137f4",
-            "timestamp": "2025-11-02T02:47:34.811024+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "xEMjuGCsvCcQdVRJZvv9_round_2",
-            "action_data": {
-              "bout_id": "xEMjuGCsvCcQdVRJZvv9",
-              "round_num": 2,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "c238ed5d359fdb556d438f0be531ada8e76ce5a5b502ae8d1e96ad46e415847b",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "42f86826-3547-476d-979d-e4951900a6df",
-            "timestamp": "2025-11-02T02:47:34.768475+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "xEMjuGCsvCcQdVRJZvv9_round_1",
-            "action_data": {
-              "bout_id": "xEMjuGCsvCcQdVRJZvv9",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "19ed2b9c32f049559e632d0aa81b3f61c0472cd77c1ea251716b1e18911b1da4",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "2662ff0b-b8c0-4ee2-bd70-8ff767bd71ac",
-            "timestamp": "2025-11-02T02:35:30.753285+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "xEMjuGCsvCcQdVRJZvv9_round_2",
-            "action_data": {
-              "bout_id": "xEMjuGCsvCcQdVRJZvv9",
-              "round_num": 2,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "b6ca48aff1ad891f5516834e2a082e8495b2b4735c89f6b34cce853003314b31",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "0a0d6f80-3639-4c56-93bc-f7e51946398f",
-            "timestamp": "2025-11-02T02:35:30.711223+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "xEMjuGCsvCcQdVRJZvv9_round_1",
-            "action_data": {
-              "bout_id": "xEMjuGCsvCcQdVRJZvv9",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "5f728ab939e5aca42a6ed1bacb373fd12999e206b56c1fe83d7511719b9e3430",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "af25ba4f-bca5-48ad-8a43-5252dcb52ae8",
-            "timestamp": "2025-11-02T02:19:58.157435+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "xEMjuGCsvCcQdVRJZvv9_round_1",
-            "action_data": {
-              "bout_id": "xEMjuGCsvCcQdVRJZvv9",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "7091c5fff2c1445b0f8b65040c871fa099ab3aa7ba3975a2184ff6038fff92d3",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "162f061d-b3c6-4a12-bef9-7e95f34cf21d",
-            "timestamp": "2025-11-02T02:19:33.543908+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "xEMjuGCsvCcQdVRJZvv9_round_1",
-            "action_data": {
-              "bout_id": "xEMjuGCsvCcQdVRJZvv9",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "201a851100d1a545b08894bb3dbb475063eb7962535f4a31deee9d433e152d92",
-            "ip_address": null,
-            "immutable": true
           }
         ],
         "count": 100,
@@ -3672,6 +3691,125 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation",
       "response": {
         "logs": [
+          {
+            "id": "52372cd7-7baa-45bd-bb43-20519dde37d9",
+            "timestamp": "2025-11-24T04:02:51.339105+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "bcb4669ff46eec09410c570ddcb9337e136f8113e8a0d656cac3a63159edd1f2",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
+          {
+            "id": "97a33130-5078-423f-8c4b-16ceec377f4f",
+            "timestamp": "2025-11-24T04:02:50.620823+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_actual_round_1",
+            "action_data": {
+              "bout_id": "test_bout_actual",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 2892.06,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "83eb8d19f19e50e23be91ec35e7d635618f06955a5b6ed1d8e72201fdff52d8f",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "baa8913f-62aa-4e46-800d-1fd5db0c0521",
+            "timestamp": "2025-11-24T04:02:50.582161+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_counts_round_1",
+            "action_data": {
+              "bout_id": "test_bout_counts",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 3534.3,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "8660fa6fa436fa8a1f7bd4469411f79cba210da3e5dc21120d5e3497953f18e5",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "b6fd5728-0a2d-4833-8487-efe196b01fb8",
+            "timestamp": "2025-11-24T04:02:50.546859+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_invalid_round_1",
+            "action_data": {
+              "bout_id": "test_bout_invalid",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "df26a5c7a2f3a9d19c96171ee9acc2f4fe386d49ae541c413da85b0c4996d19b",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "7b2aab96-535d-4050-a236-cbf2ae8e3630",
+            "timestamp": "2025-11-24T04:02:50.511293+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_empty_round_1",
+            "action_data": {
+              "bout_id": "test_bout_empty",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "9b00e5868e333904df1c08668ad83833623951299943b8d3c5f4a111c6acc013",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "b11b4b73-7afa-4ebc-a0fb-27cf8160fe23",
+            "timestamp": "2025-11-24T04:02:50.456781+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_123_round_1",
+            "action_data": {
+              "bout_id": "test_bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 1510.38,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "ae6c7427cb0e3fcf66817984a5305e6e7e09bacf35faa41b259b429ad9a26299",
+            "ip_address": null,
+            "immutable": true
+          },
           {
             "id": "5b7cbb4c-7602-4dca-abe5-0b2f978d7d6a",
             "timestamp": "2025-11-21T04:58:05.677199+00:00",
@@ -5541,126 +5679,6 @@
               "uncertainty": "medium_confidence"
             },
             "signature": "7f8c365b15f49560e85174c8c431535657284c51c0467252e3916d20daa12c86",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "276d253e-f38a-4a73-8413-db0be19a4913",
-            "timestamp": "2025-10-31T04:08:14.719090+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_actual_round_1",
-            "action_data": {
-              "bout_id": "test_bout_actual",
-              "round_num": 1,
-              "card": "9-10",
-              "winner": "fighter2",
-              "score_gap": 75.74000000000001,
-              "uncertainty": "high_confidence"
-            },
-            "signature": "4fd26279efb193f185de19bce4640b95cdbe03e0e40eca9a7fa15e750b416ab9",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "1a2c2c61-3d03-4865-98a0-5e23281b7e91",
-            "timestamp": "2025-10-31T04:08:14.681141+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_counts_round_1",
-            "action_data": {
-              "bout_id": "test_bout_counts",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 6.899999999999977,
-              "uncertainty": "low_confidence"
-            },
-            "signature": "ee85b76d8054bb0242ef63b5ee946e82260749aff2db74271e7196f42f1d79c7",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "e9566d67-2ee6-43ba-a23a-aa6a54e0adf6",
-            "timestamp": "2025-10-31T04:08:14.642012+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_invalid_round_1",
-            "action_data": {
-              "bout_id": "test_bout_invalid",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "ee2760164912aa477852951d920e65870ef16f32af8cfc6ecf1a1e6334b33ce2",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "985dc12f-e7e1-41e3-a8f5-66b483d2ccc7",
-            "timestamp": "2025-10-31T04:08:14.603948+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_empty_round_1",
-            "action_data": {
-              "bout_id": "test_bout_empty",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "54dcaa114e0042c3c3860d2307b6e740cc956a0ca704130cc397497b73024f98",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "20985f8c-c764-4c05-8c77-467562940aa0",
-            "timestamp": "2025-10-31T04:08:14.562595+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_123_round_1",
-            "action_data": {
-              "bout_id": "test_bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 167.82,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "7e2ee3cbb752093da7722172caf650409f82d50b64c7ebf8ea20263bbe1d33a5",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "d1fad9f9-b672-406d-82d0-6cfad8a7f53d",
-            "timestamp": "2025-10-31T04:02:55.060543+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "2Y50rHSgJStvaVmzNRYX_round_1",
-            "action_data": {
-              "bout_id": "2Y50rHSgJStvaVmzNRYX",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 143.20000000000005,
-              "uncertainty": "high_confidence"
-            },
-            "signature": "a2314c8cf7ee7f8d89be447473d622ebafc0932ccdf3bcfbec21af50215e5475",
             "ip_address": null,
             "immutable": true
           }
@@ -5679,6 +5697,25 @@
       "response": {
         "logs": [
           {
+            "id": "52372cd7-7baa-45bd-bb43-20519dde37d9",
+            "timestamp": "2025-11-24T04:02:51.339105+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "bcb4669ff46eec09410c570ddcb9337e136f8113e8a0d656cac3a63159edd1f2",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
+          {
             "id": "5b7cbb4c-7602-4dca-abe5-0b2f978d7d6a",
             "timestamp": "2025-11-21T04:58:05.677199+00:00",
             "action_type": "score_calculation",
@@ -5983,7 +6020,7 @@
             "immutable": true
           }
         ],
-        "count": 16,
+        "count": 17,
         "immutable": true,
         "message": "These logs are WORM (Write Once Read Many) and cannot be modified"
       }
@@ -5996,6 +6033,125 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&resource_type=round_score",
       "response": {
         "logs": [
+          {
+            "id": "52372cd7-7baa-45bd-bb43-20519dde37d9",
+            "timestamp": "2025-11-24T04:02:51.339105+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "bcb4669ff46eec09410c570ddcb9337e136f8113e8a0d656cac3a63159edd1f2",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
+          {
+            "id": "97a33130-5078-423f-8c4b-16ceec377f4f",
+            "timestamp": "2025-11-24T04:02:50.620823+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_actual_round_1",
+            "action_data": {
+              "bout_id": "test_bout_actual",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 2892.06,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "83eb8d19f19e50e23be91ec35e7d635618f06955a5b6ed1d8e72201fdff52d8f",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "baa8913f-62aa-4e46-800d-1fd5db0c0521",
+            "timestamp": "2025-11-24T04:02:50.582161+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_counts_round_1",
+            "action_data": {
+              "bout_id": "test_bout_counts",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 3534.3,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "8660fa6fa436fa8a1f7bd4469411f79cba210da3e5dc21120d5e3497953f18e5",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "b6fd5728-0a2d-4833-8487-efe196b01fb8",
+            "timestamp": "2025-11-24T04:02:50.546859+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_invalid_round_1",
+            "action_data": {
+              "bout_id": "test_bout_invalid",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "df26a5c7a2f3a9d19c96171ee9acc2f4fe386d49ae541c413da85b0c4996d19b",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "7b2aab96-535d-4050-a236-cbf2ae8e3630",
+            "timestamp": "2025-11-24T04:02:50.511293+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_empty_round_1",
+            "action_data": {
+              "bout_id": "test_bout_empty",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "9b00e5868e333904df1c08668ad83833623951299943b8d3c5f4a111c6acc013",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "b11b4b73-7afa-4ebc-a0fb-27cf8160fe23",
+            "timestamp": "2025-11-24T04:02:50.456781+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_123_round_1",
+            "action_data": {
+              "bout_id": "test_bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 1510.38,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "ae6c7427cb0e3fcf66817984a5305e6e7e09bacf35faa41b259b429ad9a26299",
+            "ip_address": null,
+            "immutable": true
+          },
           {
             "id": "5b7cbb4c-7602-4dca-abe5-0b2f978d7d6a",
             "timestamp": "2025-11-21T04:58:05.677199+00:00",
@@ -7867,126 +8023,6 @@
             "signature": "7f8c365b15f49560e85174c8c431535657284c51c0467252e3916d20daa12c86",
             "ip_address": null,
             "immutable": true
-          },
-          {
-            "id": "276d253e-f38a-4a73-8413-db0be19a4913",
-            "timestamp": "2025-10-31T04:08:14.719090+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_actual_round_1",
-            "action_data": {
-              "bout_id": "test_bout_actual",
-              "round_num": 1,
-              "card": "9-10",
-              "winner": "fighter2",
-              "score_gap": 75.74000000000001,
-              "uncertainty": "high_confidence"
-            },
-            "signature": "4fd26279efb193f185de19bce4640b95cdbe03e0e40eca9a7fa15e750b416ab9",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "1a2c2c61-3d03-4865-98a0-5e23281b7e91",
-            "timestamp": "2025-10-31T04:08:14.681141+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_counts_round_1",
-            "action_data": {
-              "bout_id": "test_bout_counts",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 6.899999999999977,
-              "uncertainty": "low_confidence"
-            },
-            "signature": "ee85b76d8054bb0242ef63b5ee946e82260749aff2db74271e7196f42f1d79c7",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "e9566d67-2ee6-43ba-a23a-aa6a54e0adf6",
-            "timestamp": "2025-10-31T04:08:14.642012+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_invalid_round_1",
-            "action_data": {
-              "bout_id": "test_bout_invalid",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "ee2760164912aa477852951d920e65870ef16f32af8cfc6ecf1a1e6334b33ce2",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "985dc12f-e7e1-41e3-a8f5-66b483d2ccc7",
-            "timestamp": "2025-10-31T04:08:14.603948+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_empty_round_1",
-            "action_data": {
-              "bout_id": "test_bout_empty",
-              "round_num": 1,
-              "card": "10-10",
-              "winner": "DRAW",
-              "score_gap": 0.0,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "54dcaa114e0042c3c3860d2307b6e740cc956a0ca704130cc397497b73024f98",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "20985f8c-c764-4c05-8c77-467562940aa0",
-            "timestamp": "2025-10-31T04:08:14.562595+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "test_bout_123_round_1",
-            "action_data": {
-              "bout_id": "test_bout_123",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 167.82,
-              "uncertainty": "medium_confidence"
-            },
-            "signature": "7e2ee3cbb752093da7722172caf650409f82d50b64c7ebf8ea20263bbe1d33a5",
-            "ip_address": null,
-            "immutable": true
-          },
-          {
-            "id": "d1fad9f9-b672-406d-82d0-6cfad8a7f53d",
-            "timestamp": "2025-10-31T04:02:55.060543+00:00",
-            "action_type": "score_calculation",
-            "user_id": "system",
-            "user_name": "Scoring System",
-            "resource_type": "round_score",
-            "resource_id": "2Y50rHSgJStvaVmzNRYX_round_1",
-            "action_data": {
-              "bout_id": "2Y50rHSgJStvaVmzNRYX",
-              "round_num": 1,
-              "card": "10-9",
-              "winner": "fighter1",
-              "score_gap": 143.20000000000005,
-              "uncertainty": "high_confidence"
-            },
-            "signature": "a2314c8cf7ee7f8d89be447473d622ebafc0932ccdf3bcfbec21af50215e5475",
-            "ip_address": null,
-            "immutable": true
           }
         ],
         "count": 100,
@@ -8002,6 +8038,25 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation&user_id=judge-001",
       "response": {
         "logs": [
+          {
+            "id": "52372cd7-7baa-45bd-bb43-20519dde37d9",
+            "timestamp": "2025-11-24T04:02:51.339105+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "bcb4669ff46eec09410c570ddcb9337e136f8113e8a0d656cac3a63159edd1f2",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
           {
             "id": "5b7cbb4c-7602-4dca-abe5-0b2f978d7d6a",
             "timestamp": "2025-11-21T04:58:05.677199+00:00",
@@ -8307,7 +8362,7 @@
             "immutable": true
           }
         ],
-        "count": 16,
+        "count": 17,
         "immutable": true,
         "message": "These logs are WORM (Write Once Read Many) and cannot be modified"
       }
@@ -8317,11 +8372,11 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/verify/5b7cbb4c-7602-4dca-abe5-0b2f978d7d6a?judge_id=owner-001",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/verify/52372cd7-7baa-45bd-bb43-20519dde37d9?judge_id=owner-001",
       "response": {
         "valid": true,
-        "signature": "66d11b949d9699ef28e14b534ba2eecddda232d77e4a6f9512c7d3339d22682a",
-        "computed_signature": "66d11b949d9699ef28e14b534ba2eecddda232d77e4a6f9512c7d3339d22682a",
+        "signature": "bcb4669ff46eec09410c570ddcb9337e136f8113e8a0d656cac3a63159edd1f2",
+        "computed_signature": "bcb4669ff46eec09410c570ddcb9337e136f8113e8a0d656cac3a63159edd1f2",
         "message": "Signature is valid - log has not been tampered with"
       }
     },
@@ -8330,11 +8385,11 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/verify/3d0bb98b-5bd7-40b0-a87a-3e50dc6daa62?judge_id=owner-001",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/verify/a6513ca4-9d02-441e-8f1e-d2c19ed98f30?judge_id=owner-001",
       "response": {
         "valid": true,
-        "signature": "d9504c10a31643f6c5fa43ebf6dfc66629802b0b12845d808267635b1b331ed3",
-        "computed_signature": "d9504c10a31643f6c5fa43ebf6dfc66629802b0b12845d808267635b1b331ed3",
+        "signature": "485f4b323e45020c16b2b4669e2968cd94e5837698ac5bfadcddd6a1eab671c5",
+        "computed_signature": "485f4b323e45020c16b2b4669e2968cd94e5837698ac5bfadcddd6a1eab671c5",
         "message": "Signature is valid - log has not been tampered with"
       }
     },
@@ -8343,11 +8398,11 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/verify/c4141e9d-b515-4552-9a97-5bf55d871999?judge_id=owner-001",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/verify/fadc8247-7f10-4ea9-a60c-e08be2aa1b45?judge_id=owner-001",
       "response": {
         "valid": true,
-        "signature": "29ed8eeab8fdc8091fc7ef3f3eb912623d34e2b495628bedfef3a0c032006b56",
-        "computed_signature": "29ed8eeab8fdc8091fc7ef3f3eb912623d34e2b495628bedfef3a0c032006b56",
+        "signature": "7fed39aa5ad429aa8cc2a5198747dc82f5f38999ce29add89674633a9af10875",
+        "computed_signature": "7fed39aa5ad429aa8cc2a5198747dc82f5f38999ce29add89674633a9af10875",
         "message": "Signature is valid - log has not been tampered with"
       }
     },
@@ -8368,41 +8423,41 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/stats?judge_id=owner-001",
       "response": {
-        "total_logs": 158,
+        "total_logs": 166,
         "by_action_type": [
           {
             "type": "score_calculation",
-            "count": 128
-          },
-          {
-            "type": "profile_changed",
-            "count": 15
+            "count": 134
           },
           {
             "type": "flag_created",
-            "count": 15
+            "count": 16
+          },
+          {
+            "type": "profile_changed",
+            "count": 16
           }
         ],
         "top_users": [
           {
             "user_id": "system",
             "user_name": "Scoring System",
-            "count": 112
+            "count": 117
           },
           {
             "user_id": "judge-001",
             "user_name": "John Smith",
-            "count": 16
+            "count": 17
           },
           {
             "user_id": "admin-001",
             "user_name": "Admin User",
-            "count": 15
+            "count": 16
           },
           {
             "user_id": "judge-002",
             "user_name": "Maria Garcia",
-            "count": 15
+            "count": 16
           }
         ],
         "immutable": true,
@@ -8417,8 +8472,8 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/export?judge_id=owner-001",
       "response": {
         "export_format": "json",
-        "export_timestamp": "2025-11-21T04:58:06.341610+00:00",
-        "record_count": 158,
+        "export_timestamp": "2025-11-24T04:02:51.893448+00:00",
+        "record_count": 166,
         "logs": [
           {
             "id": "32001e02-70a9-4b9c-936a-b6e37fcdc6a7",
@@ -11503,6 +11558,161 @@
             "signature": "29ed8eeab8fdc8091fc7ef3f3eb912623d34e2b495628bedfef3a0c032006b56",
             "ip_address": null,
             "immutable": true
+          },
+          {
+            "id": "b11b4b73-7afa-4ebc-a0fb-27cf8160fe23",
+            "timestamp": "2025-11-24T04:02:50.456781+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_123_round_1",
+            "action_data": {
+              "bout_id": "test_bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 1510.38,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "ae6c7427cb0e3fcf66817984a5305e6e7e09bacf35faa41b259b429ad9a26299",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "7b2aab96-535d-4050-a236-cbf2ae8e3630",
+            "timestamp": "2025-11-24T04:02:50.511293+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_empty_round_1",
+            "action_data": {
+              "bout_id": "test_bout_empty",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "9b00e5868e333904df1c08668ad83833623951299943b8d3c5f4a111c6acc013",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "b6fd5728-0a2d-4833-8487-efe196b01fb8",
+            "timestamp": "2025-11-24T04:02:50.546859+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_invalid_round_1",
+            "action_data": {
+              "bout_id": "test_bout_invalid",
+              "round_num": 1,
+              "card": "10-10",
+              "winner": "DRAW",
+              "score_gap": 0.0,
+              "uncertainty": "medium_confidence"
+            },
+            "signature": "df26a5c7a2f3a9d19c96171ee9acc2f4fe386d49ae541c413da85b0c4996d19b",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "baa8913f-62aa-4e46-800d-1fd5db0c0521",
+            "timestamp": "2025-11-24T04:02:50.582161+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_counts_round_1",
+            "action_data": {
+              "bout_id": "test_bout_counts",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 3534.3,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "8660fa6fa436fa8a1f7bd4469411f79cba210da3e5dc21120d5e3497953f18e5",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "97a33130-5078-423f-8c4b-16ceec377f4f",
+            "timestamp": "2025-11-24T04:02:50.620823+00:00",
+            "action_type": "score_calculation",
+            "user_id": "system",
+            "user_name": "Scoring System",
+            "resource_type": "round_score",
+            "resource_id": "test_bout_actual_round_1",
+            "action_data": {
+              "bout_id": "test_bout_actual",
+              "round_num": 1,
+              "card": "9-10",
+              "winner": "fighter2",
+              "score_gap": 2892.06,
+              "uncertainty": "high_confidence"
+            },
+            "signature": "83eb8d19f19e50e23be91ec35e7d635618f06955a5b6ed1d8e72201fdff52d8f",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "52372cd7-7baa-45bd-bb43-20519dde37d9",
+            "timestamp": "2025-11-24T04:02:51.339105+00:00",
+            "action_type": "score_calculation",
+            "user_id": "judge-001",
+            "user_name": "John Smith",
+            "resource_type": "round_score",
+            "resource_id": "bout_123_round_1",
+            "action_data": {
+              "bout_id": "bout_123",
+              "round_num": 1,
+              "card": "10-9",
+              "winner": "fighter1",
+              "score_gap": 450.5
+            },
+            "signature": "bcb4669ff46eec09410c570ddcb9337e136f8113e8a0d656cac3a63159edd1f2",
+            "ip_address": "192.168.1.100",
+            "immutable": true
+          },
+          {
+            "id": "a6513ca4-9d02-441e-8f1e-d2c19ed98f30",
+            "timestamp": "2025-11-24T04:02:51.371835+00:00",
+            "action_type": "flag_created",
+            "user_id": "admin-001",
+            "user_name": "Admin User",
+            "resource_type": "discrepancy_flag",
+            "resource_id": "flag_456",
+            "action_data": {
+              "flag_type": "boundary_case",
+              "severity": "medium",
+              "bout_id": "bout_123"
+            },
+            "signature": "485f4b323e45020c16b2b4669e2968cd94e5837698ac5bfadcddd6a1eab671c5",
+            "ip_address": null,
+            "immutable": true
+          },
+          {
+            "id": "fadc8247-7f10-4ea9-a60c-e08be2aa1b45",
+            "timestamp": "2025-11-24T04:02:51.408371+00:00",
+            "action_type": "profile_changed",
+            "user_id": "judge-002",
+            "user_name": "Maria Garcia",
+            "resource_type": "tuning_profile",
+            "resource_id": "profile_ufc_001",
+            "action_data": {
+              "changes": [
+                "weights.KD",
+                "thresholds.threshold_10_8"
+              ],
+              "promotion": "UFC"
+            },
+            "signature": "7fed39aa5ad429aa8cc2a5198747dc82f5f38999ce29add89674633a9af10875",
+            "ip_address": null,
+            "immutable": true
           }
         ],
         "immutable": true,
@@ -11562,7 +11772,7 @@
           "Muay Thai"
         ],
         "createdAt": "2025-10-30T01:27:54.764121+00:00",
-        "updatedAt": "2025-11-21T04:58:06.414591+00:00",
+        "updatedAt": "2025-11-24T04:02:51.935241+00:00",
         "totalRoundsJudged": 2,
         "averageAccuracy": 92.5,
         "perfectMatches": 1
@@ -11584,7 +11794,7 @@
           "BJJ Black Belt"
         ],
         "createdAt": "2025-10-30T01:27:54.822022+00:00",
-        "updatedAt": "2025-11-21T04:58:06.448367+00:00",
+        "updatedAt": "2025-11-24T04:02:52.009966+00:00",
         "totalRoundsJudged": 1,
         "averageAccuracy": 100.0,
         "perfectMatches": 1
@@ -11606,7 +11816,7 @@
           "MMA Level 3"
         ],
         "createdAt": "2025-10-30T01:27:54.856389+00:00",
-        "updatedAt": "2025-11-21T04:58:06.481727+00:00",
+        "updatedAt": "2025-11-24T04:02:52.043327+00:00",
         "totalRoundsJudged": 0,
         "averageAccuracy": 0.0
       }
@@ -11667,16 +11877,16 @@
         "avg_passes": 1.0,
         "avg_reversals": 0.0,
         "avg_round_score": 8.5,
-        "avg_ss_per_round": 1.0,
+        "avg_ss_per_round": 0.9333333333333333,
         "avg_sub_attempts": 0.0,
         "avg_td_per_round": 1.0,
         "id": "cbbd0923-eaf0-4e2e-8c7e-ad3fcf10fb65",
-        "last_updated": "2025-11-21T04:58:06.692000",
+        "last_updated": "2025-11-24T04:02:52.219000",
         "rate_10_7": 0.0,
         "rate_10_8": 1.0,
         "rounds_drawn": 0,
         "rounds_lost": 0,
-        "rounds_won": 14,
+        "rounds_won": 15,
         "tendencies": {
           "striking_style": {
             "head": 0.33,
@@ -11689,7 +11899,7 @@
           "aggression_level": 1.5
         },
         "total_fights": 0,
-        "total_rounds": 14
+        "total_rounds": 15
       }
     },
     {
@@ -11705,15 +11915,15 @@
         "avg_passes": 0.0,
         "avg_reversals": 0.0,
         "avg_round_score": 6.200000000000002,
-        "avg_ss_per_round": 1.0,
+        "avg_ss_per_round": 0.9333333333333333,
         "avg_sub_attempts": 1.0,
         "avg_td_per_round": 1.0,
         "id": "3931d545-ae92-4ea6-a7de-f99c12f1dbf7",
-        "last_updated": "2025-11-21T04:58:06.728000",
+        "last_updated": "2025-11-24T04:02:52.253000",
         "rate_10_7": 0.0,
         "rate_10_8": 1.0,
         "rounds_drawn": 0,
-        "rounds_lost": 14,
+        "rounds_lost": 15,
         "rounds_won": 0,
         "tendencies": {
           "striking_style": {
@@ -11727,7 +11937,7 @@
           "aggression_level": 1.0
         },
         "total_fights": 0,
-        "total_rounds": 14
+        "total_rounds": 15
       }
     },
     {
@@ -11743,16 +11953,16 @@
         "avg_passes": 0.0,
         "avg_reversals": 0.0,
         "avg_round_score": 9.099999999999996,
-        "avg_ss_per_round": 1.5,
+        "avg_ss_per_round": 1.4,
         "avg_sub_attempts": 0.0,
         "avg_td_per_round": 0.0,
         "id": "88683c83-150d-48e7-8410-857acfce7028",
-        "last_updated": "2025-11-21T04:58:06.761000",
+        "last_updated": "2025-11-24T04:02:52.288000",
         "rate_10_7": 0.0,
         "rate_10_8": 0.0,
         "rounds_drawn": 0,
         "rounds_lost": 0,
-        "rounds_won": 14,
+        "rounds_won": 15,
         "tendencies": {
           "striking_style": {
             "head": 0.33,
@@ -11765,7 +11975,7 @@
           "aggression_level": 0.5
         },
         "total_fights": 0,
-        "total_rounds": 14
+        "total_rounds": 15
       }
     },
     {
@@ -11786,7 +11996,7 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
-        "flag_id": "aae0bc4b-0072-4a62-b82c-29ad61cd5d7b"
+        "flag_id": "bfb21ccd-0d08-46db-a02f-88760ad96f22"
       }
     },
     {
@@ -11797,7 +12007,7 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
-        "flag_id": "e42cd1ad-d845-49ea-8948-cb2e9502d3ba"
+        "flag_id": "87eb723c-b347-4588-9525-ed141b9d5789"
       }
     },
     {
@@ -11808,7 +12018,7 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
-        "flag_id": "a545b9b6-0133-4334-b17e-2700140a9481"
+        "flag_id": "fdccf15f-21dc-457e-8a8c-e082823d219a"
       }
     },
     {
@@ -11819,7 +12029,7 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
-        "flag_id": "6f0864cc-1e82-4b12-a042-a513f728769d"
+        "flag_id": "6d50cb4e-f044-431e-b639-4d29b6f71377"
       }
     },
     {
@@ -11830,6 +12040,131 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/review/flags",
       "response": {
         "flags": [
+          {
+            "id": "6d50cb4e-f044-431e-b639-4d29b6f71377",
+            "bout_id": "UFC_299_004",
+            "round_num": 1,
+            "flag_type": "statistical_anomaly",
+            "severity": "high",
+            "description": "10-8 without standard dominance gates",
+            "context": {
+              "card": "10-8",
+              "gates": {
+                "finish_threat": false,
+                "control_dom": false,
+                "multi_cat_dom": false
+              }
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:52.597000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "fdccf15f-21dc-457e-8a8c-e082823d219a",
+            "bout_id": "UFC_299_003",
+            "round_num": 3,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round",
+            "context": {
+              "event_count": 3,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:52.561000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "87eb723c-b347-4588-9525-ed141b9d5789",
+            "bout_id": "UFC_299_002",
+            "round_num": 2,
+            "flag_type": "tie_breaker",
+            "severity": "high",
+            "description": "Round decided by damage tie-breaker",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 1.0,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:52.488000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "bfb21ccd-0d08-46db-a02f-88760ad96f22",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:52.452000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "c488e75b-18a5-4444-ab0c-63509ee66aa1",
+            "bout_id": "test_bout_invalid",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 1 logged events",
+            "context": {
+              "event_count": 1,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:50.547000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "b0be80a1-d6ed-43ac-b3a8-5734c10f02f3",
+            "bout_id": "test_bout_empty",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 0 logged events",
+            "context": {
+              "event_count": 0,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:50.512000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "c40323fa-55f2-40f7-8a46-874ca925112a",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:50.461000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
           {
             "id": "6f0864cc-1e82-4b12-a042-a513f728769d",
             "bout_id": "UFC_299_004",
@@ -13489,131 +13824,6 @@
             },
             "status": "pending",
             "created_at": "2025-10-30T01:43:06.779000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "3c35227d-76b4-4438-8a17-ec2dd5937053",
-            "bout_id": "UFC_299_001",
-            "round_num": 1,
-            "flag_type": "boundary_case",
-            "severity": "medium",
-            "description": "Score very close to 10-8 threshold",
-            "context": {
-              "delta": 595,
-              "threshold": 600,
-              "card": "10-9"
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:43:06.743000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "c5b53f6d-b9fa-44e0-a5f2-26b9e3c1a16a",
-            "bout_id": "test_bout_invalid",
-            "round_num": 1,
-            "flag_type": "low_activity",
-            "severity": "low",
-            "description": "Very low activity round with only 1 logged events",
-            "context": {
-              "event_count": 1,
-              "card": "10-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:43:05.145000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "2a4f925f-2953-4a8a-b7c5-6120be325e2a",
-            "bout_id": "test_bout_empty",
-            "round_num": 1,
-            "flag_type": "low_activity",
-            "severity": "low",
-            "description": "Very low activity round with only 0 logged events",
-            "context": {
-              "event_count": 0,
-              "card": "10-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:43:05.107000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "ac207437-39a2-43a5-8b6f-4059a1c4a755",
-            "bout_id": "test_bout_123",
-            "round_num": 1,
-            "flag_type": "low_activity",
-            "severity": "low",
-            "description": "Very low activity round with only 4 logged events",
-            "context": {
-              "event_count": 4,
-              "card": "10-9"
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:43:05.067000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "1babf7e4-4cf5-4645-be7e-1b6f15142e41",
-            "bout_id": "UFC_299_004",
-            "round_num": 1,
-            "flag_type": "statistical_anomaly",
-            "severity": "high",
-            "description": "10-8 without standard dominance gates",
-            "context": {
-              "card": "10-8",
-              "gates": {
-                "finish_threat": false,
-                "control_dom": false,
-                "multi_cat_dom": false
-              }
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:41:33.751000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "998e2533-cfb0-42e1-85d2-5dde756910f3",
-            "bout_id": "UFC_299_003",
-            "round_num": 3,
-            "flag_type": "low_activity",
-            "severity": "low",
-            "description": "Very low activity round",
-            "context": {
-              "event_count": 3,
-              "card": "10-9"
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:41:33.676000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "dae42a0c-ccd3-4f6f-aa02-9a74df4fd19b",
-            "bout_id": "UFC_299_002",
-            "round_num": 2,
-            "flag_type": "tie_breaker",
-            "severity": "high",
-            "description": "Round decided by damage tie-breaker",
-            "context": {
-              "tie_breaker": "damage",
-              "delta": 1.0,
-              "card": "10-9"
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:41:33.642000",
             "resolved_at": null,
             "resolved_by": null,
             "resolution_notes": null
@@ -13631,6 +13841,131 @@
       "response": {
         "flags": [
           {
+            "id": "6d50cb4e-f044-431e-b639-4d29b6f71377",
+            "bout_id": "UFC_299_004",
+            "round_num": 1,
+            "flag_type": "statistical_anomaly",
+            "severity": "high",
+            "description": "10-8 without standard dominance gates",
+            "context": {
+              "card": "10-8",
+              "gates": {
+                "finish_threat": false,
+                "control_dom": false,
+                "multi_cat_dom": false
+              }
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:52.597000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "fdccf15f-21dc-457e-8a8c-e082823d219a",
+            "bout_id": "UFC_299_003",
+            "round_num": 3,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round",
+            "context": {
+              "event_count": 3,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:52.561000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "87eb723c-b347-4588-9525-ed141b9d5789",
+            "bout_id": "UFC_299_002",
+            "round_num": 2,
+            "flag_type": "tie_breaker",
+            "severity": "high",
+            "description": "Round decided by damage tie-breaker",
+            "context": {
+              "tie_breaker": "damage",
+              "delta": 1.0,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:52.488000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "bfb21ccd-0d08-46db-a02f-88760ad96f22",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:52.452000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "c488e75b-18a5-4444-ab0c-63509ee66aa1",
+            "bout_id": "test_bout_invalid",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 1 logged events",
+            "context": {
+              "event_count": 1,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:50.547000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "b0be80a1-d6ed-43ac-b3a8-5734c10f02f3",
+            "bout_id": "test_bout_empty",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 0 logged events",
+            "context": {
+              "event_count": 0,
+              "card": "10-10"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:50.512000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "id": "c40323fa-55f2-40f7-8a46-874ca925112a",
+            "bout_id": "test_bout_123",
+            "round_num": 1,
+            "flag_type": "low_activity",
+            "severity": "low",
+            "description": "Very low activity round with only 4 logged events",
+            "context": {
+              "event_count": 4,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:50.461000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
             "id": "6f0864cc-1e82-4b12-a042-a513f728769d",
             "bout_id": "UFC_299_004",
             "round_num": 1,
@@ -15292,78 +15627,21 @@
             "resolved_at": null,
             "resolved_by": null,
             "resolution_notes": null
-          },
+          }
+        ],
+        "count": 100
+      }
+    },
+    {
+      "test": "Get Flags - Filter by severity",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/review/flags?severity=high",
+      "response": {
+        "flags": [
           {
-            "id": "3c35227d-76b4-4438-8a17-ec2dd5937053",
-            "bout_id": "UFC_299_001",
-            "round_num": 1,
-            "flag_type": "boundary_case",
-            "severity": "medium",
-            "description": "Score very close to 10-8 threshold",
-            "context": {
-              "delta": 595,
-              "threshold": 600,
-              "card": "10-9"
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:43:06.743000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "c5b53f6d-b9fa-44e0-a5f2-26b9e3c1a16a",
-            "bout_id": "test_bout_invalid",
-            "round_num": 1,
-            "flag_type": "low_activity",
-            "severity": "low",
-            "description": "Very low activity round with only 1 logged events",
-            "context": {
-              "event_count": 1,
-              "card": "10-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:43:05.145000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "2a4f925f-2953-4a8a-b7c5-6120be325e2a",
-            "bout_id": "test_bout_empty",
-            "round_num": 1,
-            "flag_type": "low_activity",
-            "severity": "low",
-            "description": "Very low activity round with only 0 logged events",
-            "context": {
-              "event_count": 0,
-              "card": "10-10"
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:43:05.107000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "ac207437-39a2-43a5-8b6f-4059a1c4a755",
-            "bout_id": "test_bout_123",
-            "round_num": 1,
-            "flag_type": "low_activity",
-            "severity": "low",
-            "description": "Very low activity round with only 4 logged events",
-            "context": {
-              "event_count": 4,
-              "card": "10-9"
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:43:05.067000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "1babf7e4-4cf5-4645-be7e-1b6f15142e41",
+            "id": "6d50cb4e-f044-431e-b639-4d29b6f71377",
             "bout_id": "UFC_299_004",
             "round_num": 1,
             "flag_type": "statistical_anomaly",
@@ -15378,30 +15656,13 @@
               }
             },
             "status": "pending",
-            "created_at": "2025-10-30T01:41:33.751000",
+            "created_at": "2025-11-24T04:02:52.597000",
             "resolved_at": null,
             "resolved_by": null,
             "resolution_notes": null
           },
           {
-            "id": "998e2533-cfb0-42e1-85d2-5dde756910f3",
-            "bout_id": "UFC_299_003",
-            "round_num": 3,
-            "flag_type": "low_activity",
-            "severity": "low",
-            "description": "Very low activity round",
-            "context": {
-              "event_count": 3,
-              "card": "10-9"
-            },
-            "status": "pending",
-            "created_at": "2025-10-30T01:41:33.676000",
-            "resolved_at": null,
-            "resolved_by": null,
-            "resolution_notes": null
-          },
-          {
-            "id": "dae42a0c-ccd3-4f6f-aa02-9a74df4fd19b",
+            "id": "87eb723c-b347-4588-9525-ed141b9d5789",
             "bout_id": "UFC_299_002",
             "round_num": 2,
             "flag_type": "tie_breaker",
@@ -15413,23 +15674,11 @@
               "card": "10-9"
             },
             "status": "pending",
-            "created_at": "2025-10-30T01:41:33.642000",
+            "created_at": "2025-11-24T04:02:52.488000",
             "resolved_at": null,
             "resolved_by": null,
             "resolution_notes": null
-          }
-        ],
-        "count": 100
-      }
-    },
-    {
-      "test": "Get Flags - Filter by severity",
-      "success": true,
-      "expected_status": 200,
-      "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/review/flags?severity=high",
-      "response": {
-        "flags": [
+          },
           {
             "id": "6f0864cc-1e82-4b12-a042-a513f728769d",
             "bout_id": "UFC_299_004",
@@ -15918,7 +16167,7 @@
             "resolution_notes": null
           }
         ],
-        "count": 25
+        "count": 27
       }
     },
     {
@@ -15929,6 +16178,24 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/review/flags?flag_type=boundary_case",
       "response": {
         "flags": [
+          {
+            "id": "bfb21ccd-0d08-46db-a02f-88760ad96f22",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:52.452000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
           {
             "id": "aae0bc4b-0072-4a62-b82c-29ad61cd5d7b",
             "bout_id": "UFC_299_001",
@@ -16146,7 +16413,7 @@
             "resolution_notes": null
           }
         ],
-        "count": 12
+        "count": 13
       }
     },
     {
@@ -16372,9 +16639,27 @@
             "resolved_at": null,
             "resolved_by": null,
             "resolution_notes": null
+          },
+          {
+            "id": "bfb21ccd-0d08-46db-a02f-88760ad96f22",
+            "bout_id": "UFC_299_001",
+            "round_num": 1,
+            "flag_type": "boundary_case",
+            "severity": "medium",
+            "description": "Score very close to 10-8 threshold",
+            "context": {
+              "delta": 595,
+              "threshold": 600,
+              "card": "10-9"
+            },
+            "status": "pending",
+            "created_at": "2025-11-24T04:02:52.452000",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
           }
         ],
-        "count": 12
+        "count": 13
       }
     },
     {
@@ -16385,9 +16670,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
-        "profile_id": "7c9e40ff-5b1c-45be-b681-ad32c675d27e",
+        "profile_id": "842eeca3-07b2-445b-9eca-6ec72813e2ab",
         "profile": {
-          "id": "7c9e40ff-5b1c-45be-b681-ad32c675d27e",
+          "id": "842eeca3-07b2-445b-9eca-6ec72813e2ab",
           "name": "UFC Standard",
           "promotion": "UFC",
           "description": "Standard UFC judging criteria with emphasis on damage",
@@ -16417,8 +16702,8 @@
           },
           "is_default": false,
           "created_by": "admin-001",
-          "created_at": "2025-11-21T04:58:07.261846Z",
-          "updated_at": "2025-11-21T04:58:07.261849Z"
+          "created_at": "2025-11-24T04:02:52.805377Z",
+          "updated_at": "2025-11-24T04:02:52.805380Z"
         }
       }
     },
@@ -16430,9 +16715,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
-        "profile_id": "e7d5ba18-3930-4cad-94a6-d8fc1ef885c0",
+        "profile_id": "757cb532-f458-4366-a79b-469c0a4d956f",
         "profile": {
-          "id": "e7d5ba18-3930-4cad-94a6-d8fc1ef885c0",
+          "id": "757cb532-f458-4366-a79b-469c0a4d956f",
           "name": "Bellator Aggressive",
           "promotion": "Bellator",
           "description": "Bellator style with higher aggression weighting",
@@ -16462,8 +16747,8 @@
           },
           "is_default": false,
           "created_by": "bellator-admin",
-          "created_at": "2025-11-21T04:58:07.296351Z",
-          "updated_at": "2025-11-21T04:58:07.296354Z"
+          "created_at": "2025-11-24T04:02:52.844456Z",
+          "updated_at": "2025-11-24T04:02:52.844459Z"
         }
       }
     },
@@ -16475,9 +16760,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
-        "profile_id": "ed22ea34-efb0-43d0-a224-5e5259be67b8",
+        "profile_id": "470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
         "profile": {
-          "id": "ed22ea34-efb0-43d0-a224-5e5259be67b8",
+          "id": "470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
           "name": "ONE Championship",
           "promotion": "ONE Championship",
           "description": "ONE FC criteria emphasizing technical skill",
@@ -16507,8 +16792,8 @@
           },
           "is_default": false,
           "created_by": "one-admin",
-          "created_at": "2025-11-21T04:58:07.332562Z",
-          "updated_at": "2025-11-21T04:58:07.332565Z"
+          "created_at": "2025-11-24T04:02:52.876523Z",
+          "updated_at": "2025-11-24T04:02:52.876526Z"
         }
       }
     },
@@ -17338,18 +17623,18 @@
           },
           {
             "id": "7c9e40ff-5b1c-45be-b681-ad32c675d27e",
-            "name": "UFC Standard",
+            "name": "UFC Standard v2.0",
             "promotion": "UFC",
-            "description": "Standard UFC judging criteria with emphasis on damage",
+            "description": "Updated UFC judging criteria with refined damage weighting",
             "weights": {
-              "KD": 0.35,
+              "KD": 0.4,
               "ISS": 0.25,
               "TSR": 0.15,
               "GCQ": 0.08,
               "TDQ": 0.07,
-              "OC": 0.05,
-              "SUBQ": 0.03,
-              "AGG": 0.02,
+              "OC": 0.03,
+              "SUBQ": 0.02,
+              "AGG": 0.0,
               "RP": 0.0
             },
             "thresholds": {
@@ -17368,7 +17653,7 @@
             "is_default": false,
             "created_by": "admin-001",
             "created_at": "2025-11-21T04:58:07.261000",
-            "updated_at": "2025-11-21T04:58:07.261000"
+            "updated_at": "2025-11-21T04:58:07.625985+00:00"
           },
           {
             "id": "e7d5ba18-3930-4cad-94a6-d8fc1ef885c0",
@@ -17405,7 +17690,75 @@
             "updated_at": "2025-11-21T04:58:07.296000"
           },
           {
-            "id": "ed22ea34-efb0-43d0-a224-5e5259be67b8",
+            "id": "842eeca3-07b2-445b-9eca-6ec72813e2ab",
+            "name": "UFC Standard",
+            "promotion": "UFC",
+            "description": "Standard UFC judging criteria with emphasis on damage",
+            "weights": {
+              "KD": 0.35,
+              "ISS": 0.25,
+              "TSR": 0.15,
+              "GCQ": 0.08,
+              "TDQ": 0.07,
+              "OC": 0.05,
+              "SUBQ": 0.03,
+              "AGG": 0.02,
+              "RP": 0.0
+            },
+            "thresholds": {
+              "threshold_10_9": 550,
+              "threshold_10_8": 850
+            },
+            "gate_sensitivity": {
+              "finish_threat_kd_threshold": 0.8,
+              "finish_threat_subq_threshold": 7.5,
+              "finish_threat_iss_threshold": 8.5,
+              "control_dom_gcq_threshold": 7.0,
+              "control_dom_time_share": 0.6,
+              "multi_cat_dom_count": 3,
+              "multi_cat_dom_score_threshold": 7.0
+            },
+            "is_default": false,
+            "created_by": "admin-001",
+            "created_at": "2025-11-24T04:02:52.805000",
+            "updated_at": "2025-11-24T04:02:52.805000"
+          },
+          {
+            "id": "757cb532-f458-4366-a79b-469c0a4d956f",
+            "name": "Bellator Aggressive",
+            "promotion": "Bellator",
+            "description": "Bellator style with higher aggression weighting",
+            "weights": {
+              "KD": 0.3,
+              "ISS": 0.2,
+              "TSR": 0.18,
+              "GCQ": 0.1,
+              "TDQ": 0.08,
+              "OC": 0.06,
+              "SUBQ": 0.05,
+              "AGG": 0.03,
+              "RP": 0.0
+            },
+            "thresholds": {
+              "threshold_10_9": 600,
+              "threshold_10_8": 900
+            },
+            "gate_sensitivity": {
+              "finish_threat_kd_threshold": 1.0,
+              "finish_threat_subq_threshold": 8.0,
+              "finish_threat_iss_threshold": 9.0,
+              "control_dom_gcq_threshold": 7.5,
+              "control_dom_time_share": 0.5,
+              "multi_cat_dom_count": 3,
+              "multi_cat_dom_score_threshold": 7.5
+            },
+            "is_default": false,
+            "created_by": "bellator-admin",
+            "created_at": "2025-11-24T04:02:52.844000",
+            "updated_at": "2025-11-24T04:02:52.844000"
+          },
+          {
+            "id": "470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
             "name": "ONE Championship",
             "promotion": "ONE Championship",
             "description": "ONE FC criteria emphasizing technical skill",
@@ -17435,21 +17788,21 @@
             },
             "is_default": false,
             "created_by": "one-admin",
-            "created_at": "2025-11-21T04:58:07.332000",
-            "updated_at": "2025-11-21T04:58:07.332000"
+            "created_at": "2025-11-24T04:02:52.876000",
+            "updated_at": "2025-11-24T04:02:52.876000"
           }
         ],
-        "count": 27
+        "count": 29
       }
     },
     {
-      "test": "Get Tuning Profile - 7c9e40ff-5b1c-45be-b681-ad32c675d27e",
+      "test": "Get Tuning Profile - 842eeca3-07b2-445b-9eca-6ec72813e2ab",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/7c9e40ff-5b1c-45be-b681-ad32c675d27e",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/842eeca3-07b2-445b-9eca-6ec72813e2ab",
       "response": {
-        "id": "7c9e40ff-5b1c-45be-b681-ad32c675d27e",
+        "id": "842eeca3-07b2-445b-9eca-6ec72813e2ab",
         "name": "UFC Standard",
         "promotion": "UFC",
         "description": "Standard UFC judging criteria with emphasis on damage",
@@ -17479,18 +17832,18 @@
         },
         "is_default": false,
         "created_by": "admin-001",
-        "created_at": "2025-11-21T04:58:07.261000",
-        "updated_at": "2025-11-21T04:58:07.261000"
+        "created_at": "2025-11-24T04:02:52.805000",
+        "updated_at": "2025-11-24T04:02:52.805000"
       }
     },
     {
-      "test": "Get Tuning Profile - e7d5ba18-3930-4cad-94a6-d8fc1ef885c0",
+      "test": "Get Tuning Profile - 757cb532-f458-4366-a79b-469c0a4d956f",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/e7d5ba18-3930-4cad-94a6-d8fc1ef885c0",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/757cb532-f458-4366-a79b-469c0a4d956f",
       "response": {
-        "id": "e7d5ba18-3930-4cad-94a6-d8fc1ef885c0",
+        "id": "757cb532-f458-4366-a79b-469c0a4d956f",
         "name": "Bellator Aggressive",
         "promotion": "Bellator",
         "description": "Bellator style with higher aggression weighting",
@@ -17520,18 +17873,18 @@
         },
         "is_default": false,
         "created_by": "bellator-admin",
-        "created_at": "2025-11-21T04:58:07.296000",
-        "updated_at": "2025-11-21T04:58:07.296000"
+        "created_at": "2025-11-24T04:02:52.844000",
+        "updated_at": "2025-11-24T04:02:52.844000"
       }
     },
     {
-      "test": "Get Tuning Profile - ed22ea34-efb0-43d0-a224-5e5259be67b8",
+      "test": "Get Tuning Profile - 470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/ed22ea34-efb0-43d0-a224-5e5259be67b8",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
       "response": {
-        "id": "ed22ea34-efb0-43d0-a224-5e5259be67b8",
+        "id": "470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
         "name": "ONE Championship",
         "promotion": "ONE Championship",
         "description": "ONE FC criteria emphasizing technical skill",
@@ -17561,8 +17914,8 @@
         },
         "is_default": false,
         "created_by": "one-admin",
-        "created_at": "2025-11-21T04:58:07.332000",
-        "updated_at": "2025-11-21T04:58:07.332000"
+        "created_at": "2025-11-24T04:02:52.876000",
+        "updated_at": "2025-11-24T04:02:52.876000"
       }
     },
     {
@@ -17576,13 +17929,13 @@
       }
     },
     {
-      "test": "Update Tuning Profile - 7c9e40ff-5b1c-45be-b681-ad32c675d27e",
+      "test": "Update Tuning Profile - 842eeca3-07b2-445b-9eca-6ec72813e2ab",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/7c9e40ff-5b1c-45be-b681-ad32c675d27e",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/842eeca3-07b2-445b-9eca-6ec72813e2ab",
       "response": {
-        "id": "7c9e40ff-5b1c-45be-b681-ad32c675d27e",
+        "id": "842eeca3-07b2-445b-9eca-6ec72813e2ab",
         "name": "UFC Standard v2.0",
         "promotion": "UFC",
         "description": "Updated UFC judging criteria with refined damage weighting",
@@ -17612,8 +17965,8 @@
         },
         "is_default": false,
         "created_by": "admin-001",
-        "created_at": "2025-11-21T04:58:07.261000",
-        "updated_at": "2025-11-21T04:58:07.625985+00:00"
+        "created_at": "2025-11-24T04:02:52.805000",
+        "updated_at": "2025-11-24T04:02:53.131624+00:00"
       }
     },
     {
@@ -17627,22 +17980,22 @@
       }
     },
     {
-      "test": "Delete Tuning Profile - ed22ea34-efb0-43d0-a224-5e5259be67b8",
+      "test": "Delete Tuning Profile - 470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/ed22ea34-efb0-43d0-a224-5e5259be67b8",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
       "response": {
         "success": true,
         "message": "Profile deleted"
       }
     },
     {
-      "test": "Verify Deletion - ed22ea34-efb0-43d0-a224-5e5259be67b8",
+      "test": "Verify Deletion - 470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/ed22ea34-efb0-43d0-a224-5e5259be67b8",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
       "response": {
         "detail": "Profile not found"
       }
@@ -17664,13 +18017,13 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes",
       "response": {
-        "id": "45735d12-f5f9-433d-85f3-6a5e15efad09",
-        "bout_id": "test-bout-1763701087",
+        "id": "20c64c0c-c12e-4674-966a-03171bb42d44",
+        "bout_id": "test-bout-1763956973",
         "round_num": 1,
         "judge_id": "JUDGE001",
         "judge_name": "Test Judge",
         "note_text": "Fighter1 dominated with strikes and ground control",
-        "timestamp": "2025-11-21T04:58:07.845851Z",
+        "timestamp": "2025-11-24T04:02:53.310611Z",
         "metadata": {
           "category": "general"
         }
@@ -17683,13 +18036,13 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes",
       "response": {
-        "id": "783ac81e-25ac-45a3-93eb-7d9ca47cf79e",
-        "bout_id": "test-bout-1763701087",
+        "id": "cb8b52fe-1239-4d2b-bf14-7dff991bbfbb",
+        "bout_id": "test-bout-1763956973",
         "round_num": 2,
         "judge_id": "JUDGE001",
         "judge_name": "Test Judge",
         "note_text": "Close round, both fighters traded strikes",
-        "timestamp": "2025-11-21T04:58:07.882240Z",
+        "timestamp": "2025-11-24T04:02:53.387558Z",
         "metadata": {}
       }
     },
@@ -17700,13 +18053,13 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes",
       "response": {
-        "id": "bc4805a3-10cf-4414-a84e-4e5bd8de9e0c",
-        "bout_id": "test-bout-1763701087",
+        "id": "f759d12c-57a7-4689-81a5-d8d6e356a419",
+        "bout_id": "test-bout-1763956973",
         "round_num": 1,
         "judge_id": "JUDGE002",
         "judge_name": "Second Judge",
         "note_text": "Agreed - Fighter1 clearly won this round",
-        "timestamp": "2025-11-21T04:58:07.958526Z",
+        "timestamp": "2025-11-24T04:02:53.421195Z",
         "metadata": {}
       }
     },
@@ -17715,29 +18068,29 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763701087/1",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763956973/1",
       "response": {
         "notes": [
           {
-            "id": "45735d12-f5f9-433d-85f3-6a5e15efad09",
-            "bout_id": "test-bout-1763701087",
+            "id": "20c64c0c-c12e-4674-966a-03171bb42d44",
+            "bout_id": "test-bout-1763956973",
             "round_num": 1,
             "judge_id": "JUDGE001",
             "judge_name": "Test Judge",
             "note_text": "Fighter1 dominated with strikes and ground control",
-            "timestamp": "2025-11-21T04:58:07.845000",
+            "timestamp": "2025-11-24T04:02:53.310000",
             "metadata": {
               "category": "general"
             }
           },
           {
-            "id": "bc4805a3-10cf-4414-a84e-4e5bd8de9e0c",
-            "bout_id": "test-bout-1763701087",
+            "id": "f759d12c-57a7-4689-81a5-d8d6e356a419",
+            "bout_id": "test-bout-1763956973",
             "round_num": 1,
             "judge_id": "JUDGE002",
             "judge_name": "Second Judge",
             "note_text": "Agreed - Fighter1 clearly won this round",
-            "timestamp": "2025-11-21T04:58:07.958000",
+            "timestamp": "2025-11-24T04:02:53.421000",
             "metadata": {}
           }
         ],
@@ -17749,17 +18102,17 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763701087/1?judge_id=JUDGE001",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763956973/1?judge_id=JUDGE001",
       "response": {
         "notes": [
           {
-            "id": "45735d12-f5f9-433d-85f3-6a5e15efad09",
-            "bout_id": "test-bout-1763701087",
+            "id": "20c64c0c-c12e-4674-966a-03171bb42d44",
+            "bout_id": "test-bout-1763956973",
             "round_num": 1,
             "judge_id": "JUDGE001",
             "judge_name": "Test Judge",
             "note_text": "Fighter1 dominated with strikes and ground control",
-            "timestamp": "2025-11-21T04:58:07.845000",
+            "timestamp": "2025-11-24T04:02:53.310000",
             "metadata": {
               "category": "general"
             }
@@ -17773,76 +18126,76 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763701087",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763956973",
       "response": {
         "notes": [
           {
-            "id": "45735d12-f5f9-433d-85f3-6a5e15efad09",
-            "bout_id": "test-bout-1763701087",
+            "id": "20c64c0c-c12e-4674-966a-03171bb42d44",
+            "bout_id": "test-bout-1763956973",
             "round_num": 1,
             "judge_id": "JUDGE001",
             "judge_name": "Test Judge",
             "note_text": "Fighter1 dominated with strikes and ground control",
-            "timestamp": "2025-11-21T04:58:07.845000",
+            "timestamp": "2025-11-24T04:02:53.310000",
             "metadata": {
               "category": "general"
             }
           },
           {
-            "id": "783ac81e-25ac-45a3-93eb-7d9ca47cf79e",
-            "bout_id": "test-bout-1763701087",
+            "id": "cb8b52fe-1239-4d2b-bf14-7dff991bbfbb",
+            "bout_id": "test-bout-1763956973",
             "round_num": 2,
             "judge_id": "JUDGE001",
             "judge_name": "Test Judge",
             "note_text": "Close round, both fighters traded strikes",
-            "timestamp": "2025-11-21T04:58:07.882000",
+            "timestamp": "2025-11-24T04:02:53.387000",
             "metadata": {}
           },
           {
-            "id": "bc4805a3-10cf-4414-a84e-4e5bd8de9e0c",
-            "bout_id": "test-bout-1763701087",
+            "id": "f759d12c-57a7-4689-81a5-d8d6e356a419",
+            "bout_id": "test-bout-1763956973",
             "round_num": 1,
             "judge_id": "JUDGE002",
             "judge_name": "Second Judge",
             "note_text": "Agreed - Fighter1 clearly won this round",
-            "timestamp": "2025-11-21T04:58:07.958000",
+            "timestamp": "2025-11-24T04:02:53.421000",
             "metadata": {}
           }
         ],
         "notes_by_round": {
           "1": [
             {
-              "id": "45735d12-f5f9-433d-85f3-6a5e15efad09",
-              "bout_id": "test-bout-1763701087",
+              "id": "20c64c0c-c12e-4674-966a-03171bb42d44",
+              "bout_id": "test-bout-1763956973",
               "round_num": 1,
               "judge_id": "JUDGE001",
               "judge_name": "Test Judge",
               "note_text": "Fighter1 dominated with strikes and ground control",
-              "timestamp": "2025-11-21T04:58:07.845000",
+              "timestamp": "2025-11-24T04:02:53.310000",
               "metadata": {
                 "category": "general"
               }
             },
             {
-              "id": "bc4805a3-10cf-4414-a84e-4e5bd8de9e0c",
-              "bout_id": "test-bout-1763701087",
+              "id": "f759d12c-57a7-4689-81a5-d8d6e356a419",
+              "bout_id": "test-bout-1763956973",
               "round_num": 1,
               "judge_id": "JUDGE002",
               "judge_name": "Second Judge",
               "note_text": "Agreed - Fighter1 clearly won this round",
-              "timestamp": "2025-11-21T04:58:07.958000",
+              "timestamp": "2025-11-24T04:02:53.421000",
               "metadata": {}
             }
           ],
           "2": [
             {
-              "id": "783ac81e-25ac-45a3-93eb-7d9ca47cf79e",
-              "bout_id": "test-bout-1763701087",
+              "id": "cb8b52fe-1239-4d2b-bf14-7dff991bbfbb",
+              "bout_id": "test-bout-1763956973",
               "round_num": 2,
               "judge_id": "JUDGE001",
               "judge_name": "Test Judge",
               "note_text": "Close round, both fighters traded strikes",
-              "timestamp": "2025-11-21T04:58:07.882000",
+              "timestamp": "2025-11-24T04:02:53.387000",
               "metadata": {}
             }
           ]
@@ -17855,30 +18208,30 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763701087?judge_id=JUDGE002",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763956973?judge_id=JUDGE002",
       "response": {
         "notes": [
           {
-            "id": "bc4805a3-10cf-4414-a84e-4e5bd8de9e0c",
-            "bout_id": "test-bout-1763701087",
+            "id": "f759d12c-57a7-4689-81a5-d8d6e356a419",
+            "bout_id": "test-bout-1763956973",
             "round_num": 1,
             "judge_id": "JUDGE002",
             "judge_name": "Second Judge",
             "note_text": "Agreed - Fighter1 clearly won this round",
-            "timestamp": "2025-11-21T04:58:07.958000",
+            "timestamp": "2025-11-24T04:02:53.421000",
             "metadata": {}
           }
         ],
         "notes_by_round": {
           "1": [
             {
-              "id": "bc4805a3-10cf-4414-a84e-4e5bd8de9e0c",
-              "bout_id": "test-bout-1763701087",
+              "id": "f759d12c-57a7-4689-81a5-d8d6e356a419",
+              "bout_id": "test-bout-1763956973",
               "round_num": 1,
               "judge_id": "JUDGE002",
               "judge_name": "Second Judge",
               "note_text": "Agreed - Fighter1 clearly won this round",
-              "timestamp": "2025-11-21T04:58:07.958000",
+              "timestamp": "2025-11-24T04:02:53.421000",
               "metadata": {}
             }
           ]
@@ -17893,13 +18246,13 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes",
       "response": {
-        "id": "a8f1495b-b002-424c-bbd7-af65e8d04a22",
-        "bout_id": "test-bout-update-1763701088",
+        "id": "51df70ab-a54f-4595-a412-119bccb1ea34",
+        "bout_id": "test-bout-update-1763956973",
         "round_num": 1,
         "judge_id": "UPDATE_TEST",
         "judge_name": "Update Test",
         "note_text": "Original note text",
-        "timestamp": "2025-11-21T04:58:08.174206Z",
+        "timestamp": "2025-11-24T04:02:53.586327Z",
         "metadata": {}
       }
     },
@@ -17908,7 +18261,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/a8f1495b-b002-424c-bbd7-af65e8d04a22",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/51df70ab-a54f-4595-a412-119bccb1ea34",
       "response": {
         "success": true,
         "message": "Note updated successfully"
@@ -17919,19 +18272,19 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-update-1763701088/1",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-update-1763956973/1",
       "response": {
         "notes": [
           {
-            "id": "a8f1495b-b002-424c-bbd7-af65e8d04a22",
-            "bout_id": "test-bout-update-1763701088",
+            "id": "51df70ab-a54f-4595-a412-119bccb1ea34",
+            "bout_id": "test-bout-update-1763956973",
             "round_num": 1,
             "judge_id": "UPDATE_TEST",
             "judge_name": "Update Test",
             "note_text": "Updated note text after review",
-            "timestamp": "2025-11-21T04:58:08.174000",
+            "timestamp": "2025-11-24T04:02:53.586000",
             "metadata": {},
-            "updated_at": "2025-11-21T04:58:08.250064+00:00"
+            "updated_at": "2025-11-24T04:02:53.618440+00:00"
           }
         ],
         "count": 1
@@ -17944,13 +18297,13 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes",
       "response": {
-        "id": "c6572965-f26a-49b3-b0fa-fcd4acd85739",
-        "bout_id": "test-bout-delete-1763701088",
+        "id": "13787042-a705-4512-bb9e-a6ff5a1511fe",
+        "bout_id": "test-bout-delete-1763956973",
         "round_num": 1,
         "judge_id": "DELETE_TEST",
         "judge_name": "Delete Test",
         "note_text": "This note will be deleted",
-        "timestamp": "2025-11-21T04:58:08.316333Z",
+        "timestamp": "2025-11-24T04:02:53.726545Z",
         "metadata": {}
       }
     },
@@ -17959,7 +18312,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/c6572965-f26a-49b3-b0fa-fcd4acd85739",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/13787042-a705-4512-bb9e-a6ff5a1511fe",
       "response": {
         "success": true,
         "message": "Note deleted successfully"
@@ -17970,7 +18323,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-delete-1763701088/1",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-delete-1763956973/1",
       "response": {
         "notes": [],
         "count": 0
@@ -18020,7 +18373,7 @@
         "total_events": 0,
         "total_notes": 0,
         "anomalies": [],
-        "timestamp": "2025-11-21T04:58:08.566250+00:00"
+        "timestamp": "2025-11-24T04:02:53.927779+00:00"
       }
     },
     {
@@ -18058,14 +18411,14 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/branding/promotion",
       "response": {
-        "id": "8cc26da0-d51f-45f5-980d-5f030a73b52e",
+        "id": "620900b8-6104-4e7d-a5ae-5f80b1e86474",
         "promotion_name": "UFC",
         "logo_url": "https://example.com/ufc-logo.png",
         "primary_color": "#D20A0A",
         "secondary_color": "#000000",
         "accent_color": "#FFD700",
         "font_family": "Arial",
-        "created_at": "2025-11-21T04:58:08.666063Z",
+        "created_at": "2025-11-24T04:02:54.037036Z",
         "updated_at": null
       }
     },
@@ -18076,15 +18429,15 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/branding/promotion/UFC",
       "response": {
-        "id": "8cc26da0-d51f-45f5-980d-5f030a73b52e",
+        "id": "620900b8-6104-4e7d-a5ae-5f80b1e86474",
         "promotion_name": "UFC",
         "logo_url": "https://example.com/ufc-logo.png",
         "primary_color": "#D20A0A",
         "secondary_color": "#000000",
         "accent_color": "#FFD700",
         "font_family": "Arial",
-        "created_at": "2025-11-21T04:58:08.666000",
-        "updated_at": "2025-11-21T04:58:08.666590+00:00",
+        "created_at": "2025-11-24T04:02:54.037000",
+        "updated_at": "2025-11-24T04:02:54.040440+00:00",
         "is_default": false
       }
     },
@@ -18111,14 +18464,14 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/branding/promotion",
       "response": {
-        "id": "551b8978-c5c6-483f-aa5d-1f7125a1a0b1",
+        "id": "bb9b5c0e-42e9-43d6-88b8-888c8a76431d",
         "promotion_name": "UFC",
         "logo_url": "https://example.com/ufc-logo-new.png",
         "primary_color": "#FF0000",
         "secondary_color": "#FFFFFF",
         "accent_color": "#FFAA00",
         "font_family": "Roboto",
-        "created_at": "2025-11-21T04:58:08.766868Z",
+        "created_at": "2025-11-24T04:02:54.141216Z",
         "updated_at": null
       }
     },
@@ -18134,7 +18487,7 @@
           "bout_id": "test-bout-buffer-123",
           "delay_seconds": 10,
           "enabled": true,
-          "updated_at": "2025-11-21T04:58:08.799044+00:00"
+          "updated_at": "2025-11-24T04:02:54.216438+00:00"
         }
       }
     },
@@ -18148,7 +18501,7 @@
         "bout_id": "test-bout-buffer-123",
         "delay_seconds": 10,
         "enabled": true,
-        "cutoff_time": 1763701078.8352697,
+        "cutoff_time": 1763956964.2538497,
         "message": "Data delayed by 10 seconds for broadcast"
       }
     },
@@ -18164,7 +18517,7 @@
           "bout_id": "test-bout-5s",
           "delay_seconds": 5,
           "enabled": true,
-          "updated_at": "2025-11-21T04:58:08.869045+00:00"
+          "updated_at": "2025-11-24T04:02:54.289529+00:00"
         }
       }
     },
@@ -18180,7 +18533,7 @@
           "bout_id": "test-bout-30s",
           "delay_seconds": 30,
           "enabled": true,
-          "updated_at": "2025-11-21T04:58:08.902412+00:00"
+          "updated_at": "2025-11-24T04:02:54.323969+00:00"
         }
       }
     },
@@ -18196,7 +18549,7 @@
           "bout_id": "test-bout-disabled",
           "delay_seconds": 10,
           "enabled": false,
-          "updated_at": "2025-11-21T04:58:08.934967+00:00"
+          "updated_at": "2025-11-24T04:02:54.356819+00:00"
         }
       }
     },
@@ -18210,7 +18563,7 @@
         "bout_id": "non-existent-bout-999",
         "delay_seconds": 5,
         "enabled": true,
-        "cutoff_time": 1763701083.9699063,
+        "cutoff_time": 1763956969.389971,
         "message": "Data delayed by 5 seconds for broadcast"
       }
     },
@@ -18224,7 +18577,7 @@
         "status": "healthy",
         "service": "ICVSS",
         "version": "1.0.0",
-        "timestamp": "2025-11-21T04:58:09.024422+00:00"
+        "timestamp": "2025-11-24T04:02:54.427710+00:00"
       }
     },
     {
@@ -18235,7 +18588,7 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/system/status",
       "response": {
         "status": "healthy",
-        "timestamp": "2025-11-21T04:58:09.060596+00:00",
+        "timestamp": "2025-11-24T04:02:54.465730+00:00",
         "active_rounds": 0,
         "event_processing": {
           "total_events_processed": 0,
@@ -18263,7 +18616,7 @@
       "actual_status": 200,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/open?bout_id=TEST_BOUT_1&round_num=1",
       "response": {
-        "round_id": "4ae9514b-57f2-478b-bddb-993e256f88ba",
+        "round_id": "b54c639f-0df8-4247-818b-cb376e1f0b32",
         "bout_id": "TEST_BOUT_1",
         "round_num": 1,
         "status": "open",
@@ -18275,7 +18628,7 @@
         "winner": null,
         "score_breakdown": null,
         "confidence": null,
-        "opened_at": "2025-11-21T04:58:09.095161+00:00",
+        "opened_at": "2025-11-24T04:02:54.503608+00:00",
         "locked_at": null,
         "event_hash": null
       }
@@ -18285,7 +18638,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/event?round_id=judgepro-ai",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/event?round_id=b54c639f-0df8-4247-818b-cb376e1f0b32",
       "response": {
         "success": true,
         "message": "Event accepted"
@@ -18296,7 +18649,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/event?round_id=judgepro-ai",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/event?round_id=b54c639f-0df8-4247-818b-cb376e1f0b32",
       "response": {
         "success": true,
         "message": "Event accepted"
@@ -18307,7 +18660,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/event?round_id=judgepro-ai",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/event?round_id=b54c639f-0df8-4247-818b-cb376e1f0b32",
       "response": {
         "success": true,
         "message": "Event accepted"
@@ -18318,10 +18671,10 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/score/4ae9514b-57f2-478b-bddb-993e256f88ba",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/score/b54c639f-0df8-4247-818b-cb376e1f0b32",
       "response": {
         "bout_id": "TEST_BOUT_1",
-        "round_id": "4ae9514b-57f2-478b-bddb-993e256f88ba",
+        "round_id": "b54c639f-0df8-4247-818b-cb376e1f0b32",
         "round_num": 1,
         "fighter1_score": 10,
         "fighter2_score": 10,
@@ -18347,7 +18700,7 @@
         "total_events": 3,
         "cv_contribution": 0.7,
         "judge_contribution": 0.3,
-        "calculated_at": "2025-11-21T04:58:09.237721+00:00"
+        "calculated_at": "2025-11-24T04:02:54.669845+00:00"
       }
     },
     {
@@ -18355,7 +18708,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 500,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/lock/4ae9514b-57f2-478b-bddb-993e256f88ba",
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/lock/b54c639f-0df8-4247-818b-cb376e1f0b32",
       "error": "{\"detail\":\"Object of type datetime is not JSON serializable\"}"
     },
     {
@@ -18377,9 +18730,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "efe8480f-f192-49a1-b73b-7a1da9f1ba85",
+        "id": "1bca9b75-d677-4bf5-b23d-b381b9f0ec0f",
         "service_name": "CV Router",
-        "timestamp": "2025-11-21T04:58:09.348593Z",
+        "timestamp": "2025-11-24T04:02:54.853936Z",
         "status": "ok",
         "metrics": {
           "cpu_usage": 45.2,
@@ -18387,7 +18740,7 @@
           "uptime_seconds": 3600,
           "processed_events": 1250
         },
-        "received_at": "2025-11-21T04:58:09.348634Z"
+        "received_at": "2025-11-24T04:02:54.853986Z"
       }
     },
     {
@@ -18397,9 +18750,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "d2961f86-8c63-40e3-89d7-177b0af1afbd",
+        "id": "cd1d21e8-0de9-4dab-805f-e3c4e760d29b",
         "service_name": "CV Router",
-        "timestamp": "2025-11-21T04:58:09.425977Z",
+        "timestamp": "2025-11-24T04:02:54.893587Z",
         "status": "warning",
         "metrics": {
           "cpu_usage": 85.1,
@@ -18407,7 +18760,7 @@
           "uptime_seconds": 7200,
           "processed_events": 2500
         },
-        "received_at": "2025-11-21T04:58:09.426017Z"
+        "received_at": "2025-11-24T04:02:54.893637Z"
       }
     },
     {
@@ -18417,9 +18770,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "b4246b0e-d790-4067-a3de-cd37084c302e",
+        "id": "91a1b88d-7960-429c-8c60-25e7150dd1b6",
         "service_name": "CV Router",
-        "timestamp": "2025-11-21T04:58:09.459627Z",
+        "timestamp": "2025-11-24T04:02:54.929046Z",
         "status": "error",
         "metrics": {
           "cpu_usage": 95.7,
@@ -18427,7 +18780,7 @@
           "uptime_seconds": 1800,
           "error_count": 15
         },
-        "received_at": "2025-11-21T04:58:09.459657Z"
+        "received_at": "2025-11-24T04:02:54.929091Z"
       }
     },
     {
@@ -18437,9 +18790,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "08eeb9a5-c4f5-4890-a4dd-5c7e10470c3a",
+        "id": "0f7411b6-e7d1-4f55-9475-d3183b562d21",
         "service_name": "CV Analytics",
-        "timestamp": "2025-11-21T04:58:09.492509Z",
+        "timestamp": "2025-11-24T04:02:54.966599Z",
         "status": "ok",
         "metrics": {
           "cpu_usage": 45.2,
@@ -18447,7 +18800,7 @@
           "uptime_seconds": 3600,
           "processed_events": 1250
         },
-        "received_at": "2025-11-21T04:58:09.492538Z"
+        "received_at": "2025-11-24T04:02:54.966643Z"
       }
     },
     {
@@ -18457,9 +18810,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "8bd4a65a-4629-418f-8e7e-2c95e24f3f09",
+        "id": "fd881c37-bc00-4460-aea1-69d7af4a6815",
         "service_name": "CV Analytics",
-        "timestamp": "2025-11-21T04:58:09.527247Z",
+        "timestamp": "2025-11-24T04:02:55.042346Z",
         "status": "warning",
         "metrics": {
           "cpu_usage": 85.1,
@@ -18467,7 +18820,7 @@
           "uptime_seconds": 7200,
           "processed_events": 2500
         },
-        "received_at": "2025-11-21T04:58:09.527274Z"
+        "received_at": "2025-11-24T04:02:55.042392Z"
       }
     },
     {
@@ -18477,9 +18830,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "2194bb57-626f-40c0-bb9e-3a612ae7373d",
+        "id": "881c7281-1e70-49cb-af68-b65dec10c572",
         "service_name": "CV Analytics",
-        "timestamp": "2025-11-21T04:58:09.558830Z",
+        "timestamp": "2025-11-24T04:02:55.077356Z",
         "status": "error",
         "metrics": {
           "cpu_usage": 95.7,
@@ -18487,7 +18840,7 @@
           "uptime_seconds": 1800,
           "error_count": 15
         },
-        "received_at": "2025-11-21T04:58:09.558858Z"
+        "received_at": "2025-11-24T04:02:55.077401Z"
       }
     },
     {
@@ -18497,9 +18850,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "ef1a8723-bf1a-41bd-bf3d-68c1f7ef0b92",
+        "id": "7a7a6451-9e6a-42d8-8b4d-8aaeceaf647f",
         "service_name": "Scoring Engine",
-        "timestamp": "2025-11-21T04:58:09.592864Z",
+        "timestamp": "2025-11-24T04:02:55.110482Z",
         "status": "ok",
         "metrics": {
           "cpu_usage": 45.2,
@@ -18507,7 +18860,7 @@
           "uptime_seconds": 3600,
           "processed_events": 1250
         },
-        "received_at": "2025-11-21T04:58:09.592891Z"
+        "received_at": "2025-11-24T04:02:55.110523Z"
       }
     },
     {
@@ -18517,9 +18870,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "174ad2cd-f03c-4fbe-a3f6-12743f7a21ce",
+        "id": "1b432028-257a-4be1-94ea-f10172396b37",
         "service_name": "Scoring Engine",
-        "timestamp": "2025-11-21T04:58:09.629343Z",
+        "timestamp": "2025-11-24T04:02:55.145464Z",
         "status": "warning",
         "metrics": {
           "cpu_usage": 85.1,
@@ -18527,7 +18880,7 @@
           "uptime_seconds": 7200,
           "processed_events": 2500
         },
-        "received_at": "2025-11-21T04:58:09.629375Z"
+        "received_at": "2025-11-24T04:02:55.145505Z"
       }
     },
     {
@@ -18537,9 +18890,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "36a224af-9d01-42e5-afc6-ee106f53af35",
+        "id": "2b1c6aff-c3f3-47ab-8313-281a1373fb8b",
         "service_name": "Scoring Engine",
-        "timestamp": "2025-11-21T04:58:09.679820Z",
+        "timestamp": "2025-11-24T04:02:55.177556Z",
         "status": "error",
         "metrics": {
           "cpu_usage": 95.7,
@@ -18547,7 +18900,7 @@
           "uptime_seconds": 1800,
           "error_count": 15
         },
-        "received_at": "2025-11-21T04:58:09.679850Z"
+        "received_at": "2025-11-24T04:02:55.177593Z"
       }
     },
     {
@@ -18557,9 +18910,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "809cee2f-8414-4b4d-83bf-35e143332fc7",
+        "id": "de071197-73fa-49b6-9f67-752f8fbd5c9d",
         "service_name": "Replay Worker",
-        "timestamp": "2025-11-21T04:58:09.714117Z",
+        "timestamp": "2025-11-24T04:02:55.253530Z",
         "status": "ok",
         "metrics": {
           "cpu_usage": 45.2,
@@ -18567,7 +18920,7 @@
           "uptime_seconds": 3600,
           "processed_events": 1250
         },
-        "received_at": "2025-11-21T04:58:09.714155Z"
+        "received_at": "2025-11-24T04:02:55.253572Z"
       }
     },
     {
@@ -18577,9 +18930,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "c91c7839-fdd8-4e2b-a55b-d677a7666592",
+        "id": "dd51cfb3-dcb9-4890-94e6-35e8e79d0a20",
         "service_name": "Replay Worker",
-        "timestamp": "2025-11-21T04:58:09.749766Z",
+        "timestamp": "2025-11-24T04:02:55.287848Z",
         "status": "warning",
         "metrics": {
           "cpu_usage": 85.1,
@@ -18587,7 +18940,7 @@
           "uptime_seconds": 7200,
           "processed_events": 2500
         },
-        "received_at": "2025-11-21T04:58:09.749798Z"
+        "received_at": "2025-11-24T04:02:55.287904Z"
       }
     },
     {
@@ -18597,9 +18950,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "0921d88b-a5c3-4da2-a968-161c22f5a37b",
+        "id": "e233fdf4-2ffe-42ce-a299-7ce02d1a66ac",
         "service_name": "Replay Worker",
-        "timestamp": "2025-11-21T04:58:09.782745Z",
+        "timestamp": "2025-11-24T04:02:55.321516Z",
         "status": "error",
         "metrics": {
           "cpu_usage": 95.7,
@@ -18607,7 +18960,7 @@
           "uptime_seconds": 1800,
           "error_count": 15
         },
-        "received_at": "2025-11-21T04:58:09.782772Z"
+        "received_at": "2025-11-24T04:02:55.321561Z"
       }
     },
     {
@@ -18617,9 +18970,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "47112f91-8118-4a58-a293-4c8bf9aea052",
+        "id": "7295a184-d5a2-4d2b-bbf5-9f43c48ea9db",
         "service_name": "Highlight Worker",
-        "timestamp": "2025-11-21T04:58:09.817072Z",
+        "timestamp": "2025-11-24T04:02:55.358275Z",
         "status": "ok",
         "metrics": {
           "cpu_usage": 45.2,
@@ -18627,7 +18980,7 @@
           "uptime_seconds": 3600,
           "processed_events": 1250
         },
-        "received_at": "2025-11-21T04:58:09.817100Z"
+        "received_at": "2025-11-24T04:02:55.358316Z"
       }
     },
     {
@@ -18637,9 +18990,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "b78b6cee-c52d-4561-81b6-957e3b51fefc",
+        "id": "0718e22c-5f52-48b5-9d61-5b5082abf2f9",
         "service_name": "Highlight Worker",
-        "timestamp": "2025-11-21T04:58:09.859692Z",
+        "timestamp": "2025-11-24T04:02:55.392829Z",
         "status": "warning",
         "metrics": {
           "cpu_usage": 85.1,
@@ -18647,7 +19000,7 @@
           "uptime_seconds": 7200,
           "processed_events": 2500
         },
-        "received_at": "2025-11-21T04:58:09.859741Z"
+        "received_at": "2025-11-24T04:02:55.392872Z"
       }
     },
     {
@@ -18657,9 +19010,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "b0b485bd-0854-483f-9b9f-ef646840c713",
+        "id": "82c85e48-aec8-4636-84f5-e20c7a7e381c",
         "service_name": "Highlight Worker",
-        "timestamp": "2025-11-21T04:58:09.897142Z",
+        "timestamp": "2025-11-24T04:02:55.429035Z",
         "status": "error",
         "metrics": {
           "cpu_usage": 95.7,
@@ -18667,7 +19020,7 @@
           "uptime_seconds": 1800,
           "error_count": 15
         },
-        "received_at": "2025-11-21T04:58:09.897176Z"
+        "received_at": "2025-11-24T04:02:55.429077Z"
       }
     },
     {
@@ -18677,9 +19030,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "41a8bb34-b8ce-4e08-b28e-655ec2371750",
+        "id": "b897104c-6eca-4509-a2cb-cb78b699ea0d",
         "service_name": "Storage Manager",
-        "timestamp": "2025-11-21T04:58:09.931200Z",
+        "timestamp": "2025-11-24T04:02:55.462851Z",
         "status": "ok",
         "metrics": {
           "cpu_usage": 45.2,
@@ -18687,7 +19040,7 @@
           "uptime_seconds": 3600,
           "processed_events": 1250
         },
-        "received_at": "2025-11-21T04:58:09.931225Z"
+        "received_at": "2025-11-24T04:02:55.462905Z"
       }
     },
     {
@@ -18697,9 +19050,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "754f0db4-00bd-420b-b8b0-8549a1631469",
+        "id": "a81a2f27-faa5-4823-ac39-26966f73adb9",
         "service_name": "Storage Manager",
-        "timestamp": "2025-11-21T04:58:09.965663Z",
+        "timestamp": "2025-11-24T04:02:55.495762Z",
         "status": "warning",
         "metrics": {
           "cpu_usage": 85.1,
@@ -18707,7 +19060,7 @@
           "uptime_seconds": 7200,
           "processed_events": 2500
         },
-        "received_at": "2025-11-21T04:58:09.965692Z"
+        "received_at": "2025-11-24T04:02:55.495803Z"
       }
     },
     {
@@ -18717,9 +19070,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "c59c6869-a901-4906-a7de-75dc0e2e653b",
+        "id": "cfc543d0-2046-4ecb-9f73-3bb730f61e61",
         "service_name": "Storage Manager",
-        "timestamp": "2025-11-21T04:58:10.005721Z",
+        "timestamp": "2025-11-24T04:02:55.532191Z",
         "status": "error",
         "metrics": {
           "cpu_usage": 95.7,
@@ -18727,7 +19080,7 @@
           "uptime_seconds": 1800,
           "error_count": 15
         },
-        "received_at": "2025-11-21T04:58:10.005757Z"
+        "received_at": "2025-11-24T04:02:55.532234Z"
       }
     },
     {
@@ -18737,9 +19090,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "e1c1b4fa-153d-42fb-bffa-bc1098b6b197",
+        "id": "8ae60a65-2bfd-4f28-a023-4f4621e8822a",
         "service_name": "Supervisor Console",
-        "timestamp": "2025-11-21T04:58:10.042518Z",
+        "timestamp": "2025-11-24T04:02:55.566509Z",
         "status": "ok",
         "metrics": {
           "cpu_usage": 45.2,
@@ -18747,7 +19100,7 @@
           "uptime_seconds": 3600,
           "processed_events": 1250
         },
-        "received_at": "2025-11-21T04:58:10.042545Z"
+        "received_at": "2025-11-24T04:02:55.566552Z"
       }
     },
     {
@@ -18757,9 +19110,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "0a68ff8f-71c2-4a36-af56-601f0f1568f9",
+        "id": "dc501572-884a-4633-a750-343dbb104915",
         "service_name": "Supervisor Console",
-        "timestamp": "2025-11-21T04:58:10.075808Z",
+        "timestamp": "2025-11-24T04:02:55.600507Z",
         "status": "warning",
         "metrics": {
           "cpu_usage": 85.1,
@@ -18767,7 +19120,7 @@
           "uptime_seconds": 7200,
           "processed_events": 2500
         },
-        "received_at": "2025-11-21T04:58:10.075836Z"
+        "received_at": "2025-11-24T04:02:55.600548Z"
       }
     },
     {
@@ -18777,9 +19130,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "54f2eed6-9584-4f4c-aa7f-135a8a7b49b2",
+        "id": "59139145-0bd0-435a-b4c0-acac21e69cf5",
         "service_name": "Supervisor Console",
-        "timestamp": "2025-11-21T04:58:10.113094Z",
+        "timestamp": "2025-11-24T04:02:55.632425Z",
         "status": "error",
         "metrics": {
           "cpu_usage": 95.7,
@@ -18787,7 +19140,7 @@
           "uptime_seconds": 1800,
           "error_count": 15
         },
-        "received_at": "2025-11-21T04:58:10.113125Z"
+        "received_at": "2025-11-24T04:02:55.632465Z"
       }
     },
     {
@@ -18950,8 +19303,8 @@
           {
             "service_name": "CV Router",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.459627Z",
-            "time_since_last_heartbeat_sec": 0.883863,
+            "last_heartbeat": "2025-11-24T04:02:54.929046Z",
+            "time_since_last_heartbeat_sec": 0.978812,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -18963,8 +19316,8 @@
           {
             "service_name": "CV Analytics",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.558830Z",
-            "time_since_last_heartbeat_sec": 0.784691,
+            "last_heartbeat": "2025-11-24T04:02:55.077356Z",
+            "time_since_last_heartbeat_sec": 0.83054,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -18976,8 +19329,8 @@
           {
             "service_name": "Scoring Engine",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.679820Z",
-            "time_since_last_heartbeat_sec": 0.663706,
+            "last_heartbeat": "2025-11-24T04:02:55.177556Z",
+            "time_since_last_heartbeat_sec": 0.730355,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -18989,8 +19342,8 @@
           {
             "service_name": "Replay Worker",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.782745Z",
-            "time_since_last_heartbeat_sec": 0.560789,
+            "last_heartbeat": "2025-11-24T04:02:55.321516Z",
+            "time_since_last_heartbeat_sec": 0.586392,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -19002,8 +19355,8 @@
           {
             "service_name": "Highlight Worker",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.897142Z",
-            "time_since_last_heartbeat_sec": 0.44639,
+            "last_heartbeat": "2025-11-24T04:02:55.429035Z",
+            "time_since_last_heartbeat_sec": 0.478881,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -19015,8 +19368,8 @@
           {
             "service_name": "Storage Manager",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:10.005721Z",
-            "time_since_last_heartbeat_sec": 0.337814,
+            "last_heartbeat": "2025-11-24T04:02:55.532191Z",
+            "time_since_last_heartbeat_sec": 0.375728,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -19028,8 +19381,8 @@
           {
             "service_name": "Supervisor Console",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:10.113094Z",
-            "time_since_last_heartbeat_sec": 0.23045,
+            "last_heartbeat": "2025-11-24T04:02:55.632425Z",
+            "time_since_last_heartbeat_sec": 0.275501,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -19039,7 +19392,7 @@
             "is_healthy": false
           }
         ],
-        "last_updated": "2025-11-21T04:58:10.343589Z"
+        "last_updated": "2025-11-24T04:02:55.907982Z"
       }
     },
     {
@@ -19050,9 +19403,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/CV Router",
       "response": [
         {
-          "id": "b4246b0e-d790-4067-a3de-cd37084c302e",
+          "id": "91a1b88d-7960-429c-8c60-25e7150dd1b6",
           "service_name": "CV Router",
-          "timestamp": "2025-11-21T04:58:09.459627Z",
+          "timestamp": "2025-11-24T04:02:54.929046Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19060,12 +19413,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:09.459657Z"
+          "received_at": "2025-11-24T04:02:54.929091Z"
         },
         {
-          "id": "d2961f86-8c63-40e3-89d7-177b0af1afbd",
+          "id": "cd1d21e8-0de9-4dab-805f-e3c4e760d29b",
           "service_name": "CV Router",
-          "timestamp": "2025-11-21T04:58:09.425977Z",
+          "timestamp": "2025-11-24T04:02:54.893587Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19073,12 +19426,12 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.426017Z"
+          "received_at": "2025-11-24T04:02:54.893637Z"
         },
         {
-          "id": "efe8480f-f192-49a1-b73b-7a1da9f1ba85",
+          "id": "1bca9b75-d677-4bf5-b23d-b381b9f0ec0f",
           "service_name": "CV Router",
-          "timestamp": "2025-11-21T04:58:09.348593Z",
+          "timestamp": "2025-11-24T04:02:54.853936Z",
           "status": "ok",
           "metrics": {
             "cpu_usage": 45.2,
@@ -19086,78 +19439,7 @@
             "uptime_seconds": 3600,
             "processed_events": 1250
           },
-          "received_at": "2025-11-21T04:58:09.348634Z"
-        },
-        {
-          "id": "e8d20145-2060-4dd5-ab54-6c7158bbf9f2",
-          "service_name": "CV Router",
-          "timestamp": "2025-11-21T04:23:27.205427Z",
-          "status": "ok",
-          "metrics": {
-            "event_count": 100,
-            "error_count": 0,
-            "latency_ms": 25
-          },
-          "received_at": "2025-11-21T04:23:27.205469Z"
-        },
-        {
-          "id": "80886c86-5e09-4fb9-b900-3d5f4b08d2b9",
-          "service_name": "CV Router",
-          "timestamp": "2025-11-21T04:02:41.649612Z",
-          "status": "ok",
-          "metrics": {
-            "test_time_tracking": true
-          },
-          "received_at": "2025-11-21T04:02:41.649654Z"
-        },
-        {
-          "id": "3ef7de9b-f45c-4055-9071-609b20d24c84",
-          "service_name": "CV Router",
-          "timestamp": "2025-11-21T04:02:39.971047Z",
-          "status": "error",
-          "metrics": {
-            "cpu_usage": 95.7,
-            "memory_usage": 98.1,
-            "uptime_seconds": 1800,
-            "error_count": 15
-          },
-          "received_at": "2025-11-21T04:02:39.971094Z"
-        },
-        {
-          "id": "195652c1-2b35-4dda-b7a7-58a88f638178",
-          "service_name": "CV Router",
-          "timestamp": "2025-11-21T04:02:39.932276Z",
-          "status": "warning",
-          "metrics": {
-            "cpu_usage": 85.1,
-            "memory_usage": 89.3,
-            "uptime_seconds": 7200,
-            "processed_events": 2500
-          },
-          "received_at": "2025-11-21T04:02:39.932325Z"
-        },
-        {
-          "id": "3ff51acc-bf8b-4d95-858d-9024b2a49f7a",
-          "service_name": "CV Router",
-          "timestamp": "2025-11-21T04:02:39.895205Z",
-          "status": "ok",
-          "metrics": {
-            "cpu_usage": 45.2,
-            "memory_usage": 67.8,
-            "uptime_seconds": 3600,
-            "processed_events": 1250
-          },
-          "received_at": "2025-11-21T04:02:39.895251Z"
-        },
-        {
-          "id": "095580b7-8b86-4f77-a9dd-02402b7935b6",
-          "service_name": "CV Router",
-          "timestamp": "2025-11-21T04:02:27.927712Z",
-          "status": "ok",
-          "metrics": {
-            "test": true
-          },
-          "received_at": "2025-11-21T04:02:27.927763Z"
+          "received_at": "2025-11-24T04:02:54.853986Z"
         }
       ]
     },
@@ -19169,9 +19451,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/CV Router?limit=2",
       "response": [
         {
-          "id": "b4246b0e-d790-4067-a3de-cd37084c302e",
+          "id": "91a1b88d-7960-429c-8c60-25e7150dd1b6",
           "service_name": "CV Router",
-          "timestamp": "2025-11-21T04:58:09.459627Z",
+          "timestamp": "2025-11-24T04:02:54.929046Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19179,12 +19461,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:09.459657Z"
+          "received_at": "2025-11-24T04:02:54.929091Z"
         },
         {
-          "id": "d2961f86-8c63-40e3-89d7-177b0af1afbd",
+          "id": "cd1d21e8-0de9-4dab-805f-e3c4e760d29b",
           "service_name": "CV Router",
-          "timestamp": "2025-11-21T04:58:09.425977Z",
+          "timestamp": "2025-11-24T04:02:54.893587Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19192,7 +19474,7 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.426017Z"
+          "received_at": "2025-11-24T04:02:54.893637Z"
         }
       ]
     },
@@ -19204,9 +19486,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/CV Analytics",
       "response": [
         {
-          "id": "2194bb57-626f-40c0-bb9e-3a612ae7373d",
+          "id": "881c7281-1e70-49cb-af68-b65dec10c572",
           "service_name": "CV Analytics",
-          "timestamp": "2025-11-21T04:58:09.558830Z",
+          "timestamp": "2025-11-24T04:02:55.077356Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19214,12 +19496,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:09.558858Z"
+          "received_at": "2025-11-24T04:02:55.077401Z"
         },
         {
-          "id": "8bd4a65a-4629-418f-8e7e-2c95e24f3f09",
+          "id": "fd881c37-bc00-4460-aea1-69d7af4a6815",
           "service_name": "CV Analytics",
-          "timestamp": "2025-11-21T04:58:09.527247Z",
+          "timestamp": "2025-11-24T04:02:55.042346Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19227,12 +19509,12 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.527274Z"
+          "received_at": "2025-11-24T04:02:55.042392Z"
         },
         {
-          "id": "08eeb9a5-c4f5-4890-a4dd-5c7e10470c3a",
+          "id": "0f7411b6-e7d1-4f55-9475-d3183b562d21",
           "service_name": "CV Analytics",
-          "timestamp": "2025-11-21T04:58:09.492509Z",
+          "timestamp": "2025-11-24T04:02:54.966599Z",
           "status": "ok",
           "metrics": {
             "cpu_usage": 45.2,
@@ -19240,46 +19522,7 @@
             "uptime_seconds": 3600,
             "processed_events": 1250
           },
-          "received_at": "2025-11-21T04:58:09.492538Z"
-        },
-        {
-          "id": "4acb08c1-a3ef-4248-b96e-143a5a385c0b",
-          "service_name": "CV Analytics",
-          "timestamp": "2025-11-21T04:02:40.103075Z",
-          "status": "error",
-          "metrics": {
-            "cpu_usage": 95.7,
-            "memory_usage": 98.1,
-            "uptime_seconds": 1800,
-            "error_count": 15
-          },
-          "received_at": "2025-11-21T04:02:40.103121Z"
-        },
-        {
-          "id": "3ee57683-ebcd-41d5-8ef8-ea236019b86f",
-          "service_name": "CV Analytics",
-          "timestamp": "2025-11-21T04:02:40.051695Z",
-          "status": "warning",
-          "metrics": {
-            "cpu_usage": 85.1,
-            "memory_usage": 89.3,
-            "uptime_seconds": 7200,
-            "processed_events": 2500
-          },
-          "received_at": "2025-11-21T04:02:40.051750Z"
-        },
-        {
-          "id": "32005c47-78f7-44a7-8450-12794c386eed",
-          "service_name": "CV Analytics",
-          "timestamp": "2025-11-21T04:02:40.017029Z",
-          "status": "ok",
-          "metrics": {
-            "cpu_usage": 45.2,
-            "memory_usage": 67.8,
-            "uptime_seconds": 3600,
-            "processed_events": 1250
-          },
-          "received_at": "2025-11-21T04:02:40.017073Z"
+          "received_at": "2025-11-24T04:02:54.966643Z"
         }
       ]
     },
@@ -19291,9 +19534,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/CV Analytics?limit=2",
       "response": [
         {
-          "id": "2194bb57-626f-40c0-bb9e-3a612ae7373d",
+          "id": "881c7281-1e70-49cb-af68-b65dec10c572",
           "service_name": "CV Analytics",
-          "timestamp": "2025-11-21T04:58:09.558830Z",
+          "timestamp": "2025-11-24T04:02:55.077356Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19301,12 +19544,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:09.558858Z"
+          "received_at": "2025-11-24T04:02:55.077401Z"
         },
         {
-          "id": "8bd4a65a-4629-418f-8e7e-2c95e24f3f09",
+          "id": "fd881c37-bc00-4460-aea1-69d7af4a6815",
           "service_name": "CV Analytics",
-          "timestamp": "2025-11-21T04:58:09.527247Z",
+          "timestamp": "2025-11-24T04:02:55.042346Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19314,7 +19557,7 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.527274Z"
+          "received_at": "2025-11-24T04:02:55.042392Z"
         }
       ]
     },
@@ -19326,9 +19569,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Scoring Engine",
       "response": [
         {
-          "id": "36a224af-9d01-42e5-afc6-ee106f53af35",
+          "id": "2b1c6aff-c3f3-47ab-8313-281a1373fb8b",
           "service_name": "Scoring Engine",
-          "timestamp": "2025-11-21T04:58:09.679820Z",
+          "timestamp": "2025-11-24T04:02:55.177556Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19336,12 +19579,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:09.679850Z"
+          "received_at": "2025-11-24T04:02:55.177593Z"
         },
         {
-          "id": "174ad2cd-f03c-4fbe-a3f6-12743f7a21ce",
+          "id": "1b432028-257a-4be1-94ea-f10172396b37",
           "service_name": "Scoring Engine",
-          "timestamp": "2025-11-21T04:58:09.629343Z",
+          "timestamp": "2025-11-24T04:02:55.145464Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19349,12 +19592,12 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.629375Z"
+          "received_at": "2025-11-24T04:02:55.145505Z"
         },
         {
-          "id": "ef1a8723-bf1a-41bd-bf3d-68c1f7ef0b92",
+          "id": "7a7a6451-9e6a-42d8-8b4d-8aaeceaf647f",
           "service_name": "Scoring Engine",
-          "timestamp": "2025-11-21T04:58:09.592864Z",
+          "timestamp": "2025-11-24T04:02:55.110482Z",
           "status": "ok",
           "metrics": {
             "cpu_usage": 45.2,
@@ -19362,74 +19605,7 @@
             "uptime_seconds": 3600,
             "processed_events": 1250
           },
-          "received_at": "2025-11-21T04:58:09.592891Z"
-        },
-        {
-          "id": "8332a59f-401f-41a4-bd96-66a733c3f461",
-          "service_name": "Scoring Engine",
-          "timestamp": "2025-11-21T04:02:41.718628Z",
-          "status": "warning",
-          "metrics": {
-            "cpu_usage": 67.5,
-            "memory_usage": 82.3,
-            "disk_usage": 45.1,
-            "network_io": {
-              "bytes_in": 1024000,
-              "bytes_out": 512000
-            },
-            "performance": {
-              "avg_response_time_ms": 125.7,
-              "requests_per_second": 45.2,
-              "error_rate": 0.02
-            },
-            "custom_data": [
-              "item1",
-              "item2",
-              "item3"
-            ],
-            "boolean_flag": true,
-            "null_value": null
-          },
-          "received_at": "2025-11-21T04:02:41.718673Z"
-        },
-        {
-          "id": "ded2f4f7-cdea-4be5-aa49-fc200ccab0be",
-          "service_name": "Scoring Engine",
-          "timestamp": "2025-11-21T04:02:40.246245Z",
-          "status": "error",
-          "metrics": {
-            "cpu_usage": 95.7,
-            "memory_usage": 98.1,
-            "uptime_seconds": 1800,
-            "error_count": 15
-          },
-          "received_at": "2025-11-21T04:02:40.246284Z"
-        },
-        {
-          "id": "c9eaa709-3a51-4d7a-a139-99e4cb5ed02c",
-          "service_name": "Scoring Engine",
-          "timestamp": "2025-11-21T04:02:40.206578Z",
-          "status": "warning",
-          "metrics": {
-            "cpu_usage": 85.1,
-            "memory_usage": 89.3,
-            "uptime_seconds": 7200,
-            "processed_events": 2500
-          },
-          "received_at": "2025-11-21T04:02:40.206619Z"
-        },
-        {
-          "id": "0d780959-b052-4dc9-a83f-85317b65179c",
-          "service_name": "Scoring Engine",
-          "timestamp": "2025-11-21T04:02:40.158854Z",
-          "status": "ok",
-          "metrics": {
-            "cpu_usage": 45.2,
-            "memory_usage": 67.8,
-            "uptime_seconds": 3600,
-            "processed_events": 1250
-          },
-          "received_at": "2025-11-21T04:02:40.158897Z"
+          "received_at": "2025-11-24T04:02:55.110523Z"
         }
       ]
     },
@@ -19441,9 +19617,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Scoring Engine?limit=2",
       "response": [
         {
-          "id": "36a224af-9d01-42e5-afc6-ee106f53af35",
+          "id": "2b1c6aff-c3f3-47ab-8313-281a1373fb8b",
           "service_name": "Scoring Engine",
-          "timestamp": "2025-11-21T04:58:09.679820Z",
+          "timestamp": "2025-11-24T04:02:55.177556Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19451,12 +19627,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:09.679850Z"
+          "received_at": "2025-11-24T04:02:55.177593Z"
         },
         {
-          "id": "174ad2cd-f03c-4fbe-a3f6-12743f7a21ce",
+          "id": "1b432028-257a-4be1-94ea-f10172396b37",
           "service_name": "Scoring Engine",
-          "timestamp": "2025-11-21T04:58:09.629343Z",
+          "timestamp": "2025-11-24T04:02:55.145464Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19464,7 +19640,7 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.629375Z"
+          "received_at": "2025-11-24T04:02:55.145505Z"
         }
       ]
     },
@@ -19476,9 +19652,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Replay Worker",
       "response": [
         {
-          "id": "0921d88b-a5c3-4da2-a968-161c22f5a37b",
+          "id": "e233fdf4-2ffe-42ce-a299-7ce02d1a66ac",
           "service_name": "Replay Worker",
-          "timestamp": "2025-11-21T04:58:09.782745Z",
+          "timestamp": "2025-11-24T04:02:55.321516Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19486,12 +19662,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:09.782772Z"
+          "received_at": "2025-11-24T04:02:55.321561Z"
         },
         {
-          "id": "c91c7839-fdd8-4e2b-a55b-d677a7666592",
+          "id": "dd51cfb3-dcb9-4890-94e6-35e8e79d0a20",
           "service_name": "Replay Worker",
-          "timestamp": "2025-11-21T04:58:09.749766Z",
+          "timestamp": "2025-11-24T04:02:55.287848Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19499,12 +19675,12 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.749798Z"
+          "received_at": "2025-11-24T04:02:55.287904Z"
         },
         {
-          "id": "809cee2f-8414-4b4d-83bf-35e143332fc7",
+          "id": "de071197-73fa-49b6-9f67-752f8fbd5c9d",
           "service_name": "Replay Worker",
-          "timestamp": "2025-11-21T04:58:09.714117Z",
+          "timestamp": "2025-11-24T04:02:55.253530Z",
           "status": "ok",
           "metrics": {
             "cpu_usage": 45.2,
@@ -19512,46 +19688,7 @@
             "uptime_seconds": 3600,
             "processed_events": 1250
           },
-          "received_at": "2025-11-21T04:58:09.714155Z"
-        },
-        {
-          "id": "11123a71-151b-4cba-8645-fa51deded34c",
-          "service_name": "Replay Worker",
-          "timestamp": "2025-11-21T04:02:40.400603Z",
-          "status": "error",
-          "metrics": {
-            "cpu_usage": 95.7,
-            "memory_usage": 98.1,
-            "uptime_seconds": 1800,
-            "error_count": 15
-          },
-          "received_at": "2025-11-21T04:02:40.400647Z"
-        },
-        {
-          "id": "0f54fb65-0c99-4222-90f0-e28f65e3016a",
-          "service_name": "Replay Worker",
-          "timestamp": "2025-11-21T04:02:40.364599Z",
-          "status": "warning",
-          "metrics": {
-            "cpu_usage": 85.1,
-            "memory_usage": 89.3,
-            "uptime_seconds": 7200,
-            "processed_events": 2500
-          },
-          "received_at": "2025-11-21T04:02:40.364638Z"
-        },
-        {
-          "id": "2772274d-4758-41fa-b592-9663d7163673",
-          "service_name": "Replay Worker",
-          "timestamp": "2025-11-21T04:02:40.285093Z",
-          "status": "ok",
-          "metrics": {
-            "cpu_usage": 45.2,
-            "memory_usage": 67.8,
-            "uptime_seconds": 3600,
-            "processed_events": 1250
-          },
-          "received_at": "2025-11-21T04:02:40.285137Z"
+          "received_at": "2025-11-24T04:02:55.253572Z"
         }
       ]
     },
@@ -19563,9 +19700,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Replay Worker?limit=2",
       "response": [
         {
-          "id": "0921d88b-a5c3-4da2-a968-161c22f5a37b",
+          "id": "e233fdf4-2ffe-42ce-a299-7ce02d1a66ac",
           "service_name": "Replay Worker",
-          "timestamp": "2025-11-21T04:58:09.782745Z",
+          "timestamp": "2025-11-24T04:02:55.321516Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19573,12 +19710,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:09.782772Z"
+          "received_at": "2025-11-24T04:02:55.321561Z"
         },
         {
-          "id": "c91c7839-fdd8-4e2b-a55b-d677a7666592",
+          "id": "dd51cfb3-dcb9-4890-94e6-35e8e79d0a20",
           "service_name": "Replay Worker",
-          "timestamp": "2025-11-21T04:58:09.749766Z",
+          "timestamp": "2025-11-24T04:02:55.287848Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19586,7 +19723,7 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.749798Z"
+          "received_at": "2025-11-24T04:02:55.287904Z"
         }
       ]
     },
@@ -19598,9 +19735,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Highlight Worker",
       "response": [
         {
-          "id": "b0b485bd-0854-483f-9b9f-ef646840c713",
+          "id": "82c85e48-aec8-4636-84f5-e20c7a7e381c",
           "service_name": "Highlight Worker",
-          "timestamp": "2025-11-21T04:58:09.897142Z",
+          "timestamp": "2025-11-24T04:02:55.429035Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19608,12 +19745,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:09.897176Z"
+          "received_at": "2025-11-24T04:02:55.429077Z"
         },
         {
-          "id": "b78b6cee-c52d-4561-81b6-957e3b51fefc",
+          "id": "0718e22c-5f52-48b5-9d61-5b5082abf2f9",
           "service_name": "Highlight Worker",
-          "timestamp": "2025-11-21T04:58:09.859692Z",
+          "timestamp": "2025-11-24T04:02:55.392829Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19621,12 +19758,12 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.859741Z"
+          "received_at": "2025-11-24T04:02:55.392872Z"
         },
         {
-          "id": "47112f91-8118-4a58-a293-4c8bf9aea052",
+          "id": "7295a184-d5a2-4d2b-bbf5-9f43c48ea9db",
           "service_name": "Highlight Worker",
-          "timestamp": "2025-11-21T04:58:09.817072Z",
+          "timestamp": "2025-11-24T04:02:55.358275Z",
           "status": "ok",
           "metrics": {
             "cpu_usage": 45.2,
@@ -19634,46 +19771,7 @@
             "uptime_seconds": 3600,
             "processed_events": 1250
           },
-          "received_at": "2025-11-21T04:58:09.817100Z"
-        },
-        {
-          "id": "226b71bb-4fce-4154-83c2-fb5089908ef2",
-          "service_name": "Highlight Worker",
-          "timestamp": "2025-11-21T04:02:40.546720Z",
-          "status": "error",
-          "metrics": {
-            "cpu_usage": 95.7,
-            "memory_usage": 98.1,
-            "uptime_seconds": 1800,
-            "error_count": 15
-          },
-          "received_at": "2025-11-21T04:02:40.546761Z"
-        },
-        {
-          "id": "b319aac2-31b3-4605-8669-336bc151756b",
-          "service_name": "Highlight Worker",
-          "timestamp": "2025-11-21T04:02:40.504225Z",
-          "status": "warning",
-          "metrics": {
-            "cpu_usage": 85.1,
-            "memory_usage": 89.3,
-            "uptime_seconds": 7200,
-            "processed_events": 2500
-          },
-          "received_at": "2025-11-21T04:02:40.504273Z"
-        },
-        {
-          "id": "ae7bc92a-72d3-4529-9b55-42a16a897fa9",
-          "service_name": "Highlight Worker",
-          "timestamp": "2025-11-21T04:02:40.457651Z",
-          "status": "ok",
-          "metrics": {
-            "cpu_usage": 45.2,
-            "memory_usage": 67.8,
-            "uptime_seconds": 3600,
-            "processed_events": 1250
-          },
-          "received_at": "2025-11-21T04:02:40.457690Z"
+          "received_at": "2025-11-24T04:02:55.358316Z"
         }
       ]
     },
@@ -19685,9 +19783,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Highlight Worker?limit=2",
       "response": [
         {
-          "id": "b0b485bd-0854-483f-9b9f-ef646840c713",
+          "id": "82c85e48-aec8-4636-84f5-e20c7a7e381c",
           "service_name": "Highlight Worker",
-          "timestamp": "2025-11-21T04:58:09.897142Z",
+          "timestamp": "2025-11-24T04:02:55.429035Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19695,12 +19793,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:09.897176Z"
+          "received_at": "2025-11-24T04:02:55.429077Z"
         },
         {
-          "id": "b78b6cee-c52d-4561-81b6-957e3b51fefc",
+          "id": "0718e22c-5f52-48b5-9d61-5b5082abf2f9",
           "service_name": "Highlight Worker",
-          "timestamp": "2025-11-21T04:58:09.859692Z",
+          "timestamp": "2025-11-24T04:02:55.392829Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19708,7 +19806,7 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.859741Z"
+          "received_at": "2025-11-24T04:02:55.392872Z"
         }
       ]
     },
@@ -19720,9 +19818,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Storage Manager",
       "response": [
         {
-          "id": "c59c6869-a901-4906-a7de-75dc0e2e653b",
+          "id": "cfc543d0-2046-4ecb-9f73-3bb730f61e61",
           "service_name": "Storage Manager",
-          "timestamp": "2025-11-21T04:58:10.005721Z",
+          "timestamp": "2025-11-24T04:02:55.532191Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19730,12 +19828,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:10.005757Z"
+          "received_at": "2025-11-24T04:02:55.532234Z"
         },
         {
-          "id": "754f0db4-00bd-420b-b8b0-8549a1631469",
+          "id": "a81a2f27-faa5-4823-ac39-26966f73adb9",
           "service_name": "Storage Manager",
-          "timestamp": "2025-11-21T04:58:09.965663Z",
+          "timestamp": "2025-11-24T04:02:55.495762Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19743,12 +19841,12 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.965692Z"
+          "received_at": "2025-11-24T04:02:55.495803Z"
         },
         {
-          "id": "41a8bb34-b8ce-4e08-b28e-655ec2371750",
+          "id": "b897104c-6eca-4509-a2cb-cb78b699ea0d",
           "service_name": "Storage Manager",
-          "timestamp": "2025-11-21T04:58:09.931200Z",
+          "timestamp": "2025-11-24T04:02:55.462851Z",
           "status": "ok",
           "metrics": {
             "cpu_usage": 45.2,
@@ -19756,46 +19854,7 @@
             "uptime_seconds": 3600,
             "processed_events": 1250
           },
-          "received_at": "2025-11-21T04:58:09.931225Z"
-        },
-        {
-          "id": "6e9ce022-510e-40e6-b9f3-96288f7e6fcb",
-          "service_name": "Storage Manager",
-          "timestamp": "2025-11-21T04:02:40.661066Z",
-          "status": "error",
-          "metrics": {
-            "cpu_usage": 95.7,
-            "memory_usage": 98.1,
-            "uptime_seconds": 1800,
-            "error_count": 15
-          },
-          "received_at": "2025-11-21T04:02:40.661110Z"
-        },
-        {
-          "id": "150e6406-4639-4026-81da-00ed6cbc10e7",
-          "service_name": "Storage Manager",
-          "timestamp": "2025-11-21T04:02:40.622634Z",
-          "status": "warning",
-          "metrics": {
-            "cpu_usage": 85.1,
-            "memory_usage": 89.3,
-            "uptime_seconds": 7200,
-            "processed_events": 2500
-          },
-          "received_at": "2025-11-21T04:02:40.622678Z"
-        },
-        {
-          "id": "6d524d66-21f9-4583-a89c-3d50af035beb",
-          "service_name": "Storage Manager",
-          "timestamp": "2025-11-21T04:02:40.585618Z",
-          "status": "ok",
-          "metrics": {
-            "cpu_usage": 45.2,
-            "memory_usage": 67.8,
-            "uptime_seconds": 3600,
-            "processed_events": 1250
-          },
-          "received_at": "2025-11-21T04:02:40.585662Z"
+          "received_at": "2025-11-24T04:02:55.462905Z"
         }
       ]
     },
@@ -19807,9 +19866,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Storage Manager?limit=2",
       "response": [
         {
-          "id": "c59c6869-a901-4906-a7de-75dc0e2e653b",
+          "id": "cfc543d0-2046-4ecb-9f73-3bb730f61e61",
           "service_name": "Storage Manager",
-          "timestamp": "2025-11-21T04:58:10.005721Z",
+          "timestamp": "2025-11-24T04:02:55.532191Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19817,12 +19876,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:10.005757Z"
+          "received_at": "2025-11-24T04:02:55.532234Z"
         },
         {
-          "id": "754f0db4-00bd-420b-b8b0-8549a1631469",
+          "id": "a81a2f27-faa5-4823-ac39-26966f73adb9",
           "service_name": "Storage Manager",
-          "timestamp": "2025-11-21T04:58:09.965663Z",
+          "timestamp": "2025-11-24T04:02:55.495762Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19830,7 +19889,7 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:09.965692Z"
+          "received_at": "2025-11-24T04:02:55.495803Z"
         }
       ]
     },
@@ -19842,9 +19901,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Supervisor Console",
       "response": [
         {
-          "id": "54f2eed6-9584-4f4c-aa7f-135a8a7b49b2",
+          "id": "59139145-0bd0-435a-b4c0-acac21e69cf5",
           "service_name": "Supervisor Console",
-          "timestamp": "2025-11-21T04:58:10.113094Z",
+          "timestamp": "2025-11-24T04:02:55.632425Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19852,12 +19911,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:10.113125Z"
+          "received_at": "2025-11-24T04:02:55.632465Z"
         },
         {
-          "id": "0a68ff8f-71c2-4a36-af56-601f0f1568f9",
+          "id": "dc501572-884a-4633-a750-343dbb104915",
           "service_name": "Supervisor Console",
-          "timestamp": "2025-11-21T04:58:10.075808Z",
+          "timestamp": "2025-11-24T04:02:55.600507Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19865,12 +19924,12 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:10.075836Z"
+          "received_at": "2025-11-24T04:02:55.600548Z"
         },
         {
-          "id": "e1c1b4fa-153d-42fb-bffa-bc1098b6b197",
+          "id": "8ae60a65-2bfd-4f28-a023-4f4621e8822a",
           "service_name": "Supervisor Console",
-          "timestamp": "2025-11-21T04:58:10.042518Z",
+          "timestamp": "2025-11-24T04:02:55.566509Z",
           "status": "ok",
           "metrics": {
             "cpu_usage": 45.2,
@@ -19878,46 +19937,7 @@
             "uptime_seconds": 3600,
             "processed_events": 1250
           },
-          "received_at": "2025-11-21T04:58:10.042545Z"
-        },
-        {
-          "id": "d6f7a060-d02f-40da-ad70-b0be7bf620ab",
-          "service_name": "Supervisor Console",
-          "timestamp": "2025-11-21T04:02:40.814149Z",
-          "status": "error",
-          "metrics": {
-            "cpu_usage": 95.7,
-            "memory_usage": 98.1,
-            "uptime_seconds": 1800,
-            "error_count": 15
-          },
-          "received_at": "2025-11-21T04:02:40.814195Z"
-        },
-        {
-          "id": "a78c142d-c8c3-4b12-a13c-663af2ad866f",
-          "service_name": "Supervisor Console",
-          "timestamp": "2025-11-21T04:02:40.777166Z",
-          "status": "warning",
-          "metrics": {
-            "cpu_usage": 85.1,
-            "memory_usage": 89.3,
-            "uptime_seconds": 7200,
-            "processed_events": 2500
-          },
-          "received_at": "2025-11-21T04:02:40.777211Z"
-        },
-        {
-          "id": "08e86bfd-a2a2-4a82-ae18-151f588e6e1d",
-          "service_name": "Supervisor Console",
-          "timestamp": "2025-11-21T04:02:40.739506Z",
-          "status": "ok",
-          "metrics": {
-            "cpu_usage": 45.2,
-            "memory_usage": 67.8,
-            "uptime_seconds": 3600,
-            "processed_events": 1250
-          },
-          "received_at": "2025-11-21T04:02:40.739551Z"
+          "received_at": "2025-11-24T04:02:55.566552Z"
         }
       ]
     },
@@ -19929,9 +19949,9 @@
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Supervisor Console?limit=2",
       "response": [
         {
-          "id": "54f2eed6-9584-4f4c-aa7f-135a8a7b49b2",
+          "id": "59139145-0bd0-435a-b4c0-acac21e69cf5",
           "service_name": "Supervisor Console",
-          "timestamp": "2025-11-21T04:58:10.113094Z",
+          "timestamp": "2025-11-24T04:02:55.632425Z",
           "status": "error",
           "metrics": {
             "cpu_usage": 95.7,
@@ -19939,12 +19959,12 @@
             "uptime_seconds": 1800,
             "error_count": 15
           },
-          "received_at": "2025-11-21T04:58:10.113125Z"
+          "received_at": "2025-11-24T04:02:55.632465Z"
         },
         {
-          "id": "0a68ff8f-71c2-4a36-af56-601f0f1568f9",
+          "id": "dc501572-884a-4633-a750-343dbb104915",
           "service_name": "Supervisor Console",
-          "timestamp": "2025-11-21T04:58:10.075808Z",
+          "timestamp": "2025-11-24T04:02:55.600507Z",
           "status": "warning",
           "metrics": {
             "cpu_usage": 85.1,
@@ -19952,7 +19972,7 @@
             "uptime_seconds": 7200,
             "processed_events": 2500
           },
-          "received_at": "2025-11-21T04:58:10.075836Z"
+          "received_at": "2025-11-24T04:02:55.600548Z"
         }
       ]
     },
@@ -19963,14 +19983,14 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "fd7a3a53-b6aa-487f-8e72-245e5d8b7db1",
+        "id": "e98eb33d-13e4-4e26-bc79-fc0dd5a1b5ee",
         "service_name": "CV Router",
-        "timestamp": "2025-11-21T04:58:10.922574Z",
+        "timestamp": "2025-11-24T04:02:56.473640Z",
         "status": "ok",
         "metrics": {
           "test_time_tracking": true
         },
-        "received_at": "2025-11-21T04:58:10.922605Z"
+        "received_at": "2025-11-24T04:02:56.473686Z"
       }
     },
     {
@@ -19989,8 +20009,8 @@
           {
             "service_name": "CV Router",
             "status": "ok",
-            "last_heartbeat": "2025-11-21T04:58:10.922574Z",
-            "time_since_last_heartbeat_sec": 0.037202,
+            "last_heartbeat": "2025-11-24T04:02:56.473640Z",
+            "time_since_last_heartbeat_sec": 0.032842,
             "metrics": {
               "test_time_tracking": true
             },
@@ -19999,8 +20019,8 @@
           {
             "service_name": "CV Analytics",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.558830Z",
-            "time_since_last_heartbeat_sec": 1.400976,
+            "last_heartbeat": "2025-11-24T04:02:55.077356Z",
+            "time_since_last_heartbeat_sec": 1.429159,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -20012,8 +20032,8 @@
           {
             "service_name": "Scoring Engine",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.679820Z",
-            "time_since_last_heartbeat_sec": 1.27999,
+            "last_heartbeat": "2025-11-24T04:02:55.177556Z",
+            "time_since_last_heartbeat_sec": 1.328974,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -20025,8 +20045,8 @@
           {
             "service_name": "Replay Worker",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.782745Z",
-            "time_since_last_heartbeat_sec": 1.177073,
+            "last_heartbeat": "2025-11-24T04:02:55.321516Z",
+            "time_since_last_heartbeat_sec": 1.185011,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -20038,8 +20058,8 @@
           {
             "service_name": "Highlight Worker",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.897142Z",
-            "time_since_last_heartbeat_sec": 1.062673,
+            "last_heartbeat": "2025-11-24T04:02:55.429035Z",
+            "time_since_last_heartbeat_sec": 1.0775,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -20051,8 +20071,8 @@
           {
             "service_name": "Storage Manager",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:10.005721Z",
-            "time_since_last_heartbeat_sec": 0.954097,
+            "last_heartbeat": "2025-11-24T04:02:55.532191Z",
+            "time_since_last_heartbeat_sec": 0.974348,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -20064,8 +20084,8 @@
           {
             "service_name": "Supervisor Console",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:10.113094Z",
-            "time_since_last_heartbeat_sec": 0.846733,
+            "last_heartbeat": "2025-11-24T04:02:55.632425Z",
+            "time_since_last_heartbeat_sec": 0.874121,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -20075,7 +20095,7 @@
             "is_healthy": false
           }
         ],
-        "last_updated": "2025-11-21T04:58:10.959868Z"
+        "last_updated": "2025-11-24T04:02:56.506598Z"
       }
     },
     {
@@ -20085,9 +20105,9 @@
       "actual_status": 201,
       "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
       "response": {
-        "id": "9fef0730-0a75-4fb7-a335-30681861c554",
+        "id": "738e4966-8ff6-4b9b-b509-7547303bdfcd",
         "service_name": "Scoring Engine",
-        "timestamp": "2025-11-21T04:58:10.996022Z",
+        "timestamp": "2025-11-24T04:02:56.555170Z",
         "status": "warning",
         "metrics": {
           "cpu_usage": 67.5,
@@ -20110,7 +20130,7 @@
           "boolean_flag": true,
           "null_value": null
         },
-        "received_at": "2025-11-21T04:58:10.996055Z"
+        "received_at": "2025-11-24T04:02:56.555215Z"
       }
     },
     {
@@ -20129,8 +20149,8 @@
           {
             "service_name": "CV Router",
             "status": "ok",
-            "last_heartbeat": "2025-11-21T04:58:10.922574Z",
-            "time_since_last_heartbeat_sec": 0.110446,
+            "last_heartbeat": "2025-11-24T04:02:56.473640Z",
+            "time_since_last_heartbeat_sec": 0.115088,
             "metrics": {
               "test_time_tracking": true
             },
@@ -20139,8 +20159,8 @@
           {
             "service_name": "CV Analytics",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.558830Z",
-            "time_since_last_heartbeat_sec": 1.474224,
+            "last_heartbeat": "2025-11-24T04:02:55.077356Z",
+            "time_since_last_heartbeat_sec": 1.511407,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -20152,8 +20172,8 @@
           {
             "service_name": "Scoring Engine",
             "status": "warning",
-            "last_heartbeat": "2025-11-21T04:58:10.996022Z",
-            "time_since_last_heartbeat_sec": 0.037034,
+            "last_heartbeat": "2025-11-24T04:02:56.555170Z",
+            "time_since_last_heartbeat_sec": 0.0336,
             "metrics": {
               "cpu_usage": 67.5,
               "memory_usage": 82.3,
@@ -20180,8 +20200,8 @@
           {
             "service_name": "Replay Worker",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.782745Z",
-            "time_since_last_heartbeat_sec": 1.250322,
+            "last_heartbeat": "2025-11-24T04:02:55.321516Z",
+            "time_since_last_heartbeat_sec": 1.26726,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -20193,8 +20213,8 @@
           {
             "service_name": "Highlight Worker",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:09.897142Z",
-            "time_since_last_heartbeat_sec": 1.135923,
+            "last_heartbeat": "2025-11-24T04:02:55.429035Z",
+            "time_since_last_heartbeat_sec": 1.159749,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -20206,8 +20226,8 @@
           {
             "service_name": "Storage Manager",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:10.005721Z",
-            "time_since_last_heartbeat_sec": 1.027347,
+            "last_heartbeat": "2025-11-24T04:02:55.532191Z",
+            "time_since_last_heartbeat_sec": 1.056597,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -20219,8 +20239,8 @@
           {
             "service_name": "Supervisor Console",
             "status": "error",
-            "last_heartbeat": "2025-11-21T04:58:10.113094Z",
-            "time_since_last_heartbeat_sec": 0.919984,
+            "last_heartbeat": "2025-11-24T04:02:55.632425Z",
+            "time_since_last_heartbeat_sec": 0.95637,
             "metrics": {
               "cpu_usage": 95.7,
               "memory_usage": 98.1,
@@ -20230,8 +20250,138 @@
             "is_healthy": false
           }
         ],
-        "last_updated": "2025-11-21T04:58:11.033119Z"
+        "last_updated": "2025-11-24T04:02:56.588847Z"
       }
+    },
+    {
+      "test": "Real-Time CV Health",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/health",
+      "response": {
+        "service": "Real-Time CV",
+        "version": "1.0.0",
+        "status": "operational",
+        "models_loaded": 3,
+        "active_streams": 0
+      }
+    },
+    {
+      "test": "CV Data Collection Health",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/cv-data/health",
+      "response": {
+        "service": "CV Data Collection",
+        "version": "1.0.0",
+        "status": "operational"
+      }
+    },
+    {
+      "test": "Get Loaded CV Models",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/models",
+      "response": {
+        "models": [
+          {
+            "model_id": "mediapipe_pose",
+            "model_name": "MediaPipe Pose",
+            "model_type": "pose_estimation",
+            "framework": "mediapipe",
+            "version": "0.10.0",
+            "inference_time_ms": 15.0,
+            "accuracy": 0.85,
+            "is_loaded": true
+          },
+          {
+            "model_id": "yolov8",
+            "model_name": "YOLOv8",
+            "model_type": "object_detection",
+            "framework": "yolo",
+            "version": "8.0",
+            "inference_time_ms": 25.0,
+            "accuracy": 0.8,
+            "is_loaded": true
+          },
+          {
+            "model_id": "custom_action",
+            "model_name": "Custom Action Recognition",
+            "model_type": "action_recognition",
+            "framework": "custom",
+            "version": "1.0.0",
+            "inference_time_ms": 30.0,
+            "accuracy": null,
+            "is_loaded": false
+          }
+        ],
+        "count": 3,
+        "total_loaded": 2
+      }
+    },
+    {
+      "test": "Start Video Stream",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/streams/start",
+      "response": {
+        "stream_id": "cb13c0e5-e7c4-4ceb-96eb-10bf05d50b8a",
+        "bout_id": "cv_test_001",
+        "camera_id": "main_camera",
+        "status": "active",
+        "message": "Stream analysis started successfully",
+        "config": {
+          "fps_target": 30,
+          "analysis_fps": 10,
+          "pose_estimation": true,
+          "action_detection": true
+        }
+      }
+    },
+    {
+      "test": "Get Active Streams",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/streams/active",
+      "response": {
+        "active_streams": [
+          {
+            "stream_id": "cb13c0e5-e7c4-4ceb-96eb-10bf05d50b8a",
+            "bout_id": "cv_test_001",
+            "camera_id": "main_camera",
+            "stream_url": "rtsp://test.example.com/stream",
+            "is_active": true,
+            "fps_target": 30,
+            "analysis_fps": 10
+          }
+        ],
+        "count": 1
+      }
+    },
+    {
+      "test": "Stop Video Stream",
+      "success": true,
+      "expected_status": 200,
+      "actual_status": 200,
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/streams/stop/cb13c0e5-e7c4-4ceb-96eb-10bf05d50b8a",
+      "response": {
+        "stream_id": "cb13c0e5-e7c4-4ceb-96eb-10bf05d50b8a",
+        "status": "stopped",
+        "message": "Stream analysis stopped successfully"
+      }
+    },
+    {
+      "test": "Stop Non-existent Stream",
+      "success": false,
+      "expected_status": 404,
+      "actual_status": 500,
+      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/streams/stop/nonexistent_stream_123",
+      "error": "{\"detail\":\"404: Stream not found\"}"
     }
   ]
 }
