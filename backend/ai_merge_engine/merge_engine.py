@@ -388,7 +388,7 @@ class MergeEngine:
         """
         try:
             # Get review item
-            review_item = await self.db.ai_event_reviews.find_one({'review_id': review_id})
+            review_item = await self.db.ai_event_reviews.find_one({'review_id': review_id}, {"_id": 0})
             
             if not review_item:
                 return False
