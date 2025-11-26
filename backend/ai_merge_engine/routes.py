@@ -196,7 +196,7 @@ async def approve_review_item(
 async def get_merge_stats():
     """Get AI merge statistics"""
     
-    if not db:
+    if db is None:
         raise HTTPException(status_code=500, detail="Database not initialized")
     
     try:
