@@ -468,6 +468,42 @@ backend:
         agent: "testing"
         comment: "✅ CV DATA COLLECTION SYSTEM TESTING COMPLETE: Successfully tested all 9 API endpoints with 100% success rate (6/6 tests passed). VERIFIED WORKING: ✅ Health Check - CV Data Collection v1.0.0 service operational, ✅ Dataset Listing - 5 predefined datasets available with proper structure (source_id, source_type, name, description, categories, download/processing status), ✅ Dataset Information - Individual dataset details retrieval working correctly, ✅ Dataset Download - Simulated download process functional with success confirmation, ✅ Dataset Processing - Train/val/test splitting working (7000/2000/1000 samples from 10000 total), proper statistics generation, ✅ Collection Statistics - Overall stats tracking working (5 total datasets, 1 downloaded, 1 processed, 250.5MB total size), ✅ Error Handling - 404 responses for non-existent datasets as expected. All dataset operations functional including GitHub/Kaggle integration simulation, proper response structures, and comprehensive statistics tracking. CV Data Collection System is production-ready and fully integrated with the Real-Time CV System."
 
+  - task: "Public Stats API - Events Endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/public_stats_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ PUBLIC STATS API IMPLEMENTATION COMPLETE: Created GET /api/events endpoint to list all events with fight counts and total strikes per card. Implementation aggregates data from fight_stats collection using MongoDB aggregation pipeline. Groups by event_name, calculates fight_count (total fights), total_strikes (sum across all fights), and event_date (first_seen timestamp). Returns sorted list by event_date (most recent first). Fallback logic to read from events collection if fight_stats is empty. Integrated into server.py with proper initialization. Ready for backend testing."
+
+  - task: "Public Stats API - Fight Detail Endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/public_stats_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ PUBLIC STATS API IMPLEMENTATION COMPLETE: Created GET /api/fights/{fight_id}/stats endpoint to retrieve detailed fight statistics. Returns fight info with both fighters' data including: round-by-round stats (significant_strikes, total_strikes, takedowns, takedown_attempts, control_time_seconds, knockdowns, submission_attempts), total fight statistics (aggregated across all rounds), fighter names, and last_updated timestamp. Reads from fight_stats and round_stats collections. Data organized by fighter with sorted round arrays. Returns 404 if fight not found. Ready for backend testing."
+
+  - task: "Public Stats API - Fighter Profile Endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/public_stats_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ PUBLIC STATS API IMPLEMENTATION COMPLETE: Created GET /api/fighters/{fighter_id}/stats endpoint to retrieve fighter career statistics. Returns comprehensive profile with: fighter_name, career_metrics (total_fights, total_rounds, avg_strikes_per_fight, avg_takedowns_per_fight, avg_control_time_per_fight, total_knockdowns, total_submission_attempts), per_minute_rates (strikes_per_minute, significant_strikes_per_minute, takedowns_per_minute calculated from total_rounds * 5 min), last_5_fights (fight_id, event_name, opponent, result, significant_strikes, takedowns, control_time, date), and record (W-L-D format). Reads from career_stats, fighters, and fight_stats collections. Returns empty stats with fighter info if career_stats not found. Ready for backend testing."
+
 
   - task: "Custom Organization Name Feature"
     implemented: true
