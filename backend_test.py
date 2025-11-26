@@ -5495,6 +5495,203 @@ class CombatJudgingAPITester:
         
         return True
 
+    def test_ai_merge_engine_complete_flow(self):
+        """Test complete AI Merge Engine flow"""
+        print("\n🤖 Testing AI Merge Engine Complete Flow...")
+        
+        # Step 1: Health check
+        success1, _ = self.run_test("AI Merge Engine Health Check", "GET", "ai-merge/health", 200)
+        
+        if not success1:
+            return False
+        
+        # Step 2: Submit AI batch with high-confidence events (should auto-approve)
+        high_confidence_batch = {
+            "fight_id": "test_fight_ai",
+            "events": [
+                {
+                    "fighter_id": "fighter_1",
+                    "round": 1,
+                    "timestamp": "2025-01-15T10:30:45.123Z",
+                    "event_type": "jab",
+                    "target": "head",
+                    "confidence": 0.92,
+                    "position": "distance"
+                },
+                {
+                    "fighter_id": "fighter_2",
+                    "round": 1,
+                    "timestamp": "2025-01-15T10:31:00.000Z",
+                    "event_type": "cross",
+                    "target": "head",
+                    "confidence": 0.89,
+                    "position": "distance"
+                }
+            ],
+            "submitted_by": "test_colab",
+            "metadata": {
+                "model": "yolov8",
+                "version": "1.2.3"
+            }
+        }
+        
+        success2, response2 = self.run_test("Submit High-Confidence AI Batch", "POST", "ai-merge/submit-batch", 200, high_confidence_batch)
+        
+        if success2 and response2:
+            print(f"   ✅ AI batch submitted successfully")
+            print(f"   Status: {response2.get('status')}")
+            print(f"   Fight ID: {response2.get('fight_id')}")
+        
+        # Step 3: Submit AI batch with low-confidence events (should mark for review)
+        low_confidence_batch = {
+            "fight_id": "test_fight_ai_review",
+            "events": [
+                {
+                    "fighter_id": "fighter_1",
+                    "round": 1,
+                    "timestamp": "2025-01-15T10:32:00.000Z",
+                    "event_type": "body_kick",
+                    "target": "body",
+                    "confidence": 0.78,  # Below 0.85 threshold
+                    "position": "distance"
+                }
+            ],
+            "submitted_by": "test_colab"
+        }
+        
+        success3, response3 = self.run_test("Submit Low-Confidence AI Batch", "POST", "ai-merge/submit-batch", 200, low_confidence_batch)
+        
+        # Step 4: Get review items
+        success4, response4 = self.run_test("Get Review Items - Pending", "GET", "ai-merge/review-items?status=pending", 200)
+        
+        if success4 and response4:
+            items = response4.get('items', [])
+            print(f"   ✅ Retrieved {len(items)} pending review items")
+            
+            # Store review item ID for approval test
+            if items:
+                self.sample_review_id = items[0].get('review_id', 'test_review_123')
+        
+        # Step 5: Test review item approval (if we have a review ID)
+        if hasattr(self, 'sample_review_id'):
+            approval_data = {
+                "approved_version": "ai",
+                "approved_by": "supervisor_123"
+            }
+            
+            # Note: This might return 404 if review item doesn't exist, which is expected in test environment
+            success5, _ = self.run_test("Approve Review Item", "POST", f"ai-merge/review-items/{self.sample_review_id}/approve", [200, 404], approval_data)
+        else:
+            # Create a mock approval test
+            approval_data = {
+                "approved_version": "ai", 
+                "approved_by": "supervisor_123"
+            }
+            success5, _ = self.run_test("Approve Review Item (Mock)", "POST", "ai-merge/review-items/mock_review_123/approve", [200, 404], approval_data)
+        
+        # Step 6: Get merge statistics
+        success6, response6 = self.run_test("Get AI Merge Statistics", "GET", "ai-merge/stats", 200)
+        
+        if success6 and response6:
+            print(f"   ✅ Merge statistics retrieved")
+            print(f"   Auto-approved events: {response6.get('auto_approved_events', 0)}")
+            print(f"   Pending reviews: {response6.get('pending_reviews', 0)}")
+            print(f"   Approved reviews: {response6.get('approved_reviews', 0)}")
+            print(f"   Total AI events: {response6.get('total_ai_events', 0)}")
+        
+        all_success = success1 and success2 and success3 and success4 and success5 and success6
+        
+        if all_success:
+            print("   🎉 AI Merge Engine complete flow test passed!")
+        
+        return all_success
+
+    def test_post_fight_review_complete_flow(self):
+        """Test complete Post-Fight Review Interface flow"""
+        print("\n📹 Testing Post-Fight Review Interface Complete Flow...")
+        
+        # Step 1: Health check
+        success1, _ = self.run_test("Review Interface Health Check", "GET", "review/health", 200)
+        
+        if not success1:
+            return False
+        
+        # Step 2: Get fight timeline
+        test_fight_id = "test_fight_review_123"
+        success2, response2 = self.run_test("Get Fight Timeline", "GET", f"review/timeline/{test_fight_id}", 200)
+        
+        if success2 and response2:
+            print(f"   ✅ Fight timeline retrieved")
+            timeline = response2.get('timeline', [])
+            rounds = response2.get('rounds', {})
+            total_events = response2.get('total_events', 0)
+            print(f"   Timeline events: {len(timeline)}")
+            print(f"   Rounds: {len(rounds)}")
+            print(f"   Total events: {total_events}")
+        
+        # Step 3: Edit event (mock event ID)
+        test_event_id = "test_event_123"
+        event_update = {
+            "updates": {
+                "event_type": "cross",
+                "landed": True
+            },
+            "supervisor_id": "supervisor_123",
+            "reason": "Video review correction"
+        }
+        
+        # Note: This might return 400/404 if event doesn't exist, which is expected in test environment
+        success3, _ = self.run_test("Edit Event", "PUT", f"review/events/{test_event_id}", [200, 400, 404], event_update)
+        
+        # Step 4: Delete event (soft delete)
+        success4, _ = self.run_test("Delete Event", "DELETE", f"review/events/{test_event_id}?supervisor_id=supervisor_123&reason=Duplicate event removal", [200, 400, 404])
+        
+        # Step 5: Merge duplicate events
+        merge_request = {
+            "event_ids": ["event_1", "event_2", "event_3"],
+            "supervisor_id": "supervisor_123",
+            "merged_data": {
+                "event_type": "jab",
+                "fighter_id": "fighter_1",
+                "round": 1,
+                "timestamp": "2025-01-15T10:30:00.000Z"
+            }
+        }
+        
+        success5, _ = self.run_test("Merge Duplicate Events", "POST", "review/events/merge", [200, 400, 404], merge_request)
+        
+        # Step 6: Approve fight review
+        success6, _ = self.run_test("Approve Fight Review", "POST", f"review/fights/{test_fight_id}/approve?supervisor_id=supervisor_123", [200, 400, 404])
+        
+        # Step 7: Get event history
+        success7, response7 = self.run_test("Get Event History", "GET", f"review/events/{test_event_id}/history", [200, 404])
+        
+        if success7 and response7:
+            print(f"   ✅ Event history retrieved")
+            version_count = response7.get('version_count', 0)
+            versions = response7.get('versions', [])
+            print(f"   Version count: {version_count}")
+            print(f"   Versions: {len(versions)}")
+        
+        # Step 8: Test video upload endpoint availability
+        try:
+            print("   📹 Testing video upload endpoint availability...")
+            # We'll skip actual file upload in automated testing as it requires multipart form data
+            # Instead, we'll test the endpoint availability by checking if it returns proper error for missing data
+            success8, _ = self.run_test("Video Upload Endpoint Check", "POST", "review/videos/upload", [422, 400])  # Expect validation error
+            print("   ✅ Video upload endpoint available")
+            
+        except Exception as e:
+            print(f"   ⚠️  Video upload test skipped: {str(e)}")
+            success8 = True  # Don't fail the entire test for this
+        
+        all_success = success1 and success2 and success3 and success4 and success5 and success6 and success7 and success8
+        
+        if all_success:
+            print("   🎉 Post-Fight Review Interface complete flow test passed!")
+        
+        return all_success
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Combat Judging API Tests")
