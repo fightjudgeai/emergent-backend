@@ -17,6 +17,7 @@ from .round_aggregator import RoundStatsAggregator
 from .fight_aggregator import FightStatsAggregator
 from .career_aggregator import CareerStatsAggregator
 from .scheduler import StatEngineScheduler
+from .audit_logger import AuditLogger
 
 logger = logging.getLogger(__name__)
 
@@ -28,11 +29,12 @@ round_aggregator: Optional[RoundStatsAggregator] = None
 fight_aggregator: Optional[FightStatsAggregator] = None
 career_aggregator: Optional[CareerStatsAggregator] = None
 scheduler: Optional[StatEngineScheduler] = None
+audit_logger: Optional[AuditLogger] = None
 
 
 def init_stat_engine(db):
     """Initialize all stat engine components"""
-    global event_reader, round_aggregator, fight_aggregator, career_aggregator, scheduler
+    global event_reader, round_aggregator, fight_aggregator, career_aggregator, scheduler, audit_logger
     
     event_reader = EventReader(db)
     round_aggregator = RoundStatsAggregator(db, event_reader)
@@ -45,8 +47,9 @@ def init_stat_engine(db):
         fight_aggregator=fight_aggregator,
         career_aggregator=career_aggregator
     )
+    audit_logger = AuditLogger(db)
     
-    logger.info("✅ Stat Engine fully initialized")
+    logger.info("✅ Stat Engine fully initialized (with audit logging)")
 
 
 @router.get("/health")
