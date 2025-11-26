@@ -55,7 +55,7 @@ class MergeEngine:
             human_events = await self.db.events.find({
                 'bout_id': fight_id,
                 'source': {'$in': ['judge_software', 'stat_operator']}
-            }).to_list(length=10000)
+            }, {"_id": 0}).to_list(length=10000)
             
             # Process each AI event
             for ai_event in ai_events:
