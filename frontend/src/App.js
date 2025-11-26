@@ -9,6 +9,7 @@ import JudgePanel from "@/components/JudgePanel";
 import BroadcastMode from "@/components/BroadcastMode";
 import SupervisorPanel from "@/components/SupervisorPanel";
 import ShadowJudgingMode from "@/components/ShadowJudgingMode";
+import LiveStatsDashboard from "@/components/LiveStatsDashboard";
 import ReviewDashboard from "@/components/ReviewDashboard";
 import TuningProfileManager from "@/components/TuningProfileManager";
 import AuditLogViewer from "@/components/AuditLogViewer";
