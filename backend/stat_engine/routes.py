@@ -182,7 +182,7 @@ async def aggregate_career(
     - trigger: manual | nightly
     
     Returns:
-    - AggregationJob with results
+    - AggregationJob with results (audit logged)
     """
     
     if not scheduler:
@@ -196,12 +196,23 @@ async def aggregate_career(
         
         scope = f"fighter {fighter_id}" if fighter_id else "all fighters"
         
-        return {
+        result = {
             "job_id": job.id,
             "status": job.status,
             "rows_updated": job.rows_updated,
             "message": f"Career aggregation completed for {scope}"
         }
+        
+        # Audit log the action
+        if audit_logger:
+            await audit_logger.log_action(
+                action_type="career_aggregation",
+                trigger=trigger,
+                fighter_id=fighter_id,
+                result=result
+            )
+        
+        return result
     
     except Exception as e:
         logger.error(f"Error aggregating career: {e}")
