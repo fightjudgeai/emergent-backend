@@ -414,7 +414,7 @@ class MergeEngine:
             if fight_id:
                 query['fight_id'] = fight_id
             
-            items = await self.db.ai_event_reviews.find(query).limit(limit).to_list(length=limit)
+            items = await self.db.ai_event_reviews.find(query, {"_id": 0}).limit(limit).to_list(length=limit)
             return items
         
         except Exception as e:
