@@ -177,6 +177,13 @@ class MergeEngine:
         ai_round = ai_event.get('round', 1)
         ai_fighter = ai_event.get('fighter_id')
         
+        # Parse AI timestamp if it's a string
+        if isinstance(ai_timestamp, str):
+            try:
+                ai_timestamp = datetime.fromisoformat(ai_timestamp.replace('Z', '+00:00'))
+            except:
+                ai_timestamp = None
+        
         for human_event in human_events:
             # Check round
             if human_event.get('round') != ai_round:
@@ -190,6 +197,13 @@ class MergeEngine:
             human_timestamp = human_event.get('timestamp')
             
             if ai_timestamp and human_timestamp:
+                # Ensure human_timestamp is datetime
+                if isinstance(human_timestamp, str):
+                    try:
+                        human_timestamp = datetime.fromisoformat(human_timestamp.replace('Z', '+00:00'))
+                    except:
+                        continue
+                
                 # Calculate time difference
                 time_diff = abs((ai_timestamp - human_timestamp).total_seconds() * 1000)
                 
