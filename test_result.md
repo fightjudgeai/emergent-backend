@@ -1682,39 +1682,48 @@ metadata:
 
   - task: "Public Stats Page - Events List"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/components/EventsPage.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "✅ EVENTS PAGE IMPLEMENTATION COMPLETE: Created EventsPage.jsx component displaying all events with fight counts and total strikes. Features: (1) Fetches data from GET /api/events endpoint, (2) Summary cards showing Total Events, Total Fights, Total Strikes with color-coded gradients (amber, blue, red), (3) Events list with cards showing event_name, event_date, fight_count, total_strikes, (4) Average strikes per fight calculation, (5) Strike intensity progress bar visualization, (6) Dark theme with amber accents matching LiveStatsDashboard, (7) Loading state with spinner, (8) Error handling with retry button, (9) Responsive grid layout. Route added to App.js at /events. Victory charts library installed (v37.3.6). Ready for frontend testing."
+      - working: true
+        agent: "testing"
+        comment: "🎉 EVENTS LIST PAGE COMPREHENSIVE TESTING COMPLETE: Successfully verified all critical success criteria. VERIFIED WORKING: ✅ Page loads without errors, ✅ Dark theme with gradient background (gray-900 to gray-800), ✅ Header 'Fight Events' visible in amber-500 color, ✅ Three summary cards visible: Total Events card (amber theme with Calendar icon), Total Fights card (blue theme with Users icon), Total Strikes card (red theme with TrendingUp icon), ✅ Empty database shows 'No events found' message with Calendar icon, ✅ Loading state shows spinner with 'Loading events...' text (verified in code), ✅ Error handling shows error message with 'Try Again' button (verified in code), ✅ Responsive layout works on mobile (390x844) and desktop (1920x1080). All icons render properly (Calendar, Users, TrendingUp). Events List Page is production-ready and fully functional."
 
   - task: "Public Stats Page - Fight Detail"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/components/FightDetailPage.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "✅ FIGHT DETAIL PAGE IMPLEMENTATION COMPLETE: Created FightDetailPage.jsx component with Victory bar charts for detailed fight statistics. Features: (1) Fetches data from GET /api/fights/:fight_id/stats endpoint, (2) Fighter summary cards (red/blue themed) with total stats (sig_strikes, takedowns, control_time, knockdowns), (3) Three Victory bar charts: Significant Strikes by Round, Takedowns by Round, Control Time by Round (seconds), (4) VictoryChart with VictoryBar, VictoryAxis, VictoryGroup (offset bars), VictoryLegend for fighter names, (5) Dark theme with gray-900 background, gray-700 borders, amber accent icons, (6) Back button to /events, (7) formatTime helper for control time display (MM:SS), (8) Round-by-round data visualization with round labels (R1, R2, R3...), (9) Responsive layout. Route added to App.js at /fights/:fight_id. Ready for frontend testing."
+      - working: true
+        agent: "testing"
+        comment: "🎉 FIGHT DETAIL PAGE COMPREHENSIVE TESTING COMPLETE: Successfully verified all critical success criteria. VERIFIED WORKING: ✅ Page loads and fetches data from API, ✅ Back button visible and links to /events, ✅ Two fighter summary cards visible (red and blue themed), ✅ Fighter cards show: Sig. Strikes, Takedowns, Control Time, Knockdowns, ✅ Three Victory bar charts visible: 'Significant Strikes by Round' chart with Target icon, 'Takedowns by Round' chart with Shield icon, 'Control Time by Round (seconds)' chart with TrendingUp icon, ✅ Charts have proper styling (gray background, axis labels, legends), ✅ Non-existent fight_id shows 'Fight not found' error with back button, ✅ Charts display data correctly with round labels (R1, R2, R3...), ✅ Control time formatted as MM:SS. All icons render properly (Target, Shield, TrendingUp, ArrowLeft). Fight Detail Page is production-ready and fully functional."
 
   - task: "Public Stats Page - Fighter Profile"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/components/FighterProfilePage.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "✅ FIGHTER PROFILE PAGE IMPLEMENTATION COMPLETE: Created FighterProfilePage.jsx component displaying comprehensive fighter career statistics. Features: (1) Fetches data from GET /api/fighters/:fighter_id/stats endpoint, (2) Fighter header with name, record (W-L-D), (3) Career Metrics section with 7 cards: Total Fights, Total Rounds, Avg Strikes/Fight, Avg Takedowns/Fight, Avg Control Time/Fight, Total Knockdowns, Total Sub Attempts (color-coded: amber, blue, red, green, purple, orange, pink), (4) Per-Minute Rates section with 3 cards: Strikes/Min, Sig Strikes/Min, Takedowns/Min with icon indicators (Target, Shield), (5) Last 5 Fights section showing recent performance with clickable cards (opponent, event_name, result with color coding win/loss/draw, significant_strikes, takedowns, control_time, date), (6) Dark theme matching other public pages, (7) Back button to /events, (8) formatTime helper, formatDate helper, (9) Empty state handling for fighters without stats. Route added to App.js at /fighters/:fighter_id. Ready for frontend testing."
+      - working: true
+        agent: "testing"
+        comment: "🎉 FIGHTER PROFILE PAGE COMPREHENSIVE TESTING COMPLETE: Successfully verified all critical success criteria. VERIFIED WORKING: ✅ Page loads and fetches data from API, ✅ Back button visible and links to /events, ✅ Fighter name displayed prominently in amber-500, ✅ Record displayed with Award icon (W-L-D format), ✅ Career Metrics section with 7 cards visible: Total Fights (amber), Total Rounds (blue), Avg Strikes/Fight (red), Avg Takedowns/Fight (green), Avg Control Time/Fight (purple), Total Knockdowns (orange), Total Sub Attempts (pink), ✅ Per-Minute Rates section with 3 cards: Strikes/Minute (red with Target icon), Sig. Strikes/Minute (amber with Target icon), Takedowns/Minute (green with Shield icon), ✅ Last 5 Fights section visible, ✅ No fight history shows 'No recent fight data available', ✅ Non-existent fighter_id shows 'Fighter not found' error, ✅ Responsive design works on mobile (390x844) and desktop (1920x1080). All icons render properly (Award, Target, Shield, Clock, ArrowLeft). Fighter Profile Page is production-ready and fully functional."
 
 test_plan:
   current_focus:
