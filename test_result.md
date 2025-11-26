@@ -1669,10 +1669,50 @@ metadata:
         agent: "main"
         comment: "Implemented Production Output Buffers APIs: (1) POST /api/broadcast/buffer/config - configure broadcast delay (default 5s, configurable 5-30s) with enabled/disabled toggle, (2) GET /api/broadcast/buffer/{bout_id} - get buffered data with configured delay, calculates cutoff time for preventing live spoilers. MongoDB storage in broadcast_buffers collection. Ready for backend testing."
 
+  - task: "Public Stats Page - Events List"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/EventsPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ EVENTS PAGE IMPLEMENTATION COMPLETE: Created EventsPage.jsx component displaying all events with fight counts and total strikes. Features: (1) Fetches data from GET /api/events endpoint, (2) Summary cards showing Total Events, Total Fights, Total Strikes with color-coded gradients (amber, blue, red), (3) Events list with cards showing event_name, event_date, fight_count, total_strikes, (4) Average strikes per fight calculation, (5) Strike intensity progress bar visualization, (6) Dark theme with amber accents matching LiveStatsDashboard, (7) Loading state with spinner, (8) Error handling with retry button, (9) Responsive grid layout. Route added to App.js at /events. Victory charts library installed (v37.3.6). Ready for frontend testing."
+
+  - task: "Public Stats Page - Fight Detail"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/FightDetailPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ FIGHT DETAIL PAGE IMPLEMENTATION COMPLETE: Created FightDetailPage.jsx component with Victory bar charts for detailed fight statistics. Features: (1) Fetches data from GET /api/fights/:fight_id/stats endpoint, (2) Fighter summary cards (red/blue themed) with total stats (sig_strikes, takedowns, control_time, knockdowns), (3) Three Victory bar charts: Significant Strikes by Round, Takedowns by Round, Control Time by Round (seconds), (4) VictoryChart with VictoryBar, VictoryAxis, VictoryGroup (offset bars), VictoryLegend for fighter names, (5) Dark theme with gray-900 background, gray-700 borders, amber accent icons, (6) Back button to /events, (7) formatTime helper for control time display (MM:SS), (8) Round-by-round data visualization with round labels (R1, R2, R3...), (9) Responsive layout. Route added to App.js at /fights/:fight_id. Ready for frontend testing."
+
+  - task: "Public Stats Page - Fighter Profile"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/FighterProfilePage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ FIGHTER PROFILE PAGE IMPLEMENTATION COMPLETE: Created FighterProfilePage.jsx component displaying comprehensive fighter career statistics. Features: (1) Fetches data from GET /api/fighters/:fighter_id/stats endpoint, (2) Fighter header with name, record (W-L-D), (3) Career Metrics section with 7 cards: Total Fights, Total Rounds, Avg Strikes/Fight, Avg Takedowns/Fight, Avg Control Time/Fight, Total Knockdowns, Total Sub Attempts (color-coded: amber, blue, red, green, purple, orange, pink), (4) Per-Minute Rates section with 3 cards: Strikes/Min, Sig Strikes/Min, Takedowns/Min with icon indicators (Target, Shield), (5) Last 5 Fights section showing recent performance with clickable cards (opponent, event_name, result with color coding win/loss/draw, significant_strikes, takedowns, control_time, date), (6) Dark theme matching other public pages, (7) Back button to /events, (8) formatTime helper, formatDate helper, (9) Empty state handling for fighters without stats. Route added to App.js at /fighters/:fighter_id. Ready for frontend testing."
+
 test_plan:
   current_focus:
-    - "Heartbeat Monitor Backend"
-    - "Service Health Display in Monitoring Dashboard"
+    - "Public Stats API - Events Endpoint"
+    - "Public Stats API - Fight Detail Endpoint"
+    - "Public Stats API - Fighter Profile Endpoint"
+    - "Public Stats Page - Events List"
+    - "Public Stats Page - Fight Detail"
+    - "Public Stats Page - Fighter Profile"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
