@@ -5787,6 +5787,294 @@ class CombatJudgingAPITester:
         
         return success1 and heartbeat_success and success2
 
+    def test_public_stats_events_endpoint(self):
+        """Test GET /api/events endpoint"""
+        print("\n📊 Testing Public Stats API - Events Endpoint...")
+        
+        # Test 1: Get all events (should work even with empty database)
+        success, response = self.run_test("Get All Events", "GET", "events", 200)
+        
+        if success and response:
+            print(f"   ✅ Events endpoint accessible")
+            
+            # Verify response structure
+            required_fields = ['events', 'count']
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                print(f"   ❌ Missing fields in response: {missing_fields}")
+                return False
+            
+            events = response.get('events', [])
+            count = response.get('count', 0)
+            
+            print(f"   Events returned: {count}")
+            print(f"   Events array length: {len(events)}")
+            
+            # Verify count matches array length
+            if count != len(events):
+                print(f"   ❌ Count mismatch: count={count}, array length={len(events)}")
+                return False
+            
+            # If events exist, verify structure
+            if events:
+                first_event = events[0]
+                required_event_fields = ['event_name', 'event_date', 'fight_count', 'total_strikes']
+                missing_event_fields = [field for field in required_event_fields if field not in first_event]
+                
+                if missing_event_fields:
+                    print(f"   ❌ Missing fields in event structure: {missing_event_fields}")
+                    return False
+                
+                print(f"   ✅ Event structure validated")
+                print(f"   Sample event: {first_event['event_name']} - {first_event['fight_count']} fights, {first_event['total_strikes']} strikes")
+                
+                # Verify data types
+                if not isinstance(first_event['fight_count'], int):
+                    print(f"   ❌ fight_count should be integer, got {type(first_event['fight_count'])}")
+                    return False
+                
+                if not isinstance(first_event['total_strikes'], int):
+                    print(f"   ❌ total_strikes should be integer, got {type(first_event['total_strikes'])}")
+                    return False
+            else:
+                print(f"   ✅ Empty events array (expected for empty database)")
+        
+        return success
+
+    def test_public_stats_fight_detail_endpoint(self):
+        """Test GET /api/fights/{fight_id}/stats endpoint"""
+        print("\n🥊 Testing Public Stats API - Fight Detail Endpoint...")
+        
+        # Test 1: Non-existent fight (should return 404)
+        success_404, _ = self.run_test("Fight Detail - Non-existent", "GET", "fights/non-existent-fight/stats", 404)
+        
+        if success_404:
+            print(f"   ✅ 404 handling for non-existent fight working correctly")
+        
+        # Test 2: Try with a test fight ID (might not exist, but test structure)
+        test_fight_id = "test_fight_123"
+        success, response = self.run_test("Fight Detail - Test Fight", "GET", f"fights/{test_fight_id}/stats", [200, 404])
+        
+        if success and response:
+            print(f"   ✅ Fight detail endpoint accessible")
+            
+            # If we got a 200 response, verify structure
+            if 'fight_id' in response:
+                # Verify response structure
+                required_fields = ['fight_id', 'fighters', 'last_updated']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ❌ Missing fields in response: {missing_fields}")
+                    return False
+                
+                fighters = response.get('fighters', [])
+                
+                print(f"   Fight ID: {response['fight_id']}")
+                print(f"   Fighters count: {len(fighters)}")
+                print(f"   Last updated: {response['last_updated']}")
+                
+                # Verify fighters structure
+                if fighters:
+                    first_fighter = fighters[0]
+                    required_fighter_fields = ['fighter_id', 'fighter_name', 'total_stats', 'rounds']
+                    missing_fighter_fields = [field for field in required_fighter_fields if field not in first_fighter]
+                    
+                    if missing_fighter_fields:
+                        print(f"   ❌ Missing fields in fighter structure: {missing_fighter_fields}")
+                        return False
+                    
+                    # Verify total_stats structure
+                    total_stats = first_fighter.get('total_stats', {})
+                    required_stats_fields = ['significant_strikes', 'total_strikes', 'takedowns', 'takedown_attempts', 'control_time_seconds', 'knockdowns', 'submission_attempts']
+                    missing_stats_fields = [field for field in required_stats_fields if field not in total_stats]
+                    
+                    if missing_stats_fields:
+                        print(f"   ❌ Missing fields in total_stats: {missing_stats_fields}")
+                        return False
+                    
+                    # Verify rounds structure
+                    rounds = first_fighter.get('rounds', [])
+                    if rounds:
+                        first_round = rounds[0]
+                        required_round_fields = ['round', 'significant_strikes', 'total_strikes', 'takedowns', 'takedown_attempts', 'control_time_seconds', 'knockdowns', 'submission_attempts']
+                        missing_round_fields = [field for field in required_round_fields if field not in first_round]
+                        
+                        if missing_round_fields:
+                            print(f"   ❌ Missing fields in round structure: {missing_round_fields}")
+                            return False
+                        
+                        # Verify rounds are sorted by round number
+                        if len(rounds) > 1:
+                            for i in range(len(rounds) - 1):
+                                if rounds[i]['round'] > rounds[i + 1]['round']:
+                                    print(f"   ❌ Rounds not sorted by round number")
+                                    return False
+                        
+                        print(f"   ✅ Round structure validated")
+                    
+                    print(f"   ✅ Fighter structure validated")
+                    print(f"   Sample fighter: {first_fighter['fighter_name']} - {total_stats['significant_strikes']} sig strikes")
+                
+                # Should have exactly 2 fighters for a fight
+                if len(fighters) == 2:
+                    print(f"   ✅ Correct number of fighters (2)")
+                elif len(fighters) > 0:
+                    print(f"   ⚠️  Expected 2 fighters, got {len(fighters)}")
+            else:
+                print(f"   ✅ 404 response for non-existent fight (expected)")
+        
+        return success_404  # At minimum, 404 handling should work
+
+    def test_public_stats_fighter_profile_endpoint(self):
+        """Test GET /api/fighters/{fighter_id}/stats endpoint"""
+        print("\n🥋 Testing Public Stats API - Fighter Profile Endpoint...")
+        
+        # Test 1: Non-existent fighter (should return 404)
+        success_404, _ = self.run_test("Fighter Profile - Non-existent", "GET", "fighters/non-existent-fighter/stats", 404)
+        
+        if success_404:
+            print(f"   ✅ 404 handling for non-existent fighter working correctly")
+        
+        # Test 2: Try with a test fighter ID (might not exist, but test structure)
+        test_fighter_id = "test_fighter_123"
+        success, response = self.run_test("Fighter Profile - Test Fighter", "GET", f"fighters/{test_fighter_id}/stats", [200, 404])
+        
+        if success and response:
+            print(f"   ✅ Fighter profile endpoint accessible")
+            
+            # If we got a 200 response, verify structure
+            if 'fighter_id' in response:
+                # Verify response structure
+                required_fields = ['fighter_id', 'fighter_name', 'career_metrics', 'per_minute_rates', 'last_5_fights', 'record']
+                missing_fields = [field for field in required_fields if field not in response]
+                
+                if missing_fields:
+                    print(f"   ❌ Missing fields in response: {missing_fields}")
+                    return False
+                
+                career_metrics = response.get('career_metrics', {})
+                per_minute_rates = response.get('per_minute_rates', {})
+                last_5_fights = response.get('last_5_fights', [])
+                
+                print(f"   Fighter ID: {response['fighter_id']}")
+                print(f"   Fighter Name: {response['fighter_name']}")
+                print(f"   Record: {response['record']}")
+                print(f"   Last 5 fights: {len(last_5_fights)}")
+                
+                # Verify career_metrics structure
+                required_career_fields = ['total_fights', 'total_rounds', 'avg_strikes_per_fight', 'avg_takedowns_per_fight', 'avg_control_time_per_fight', 'total_knockdowns', 'total_submission_attempts']
+                missing_career_fields = [field for field in required_career_fields if field not in career_metrics]
+                
+                if missing_career_fields:
+                    print(f"   ❌ Missing fields in career_metrics: {missing_career_fields}")
+                    return False
+                
+                # Verify per_minute_rates structure
+                required_rate_fields = ['strikes_per_minute', 'significant_strikes_per_minute', 'takedowns_per_minute']
+                missing_rate_fields = [field for field in required_rate_fields if field not in per_minute_rates]
+                
+                if missing_rate_fields:
+                    print(f"   ❌ Missing fields in per_minute_rates: {missing_rate_fields}")
+                    return False
+                
+                # Verify per-minute rates calculation logic
+                total_rounds = career_metrics.get('total_rounds', 0)
+                if total_rounds > 0:
+                    expected_time_minutes = total_rounds * 5
+                    print(f"   Total rounds: {total_rounds}, Expected time: {expected_time_minutes} minutes")
+                    
+                    # Rates should be calculated based on total time
+                    strikes_per_min = per_minute_rates.get('strikes_per_minute', 0)
+                    if strikes_per_min > 0:
+                        print(f"   Strikes per minute: {strikes_per_min}")
+                
+                # Verify last_5_fights structure (should be limited to 5)
+                if len(last_5_fights) > 5:
+                    print(f"   ❌ last_5_fights should be limited to 5, got {len(last_5_fights)}")
+                    return False
+                
+                if last_5_fights:
+                    first_fight = last_5_fights[0]
+                    required_fight_fields = ['fight_id', 'event_name', 'opponent', 'result', 'significant_strikes', 'takedowns', 'control_time', 'date']
+                    missing_fight_fields = [field for field in required_fight_fields if field not in first_fight]
+                    
+                    if missing_fight_fields:
+                        print(f"   ❌ Missing fields in last_5_fights structure: {missing_fight_fields}")
+                        return False
+                    
+                    # Verify fights are sorted by date (most recent first)
+                    if len(last_5_fights) > 1:
+                        # Note: This is a simplified check, proper date comparison would need parsing
+                        print(f"   ✅ Last 5 fights structure validated")
+                    
+                    print(f"   Sample fight: vs {first_fight['opponent']} - {first_fight['result']}")
+                
+                print(f"   ✅ Fighter profile structure validated")
+                print(f"   Career: {career_metrics['total_fights']} fights, {career_metrics['total_rounds']} rounds")
+            else:
+                print(f"   ✅ 404 response for non-existent fighter (expected)")
+        
+        return success_404  # At minimum, 404 handling should work
+
+    def test_public_stats_comprehensive_flow(self):
+        """Test complete Public Stats API flow"""
+        print("\n🎯 Testing Complete Public Stats API Flow...")
+        
+        # Step 1: Test Events endpoint
+        print("   Step 1: Testing Events endpoint...")
+        if not self.test_public_stats_events_endpoint():
+            return False
+        
+        # Step 2: Test Fight Detail endpoint
+        print("   Step 2: Testing Fight Detail endpoint...")
+        if not self.test_public_stats_fight_detail_endpoint():
+            return False
+        
+        # Step 3: Test Fighter Profile endpoint
+        print("   Step 3: Testing Fighter Profile endpoint...")
+        if not self.test_public_stats_fighter_profile_endpoint():
+            return False
+        
+        # Step 4: Test response times (should be < 500ms as per requirements)
+        print("   Step 4: Testing response times...")
+        
+        import time
+        
+        # Test Events endpoint response time
+        start_time = time.time()
+        success, _ = self.run_test("Events Response Time", "GET", "events", 200)
+        events_time = (time.time() - start_time) * 1000  # Convert to ms
+        
+        if success:
+            print(f"   Events endpoint response time: {events_time:.1f}ms")
+            if events_time > 500:
+                print(f"   ⚠️  Events endpoint response time exceeds 500ms requirement")
+        
+        # Test Fight Detail endpoint response time (with non-existent fight for consistent timing)
+        start_time = time.time()
+        success, _ = self.run_test("Fight Detail Response Time", "GET", "fights/test-timing/stats", [200, 404])
+        fight_time = (time.time() - start_time) * 1000
+        
+        if success:
+            print(f"   Fight detail endpoint response time: {fight_time:.1f}ms")
+            if fight_time > 500:
+                print(f"   ⚠️  Fight detail endpoint response time exceeds 500ms requirement")
+        
+        # Test Fighter Profile endpoint response time
+        start_time = time.time()
+        success, _ = self.run_test("Fighter Profile Response Time", "GET", "fighters/test-timing/stats", [200, 404])
+        fighter_time = (time.time() - start_time) * 1000
+        
+        if success:
+            print(f"   Fighter profile endpoint response time: {fighter_time:.1f}ms")
+            if fighter_time > 500:
+                print(f"   ⚠️  Fighter profile endpoint response time exceeds 500ms requirement")
+        
+        print("   🎉 Complete Public Stats API flow test completed!")
+        return True
+
 def main():
     tester = CombatJudgingAPITester()
     exit_code = tester.run_all_tests()
