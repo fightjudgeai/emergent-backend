@@ -291,7 +291,7 @@ class MergeEngine:
             'bout_id': fight_id,
             'fighter_id': ai_event.get('fighter_id'),
             'round': ai_event.get('round', 1),
-            'timestamp': ai_event.get('timestamp', datetime.now(timezone.utc)),
+            'timestamp': self._parse_timestamp(ai_event.get('timestamp', datetime.now(timezone.utc))),
             'event_type': ai_event.get('event_type'),
             'source': 'ai_cv',  # Mark as AI source
             'ai_confidence': ai_event.get('confidence', 0),
