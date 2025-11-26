@@ -4191,6 +4191,27 @@ except Exception as e:
     logger.warning(f"Stat Engine not loaded: {e}")
 
 # ============================================================================
+# PUBLIC STATS ROUTES (Public-facing statistics pages)
+# ============================================================================
+try:
+    from public_stats_routes import router as public_stats_api
+    import public_stats_routes as public_stats_module
+    
+    # Initialize public stats routes
+    public_stats_module.init_public_stats_routes(database=db)
+    
+    # Include router
+    app.include_router(public_stats_api)
+    
+    logger.info("✓ Public Stats Routes loaded - Public-facing event/fight/fighter pages")
+    logger.info("  - GET /api/events (list all events with fight counts)")
+    logger.info("  - GET /api/fights/:fight_id/stats (fight detail page data)")
+    logger.info("  - GET /api/fighters/:fighter_id/stats (fighter profile data)")
+    
+except Exception as e:
+    logger.warning(f"Public Stats Routes not loaded: {e}")
+
+# ============================================================================
 # DATABASE MANAGEMENT (Production Models & Indexes)
 # ============================================================================
 try:
