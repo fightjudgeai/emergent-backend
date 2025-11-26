@@ -5249,6 +5249,9 @@ class CombatJudgingAPITester:
         # Test Real-Time CV System & Data Collection (20 APIs) - NEW
         self.test_realtime_cv_complete_flow()
         
+        # Test Public Stats API (3 APIs) - NEW
+        self.test_public_stats_comprehensive_flow()
+        
         # Print summary
         print("\n" + "=" * 60)
         print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
