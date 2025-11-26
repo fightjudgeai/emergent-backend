@@ -14,6 +14,9 @@ import ReviewDashboard from "@/components/ReviewDashboard";
 import TuningProfileManager from "@/components/TuningProfileManager";
 import AuditLogViewer from "@/components/AuditLogViewer";
 import JudgeProfile from "@/components/JudgeProfile";
+import EventsPage from "@/components/EventsPage";
+import FightDetailPage from "@/components/FightDetailPage";
+import FighterProfilePage from "@/components/FighterProfilePage";
 
 function App() {
   // Check if judge is logged in
