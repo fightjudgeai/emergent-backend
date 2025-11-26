@@ -4212,6 +4212,29 @@ except Exception as e:
     logger.warning(f"Public Stats Routes not loaded: {e}")
 
 # ============================================================================
+# TAPOLOGY SCRAPER (Web scraping for MMA data)
+# ============================================================================
+try:
+    from tapology_scraper.routes import router as scraper_api
+    import tapology_scraper.routes as scraper_module
+    
+    # Initialize scraper with database
+    scraper_module.init_tapology_scraper(database=db)
+    
+    # Include router
+    app.include_router(scraper_api)
+    
+    logger.info("✓ Tapology Scraper loaded - Web scraping for MMA data")
+    logger.info("  - POST /api/scraper/events/recent (scrape recent events)")
+    logger.info("  - POST /api/scraper/fighter/{id} (scrape fighter profile)")
+    logger.info("  - POST /api/scraper/event/{id} (scrape event details)")
+    logger.info("  - GET /api/scraper/status (scraping statistics)")
+    logger.info("  - GET /api/scraper/fighters/search (search scraped fighters)")
+    
+except Exception as e:
+    logger.warning(f"Tapology Scraper not loaded: {e}")
+
+# ============================================================================
 # DATABASE MANAGEMENT (Production Models & Indexes)
 # ============================================================================
 try:
