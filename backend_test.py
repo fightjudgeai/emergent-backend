@@ -5561,6 +5561,9 @@ class CombatJudgingAPITester:
         # Test Public Stats API (3 APIs) - NEW
         self.test_public_stats_comprehensive_flow()
         
+        # Test Tapology Scraper API (6 APIs) - NEW
+        self.test_tapology_scraper_complete_flow()
+        
         # Print summary
         print("\n" + "=" * 60)
         print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
