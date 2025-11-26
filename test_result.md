@@ -1813,12 +1813,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Public Stats API - Events Endpoint"
-    - "Public Stats API - Fight Detail Endpoint"
-    - "Public Stats API - Fighter Profile Endpoint"
-    - "Public Stats Page - Events List"
-    - "Public Stats Page - Fight Detail"
-    - "Public Stats Page - Fighter Profile"
+    - "AI Merge Engine"
+    - "Post-Fight Review Interface"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
