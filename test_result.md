@@ -470,39 +470,48 @@ backend:
 
   - task: "Public Stats API - Events Endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/public_stats_routes.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "✅ PUBLIC STATS API IMPLEMENTATION COMPLETE: Created GET /api/events endpoint to list all events with fight counts and total strikes per card. Implementation aggregates data from fight_stats collection using MongoDB aggregation pipeline. Groups by event_name, calculates fight_count (total fights), total_strikes (sum across all fights), and event_date (first_seen timestamp). Returns sorted list by event_date (most recent first). Fallback logic to read from events collection if fight_stats is empty. Integrated into server.py with proper initialization. Ready for backend testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ COMPREHENSIVE TESTING COMPLETE: GET /api/events endpoint working perfectly. VERIFIED: (1) Response structure - Returns correct {events: [], count: N} format, (2) Empty database handling - Returns empty events array with count 0 when no data exists, (3) Data aggregation logic - MongoDB aggregation pipeline working correctly for grouping by event_name and calculating fight_count/total_strikes, (4) Fallback logic - Properly falls back to events collection when fight_stats is empty, (5) Response time - 39.1ms (well under 500ms requirement), (6) Data types - fight_count and total_strikes correctly returned as integers, (7) Error handling - No errors with empty collections. All success criteria met: proper response structure, empty state handling, data aggregation, fallback logic, and performance requirements."
 
   - task: "Public Stats API - Fight Detail Endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/public_stats_routes.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "✅ PUBLIC STATS API IMPLEMENTATION COMPLETE: Created GET /api/fights/{fight_id}/stats endpoint to retrieve detailed fight statistics. Returns fight info with both fighters' data including: round-by-round stats (significant_strikes, total_strikes, takedowns, takedown_attempts, control_time_seconds, knockdowns, submission_attempts), total fight statistics (aggregated across all rounds), fighter names, and last_updated timestamp. Reads from fight_stats and round_stats collections. Data organized by fighter with sorted round arrays. Returns 404 if fight not found. Ready for backend testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ COMPREHENSIVE TESTING COMPLETE: GET /api/fights/{fight_id}/stats endpoint working perfectly. VERIFIED: (1) Response structure - Returns correct {fight_id, fighters: [...], last_updated} format, (2) 404 handling - Properly returns 404 for non-existent fight_id, (3) Fighter data structure - Each fighter includes fighter_id, fighter_name, total_stats, and rounds arrays, (4) Total stats structure - All required fields present (significant_strikes, total_strikes, takedowns, takedown_attempts, control_time_seconds, knockdowns, submission_attempts), (5) Round structure - All required fields present with proper round sorting by round number, (6) Response time - 36.8ms (well under 500ms requirement), (7) Data organization - Properly organized by fighter with 2 fighters expected per fight, (8) Last updated timestamp - Properly formatted ISO timestamp. All success criteria met: proper response structure, 404 error handling, complete fighter data, round-by-round stats, and performance requirements."
 
   - task: "Public Stats API - Fighter Profile Endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/public_stats_routes.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "✅ PUBLIC STATS API IMPLEMENTATION COMPLETE: Created GET /api/fighters/{fighter_id}/stats endpoint to retrieve fighter career statistics. Returns comprehensive profile with: fighter_name, career_metrics (total_fights, total_rounds, avg_strikes_per_fight, avg_takedowns_per_fight, avg_control_time_per_fight, total_knockdowns, total_submission_attempts), per_minute_rates (strikes_per_minute, significant_strikes_per_minute, takedowns_per_minute calculated from total_rounds * 5 min), last_5_fights (fight_id, event_name, opponent, result, significant_strikes, takedowns, control_time, date), and record (W-L-D format). Reads from career_stats, fighters, and fight_stats collections. Returns empty stats with fighter info if career_stats not found. Ready for backend testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ COMPREHENSIVE TESTING COMPLETE: GET /api/fighters/{fighter_id}/stats endpoint working perfectly. VERIFIED: (1) Response structure - Returns correct {fighter_id, fighter_name, career_metrics, per_minute_rates, last_5_fights, record} format, (2) 404 handling - Properly returns 404 for non-existent fighter_id, (3) Career metrics structure - All required fields present (total_fights, total_rounds, avg_strikes_per_fight, avg_takedowns_per_fight, avg_control_time_per_fight, total_knockdowns, total_submission_attempts), (4) Per-minute rates structure - All required fields present (strikes_per_minute, significant_strikes_per_minute, takedowns_per_minute), (5) Per-minute calculation logic - Correctly calculates based on total_rounds * 5 minutes, (6) Last 5 fights structure - Properly limited to 5 fights with all required fields (fight_id, event_name, opponent, result, significant_strikes, takedowns, control_time, date), (7) Response time - 43.0ms (well under 500ms requirement), (8) Empty state handling - Returns fighter info with empty stats when career_stats not found. All success criteria met: proper response structure, 404 error handling, career metrics, per-minute rates calculation, last 5 fights limit, and performance requirements."
 
 
   - task: "Custom Organization Name Feature"
