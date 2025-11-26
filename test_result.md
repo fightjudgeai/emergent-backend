@@ -131,9 +131,9 @@
 #====================================================================================================
 
 user_problem_statement: |
-  COMPLETE FJAIPOS ELITE PLATFORM + REAL-TIME CV SYSTEM - Professional-grade computer vision implementation.
+  COMPLETE FJAIPOS ELITE PLATFORM + PUBLIC STAT PAGES - Build public-facing statistics pages using emergent APIs.
   
-  Total: 26 Microservices + 240+ API Endpoints
+  Total: 26 Microservices + 243 API Endpoints (3 new public stats endpoints)
   
   Previous features implemented:
   - Intelligent Combat Vision Scoring System (ICVSS) with 15+ microservices ✅
@@ -143,13 +143,19 @@ user_problem_statement: |
   - Storage Manager, Advanced Audit, Scoring Simulator, Failover Engine ✅
   - Time Sync Service ✅
   - Calibration API & Performance Profiler ✅
-  
-  Current Task:
   - Real-Time CV System: Live video frame analysis with MediaPipe + YOLO ✅
-  - CV Frame Processing: Analyze frames, detect strikes/takedowns/submissions ✅
-  - Stream Management: Start/stop video stream analysis ✅
-  - Data Collection System: Training dataset management (GitHub/Kaggle) ✅
-  - Comprehensive Testing: Backend API endpoints and integration testing ⏳
+  
+  Current Task: Public Stat Pages Implementation
+  - Backend APIs:
+    * GET /api/events - List all events with fight count and total strikes per card ⏳
+    * GET /api/fights/:fight_id/stats - Fight detail page with round-by-round stats ⏳
+    * GET /api/fighters/:fighter_id/stats - Fighter career profile with metrics ⏳
+  - Frontend Pages:
+    * /events - Events list page with summary cards ⏳
+    * /fights/:fight_id - Fight detail page with Victory bar charts ⏳
+    * /fighters/:fighter_id - Fighter profile page with career metrics ⏳
+  - Victory Charts: Installed and configured for data visualization ⏳
+  - Testing: Backend API endpoints and frontend integration ⏳
   
   Implement advanced features for combat sports judging tool in order:
   1. Shadow-Judging/Training Mode - Complete with metrics tracking, hidden official cards, calibration scoring ✅
