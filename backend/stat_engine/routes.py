@@ -409,3 +409,52 @@ async def get_recent_jobs(limit: int = Query(20, ge=1, le=100)):
     except Exception as e:
         logger.error(f"Error getting jobs: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ============================================================================
+# AUDIT LOGS
+# ============================================================================
+
+@router.get("/audit-logs")
+async def get_audit_logs(limit: int = Query(50, ge=1, le=100)):
+    """
+    Get recent audit log entries
+    
+    Query Params:
+    - limit: Maximum number of logs to return (default 50)
+    
+    Returns:
+    - List of audit log entries
+    """
+    
+    if not audit_logger:
+        raise HTTPException(status_code=500, detail="Audit logger not initialized")
+    
+    try:
+        logs = await audit_logger.get_recent_actions(limit=limit)
+        return {"audit_logs": logs, "count": len(logs)}
+    
+    except Exception as e:
+        logger.error(f"Error getting audit logs: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/audit-logs/fight/{fight_id}")
+async def get_fight_audit_logs(fight_id: str):
+    """
+    Get audit logs for a specific fight
+    
+    Returns:
+    - All audit log entries for the specified fight
+    """
+    
+    if not audit_logger:
+        raise HTTPException(status_code=500, detail="Audit logger not initialized")
+    
+    try:
+        logs = await audit_logger.get_actions_by_fight(fight_id)
+        return {"fight_id": fight_id, "audit_logs": logs, "count": len(logs)}
+    
+    except Exception as e:
+        logger.error(f"Error getting fight audit logs: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
