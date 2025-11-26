@@ -4167,6 +4167,29 @@ try:
 except Exception as e:
     logger.warning(f"Real-Time CV System not loaded: {e}")
 
+# ============================================================================
+# STAT ENGINE (Production-Grade Statistics Aggregation)
+# ============================================================================
+try:
+    from stat_engine.routes import router as stat_engine_api
+    import stat_engine.routes as stat_routes_module
+    
+    # Initialize stat engine
+    stat_routes_module.init_stat_engine(db=db)
+    
+    # Include router
+    app.include_router(stat_engine_api)
+    
+    logger.info("✓ Stat Engine loaded - Round/Fight/Career statistics aggregation")
+    logger.info("  - Event Reader (READ-ONLY from events table)")
+    logger.info("  - Round Stats Aggregator (per-round metrics)")
+    logger.info("  - Fight Stats Aggregator (per-fight totals)")
+    logger.info("  - Career Stats Aggregator (lifetime metrics)")
+    logger.info("  - Scheduler (manual/round-locked/post-fight/nightly triggers)")
+    
+except Exception as e:
+    logger.warning(f"Stat Engine not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
