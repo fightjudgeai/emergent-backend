@@ -96,11 +96,18 @@ async def submit_ai_batch(batch: AIEventBatch):
             submitted_by=batch.submitted_by
         )
         
-        return {
+        # Clean result to ensure JSON serialization
+        clean_result = {
             "status": "success",
             "fight_id": batch.fight_id,
-            **result
+            "auto_approved": result.get("auto_approved", 0),
+            "marked_for_review": result.get("marked_for_review", 0),
+            "rejected": result.get("rejected", 0),
+            "total_submitted": result.get("total_submitted", 0),
+            "errors": result.get("errors", [])
         }
+        
+        return clean_result
     
     except Exception as e:
         logger.error(f"Error processing AI batch: {e}")
