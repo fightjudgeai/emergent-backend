@@ -154,27 +154,26 @@ user_problem_statement: |
   - Verification Engine: Multi-operator data verification ✅
   
   Current Task: Integration System Implementation
-  - Scraper Engine:
-    * TapologyScraper class with BeautifulSoup + requests ⏳
-    * Rate limiting (2s between requests) ⏳
-    * Event scraping (recent events list) ⏳
-    * Fighter profile scraping (name, record, stats) ⏳
-    * Bout details scraping (results, method, round) ⏳
-  - Data Transformation:
-    * Transform Tapology data to database schema ⏳
-    * Fighter records (W-L-D parsing) ⏳
-    * Event aggregation ⏳
-    * Fight results mapping ⏳
-  - Storage & APIs:
-    * Duplicate detection for fighters/events ⏳
-    * Batch processing ⏳
-    * POST /api/scraper/events/recent ⏳
-    * POST /api/scraper/fighter/{id} ⏳
-    * POST /api/scraper/event/{id} ⏳
-    * GET /api/scraper/status ⏳
-    * GET /api/scraper/fighters/search ⏳
-    * POST /api/scraper/bulk/ufc-recent ⏳
-  - Testing: Backend scraping operations and data storage ⏳
+  - AI Merge Engine:
+    * POST /api/ai-merge/submit-batch (Colab JSON integration) ⏳
+    * Tolerance-based auto-approval (2s window, 85% confidence) ⏳
+    * Conflict detection and review workflow ⏳
+    * Never overwrites human source events ⏳
+    * Auto-trigger stat recalculation on approval ⏳
+  - Post-Fight Review Interface:
+    * GET /api/review/timeline/{fight_id} (event timeline) ⏳
+    * PUT /api/review/events/{id} (edit with versioning) ⏳
+    * DELETE /api/review/events/{id} (soft delete) ⏳
+    * POST /api/review/events/merge (merge duplicates) ⏳
+    * POST /api/review/fights/{id}/approve (approval workflow) ⏳
+    * POST /api/review/videos/upload (video upload) ⏳
+    * Complete audit logging with supervisor_id ⏳
+  - Integration Architecture:
+    * Backend: Emergent.sh only (FastAPI + MongoDB) ⏳
+    * Frontend: External (Vercel/Netlify calling APIs) ⏳
+    * CV: Roboflow + Colab (POST JSON to emergent) ⏳
+    * Documentation: INTEGRATION_ARCHITECTURE.md ⏳
+  - Testing: Backend APIs and integration flow ⏳
   
   Implement advanced features for combat sports judging tool in order:
   1. Shadow-Judging/Training Mode - Complete with metrics tracking, hidden official cards, calibration scoring ✅
