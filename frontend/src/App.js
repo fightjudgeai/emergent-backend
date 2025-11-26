@@ -50,6 +50,9 @@ function App() {
           <Route path="/events" element={<EventsPage />} />
           <Route path="/fights/:fight_id" element={<FightDetailPage />} />
           <Route path="/fighters/:fighter_id" element={<FighterProfilePage />} />
+          
+          {/* Post-Fight Review Interface */}
+          <Route path="/review/:fight_id" element={<PostFightReviewPanel fightId="fight_123" supervisorId="supervisor_1" />} />
         </Routes>
       </BrowserRouter>
     </div>
