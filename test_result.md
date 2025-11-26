@@ -527,6 +527,42 @@ backend:
         agent: "testing"
         comment: "✅ COMPREHENSIVE TESTING COMPLETE: GET /api/fighters/{fighter_id}/stats endpoint working perfectly. VERIFIED: (1) Response structure - Returns correct {fighter_id, fighter_name, career_metrics, per_minute_rates, last_5_fights, record} format, (2) 404 handling - Properly returns 404 for non-existent fighter_id, (3) Career metrics structure - All required fields present (total_fights, total_rounds, avg_strikes_per_fight, avg_takedowns_per_fight, avg_control_time_per_fight, total_knockdowns, total_submission_attempts), (4) Per-minute rates structure - All required fields present (strikes_per_minute, significant_strikes_per_minute, takedowns_per_minute), (5) Per-minute calculation logic - Correctly calculates based on total_rounds * 5 minutes, (6) Last 5 fights structure - Properly limited to 5 fights with all required fields (fight_id, event_name, opponent, result, significant_strikes, takedowns, control_time, date), (7) Response time - 43.0ms (well under 500ms requirement), (8) Empty state handling - Returns fighter info with empty stats when career_stats not found. All success criteria met: proper response structure, 404 error handling, career metrics, per-minute rates calculation, last 5 fights limit, and performance requirements."
 
+  - task: "Tapology Scraper - Health Check & Status"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/tapology_scraper/routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ TAPOLOGY SCRAPER IMPLEMENTATION COMPLETE: Created Tapology web scraping system with BeautifulSoup + requests. SCRAPER ENGINE: TapologyScraper class with rate limiting (2s between requests), scrape_recent_events (fetches up to N recent events from FightCenter), scrape_event_details (extracts fight card with bout IDs, fighter info, weight classes), scrape_fighter_profile (extracts name, record W-L-D, age, height, reach, stance, weight class), scrape_bout_details (extracts result, method, round). DATA TRANSFORMATION: DataTransformer class converts Tapology data to database schema - transform_fighter (maps to fighters collection with UUID, record parsing), transform_event (aggregates event summaries), transform_fight_result (creates fight_stats documents). STORAGE MANAGER: StorageManager with duplicate detection (checks Tapology ID and name), batch processing, search functionality. API ENDPOINTS: GET /api/scraper/health (service check), GET /api/scraper/status (scraping statistics), POST /api/scraper/events/recent (scrape recent events with background tasks), POST /api/scraper/fighter/{id} (scrape specific fighter by name or ID), POST /api/scraper/event/{id} (scrape event details with fight card), POST /api/scraper/bulk/ufc-recent (UFC-specific scraping), GET /api/scraper/fighters/search (search scraped fighters by name). Integrated into server.py with database initialization. Libraries installed: beautifulsoup4-4.14.2, lxml-6.0.2. Ready for backend testing."
+
+  - task: "Tapology Scraper - Event Scraping"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/tapology_scraper/scraper_engine.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ EVENT SCRAPING IMPLEMENTATION COMPLETE: Implemented scrape_recent_events method to fetch events from Tapology FightCenter. Scraper parses event listings with BeautifulSoup, extracts event name, date, promotion, location, fight count. Creates tapology_events collection documents with event_name, event_date, promotion, location, tapology_id, tapology_url, fight_count, scraped_at timestamp. POST /api/scraper/events/recent endpoint triggers background task to scrape up to N events, store event summaries, discover fighters from fight cards, scrape full fighter profiles, store fighters with duplicate detection. Returns scraping job status. Ready for backend testing."
+
+  - task: "Tapology Scraper - Fighter Scraping"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/tapology_scraper/scraper_engine.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ FIGHTER SCRAPING IMPLEMENTATION COMPLETE: Implemented scrape_fighter_profile method to fetch detailed fighter data from Tapology. Parses fighter pages for name, nickname, record (W-L-D), age, weight class, height, reach, stance. Includes search_fighter method to find fighters by name. POST /api/scraper/fighter/{identifier} endpoint accepts name or Tapology ID, searches if needed, scrapes full profile, transforms to database schema (fighters collection), stores with duplicate detection (checks Tapology ID and name), returns fighter_id, tapology_id, name, record, storage_status. GET /api/scraper/fighters/search endpoint searches database by name with regex (case-insensitive), returns matching fighters with id, name, record, tapology_id, weight_class. Ready for backend testing."
+
 
   - task: "Custom Organization Name Feature"
     implemented: true
