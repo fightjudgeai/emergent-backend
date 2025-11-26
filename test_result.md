@@ -133,9 +133,9 @@
 #====================================================================================================
 
 user_problem_statement: |
-  COMPLETE FJAIPOS ELITE PLATFORM + PUBLIC STAT PAGES - Build public-facing statistics pages using emergent APIs.
+  COMPLETE FJAIPOS ELITE PLATFORM + TAPOLOGY DATA SCRAPER - Build web scraping system for MMA data collection from Tapology.com.
   
-  Total: 26 Microservices + 243 API Endpoints (3 new public stats endpoints)
+  Total: 27 Microservices + 249 API Endpoints (6 new scraper endpoints)
   
   Previous features implemented:
   - Intelligent Combat Vision Scoring System (ICVSS) with 15+ microservices ✅
@@ -146,18 +146,30 @@ user_problem_statement: |
   - Time Sync Service ✅
   - Calibration API & Performance Profiler ✅
   - Real-Time CV System: Live video frame analysis with MediaPipe + YOLO ✅
+  - Public Stat Pages: Events, Fight Detail, Fighter Profile with Victory charts ✅
   
-  Current Task: Public Stat Pages Implementation
-  - Backend APIs:
-    * GET /api/events - List all events with fight count and total strikes per card ⏳
-    * GET /api/fights/:fight_id/stats - Fight detail page with round-by-round stats ⏳
-    * GET /api/fighters/:fighter_id/stats - Fighter career profile with metrics ⏳
-  - Frontend Pages:
-    * /events - Events list page with summary cards ⏳
-    * /fights/:fight_id - Fight detail page with Victory bar charts ⏳
-    * /fighters/:fighter_id - Fighter profile page with career metrics ⏳
-  - Victory Charts: Installed and configured for data visualization ⏳
-  - Testing: Backend API endpoints and frontend integration ⏳
+  Current Task: Tapology Data Scraper Implementation
+  - Scraper Engine:
+    * TapologyScraper class with BeautifulSoup + requests ⏳
+    * Rate limiting (2s between requests) ⏳
+    * Event scraping (recent events list) ⏳
+    * Fighter profile scraping (name, record, stats) ⏳
+    * Bout details scraping (results, method, round) ⏳
+  - Data Transformation:
+    * Transform Tapology data to database schema ⏳
+    * Fighter records (W-L-D parsing) ⏳
+    * Event aggregation ⏳
+    * Fight results mapping ⏳
+  - Storage & APIs:
+    * Duplicate detection for fighters/events ⏳
+    * Batch processing ⏳
+    * POST /api/scraper/events/recent ⏳
+    * POST /api/scraper/fighter/{id} ⏳
+    * POST /api/scraper/event/{id} ⏳
+    * GET /api/scraper/status ⏳
+    * GET /api/scraper/fighters/search ⏳
+    * POST /api/scraper/bulk/ufc-recent ⏳
+  - Testing: Backend scraping operations and data storage ⏳
   
   Implement advanced features for combat sports judging tool in order:
   1. Shadow-Judging/Training Mode - Complete with metrics tracking, hidden official cards, calibration scoring ✅
