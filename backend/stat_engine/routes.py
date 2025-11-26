@@ -84,7 +84,7 @@ async def aggregate_round(
     - trigger: manual | round_locked
     
     Returns:
-    - AggregationJob with results
+    - AggregationJob with results (audit logged)
     """
     
     if not scheduler:
@@ -97,12 +97,24 @@ async def aggregate_round(
             trigger=trigger
         )
         
-        return {
+        result = {
             "job_id": job.id,
             "status": job.status,
             "rows_updated": job.rows_updated,
             "message": f"Round {round_num} aggregation completed"
         }
+        
+        # Audit log the action
+        if audit_logger:
+            await audit_logger.log_action(
+                action_type="round_aggregation",
+                trigger=trigger,
+                fight_id=fight_id,
+                round_num=round_num,
+                result=result
+            )
+        
+        return result
     
     except Exception as e:
         logger.error(f"Error aggregating round: {e}")
