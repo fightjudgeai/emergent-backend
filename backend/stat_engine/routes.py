@@ -458,3 +458,71 @@ async def get_fight_audit_logs(fight_id: str):
     except Exception as e:
         logger.error(f"Error getting fight audit logs: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ============================================================================
+# LIVE STATS DASHBOARD
+# ============================================================================
+
+@router.get("/live/{fight_id}")
+async def get_live_fight_stats(fight_id: str):
+    """
+    Get live stats for a fight (for dashboard)
+    
+    Returns:
+    - Round stats for all fighters, all rounds
+    - Fight stats for all fighters
+    - Structured for table display
+    """
+    
+    if not round_aggregator or not fight_aggregator:
+        raise HTTPException(status_code=500, detail="Stat aggregators not initialized")
+    
+    try:
+        # Get all round stats
+        round_cursor = round_aggregator.db.round_stats.find({"fight_id": fight_id})
+        round_docs = await round_cursor.to_list(length=None)
+        
+        # Get all fight stats
+        fight_cursor = fight_aggregator.db.fight_stats.find({"fight_id": fight_id})
+        fight_docs = await fight_cursor.to_list(length=None)
+        
+        # Structure data by fighter
+        fighters_data = {}
+        
+        for doc in round_docs:
+            doc.pop('_id', None)
+            fighter_id = doc['fighter_id']
+            round_num = doc['round']
+            
+            if fighter_id not in fighters_data:
+                fighters_data[fighter_id] = {
+                    "fighter_id": fighter_id,
+                    "rounds": {},
+                    "total": None
+                }
+            
+            fighters_data[fighter_id]['rounds'][round_num] = doc
+        
+        for doc in fight_docs:
+            doc.pop('_id', None)
+            fighter_id = doc['fighter_id']
+            
+            if fighter_id not in fighters_data:
+                fighters_data[fighter_id] = {
+                    "fighter_id": fighter_id,
+                    "rounds": {},
+                    "total": None
+                }
+            
+            fighters_data[fighter_id]['total'] = doc
+        
+        return {
+            "fight_id": fight_id,
+            "fighters": fighters_data,
+            "last_updated": datetime.now(timezone.utc).isoformat()
+        }
+    
+    except Exception as e:
+        logger.error(f"Error getting live stats: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
