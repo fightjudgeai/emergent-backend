@@ -38,6 +38,7 @@ function App() {
           <Route path="/shadow-judging" element={<ShadowJudgingMode />} />
           <Route path="/review-dashboard" element={<ReviewDashboard />} />
           <Route path="/tuning-profiles" element={<TuningProfileManager />} />
+          <Route path="/stats/fight/:fight_id" element={<LiveStatsDashboard />} />
           <Route path="/audit-logs" element={<AuditLogViewer />} />
           <Route path="/profile" element={<JudgeProfile />} />
         </Routes>
