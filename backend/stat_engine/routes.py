@@ -134,7 +134,7 @@ async def aggregate_fight(
     - trigger: manual | post_fight
     
     Returns:
-    - AggregationJob with results
+    - AggregationJob with results (audit logged)
     """
     
     if not scheduler:
@@ -146,12 +146,23 @@ async def aggregate_fight(
             trigger=trigger
         )
         
-        return {
+        result = {
             "job_id": job.id,
             "status": job.status,
             "rows_updated": job.rows_updated,
             "message": f"Fight aggregation completed"
         }
+        
+        # Audit log the action
+        if audit_logger:
+            await audit_logger.log_action(
+                action_type="fight_aggregation",
+                trigger=trigger,
+                fight_id=fight_id,
+                result=result
+            )
+        
+        return result
     
     except Exception as e:
         logger.error(f"Error aggregating fight: {e}")
