@@ -4229,6 +4229,28 @@ async def startup_databases():
     """Initialize Postgres and Redis on startup"""
     global postgres_available, redis_available
     
+    # Initialize MongoDB with production schemas and indexes
+    try:
+        from database.init_db import initialize_database
+        logger.info("🚀 Initializing MongoDB with production schemas...")
+        
+        init_results = await initialize_database(db, force_recreate_indexes=False)
+        
+        if init_results["status"] == "success":
+            logger.info("✓ MongoDB initialized with production schemas")
+            logger.info(f"  Collections: {len(init_results.get('collections_created', []))}")
+            logger.info(f"  Total indexes: {sum(len(v) for v in init_results.get('indexes_created', {}).values())}")
+            
+            # Log collection counts
+            counts = init_results.get('collection_counts', {})
+            for collection, count in counts.items():
+                logger.info(f"  - {collection}: {count} documents")
+        else:
+            logger.warning(f"MongoDB initialization had issues: {init_results.get('errors')}")
+    
+    except Exception as e:
+        logger.warning(f"MongoDB initialization skipped: {e}")
+    
     # Initialize Postgres
     try:
         await init_db()
