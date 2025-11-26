@@ -4190,6 +4190,29 @@ try:
 except Exception as e:
     logger.warning(f"Stat Engine not loaded: {e}")
 
+# ============================================================================
+# DATABASE MANAGEMENT (Production Models & Indexes)
+# ============================================================================
+try:
+    from database.routes import router as database_api
+    import database.routes as db_routes_module
+    from database.init_db import initialize_database
+    
+    # Initialize database routes
+    db_routes_module.init_database_routes(db=db)
+    
+    # Include router
+    app.include_router(database_api)
+    
+    logger.info("✓ Database Management loaded - Production schemas and indexes")
+    logger.info("  - Fighters table with biographical data")
+    logger.info("  - Events table with proper relations")
+    logger.info("  - Round/Fight/Career stats tables")
+    logger.info("  - 30+ optimized indexes for query performance")
+    
+except Exception as e:
+    logger.warning(f"Database Management not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
