@@ -277,6 +277,18 @@ class MergeEngine:
         
         return differences
     
+    def _parse_timestamp(self, timestamp):
+        """Parse timestamp from various formats"""
+        if isinstance(timestamp, str):
+            try:
+                return datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+            except:
+                return datetime.now(timezone.utc)
+        elif isinstance(timestamp, datetime):
+            return timestamp
+        else:
+            return datetime.now(timezone.utc)
+    
     def _prepare_event_for_storage(
         self,
         ai_event: Dict[str, Any],
