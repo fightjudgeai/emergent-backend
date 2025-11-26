@@ -4279,6 +4279,52 @@ except Exception as e:
     logger.warning(f"Verification Engine not loaded: {e}")
 
 # ============================================================================
+# AI MERGE ENGINE (Colab/Kaggle AI event integration)
+# ============================================================================
+try:
+    from ai_merge_engine.routes import router as ai_merge_api
+    import ai_merge_engine.routes as ai_merge_module
+    
+    # Initialize AI merge engine with database
+    ai_merge_module.init_ai_merge_engine(database=db)
+    
+    # Include router
+    app.include_router(ai_merge_api)
+    
+    logger.info("✓ AI Merge Engine loaded - Colab/Kaggle AI event integration")
+    logger.info("  - POST /api/ai-merge/submit-batch (receive AI events from Colab)")
+    logger.info("  - GET /api/ai-merge/review-items (get conflicts for review)")
+    logger.info("  - POST /api/ai-merge/review-items/{id}/approve (approve resolution)")
+    logger.info("  - Merge rules: tolerance-based auto-approval, conflict detection")
+    
+except Exception as e:
+    logger.warning(f"AI Merge Engine not loaded: {e}")
+
+# ============================================================================
+# POST-FIGHT REVIEW INTERFACE (Event editing and versioning)
+# ============================================================================
+try:
+    from review_interface.routes import router as review_api
+    import review_interface.routes as review_module
+    
+    # Initialize review interface with database
+    review_module.init_review_interface(database=db)
+    
+    # Include router
+    app.include_router(review_api)
+    
+    logger.info("✓ Post-Fight Review Interface loaded - Event editing and versioning")
+    logger.info("  - GET /api/review/timeline/{fight_id} (get event timeline)")
+    logger.info("  - PUT /api/review/events/{id} (edit event with versioning)")
+    logger.info("  - DELETE /api/review/events/{id} (delete event)")
+    logger.info("  - POST /api/review/events/merge (merge duplicate events)")
+    logger.info("  - POST /api/review/fights/{id}/approve (approve and rerun stats)")
+    logger.info("  - POST /api/review/videos/upload (upload fight video)")
+    
+except Exception as e:
+    logger.warning(f"Post-Fight Review Interface not loaded: {e}")
+
+# ============================================================================
 # DATABASE MANAGEMENT (Production Models & Indexes)
 # ============================================================================
 try:
