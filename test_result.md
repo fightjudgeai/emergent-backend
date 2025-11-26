@@ -149,8 +149,11 @@ user_problem_statement: |
   - Calibration API & Performance Profiler ✅
   - Real-Time CV System: Live video frame analysis with MediaPipe + YOLO ✅
   - Public Stat Pages: Events, Fight Detail, Fighter Profile with Victory charts ✅
+  - Tapology Data Scraper: Web scraping for MMA data collection ✅
+  - Stats Overlay API: Low-latency broadcast overlays with caching ✅
+  - Verification Engine: Multi-operator data verification ✅
   
-  Current Task: Tapology Data Scraper Implementation
+  Current Task: Integration System Implementation
   - Scraper Engine:
     * TapologyScraper class with BeautifulSoup + requests ⏳
     * Rate limiting (2s between requests) ⏳
