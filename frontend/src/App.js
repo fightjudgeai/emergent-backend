@@ -17,6 +17,7 @@ import JudgeProfile from "@/components/JudgeProfile";
 import EventsPage from "@/components/EventsPage";
 import FightDetailPage from "@/components/FightDetailPage";
 import FighterProfilePage from "@/components/FighterProfilePage";
+import PostFightReviewPanel from "@/components/PostFightReviewPanel";
 
 function App() {
   // Check if judge is logged in
