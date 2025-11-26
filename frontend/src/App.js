@@ -44,6 +44,11 @@ function App() {
           <Route path="/stats/fight/:fight_id" element={<LiveStatsDashboard />} />
           <Route path="/audit-logs" element={<AuditLogViewer />} />
           <Route path="/profile" element={<JudgeProfile />} />
+          
+          {/* Public Stats Pages */}
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/fights/:fight_id" element={<FightDetailPage />} />
+          <Route path="/fighters/:fighter_id" element={<FighterProfilePage />} />
         </Routes>
       </BrowserRouter>
     </div>
