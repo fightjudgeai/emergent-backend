@@ -37,7 +37,11 @@ class CombatJudgingAPITester:
             elif method == 'DELETE':
                 response = requests.delete(url, headers=headers, timeout=10)
 
-            success = response.status_code == expected_status
+            # Handle multiple expected status codes
+            if isinstance(expected_status, list):
+                success = response.status_code in expected_status
+            else:
+                success = response.status_code == expected_status
             
             result = {
                 'test': name,
