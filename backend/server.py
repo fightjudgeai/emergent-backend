@@ -4235,6 +4235,50 @@ except Exception as e:
     logger.warning(f"Tapology Scraper not loaded: {e}")
 
 # ============================================================================
+# STATS OVERLAY API (Low-latency broadcast overlays)
+# ============================================================================
+try:
+    from stats_overlay.routes import router as overlay_api
+    import stats_overlay.routes as overlay_module
+    
+    # Initialize stats overlay with database
+    overlay_module.init_stats_overlay(database=db)
+    
+    # Include router
+    app.include_router(overlay_api)
+    
+    logger.info("✓ Stats Overlay API loaded - Low-latency broadcast overlays")
+    logger.info("  - GET /api/overlay/live/{fight_id} (live stats with 60s window)")
+    logger.info("  - GET /api/overlay/comparison/{fight_id} (red vs blue deltas)")
+    logger.info("  - WS /api/overlay/ws/live/{fight_id} (WebSocket real-time)")
+    logger.info("  - Performance: Sub-200ms latency, 1-second cache")
+    
+except Exception as e:
+    logger.warning(f"Stats Overlay API not loaded: {e}")
+
+# ============================================================================
+# VERIFICATION ENGINE (Multi-operator verification)
+# ============================================================================
+try:
+    from verification_engine.routes import router as verification_api
+    import verification_engine.routes as verification_module
+    
+    # Initialize verification engine with database
+    verification_module.init_verification_engine(database=db)
+    
+    # Include router
+    app.include_router(verification_api)
+    
+    logger.info("✓ Verification Engine loaded - Multi-operator data verification")
+    logger.info("  - POST /api/verification/verify/round/{fight_id}/{round} (verify round)")
+    logger.info("  - POST /api/verification/verify/fight/{fight_id} (verify all rounds)")
+    logger.info("  - GET /api/verification/discrepancies (get flagged issues)")
+    logger.info("  - Thresholds: Sig strikes >10%, Takedowns >1")
+    
+except Exception as e:
+    logger.warning(f"Verification Engine not loaded: {e}")
+
+# ============================================================================
 # DATABASE MANAGEMENT (Production Models & Indexes)
 # ============================================================================
 try:
