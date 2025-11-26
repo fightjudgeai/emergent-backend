@@ -326,7 +326,7 @@ async def get_fight_videos(fight_id: str):
     Returns list of uploaded videos
     """
     
-    if not db:
+    if db is None:
         raise HTTPException(status_code=500, detail="Database not initialized")
     
     try:
@@ -353,7 +353,7 @@ async def stream_video(video_id: str):
     Returns video file for playback
     """
     
-    if not db:
+    if db is None:
         raise HTTPException(status_code=500, detail="Database not initialized")
     
     try:
