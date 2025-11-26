@@ -5761,6 +5761,12 @@ class CombatJudgingAPITester:
         # Test Tapology Scraper API (6 APIs) - NEW
         self.test_tapology_scraper_complete_flow()
         
+        # Test AI Merge Engine (4 APIs) - NEW
+        self.test_ai_merge_engine_complete_flow()
+        
+        # Test Post-Fight Review Interface (7 APIs) - NEW
+        self.test_post_fight_review_complete_flow()
+        
         # Print summary
         print("\n" + "=" * 60)
         print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
