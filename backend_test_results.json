@@ -8,7 +8,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/now",
+      "url": "https://fightjudge.preview.emergentagent.com/api/timesync/now",
       "response": {
         "server_timestamp_ms": 1763956969597,
         "server_time_iso": "2025-11-24T04:02:49.597179+00:00",
@@ -21,7 +21,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/health",
+      "url": "https://fightjudge.preview.emergentagent.com/api/timesync/health",
       "response": {
         "status": "healthy",
         "service": "Time Sync + FightClock",
@@ -33,7 +33,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/now",
+      "url": "https://fightjudge.preview.emergentagent.com/api/timesync/clock/now",
       "response": {
         "server_timestamp_ms": 1763956969680,
         "server_time_iso": "2025-11-24T04:02:49.680847+00:00",
@@ -54,7 +54,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/start",
+      "url": "https://fightjudge.preview.emergentagent.com/api/timesync/clock/start",
       "response": {
         "elapsed_ms": 0,
         "elapsed_seconds": 0.0,
@@ -69,7 +69,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/pause",
+      "url": "https://fightjudge.preview.emergentagent.com/api/timesync/clock/pause",
       "response": {
         "elapsed_ms": 33,
         "elapsed_seconds": 0.03,
@@ -84,7 +84,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/reset",
+      "url": "https://fightjudge.preview.emergentagent.com/api/timesync/clock/reset",
       "response": {
         "elapsed_ms": 0,
         "elapsed_seconds": 0.0,
@@ -99,7 +99,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/start",
+      "url": "https://fightjudge.preview.emergentagent.com/api/timesync/clock/start",
       "response": {
         "elapsed_ms": 0,
         "elapsed_seconds": 0.0,
@@ -114,7 +114,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/now",
+      "url": "https://fightjudge.preview.emergentagent.com/api/timesync/clock/now",
       "response": {
         "server_timestamp_ms": 1763956969862,
         "server_time_iso": "2025-11-24T04:02:49.862916+00:00",
@@ -135,7 +135,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/pause",
+      "url": "https://fightjudge.preview.emergentagent.com/api/timesync/clock/pause",
       "response": {
         "elapsed_ms": 77,
         "elapsed_seconds": 0.08,
@@ -150,7 +150,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/start",
+      "url": "https://fightjudge.preview.emergentagent.com/api/timesync/clock/start",
       "response": {
         "elapsed_ms": 77,
         "elapsed_seconds": 0.08,
@@ -165,7 +165,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/timesync/clock/reset",
+      "url": "https://fightjudge.preview.emergentagent.com/api/timesync/clock/reset",
       "response": {
         "elapsed_ms": 0,
         "elapsed_seconds": 0.0,
@@ -180,7 +180,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calibration/get",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calibration/get",
       "response": {
         "kd_threshold": 0.75,
         "rocked_threshold": 0.65,
@@ -199,7 +199,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calibration/set?modified_by=test_user",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calibration/set?modified_by=test_user",
       "response": {
         "kd_threshold": 0.8,
         "rocked_threshold": 0.7,
@@ -218,7 +218,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calibration/reset",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calibration/reset",
       "response": {
         "kd_threshold": 0.75,
         "rocked_threshold": 0.65,
@@ -237,7 +237,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calibration/history?limit=10",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calibration/history?limit=10",
       "response": [
         {
           "timestamp": "2025-11-24T04:02:50.127323Z",
@@ -281,7 +281,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calibration/health",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calibration/health",
       "response": {
         "status": "healthy",
         "service": "Calibration API",
@@ -293,7 +293,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 422,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/validator/validate",
+      "url": "https://fightjudge.preview.emergentagent.com/api/validator/validate",
       "error": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"round_id\"],\"msg\":\"Field required\",\"input\":null,\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"},{\"type\":\"missing\",\"loc\":[\"query\",\"bout_id\"],\"msg\":\"Field"
     },
     {
@@ -301,7 +301,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/",
+      "url": "https://fightjudge.preview.emergentagent.com/api/",
       "response": {
         "message": "Combat Sports Judging API"
       }
@@ -311,7 +311,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/status",
+      "url": "https://fightjudge.preview.emergentagent.com/api/status",
       "response": {
         "id": "e0bc103d-7ab7-4836-801b-e0405de3c0b6",
         "client_name": "test_client_040250",
@@ -323,7 +323,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/status",
+      "url": "https://fightjudge.preview.emergentagent.com/api/status",
       "response": [
         {
           "id": "05ea4451-e778-4d4b-831e-7fa6f0a4ead5",
@@ -427,7 +427,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calculate-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_123",
         "round_num": 1,
@@ -506,7 +506,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calculate-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_empty",
         "round_num": 1,
@@ -585,7 +585,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calculate-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_invalid",
         "round_num": 1,
@@ -664,7 +664,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calculate-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_counts",
         "round_num": 1,
@@ -741,7 +741,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calculate-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_actual",
         "round_num": 1,
@@ -818,7 +818,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_001",
         "round_num": 1,
@@ -885,7 +885,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_002",
         "round_num": 1,
@@ -952,7 +952,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_003",
         "round_num": 1,
@@ -1020,7 +1020,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_004",
         "round_num": 1,
@@ -1087,7 +1087,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_005",
         "round_num": 1,
@@ -1154,7 +1154,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_006",
         "round_num": 1,
@@ -1224,7 +1224,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/seed",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/seed",
       "response": {
         "success": true,
         "message": "Seeded 16 training rounds",
@@ -1236,7 +1236,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/rounds",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/rounds",
       "response": [
         {
           "id": "eacc70e5-740f-46de-b189-ff19530ad7d9",
@@ -1485,7 +1485,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "aec07ca5-5fea-4f82-b739-9880a7cd1283",
         "judgeId": "test-judge-1",
@@ -1505,7 +1505,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "09fa5a8d-89e4-4790-974f-b42cda7f5424",
         "judgeId": "test-judge-1",
@@ -1525,7 +1525,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "3587f521-1c7e-40fb-9a9d-2db88a812821",
         "judgeId": "test-judge-1",
@@ -1545,7 +1545,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "04f11d1d-2752-4c94-948b-a11b2479ef9b",
         "judgeId": "test-judge-2",
@@ -1565,7 +1565,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "9e8dc496-55c1-41ff-98f0-3ee128a0b44b",
         "judgeId": "test-judge-2",
@@ -1585,7 +1585,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "15884371-a7a0-4c23-bf86-c8dd279d8e23",
         "judgeId": "test-judge-3",
@@ -1605,7 +1605,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "b65110a0-196e-4261-a85b-9db43d2c0574",
         "judgeId": "test-judge-3",
@@ -1625,7 +1625,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "c0aedcc7-0820-4744-b411-d5e0cf987c2d",
         "judgeId": "test-judge-3",
@@ -1645,7 +1645,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "c86a32fe-576f-40a4-82f8-ddce22277ab1",
         "judgeId": "test-judge-3",
@@ -1665,7 +1665,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/training-library/judge-stats/test-judge-1",
+      "url": "https://fightjudge.preview.emergentagent.com/api/training-library/judge-stats/test-judge-1",
       "response": {
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
@@ -1681,7 +1681,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/log",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "52372cd7-7baa-45bd-bb43-20519dde37d9"
@@ -1692,7 +1692,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/log",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "a6513ca4-9d02-441e-8f1e-d2c19ed98f30"
@@ -1703,7 +1703,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/log",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "fadc8247-7f10-4ea9-a60c-e08be2aa1b45"
@@ -1714,7 +1714,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001",
       "response": {
         "logs": [
           {
@@ -3688,7 +3688,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation",
       "response": {
         "logs": [
           {
@@ -5693,7 +5693,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&user_id=judge-001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&user_id=judge-001",
       "response": {
         "logs": [
           {
@@ -6030,7 +6030,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&resource_type=round_score",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&resource_type=round_score",
       "response": {
         "logs": [
           {
@@ -8035,7 +8035,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation&user_id=judge-001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation&user_id=judge-001",
       "response": {
         "logs": [
           {
@@ -8372,7 +8372,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/verify/52372cd7-7baa-45bd-bb43-20519dde37d9?judge_id=owner-001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/verify/52372cd7-7baa-45bd-bb43-20519dde37d9?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "bcb4669ff46eec09410c570ddcb9337e136f8113e8a0d656cac3a63159edd1f2",
@@ -8385,7 +8385,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/verify/a6513ca4-9d02-441e-8f1e-d2c19ed98f30?judge_id=owner-001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/verify/a6513ca4-9d02-441e-8f1e-d2c19ed98f30?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "485f4b323e45020c16b2b4669e2968cd94e5837698ac5bfadcddd6a1eab671c5",
@@ -8398,7 +8398,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/verify/fadc8247-7f10-4ea9-a60c-e08be2aa1b45?judge_id=owner-001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/verify/fadc8247-7f10-4ea9-a60c-e08be2aa1b45?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "7fed39aa5ad429aa8cc2a5198747dc82f5f38999ce29add89674633a9af10875",
@@ -8411,7 +8411,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/verify/non-existent-log-id?judge_id=owner-001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/verify/non-existent-log-id?judge_id=owner-001",
       "response": {
         "detail": "Audit log not found"
       }
@@ -8421,7 +8421,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/stats?judge_id=owner-001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/stats?judge_id=owner-001",
       "response": {
         "total_logs": 166,
         "by_action_type": [
@@ -8469,7 +8469,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/audit/export?judge_id=owner-001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/audit/export?judge_id=owner-001",
       "response": {
         "export_format": "json",
         "export_timestamp": "2025-11-24T04:02:51.893448+00:00",
@@ -11724,7 +11724,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/judges",
+      "url": "https://fightjudge.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -11736,7 +11736,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/judges",
+      "url": "https://fightjudge.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -11748,7 +11748,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/judges",
+      "url": "https://fightjudge.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -11760,7 +11760,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/judges/JUDGE001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/judges/JUDGE001",
       "response": {
         "judgeId": "JUDGE001",
         "judgeName": "Sarah Mitchell",
@@ -11783,7 +11783,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/judges/JUDGE002",
+      "url": "https://fightjudge.preview.emergentagent.com/api/judges/JUDGE002",
       "response": {
         "judgeId": "JUDGE002",
         "judgeName": "Carlos Rodriguez",
@@ -11805,7 +11805,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/judges/owner-001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/judges/owner-001",
       "response": {
         "judgeId": "owner-001",
         "judgeName": "Owner Judge",
@@ -11826,7 +11826,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/judges/NON_EXISTENT",
+      "url": "https://fightjudge.preview.emergentagent.com/api/judges/NON_EXISTENT",
       "response": {
         "detail": "Judge profile not found"
       }
@@ -11836,7 +11836,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://fightjudge.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Jon Jones"
@@ -11847,7 +11847,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://fightjudge.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Daniel Cormier"
@@ -11858,7 +11858,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://fightjudge.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Amanda Nunes"
@@ -11869,7 +11869,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/fighters/Jon%20Jones/stats",
+      "url": "https://fightjudge.preview.emergentagent.com/api/fighters/Jon%20Jones/stats",
       "response": {
         "fighter_name": "Jon Jones",
         "avg_control_time": 120.0,
@@ -11907,7 +11907,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/fighters/Daniel%20Cormier/stats",
+      "url": "https://fightjudge.preview.emergentagent.com/api/fighters/Daniel%20Cormier/stats",
       "response": {
         "fighter_name": "Daniel Cormier",
         "avg_control_time": 45.0,
@@ -11945,7 +11945,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/fighters/Amanda%20Nunes/stats",
+      "url": "https://fightjudge.preview.emergentagent.com/api/fighters/Amanda%20Nunes/stats",
       "response": {
         "fighter_name": "Amanda Nunes",
         "avg_control_time": 0.0,
@@ -11983,7 +11983,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/fighters/NonExistentFighter/stats",
+      "url": "https://fightjudge.preview.emergentagent.com/api/fighters/NonExistentFighter/stats",
       "response": {
         "detail": "No stats found for NonExistentFighter"
       }
@@ -11993,7 +11993,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://fightjudge.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "bfb21ccd-0d08-46db-a02f-88760ad96f22"
@@ -12004,7 +12004,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://fightjudge.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "87eb723c-b347-4588-9525-ed141b9d5789"
@@ -12015,7 +12015,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://fightjudge.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "fdccf15f-21dc-457e-8a8c-e082823d219a"
@@ -12026,7 +12026,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://fightjudge.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "6d50cb4e-f044-431e-b639-4d29b6f71377"
@@ -12037,7 +12037,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/review/flags",
+      "url": "https://fightjudge.preview.emergentagent.com/api/review/flags",
       "response": {
         "flags": [
           {
@@ -13837,7 +13837,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/review/flags?status=pending",
+      "url": "https://fightjudge.preview.emergentagent.com/api/review/flags?status=pending",
       "response": {
         "flags": [
           {
@@ -15637,7 +15637,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/review/flags?severity=high",
+      "url": "https://fightjudge.preview.emergentagent.com/api/review/flags?severity=high",
       "response": {
         "flags": [
           {
@@ -16175,7 +16175,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/review/flags?flag_type=boundary_case",
+      "url": "https://fightjudge.preview.emergentagent.com/api/review/flags?flag_type=boundary_case",
       "response": {
         "flags": [
           {
@@ -16421,7 +16421,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/review/flags/UFC_299_001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/review/flags/UFC_299_001",
       "response": {
         "flags": [
           {
@@ -16667,7 +16667,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "842eeca3-07b2-445b-9eca-6ec72813e2ab",
@@ -16712,7 +16712,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "757cb532-f458-4366-a79b-469c0a4d956f",
@@ -16757,7 +16757,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
@@ -16802,7 +16802,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles",
       "response": {
         "profiles": [
           {
@@ -17800,7 +17800,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/842eeca3-07b2-445b-9eca-6ec72813e2ab",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/842eeca3-07b2-445b-9eca-6ec72813e2ab",
       "response": {
         "id": "842eeca3-07b2-445b-9eca-6ec72813e2ab",
         "name": "UFC Standard",
@@ -17841,7 +17841,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/757cb532-f458-4366-a79b-469c0a4d956f",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/757cb532-f458-4366-a79b-469c0a4d956f",
       "response": {
         "id": "757cb532-f458-4366-a79b-469c0a4d956f",
         "name": "Bellator Aggressive",
@@ -17882,7 +17882,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
       "response": {
         "id": "470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
         "name": "ONE Championship",
@@ -17923,7 +17923,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -17933,7 +17933,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/842eeca3-07b2-445b-9eca-6ec72813e2ab",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/842eeca3-07b2-445b-9eca-6ec72813e2ab",
       "response": {
         "id": "842eeca3-07b2-445b-9eca-6ec72813e2ab",
         "name": "UFC Standard v2.0",
@@ -17974,7 +17974,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -17984,7 +17984,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
       "response": {
         "success": true,
         "message": "Profile deleted"
@@ -17995,7 +17995,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/470920b2-f6fe-4af7-b07b-0eaaaeb45aa0",
       "response": {
         "detail": "Profile not found"
       }
@@ -18005,7 +18005,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://fightjudge.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -18015,7 +18015,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "20c64c0c-c12e-4674-966a-03171bb42d44",
         "bout_id": "test-bout-1763956973",
@@ -18034,7 +18034,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "cb8b52fe-1239-4d2b-bf14-7dff991bbfbb",
         "bout_id": "test-bout-1763956973",
@@ -18051,7 +18051,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "f759d12c-57a7-4689-81a5-d8d6e356a419",
         "bout_id": "test-bout-1763956973",
@@ -18068,7 +18068,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763956973/1",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes/test-bout-1763956973/1",
       "response": {
         "notes": [
           {
@@ -18102,7 +18102,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763956973/1?judge_id=JUDGE001",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes/test-bout-1763956973/1?judge_id=JUDGE001",
       "response": {
         "notes": [
           {
@@ -18126,7 +18126,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763956973",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes/test-bout-1763956973",
       "response": {
         "notes": [
           {
@@ -18208,7 +18208,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-1763956973?judge_id=JUDGE002",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes/test-bout-1763956973?judge_id=JUDGE002",
       "response": {
         "notes": [
           {
@@ -18244,7 +18244,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "51df70ab-a54f-4595-a412-119bccb1ea34",
         "bout_id": "test-bout-update-1763956973",
@@ -18261,7 +18261,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/51df70ab-a54f-4595-a412-119bccb1ea34",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes/51df70ab-a54f-4595-a412-119bccb1ea34",
       "response": {
         "success": true,
         "message": "Note updated successfully"
@@ -18272,7 +18272,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-update-1763956973/1",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes/test-bout-update-1763956973/1",
       "response": {
         "notes": [
           {
@@ -18295,7 +18295,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "13787042-a705-4512-bb9e-a6ff5a1511fe",
         "bout_id": "test-bout-delete-1763956973",
@@ -18312,7 +18312,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/13787042-a705-4512-bb9e-a6ff5a1511fe",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes/13787042-a705-4512-bb9e-a6ff5a1511fe",
       "response": {
         "success": true,
         "message": "Note deleted successfully"
@@ -18323,7 +18323,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/test-bout-delete-1763956973/1",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes/test-bout-delete-1763956973/1",
       "response": {
         "notes": [],
         "count": 0
@@ -18334,7 +18334,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/fake-note-id-999",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes/fake-note-id-999",
       "response": {
         "detail": "Note not found"
       }
@@ -18344,7 +18344,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/fake-note-id-999",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes/fake-note-id-999",
       "response": {
         "detail": "Note not found"
       }
@@ -18354,7 +18354,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/round-notes/non-existent-bout/1",
+      "url": "https://fightjudge.preview.emergentagent.com/api/round-notes/non-existent-bout/1",
       "response": {
         "notes": [],
         "count": 0
@@ -18365,7 +18365,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/supervisor/dashboard/test-bout-supervisor-123",
+      "url": "https://fightjudge.preview.emergentagent.com/api/supervisor/dashboard/test-bout-supervisor-123",
       "response": {
         "bout_id": "test-bout-supervisor-123",
         "judge_scores": [],
@@ -18381,7 +18381,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/variance/detect/test-bout-variance-123/1",
+      "url": "https://fightjudge.preview.emergentagent.com/api/variance/detect/test-bout-variance-123/1",
       "response": {
         "bout_id": "test-bout-variance-123",
         "round_num": 1,
@@ -18395,7 +18395,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/variance/detect/test-bout-variance-456/1",
+      "url": "https://fightjudge.preview.emergentagent.com/api/variance/detect/test-bout-variance-456/1",
       "response": {
         "bout_id": "test-bout-variance-456",
         "round_num": 1,
@@ -18409,7 +18409,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/branding/promotion",
+      "url": "https://fightjudge.preview.emergentagent.com/api/branding/promotion",
       "response": {
         "id": "620900b8-6104-4e7d-a5ae-5f80b1e86474",
         "promotion_name": "UFC",
@@ -18427,7 +18427,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/branding/promotion/UFC",
+      "url": "https://fightjudge.preview.emergentagent.com/api/branding/promotion/UFC",
       "response": {
         "id": "620900b8-6104-4e7d-a5ae-5f80b1e86474",
         "promotion_name": "UFC",
@@ -18446,7 +18446,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/branding/promotion/Bellator",
+      "url": "https://fightjudge.preview.emergentagent.com/api/branding/promotion/Bellator",
       "response": {
         "promotion_name": "Bellator",
         "logo_url": null,
@@ -18462,7 +18462,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/branding/promotion",
+      "url": "https://fightjudge.preview.emergentagent.com/api/branding/promotion",
       "response": {
         "id": "bb9b5c0e-42e9-43d6-88b8-888c8a76431d",
         "promotion_name": "UFC",
@@ -18480,7 +18480,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://fightjudge.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -18496,7 +18496,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/broadcast/buffer/test-bout-buffer-123",
+      "url": "https://fightjudge.preview.emergentagent.com/api/broadcast/buffer/test-bout-buffer-123",
       "response": {
         "bout_id": "test-bout-buffer-123",
         "delay_seconds": 10,
@@ -18510,7 +18510,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://fightjudge.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -18526,7 +18526,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://fightjudge.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -18542,7 +18542,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://fightjudge.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -18558,7 +18558,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/broadcast/buffer/non-existent-bout-999",
+      "url": "https://fightjudge.preview.emergentagent.com/api/broadcast/buffer/non-existent-bout-999",
       "response": {
         "bout_id": "non-existent-bout-999",
         "delay_seconds": 5,
@@ -18572,7 +18572,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/health",
+      "url": "https://fightjudge.preview.emergentagent.com/api/icvss/health",
       "response": {
         "status": "healthy",
         "service": "ICVSS",
@@ -18585,7 +18585,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/system/status",
+      "url": "https://fightjudge.preview.emergentagent.com/api/icvss/system/status",
       "response": {
         "status": "healthy",
         "timestamp": "2025-11-24T04:02:54.465730+00:00",
@@ -18614,7 +18614,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/open?bout_id=TEST_BOUT_1&round_num=1",
+      "url": "https://fightjudge.preview.emergentagent.com/api/icvss/round/open?bout_id=TEST_BOUT_1&round_num=1",
       "response": {
         "round_id": "b54c639f-0df8-4247-818b-cb376e1f0b32",
         "bout_id": "TEST_BOUT_1",
@@ -18638,7 +18638,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/event?round_id=b54c639f-0df8-4247-818b-cb376e1f0b32",
+      "url": "https://fightjudge.preview.emergentagent.com/api/icvss/round/event?round_id=fightjudge",
       "response": {
         "success": true,
         "message": "Event accepted"
@@ -18649,7 +18649,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/event?round_id=b54c639f-0df8-4247-818b-cb376e1f0b32",
+      "url": "https://fightjudge.preview.emergentagent.com/api/icvss/round/event?round_id=fightjudge",
       "response": {
         "success": true,
         "message": "Event accepted"
@@ -18660,7 +18660,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/event?round_id=b54c639f-0df8-4247-818b-cb376e1f0b32",
+      "url": "https://fightjudge.preview.emergentagent.com/api/icvss/round/event?round_id=fightjudge",
       "response": {
         "success": true,
         "message": "Event accepted"
@@ -18671,7 +18671,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/score/b54c639f-0df8-4247-818b-cb376e1f0b32",
+      "url": "https://fightjudge.preview.emergentagent.com/api/icvss/round/score/b54c639f-0df8-4247-818b-cb376e1f0b32",
       "response": {
         "bout_id": "TEST_BOUT_1",
         "round_id": "b54c639f-0df8-4247-818b-cb376e1f0b32",
@@ -18708,7 +18708,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 500,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/icvss/round/lock/b54c639f-0df8-4247-818b-cb376e1f0b32",
+      "url": "https://fightjudge.preview.emergentagent.com/api/icvss/round/lock/b54c639f-0df8-4247-818b-cb376e1f0b32",
       "error": "{\"detail\":\"Object of type datetime is not JSON serializable\"}"
     },
     {
@@ -18716,7 +18716,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/health",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/health",
       "response": {
         "status": "healthy",
         "service": "Heartbeat Monitor",
@@ -18728,7 +18728,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "1bca9b75-d677-4bf5-b23d-b381b9f0ec0f",
         "service_name": "CV Router",
@@ -18748,7 +18748,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "cd1d21e8-0de9-4dab-805f-e3c4e760d29b",
         "service_name": "CV Router",
@@ -18768,7 +18768,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "91a1b88d-7960-429c-8c60-25e7150dd1b6",
         "service_name": "CV Router",
@@ -18788,7 +18788,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "0f7411b6-e7d1-4f55-9475-d3183b562d21",
         "service_name": "CV Analytics",
@@ -18808,7 +18808,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "fd881c37-bc00-4460-aea1-69d7af4a6815",
         "service_name": "CV Analytics",
@@ -18828,7 +18828,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "881c7281-1e70-49cb-af68-b65dec10c572",
         "service_name": "CV Analytics",
@@ -18848,7 +18848,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "7a7a6451-9e6a-42d8-8b4d-8aaeceaf647f",
         "service_name": "Scoring Engine",
@@ -18868,7 +18868,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "1b432028-257a-4be1-94ea-f10172396b37",
         "service_name": "Scoring Engine",
@@ -18888,7 +18888,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "2b1c6aff-c3f3-47ab-8313-281a1373fb8b",
         "service_name": "Scoring Engine",
@@ -18908,7 +18908,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "de071197-73fa-49b6-9f67-752f8fbd5c9d",
         "service_name": "Replay Worker",
@@ -18928,7 +18928,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "dd51cfb3-dcb9-4890-94e6-35e8e79d0a20",
         "service_name": "Replay Worker",
@@ -18948,7 +18948,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "e233fdf4-2ffe-42ce-a299-7ce02d1a66ac",
         "service_name": "Replay Worker",
@@ -18968,7 +18968,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "7295a184-d5a2-4d2b-bbf5-9f43c48ea9db",
         "service_name": "Highlight Worker",
@@ -18988,7 +18988,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "0718e22c-5f52-48b5-9d61-5b5082abf2f9",
         "service_name": "Highlight Worker",
@@ -19008,7 +19008,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "82c85e48-aec8-4636-84f5-e20c7a7e381c",
         "service_name": "Highlight Worker",
@@ -19028,7 +19028,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "b897104c-6eca-4509-a2cb-cb78b699ea0d",
         "service_name": "Storage Manager",
@@ -19048,7 +19048,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "a81a2f27-faa5-4823-ac39-26966f73adb9",
         "service_name": "Storage Manager",
@@ -19068,7 +19068,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "cfc543d0-2046-4ecb-9f73-3bb730f61e61",
         "service_name": "Storage Manager",
@@ -19088,7 +19088,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "8ae60a65-2bfd-4f28-a023-4f4621e8822a",
         "service_name": "Supervisor Console",
@@ -19108,7 +19108,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "dc501572-884a-4633-a750-343dbb104915",
         "service_name": "Supervisor Console",
@@ -19128,7 +19128,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "59139145-0bd0-435a-b4c0-acac21e69cf5",
         "service_name": "Supervisor Console",
@@ -19148,7 +19148,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -19172,7 +19172,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -19196,7 +19196,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -19220,7 +19220,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -19244,7 +19244,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -19268,7 +19268,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -19292,7 +19292,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/summary",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/summary",
       "response": {
         "total_services": 7,
         "healthy_services": 0,
@@ -19400,7 +19400,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/CV Router",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/CV Router",
       "response": [
         {
           "id": "91a1b88d-7960-429c-8c60-25e7150dd1b6",
@@ -19448,7 +19448,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/CV Router?limit=2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/CV Router?limit=2",
       "response": [
         {
           "id": "91a1b88d-7960-429c-8c60-25e7150dd1b6",
@@ -19483,7 +19483,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/CV Analytics",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/CV Analytics",
       "response": [
         {
           "id": "881c7281-1e70-49cb-af68-b65dec10c572",
@@ -19531,7 +19531,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/CV Analytics?limit=2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/CV Analytics?limit=2",
       "response": [
         {
           "id": "881c7281-1e70-49cb-af68-b65dec10c572",
@@ -19566,7 +19566,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Scoring Engine",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/Scoring Engine",
       "response": [
         {
           "id": "2b1c6aff-c3f3-47ab-8313-281a1373fb8b",
@@ -19614,7 +19614,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Scoring Engine?limit=2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/Scoring Engine?limit=2",
       "response": [
         {
           "id": "2b1c6aff-c3f3-47ab-8313-281a1373fb8b",
@@ -19649,7 +19649,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Replay Worker",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/Replay Worker",
       "response": [
         {
           "id": "e233fdf4-2ffe-42ce-a299-7ce02d1a66ac",
@@ -19697,7 +19697,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Replay Worker?limit=2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/Replay Worker?limit=2",
       "response": [
         {
           "id": "e233fdf4-2ffe-42ce-a299-7ce02d1a66ac",
@@ -19732,7 +19732,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Highlight Worker",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/Highlight Worker",
       "response": [
         {
           "id": "82c85e48-aec8-4636-84f5-e20c7a7e381c",
@@ -19780,7 +19780,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Highlight Worker?limit=2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/Highlight Worker?limit=2",
       "response": [
         {
           "id": "82c85e48-aec8-4636-84f5-e20c7a7e381c",
@@ -19815,7 +19815,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Storage Manager",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/Storage Manager",
       "response": [
         {
           "id": "cfc543d0-2046-4ecb-9f73-3bb730f61e61",
@@ -19863,7 +19863,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Storage Manager?limit=2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/Storage Manager?limit=2",
       "response": [
         {
           "id": "cfc543d0-2046-4ecb-9f73-3bb730f61e61",
@@ -19898,7 +19898,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Supervisor Console",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/Supervisor Console",
       "response": [
         {
           "id": "59139145-0bd0-435a-b4c0-acac21e69cf5",
@@ -19946,7 +19946,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/history/Supervisor Console?limit=2",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/history/Supervisor Console?limit=2",
       "response": [
         {
           "id": "59139145-0bd0-435a-b4c0-acac21e69cf5",
@@ -19981,7 +19981,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "e98eb33d-13e4-4e26-bc79-fc0dd5a1b5ee",
         "service_name": "CV Router",
@@ -19998,7 +19998,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/summary",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/summary",
       "response": {
         "total_services": 7,
         "healthy_services": 1,
@@ -20103,7 +20103,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "738e4966-8ff6-4b9b-b509-7547303bdfcd",
         "service_name": "Scoring Engine",
@@ -20138,7 +20138,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/heartbeat/summary",
+      "url": "https://fightjudge.preview.emergentagent.com/api/heartbeat/summary",
       "response": {
         "total_services": 7,
         "healthy_services": 1,
@@ -20258,7 +20258,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/health",
+      "url": "https://fightjudge.preview.emergentagent.com/api/realtime-cv/health",
       "response": {
         "service": "Real-Time CV",
         "version": "1.0.0",
@@ -20272,7 +20272,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/cv-data/health",
+      "url": "https://fightjudge.preview.emergentagent.com/api/cv-data/health",
       "response": {
         "service": "CV Data Collection",
         "version": "1.0.0",
@@ -20284,7 +20284,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/models",
+      "url": "https://fightjudge.preview.emergentagent.com/api/realtime-cv/models",
       "response": {
         "models": [
           {
@@ -20327,7 +20327,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/streams/start",
+      "url": "https://fightjudge.preview.emergentagent.com/api/realtime-cv/streams/start",
       "response": {
         "stream_id": "cb13c0e5-e7c4-4ceb-96eb-10bf05d50b8a",
         "bout_id": "cv_test_001",
@@ -20347,7 +20347,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/streams/active",
+      "url": "https://fightjudge.preview.emergentagent.com/api/realtime-cv/streams/active",
       "response": {
         "active_streams": [
           {
@@ -20368,7 +20368,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/streams/stop/cb13c0e5-e7c4-4ceb-96eb-10bf05d50b8a",
+      "url": "https://fightjudge.preview.emergentagent.com/api/realtime-cv/streams/stop/cb13c0e5-e7c4-4ceb-96eb-10bf05d50b8a",
       "response": {
         "stream_id": "cb13c0e5-e7c4-4ceb-96eb-10bf05d50b8a",
         "status": "stopped",
@@ -20380,7 +20380,7 @@
       "success": false,
       "expected_status": 404,
       "actual_status": 500,
-      "url": "https://judgepro-ai.preview.emergentagent.com/api/realtime-cv/streams/stop/nonexistent_stream_123",
+      "url": "https://fightjudge.preview.emergentagent.com/api/realtime-cv/streams/stop/nonexistent_stream_123",
       "error": "{\"detail\":\"404: Stream not found\"}"
     }
   ]

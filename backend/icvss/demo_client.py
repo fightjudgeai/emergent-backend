@@ -9,7 +9,7 @@ import time
 from datetime import datetime
 
 # Backend URL
-BASE_URL = "https://judgepro-ai.preview.emergentagent.com/api/icvss"
+BASE_URL = "https://fightjudge.preview.emergentagent.com/api/icvss"
 
 def demo_round_lifecycle():
     """Demonstrate a complete round with CV and judge events"""
