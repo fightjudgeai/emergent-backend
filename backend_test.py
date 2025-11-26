@@ -5574,20 +5574,11 @@ class CombatJudgingAPITester:
         
         # Step 5: Test review item approval (if we have a review ID)
         if hasattr(self, 'sample_review_id'):
-            approval_data = {
-                "approved_version": "ai",
-                "approved_by": "supervisor_123"
-            }
-            
-            # Note: This might return 404 if review item doesn't exist, which is expected in test environment
-            success5, _ = self.run_test("Approve Review Item", "POST", f"ai-merge/review-items/{self.sample_review_id}/approve", [200, 404], approval_data)
+            # Use query parameters instead of JSON body
+            success5, _ = self.run_test("Approve Review Item", "POST", f"ai-merge/review-items/{self.sample_review_id}/approve?approved_version=ai&approved_by=supervisor_123", [200, 404])
         else:
-            # Create a mock approval test
-            approval_data = {
-                "approved_version": "ai", 
-                "approved_by": "supervisor_123"
-            }
-            success5, _ = self.run_test("Approve Review Item (Mock)", "POST", "ai-merge/review-items/mock_review_123/approve", [200, 404], approval_data)
+            # Create a mock approval test with query parameters
+            success5, _ = self.run_test("Approve Review Item (Mock)", "POST", "ai-merge/review-items/mock_review_123/approve?approved_version=ai&approved_by=supervisor_123", [200, 404])
         
         # Step 6: Get merge statistics
         success6, response6 = self.run_test("Get AI Merge Statistics", "GET", "ai-merge/stats", 200)
