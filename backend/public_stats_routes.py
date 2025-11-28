@@ -150,12 +150,14 @@ async def get_events(
 @router.get("/fights/{fight_id}/stats")
 async def get_fight_stats(
     fight_id: str,
+    sport_type: Optional[str] = Query(None, description="Filter by sport type"),
     organization_id: Optional[str] = Query(None, description="Filter by organization ID")
 ):
     """
     Get detailed fight statistics
     
     Query Parameters:
+    - sport_type: Filter by sport type (optional)
     - organization_id: Filter by organization (optional)
     
     Returns:
@@ -171,8 +173,10 @@ async def get_fight_stats(
         raise HTTPException(status_code=500, detail="Database not initialized")
     
     try:
-        # Build query with org filter
+        # Build query with sport and org filter
         query = {"fight_id": fight_id}
+        if sport_type:
+            query['sport_type'] = sport_type
         add_org_filter(query, organization_id)
         
         # Get fight_stats for both fighters
