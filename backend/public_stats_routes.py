@@ -39,9 +39,14 @@ def init_public_stats_routes(database: AsyncIOMotorDatabase):
 
 
 @router.get("/events")
-async def get_events():
+async def get_events(
+    organization_id: Optional[str] = Query(None, description="Filter by organization ID")
+):
     """
     Get all events with fight count and total strikes per card
+    
+    Query Parameters:
+    - organization_id: Filter events by organization (optional)
     
     Returns:
     - List of events with:
@@ -49,15 +54,27 @@ async def get_events():
       - event_date
       - fight_count
       - total_strikes (across all fights in the event)
+      - organization_id (if filtered)
     """
     
     if db is None:
         raise HTTPException(status_code=500, detail="Database not initialized")
     
     try:
+        # Build match stage with org filter
+        match_stage = {}
+        if organization_id:
+            match_stage['organization_id'] = organization_id
+        
         # Aggregate events from fight_stats collection
         # Group by event to get fight counts and total strikes
-        pipeline = [
+        pipeline = []
+        
+        # Add match stage if filtering by org
+        if match_stage:
+            pipeline.append({"$match": match_stage})
+        
+        pipeline.extend([
             {
                 "$group": {
                     "_id": "$event_name",
