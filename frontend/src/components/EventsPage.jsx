@@ -88,8 +88,15 @@ const EventsPage = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-amber-500 mb-2">Fight Events</h1>
-          <p className="text-gray-400">Browse all combat sports events and statistics</p>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-4xl font-bold text-amber-500 mb-2">Fight Events</h1>
+              <p className="text-gray-400">Browse all combat sports events and statistics</p>
+            </div>
+            
+            {/* Sport & Org Selector */}
+            <SportOrgSelector onFilterChange={setFilters} />
+          </div>
         </div>
 
         {/* Stats Summary */}
