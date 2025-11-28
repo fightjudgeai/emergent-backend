@@ -4,7 +4,7 @@ Stats Overlay API Routes
 Low-latency endpoints for broadcast overlays with caching.
 """
 
-from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect, Query
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from typing import Optional
 import logging
