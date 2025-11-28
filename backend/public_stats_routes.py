@@ -235,9 +235,15 @@ async def get_fight_stats(
 
 
 @router.get("/fighters/{fighter_id}/stats")
-async def get_fighter_stats(fighter_id: str):
+async def get_fighter_stats(
+    fighter_id: str,
+    organization_id: Optional[str] = Query(None, description="Filter by organization ID")
+):
     """
     Get career statistics for a fighter
+    
+    Query Parameters:
+    - organization_id: Filter stats by organization (optional)
     
     Returns:
     - Fighter profile info
@@ -248,15 +254,19 @@ async def get_fighter_stats(fighter_id: str):
       - Average takedowns per fight
       - Average control time
     - Per-minute rates
-    - Last 5 fights summary
+    - Last 5 fights summary (filtered by org if specified)
     """
     
     if db is None:
         raise HTTPException(status_code=500, detail="Database not initialized")
     
     try:
+        # Build query with org filter
+        query = {"fighter_id": fighter_id}
+        add_org_filter(query, organization_id)
+        
         # Get career stats
-        career_stats = await db.career_stats.find_one({"fighter_id": fighter_id})
+        career_stats = await db.career_stats.find_one(query)
         
         if not career_stats:
             # Try to get fighter info from fighters collection
