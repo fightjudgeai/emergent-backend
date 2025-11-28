@@ -4348,6 +4348,29 @@ except Exception as e:
     logger.warning(f"Organization Stats not loaded: {e}")
 
 # ============================================================================
+# COMBAT SPORTS (Sport types and organizations)
+# ============================================================================
+try:
+    from combat_sports.routes import router as combat_sports_api
+    import combat_sports.routes as combat_sports_module
+    
+    # Initialize combat sports with database
+    combat_sports_module.init_combat_sports(database=db)
+    
+    # Include router
+    app.include_router(combat_sports_api)
+    
+    logger.info("✓ Combat Sports loaded - Multi-sport support")
+    logger.info("  - GET /api/sports/types (list sport types: MMA, Boxing, BKFC, etc.)")
+    logger.info("  - GET /api/sports/types/{type}/organizations (orgs per sport)")
+    logger.info("  - GET /api/sports/stats/summary (sport-filtered stats)")
+    logger.info("  - Sports: MMA, Boxing, Dirty Boxing, BKFC, Karate Combat, Other")
+    logger.info("  - All stats APIs support ?sport_type= and ?organization_id= parameters")
+    
+except Exception as e:
+    logger.warning(f"Combat Sports not loaded: {e}")
+
+# ============================================================================
 # DATABASE MANAGEMENT (Production Models & Indexes)
 # ============================================================================
 try:
