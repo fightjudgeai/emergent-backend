@@ -4,7 +4,7 @@ Public Stats API Routes
 Endpoints for public-facing statistics pages.
 """
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from typing import Optional, List, Dict, Any
 import logging
@@ -13,6 +13,19 @@ from datetime import datetime, timezone
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api", tags=["Public Stats"])
+
+# Import org filters
+try:
+    from organization_stats.filters import add_org_filter, get_org_query
+except ImportError:
+    # Fallback if module not available
+    def add_org_filter(query, org_id):
+        if org_id:
+            query['organization_id'] = org_id
+        return query
+    
+    def get_org_query(org_id=None):
+        return {'organization_id': org_id} if org_id else {}
 
 # Database instance (initialized in server.py)
 db: Optional[AsyncIOMotorDatabase] = None
