@@ -45,11 +45,17 @@ async def health_check():
 
 
 @router.get("/live/{fight_id}")
-async def get_live_overlay(fight_id: str):
+async def get_live_overlay(
+    fight_id: str,
+    organization_id: Optional[str] = Query(None, description="Filter by organization ID")
+):
     """
     Get live stats overlay data
     
     Performance: Sub-200ms with 1-second cache
+    
+    Query Parameters:
+    - organization_id: Filter events by organization (optional)
     
     Returns:
     - Current round stats
