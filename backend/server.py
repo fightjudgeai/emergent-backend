@@ -4325,6 +4325,29 @@ except Exception as e:
     logger.warning(f"Post-Fight Review Interface not loaded: {e}")
 
 # ============================================================================
+# ORGANIZATION STATS (Multi-org filtering)
+# ============================================================================
+try:
+    from organization_stats.routes import router as org_stats_api
+    import organization_stats.routes as org_stats_module
+    
+    # Initialize organization stats with database
+    org_stats_module.init_organization_stats(database=db)
+    
+    # Include router
+    app.include_router(org_stats_api)
+    
+    logger.info("✓ Organization Stats loaded - Multi-org stat filtering")
+    logger.info("  - GET /api/organizations/list (list all organizations)")
+    logger.info("  - GET /api/organizations/{id}/summary (org summary)")
+    logger.info("  - GET /api/organizations/{id}/events (org events)")
+    logger.info("  - GET /api/organizations/{id}/fighters (org fighters)")
+    logger.info("  - All stats APIs support ?organization_id= query parameter")
+    
+except Exception as e:
+    logger.warning(f"Organization Stats not loaded: {e}")
+
+# ============================================================================
 # DATABASE MANAGEMENT (Production Models & Indexes)
 # ============================================================================
 try:
