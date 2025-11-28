@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, TrendingUp, Users } from 'lucide-react';
+import SportOrgSelector from './SportOrgSelector';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || import.meta.env.VITE_BACKEND_URL;
 
@@ -9,15 +10,22 @@ const EventsPage = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filters, setFilters] = useState({ sport_type: null, organization_id: null });
 
   useEffect(() => {
     loadEvents();
-  }, []);
+  }, [filters]);
 
   const loadEvents = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${BACKEND_URL}/api/events`);
+      
+      // Build query params
+      const params = new URLSearchParams();
+      if (filters.sport_type) params.append('sport_type', filters.sport_type);
+      if (filters.organization_id) params.append('organization_id', filters.organization_id);
+      
+      const response = await fetch(`${BACKEND_URL}/api/events?${params.toString()}`);
       
       if (!response.ok) {
         throw new Error('Failed to load events');
