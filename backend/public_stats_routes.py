@@ -40,12 +40,14 @@ def init_public_stats_routes(database: AsyncIOMotorDatabase):
 
 @router.get("/events")
 async def get_events(
+    sport_type: Optional[str] = Query(None, description="Filter by sport type (mma, boxing, etc.)"),
     organization_id: Optional[str] = Query(None, description="Filter by organization ID")
 ):
     """
     Get all events with fight count and total strikes per card
     
     Query Parameters:
+    - sport_type: Filter by sport type (mma, boxing, dirty_boxing, bkfc, karate_combat, other)
     - organization_id: Filter events by organization (optional)
     
     Returns:
@@ -54,6 +56,7 @@ async def get_events(
       - event_date
       - fight_count
       - total_strikes (across all fights in the event)
+      - sport_type (if filtered)
       - organization_id (if filtered)
     """
     
@@ -61,8 +64,10 @@ async def get_events(
         raise HTTPException(status_code=500, detail="Database not initialized")
     
     try:
-        # Build match stage with org filter
+        # Build match stage with sport and org filter
         match_stage = {}
+        if sport_type:
+            match_stage['sport_type'] = sport_type
         if organization_id:
             match_stage['organization_id'] = organization_id
         
