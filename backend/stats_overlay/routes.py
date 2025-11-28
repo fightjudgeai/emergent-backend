@@ -68,8 +68,8 @@ async def get_live_overlay(
     
     start_time = time.time()
     
-    # Check cache first
-    cache_key = f"live:{fight_id}"
+    # Check cache first (include org_id in cache key)
+    cache_key = f"live:{fight_id}:{organization_id or 'all'}"
     cached_data = overlay_cache.get(cache_key)
     
     if cached_data:
