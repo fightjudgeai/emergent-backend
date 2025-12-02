@@ -1,73 +1,161 @@
-<analysis>
-The trajectory documents a highly productive and iterative development process where an AI engineer built out a complex, multi-featured application named Fight Judge AI Pro Operator Suite (FJAIPOS). The engineer consistently followed a modular, microservice-style architectural pattern for the FastAPI backend. For almost every new feature request from the user, a new, self-contained directory was created containing , business logic files (e.g., , ), and . This new service was then integrated into the main  file, and corresponding tests were created.
+<analysis>**original_problem_statement:**
+The user has pivoted from developing the Fight Judge AI Pro Operator Suite to building a completely new, standalone, real-time sports data feed service.
 
-The work can be segmented into several major feature builds:
-1.  **Real-Time CV System:** Completion of the backend service, creation of a data collection system, and integration of a new frontend panel () for management. This also included a crucial ethical boundary-setting where the AI refused to reverse-engineer competitor products and instead proposed a legitimate development roadmap.
-2.  **Stat Engine:** A full-fledged microservice for aggregating fight statistics from raw events into round, fight, and career stats.
-3.  **Database Schema:** Formalized production-ready database models for all key entities, including automated index creation on startup.
-4.  **Enhanced Event Logger:** Upgraded the frontend event logger with detailed key mappings and additional data fields.
-5.  **Supervisor Admin Panel:** A dedicated UI for administrators to trigger stat recalculations, complete with backend audit logging.
-6.  **Live Stat Dashboard:** The final feature, which provides a real-time, broadcast-safe view of fight statistics using WebSockets.
+**PRODUCT REQUIREMENTS (New Service):**
+Build a complete Supabase-backed backend designed as a financial-grade, low-latency event-syndication system for fantasy sports and regulated sportsbooks.
 
-The user's primary language is English. All future communications should be in English.
-</analysis>
-<product_requirements>
-The Fight Judge AI Pro Operator Suite (FJAIPOS) is an enterprise-grade, real-time platform for professional combat sports judging, analytics, and broadcasting.
+**Core Features:**
+-   **Real-time Feed:** A WebSocket endpoint () for broadcasting live fight data.
+-   **REST API:** Snapshot and historical data access via REST endpoints (e.g., ).
+-   **Authentication:** API key authentication with scoped permissions (, , ).
+-   **Data Integrity:** Full audit logs, monotonic sequencing for every state update, and failure-safety mechanisms.
 
-**Core Features Implemented:**
-*   **AI & Manual Event Logging:** A sophisticated frontend system allows judges to log events using a REDRAGON key-mapped peripheral. Events are enriched with  (distance, clinch, ground) and  (head, body, leg) data.
-*   **Real-Time Computer Vision Framework:** A foundational CV system () has been built to manage video streams and analyze frames using pre-trained models (MediaPipe, YOLO). It includes API endpoints to start/stop analysis and simulate frames for testing. A  was added to the UI to manage these streams.
-*   **Production Stat Engine:** A robust backend service () that reads raw event logs and aggregates them into , , and . This process is fault-tolerant and idempotent.
-*   **Supervisor Admin Controls:** A dedicated UI panel allows supervisors to trigger manual recalculations of all statistics, with every action being logged for auditing purposes.
-*   **Live Statistics Dashboard:** A public-facing, broadcast-safe dashboard at  that displays comprehensive fight statistics in a table format, updating in real-time via WebSockets.
-*   **Formalized Database Schema:** A complete set of production-ready MongoDB collections (, , , etc.) with automated index creation to ensure query performance.
-</product_requirements>
-<key_technical_concepts>
-- **FastAPI Modular Monolith:** The backend is a single application architected as a collection of independent service modules, enabling organized and rapid feature expansion.
-- **WebSocket Communication:** Used for real-time data pushes from the backend to the frontend, specifically for the .
-- **Hybrid Data Aggregation:** The  supports both real-time (on-event) and batch (manual trigger) recalculation of statistics.
-- **React Frontend:** The user interface is built with React, with new components like , , and  being added to extend functionality.
-</key_technical_concepts>
-<code_architecture>
-The application uses a monorepo structure with a React frontend and a modular FastAPI backend. The backend architecture is defined by its many self-contained service directories.
+**Database Schema (PostgreSQL/Supabase):**
+-   : Event metadata.
+-   : Fighter profiles.
+-   : Fight details and matchups.
+-   : Granular, timestamped, and sequenced state updates for each round (strikes, control time, AI metrics).
+-   : Final fight outcomes.
+-   : API key and permission scope management.
 
-**Directory Structure:**
+**Deployment Intent:**
+-   The system will be used live for PFC 50 to power fantasy games and will be architected to support future regulated sportsbook feeds.
 
+**User's preferred language**: English
 
-**Key Files & Modules Created/Modified:**
+**what currently exists?**
+The repository contains two distinct applications:
+1.  **FJAIPOS ()**: A large, feature-rich full-stack application with a React frontend and a modular FastAPI/MongoDB backend. It includes numerous features like a Tapology scraper, post-fight review interface, and stats overlay APIs. This application is now considered legacy due to the user's pivot.
+2.  **Data Feed API ()**: The new, in-progress service. A basic file structure has been created, including a FastAPI , a Supabase SQL schema migration file, Pydantic models, and an authentication middleware stub.
 
-- ****: A new module created to handle all statistics aggregation.
-  - **Importance:** This is the core of the fight analytics data pipeline. It processes raw events into meaningful stats.
-  - **Summary:** Contains logic for reading events, aggregating them by round, fight, and career, a scheduler for jobs, a WebSocket handler for real-time updates, and API routes.
+**Last working item**:
+The agent began scaffolding the new, separate Financial-Grade Sports Data Feed service as per the user's detailed specification.
 
-- ****: A new module for defining and initializing the database schema.
-  - **Importance:** Centralizes all database models and ensures that collections and indexes are created correctly on application startup.
-  - **Summary:** Contains Pydantic models for all tables (, , etc.), and a startup script () to apply schemas and indexes.
+-   **Last item agent was working:** The agent was in the initial stages of building the new service in the  directory. It had just created the SQL migration file, the base FastAPI application (), Pydantic models (), and a placeholder for auth middleware (). The very last action was interpreting the user's request to Open the database / SQL editor as a request to view the Supabase SQL Editor and preparing to take a screenshot.
+-   **Status**: IN PROGRESS
+-   **Agent Testing Done**: N
+-   **Which testing method agent to use?**: backend testing agent
+-   **User Testing Done**: N
 
-- ****: The final UI component that was built.
-  - **Importance:** Provides the user-facing view for the live fight statistics, fulfilling a key product requirement.
-  - **Summary:** A React component that connects to a WebSocket endpoint, receives real-time stat updates, and displays them in a Broadcast safe dark theme table for a given .
+**All Pending/In progress Issue list**:
+There are no reported bugs or issues. The primary focus is on the new task.
 
-- ****: The main application file.
-  - **Importance:** Acts as the central integrator for all backend modules.
-  - **Summary:** This file was edited multiple times to import and include the API routers from the new , , and  modules. It was also updated to call the database initialization function during the application startup event.
-</code_architecture>
-<pending_tasks>
-- **Implement Real Video Processing:** The current  system is a framework. The next step is to replace the simulation/API-based frame processing with actual video capture and analysis using OpenCV to make it fully functional.
-- **GPU Acceleration:** To achieve professional-grade, low-latency performance for the CV system, GPU support (CUDA/TensorRT) needs to be implemented.
-- **Train Custom CV Models:** The system currently relies on generic pre-trained models. A data collection and training pipeline needs to be built to create custom models trained specifically on combat sports footage.
-</pending_tasks>
-<current_work>
-The most recently completed task was the creation of a **Production Live Stat Dashboard**. This involved a full-stack effort to deliver a real-time, broadcast-ready statistics view.
+**In progress Task List**:
+-   **Task 1**: Build the Supabase-backed Real-Time Data Feed (Priority: P0)
+    -   **Where to resume**: Continue the implementation within the  directory. The SQL schema, models, and auth middleware are stubs. The next logical steps are to implement the WebSocket connection manager, the REST API controllers, and the database interaction logic. The agent should first address the user's last request to open the database / SQL editor, perhaps by showing the content of the generated SQL migration file () before proceeding with coding.
+    -   **What will be achieved with this?**: A complete, standalone, real-time data syndication API for fantasy sports and sportsbooks, meeting all user requirements.
+    -   **Status**: IN PROGRESS
+    -   **Should Test frontend/backend/both after fix?**: backend
+    -   **Blocked on something**: No
 
-**Backend Work:**
-A new WebSocket handler was created at  to manage client connections and push updates. The  file was updated to include the WebSocket endpoint () and an API endpoint () to fetch the initial state of the stats.
+**Upcoming and Future Tasks**
+-   **Data Feed API Implementation (P0):**
+    -   Implement the WebSocket server logic, including API key authentication and the subscription model ().
+    -   Build the REST API controllers for the specified endpoints (, , ).
+    -   Implement field-gating logic based on API key scopes within the API responses.
+    -   Develop event emitters to push , , and  messages to subscribed WebSocket clients.
+    -   Implement failure-safety mechanisms (e.g., idempotent inserts, monotonic sequencing).
+    -   Create comprehensive API documentation.
 
-**Frontend Work:**
-A new React component was created at . This component fetches initial fight data via a standard API call and then establishes a WebSocket connection to receive live updates every 2 seconds. The UI is designed with a broadcast safe dark theme and presents the data in a detailed table comparing two fighters across all rounds. Finally, a new route was added in  to render this component at .
+**Completed work in this session**
+The following features were completed for the original **FJAIPOS application** before the project pivot:
+-   Public Stats Pages (Backend & Frontend)
+-   Tapology.com Web Scraper System
+-   Low-Latency Stats Overlay API (REST & WebSocket)
+-   Multi-Operator Verification Engine
+-   Post-Fight Review Interface (Backend & Frontend Panel)
+-   AI Event Merge Engine
+-   Organization & Combat Sport Filtering for all stats APIs
+-   UI Refactor: Moved the Computer Vision panel from the main operator screen to its own dedicated page.
 
-The entire feature was built from scratch and successfully integrated, concluding the previous work cycle.
-</current_work>
-<optional_next_step>
-Ask the user if they want to begin implementing the proposed roadmap to enhance the CV system, starting with **Phase 1: Real Video Processing** to replace the current simulation with actual camera feed analysis.
-</optional_next_step>
+**Earlier issues found/mentioned but not fixed**
+None.
+
+**Known issue recurrence from previous fork**
+-   **Issue recurrence in previous fork**: N/A
+-   **Recurrence count**: N/A
+-   **Status**: N/A
+
+**Code Architecture**
+The project now contains two separate applications:
+
+1.  **Original Monolith ()**:
+    
+2.  **New Data Feed Service ()**:
+    
+
+**Key Technical Concepts**
+-   **Project Pivot**: A major shift from an all-in-one monolith (React/FastAPI/MongoDB) to a dedicated, high-performance data syndication service (FastAPI/Supabase/Postgres).
+-   **Data Syndication Architecture**: The new service is designed not as a UI backend, but as a data source for other applications (fantasy sports, sportsbooks).
+-   **Supabase/PostgreSQL**: The new database technology, replacing MongoDB.
+-   **API Key Authentication**: Securing the new data feed with scoped permissions.
+-   **WebSockets**: Used for the real-time data feed.
+
+**key DB schema**
+For the new  service (PostgreSQL):
+-   : {id, code, name, venue, promotion, start_time_utc}
+-   : {id, first_name, last_name, nickname, country}
+-   : {id, event_id, bout_order, code, red_fighter_id, blue_fighter_id, scheduled_rounds, weight_class, rule_set}
+-   : {id, fight_id, round, ts_ms, seq, red_strikes, blue_strikes, red_sig_strikes, blue_sig_strikes, red_knockdowns, blue_knockdowns, red_control_sec, blue_control_sec, red_ai_damage, blue_ai_damage, red_ai_win_prob, blue_ai_win_prob, round_locked}
+-   : {id, fight_id, winner_side, method, round, time}
+-   : {id, name, api_key, scope, active}
+
+**changes in tech stack**
+-   **Database**: Shift from **MongoDB** in the original application to **PostgreSQL (via Supabase)** for the new data feed service.
+
+**All files of reference**
+**New Data Feed Service ()**:
+-   : Defines the entire database structure for the new service.
+-   : The entry point for the new FastAPI server, intended to host WebSocket and REST logic.
+-   : Pydantic models matching the new Postgres schema.
+-   : Stub for API key authentication logic.
+
+**Original FJAIPOS App ()**:
+-   Numerous files across  and  were created/modified for the now-completed features. These are now likely legacy unless the user decides to merge or maintain this application.
+
+**key api endpoints**
+For the new  service:
+-   **WebSocket**: 
+-   **REST**:
+    -   
+    -   
+    -   
+    -   All REST endpoints require  header.
+
+**Critical Info for New Agent**
+-   **PROJECT PIVOT IS CRITICAL**: The user's focus has completely shifted. Do **NOT** work on the original application in . All new development must happen in the  directory, following the detailed specifications for the new real-time data service.
+-   **New Tech Stack**: The new service uses **Supabase/PostgreSQL**, not MongoDB.
+-   **Address User's Last Request**: The user's last message was open tab like API, Database, Docs, etc. Open the database / SQL editor. The previous agent was about to take a screenshot. You should first clarify this request, perhaps by showing the SQL schema from the migration file, before resuming code implementation.
+
+**documents created in this job**
+-   
+-   
+
+**Last 10 User Messages and any pending user messages**
+1.  **User (Msg 314)**: Provided a massive, detailed spec for a brand-new, Supabase-backed real-time data feed, effectively pivoting the entire project.
+2.  **Agent (Msg 315)**: Acknowledged the new plan.
+3.  **Agent (Msg 317-324)**: Started scaffolding the new service (), creating the SQL migration, , models, and auth middleware.
+4.  **Agent (Msg 325)**: Indicated it would create a summary.
+5.  **User (Msg 327)**: Interrupted with open tab like API, Database, Docs, etc. Open the database / SQL editor.
+6.  **Agent (Msg 328)**: Interpreted the user's request and prepared to take a screenshot of the Supabase SQL editor.
+
+The pending user message is the request to see the database / SQL editor.
+
+**Project Health Check:**
+-   **Broken**: The new  service is broken as it's only a skeleton.
+-   **Mocked**: None.
+
+**3rd Party Integrations**
+-   **Supabase**: For PostgreSQL database and backend services for the new data feed.
+
+**Testing status**
+-   **Testing agent used after significant changes**: YES (for the old FJAIPOS application)
+-   **Troubleshoot agent used after agent stuck in loop**: NO
+-   **Test files created**: None for the new service.
+-   **Known regressions**: None.
+
+**Credentials to test flow:**
+None provided or required yet. The  table will need to be populated to test the new service.
+
+**What agent forgot to execute**
+The agent did not forget anything. It was actively implementing the user's new, large-scale request and was interrupted mid-task. The implementation of the data feed service is the main pending execution.</analysis>

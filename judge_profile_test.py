@@ -6,7 +6,7 @@ import json
 from datetime import datetime
 
 class JudgeProfileTester:
-    def __init__(self, base_url="https://fightjudge.preview.emergentagent.com"):
+    def __init__(self, base_url="https://bettingdata.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.tests_run = 0
