@@ -92,16 +92,25 @@ class SupabaseDB:
     def get_fight_by_code(self, fight_code: str) -> Optional[Dict]:
         """Get fight by code with event and fighter details"""
         response = self.client.table('fights')\
-            .select('''
-                *,
-                event:events(*),
-                red_fighter:fighters!fights_red_fighter_id_fkey(*),
-                blue_fighter:fighters!fights_blue_fighter_id_fkey(*)
-            ''')\
+            .select('*')\
             .eq('code', fight_code)\
             .execute()
         
-        return response.data[0] if response.data else None
+        if not response.data:
+            return None
+        
+        fight = response.data[0]
+        
+        # Get related data
+        event = self.client.table('events').select('*').eq('id', fight['event_id']).execute().data[0]
+        red_fighter = self.client.table('fighters').select('*').eq('id', fight['red_fighter_id']).execute().data[0]
+        blue_fighter = self.client.table('fighters').select('*').eq('id', fight['blue_fighter_id']).execute().data[0]
+        
+        fight['event'] = event
+        fight['red_fighter'] = red_fighter
+        fight['blue_fighter'] = blue_fighter
+        
+        return fight
     
     def get_latest_round_state(self, fight_id: str) -> Optional[Dict]:
         """Get latest round state for a fight"""
