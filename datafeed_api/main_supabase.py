@@ -209,9 +209,9 @@ async def get_event(event_code: str, authorization: str = Header(None)):
 
 
 @app.get("/v1/fights/{fight_code}/live")
-async def get_fight_live(fight_code: str, client_info: dict = Header(None, alias="authorization")):
+async def get_fight_live(fight_code: str, authorization: str = Header(None)):
     """Get live fight state"""
-    if not client_info:
+    if not authorization or not authorization.startswith('Bearer '):
         raise HTTPException(status_code=401, detail="Authorization required")
     
     try:
