@@ -898,6 +898,15 @@ export default function OperatorPanel() {
             </div>
             <div className="flex gap-3">
               <Button
+                data-testid="cv-systems-btn"
+                onClick={() => navigate(`/cv-systems/${boutId}`)}
+                className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-semibold border-2 border-cyan-500"
+                title="Open Computer Vision Systems"
+              >
+                <Eye className="mr-2 h-4 w-4" />
+                CV Systems
+              </Button>
+              <Button
                 data-testid="quick-stats-btn"
                 onClick={() => setShowQuickStatsDialog(true)}
                 className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold"
