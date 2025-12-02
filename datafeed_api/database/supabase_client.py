@@ -67,17 +67,27 @@ class SupabaseDB:
     
     def get_event_fights(self, event_id: str) -> List[Dict]:
         """Get all fights for an event with fighter details"""
-        response = self.client.table('fights')\
-            .select('''
-                *,
-                red_fighter:fighters!fights_red_fighter_id_fkey(*),
-                blue_fighter:fighters!fights_blue_fighter_id_fkey(*)
-            ''')\
+        # Get fights first
+        fights_response = self.client.table('fights')\
+            .select('*')\
             .eq('event_id', event_id)\
             .order('bout_order', desc=True)\
             .execute()
         
-        return response.data if response.data else []
+        if not fights_response.data:
+            return []
+        
+        # Get fighter details for each fight
+        result = []
+        for fight in fights_response.data:
+            red_fighter = self.client.table('fighters').select('*').eq('id', fight['red_fighter_id']).execute().data[0]
+            blue_fighter = self.client.table('fighters').select('*').eq('id', fight['blue_fighter_id']).execute().data[0]
+            
+            fight['red_fighter'] = red_fighter
+            fight['blue_fighter'] = blue_fighter
+            result.append(fight)
+        
+        return result
     
     def get_fight_by_code(self, fight_code: str) -> Optional[Dict]:
         """Get fight by code with event and fighter details"""
