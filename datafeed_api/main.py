@@ -113,6 +113,14 @@ app.add_middleware(
 app.include_router(api_router, prefix="/v1")
 
 
+# Inject dependencies into API routes after lifespan initialization
+@app.on_event("startup")
+async def inject_api_dependencies():
+    """Inject database pool and auth middleware into API routes"""
+    from api.routes import set_dependencies
+    set_dependencies(db_pool, auth_middleware)
+
+
 # ========================================
 # WEBSOCKET ENDPOINT
 # ========================================
