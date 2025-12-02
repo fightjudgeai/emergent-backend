@@ -146,10 +146,10 @@ async def health_check():
 
 
 @app.get("/v1/events/{event_code}")
-async def get_event(event_code: str, client_info: dict = Header(None, alias="authorization")):
+async def get_event(event_code: str, authorization: str = Header(None)):
     """Get event details by event code"""
     # Simple auth check
-    if not client_info:
+    if not authorization or not authorization.startswith('Bearer '):
         raise HTTPException(status_code=401, detail="Authorization required")
     
     try:
