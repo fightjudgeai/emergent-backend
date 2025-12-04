@@ -75,7 +75,7 @@ async def get_api_key_optional(
             }
         )
     
-    # Log usage
+    # Log usage (for rate limiting)
     await _auth_service.log_api_usage(
         client_id=client_id,
         endpoint=request.url.path,
@@ -83,6 +83,18 @@ async def get_api_key_optional(
         status_code=200,
         ip_address=request.client.host if request.client else None,
         user_agent=request.headers.get('User-Agent')
+    )
+    
+    # Log security audit (every authenticated API call)
+    await _security_service.log_security_event(
+        event_type='api_call',
+        action=f"{request.method} {request.url.path}",
+        client_id=client_id,
+        resource_type='endpoint',
+        resource_id=request.url.path,
+        ip_address=request.client.host if request.client else None,
+        user_agent=request.headers.get('User-Agent'),
+        status='success'
     )
     
     return client_info
