@@ -60,7 +60,7 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup():
     """Initialize on startup"""
-    global db, fantasy_service, market_service, event_service, public_stats_service
+    global db, fantasy_service, market_service, event_service, public_stats_service, api_key_auth
     logger.info("Starting Fight Judge AI Data Feed API...")
     
     try:
@@ -72,6 +72,14 @@ async def startup():
             logger.info("✓ Database connection verified")
         else:
             logger.warning("⚠ Database health check failed")
+        
+        # Initialize API key authentication service
+        api_key_auth = APIKeyAuth(db)
+        logger.info("✓ API key authentication service initialized")
+        
+        # Add authentication and rate limiting middleware
+        app.add_middleware(AuthRateLimitMiddleware, auth_service=api_key_auth)
+        logger.info("✓ Auth & rate limiting middleware enabled")
         
         # Initialize fantasy scoring service
         fantasy_service = FantasyScoringService(db)
@@ -93,18 +101,29 @@ async def startup():
         public_routes.set_public_stats_service(public_stats_service)
         logger.info("✓ Public stats service initialized")
         
+        # Initialize admin routes
+        admin_routes.set_db_client(db)
+        logger.info("✓ Admin API initialized")
+        
         logger.info("="*60)
         logger.info("🚀 Fight Judge AI Data Feed API is LIVE")
         logger.info("="*60)
         logger.info(f"REST API: http://localhost:{os.getenv('API_PORT', 8002)}/v1")
-        logger.info(f"Fantasy API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/fantasy")
-        logger.info(f"   GET /v1/fantasy/{{fight_id}}/{{profile_id}} - Fantasy breakdown")
-        logger.info(f"Markets API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/markets")
-        logger.info(f"   GET /v1/markets/{{fight_id}} - Markets summary")
-        logger.info(f"Events API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/events")
-        logger.info(f"   GET /v1/events/{{fight_id}} - Normalized event stream")
         logger.info(f"Public API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/public")
-        logger.info(f"   GET /v1/public/fight/{{fight_id}} - UFCstats-style fight stats")
+        logger.info(f"   GET /v1/public/fight/{{fight_id}} - UFCstats-style (no auth)")
+        logger.info(f"   GET /v1/public/fighter/{{fighter_id}} - Fighter stats (no auth)")
+        logger.info(f"Fantasy API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/fantasy")
+        logger.info(f"   Requires tier: fantasy.basic or higher")
+        logger.info(f"Markets API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/markets")
+        logger.info(f"   Requires tier: sportsbook.pro or higher")
+        logger.info(f"Events API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/events")
+        logger.info(f"   Requires tier: fantasy.advanced or higher")
+        logger.info(f"Admin API: http://localhost:{os.getenv('API_PORT', 8002)}/admin")
+        logger.info(f"   POST /admin/api-keys - Create API key")
+        logger.info(f"   GET /admin/api-keys - List all keys")
+        logger.info("="*60)
+        logger.info("🔐 Authentication: X-API-Key header or Authorization: Bearer <key>")
+        logger.info("⚡ Rate Limiting: Enabled (per-minute, per-hour, per-day)")
         logger.info("="*60)
         
     except Exception as e:
