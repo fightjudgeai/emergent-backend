@@ -12,6 +12,8 @@ from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 
 from database.supabase_client import SupabaseDB
+from services.fantasy_scoring_service import FantasyScoringService
+from api import fantasy_routes
 
 # Load environment variables
 load_dotenv()
