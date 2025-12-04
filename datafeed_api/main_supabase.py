@@ -53,7 +53,7 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup():
     """Initialize on startup"""
-    global db, fantasy_service, market_service
+    global db, fantasy_service, market_service, event_service
     logger.info("Starting Fight Judge AI Data Feed API...")
     
     try:
@@ -76,6 +76,11 @@ async def startup():
         market_routes.set_market_settler(market_service)
         logger.info("✓ Market settler service initialized")
         
+        # Initialize event normalization service
+        event_service = EventService(db)
+        event_routes.set_event_service(event_service)
+        logger.info("✓ Event normalization service initialized")
+        
         logger.info("="*60)
         logger.info("🚀 Fight Judge AI Data Feed API is LIVE")
         logger.info("="*60)
@@ -84,6 +89,8 @@ async def startup():
         logger.info(f"   GET /v1/fantasy/{{fight_id}}/{{profile_id}} - Fantasy breakdown")
         logger.info(f"Markets API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/markets")
         logger.info(f"   GET /v1/markets/{{fight_id}} - Markets summary")
+        logger.info(f"Events API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/events")
+        logger.info(f"   GET /v1/events/{{fight_id}} - Normalized event stream")
         logger.info("="*60)
         
     except Exception as e:
