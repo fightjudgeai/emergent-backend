@@ -16,7 +16,9 @@ from services.fantasy_scoring_service import FantasyScoringService
 from services.market_settler import MarketSettler
 from services.event_service import EventService
 from services.public_stats_service import PublicStatsService
-from api import fantasy_routes, market_routes, event_routes, public_routes
+from auth.api_key_auth import APIKeyAuth
+from middleware.auth_middleware import AuthRateLimitMiddleware
+from api import fantasy_routes, market_routes, event_routes, public_routes, admin_routes
 
 # Load environment variables
 load_dotenv()
