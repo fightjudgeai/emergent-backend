@@ -10,14 +10,21 @@ from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-# Global auth service (set during startup)
+# Global services (set during startup)
 _auth_service = None
+_security_service = None
 
 
 def set_auth_service(auth_service):
     """Set global auth service"""
     global _auth_service
     _auth_service = auth_service
+
+
+def set_security_service(security_service):
+    """Set global security service"""
+    global _security_service
+    _security_service = security_service
 
 
 async def get_api_key_optional(
