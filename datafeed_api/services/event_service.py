@@ -196,23 +196,71 @@ class EventService:
         """
         Calculate deterministic control time from events
         
-        Uses SQL function to pair CTRL_START with next CTRL_END
+        Algorithm:
+        - For each CTRL_START event, find the next CTRL_END
+        - If no CTRL_END found, control continues to round end (300 seconds)
+        - Sum all control periods
         """
         try:
-            result = self.db.client.rpc(
-                'calculate_control_time_from_events',
-                {
-                    'p_fight_id': str(fight_id),
-                    'p_round': round_num,
-                    'p_corner': corner.value
-                }
-            ).execute()
+            corner_str = corner.value if isinstance(corner, Corner) else corner
             
-            if result.data is not None:
-                control_seconds = result.data[0] if isinstance(result.data, list) else result.data
-                return int(control_seconds)
-            else:
+            # Get all CTRL_START events for this fighter/round
+            ctrl_starts = self.db.client.table('fight_events')\
+                .select('*')\
+                .eq('fight_id', str(fight_id))\
+                .eq('round', round_num)\
+                .eq('corner', corner_str)\
+                .eq('event_type', 'CTRL_START')\
+                .order('second_in_round')\
+                .execute()
+            
+            if not ctrl_starts.data:
                 return 0
+            
+            total_control = 0
+            round_duration = 300  # 5 minutes
+            
+            for ctrl_start in ctrl_starts.data:
+                # Find matching CTRL_END (next chronologically)
+                ctrl_end = self.db.client.table('fight_events')\
+                    .select('*')\
+                    .eq('fight_id', str(fight_id))\
+                    .eq('round', round_num)\
+                    .eq('corner', corner_str)\
+                    .eq('event_type', 'CTRL_END')\
+                    .gt('second_in_round', ctrl_start['second_in_round'])\
+                    .order('second_in_round')\
+                    .limit(1)\
+                    .execute()
+                
+                if ctrl_end.data and len(ctrl_end.data) > 0:
+                    # Paired CTRL_START/CTRL_END
+                    duration = ctrl_end.data[0]['second_in_round'] - ctrl_start['second_in_round']
+                    
+                    if duration < 0:
+                        logger.warning(
+                            f"Negative control duration detected: fight={fight_id}, "
+                            f"round={round_num}, corner={corner_str}"
+                        )
+                        duration = 0
+                    
+                    total_control += duration
+                else:
+                    # No matching CTRL_END - control continues to round end
+                    duration = round_duration - ctrl_start['second_in_round']
+                    
+                    if duration > 0:
+                        total_control += duration
+            
+            # Validate total doesn't exceed round duration
+            if total_control > round_duration:
+                logger.warning(
+                    f"Control time exceeds round duration: fight={fight_id}, "
+                    f"round={round_num}, corner={corner_str}, control={total_control}"
+                )
+                total_control = round_duration
+            
+            return total_control
         
         except Exception as e:
             logger.error(f"Error calculating control time: {e}")
