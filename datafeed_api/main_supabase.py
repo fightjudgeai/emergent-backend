@@ -332,6 +332,9 @@ async def list_clients():
 # Include fantasy scoring routes
 app.include_router(fantasy_routes.router, prefix="/v1")
 
+# Include market routes
+app.include_router(market_routes.router, prefix="/v1")
+
 
 if __name__ == "__main__":
     import uvicorn
