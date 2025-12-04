@@ -140,10 +140,38 @@ async def require_api_key(
     is_valid, tier, client_info = await _auth_service.validate_api_key(api_key)
     
     if not is_valid:
+        # FAIL-SAFE: Do NOT leak partial data - block immediately
+        await _security_service.log_security_event(
+            event_type='auth_failure',
+            action='invalid_api_key',
+            ip_address=request.client.host if request.client else None,
+            user_agent=request.headers.get('User-Agent'),
+            status='failure',
+            error_message='Invalid or inactive API key'
+        )
+        
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid or inactive API key",
             headers={"WWW-Authenticate": "ApiKey"}
+        )
+    
+    # KILL-SWITCH: Check if client is ACTIVE (per-client kill-switch)
+    # Status is already checked in validate_api_key, but double-check here
+    if client_info.get('status') and client_info['status'] != 'ACTIVE':
+        await _security_service.log_security_event(
+            event_type='auth_failure',
+            action='client_suspended',
+            client_id=client_info['id'],
+            ip_address=request.client.host if request.client else None,
+            user_agent=request.headers.get('User-Agent'),
+            status='blocked',
+            error_message=f"Client status: {client_info['status']}"
+        )
+        
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=f"Access denied: Client status is {client_info['status']}"
         )
     
     # Check endpoint access
