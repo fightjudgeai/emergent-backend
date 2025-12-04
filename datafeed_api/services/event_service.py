@@ -323,36 +323,52 @@ class EventService:
         Returns round stats calculated from event stream
         """
         try:
-            result = self.db.client.rpc(
-                'aggregate_round_stats_from_events',
-                {
-                    'p_fight_id': str(fight_id),
-                    'p_round': round_num
-                }
-            ).execute()
+            # Get all events for this fight/round
+            events = self.get_fight_events(fight_id, round_num)
             
-            if result.data:
-                stats = result.data[0]
-                return {
-                    'red': {
-                        'strikes': stats.get('red_strikes', 0),
-                        'sig_strikes': stats.get('red_sig_strikes', 0),
-                        'knockdowns': stats.get('red_knockdowns', 0),
-                        'control_sec': stats.get('red_control_sec', 0),
-                        'takedowns': stats.get('red_takedowns', 0),
-                        'sub_attempts': stats.get('red_sub_attempts', 0)
-                    },
-                    'blue': {
-                        'strikes': stats.get('blue_strikes', 0),
-                        'sig_strikes': stats.get('blue_sig_strikes', 0),
-                        'knockdowns': stats.get('blue_knockdowns', 0),
-                        'control_sec': stats.get('blue_control_sec', 0),
-                        'takedowns': stats.get('blue_takedowns', 0),
-                        'sub_attempts': stats.get('blue_sub_attempts', 0)
-                    }
+            stats = {
+                'red': {
+                    'strikes': 0,
+                    'sig_strikes': 0,
+                    'knockdowns': 0,
+                    'control_sec': 0,
+                    'takedowns': 0,
+                    'sub_attempts': 0
+                },
+                'blue': {
+                    'strikes': 0,
+                    'sig_strikes': 0,
+                    'knockdowns': 0,
+                    'control_sec': 0,
+                    'takedowns': 0,
+                    'sub_attempts': 0
                 }
-            else:
-                return {'red': {}, 'blue': {}}
+            }
+            
+            for event in events:
+                corner = event['corner'].lower()
+                event_type = event['event_type']
+                metadata = event.get('metadata', {})
+                
+                if event_type == 'STR_LAND':
+                    stats[corner]['strikes'] += 1
+                    if metadata.get('is_significant', False):
+                        stats[corner]['sig_strikes'] += 1
+                
+                elif event_type == 'KD':
+                    stats[corner]['knockdowns'] += 1
+                
+                elif event_type == 'TD_LAND':
+                    stats[corner]['takedowns'] += 1
+                
+                elif event_type == 'SUB_ATT':
+                    stats[corner]['sub_attempts'] += 1
+            
+            # Calculate control time from paired events
+            stats['red']['control_sec'] = self.calculate_control_time(fight_id, round_num, Corner.RED)
+            stats['blue']['control_sec'] = self.calculate_control_time(fight_id, round_num, Corner.BLUE)
+            
+            return stats
         
         except Exception as e:
             logger.error(f"Error aggregating stats from events: {e}")
