@@ -374,16 +374,19 @@ async def list_clients():
 
 
 # Include fantasy scoring routes
-app.include_router(fantasy_routes.router, prefix="/v1")
+app.include_router(fantasy_routes.router, prefix="/v1", tags=["Fantasy"])
 
 # Include market routes
-app.include_router(market_routes.router, prefix="/v1")
+app.include_router(market_routes.router, prefix="/v1", tags=["Markets"])
 
 # Include event normalization routes
-app.include_router(event_routes.router, prefix="/v1")
+app.include_router(event_routes.router, prefix="/v1", tags=["Events"])
 
 # Include public stats routes (no auth required)
-app.include_router(public_routes.router, prefix="/v1")
+app.include_router(public_routes.router, prefix="/v1", tags=["Public"])
+
+# Include admin routes for API key management
+app.include_router(admin_routes.router, tags=["Admin"])
 
 
 if __name__ == "__main__":
