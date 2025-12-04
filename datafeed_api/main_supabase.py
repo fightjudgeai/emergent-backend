@@ -36,6 +36,7 @@ fantasy_service: Optional[FantasyScoringService] = None
 market_service: Optional[MarketSettler] = None
 event_service: Optional[EventService] = None
 public_stats_service: Optional[PublicStatsService] = None
+api_key_auth: Optional[APIKeyAuth] = None
 
 # Create FastAPI application
 app = FastAPI(
