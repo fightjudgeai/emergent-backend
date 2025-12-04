@@ -67,7 +67,7 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup():
     """Initialize on startup"""
-    global db, fantasy_service, market_service, event_service, public_stats_service, api_key_auth
+    global db, fantasy_service, market_service, event_service, public_stats_service, api_key_auth, security_service, jwt_service, ws_manager
     logger.info("Starting Fight Judge AI Data Feed API...")
     
     try:
@@ -80,11 +80,24 @@ async def startup():
         else:
             logger.warning("⚠ Database health check failed")
         
+        # Initialize security service FIRST (needed by auth)
+        security_service = SecurityService(db)
+        dependencies.set_security_service(security_service)
+        logger.info("✓ Security service initialized (audit logging + kill-switch)")
+        
         # Initialize API key authentication service
         api_key_auth = APIKeyAuth(db)
         dependencies.set_auth_service(api_key_auth)
         logger.info("✓ API key authentication service initialized")
-        logger.info("✓ Auth dependencies ready (dependency injection)")
+        
+        # Initialize JWT service for WebSocket
+        jwt_service = JWTService(db)
+        logger.info("✓ JWT service initialized (WebSocket auth)")
+        
+        # Initialize WebSocket connection manager
+        ws_manager = AuthenticatedConnectionManager(db, jwt_service)
+        websocket_routes.set_services(jwt_service, ws_manager)
+        logger.info("✓ WebSocket manager initialized (authenticated connections)")
         
         # Initialize fantasy scoring service
         fantasy_service = FantasyScoringService(db)
@@ -109,6 +122,10 @@ async def startup():
         # Initialize admin routes
         admin_routes.set_db_client(db)
         logger.info("✓ Admin API initialized")
+        
+        # Initialize billing routes
+        billing_routes.set_db_client(db)
+        logger.info("✓ Billing API initialized")
         
         logger.info("="*60)
         logger.info("🚀 Fight Judge AI Data Feed API is LIVE")
