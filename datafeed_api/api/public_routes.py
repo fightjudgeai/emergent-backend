@@ -143,6 +143,91 @@ async def get_public_fight_stats(
         )
 
 
+@router.get("/public/fighter/{fighter_id}")
+async def get_public_fighter_stats(fighter_id: str):
+    """
+    Get public fighter career statistics
+    
+    This endpoint is PUBLIC - no authentication required.
+    
+    Args:
+        fighter_id: Fighter ID (UUID)
+    
+    Returns:
+        Fighter career statistics including:
+        - Career totals (fights, wins, losses, KOs, etc.)
+        - Per-fight record
+        - Strike accuracy trends
+        - Control time history
+        
+    Example Response:
+    {
+        "fighter": {
+            "id": "uuid",
+            "name": "John Doe",
+            "nickname": "The Hammer",
+            "country": "USA"
+        },
+        "record": {
+            "wins": 15,
+            "losses": 3,
+            "draws": 0,
+            "no_contests": 0
+        },
+        "career_totals": {
+            "total_fights": 18,
+            "kos": 8,
+            "submissions": 3,
+            "decisions": 4,
+            "sig_strikes": "1250/2800",
+            "knockdowns": 12,
+            "total_control_time": "45:30",
+            "avg_sig_strike_accuracy": 0.45,
+            "avg_control_time_per_fight": "2:32"
+        },
+        "fight_history": [
+            {
+                "fight_code": "UFC309_DOE_SMITH",
+                "result": "WIN",
+                "method": "KO",
+                "sig_strikes": "85/180",
+                "knockdowns": 2,
+                "control_time": "3:45"
+            }
+        ],
+        "trends": {
+            "strike_accuracy": [
+                {"fight_code": "UFC309_...", "accuracy": 0.47}
+            ],
+            "control_time": [
+                {"fight_code": "UFC309_...", "control_seconds": 225, "control_formatted": "3:45"}
+            ]
+        }
+    }
+    """
+    try:
+        stats = public_stats_service.get_fighter_career_stats(fighter_id)
+        
+        if not stats:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Fighter not found: {fighter_id}"
+            )
+        
+        return stats
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error in public fighter stats endpoint: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error"
+        )
+
+
 @router.get("/public/fights")
 async def list_public_fights(
     event_code: Optional[str] = None,
