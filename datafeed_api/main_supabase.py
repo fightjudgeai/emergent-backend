@@ -29,6 +29,7 @@ logger = logging.getLogger(__name__)
 # Global database client and services
 db: Optional[SupabaseDB] = None
 fantasy_service: Optional[FantasyScoringService] = None
+market_service: Optional[MarketSettler] = None
 
 # Create FastAPI application
 app = FastAPI(
