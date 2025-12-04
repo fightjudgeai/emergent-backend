@@ -94,14 +94,24 @@ async def require_api_key(
     authorization: Optional[str] = Header(None)
 ) -> Dict[str, Any]:
     """
-    Require valid API key
+    Require valid API key with kill-switch enforcement
     
     Returns:
         Client info
     
     Raises:
-        HTTPException if no API key or invalid
+        HTTPException if no API key, invalid, or system stopped
     """
+    # FAIL-SAFE: Check system status (kill-switch)
+    is_active, system_status, reason = await _security_service.check_system_status('api')
+    if not is_active:
+        # EMERGENCY STOP: Block all API access
+        logger.critical(f"API blocked by kill-switch: {system_status} - {reason}")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"API temporarily unavailable: {reason or 'System maintenance'}"
+        )
+    
     # Extract API key
     api_key = x_api_key
     
@@ -110,6 +120,16 @@ async def require_api_key(
             api_key = authorization.replace('Bearer ', '')
     
     if not api_key:
+        # FAIL-SAFE: Do NOT leak partial data - block immediately
+        await _security_service.log_security_event(
+            event_type='auth_failure',
+            action='missing_api_key',
+            ip_address=request.client.host if request.client else None,
+            user_agent=request.headers.get('User-Agent'),
+            status='failure',
+            error_message='API key required'
+        )
+        
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="API key required. Provide X-API-Key header or Authorization: Bearer <key>",
