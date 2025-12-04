@@ -15,7 +15,8 @@ from database.supabase_client import SupabaseDB
 from services.fantasy_scoring_service import FantasyScoringService
 from services.market_settler import MarketSettler
 from services.event_service import EventService
-from api import fantasy_routes, market_routes, event_routes
+from services.public_stats_service import PublicStatsService
+from api import fantasy_routes, market_routes, event_routes, public_routes
 
 # Load environment variables
 load_dotenv()
