@@ -45,7 +45,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS middleware (must be added BEFORE auth middleware)
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -54,7 +54,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Note: Auth middleware will be added after startup when services are initialized
+# Note: Auth middleware requires lazy initialization since it depends on services
+# We'll use a wrapper pattern to initialize it
 
 
 @app.on_event("startup")
