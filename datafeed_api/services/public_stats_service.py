@@ -233,3 +233,177 @@ class PublicStatsService:
                 "acc_td": 0.00  # Not tracked in current schema
             }
         }
+    
+    def get_fighter_career_stats(self, fighter_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Get career statistics for a fighter
+        
+        Args:
+            fighter_id: Fighter ID (UUID)
+        
+        Returns:
+            Dictionary with career stats and fight history
+        """
+        try:
+            # Get fighter details
+            fighter_response = self.db.client.table('fighters')\
+                .select('*')\
+                .eq('id', fighter_id)\
+                .execute()
+            
+            if not fighter_response.data or len(fighter_response.data) == 0:
+                logger.warning(f"Fighter not found: {fighter_id}")
+                return None
+            
+            fighter = fighter_response.data[0]
+            
+            # Get all fights for this fighter (both red and blue corner)
+            red_fights = self.db.client.table('fights')\
+                .select('*')\
+                .eq('red_fighter_id', fighter_id)\
+                .execute()
+            
+            blue_fights = self.db.client.table('fights')\
+                .select('*')\
+                .eq('blue_fighter_id', fighter_id)\
+                .execute()
+            
+            all_fights = (red_fights.data or []) + (blue_fights.data or [])
+            
+            # Calculate career totals
+            career_totals = {
+                'total_fights': len(all_fights),
+                'wins': 0,
+                'losses': 0,
+                'draws': 0,
+                'no_contests': 0,
+                'kos': 0,
+                'submissions': 0,
+                'decisions': 0,
+                'total_sig_strikes_landed': 0,
+                'total_sig_strikes_attempted': 0,
+                'total_knockdowns': 0,
+                'total_control_time_seconds': 0,
+                'avg_sig_strike_accuracy': 0.0,
+                'avg_control_time_per_fight': 0
+            }
+            
+            fight_history = []
+            accuracy_trend = []
+            control_time_trend = []
+            
+            for fight in all_fights:
+                # Determine if fighter was red or blue corner
+                is_red = fight['red_fighter_id'] == fighter_id
+                corner = 'red' if is_red else 'blue'
+                
+                # Get fight result
+                result = self.db.get_fight_result(fight['id'])
+                
+                # Get round states for this fight
+                round_states = self.db.get_round_states(fight['id'])
+                
+                # Calculate fight-level stats
+                fight_sig_landed = sum(state.get(f'{corner}_sig_strikes', 0) for state in round_states)
+                fight_sig_att = self.estimate_attempts(fight_sig_landed)
+                fight_knockdowns = sum(state.get(f'{corner}_knockdowns', 0) for state in round_states)
+                fight_control = sum(state.get(f'{corner}_control_sec', 0) for state in round_states)
+                
+                # Update career totals
+                career_totals['total_sig_strikes_landed'] += fight_sig_landed
+                career_totals['total_sig_strikes_attempted'] += fight_sig_att
+                career_totals['total_knockdowns'] += fight_knockdowns
+                career_totals['total_control_time_seconds'] += fight_control
+                
+                # Track trends
+                accuracy = fight_sig_landed / fight_sig_att if fight_sig_att > 0 else 0.0
+                accuracy_trend.append({
+                    'fight_code': fight.get('code', 'N/A'),
+                    'accuracy': round(accuracy, 2)
+                })
+                
+                control_time_trend.append({
+                    'fight_code': fight.get('code', 'N/A'),
+                    'control_seconds': fight_control,
+                    'control_formatted': self.format_control_time(fight_control)
+                })
+                
+                # Determine result
+                if result:
+                    winner_side = result.get('winner_side')
+                    method = result.get('method', '').upper()
+                    
+                    if winner_side == corner.upper():
+                        career_totals['wins'] += 1
+                        
+                        # Categorize win method
+                        if 'KO' in method or 'TKO' in method:
+                            career_totals['kos'] += 1
+                        elif 'SUB' in method:
+                            career_totals['submissions'] += 1
+                        elif 'DEC' in method:
+                            career_totals['decisions'] += 1
+                    elif winner_side in ['RED', 'BLUE']:
+                        career_totals['losses'] += 1
+                    elif winner_side == 'DRAW':
+                        career_totals['draws'] += 1
+                    elif winner_side == 'NC':
+                        career_totals['no_contests'] += 1
+                    
+                    # Add to fight history
+                    fight_history.append({
+                        'fight_code': fight.get('code', 'N/A'),
+                        'event_id': fight.get('event_id'),
+                        'result': 'WIN' if winner_side == corner.upper() else 'LOSS' if winner_side in ['RED', 'BLUE'] else winner_side,
+                        'method': self._format_result_method(result),
+                        'sig_strikes': f"{fight_sig_landed}/{fight_sig_att}",
+                        'knockdowns': fight_knockdowns,
+                        'control_time': self.format_control_time(fight_control)
+                    })
+            
+            # Calculate averages
+            if career_totals['total_fights'] > 0:
+                career_totals['avg_control_time_per_fight'] = career_totals['total_control_time_seconds'] // career_totals['total_fights']
+            
+            if career_totals['total_sig_strikes_attempted'] > 0:
+                career_totals['avg_sig_strike_accuracy'] = round(
+                    career_totals['total_sig_strikes_landed'] / career_totals['total_sig_strikes_attempted'],
+                    2
+                )
+            
+            return {
+                'fighter': {
+                    'id': fighter['id'],
+                    'name': f"{fighter.get('first_name', '')} {fighter.get('last_name', '')}".strip(),
+                    'nickname': fighter.get('nickname'),
+                    'country': fighter.get('country')
+                },
+                'record': {
+                    'wins': career_totals['wins'],
+                    'losses': career_totals['losses'],
+                    'draws': career_totals['draws'],
+                    'no_contests': career_totals['no_contests']
+                },
+                'career_totals': {
+                    'total_fights': career_totals['total_fights'],
+                    'kos': career_totals['kos'],
+                    'submissions': career_totals['submissions'],
+                    'decisions': career_totals['decisions'],
+                    'sig_strikes': f"{career_totals['total_sig_strikes_landed']}/{career_totals['total_sig_strikes_attempted']}",
+                    'knockdowns': career_totals['total_knockdowns'],
+                    'total_control_time': self.format_control_time(career_totals['total_control_time_seconds']),
+                    'avg_sig_strike_accuracy': career_totals['avg_sig_strike_accuracy'],
+                    'avg_control_time_per_fight': self.format_control_time(career_totals['avg_control_time_per_fight'])
+                },
+                'fight_history': fight_history,
+                'trends': {
+                    'strike_accuracy': accuracy_trend,
+                    'control_time': control_time_trend
+                }
+            }
+        
+        except Exception as e:
+            logger.error(f"Error fetching fighter career stats for {fighter_id}: {e}")
+            import traceback
+            traceback.print_exc()
+            return None
