@@ -358,6 +358,9 @@ app.include_router(market_routes.router, prefix="/v1")
 # Include event normalization routes
 app.include_router(event_routes.router, prefix="/v1")
 
+# Include public stats routes (no auth required)
+app.include_router(public_routes.router, prefix="/v1")
+
 
 if __name__ == "__main__":
     import uvicorn
