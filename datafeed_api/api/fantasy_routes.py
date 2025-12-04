@@ -212,6 +212,95 @@ async def get_fight_fantasy_stats(
         )
 
 
+# ========================================
+# STREAMLINED API ENDPOINT
+# ========================================
+
+@router.get("/{fight_id}/{profile_id}")
+async def get_fantasy_breakdown(fight_id: str, profile_id: str):
+    """
+    Get fantasy points breakdown for a fight
+    
+    Streamlined endpoint for real-time fantasy data.
+    Returns fantasy points for both fighters with detailed breakdown.
+    
+    **Path:**
+    - `/api/fantasy/{fight_id}/{profile_id}`
+    
+    **Example:**
+    - `/api/fantasy/PFC50-F1/fantasy.basic`
+    
+    **Response:**
+    ```json
+    {
+      "fight_code": "PFC50-F1",
+      "profile_id": "fantasy.basic",
+      "fantasy_points": {
+        "red": 84.5,
+        "blue": 63.2
+      },
+      "breakdown": {
+        "red": {...},
+        "blue": {...}
+      }
+    }
+    ```
+    """
+    try:
+        # Get fight by code or ID
+        from database.supabase_client import SupabaseDB
+        db = fantasy_service.db
+        
+        fight = db.get_fight_by_code_or_id(fight_id)
+        
+        if not fight:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Fight {fight_id} not found"
+            )
+        
+        # Get fantasy stats for both fighters
+        stats = fantasy_service.get_fantasy_stats(
+            fight_id=UUID(fight['id']),
+            profile_id=profile_id
+        )
+        
+        # Build response
+        response = {
+            "fight_code": fight.get('code', fight_id),
+            "fight_id": fight['id'],
+            "profile_id": profile_id,
+            "fantasy_points": {},
+            "breakdown": {}
+        }
+        
+        # Organize by corner
+        for stat in stats:
+            # Determine corner
+            if stat['fighter_id'] == fight['red_fighter_id']:
+                corner = 'red'
+            elif stat['fighter_id'] == fight['blue_fighter_id']:
+                corner = 'blue'
+            else:
+                continue
+            
+            response['fantasy_points'][corner] = float(stat['fantasy_points'])
+            response['breakdown'][corner] = stat['breakdown']
+        
+        return response
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting fantasy breakdown: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to retrieve fantasy breakdown: {str(e)}"
+        )
+
+
 @router.get("/stats/fighter/{fighter_id}")
 async def get_fighter_fantasy_stats(
     fighter_id: UUID,
