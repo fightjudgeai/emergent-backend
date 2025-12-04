@@ -32,15 +32,19 @@ class WebSocketConnection:
 
 
 class ConnectionManager:
-    """Manages all WebSocket connections and message broadcasting"""
+    """Manages all WebSocket connections and message broadcasting with fantasy/market data"""
     
-    def __init__(self, db_pool: asyncpg.Pool, auth_middleware: AuthMiddleware):
-        self.db_pool = db_pool
+    def __init__(self, db_client, auth_middleware: AuthMiddleware):
+        self.db = db_client
         self.auth_middleware = auth_middleware
         self.active_connections: Dict[str, WebSocketConnection] = {}  # connection_id -> WebSocketConnection
         self.subscriptions: Dict[str, Set[str]] = {}  # channel -> set of connection_ids
         self._connection_counter = 0
         self._lock = asyncio.Lock()
+        
+        # Services for fantasy and market data
+        self.fantasy_service = None
+        self.market_service = None
     
     def _generate_connection_id(self) -> str:
         """Generate unique connection ID"""
