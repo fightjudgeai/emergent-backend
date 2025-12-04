@@ -347,3 +347,67 @@ async def calculate_event_fantasy_points(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to calculate event fantasy points: {str(e)}"
         )
+
+
+# ========================================
+# MANUAL RECOMPUTATION
+# ========================================
+
+@router.post("/recompute")
+async def manual_recompute_fantasy_stats(
+    fight_id: Optional[UUID] = Query(None, description="Specific fight ID to recompute"),
+    event_code: Optional[str] = Query(None, description="Event code to recompute all fights")
+):
+    """
+    Manually trigger fantasy stats recomputation
+    
+    Uses the SQL function to recompute fantasy stats for:
+    - Specific fight (if fight_id provided)
+    - All fights in event (if event_code provided)
+    - All fights (if neither provided)
+    
+    This bypasses the automatic triggers and forces recalculation.
+    
+    - **fight_id**: Optional fight UUID
+    - **event_code**: Optional event code
+    """
+    try:
+        db = fantasy_service.db
+        
+        # Call the recompute SQL function
+        params = {}
+        if fight_id:
+            params['p_fight_id'] = str(fight_id)
+        if event_code:
+            params['p_event_code'] = event_code
+        
+        result = db.client.rpc('recompute_all_fantasy_stats', params).execute()
+        
+        if result.data:
+            successful = sum(1 for r in result.data if r.get('status') == 'success')
+            failed = len(result.data) - successful
+            
+            return {
+                "success": True,
+                "scope": "fight" if fight_id else ("event" if event_code else "all"),
+                "fight_id": str(fight_id) if fight_id else None,
+                "event_code": event_code,
+                "total_recomputed": len(result.data),
+                "successful": successful,
+                "failed": failed,
+                "details": result.data
+            }
+        else:
+            return {
+                "success": True,
+                "message": "No fights found to recompute"
+            }
+    
+    except Exception as e:
+        logger.error(f"Error in manual recompute: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to recompute fantasy stats: {str(e)}"
+        )
