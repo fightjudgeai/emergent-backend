@@ -374,6 +374,186 @@ class EventService:
             logger.error(f"Error aggregating stats from events: {e}")
             return {'red': {}, 'blue': {}, 'error': str(e)}
     
+    def generate_events_from_round_state(
+        self,
+        fight_id: UUID,
+        round_num: int,
+        round_state: Dict[str, Any]
+    ) -> int:
+        """
+        Generate granular events from cumulative round_state stats
+        
+        This bridges the parallel system - existing cumulative stats are
+        converted into the new normalized event model.
+        
+        Args:
+            fight_id: UUID of the fight
+            round_num: Round number
+            round_state: Dictionary containing cumulative stats
+                {
+                    'red_sig_strikes': int,
+                    'blue_sig_strikes': int,
+                    'red_knockdowns': int,
+                    'blue_knockdowns': int,
+                    'red_control_sec': int,
+                    'blue_control_sec': int
+                }
+        
+        Returns:
+            Number of events created
+        """
+        try:
+            events_created = 0
+            
+            # Get next sequence number for this fight
+            existing_events = self.db.client.table('fight_events')\
+                .select('seq')\
+                .eq('fight_id', str(fight_id))\
+                .order('seq', desc=True)\
+                .limit(1)\
+                .execute()
+            
+            base_seq = 1
+            if existing_events.data and len(existing_events.data) > 0:
+                base_seq = existing_events.data[0]['seq'] + 1
+            
+            # Check if events already exist for this fight/round
+            existing_round_events = self.db.client.table('fight_events')\
+                .select('id')\
+                .eq('fight_id', str(fight_id))\
+                .eq('round', round_num)\
+                .execute()
+            
+            if existing_round_events.data and len(existing_round_events.data) > 0:
+                logger.info(f"Events already exist for fight {fight_id}, round {round_num}")
+                return 0
+            
+            events_to_insert = []
+            
+            # Generate STR_LAND events (RED significant strikes)
+            red_sig = round_state.get('red_sig_strikes', 0)
+            for i in range(1, red_sig + 1):
+                second_in_round = int((i / red_sig) * 300) if red_sig > 0 else 0
+                events_to_insert.append({
+                    'fight_id': str(fight_id),
+                    'round': round_num,
+                    'second_in_round': second_in_round,
+                    'event_type': 'STR_LAND',
+                    'corner': 'RED',
+                    'seq': base_seq + events_created,
+                    'metadata': {'is_significant': True, 'generated': True}
+                })
+                events_created += 1
+            
+            # Generate STR_LAND events (BLUE significant strikes)
+            blue_sig = round_state.get('blue_sig_strikes', 0)
+            for i in range(1, blue_sig + 1):
+                second_in_round = int((i / blue_sig) * 300) if blue_sig > 0 else 0
+                events_to_insert.append({
+                    'fight_id': str(fight_id),
+                    'round': round_num,
+                    'second_in_round': second_in_round,
+                    'event_type': 'STR_LAND',
+                    'corner': 'BLUE',
+                    'seq': base_seq + events_created,
+                    'metadata': {'is_significant': True, 'generated': True}
+                })
+                events_created += 1
+            
+            # Generate KD events (RED)
+            red_kd = round_state.get('red_knockdowns', 0)
+            for i in range(1, red_kd + 1):
+                second_in_round = int((i / red_kd) * 300) if red_kd > 0 else 0
+                events_to_insert.append({
+                    'fight_id': str(fight_id),
+                    'round': round_num,
+                    'second_in_round': second_in_round,
+                    'event_type': 'KD',
+                    'corner': 'RED',
+                    'seq': base_seq + events_created,
+                    'metadata': {'generated': True}
+                })
+                events_created += 1
+            
+            # Generate KD events (BLUE)
+            blue_kd = round_state.get('blue_knockdowns', 0)
+            for i in range(1, blue_kd + 1):
+                second_in_round = int((i / blue_kd) * 300) if blue_kd > 0 else 0
+                events_to_insert.append({
+                    'fight_id': str(fight_id),
+                    'round': round_num,
+                    'second_in_round': second_in_round,
+                    'event_type': 'KD',
+                    'corner': 'BLUE',
+                    'seq': base_seq + events_created,
+                    'metadata': {'generated': True}
+                })
+                events_created += 1
+            
+            # Generate control events (RED) - single CTRL_START/CTRL_END pair
+            red_control = round_state.get('red_control_sec', 0)
+            if red_control > 0:
+                events_to_insert.append({
+                    'fight_id': str(fight_id),
+                    'round': round_num,
+                    'second_in_round': 0,
+                    'event_type': 'CTRL_START',
+                    'corner': 'RED',
+                    'seq': base_seq + events_created,
+                    'metadata': {'generated': True}
+                })
+                events_created += 1
+                
+                events_to_insert.append({
+                    'fight_id': str(fight_id),
+                    'round': round_num,
+                    'second_in_round': red_control,
+                    'event_type': 'CTRL_END',
+                    'corner': 'RED',
+                    'seq': base_seq + events_created,
+                    'metadata': {'generated': True}
+                })
+                events_created += 1
+            
+            # Generate control events (BLUE) - starts after RED control
+            blue_control = round_state.get('blue_control_sec', 0)
+            if blue_control > 0:
+                blue_ctrl_start = max(red_control, 0)
+                events_to_insert.append({
+                    'fight_id': str(fight_id),
+                    'round': round_num,
+                    'second_in_round': blue_ctrl_start,
+                    'event_type': 'CTRL_START',
+                    'corner': 'BLUE',
+                    'seq': base_seq + events_created,
+                    'metadata': {'generated': True}
+                })
+                events_created += 1
+                
+                events_to_insert.append({
+                    'fight_id': str(fight_id),
+                    'round': round_num,
+                    'second_in_round': blue_ctrl_start + blue_control,
+                    'event_type': 'CTRL_END',
+                    'corner': 'BLUE',
+                    'seq': base_seq + events_created,
+                    'metadata': {'generated': True}
+                })
+                events_created += 1
+            
+            # Insert all events in batch
+            if events_to_insert:
+                self.db.client.table('fight_events').insert(events_to_insert).execute()
+                logger.info(f"Generated {events_created} events for fight {fight_id}, round {round_num}")
+            
+            return events_created
+        
+        except Exception as e:
+            logger.error(f"Error generating events from round state: {e}")
+            import traceback
+            traceback.print_exc()
+            return 0
+    
     def get_event_stream_summary(self, fight_id: UUID) -> Dict[str, Any]:
         """Get event stream summary for a fight"""
         events = self.get_fight_events(fight_id)
