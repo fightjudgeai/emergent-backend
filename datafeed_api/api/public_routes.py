@@ -24,7 +24,10 @@ def set_public_stats_service(service: PublicStatsService):
 
 
 @router.get("/public/fight/{fight_id}")
-async def get_public_fight_stats(fight_id: str):
+async def get_public_fight_stats(
+    fight_id: str,
+    fantasy_profile: Optional[str] = None
+):
     """
     Get public fight statistics in UFCstats format
     
