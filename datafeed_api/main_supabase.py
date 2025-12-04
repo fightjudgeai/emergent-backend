@@ -16,9 +16,12 @@ from services.fantasy_scoring_service import FantasyScoringService
 from services.market_settler import MarketSettler
 from services.event_service import EventService
 from services.public_stats_service import PublicStatsService
+from services.security_service import SecurityService
 from auth.api_key_auth import APIKeyAuth
+from auth.jwt_service import JWTService
 from auth import dependencies
-from api import fantasy_routes, market_routes, event_routes, public_routes, admin_routes
+from websocket.authenticated_connection_manager import AuthenticatedConnectionManager
+from api import fantasy_routes, market_routes, event_routes, public_routes, admin_routes, websocket_routes, billing_routes
 
 # Load environment variables
 load_dotenv()
