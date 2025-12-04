@@ -40,6 +40,9 @@ market_service: Optional[MarketSettler] = None
 event_service: Optional[EventService] = None
 public_stats_service: Optional[PublicStatsService] = None
 api_key_auth: Optional[APIKeyAuth] = None
+security_service: Optional[SecurityService] = None
+jwt_service: Optional[JWTService] = None
+ws_manager: Optional[AuthenticatedConnectionManager] = None
 
 # Create FastAPI application
 app = FastAPI(
