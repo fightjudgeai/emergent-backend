@@ -33,6 +33,7 @@ db: Optional[SupabaseDB] = None
 fantasy_service: Optional[FantasyScoringService] = None
 market_service: Optional[MarketSettler] = None
 event_service: Optional[EventService] = None
+public_stats_service: Optional[PublicStatsService] = None
 
 # Create FastAPI application
 app = FastAPI(
