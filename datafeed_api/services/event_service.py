@@ -277,18 +277,36 @@ class EventService:
         Returns validation result with details
         """
         try:
-            result = self.db.client.rpc(
-                'validate_no_control_overlap',
-                {
-                    'p_fight_id': str(fight_id),
-                    'p_round': round_num
-                }
-            ).execute()
+            round_duration = 300  # 5 minutes
             
-            if result.data:
-                return result.data[0]
+            red_control = self.calculate_control_time(fight_id, round_num, Corner.RED)
+            blue_control = self.calculate_control_time(fight_id, round_num, Corner.BLUE)
+            
+            total_control = red_control + blue_control
+            
+            if total_control > round_duration:
+                overlap_seconds = total_control - round_duration
+                
+                details = {
+                    'red_control': red_control,
+                    'blue_control': blue_control,
+                    'total_control': total_control,
+                    'round_duration': round_duration,
+                    'overlap_seconds': overlap_seconds
+                }
+                
+                logger.warning(f"Control overlap detected: {details}")
+                return {'has_overlap': True, 'overlap_details': details}
             else:
-                return {'has_overlap': False, 'overlap_details': {}}
+                details = {
+                    'red_control': red_control,
+                    'blue_control': blue_control,
+                    'total_control': total_control,
+                    'round_duration': round_duration,
+                    'remaining_neutral': round_duration - total_control
+                }
+                
+                return {'has_overlap': False, 'overlap_details': details}
         
         except Exception as e:
             logger.error(f"Error validating control overlap: {e}")
