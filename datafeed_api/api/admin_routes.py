@@ -418,3 +418,310 @@ async def get_client_usage(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error fetching client usage"
         )
+
+
+@router.post("/admin/create-client")
+async def admin_create_client(request: CreateAPIKeyRequest, admin_user: str = "admin"):
+    """
+    Admin endpoint to create new API client
+    
+    **RESTRICTED TO INTERNAL ADMIN ONLY**
+    
+    Body:
+    {
+        "name": "Partner Name",
+        "tier": "fantasy.basic",
+        "rate_limit_per_minute": 180
+    }
+    """
+    try:
+        # Generate API key
+        api_key = generate_secure_api_key()
+        
+        # Insert client
+        response = db_client.client.table('api_clients').insert({
+            'name': request.name,
+            'tier': request.tier,
+            'api_key': api_key,
+            'status': 'ACTIVE',
+            'rate_limit_per_minute': request.rate_limit_per_minute,
+            'rate_limit_per_hour': request.rate_limit_per_hour,
+            'rate_limit_per_day': request.rate_limit_per_day,
+            'notes': request.notes
+        }).execute()
+        
+        if not response.data:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to create client"
+            )
+        
+        created = response.data[0]
+        
+        # Log admin action
+        db_client.client.table('admin_actions').insert({
+            'admin_user': admin_user,
+            'action_type': 'create_client',
+            'target_client_id': created['id'],
+            'new_value': {'name': request.name, 'tier': request.tier},
+            'reason': 'New client created',
+            'timestamp': datetime.utcnow().isoformat()
+        }).execute()
+        
+        return {
+            "id": created['id'],
+            "name": created['name'],
+            "tier": created['tier'],
+            "api_key": api_key,
+            "status": created['status'],
+            "warning": "Save this API key securely. It will not be shown again."
+        }
+    
+    except Exception as e:
+        logger.error(f"Error creating client: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
+
+
+@router.patch("/admin/suspend-client/{client_id}")
+async def admin_suspend_client(
+    client_id: str,
+    reason: str,
+    admin_user: str = "admin"
+):
+    """
+    Admin endpoint to suspend client (emergency kill-switch per client)
+    
+    **RESTRICTED TO INTERNAL ADMIN ONLY**
+    
+    Suspended clients are immediately blocked from all access
+    """
+    try:
+        # Get current client info
+        old_client = db_client.client.table('api_clients')\
+            .select('*')\
+            .eq('id', client_id)\
+            .execute()
+        
+        if not old_client.data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Client not found: {client_id}"
+            )
+        
+        # Suspend client
+        response = db_client.client.table('api_clients')\
+            .update({
+                'status': 'SUSPENDED',
+                'updated_at': datetime.utcnow().isoformat()
+            })\
+            .eq('id', client_id)\
+            .execute()
+        
+        # Log admin action
+        db_client.client.table('admin_actions').insert({
+            'admin_user': admin_user,
+            'action_type': 'suspend_client',
+            'target_client_id': client_id,
+            'old_value': {'status': old_client.data[0]['status']},
+            'new_value': {'status': 'SUSPENDED'},
+            'reason': reason,
+            'timestamp': datetime.utcnow().isoformat()
+        }).execute()
+        
+        logger.warning(f"Client suspended: {client_id} by {admin_user}: {reason}")
+        
+        return {
+            "message": "Client suspended successfully",
+            "client_id": client_id,
+            "status": "SUSPENDED",
+            "reason": reason
+        }
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error suspending client: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
+
+
+@router.patch("/admin/change-tier/{client_id}")
+async def admin_change_tier(
+    client_id: str,
+    new_tier: str,
+    reason: str,
+    admin_user: str = "admin"
+):
+    """
+    Admin endpoint to change client tier
+    
+    **RESTRICTED TO INTERNAL ADMIN ONLY**
+    
+    Changes take effect immediately
+    """
+    try:
+        # Validate tier
+        valid_tiers = ['public', 'dev', 'fantasy.basic', 'fantasy.advanced', 'sportsbook.pro', 'promotion.enterprise']
+        if new_tier not in valid_tiers:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid tier. Must be one of: {', '.join(valid_tiers)}"
+            )
+        
+        # Get current client info
+        old_client = db_client.client.table('api_clients')\
+            .select('*')\
+            .eq('id', client_id)\
+            .execute()
+        
+        if not old_client.data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Client not found: {client_id}"
+            )
+        
+        old_tier = old_client.data[0]['tier']
+        
+        # Update tier
+        response = db_client.client.table('api_clients')\
+            .update({
+                'tier': new_tier,
+                'updated_at': datetime.utcnow().isoformat()
+            })\
+            .eq('id', client_id)\
+            .execute()
+        
+        # Log admin action
+        db_client.client.table('admin_actions').insert({
+            'admin_user': admin_user,
+            'action_type': 'change_tier',
+            'target_client_id': client_id,
+            'old_value': {'tier': old_tier},
+            'new_value': {'tier': new_tier},
+            'reason': reason,
+            'timestamp': datetime.utcnow().isoformat()
+        }).execute()
+        
+        logger.info(f"Client tier changed: {client_id} from {old_tier} to {new_tier} by {admin_user}")
+        
+        return {
+            "message": "Tier changed successfully",
+            "client_id": client_id,
+            "old_tier": old_tier,
+            "new_tier": new_tier,
+            "reason": reason
+        }
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error changing tier: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
+
+
+@router.post("/admin/emergency-stop")
+async def admin_emergency_stop(
+    component: str,
+    reason: str,
+    admin_user: str = "admin"
+):
+    """
+    Admin endpoint for emergency kill-switch
+    
+    **RESTRICTED TO INTERNAL ADMIN ONLY**
+    
+    Components: api, websocket, fantasy, markets, settlement
+    
+    Stops component immediately system-wide
+    """
+    try:
+        # Update system status
+        db_client.client.table('system_status')\
+            .update({
+                'status': 'emergency_stop',
+                'reason': reason,
+                'updated_by': admin_user,
+                'updated_at': datetime.utcnow().isoformat()
+            })\
+            .eq('component', component)\
+            .execute()
+        
+        # Log admin action
+        db_client.client.table('admin_actions').insert({
+            'admin_user': admin_user,
+            'action_type': 'emergency_stop',
+            'new_value': {'component': component, 'reason': reason},
+            'reason': reason,
+            'timestamp': datetime.utcnow().isoformat()
+        }).execute()
+        
+        logger.critical(f"EMERGENCY STOP: {component} stopped by {admin_user}: {reason}")
+        
+        return {
+            "message": f"Emergency stop activated for {component}",
+            "component": component,
+            "status": "emergency_stop",
+            "reason": reason,
+            "admin": admin_user
+        }
+    
+    except Exception as e:
+        logger.error(f"Error executing emergency stop: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
+
+
+@router.post("/admin/reactivate")
+async def admin_reactivate_component(
+    component: str,
+    admin_user: str = "admin"
+):
+    """
+    Admin endpoint to reactivate stopped component
+    
+    **RESTRICTED TO INTERNAL ADMIN ONLY**
+    """
+    try:
+        db_client.client.table('system_status')\
+            .update({
+                'status': 'active',
+                'reason': None,
+                'updated_by': admin_user,
+                'updated_at': datetime.utcnow().isoformat()
+            })\
+            .eq('component', component)\
+            .execute()
+        
+        # Log admin action
+        db_client.client.table('admin_actions').insert({
+            'admin_user': admin_user,
+            'action_type': 'reactivate_component',
+            'new_value': {'component': component},
+            'reason': 'Component reactivated',
+            'timestamp': datetime.utcnow().isoformat()
+        }).execute()
+        
+        logger.info(f"Component reactivated: {component} by {admin_user}")
+        
+        return {
+            "message": f"Component {component} reactivated",
+            "component": component,
+            "status": "active"
+        }
+    
+    except Exception as e:
+        logger.error(f"Error reactivating component: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
