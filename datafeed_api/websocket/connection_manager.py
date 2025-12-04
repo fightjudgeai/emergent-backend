@@ -219,8 +219,106 @@ class ConnectionManager:
         
         logger.info(f"[{connection_id}] Unsubscribed from {subscription_key}")
     
+    def set_services(self, fantasy_service, market_service):
+        """Set fantasy and market services for data injection"""
+        self.fantasy_service = fantasy_service
+        self.market_service = market_service
+    
+    async def _inject_fantasy_and_market_data(self, message: dict, subscription_key: str) -> dict:
+        """
+        Inject fantasy points and market data into WebSocket message
+        
+        Adds:
+        - fantasy_points: {profile_id: {red: X, blue: Y}}
+        - markets: {market_type: {status, line, actual, etc.}}
+        """
+        # Only inject for fight subscriptions
+        if not subscription_key.startswith('fight:'):
+            return message
+        
+        # Extract fight code from subscription key
+        fight_code = subscription_key.split(':', 1)[1]
+        
+        try:
+            # Get fight ID from code
+            fight = self.db.get_fight_by_code_or_id(fight_code)
+            if not fight:
+                return message
+            
+            fight_id = UUID(fight['id'])
+            
+            # Inject fantasy points (all profiles)
+            if self.fantasy_service:
+                fantasy_data = {}
+                for profile_id in ['fantasy.basic', 'fantasy.advanced', 'sportsbook.pro']:
+                    try:
+                        stats = self.fantasy_service.get_fantasy_stats(
+                            fight_id=fight_id,
+                            profile_id=profile_id
+                        )
+                        
+                        profile_data = {}
+                        for stat in stats:
+                            # Determine corner
+                            if stat['fighter_id'] == fight['red_fighter_id']:
+                                profile_data['red'] = float(stat['fantasy_points'])
+                            elif stat['fighter_id'] == fight['blue_fighter_id']:
+                                profile_data['blue'] = float(stat['fantasy_points'])
+                        
+                        if profile_data:
+                            fantasy_data[profile_id] = profile_data
+                    except Exception as e:
+                        logger.debug(f"Could not get fantasy data for {profile_id}: {e}")
+                
+                if fantasy_data:
+                    message['fantasy_points'] = fantasy_data
+            
+            # Inject market data
+            if self.market_service:
+                try:
+                    markets = self.market_service.get_fight_markets(fight_id)
+                    
+                    market_data = {}
+                    for market in markets:
+                        market_type = market['market_type']
+                        compact_market = {
+                            'status': market['status']
+                        }
+                        
+                        # Add settlement data if settled
+                        if market['status'] == 'SETTLED':
+                            settlement = self.market_service.get_market_settlement(UUID(market['id']))
+                            if settlement:
+                                result = settlement['result_payload']
+                                
+                                if market_type == 'WINNER':
+                                    compact_market['winner_side'] = result.get('winner_side')
+                                    compact_market['method'] = result.get('method')
+                                
+                                elif market_type in ['TOTAL_SIG_STRIKES', 'KD_OVER_UNDER', 'SUB_ATT_OVER_UNDER']:
+                                    compact_market['line'] = result.get('line')
+                                    compact_market['actual'] = result.get('actual_total')
+                                    compact_market['winning_side'] = result.get('winning_side')
+                        else:
+                            # Include line for open markets
+                            if 'line' in market['params']:
+                                compact_market['line'] = market['params']['line']
+                        
+                        market_data[market_type] = compact_market
+                    
+                    if market_data:
+                        message['markets'] = market_data
+                
+                except Exception as e:
+                    logger.debug(f"Could not get market data: {e}")
+        
+        except Exception as e:
+            logger.error(f"Error injecting fantasy/market data: {e}")
+        
+        return message
+    
     async def broadcast_to_subscription(self, subscription_key: str, message: dict):
-        """Broadcast message to all subscribers of a channel"""
+        """Broadcast message to all subscribers of a channel with fantasy/market data"""
         async with self._lock:
             connection_ids = self.subscriptions.get(subscription_key, set()).copy()
         
@@ -229,13 +327,16 @@ class ConnectionManager:
         
         logger.info(f"Broadcasting to {len(connection_ids)} connections on {subscription_key}")
         
+        # Inject fantasy and market data into message
+        enriched_message = await self._inject_fantasy_and_market_data(message.copy(), subscription_key)
+        
         # Send to each connection with scope-based filtering
         for connection_id in connection_ids:
             ws_conn = self.active_connections.get(connection_id)
             if ws_conn and ws_conn.authenticated:
                 try:
                     # Filter payload based on client scope
-                    filtered_message = message.copy()
+                    filtered_message = enriched_message.copy()
                     if 'payload' in filtered_message:
                         filtered_message['payload'] = self.auth_middleware.filter_payload_by_scope(
                             filtered_message['payload'],
