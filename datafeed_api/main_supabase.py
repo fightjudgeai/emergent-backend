@@ -54,8 +54,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Note: Auth middleware requires lazy initialization since it depends on services
-# We'll use a wrapper pattern to initialize it
+# Note: Authentication is handled via dependency injection in route handlers
+# This allows proper initialization order and better testability
 
 
 @app.on_event("startup")
