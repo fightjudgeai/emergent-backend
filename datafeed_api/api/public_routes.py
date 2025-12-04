@@ -101,6 +101,34 @@ async def get_public_fight_stats(
             "requires event normalization system (migration 005)."
         )
         
+        # Fantasy overlay (optional)
+        if fantasy_profile:
+            try:
+                # Import fantasy service
+                from main_supabase import fantasy_service
+                
+                if fantasy_service:
+                    # Get fight ID from stats
+                    fight = public_stats_service.db.get_fight_by_code_or_id(fight_id)
+                    
+                    if fight:
+                        # Calculate fantasy points
+                        fantasy_stats = fantasy_service.calculate_fantasy_points(
+                            fight['id'],
+                            fantasy_profile
+                        )
+                        
+                        if fantasy_stats:
+                            stats['fantasy_points'] = {
+                                'profile': fantasy_profile,
+                                'red': fantasy_stats.get('red_total_points', 0.0),
+                                'blue': fantasy_stats.get('blue_total_points', 0.0)
+                            }
+                            stats['_note'] += f" Fantasy points calculated using {fantasy_profile} profile."
+            except Exception as e:
+                logger.warning(f"Failed to inject fantasy points: {e}")
+                # Don't fail the request if fantasy calculation fails
+        
         return stats
     
     except HTTPException:
