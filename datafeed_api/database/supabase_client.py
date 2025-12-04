@@ -112,6 +112,29 @@ class SupabaseDB:
         
         return fight
     
+    def get_fight_by_code_or_id(self, fight_identifier: str) -> Optional[Dict]:
+        """Get fight by code or ID"""
+        # Try as UUID first
+        try:
+            from uuid import UUID
+            UUID(fight_identifier)
+            # It's a valid UUID, query by ID
+            response = self.client.table('fights')\
+                .select('*')\
+                .eq('id', fight_identifier)\
+                .execute()
+        except (ValueError, AttributeError):
+            # Not a UUID, try as code
+            response = self.client.table('fights')\
+                .select('*')\
+                .eq('code', fight_identifier)\
+                .execute()
+        
+        if not response.data:
+            return None
+        
+        return response.data[0]
+    
     def get_latest_round_state(self, fight_id: str) -> Optional[Dict]:
         """Get latest round state for a fight"""
         response = self.client.table('round_state')\
