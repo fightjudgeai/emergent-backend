@@ -1,6 +1,7 @@
 """
 WebSocket Connection Manager
 Handles WebSocket lifecycle, authentication, and message broadcasting
+with real-time fantasy points and market data
 """
 
 import json
@@ -8,7 +9,7 @@ import logging
 import asyncio
 from typing import Dict, Set, Optional, List
 from fastapi import WebSocket, WebSocketDisconnect
-import asyncpg
+from uuid import UUID
 
 from auth.middleware import AuthMiddleware
 from models.schemas import WebSocketMessage, AuthMessage, SubscribeMessage
