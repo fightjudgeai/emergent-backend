@@ -64,7 +64,15 @@ async def lifespan(app: FastAPI):
         
         # Initialize WebSocket connection manager
         connection_manager = ConnectionManager(db_pool, auth_middleware)
-        logger.info("✓ WebSocket connection manager initialized")
+        
+        # Set services for fantasy/market data injection
+        from services.fantasy_scoring_service import FantasyScoringService
+        from services.market_settler import MarketSettler
+        fantasy_svc = FantasyScoringService(db_pool)
+        market_svc = MarketSettler(db_pool)
+        connection_manager.set_services(fantasy_svc, market_svc)
+        
+        logger.info("✓ WebSocket connection manager initialized with fantasy/market injection")
         
         logger.info("=" * 60)
         logger.info("🚀 Fight Judge AI Data Feed API is LIVE")
