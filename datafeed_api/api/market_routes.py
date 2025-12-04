@@ -167,6 +167,117 @@ async def get_fight_markets(
         )
 
 
+# ========================================
+# STREAMLINED API ENDPOINT
+# ========================================
+
+@router.get("/{fight_id}")
+async def get_markets_summary(fight_id: str):
+    """
+    Get market summary for a fight
+    
+    Streamlined endpoint for real-time market data.
+    Returns all markets with settlements in a compact format.
+    
+    **Path:**
+    - `/api/markets/{fight_id}`
+    
+    **Example:**
+    - `/api/markets/PFC50-F1`
+    
+    **Response:**
+    ```json
+    {
+      "fight_code": "PFC50-F1",
+      "markets": {
+        "WINNER": {
+          "status": "SETTLED",
+          "winner_side": "RED",
+          "method": "KO"
+        },
+        "TOTAL_SIG_STRIKES": {
+          "line": 75.5,
+          "actual": 82,
+          "status": "SETTLED",
+          "winning_side": "OVER"
+        }
+      }
+    }
+    ```
+    """
+    try:
+        from database.supabase_client import SupabaseDB
+        db = market_settler.db
+        
+        # Get fight by code or ID
+        fight = db.get_fight_by_code_or_id(fight_id)
+        
+        if not fight:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Fight {fight_id} not found"
+            )
+        
+        # Get all markets for this fight
+        markets = market_settler.get_fight_markets(UUID(fight['id']))
+        
+        # Build compact response
+        response = {
+            "fight_code": fight.get('code', fight_id),
+            "fight_id": fight['id'],
+            "markets": {}
+        }
+        
+        for market in markets:
+            market_type = market['market_type']
+            market_data = {
+                "status": market['status'],
+                "params": market['params']
+            }
+            
+            # Add settlement data if settled
+            if market['status'] == 'SETTLED':
+                settlement = market_settler.get_market_settlement(UUID(market['id']))
+                if settlement:
+                    # Merge settlement payload into market data
+                    result = settlement['result_payload']
+                    
+                    # Add key settlement fields
+                    if market_type == 'WINNER':
+                        market_data['winner_side'] = result.get('winner_side')
+                        market_data['method'] = result.get('method')
+                        market_data['round'] = result.get('round')
+                        market_data['time'] = result.get('time')
+                    
+                    elif market_type in ['TOTAL_SIG_STRIKES', 'KD_OVER_UNDER', 'SUB_ATT_OVER_UNDER']:
+                        market_data['line'] = result.get('line')
+                        market_data['actual'] = result.get('actual_total')
+                        market_data['winning_side'] = result.get('winning_side')
+                        
+                        # Add component stats
+                        if market_type == 'TOTAL_SIG_STRIKES':
+                            market_data['red_sig_strikes'] = result.get('red_sig_strikes')
+                            market_data['blue_sig_strikes'] = result.get('blue_sig_strikes')
+                        elif market_type == 'KD_OVER_UNDER':
+                            market_data['red_knockdowns'] = result.get('red_knockdowns')
+                            market_data['blue_knockdowns'] = result.get('blue_knockdowns')
+            
+            response['markets'][market_type] = market_data
+        
+        return response
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting markets summary: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to retrieve markets summary: {str(e)}"
+        )
+
+
 @router.patch("/{market_id}/status")
 async def update_market_status(
     market_id: UUID,
