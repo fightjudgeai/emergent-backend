@@ -76,11 +76,9 @@ async def startup():
         
         # Initialize API key authentication service
         api_key_auth = APIKeyAuth(db)
+        dependencies.set_auth_service(api_key_auth)
         logger.info("✓ API key authentication service initialized")
-        
-        # Note: Middleware cannot be added after startup
-        # Auth will be handled via dependency injection in routes
-        logger.info("✓ Auth service ready (using dependency injection)")
+        logger.info("✓ Auth dependencies ready (dependency injection)")
         
         # Initialize fantasy scoring service
         fantasy_service = FantasyScoringService(db)
