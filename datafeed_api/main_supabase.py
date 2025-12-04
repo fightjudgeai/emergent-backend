@@ -49,7 +49,7 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup():
     """Initialize on startup"""
-    global db
+    global db, fantasy_service
     logger.info("Starting Fight Judge AI Data Feed API...")
     
     try:
@@ -62,10 +62,16 @@ async def startup():
         else:
             logger.warning("⚠ Database health check failed")
         
+        # Initialize fantasy scoring service
+        fantasy_service = FantasyScoringService(db)
+        fantasy_routes.set_fantasy_service(fantasy_service)
+        logger.info("✓ Fantasy scoring service initialized")
+        
         logger.info("="*60)
         logger.info("🚀 Fight Judge AI Data Feed API is LIVE")
         logger.info("="*60)
         logger.info(f"REST API: http://localhost:{os.getenv('API_PORT', 8002)}/v1")
+        logger.info(f"Fantasy API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/fantasy")
         logger.info("="*60)
         
     except Exception as e:
