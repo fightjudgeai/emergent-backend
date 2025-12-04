@@ -419,6 +419,12 @@ app.include_router(event_routes.router, prefix="/v1", tags=["Events"])
 # Include public stats routes (no auth required)
 app.include_router(public_routes.router, prefix="/v1", tags=["Public"])
 
+# Include WebSocket routes
+app.include_router(websocket_routes.router, tags=["WebSocket"])
+
+# Include billing routes
+app.include_router(billing_routes.router, tags=["Billing"])
+
 # Include admin routes for API key management
 app.include_router(admin_routes.router, tags=["Admin"])
 
