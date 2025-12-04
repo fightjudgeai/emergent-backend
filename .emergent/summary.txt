@@ -1,72 +1,76 @@
 <analysis>**original_problem_statement:**
-The user has pivoted from developing the Fight Judge AI Pro Operator Suite to building a completely new, standalone, real-time sports data feed service.
+The user has pivoted from the Fight Judge AI Pro Operator Suite to building a new, standalone, real-time sports data feed service using FastAPI and Supabase (PostgreSQL).
 
 **PRODUCT REQUIREMENTS (New Service):**
-Build a complete Supabase-backed backend designed as a financial-grade, low-latency event-syndication system for fantasy sports and regulated sportsbooks.
-
-**Core Features:**
--   **Real-time Feed:** A WebSocket endpoint () for broadcasting live fight data.
--   **REST API:** Snapshot and historical data access via REST endpoints (e.g., ).
--   **Authentication:** API key authentication with scoped permissions (, , ).
--   **Data Integrity:** Full audit logs, monotonic sequencing for every state update, and failure-safety mechanisms.
-
-**Database Schema (PostgreSQL/Supabase):**
--   : Event metadata.
--   : Fighter profiles.
--   : Fight details and matchups.
--   : Granular, timestamped, and sequenced state updates for each round (strikes, control time, AI metrics).
--   : Final fight outcomes.
--   : API key and permission scope management.
-
-**Deployment Intent:**
--   The system will be used live for PFC 50 to power fantasy games and will be architected to support future regulated sportsbook feeds.
+-   **Core Features:**
+    -   A WebSocket endpoint for real-time data feeds.
+    -   REST API for snapshot/historical data.
+    -   API key authentication with scoped permissions.
+    -   Data integrity with audit logs and monotonic sequencing.
+-   **Fantasy Scoring System:**
+    -   Configurable scoring profiles (, , ).
+    -   Automatic calculation of fantasy points based on fight stats.
+    -   Triggers to re-compute stats when underlying data changes.
+-   **Sportsbook Market System:**
+    -   Models for markets (, , etc.).
+    -   An engine to automatically settle markets when a fight concludes.
+-   **API & WebSocket Upgrade:**
+    -   Streamlined REST endpoints for fantasy and market data.
+    -   Inclusion of fantasy points and market status in the real-time WebSocket payload.
+-   **Stat Engine Normalization:**
+    -   An audit and refactor of the stat engine to align with UFCstats standards.
+    -   Enforce a controlled vocabulary for event types (e.g., , ).
+    -   Implement deterministic control time calculations.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The repository contains two distinct applications:
-1.  **FJAIPOS ()**: A large, feature-rich full-stack application with a React frontend and a modular FastAPI/MongoDB backend. It includes numerous features like a Tapology scraper, post-fight review interface, and stats overlay APIs. This application is now considered legacy due to the user's pivot.
-2.  **Data Feed API ()**: The new, in-progress service. A basic file structure has been created, including a FastAPI , a Supabase SQL schema migration file, Pydantic models, and an authentication middleware stub.
+The project has shifted entirely to the  directory. A FastAPI application is running as a  service. Due to network restrictions preventing direct PostgreSQL connections, the application has been refactored to interact with the Supabase database exclusively through the Supabase REST API client via a custom wrapper ().
+
+The core API for fetching events and live fight data is functional. The code scaffolding for the Fantasy Scoring, Sportsbook Markets, and Stat Normalization features has been created, including SQL migrations, Pydantic models, and service logic. However, these new features are not yet functional as they depend on the user manually running the corresponding SQL migration scripts in their Supabase environment.
 
 **Last working item**:
-The agent began scaffolding the new, separate Financial-Grade Sports Data Feed service as per the user's detailed specification.
+The agent was implementing the Stat Engine Normalization task, designed to align the system with sportsbook-grade standards.
 
--   **Last item agent was working:** The agent was in the initial stages of building the new service in the  directory. It had just created the SQL migration file, the base FastAPI application (), Pydantic models (), and a placeholder for auth middleware (). The very last action was interpreting the user's request to Open the database / SQL editor as a request to view the Supabase SQL Editor and preparing to take a screenshot.
+-   **Last item agent was working:** The agent had just started scaffolding the parallel data structure for the normalization task. It created the migration file  and was about to create the corresponding  to handle the new data model.
 -   **Status**: IN PROGRESS
 -   **Agent Testing Done**: N
 -   **Which testing method agent to use?**: backend testing agent
 -   **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
-There are no reported bugs or issues. The primary focus is on the new task.
+-   **Issue 1**: Direct PostgreSQL Connection Blocked (P0)
+    -   **Description**: The application environment cannot establish a direct PostgreSQL connection to the Supabase database, resulting in  errors or timeouts.
+    -   **Fix**: A workaround has been implemented. The entire application now uses the Supabase REST API via the  client and a custom wrapper in . **The new agent must not attempt to revert to a direct PostgreSQL connection.** All new database interactions must use the existing client.
+    -   **Status**: BLOCKED (Workaround in place)
+    -   **Is recurring issue?**: Y
 
 **In progress Task List**:
--   **Task 1**: Build the Supabase-backed Real-Time Data Feed (Priority: P0)
-    -   **Where to resume**: Continue the implementation within the  directory. The SQL schema, models, and auth middleware are stubs. The next logical steps are to implement the WebSocket connection manager, the REST API controllers, and the database interaction logic. The agent should first address the user's last request to open the database / SQL editor, perhaps by showing the content of the generated SQL migration file () before proceeding with coding.
-    -   **What will be achieved with this?**: A complete, standalone, real-time data syndication API for fantasy sports and sportsbooks, meeting all user requirements.
+-   **Task 1**: Complete Stat Engine Normalization (P0)
+    -   **Where to resume**: Create the  file within . This service will contain the logic to process incoming cumulative stats and convert them into the new, normalized event model defined in .
+    -   **What will be achieved with this?**: A deterministic, sportsbook-grade stat engine with a clean, controlled event vocabulary, running in parallel with the existing system for safe migration.
     -   **Status**: IN PROGRESS
     -   **Should Test frontend/backend/both after fix?**: backend
     -   **Blocked on something**: No
 
 **Upcoming and Future Tasks**
--   **Data Feed API Implementation (P0):**
-    -   Implement the WebSocket server logic, including API key authentication and the subscription model ().
-    -   Build the REST API controllers for the specified endpoints (, , ).
-    -   Implement field-gating logic based on API key scopes within the API responses.
-    -   Develop event emitters to push , , and  messages to subscribed WebSocket clients.
-    -   Implement failure-safety mechanisms (e.g., idempotent inserts, monotonic sequencing).
-    -   Create comprehensive API documentation.
+-   **Upcoming Tasks:**
+    -   **User-led Database Migrations (P0, Blocker)**: The user must manually run the pending SQL migrations in their Supabase SQL Editor. The application's new features are non-functional until this is done. The agent needs to guide the user to run the following files:
+        -   
+        -   
+        -   
+        -    (after it's fully implemented)
+    -   **Test All New Features (P1)**: After the user confirms the migrations are complete, restart the  service and conduct comprehensive tests on all new features: Fantasy Scoring, Sportsbook Markets, API/WebSocket upgrades, and Stat Normalization.
+-   **Future Tasks:**
+    -   **Implement Control Time Logic (P2)**: As part of the normalization task, build the specific logic to deterministically calculate fighter control time from the paired  and  events.
 
 **Completed work in this session**
-The following features were completed for the original **FJAIPOS application** before the project pivot:
--   Public Stats Pages (Backend & Frontend)
--   Tapology.com Web Scraper System
--   Low-Latency Stats Overlay API (REST & WebSocket)
--   Multi-Operator Verification Engine
--   Post-Fight Review Interface (Backend & Frontend Panel)
--   AI Event Merge Engine
--   Organization & Combat Sport Filtering for all stats APIs
--   UI Refactor: Moved the Computer Vision panel from the main operator screen to its own dedicated page.
+-   **Resolved DB Connection Blocker**: Diagnosed the inability to connect directly to PostgreSQL and successfully pivoted the entire application to use the Supabase REST API, unblocking all development.
+-   **Deployed Core API**: Configured the  as a supervisor service, troubleshooted startup issues, and verified the core endpoints for fetching events and live data are working.
+-   **Scaffolded Fantasy Scoring System**: Created SQL migrations, Pydantic models, services, and API routes for fantasy points calculation.
+-   **Scaffolded Sportsbook Market System**: Created SQL migrations, models, services, and API routes for creating and settling sportsbook markets.
+-   **Upgraded Real-Time Payloads**: Modified the API and WebSocket logic to inject fantasy points and market status into real-time data feeds.
+-   **Initiated Stat Engine Normalization**: Audited the stat engine and began implementing a new, parallel data model for UFCstats parity.
 
 **Earlier issues found/mentioned but not fixed**
 None.
@@ -77,85 +81,96 @@ None.
 -   **Status**: N/A
 
 **Code Architecture**
-The project now contains two separate applications:
 
-1.  **Original Monolith ()**:
-    
-2.  **New Data Feed Service ()**:
-    
 
 **Key Technical Concepts**
--   **Project Pivot**: A major shift from an all-in-one monolith (React/FastAPI/MongoDB) to a dedicated, high-performance data syndication service (FastAPI/Supabase/Postgres).
--   **Data Syndication Architecture**: The new service is designed not as a UI backend, but as a data source for other applications (fantasy sports, sportsbooks).
--   **Supabase/PostgreSQL**: The new database technology, replacing MongoDB.
--   **API Key Authentication**: Securing the new data feed with scoped permissions.
--   **WebSockets**: Used for the real-time data feed.
+-   **Project Pivot**: Complete shift to a new, standalone data syndication service in .
+-   **Supabase REST API Client**: The application uses Supabase's Python client () to interact with the database via its REST API. This is a workaround for the blocked direct PostgreSQL connection.
+-   **Manual Database Migrations**: The user is responsible for applying all database schema changes by running SQL files in the Supabase SQL Editor.
+-   **Supervisor Service**: The FastAPI application is managed by  for process control and automatic restarts.
 
 **key DB schema**
-For the new  service (PostgreSQL):
--   : {id, code, name, venue, promotion, start_time_utc}
--   : {id, first_name, last_name, nickname, country}
--   : {id, event_id, bout_order, code, red_fighter_id, blue_fighter_id, scheduled_rounds, weight_class, rule_set}
--   : {id, fight_id, round, ts_ms, seq, red_strikes, blue_strikes, red_sig_strikes, blue_sig_strikes, red_knockdowns, blue_knockdowns, red_control_sec, blue_control_sec, red_ai_damage, blue_ai_damage, red_ai_win_prob, blue_ai_win_prob, round_locked}
--   : {id, fight_id, winner_side, method, round, time}
--   : {id, name, api_key, scope, active}
+-   , , , , , ,  (from initial schema)
+-   : {id, name, config}
+-   : {id, fight_id, fighter_id, profile_id, fantasy_points, breakdown}
+-   : {id, fight_id, market_type, params, status}
+-   : {id, market_id, result_payload}
+-   *(Upcoming)* : {id, fight_id, event_type, payload}
+-   *(Upcoming)* : {id, fight_id, round, fighter_id, cumulative_stats}
 
 **changes in tech stack**
--   **Database**: Shift from **MongoDB** in the original application to **PostgreSQL (via Supabase)** for the new data feed service.
+-   The data access layer was changed from a direct  connection to using the  REST API client.
 
 **All files of reference**
-**New Data Feed Service ()**:
--   : Defines the entire database structure for the new service.
--   : The entry point for the new FastAPI server, intended to host WebSocket and REST logic.
--   : Pydantic models matching the new Postgres schema.
--   : Stub for API key authentication logic.
+-   : The main application entrypoint using the Supabase REST client.
+-   : The custom wrapper for all database interactions.
+-   : The supervisor configuration for the service.
+-   : Directory containing all SQL migration files the user needs to run.
+-   : Directory containing business logic for fantasy, markets, etc.
+-   : Directory containing all API route definitions.
 
-**Original FJAIPOS App ()**:
--   Numerous files across  and  were created/modified for the now-completed features. These are now likely legacy unless the user decides to merge or maintain this application.
+**Areas that need refactoring**:
+None at present. The architecture was recently refactored to accommodate the database connection workaround.
 
 **key api endpoints**
-For the new  service:
--   **WebSocket**: 
--   **REST**:
-    -   
-    -   
-    -   
-    -   All REST endpoints require  header.
+-   
+-   
+-   
+-   
+-   
+-   
+-   : 
 
 **Critical Info for New Agent**
--   **PROJECT PIVOT IS CRITICAL**: The user's focus has completely shifted. Do **NOT** work on the original application in . All new development must happen in the  directory, following the detailed specifications for the new real-time data service.
--   **New Tech Stack**: The new service uses **Supabase/PostgreSQL**, not MongoDB.
--   **Address User's Last Request**: The user's last message was open tab like API, Database, Docs, etc. Open the database / SQL editor. The previous agent was about to take a screenshot. You should first clarify this request, perhaps by showing the SQL schema from the migration file, before resuming code implementation.
+1.  **DB Connection Workaround is Mandatory**: Do NOT attempt to use a direct PostgreSQL connection (, ). The environment blocks it. All database operations MUST go through the existing Supabase REST client at .
+2.  **User Manages Migrations**: All  files in the  directory must be manually executed by the user. Your role is to create the correct SQL and guide the user on when and how to run it. Do not assume a new table or trigger exists until the user confirms they have run the migration.
+3.  **Focus is **: Ignore the old application in . All work is on the new data feed service.
+4.  **Confirm Migrations Before Testing**: Before testing any new features (Fantasy, Markets), you must first confirm with the user that they have successfully run the , , and  migration files.
 
 **documents created in this job**
 -   
 -   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
+-   
 
 **Last 10 User Messages and any pending user messages**
-1.  **User (Msg 314)**: Provided a massive, detailed spec for a brand-new, Supabase-backed real-time data feed, effectively pivoting the entire project.
-2.  **Agent (Msg 315)**: Acknowledged the new plan.
-3.  **Agent (Msg 317-324)**: Started scaffolding the new service (), creating the SQL migration, , models, and auth middleware.
-4.  **Agent (Msg 325)**: Indicated it would create a summary.
-5.  **User (Msg 327)**: Interrupted with open tab like API, Database, Docs, etc. Open the database / SQL editor.
-6.  **Agent (Msg 328)**: Interpreted the user's request and prepared to take a screenshot of the Supabase SQL editor.
-
-The pending user message is the request to see the database / SQL editor.
+- The user requested a series of new features: Fantasy Scoring, Auto-Recomputation, Sportsbook Markets, and API/WebSocket upgrades. (Completed Scaffolding)
+- The user then initiated a separate task to audit and normalize the existing stat engine. (In Progress)
+- The agent created an audit plan ().
+- The user provided feedback on the plan: 1. yes 2. parallel system first 3.? 4. cumulative stats 5. ?.
+- The agent interpreted the feedback and confirmed the plan to build a parallel system for normalization, starting fresh with new data, and began implementation. (Last Action)
 
 **Project Health Check:**
--   **Broken**: The new  service is broken as it's only a skeleton.
+-   **Broken**: The Fantasy Scoring and Sportsbook Market features are broken. The code is written, but the required database tables and triggers do not exist yet. This is blocked pending user action (running migrations).
 -   **Mocked**: None.
 
 **3rd Party Integrations**
--   **Supabase**: For PostgreSQL database and backend services for the new data feed.
+-   **Supabase**: Used for PostgreSQL database and REST API backend services. Connection is established via the  client library using the project URL and service role key.
 
 **Testing status**
--   **Testing agent used after significant changes**: YES (for the old FJAIPOS application)
+-   **Testing agent used after significant changes**: NO
 -   **Troubleshoot agent used after agent stuck in loop**: NO
--   **Test files created**: None for the new service.
+-   **Test files created**: ==========================================
+🧪 Fight Judge AI Data Feed API Tests
+==========================================
+
+1. Checking if API server is running...
+❌ API server is not responding
+   Please start with: cd /app/datafeed_api && python main.py (for user)
 -   **Known regressions**: None.
 
 **Credentials to test flow:**
-None provided or required yet. The  table will need to be populated to test the new service.
+The user has provided three API keys, which are hardcoded in the  script:
+-    (scope: )
+-    (scope: )
+-    (scope: )
 
 **What agent forgot to execute**
-The agent did not forget anything. It was actively implementing the user's new, large-scale request and was interrupted mid-task. The implementation of the data feed service is the main pending execution.</analysis>
+Nothing was forgotten. The agent is mid-task and is blocked on the user for several dependent features.</analysis>
