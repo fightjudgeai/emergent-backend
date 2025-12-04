@@ -79,7 +79,9 @@ async def startup():
         logger.info("="*60)
         logger.info(f"REST API: http://localhost:{os.getenv('API_PORT', 8002)}/v1")
         logger.info(f"Fantasy API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/fantasy")
+        logger.info(f"   GET /v1/fantasy/{{fight_id}}/{{profile_id}} - Fantasy breakdown")
         logger.info(f"Markets API: http://localhost:{os.getenv('API_PORT', 8002)}/v1/markets")
+        logger.info(f"   GET /v1/markets/{{fight_id}} - Markets summary")
         logger.info("="*60)
         
     except Exception as e:
