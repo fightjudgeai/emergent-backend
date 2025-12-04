@@ -35,9 +35,12 @@ async def get_public_fight_stats(
     
     Args:
         fight_id: Fight ID (UUID) or fight code (e.g., "UFC309_JONES_MIOCIC")
+        fantasy_profile: Optional fantasy profile to inject fantasy points
+                        (e.g., "fantasy.basic", "fantasy.advanced")
     
     Returns:
         Fight statistics in UFCstats format with round-by-round breakdown
+        If fantasy_profile is provided, includes fantasy_points in response
         
     Example Response:
     {
