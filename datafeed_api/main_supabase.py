@@ -78,9 +78,9 @@ async def startup():
         api_key_auth = APIKeyAuth(db)
         logger.info("✓ API key authentication service initialized")
         
-        # Add authentication and rate limiting middleware
-        app.add_middleware(AuthRateLimitMiddleware, auth_service=api_key_auth)
-        logger.info("✓ Auth & rate limiting middleware enabled")
+        # Note: Middleware cannot be added after startup
+        # Auth will be handled via dependency injection in routes
+        logger.info("✓ Auth service ready (using dependency injection)")
         
         # Initialize fantasy scoring service
         fantasy_service = FantasyScoringService(db)
