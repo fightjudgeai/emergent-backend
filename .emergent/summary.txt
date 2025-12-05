@@ -1,176 +1,141 @@
 <analysis>**original_problem_statement:**
-The user has pivoted from the Fight Judge AI Pro Operator Suite to building a new, standalone, real-time sports data feed service using FastAPI and Supabase (PostgreSQL).
+The user is building a standalone, real-time sports data feed service. The initial phase involved setting up the core API and scaffolding features like Fantasy Scoring and Sportsbook Markets.
 
-**PRODUCT REQUIREMENTS (New Service):**
--   **Core Features:**
-    -   A WebSocket endpoint for real-time data feeds.
-    -   REST API for snapshot/historical data.
-    -   API key authentication with scoped permissions.
-    -   Data integrity with audit logs and monotonic sequencing.
--   **Fantasy Scoring System:**
-    -   Configurable scoring profiles (, , ).
-    -   Automatic calculation of fantasy points based on fight stats.
-    -   Triggers to re-compute stats when underlying data changes.
--   **Sportsbook Market System:**
-    -   Models for markets (, , etc.).
-    -   An engine to automatically settle markets when a fight concludes.
--   **API & WebSocket Upgrade:**
-    -   Streamlined REST endpoints for fantasy and market data.
-    -   Inclusion of fantasy points and market status in the real-time WebSocket payload.
--   **Stat Engine Normalization:**
-    -   An audit and refactor of the stat engine to align with UFCstats standards.
-    -   Enforce a controlled vocabulary for event types (e.g., , ).
-    -   Implement deterministic control time calculations.
+Subsequent requests expanded the project to include:
+1.  A UFCstats-style public stats API for fights and fighters.
+2.  A fantasy points overlay on the public API.
+3.  A comprehensive, production-grade API key management system with authentication, Role-Based Access Control (RBAC), and rate limiting.
+4.  Secure WebSocket authentication using JWT.
+5.  Usage metering for billing purposes.
+6.  An admin control panel, security logging, and an emergency kill-switch.
+7.  A frontend modification to add 'Kick' and 'SS Kick' to the operator's logging panel.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The project has shifted entirely to the  directory. A FastAPI application is running as a  service. Due to network restrictions preventing direct PostgreSQL connections, the application has been refactored to interact with the Supabase database exclusively through the Supabase REST API client via a custom wrapper ().
+The project is a FastAPI application located in . It uses the Supabase REST API for all database interactions due to a network block on direct PostgreSQL connections.
 
-The core API for fetching events and live fight data is functional. The code scaffolding for the Fantasy Scoring, Sportsbook Markets, and Stat Normalization features has been created, including SQL migrations, Pydantic models, and service logic. However, these new features are not yet functional as they depend on the user manually running the corresponding SQL migration scripts in their Supabase environment.
+A significant amount of backend work has been completed, including the implementation of a full API key/authentication system, public data endpoints, WebSocket authentication, billing/usage metering, and security features. However, all of these features are currently **non-functional** as they depend on database schema changes that the user must apply manually.
+
+The frontend is a React application. The agent has located the  component to fulfill the user's latest request.
 
 **Last working item**:
-The agent was implementing the Stat Engine Normalization task, designed to align the system with sportsbook-grade standards.
+The agent was about to modify the frontend to add new strike logging options for the fight operator.
 
--   **Last item agent was working:** The agent had just started scaffolding the parallel data structure for the normalization task. It created the migration file  and was about to create the corresponding  to handle the new data model.
+-   **Last item agent was working:** Adding 'Kick' and 'SS Kick' options to the striking section of the UI in . The agent has located and reviewed the file.
 -   **Status**: IN PROGRESS
 -   **Agent Testing Done**: N
--   **Which testing method agent to use?**: backend testing agent
+-   **Which testing method agent to use?**: screenshot tool
 -   **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
--   **Issue 1**: Direct PostgreSQL Connection Blocked (P0)
-    -   **Description**: The application environment cannot establish a direct PostgreSQL connection to the Supabase database, resulting in  errors or timeouts.
-    -   **Fix**: A workaround has been implemented. The entire application now uses the Supabase REST API via the  client and a custom wrapper in . **The new agent must not attempt to revert to a direct PostgreSQL connection.** All new database interactions must use the existing client.
-    -   **Status**: BLOCKED (Workaround in place)
-    -   **Is recurring issue?**: Y
+-   **Issue 1**: Backend Features Not Functional Pending User Action (P0 - BLOCKER)
+    -   **Description**: All recently developed backend features (Public Stats API, API Key System, Billing, Security) are effectively broken because the required database tables, columns, and functions do not exist. This is preventing any meaningful testing. The agent encountered an Internal server error (Chat Message 82) when testing the public API, which is a direct symptom of this issue.
+    -   **Attempted fixes**: The agent created the necessary SQL migration files.
+    -   **Next debug checklist**:
+        1.  Guide the user to run all pending SQL migration scripts in their Supabase SQL Editor in the correct order ( through ).
+        2.  Confirm with the user that all migrations were successful.
+        3.  Restart the  service.
+        4.  Use the backend testing agent to comprehensively test all API endpoints, especially the ones that previously failed.
+    -   **Why fix this issue and what will be achieved with the fix?**: This will activate all the backend features developed in the last session, unblocking testing and allowing the user to use the new system.
+    -   **Status**: BLOCKED
+    -   **Is recurring issue?**: N
+    -   **Should Test frontend/backend/both after fix?**: backend
+    -   **Blocked on other issue**: Blocked on user action.
 
 **In progress Task List**:
--   **Task 1**: Complete Stat Engine Normalization (P0)
-    -   **Where to resume**: Create the  file within . This service will contain the logic to process incoming cumulative stats and convert them into the new, normalized event model defined in .
-    -   **What will be achieved with this?**: A deterministic, sportsbook-grade stat engine with a clean, controlled event vocabulary, running in parallel with the existing system for safe migration.
+-   **Task 1**: Add 'Kick' and 'SS Kick' to Operator Panel (P0)
+    -   **Where to resume**: Edit the file  to add buttons or controls for 'Kick' and 'SS Kick' in the striking sections for both the red and blue corners, mirroring the existing logic for other strike types.
+    -   **What will be achieved with this?**: The user's direct request to enhance the operator data entry UI will be fulfilled.
     -   **Status**: IN PROGRESS
-    -   **Should Test frontend/backend/both after fix?**: backend
-    -   **Blocked on something**: No
+    -   **Should Test frontend/backend/both after fix?**: frontend
+    -   **Blocked on something**: No.
 
 **Upcoming and Future Tasks**
 -   **Upcoming Tasks:**
-    -   **User-led Database Migrations (P0, Blocker)**: The user must manually run the pending SQL migrations in their Supabase SQL Editor. The application's new features are non-functional until this is done. The agent needs to guide the user to run the following files:
-        -   
-        -   
-        -   
-        -    (after it's fully implemented)
-    -   **Test All New Features (P1)**: After the user confirms the migrations are complete, restart the  service and conduct comprehensive tests on all new features: Fantasy Scoring, Sportsbook Markets, API/WebSocket upgrades, and Stat Normalization.
+    -   **Comprehensive Backend Testing (P1)**: After the user confirms the migrations are complete (resolving Issue 1), conduct a full test of the entire backend system using the backend testing agent. This includes the API Key system, admin endpoints, public stats endpoints, and WebSocket token generation.
 -   **Future Tasks:**
-    -   **Implement Control Time Logic (P2)**: As part of the normalization task, build the specific logic to deterministically calculate fighter control time from the paired  and  events.
+    -   **Implement Control Time Logic (P2)**: As part of the Stat Engine Normalization, build the specific logic to deterministically calculate fighter control time from the paired  and  events. This was part of the original plan but has not been implemented yet.
 
 **Completed work in this session**
--   **Resolved DB Connection Blocker**: Diagnosed the inability to connect directly to PostgreSQL and successfully pivoted the entire application to use the Supabase REST API, unblocking all development.
--   **Deployed Core API**: Configured the  as a supervisor service, troubleshooted startup issues, and verified the core endpoints for fetching events and live data are working.
--   **Scaffolded Fantasy Scoring System**: Created SQL migrations, Pydantic models, services, and API routes for fantasy points calculation.
--   **Scaffolded Sportsbook Market System**: Created SQL migrations, models, services, and API routes for creating and settling sportsbook markets.
--   **Upgraded Real-Time Payloads**: Modified the API and WebSocket logic to inject fantasy points and market status into real-time data feeds.
--   **Initiated Stat Engine Normalization**: Audited the stat engine and began implementing a new, parallel data model for UFCstats parity.
+-   **Stat Engine Normalization**: Completed the backend service and routes for normalizing cumulative stats into a clean event stream.
+-   **Public Stats API**: Created  and  endpoints.
+-   **Fantasy Overlay**: Added an optional  query parameter to the public fight API to inject fantasy points.
+-   **API Key & Auth System**: Implemented a complete system using FastAPI dependencies for API key authentication, RBAC, admin controls, security logging, and an emergency kill-switch.
+-   **WebSocket Authentication**: Implemented JWT-based authentication for private WebSocket connections.
+-   **Usage & Billing Metering**: Created the database schema and API endpoints for tracking client API usage.
+-   **Documentation**: Created multiple  guide files and  scripts for all new features.
 
 **Earlier issues found/mentioned but not fixed**
-None.
+-   **Issue 1**: Internal Server Error on API Test
+    -   **Description**: In Chat Message 82, the agent received an Internal server error when trying to list existing fights from the API (). The agent did not debug this and moved on.
+    -   **Debug checklist**: This is almost certainly a symptom of the main blocker (Pending Migrations). The fix for Pending/In progress Issue list: Issue 1 should resolve this.
+    -   **Why to solve this issue and what will be achieved with this?**: Confirms the base API functionality is working after migrations are applied.
+    -   **Should Test frontend/backend/both after fix?**: backend
+    -   **Is recurring issue?**: N
 
 **Known issue recurrence from previous fork**
--   **Issue recurrence in previous fork**: N/A
--   **Recurrence count**: N/A
--   **Status**: N/A
+-   **Issue recurrence in previous fork**: Direct PostgreSQL Connection Blocked.
+-   **Recurrence count**: 1
+-   **Status**: RESOLVED (Workaround in place using Supabase REST client). The new agent must continue to adhere to this workaround.
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Project Pivot**: Complete shift to a new, standalone data syndication service in .
--   **Supabase REST API Client**: The application uses Supabase's Python client () to interact with the database via its REST API. This is a workaround for the blocked direct PostgreSQL connection.
--   **Manual Database Migrations**: The user is responsible for applying all database schema changes by running SQL files in the Supabase SQL Editor.
--   **Supervisor Service**: The FastAPI application is managed by  for process control and automatic restarts.
+-   **Supabase REST API Client**: All database access is exclusively through the  client wrapper at .
+-   **Manual User Migrations**: The user is responsible for running all  files in the  directory. No new backend feature will work until they do.
+-   **FastAPI Dependencies for Auth**: The agent pivoted from a middleware-based approach to using FastAPI's dependency injection system for handling authentication, RBAC, and rate-limiting ().
 
 **key DB schema**
--   , , , , , ,  (from initial schema)
--   : {id, name, config}
--   : {id, fight_id, fighter_id, profile_id, fantasy_points, breakdown}
--   : {id, fight_id, market_type, params, status}
--   : {id, market_id, result_payload}
--   *(Upcoming)* : {id, fight_id, event_type, payload}
--   *(Upcoming)* : {id, fight_id, round, fighter_id, cumulative_stats}
+-   (Existing tables...)
+-   : {id, name, tier, api_key, status, rate_limit_per_minute}
+-   : {id, client_id, endpoint, timestamp}
+-   : {id, client_id, period, api_calls, websocket_minutes, data_bytes_served}
+-   : {id, client_id, subject, action, status, details, ip_address}
 
 **changes in tech stack**
--   The data access layer was changed from a direct  connection to using the  REST API client.
+-    was confirmed to be installed for handling WebSocket authentication tokens.
 
 **All files of reference**
--   : The main application entrypoint using the Supabase REST client.
--   : The custom wrapper for all database interactions.
--   : The supervisor configuration for the service.
--   : Directory containing all SQL migration files the user needs to run.
--   : Directory containing business logic for fantasy, markets, etc.
--   : Directory containing all API route definitions.
-
-**Areas that need refactoring**:
-None at present. The architecture was recently refactored to accommodate the database connection workaround.
-
-**key api endpoints**
--   
--   
--   
--   
--   
--   
--   : 
+-   : File to be modified for the current task.
+-   : Main application entrypoint, heavily modified to integrate all new services.
+-   : The core dependency for all protected API endpoints.
+-   : Directory containing all SQL scripts the user **must** run ( through ).
 
 **Critical Info for New Agent**
-1.  **DB Connection Workaround is Mandatory**: Do NOT attempt to use a direct PostgreSQL connection (, ). The environment blocks it. All database operations MUST go through the existing Supabase REST client at .
-2.  **User Manages Migrations**: All  files in the  directory must be manually executed by the user. Your role is to create the correct SQL and guide the user on when and how to run it. Do not assume a new table or trigger exists until the user confirms they have run the migration.
-3.  **Focus is **: Ignore the old application in . All work is on the new data feed service.
-4.  **Confirm Migrations Before Testing**: Before testing any new features (Fantasy, Markets), you must first confirm with the user that they have successfully run the , , and  migration files.
+1.  **Prioritize Frontend Task**: The user's last request was for a frontend change. Complete the modification of  first.
+2.  **Guide User on Migrations**: After the frontend task, your immediate priority is to guide the user to run all pending SQL migrations ( to ). No backend work or testing can proceed without this. Explain that all new backend features are currently inactive.
+3.  **Adhere to DB Workaround**: Do NOT attempt to use a direct PostgreSQL connection. All database operations must go through the existing Supabase REST client.
+4.  **Test After Migrations**: Once the user confirms migrations are done, use the backend testing agent to do a comprehensive test of all new features, starting with the endpoints that previously returned errors.
 
 **documents created in this job**
--   
--   
--   
--   
--   
--   
--   
--   
--   
--   
--   
+-   Guides: , , , , 
+-   Test Scripts: , , , 
+-   Completion Summaries: , 
 
 **Last 10 User Messages and any pending user messages**
-- The user requested a series of new features: Fantasy Scoring, Auto-Recomputation, Sportsbook Markets, and API/WebSocket upgrades. (Completed Scaffolding)
-- The user then initiated a separate task to audit and normalize the existing stat engine. (In Progress)
-- The agent created an audit plan ().
-- The user provided feedback on the plan: 1. yes 2. parallel system first 3.? 4. cumulative stats 5. ?.
-- The agent interpreted the feedback and confirmed the plan to build a parallel system for normalization, starting fresh with new data, and began implementation. (Last Action)
+-   User requested an API key system with RBAC and rate limiting. (Scaffolding Completed)
+-   User requested WebSocket auth, API separation, and usage metering. (Scaffolding Completed)
+-   User requested a kill-switch, admin panel, security logging, and fail-safes. (Scaffolding Completed)
+-   User requested to continue and test everything. (Integration Completed, Testing Blocked)
+-   User requested to add 'Kick' and 'SS Kick' to the operator panel. (IN PROGRESS)
 
 **Project Health Check:**
--   **Broken**: The Fantasy Scoring and Sportsbook Market features are broken. The code is written, but the required database tables and triggers do not exist yet. This is blocked pending user action (running migrations).
+-   **Broken**: The entire new backend feature set (API Keys, Public API, Billing, Security) is non-functional pending user-run database migrations.
 -   **Mocked**: None.
 
 **3rd Party Integrations**
--   **Supabase**: Used for PostgreSQL database and REST API backend services. Connection is established via the  client library using the project URL and service role key.
+-   **Supabase**: Used for PostgreSQL database and REST API backend services. Connection is via the  client library.
 
 **Testing status**
 -   **Testing agent used after significant changes**: NO
 -   **Troubleshoot agent used after agent stuck in loop**: NO
--   **Test files created**: ==========================================
-🧪 Fight Judge AI Data Feed API Tests
-==========================================
-
-1. Checking if API server is running...
-❌ API server is not responding
-   Please start with: cd /app/datafeed_api && python main.py (for user)
+-   **Test files created**: Yes, multiple  scripts were created but could not be effectively used due to missing database tables.
 -   **Known regressions**: None.
 
 **Credentials to test flow:**
-The user has provided three API keys, which are hardcoded in the  script:
--    (scope: )
--    (scope: )
--    (scope: )
+Use the hardcoded API keys in  and the other test scripts once the database migrations are complete.
 
 **What agent forgot to execute**
-Nothing was forgotten. The agent is mid-task and is blocked on the user for several dependent features.</analysis>
+The agent did not debug or resolve the Internal server error encountered in Chat Message 82. While it's likely due to the un-run migrations, it was left unaddressed.</analysis>
