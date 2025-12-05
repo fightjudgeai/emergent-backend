@@ -824,7 +824,9 @@ export default function OperatorPanel() {
     { label: 'Elbow', event: 'Elbow' },
     { label: 'SS Elbow', event: 'Elbow', isSignificant: true },
     { label: 'Knee', event: 'Knee' },
-    { label: 'SS Knee', event: 'Knee', isSignificant: true }
+    { label: 'SS Knee', event: 'Knee', isSignificant: true },
+    { label: 'Kick', event: 'Kick' },
+    { label: 'SS Kick', event: 'Kick', isSignificant: true }
   ];
 
   // Damage Events
