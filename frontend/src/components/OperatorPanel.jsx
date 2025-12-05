@@ -106,6 +106,10 @@ export default function OperatorPanel() {
         await logEvent('Knee', { significant: false });
       } else if (key === '^' || (key === '6' && shiftPressed)) {
         await logEvent('Knee', { significant: true });
+      } else if (key === '7' && !shiftPressed) {
+        await logEvent('Kick', { significant: false });
+      } else if (key === '&' || (key === '7' && shiftPressed)) {
+        await logEvent('Kick', { significant: true });
       }
       
       // GRAPPLING - V and B
