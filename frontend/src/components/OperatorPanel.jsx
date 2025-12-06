@@ -502,57 +502,57 @@ export default function OperatorPanel() {
       totalEvents++;
     }
     
-    // Log significant strikes (Cross as default strike type)
-    const sigStrikesHead = quickStats.issHead || 0;
-    for (let i = 0; i < sigStrikesHead; i++) {
-      await logEvent('Cross', { significant: true, source: 'quick-input' });
+    // Log Rocked events
+    const rockedCount = quickStats.rocked || 0;
+    for (let i = 0; i < rockedCount; i++) {
+      await logEvent('Rocked/Stunned', { significant: true, source: 'quick-input' });
       totalEvents++;
     }
     
-    const sigStrikesBody = quickStats.issBody || 0;
-    for (let i = 0; i < sigStrikesBody; i++) {
-      await logEvent('Cross', { significant: true, source: 'quick-input' });
+    // Log total strikes (non-significant strikes as Jab)
+    const totalStrikesCount = quickStats.totalStrikes || 0;
+    for (let i = 0; i < totalStrikesCount; i++) {
+      await logEvent('Jab', { significant: false, source: 'quick-input' });
       totalEvents++;
     }
     
-    const sigStrikesLeg = quickStats.issLeg || 0;
-    for (let i = 0; i < sigStrikesLeg; i++) {
+    // Log SS strikes (significant strikes as Cross)
+    const ssStrikesCount = quickStats.ssStrikes || 0;
+    for (let i = 0; i < ssStrikesCount; i++) {
       await logEvent('Cross', { significant: true, source: 'quick-input' });
       totalEvents++;
     }
     
     // Log takedowns
-    const takedownCount = quickStats.takedown || 0;
+    const takedownCount = quickStats.takedowns || 0;
     for (let i = 0; i < takedownCount; i++) {
       await logEvent('Takedown Landed', { source: 'quick-input' });
       totalEvents++;
     }
     
-    // Log sweeps/reversals
-    const sweepCount = quickStats.pass || 0;
-    for (let i = 0; i < sweepCount; i++) {
-      await logEvent('Sweep/Reversal', { source: 'quick-input' });
+    // Log submission attempts
+    const subAttemptCount = quickStats.subAttempts || 0;
+    for (let i = 0; i < subAttemptCount; i++) {
+      await logEvent('Submission Attempt', { tier: 'Light', source: 'quick-input' });
       totalEvents++;
     }
     
     // Log control time if specified (in seconds)
-    if (quickStats.cageControl > 0) {
-      await logEvent('Cage Control Time', { duration: quickStats.cageControl, source: 'quick-input' });
+    if (quickStats.controlTime > 0) {
+      await logEvent('Ground Top Control', { duration: quickStats.controlTime, source: 'quick-input' });
     }
 
-    toast.success(`Logged ${totalEvents} events + ${quickStats.cageControl || 0}s control time for ${fighterName}`);
+    toast.success(`Logged ${totalEvents} events + ${quickStats.controlTime || 0}s control time for ${fighterName}`);
     
     // Reset and close
     setQuickStats({
       kd: 0,
-      ts: 0,
-      issHead: 0,
-      issBody: 0,
-      issLeg: 0,
-      takedown: 0,
-      pass: 0,
-      reversal: 0,
-      cageControl: 0
+      rocked: 0,
+      totalStrikes: 0,
+      ssStrikes: 0,
+      takedowns: 0,
+      subAttempts: 0,
+      controlTime: 0
     });
     setShowQuickStatsDialog(false);
   };
