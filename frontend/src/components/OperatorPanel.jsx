@@ -1452,109 +1452,87 @@ export default function OperatorPanel() {
             
             <p className="text-sm text-gray-400 mb-4">Enter the total count for each event type to log them all at once:</p>
             
-            {/* Striking Events */}
+            {/* Quick Stats Input Fields */}
             <div className="space-y-3">
-              <h4 className="text-amber-500 font-semibold text-sm uppercase tracking-wide">⚡ Striking</h4>
-              <div className="grid grid-cols-3 gap-3">
-              <div className="space-y-2">
-                <Label className="text-gray-300">Knockdowns</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  value={quickStats.kd}
-                  onChange={(e) => setQuickStats({...quickStats, kd: parseInt(e.target.value) || 0})}
-                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
-                />
-              </div>
+              <h4 className="text-amber-500 font-semibold text-sm uppercase tracking-wide">⚡ Quick Stats</h4>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label className="text-gray-300">Knockdowns (KD)</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={quickStats.kd}
+                    onChange={(e) => setQuickStats({...quickStats, kd: parseInt(e.target.value) || 0})}
+                    className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label className="text-gray-300">Total Strikes (TS)</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  value={quickStats.ts}
-                  onChange={(e) => setQuickStats({...quickStats, ts: parseInt(e.target.value) || 0})}
-                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label className="text-gray-300">ISS Head</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  value={quickStats.issHead}
-                  onChange={(e) => setQuickStats({...quickStats, issHead: parseInt(e.target.value) || 0})}
-                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
-                />
-              </div>
+                <div className="space-y-2">
+                  <Label className="text-gray-300">Rocked</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={quickStats.rocked}
+                    onChange={(e) => setQuickStats({...quickStats, rocked: parseInt(e.target.value) || 0})}
+                    className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label className="text-gray-300">Total Strikes (Non-SS)</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={quickStats.totalStrikes}
+                    onChange={(e) => setQuickStats({...quickStats, totalStrikes: parseInt(e.target.value) || 0})}
+                    className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label className="text-gray-300">ISS Body</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  value={quickStats.issBody}
-                  onChange={(e) => setQuickStats({...quickStats, issBody: parseInt(e.target.value) || 0})}
-                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
-                />
-              </div>
+                <div className="space-y-2">
+                  <Label className="text-gray-300">SS Strikes</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={quickStats.ssStrikes}
+                    onChange={(e) => setQuickStats({...quickStats, ssStrikes: parseInt(e.target.value) || 0})}
+                    className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label className="text-gray-300">ISS Leg</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  value={quickStats.issLeg}
-                  onChange={(e) => setQuickStats({...quickStats, issLeg: parseInt(e.target.value) || 0})}
-                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
-                />
-              </div>
+                <div className="space-y-2">
+                  <Label className="text-gray-300">Takedowns</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={quickStats.takedowns}
+                    onChange={(e) => setQuickStats({...quickStats, takedowns: parseInt(e.target.value) || 0})}
+                    className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label className="text-gray-300">Takedowns</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  value={quickStats.takedown}
-                  onChange={(e) => setQuickStats({...quickStats, takedown: parseInt(e.target.value) || 0})}
-                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
-                />
-              </div>
+                <div className="space-y-2">
+                  <Label className="text-gray-300">Sub Attempts</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={quickStats.subAttempts}
+                    onChange={(e) => setQuickStats({...quickStats, subAttempts: parseInt(e.target.value) || 0})}
+                    className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label className="text-gray-300">Passes</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  value={quickStats.pass}
-                  onChange={(e) => setQuickStats({...quickStats, pass: parseInt(e.target.value) || 0})}
-                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label className="text-gray-300">Reversals</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  value={quickStats.reversal}
-                  onChange={(e) => setQuickStats({...quickStats, reversal: parseInt(e.target.value) || 0})}
-                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label className="text-gray-300">Control Time (seconds)</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  value={quickStats.cageControl}
-                  onChange={(e) => setQuickStats({...quickStats, cageControl: parseInt(e.target.value) || 0})}
-                  className="bg-[#1a1d24] border-[#2a2d35] text-white"
-                  placeholder="e.g., 120 for 2 min"
-                />
-              </div>
+                <div className="space-y-2 col-span-2">
+                  <Label className="text-gray-300">Control Time (seconds)</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={quickStats.controlTime}
+                    onChange={(e) => setQuickStats({...quickStats, controlTime: parseInt(e.target.value) || 0})}
+                    className="bg-[#1a1d24] border-[#2a2d35] text-white"
+                    placeholder="e.g., 120 for 2 minutes"
+                  />
+                </div>
               </div>
             </div>
 
