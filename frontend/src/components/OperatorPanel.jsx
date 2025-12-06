@@ -37,14 +37,12 @@ export default function OperatorPanel() {
   const [quickStrikeMode, setQuickStrikeMode] = useState('significant'); // 'significant' or 'non-significant'
   const [quickStats, setQuickStats] = useState({
     kd: 0,
-    ts: 0,
-    issHead: 0,
-    issBody: 0,
-    issLeg: 0,
-    takedown: 0,
-    pass: 0,
-    reversal: 0,
-    cageControl: 0
+    rocked: 0,
+    totalStrikes: 0,
+    ssStrikes: 0,
+    takedowns: 0,
+    subAttempts: 0,
+    controlTime: 0
   });
   const [judgeScores, setJudgeScores] = useState({});
   const [pendingJudges, setPendingJudges] = useState([]);
