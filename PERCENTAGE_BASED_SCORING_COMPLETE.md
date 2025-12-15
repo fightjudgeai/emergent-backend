@@ -179,6 +179,7 @@ KD Near-Finish:       1.00
 ```
 Takedown Landed:      0.25
 Sweep/Reversal:       0.05
+Guard Passing:        0.05
 Sub Light:            0.25
 Sub Deep:             0.60
 Sub Near-Finish:      1.00
