@@ -568,7 +568,7 @@ ws.onclose = () => {
 "KD" | "Rocked/Stunned"
 
 // Grappling Events
-"Takedown Landed" | "Takedown Stuffed" | "Submission Attempt" | "Sweep/Reversal"
+"Takedown Landed" | "Takedown Stuffed" | "Submission Attempt" | "Sweep/Reversal" | "Guard Passing"
 
 // Control Events
 "Ground Top Control" | "Ground Back Control" | "Cage Control Time"
