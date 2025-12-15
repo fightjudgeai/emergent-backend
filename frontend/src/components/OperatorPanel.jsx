@@ -846,7 +846,8 @@ export default function OperatorPanel() {
     { label: 'SUB (Light)', event: 'Submission Attempt', tier: 'Light' },
     { label: 'SUB (Deep)', event: 'Submission Attempt', tier: 'Deep' },
     { label: 'SUB (NF)', event: 'Submission Attempt', tier: 'Near-Finish' },
-    { label: 'Sweep/Reversal', event: 'Sweep/Reversal' }
+    { label: 'Sweep/Reversal', event: 'Sweep/Reversal' },
+    { label: 'Guard Passing', event: 'Guard Passing' }
   ];
 
   // Control Events (with start/stop timers)
