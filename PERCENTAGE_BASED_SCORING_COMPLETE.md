@@ -86,6 +86,7 @@
 |-------|-----------|-----------|------------|-------|
 | **Takedown Landed** | Per Occurrence | **0.25** | **25%** | Successfully taking opponent down |
 | **Sweep/Reversal** | Per Occurrence | **0.05** | **5%** | Reversing position |
+| **Guard Passing** | Per Occurrence | **0.05** | **5%** | Passing opponent's guard |
 
 ---
 
