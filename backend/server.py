@@ -40,6 +40,7 @@ SCORING_CONFIG = {
         "Submission Attempt": {"category": "grappling", "Near-Finish": 1.00, "Deep": 0.60, "Light": 0.25},
         "Takedown Landed": {"category": "grappling", "value": 0.25},
         "Sweep/Reversal": {"category": "grappling", "value": 0.05},
+        "Guard Passing": {"category": "grappling", "value": 0.05},
         "Ground Back Control": {"category": "grappling", "value_per_sec": 0.012},
         "Ground Top Control": {"category": "grappling", "value_per_sec": 0.010},
         # Other - base values
