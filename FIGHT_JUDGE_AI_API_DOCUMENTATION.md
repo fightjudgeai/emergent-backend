@@ -605,6 +605,7 @@ ws.onclose = () => {
     "Submission Attempt": {"Light": 0.25, "Deep": 0.60, "Near-Finish": 1.00},
     "Takedown Landed": 0.25,
     "Sweep/Reversal": 0.05,
+    "Guard Passing": 0.05,
     "Ground Back Control": 0.012,  // per second
     "Ground Top Control": 0.010,   // per second
     "Cage Control Time": 0.006,    // per second
