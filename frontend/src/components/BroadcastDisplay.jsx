@@ -229,11 +229,11 @@ export default function BroadcastDisplay() {
                   <span className="text-gray-400">Round {idx + 1}:</span>
                   <div className="flex gap-8">
                     <span style={{ color: 'hsl(348 83% 47%)' }} className="font-bold">
-                      {round.fighter1_total || 0}
+                      {round.fighter1_score || round.fighter1_total || 0}
                     </span>
                     <span className="text-gray-500">-</span>
                     <span style={{ color: 'hsl(195 100% 70%)' }} className="font-bold">
-                      {round.fighter2_total || 0}
+                      {round.fighter2_score || round.fighter2_total || 0}
                     </span>
                   </div>
                 </div>
