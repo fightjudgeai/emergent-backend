@@ -66,7 +66,10 @@ export default function BroadcastDisplay() {
     const fetchRounds = async () => {
       try {
         const response = await fetch(`${backendUrl}/api/rounds/${boutId}`);
-        if (!response.ok) return;
+        if (!response.ok) {
+          console.warn('Rounds API not available');
+          return;
+        }
         const data = await response.json();
         setRounds(data.rounds || []);
       } catch (err) {
