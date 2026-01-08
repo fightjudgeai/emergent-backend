@@ -41,6 +41,7 @@ function App() {
           <Route path="/cv-systems/:boutId" element={<CVSystemsPage />} />
           <Route path="/judge/:boutId" element={<JudgePanel />} />
           <Route path="/broadcast/:boutId" element={<BroadcastMode />} />
+          <Route path="/arena/:boutId" element={<BroadcastDisplay />} />
           <Route path="/supervisor/:boutId" element={<SupervisorPanel />} />
           <Route path="/shadow-judging" element={<ShadowJudgingMode />} />
           <Route path="/review-dashboard" element={<ReviewDashboard />} />
