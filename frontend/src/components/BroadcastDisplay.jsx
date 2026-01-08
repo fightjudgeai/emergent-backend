@@ -121,13 +121,16 @@ export default function BroadcastDisplay() {
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <div className="text-center">
           <div className="text-4xl font-bold text-gray-400">Bout Not Found</div>
+          <div className="text-sm text-gray-500 mt-4">Bout ID: {boutId}</div>
         </div>
       </div>
     );
   }
 
-  const redTotal = rounds.reduce((sum, r) => sum + (r.fighter1_total || 0), 0);
-  const blueTotal = rounds.reduce((sum, r) => sum + (r.fighter2_total || 0), 0);
+  // Calculate totals from live data
+  const rounds = liveData?.rounds || [];
+  const redTotal = liveData?.fighter1_total || rounds.reduce((sum, r) => sum + (r.fighter1_score || r.fighter1_total || 0), 0);
+  const blueTotal = liveData?.fighter2_total || rounds.reduce((sum, r) => sum + (r.fighter2_score || r.fighter2_total || 0), 0);
   const winner = redTotal > blueTotal ? 'red' : blueTotal > redTotal ? 'blue' : 'draw';
 
   return (
