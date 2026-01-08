@@ -920,12 +920,12 @@ export default function OperatorPanel() {
               </Button>
               <Button
                 data-testid="view-broadcast-btn"
-                onClick={() => window.open(`/broadcast/${boutId}`, '_blank')}
+                onClick={() => window.open(`/arena/${boutId}`, '_blank')}
                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold border-2 border-purple-500"
-                title="Open Broadcast Mode for Arena Display"
+                title="Open Arena Display for Big Screen"
               >
                 <Monitor className="mr-2 h-4 w-4" />
-                Broadcast Mode
+                🎥 Arena Display
               </Button>
               <Button
                 data-testid="view-judge-panel-btn"
