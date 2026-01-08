@@ -492,6 +492,84 @@ export default function JudgePanel() {
   };
 
   const handleDeleteNote = async (noteId, roundNum) => {
+    try {
+      await axios.delete(`${API}/round-notes/${noteId}`);
+      await loadRoundNotes(roundNum);
+      toast.success('Note deleted');
+    } catch (error) {
+      console.error('Error deleting note:', error);
+      toast.error('Failed to delete note');
+    }
+  };
+
+  // Handle End Round - Show round score
+  const handleEndRound = async () => {
+    if (!bout || !bout.currentRound) {
+      toast.error('No active round');
+      return;
+    }
+
+    try {
+      // Fetch the current round score from API
+      const response = await axios.get(`${API}/live/${boutId}`);
+      const liveData = response.data;
+      
+      if (!liveData || !liveData.rounds || liveData.rounds.length === 0) {
+        toast.error('No round data available');
+        return;
+      }
+
+      const currentRound = liveData.rounds[liveData.rounds.length - 1];
+      
+      setShowRoundResult({
+        round: liveData.rounds.length,
+        unified_red: currentRound.fighter1_score || currentRound.fighter1_total || 0,
+        unified_blue: currentRound.fighter2_score || currentRound.fighter2_total || 0
+      });
+
+      // Auto-hide after 10 seconds
+      setTimeout(() => {
+        setShowRoundResult(null);
+      }, 10000);
+
+      toast.success(`Round ${liveData.rounds.length} ended`);
+    } catch (error) {
+      console.error('Error ending round:', error);
+      toast.error('Failed to load round scores');
+    }
+  };
+
+  // Handle End Fight - Show all rounds and final result
+  const handleEndFight = async () => {
+    if (!bout) {
+      toast.error('No bout data');
+      return;
+    }
+
+    try {
+      // Fetch all round data
+      const response = await axios.get(`${API}/live/${boutId}`);
+      const liveData = response.data;
+      
+      if (!liveData || !liveData.rounds || liveData.rounds.length === 0) {
+        toast.error('No round data available');
+        return;
+      }
+
+      // Store all rounds
+      setAllRounds(liveData.rounds);
+      
+      // Show final result
+      setShowFinalResult(true);
+
+      toast.success('Fight ended - Showing final results');
+    } catch (error) {
+      console.error('Error ending fight:', error);
+      toast.error('Failed to load fight scores');
+    }
+  };
+
+  const handleDeleteNote = async (noteId, roundNum) => {
     if (!confirm('Are you sure you want to delete this note?')) {
       return;
     }
