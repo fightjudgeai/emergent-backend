@@ -1036,6 +1036,22 @@ export default function JudgePanel() {
                 </Badge>
               )}
               <Button
+                onClick={handleEndRound}
+                className="h-10 px-4 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold"
+                title="End Current Round and Show Scores"
+              >
+                <Check className="mr-2 h-4 w-4" />
+                End Round
+              </Button>
+              <Button
+                onClick={handleEndFight}
+                className="h-10 px-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold"
+                title="End Fight and Show Final Results"
+              >
+                <TrendingUp className="mr-2 h-4 w-4" />
+                End Fight
+              </Button>
+              <Button
                 onClick={handleExportScorecard}
                 className="h-10 px-4 bg-purple-600 hover:bg-purple-700 text-white"
                 title="Export Official Scorecard"
