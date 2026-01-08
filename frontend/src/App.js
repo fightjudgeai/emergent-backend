@@ -43,6 +43,7 @@ function App() {
           <Route path="/judge/:boutId" element={<JudgePanel />} />
           <Route path="/broadcast/:boutId" element={<BroadcastMode />} />
           <Route path="/arena/:boutId" element={<BroadcastDisplay />} />
+          <Route path="/arena-demo/:boutId" element={<BroadcastDisplayDemo />} />
           <Route path="/supervisor/:boutId" element={<SupervisorPanel />} />
           <Route path="/shadow-judging" element={<ShadowJudgingMode />} />
           <Route path="/review-dashboard" element={<ReviewDashboard />} />
