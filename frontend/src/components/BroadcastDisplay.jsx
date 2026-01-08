@@ -60,17 +60,17 @@ export default function BroadcastDisplay() {
     }
   }, [boutId, backendUrl]);
 
-  // Listen for round complete events via polling or WebSocket
+  // Listen for round complete events
   useEffect(() => {
-    // Check if a new round was just completed
-    if (rounds.length > 0) {
-      const latestRound = rounds[rounds.length - 1];
-      if (latestRound.locked) {
-        // Show the latest completed round
+    if (liveData && liveData.rounds && liveData.rounds.length > 0) {
+      const latestRound = liveData.rounds[liveData.rounds.length - 1];
+      
+      // Show the latest completed round if it has scores
+      if (latestRound && (latestRound.fighter1_score || latestRound.fighter2_score)) {
         setCurrentRound({
-          round: rounds.length,
-          unified_red: latestRound.fighter1_total || 0,
-          unified_blue: latestRound.fighter2_total || 0
+          round: liveData.rounds.length,
+          unified_red: latestRound.fighter1_score || latestRound.fighter1_total || 0,
+          unified_blue: latestRound.fighter2_score || latestRound.fighter2_total || 0
         });
         
         // Auto-hide after 10 seconds
@@ -81,21 +81,14 @@ export default function BroadcastDisplay() {
         return () => clearTimeout(timeout);
       }
     }
-  }, [rounds]);
+  }, [liveData]);
 
   // Check if fight is complete
   useEffect(() => {
-    if (boutData && boutData.status === 'completed') {
-      // Calculate total scores
-      const redTotal = rounds.reduce((sum, r) => sum + (r.fighter1_total || 0), 0);
-      const blueTotal = rounds.reduce((sum, r) => sum + (r.fighter2_total || 0), 0);
-      
-      const winner = redTotal > blueTotal ? 'red' : blueTotal > redTotal ? 'blue' : 'draw';
-      
+    if (liveData && liveData.status === 'completed') {
       setShowFinal(true);
-      // Keep final result visible
     }
-  }, [boutData, rounds]);
+  }, [liveData]);
 
   if (loading) {
     return (
