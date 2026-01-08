@@ -1176,7 +1176,7 @@ export default function OperatorPanel() {
         {/* Grappling Events */}
         <div>
           <h3 className="text-blue-500 font-bold text-lg mb-3">🤼 Grappling</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
             {grapplingButtons.map((btn, index) => (
               <Button
                 key={`${btn.event}-${btn.tier || 'base'}`}
@@ -1188,7 +1188,7 @@ export default function OperatorPanel() {
                   }
                   toast.success(`${btn.label} logged`);
                 }}
-                className={`h-20 text-lg font-bold bg-gradient-to-br ${getButtonColor(index + 16)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+                className={`h-20 text-sm font-bold bg-gradient-to-br ${getButtonColor(index + 16)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
               >
                 {btn.label}
               </Button>
