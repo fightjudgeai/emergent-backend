@@ -1,0 +1,6 @@
+@keyframes broadcast-winner-flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes broadcast-count-reveal { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes broadcast-pulse-winner-red { 0%, 100% { box-shadow: 0 0 20px hsl(348 83% 47% / 0.4); } 50% { box-shadow: 0 0 40px hsl(348 83% 47% / 0.7); } }
+@keyframes broadcast-pulse-winner-blue { 0%, 100% { box-shadow: 0 0 20px hsl(195 100% 70% / 0.4); } 50% { box-shadow: 0 0 40px hsl(195 100% 70% / 0.7); } }
+.animate-broadcast-winner-flash { animation: broadcast-winner-flash 0.5s ease-out 3; }
+.animate-broadcast-count-reveal { animation: broadcast-count-reveal 0.8s ease-out forwards; }
