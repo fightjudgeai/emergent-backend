@@ -1122,7 +1122,7 @@ export default function OperatorPanel() {
         {/* Striking Events */}
         <div>
           <h3 className="text-amber-500 font-bold text-lg mb-3">⚡ Striking</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 lg:grid-cols-7 gap-3">
             {strikingButtons.map((btn, index) => {
               // Determine button color based on fighter selection and significance
               let buttonColor;
@@ -1141,7 +1141,7 @@ export default function OperatorPanel() {
                     logEvent(btn.event, { significant: btn.isSignificant || false });
                     toast.success(`${btn.label} logged`);
                   }}
-                  className={`h-16 text-sm font-bold bg-gradient-to-br ${buttonColor} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+                  className={`h-16 text-xs sm:text-sm font-bold bg-gradient-to-br ${buttonColor} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
                 >
                   {btn.label}
                 </Button>
