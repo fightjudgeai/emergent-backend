@@ -14,72 +14,48 @@ export default function BroadcastDisplay() {
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const [boutData, setBoutData] = useState(null);
+  const [liveData, setLiveData] = useState(null);
   const [currentRound, setCurrentRound] = useState(null);
   const [showFinal, setShowFinal] = useState(false);
-  const [rounds, setRounds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch bout data
+  // Fetch live scoring data
   useEffect(() => {
-    const fetchBoutData = async () => {
+    const fetchLiveData = async () => {
       try {
-        const response = await fetch(`${backendUrl}/api/bouts/${boutId}`);
+        const response = await fetch(`${backendUrl}/api/live/${boutId}`);
         if (!response.ok) {
-          console.warn('Bout API not available, using mock data');
-          // Use mock data for now
-          setBoutData({
-            fighter1: 'Fighter 1',
-            fighter2: 'Fighter 2',
-            status: 'in_progress',
-            currentRound: 1
-          });
+          console.warn('Live API not available, check console');
+          setError('Unable to connect to scoring API');
           setLoading(false);
           return;
         }
         const data = await response.json();
-        setBoutData(data);
-        setLoading(false);
-      } catch (err) {
-        console.warn('Error fetching bout data:', err);
-        // Use mock data on error
-        setBoutData({
-          fighter1: 'Fighter 1',
-          fighter2: 'Fighter 2',
-          status: 'in_progress',
-          currentRound: 1
-        });
-        setLoading(false);
-      }
-    };
-
-    if (boutId) {
-      fetchBoutData();
-      // Poll every 5 seconds for updates
-      const interval = setInterval(fetchBoutData, 5000);
-      return () => clearInterval(interval);
-    }
-  }, [boutId, backendUrl]);
-
-  // Fetch round scores
-  useEffect(() => {
-    const fetchRounds = async () => {
-      try {
-        const response = await fetch(`${backendUrl}/api/rounds/${boutId}`);
-        if (!response.ok) {
-          console.warn('Rounds API not available');
-          return;
+        setLiveData(data);
+        
+        // Extract bout info from live data
+        if (data) {
+          setBoutData({
+            fighter1: data.fighter1_name || 'Fighter 1',
+            fighter2: data.fighter2_name || 'Fighter 2',
+            status: data.status || 'in_progress',
+            currentRound: data.current_round || 1
+          });
         }
-        const data = await response.json();
-        setRounds(data.rounds || []);
+        
+        setLoading(false);
       } catch (err) {
-        console.error('Failed to fetch rounds:', err);
+        console.error('Error fetching live data:', err);
+        setError('Connection error');
+        setLoading(false);
       }
     };
 
     if (boutId) {
-      fetchRounds();
-      const interval = setInterval(fetchRounds, 3000);
+      fetchLiveData();
+      // Poll every 3 seconds for updates
+      const interval = setInterval(fetchLiveData, 3000);
       return () => clearInterval(interval);
     }
   }, [boutId, backendUrl]);
