@@ -5,7 +5,8 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { RoundWinner, FinalResult } from './broadcast';
+import { RoundWinner } from './broadcast/RoundWinner';
+import { FinalResult } from './broadcast/FinalResult';
 import '../styles/broadcast.css';
 
 export default function BroadcastDisplay() {
