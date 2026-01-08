@@ -7,6 +7,7 @@ import FightList from "@/components/FightList";
 import OperatorPanel from "@/components/OperatorPanel";
 import JudgePanel from "@/components/JudgePanel";
 import BroadcastMode from "@/components/BroadcastMode";
+import BroadcastDisplay from "@/components/BroadcastDisplay";
 import SupervisorPanel from "@/components/SupervisorPanel";
 import ShadowJudgingMode from "@/components/ShadowJudgingMode";
 import LiveStatsDashboard from "@/components/LiveStatsDashboard";
