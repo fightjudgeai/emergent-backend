@@ -1706,6 +1706,80 @@ export default function JudgePanel() {
           </Card>
         )}
       </div>
+
+      {/* Broadcast Display Overlays */}
+      {showRoundResult && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-8">
+          <div className="max-w-4xl w-full">
+            <div className="flex justify-end mb-4">
+              <Button
+                onClick={() => setShowRoundResult(null)}
+                className="bg-gray-700 hover:bg-gray-600"
+              >
+                <X className="h-4 w-4 mr-2" />
+                Close
+              </Button>
+            </div>
+            <RoundWinner
+              round={showRoundResult}
+              roundNumber={showRoundResult.round}
+              redName={bout?.fighter1 || 'Fighter 1'}
+              blueName={bout?.fighter2 || 'Fighter 2'}
+              isVisible={true}
+            />
+          </div>
+        </div>
+      )}
+
+      {showFinalResult && (
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-8 overflow-y-auto">
+          <div className="max-w-4xl w-full">
+            <div className="flex justify-end mb-4">
+              <Button
+                onClick={() => setShowFinalResult(false)}
+                className="bg-gray-700 hover:bg-gray-600"
+              >
+                <X className="h-4 w-4 mr-2" />
+                Close
+              </Button>
+            </div>
+
+            {/* Show all rounds */}
+            <div className="mb-6 space-y-4">
+              {allRounds.map((round, idx) => (
+                <RoundWinner
+                  key={idx}
+                  round={{
+                    round: idx + 1,
+                    unified_red: round.fighter1_score || round.fighter1_total || 0,
+                    unified_blue: round.fighter2_score || round.fighter2_total || 0
+                  }}
+                  roundNumber={idx + 1}
+                  redName={bout?.fighter1 || 'Fighter 1'}
+                  blueName={bout?.fighter2 || 'Fighter 2'}
+                  isVisible={true}
+                />
+              ))}
+            </div>
+
+            {/* Show final result */}
+            <FinalResult
+              total={{
+                red: allRounds.reduce((sum, r) => sum + (r.fighter1_score || r.fighter1_total || 0), 0),
+                blue: allRounds.reduce((sum, r) => sum + (r.fighter2_score || r.fighter2_total || 0), 0)
+              }}
+              winner={(() => {
+                const redTotal = allRounds.reduce((sum, r) => sum + (r.fighter1_score || r.fighter1_total || 0), 0);
+                const blueTotal = allRounds.reduce((sum, r) => sum + (r.fighter2_score || r.fighter2_total || 0), 0);
+                return redTotal > blueTotal ? 'red' : blueTotal > redTotal ? 'blue' : 'draw';
+              })()}
+              redName={bout?.fighter1 || 'Fighter 1'}
+              blueName={bout?.fighter2 || 'Fighter 2'}
+              isVisible={true}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
