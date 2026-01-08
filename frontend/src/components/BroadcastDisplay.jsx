@@ -24,14 +24,29 @@ export default function BroadcastDisplay() {
   useEffect(() => {
     const fetchLiveData = async () => {
       try {
-        const response = await fetch(`${backendUrl}/api/live/${boutId}`);
+        console.log(`Fetching live data for bout: ${boutId}`);
+        console.log(`Backend URL: ${backendUrl}`);
+        
+        const url = `${backendUrl}/api/live/${boutId}`;
+        console.log(`Full URL: ${url}`);
+        
+        const response = await fetch(url);
+        
+        console.log(`Response status: ${response.status}`);
+        
         if (!response.ok) {
-          console.warn('Live API not available, check console');
-          setError('Unable to connect to scoring API');
+          if (response.status === 404) {
+            setError(`Bout "${boutId}" not found. Please check the bout ID or create a bout first.`);
+          } else {
+            setError(`API Error: ${response.status} - ${response.statusText}`);
+          }
           setLoading(false);
           return;
         }
+        
         const data = await response.json();
+        console.log('Received data:', data);
+        
         setLiveData(data);
         
         // Extract bout info from live data
@@ -45,9 +60,10 @@ export default function BroadcastDisplay() {
         }
         
         setLoading(false);
+        setError(null); // Clear any previous errors
       } catch (err) {
         console.error('Error fetching live data:', err);
-        setError('Connection error');
+        setError(`Connection error: ${err.message}. Check if backend is running.`);
         setLoading(false);
       }
     };
