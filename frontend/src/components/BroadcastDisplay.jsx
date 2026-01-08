@@ -30,20 +30,35 @@ export default function BroadcastDisplay() {
         const url = `${backendUrl}/api/live/${boutId}`;
         console.log(`Full URL: ${url}`);
         
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         
         console.log(`Response status: ${response.status}`);
         
         if (!response.ok) {
+          // Read error body once
+          let errorMessage = '';
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.detail || errorData.message || response.statusText;
+          } catch {
+            errorMessage = response.statusText;
+          }
+          
           if (response.status === 404) {
-            setError(`Bout "${boutId}" not found. Please check the bout ID or create a bout first.`);
+            setError(`Bout "${boutId}" not found. Please create a bout first or check the bout ID.`);
           } else {
-            setError(`API Error: ${response.status} - ${response.statusText}`);
+            setError(`API Error: ${response.status} - ${errorMessage}`);
           }
           setLoading(false);
           return;
         }
         
+        // Read success body once
         const data = await response.json();
         console.log('Received data:', data);
         
@@ -63,7 +78,7 @@ export default function BroadcastDisplay() {
         setError(null); // Clear any previous errors
       } catch (err) {
         console.error('Error fetching live data:', err);
-        setError(`Connection error: ${err.message}. Check if backend is running.`);
+        setError(`Connection error: ${err.message}. Backend may not be accessible.`);
         setLoading(false);
       }
     };
