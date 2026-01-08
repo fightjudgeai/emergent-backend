@@ -1165,7 +1165,7 @@ export default function OperatorPanel() {
                   }
                   toast.success(`${btn.label} logged`);
                 }}
-                className={`h-20 text-lg font-bold bg-gradient-to-br ${getButtonColor(index + 12)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+                className={`h-20 text-base font-bold bg-gradient-to-br ${getButtonColor(index + 12)} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
               >
                 {btn.label}
               </Button>
