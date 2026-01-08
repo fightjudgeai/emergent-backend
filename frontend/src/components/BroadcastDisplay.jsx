@@ -142,24 +142,47 @@ export default function BroadcastDisplay() {
         <div className="text-center max-w-2xl">
           <div className="text-4xl font-bold mb-4 text-red-500">Connection Error</div>
           <div className="text-xl text-gray-400 mb-6">{error}</div>
-          <div className="p-4 rounded-lg border border-gray-700 bg-gray-900/50 text-left">
-            <div className="text-sm text-gray-300 mb-2">
-              <strong>Troubleshooting:</strong>
+          
+          <div className="p-6 rounded-lg border border-gray-700 bg-gray-900/50 text-left mb-6">
+            <div className="text-sm text-gray-300 mb-3">
+              <strong>📋 Bout ID:</strong> <code className="text-amber-400 bg-gray-800 px-2 py-1 rounded">{boutId}</code>
             </div>
-            <ul className="text-sm text-gray-400 space-y-2 list-disc list-inside">
-              <li>Check if backend is running on port 8001</li>
-              <li>Verify bout ID: <code className="text-amber-400">{boutId}</code></li>
-              <li>Ensure a bout exists with this ID</li>
-              <li>Try the demo mode: <a href={`/arena-demo/${boutId}`} className="text-blue-400 underline">Demo Mode</a></li>
-            </ul>
+            <div className="text-sm text-gray-300 mb-4">
+              <strong>🔧 Troubleshooting Steps:</strong>
+            </div>
+            <ol className="text-sm text-gray-400 space-y-2 list-decimal list-inside">
+              <li>
+                <strong>Create a bout:</strong> Go to{' '}
+                <a href="/" className="text-blue-400 underline hover:text-blue-300">
+                  Judge Login
+                </a>{' '}
+                → Create Event → Create Bout
+              </li>
+              <li>
+                <strong>Or try demo mode:</strong>{' '}
+                <a href={`/arena-demo/${boutId}`} className="text-blue-400 underline hover:text-blue-300">
+                  Open Demo Mode
+                </a>{' '}
+                (works without backend)
+              </li>
+              <li>Check if backend is running: <code className="text-amber-400">curl localhost:8001/api/health</code></li>
+              <li>Verify bout exists: <code className="text-amber-400">curl localhost:8001/api/live/{boutId}</code></li>
+            </ol>
           </div>
-          <div className="mt-6">
+
+          <div className="flex gap-4 justify-center">
             <button 
               onClick={() => window.location.reload()} 
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold"
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
             >
-              Retry Connection
+              🔄 Retry Connection
             </button>
+            <a 
+              href={`/arena-demo/${boutId}`}
+              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors inline-block"
+            >
+              🎬 Try Demo Mode
+            </a>
           </div>
         </div>
       </div>
