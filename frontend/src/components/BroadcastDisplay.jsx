@@ -123,10 +123,29 @@ export default function BroadcastDisplay() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-4xl font-bold mb-4 text-red-500">Error</div>
-          <div className="text-xl text-gray-400">{error}</div>
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-8">
+        <div className="text-center max-w-2xl">
+          <div className="text-4xl font-bold mb-4 text-red-500">Connection Error</div>
+          <div className="text-xl text-gray-400 mb-6">{error}</div>
+          <div className="p-4 rounded-lg border border-gray-700 bg-gray-900/50 text-left">
+            <div className="text-sm text-gray-300 mb-2">
+              <strong>Troubleshooting:</strong>
+            </div>
+            <ul className="text-sm text-gray-400 space-y-2 list-disc list-inside">
+              <li>Check if backend is running on port 8001</li>
+              <li>Verify bout ID: <code className="text-amber-400">{boutId}</code></li>
+              <li>Ensure a bout exists with this ID</li>
+              <li>Try the demo mode: <a href={`/arena-demo/${boutId}`} className="text-blue-400 underline">Demo Mode</a></li>
+            </ul>
+          </div>
+          <div className="mt-6">
+            <button 
+              onClick={() => window.location.reload()} 
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold"
+            >
+              Retry Connection
+            </button>
+          </div>
         </div>
       </div>
     );
