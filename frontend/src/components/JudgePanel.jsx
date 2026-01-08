@@ -569,24 +569,6 @@ export default function JudgePanel() {
     }
   };
 
-  const handleDeleteNote = async (noteId, roundNum) => {
-    if (!confirm('Are you sure you want to delete this note?')) {
-      return;
-    }
-    
-    try {
-      await axios.delete(`${API}/round-notes/${noteId}`);
-      
-      // Reload notes
-      await loadRoundNotes(roundNum);
-      
-      toast.success('Note deleted successfully');
-    } catch (error) {
-      console.error('Error deleting note:', error);
-      toast.error('Failed to delete note');
-    }
-  };
-
   const startEditNote = (note) => {
     setEditingNoteId(note.id);
     setEditNoteText(note.note_text);
