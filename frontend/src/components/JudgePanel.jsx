@@ -38,6 +38,11 @@ export default function JudgePanel() {
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [editNoteText, setEditNoteText] = useState('');
 
+  // Broadcast Display State
+  const [showRoundResult, setShowRoundResult] = useState(null); // {round, scores}
+  const [showFinalResult, setShowFinalResult] = useState(false);
+  const [allRounds, setAllRounds] = useState([]);
+
   useEffect(() => {
     loadBout();
     setupEventListener();
