@@ -110,6 +110,13 @@ export default function OperatorPanel() {
         await logEvent('Kick', { significant: true });
       }
       
+      // ADDITIONAL KICK SHORTCUTS - T key
+      else if ((key === 't' || key === 'T') && !shiftPressed) {
+        await logEvent('Kick', { significant: false });
+      } else if (key === 'T' && shiftPressed) {
+        await logEvent('Kick', { significant: true });
+      }
+      
       // GRAPPLING - V and B
       else if (key === 'v' || key === 'V') {
         await logEvent('Takedown Landed');
