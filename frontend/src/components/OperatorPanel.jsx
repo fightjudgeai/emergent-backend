@@ -69,7 +69,7 @@ export default function OperatorPanel() {
       const shiftPressed = event.shiftKey;
       
       // Prevent default for shortcut keys
-      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 'v', 'b', 'a', 's', 'd', 'f', 'q', 'w', 'e', 'r', 'z', 'x', 'c', 'Escape', '/'];
+      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'v', 'b', 'a', 's', 'd', 'f', 'q', 'w', 'e', 'r', 'z', 'x', 'c', 'Escape', '/'];
       if (shortcutKeys.includes(key) || key.startsWith('F')) {
         event.preventDefault();
       }
