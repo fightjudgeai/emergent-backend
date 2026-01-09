@@ -1129,7 +1129,7 @@ export default function OperatorPanel() {
         {/* Striking Events */}
         <div>
           <h3 className="text-amber-500 font-bold text-lg mb-3">⚡ Striking</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 lg:grid-cols-7 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
             {strikingButtons.map((btn, index) => {
               // Determine button color based on fighter selection and significance
               let buttonColor;
@@ -1140,18 +1140,25 @@ export default function OperatorPanel() {
               } else {
                 buttonColor = 'from-gray-600 to-gray-700';  // Non-significant (same for both)
               }
+
+              // Determine if this should start a new row (every pair of buttons)
+              const isFirstInPair = index % 2 === 0;
               
               return (
-                <Button
-                  key={`${btn.event}-${btn.isSignificant ? 'sig' : 'non'}`}
-                  onClick={() => {
-                    logEvent(btn.event, { significant: btn.isSignificant || false });
-                    toast.success(`${btn.label} logged`);
-                  }}
-                  className={`h-16 text-xs sm:text-sm font-bold bg-gradient-to-br ${buttonColor} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
-                >
-                  {btn.label}
-                </Button>
+                <div key={`${btn.event}-${btn.isSignificant ? 'sig' : 'non'}`} className={`${isFirstInPair ? 'col-span-2 sm:col-span-2 md:col-span-2 lg:col-span-1' : 'col-span-2 sm:col-span-2 md:col-span-2 lg:col-span-1'}`}>
+                  <Button
+                    onClick={() => {
+                      logEvent(btn.event, { significant: btn.isSignificant || false });
+                      toast.success(`${btn.label} logged`);
+                    }}
+                    className={`w-full h-16 text-xs sm:text-sm font-bold bg-gradient-to-br ${buttonColor} hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+                  >
+                    <div className="flex flex-col items-center justify-center">
+                      <span className="text-[10px] opacity-70 mb-0.5">{btn.isSignificant ? 'SIGNIFICANT' : 'NORMAL'}</span>
+                      <span>{btn.label}</span>
+                    </div>
+                  </Button>
+                </div>
               );
             })}
           </div>
