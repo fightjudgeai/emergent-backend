@@ -910,15 +910,6 @@ export default function OperatorPanel() {
             </div>
             <div className="flex gap-3">
               <Button
-                data-testid="cv-systems-btn"
-                onClick={() => navigate(`/cv-systems/${boutId}`)}
-                className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-semibold border-2 border-cyan-500"
-                title="Open Computer Vision Systems"
-              >
-                <Eye className="mr-2 h-4 w-4" />
-                CV Systems
-              </Button>
-              <Button
                 data-testid="quick-stats-btn"
                 onClick={() => setShowQuickStatsDialog(true)}
                 className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold"
@@ -934,7 +925,7 @@ export default function OperatorPanel() {
                 title="Open Arena Display for Big Screen"
               >
                 <Monitor className="mr-2 h-4 w-4" />
-                🎥 Arena Display
+                Arena Display
               </Button>
               <Button
                 data-testid="view-judge-panel-btn"
@@ -953,12 +944,13 @@ export default function OperatorPanel() {
                 Supervisor Panel
               </Button>
               <Button
-                onClick={() => setShowMonitoring(!showMonitoring)}
-                className={`${showMonitoring ? 'bg-gradient-to-r from-cyan-600 to-teal-600' : 'bg-gradient-to-r from-slate-600 to-slate-700'} hover:from-cyan-700 hover:to-teal-700 text-white font-semibold border-2 border-cyan-500`}
-                title="ICVSS System Monitoring - Real-time Health Metrics"
+                data-testid="end-fight-method-btn"
+                onClick={() => setShowFightEndDialog(true)}
+                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold border-2 border-red-500"
+                title="Log how the fight ended"
               >
-                <Activity className="mr-2 h-4 w-4" />
-                {showMonitoring ? 'Hide' : 'Show'} Monitoring
+                <Flag className="mr-2 h-4 w-4" />
+                End Fight
               </Button>
             </div>
           </div>
