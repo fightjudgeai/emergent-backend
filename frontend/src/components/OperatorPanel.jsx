@@ -957,14 +957,6 @@ export default function OperatorPanel() {
         </Card>
       </div>
 
-      {/* ICVSS Monitoring Dashboard */}
-      {showMonitoring && (
-        <div className="max-w-7xl mx-auto mb-6">
-          <ICVSSMonitoringDashboard />
-        </div>
-      )}
-
-
       {/* Control Timers */}
       <div className="max-w-7xl mx-auto mb-6">
         <Card className="bg-gradient-to-r from-[#1a1d24] to-[#13151a] border-[#2a2d35] p-8">
