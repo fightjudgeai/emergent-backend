@@ -181,6 +181,13 @@ export default function EventSetup() {
               Audit
             </Button>
             <Button
+              onClick={() => navigate('/fight-history')}
+              className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-sm px-3 py-2"
+            >
+              <History className="mr-1.5 h-3.5 w-3.5" />
+              Fight History
+            </Button>
+            <Button
               onClick={() => {
                 // Auto-check items
                 const judgeProfile = localStorage.getItem('judgeProfile');
