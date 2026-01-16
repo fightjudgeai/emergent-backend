@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import { db } from '@/firebase';
 import axios from 'axios';
