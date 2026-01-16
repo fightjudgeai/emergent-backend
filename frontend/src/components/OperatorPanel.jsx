@@ -1032,25 +1032,6 @@ export default function OperatorPanel() {
                   Next Round <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               )}
-              
-              {/* End Fight Button - Navigate to Judge Panel for Final Scores */}
-              <Button
-                data-testid="end-fight-btn"
-                onClick={() => {
-                  const confirmed = window.confirm(
-                    `End fight?\n\n${bout.fighter1} vs ${bout.fighter2}\n\nThis will take you to the Judge Panel to view round-by-round scores and final totals.`
-                  );
-                  if (confirmed) {
-                    // Navigate to judge panel with end fight mode
-                    window.open(`/judge/${boutId}?mode=end-fight`, '_blank');
-                    toast.success('Opening Judge Panel for final scores...');
-                  }
-                }}
-                className="h-14 px-8 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold border-2 border-red-500 shadow-lg"
-              >
-                <Flag className="mr-2 h-5 w-5" />
-                End Fight
-              </Button>
             </div>
 
             {/* Pending Judges Indicator */}
