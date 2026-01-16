@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
-import { Swords, Plus, Trash2, GraduationCap, AlertTriangle, Settings, Shield, User, ClipboardCheck } from 'lucide-react';
+import { Swords, Plus, Trash2, GraduationCap, AlertTriangle, Settings, Shield, User, ClipboardCheck, History } from 'lucide-react';
 
 export default function EventSetup() {
   const navigate = useNavigate();
