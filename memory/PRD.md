@@ -4,7 +4,7 @@
 Building a real-time sports data feed service focused on MMA/Combat sports judging. The application provides:
 1. Operator Panel for real-time event logging during fights
 2. Judge Panel for scoring rounds
-3. Broadcast displays for arena screens
+3. Broadcast displays for arena screens (PFC 50 ready)
 4. Fight completion and archival system
 5. Fight history for reviewing past fights
 
@@ -12,7 +12,7 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 
 ### Backend Systems
 - **Primary Backend**: `/app/backend/server.py` (MongoDB) - ACTIVE
-- **Secondary Backend**: `/app/datafeed_api` (Supabase/Postgres) - NON-FUNCTIONAL (pending migrations)
+- **Secondary Backend**: `/app/datafeed_api` (Supabase/Postgres) - NOT NEEDED (user confirmed)
 
 ### Frontend
 - React application at `/app/frontend`
@@ -20,73 +20,69 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 
 ## What's Been Implemented
 
-### 2025-01-16 Session (Latest)
-1. **End Fight Button with Method Selection** (COMPLETED)
-   - Removed CV Systems and Show Monitoring buttons from Operator Panel
-   - Added comprehensive "End Fight" dialog with:
-     - Winner selection (Fighter 1, Fighter 2, or Draw)
-     - Method selection: KO, TKO, Submission, Unanimous Dec, Split Dec, Majority Dec, Draw
-   - Saves fight result to database and opens Judge Panel for final scores
+### 2025-01-16 Session - PFC 50 Prep
+1. **Fighter Photos Support** (COMPLETED)
+   - EventSetup now has photo URL fields for both fighters
+   - BroadcastDisplay shows fighter photos in circular frames
 
-2. **Increased Fight Limit** (COMPLETED)
-   - EventSetup now allows up to 25 fights per event (previously 15)
+2. **Offline Capability** (COMPLETED)
+   - BroadcastDisplay caches data to localStorage
+   - Shows "OFFLINE MODE" banner when disconnected
+   - Automatically uses cached data if connection fails
+   - Faster polling (2 second refresh rate)
 
-3. **Fight History Page** (`/fight-history`) (COMPLETED)
-   - Displays all completed/archived fights with search functionality
+3. **Enhanced Broadcast Display** (COMPLETED)
+   - Responsive design for various screen sizes
+   - Larger fonts for arena visibility
+   - Fighter photos with colored borders (red/blue)
+   - Live status indicator with round number
+   - Round-by-round score history
 
-4. **Fight Details Archived Page** (`/fight-details/:boutId`) (COMPLETED)
-   - Detailed fighter statistics comparison
+4. **End Fight Dialog with Method Selection** (COMPLETED)
+   - Winner selection (Fighter 1, Fighter 2, or Draw)
+   - Methods: KO, TKO, Submission, Unanimous/Split/Majority Dec, Draw
 
-### Previous in this Session
-- End Fight Button on Operator Panel navigating to Judge Panel
-- Fight Completion API endpoints
-- Judge Panel End-Fight Mode with auto-display of final scores
+5. **Increased Fight Limit** (COMPLETED)
+   - Now supports up to 25 fights per event
 
-### Previous Sessions (from handoff)
-- Scoring System: Percentage-based model with categories (Striking 50%, Grappling 40%, Other 10%)
-- Operator Panel: Kick, SS Kick, Guard Passing buttons, keyboard shortcuts
-- Broadcast UI: RoundWinner, FinalResult components
-- Judge Panel: End Round/End Fight buttons with broadcast display
+### Previous Sessions
+- Scoring System: Percentage-based model
+- Operator Panel: Kick, SS Kick, Guard Passing buttons
+- Judge Panel: End Round/End Fight buttons
 
-## Pending Issues
+## PFC 50 Live Broadcast Setup
 
-### P1 - Critical
-- **datafeed_api Backend Non-Functional**: Database migrations not run
+### How to Use:
+1. **Setup Event**: Create event and add all 25 fights with fighter names + photo URLs
+2. **Operator PC**: Open `/operator/{boutId}` to log events
+3. **Arena Display PC**: Open `/arena/{boutId}` in full-screen browser
+4. **Judges**: Each judge opens `/judge/{boutId}` on their device
 
-### P2 - Medium
-- Control Time Logic: Calculate fighter control time from CTRL_START/CTRL_END events
+### Offline Backup:
+- If internet drops, display will show cached scores
+- "OFFLINE MODE" banner appears at top
+- Scores resume updating when connection restores
+
+### Key URLs for PFC 50:
+- Arena Display: `{your-url}/arena/{boutId}`
+- Operator Panel: `{your-url}/operator/{boutId}`
+- Judge Panel: `{your-url}/judge/{boutId}`
 
 ## Key Files
-- `/app/frontend/src/components/OperatorPanel.jsx` - Main operator interface with End Fight dialog
-- `/app/frontend/src/components/JudgePanel.jsx` - Judge scoring interface
-- `/app/frontend/src/components/EventSetup.jsx` - Event creation (25 fights max)
-- `/app/frontend/src/components/FightHistory.jsx` - Fight history list
-- `/app/frontend/src/components/FightDetailsArchived.jsx` - Detailed fight stats
-- `/app/backend/server.py` - Active backend (MongoDB)
+- `/app/frontend/src/components/BroadcastDisplay.jsx` - Arena display with photos + offline
+- `/app/frontend/src/components/OperatorPanel.jsx` - Event logging + End Fight
+- `/app/frontend/src/components/EventSetup.jsx` - 25 fights + photo URLs
+- `/app/backend/server.py` - Live API with fighter photos
 
-## API Endpoints (MongoDB Backend)
-- `POST /api/calculate-score-v2` - New scoring engine
-- `POST /api/fight/complete/{bout_id}` - Complete and archive fight
-- `GET /api/fight/completed/{bout_id}` - Get archived fight data
-- `GET /api/fights/completed` - List all completed fights
+## API Endpoints
+- `GET /api/live/{bout_id}` - Live data for broadcast (includes fighter photos)
+- `POST /api/fight/complete/{bout_id}` - Archive completed fight
+- `GET /api/fights/completed` - List archived fights
 
-## Routes
-- `/fight-history` - Browse all completed fights
-- `/fight-details/:boutId` - View detailed archived fight stats
-- `/operator/:boutId` - Operator panel with End Fight dialog
-- `/judge/:boutId` - Judge panel (supports `?mode=end-fight`)
+## Fight End Methods
+- KO, TKO, SUB, UNANIMOUS_DEC, SPLIT_DEC, MAJORITY_DEC, DRAW
 
-## Fight End Methods Supported
-- KO (Knockout)
-- TKO (Technical Knockout)
-- SUB (Submission)
-- UNANIMOUS_DEC (Unanimous Decision)
-- SPLIT_DEC (Split Decision)
-- MAJORITY_DEC (Majority Decision)
-- DRAW
-
-## Database Collections (MongoDB)
-- `bouts` - Fight information (includes winner, method, status)
+## Database (MongoDB)
+- `bouts` - Fight info (fighter1, fighter2, fighter1Photo, fighter2Photo, winner, method)
 - `events` - Real-time event log
-- `judge_scores` - Judge scorecards
-- `completed_fights` - Archived fight data
+- `completed_fights` - Archived fights
