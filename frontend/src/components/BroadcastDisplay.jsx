@@ -1,13 +1,17 @@
 /**
- * Broadcast Display - Arena Big Screen Mode
+ * Broadcast Display - Arena Big Screen Mode (PFC 50 Ready)
  * Full-screen display for showing fight scores to the audience
+ * Features: Fighter photos, offline capability, responsive design
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { RoundWinner } from './broadcast/RoundWinner.jsx';
 import { FinalResult } from './broadcast/FinalResult.jsx';
 import '../styles/broadcast.css';
+
+// Default placeholder for fighter photos
+const DEFAULT_FIGHTER_PHOTO = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMjAwIDIwMCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiMyMjI1MmQiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSI4MCIgcj0iNDAiIGZpbGw9IiM0NDQ4NTIiLz48ZWxsaXBzZSBjeD0iMTAwIiBjeT0iMTcwIiByeD0iNjAiIHJ5PSI1MCIgZmlsbD0iIzQ0NDg1MiIvPjwvc3ZnPg==';
 
 export default function BroadcastDisplay() {
   const { boutId } = useParams();
@@ -19,28 +23,86 @@ export default function BroadcastDisplay() {
   const [showFinal, setShowFinal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const [lastUpdate, setLastUpdate] = useState(null);
+  const [connectionAttempts, setConnectionAttempts] = useState(0);
+
+  // Cache key for offline storage
+  const CACHE_KEY = `broadcast_${boutId}`;
+
+  // Save to local storage for offline access
+  const saveToCache = useCallback((data) => {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      console.warn('Failed to cache data:', e);
+    }
+  }, [CACHE_KEY]);
+
+  // Load from local storage
+  const loadFromCache = useCallback(() => {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        return { data, timestamp };
+      }
+    } catch (e) {
+      console.warn('Failed to load cache:', e);
+    }
+    return null;
+  }, [CACHE_KEY]);
+
+  // Monitor online/offline status
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOffline(false);
+      setConnectionAttempts(0);
+    };
+    const handleOffline = () => setIsOffline(true);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   // Fetch live scoring data
   useEffect(() => {
     const fetchLiveData = async () => {
+      // If offline, use cached data
+      if (isOffline) {
+        const cached = loadFromCache();
+        if (cached) {
+          setLiveData(cached.data);
+          setBoutData({
+            fighter1: cached.data.fighter1_name || 'Fighter 1',
+            fighter2: cached.data.fighter2_name || 'Fighter 2',
+            fighter1Photo: cached.data.fighter1_photo,
+            fighter2Photo: cached.data.fighter2_photo,
+            status: cached.data.status || 'in_progress',
+            currentRound: cached.data.current_round || 1
+          });
+          setLoading(false);
+          setLastUpdate(new Date(cached.timestamp));
+        }
+        return;
+      }
+
       try {
-        console.log(`Fetching live data for bout: ${boutId}`);
-        console.log(`Backend URL: ${backendUrl}`);
-        
         const url = `${backendUrl}/api/live/${boutId}`;
-        console.log(`Full URL: ${url}`);
-        
         const response = await fetch(url, {
           method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
         });
         
-        console.log(`Response status: ${response.status}`);
-        
         if (!response.ok) {
-          // Read error body once
           let errorMessage = '';
           try {
             const errorData = await response.json();
@@ -49,8 +111,26 @@ export default function BroadcastDisplay() {
             errorMessage = response.statusText;
           }
           
+          // Try to use cached data on error
+          const cached = loadFromCache();
+          if (cached) {
+            setLiveData(cached.data);
+            setBoutData({
+              fighter1: cached.data.fighter1_name || 'Fighter 1',
+              fighter2: cached.data.fighter2_name || 'Fighter 2',
+              fighter1Photo: cached.data.fighter1_photo,
+              fighter2Photo: cached.data.fighter2_photo,
+              status: cached.data.status || 'in_progress',
+              currentRound: cached.data.current_round || 1
+            });
+            setLoading(false);
+            setLastUpdate(new Date(cached.timestamp));
+            setConnectionAttempts(prev => prev + 1);
+            return;
+          }
+          
           if (response.status === 404) {
-            setError(`Bout "${boutId}" not found. Please create a bout first or check the bout ID.`);
+            setError(`Bout "${boutId}" not found.`);
           } else {
             setError(`API Error: ${response.status} - ${errorMessage}`);
           }
@@ -58,45 +138,64 @@ export default function BroadcastDisplay() {
           return;
         }
         
-        // Read success body once
         const data = await response.json();
-        console.log('Received data:', data);
-        
         setLiveData(data);
+        saveToCache(data);
+        setLastUpdate(new Date());
+        setConnectionAttempts(0);
         
-        // Extract bout info from live data
         if (data) {
           setBoutData({
             fighter1: data.fighter1_name || 'Fighter 1',
             fighter2: data.fighter2_name || 'Fighter 2',
+            fighter1Photo: data.fighter1_photo,
+            fighter2Photo: data.fighter2_photo,
             status: data.status || 'in_progress',
             currentRound: data.current_round || 1
           });
         }
         
         setLoading(false);
-        setError(null); // Clear any previous errors
+        setError(null);
       } catch (err) {
         console.error('Error fetching live data:', err);
-        setError(`Connection error: ${err.message}. Backend may not be accessible.`);
+        
+        // Try to use cached data on network error
+        const cached = loadFromCache();
+        if (cached) {
+          setLiveData(cached.data);
+          setBoutData({
+            fighter1: cached.data.fighter1_name || 'Fighter 1',
+            fighter2: cached.data.fighter2_name || 'Fighter 2',
+            fighter1Photo: cached.data.fighter1_photo,
+            fighter2Photo: cached.data.fighter2_photo,
+            status: cached.data.status || 'in_progress',
+            currentRound: cached.data.current_round || 1
+          });
+          setLoading(false);
+          setLastUpdate(new Date(cached.timestamp));
+          setConnectionAttempts(prev => prev + 1);
+          return;
+        }
+        
+        setError(`Connection error: ${err.message}`);
         setLoading(false);
       }
     };
 
     if (boutId) {
       fetchLiveData();
-      // Poll every 3 seconds for updates
-      const interval = setInterval(fetchLiveData, 3000);
+      // Poll every 2 seconds for faster updates during live events
+      const interval = setInterval(fetchLiveData, 2000);
       return () => clearInterval(interval);
     }
-  }, [boutId, backendUrl]);
+  }, [boutId, backendUrl, isOffline, loadFromCache, saveToCache]);
 
   // Listen for round complete events
   useEffect(() => {
     if (liveData && liveData.rounds && liveData.rounds.length > 0) {
       const latestRound = liveData.rounds[liveData.rounds.length - 1];
       
-      // Show the latest completed round if it has scores
       if (latestRound && (latestRound.fighter1_score || latestRound.fighter2_score)) {
         setCurrentRound({
           round: liveData.rounds.length,
@@ -104,10 +203,10 @@ export default function BroadcastDisplay() {
           unified_blue: latestRound.fighter2_score || latestRound.fighter2_total || 0
         });
         
-        // Auto-hide after 10 seconds
+        // Auto-hide after 15 seconds
         const timeout = setTimeout(() => {
           setCurrentRound(null);
-        }, 10000);
+        }, 15000);
         
         return () => clearTimeout(timeout);
       }
@@ -120,6 +219,26 @@ export default function BroadcastDisplay() {
       setShowFinal(true);
     }
   }, [liveData]);
+
+  // Fighter Photo Component
+  const FighterPhoto = ({ src, corner, name }) => (
+    <div className="relative">
+      <div 
+        className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-4 mx-auto"
+        style={{ 
+          borderColor: corner === 'red' ? 'hsl(348 83% 47%)' : 'hsl(195 100% 70%)',
+          boxShadow: `0 0 30px ${corner === 'red' ? 'hsl(348 83% 47% / 0.5)' : 'hsl(195 100% 70% / 0.5)'}`
+        }}
+      >
+        <img 
+          src={src || DEFAULT_FIGHTER_PHOTO} 
+          alt={name}
+          className="w-full h-full object-cover"
+          onError={(e) => { e.target.src = DEFAULT_FIGHTER_PHOTO; }}
+        />
+      </div>
+    </div>
+  );
 
   if (loading) {
     return (
@@ -136,7 +255,7 @@ export default function BroadcastDisplay() {
     );
   }
 
-  if (error) {
+  if (error && !boutData) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-8">
         <div className="text-center max-w-2xl">
@@ -145,29 +264,8 @@ export default function BroadcastDisplay() {
           
           <div className="p-6 rounded-lg border border-gray-700 bg-gray-900/50 text-left mb-6">
             <div className="text-sm text-gray-300 mb-3">
-              <strong>📋 Bout ID:</strong> <code className="text-amber-400 bg-gray-800 px-2 py-1 rounded">{boutId}</code>
+              <strong>Bout ID:</strong> <code className="text-amber-400 bg-gray-800 px-2 py-1 rounded">{boutId}</code>
             </div>
-            <div className="text-sm text-gray-300 mb-4">
-              <strong>🔧 Troubleshooting Steps:</strong>
-            </div>
-            <ol className="text-sm text-gray-400 space-y-2 list-decimal list-inside">
-              <li>
-                <strong>Create a bout:</strong> Go to{' '}
-                <a href="/" className="text-blue-400 underline hover:text-blue-300">
-                  Judge Login
-                </a>{' '}
-                → Create Event → Create Bout
-              </li>
-              <li>
-                <strong>Or try demo mode:</strong>{' '}
-                <a href={`/arena-demo/${boutId}`} className="text-blue-400 underline hover:text-blue-300">
-                  Open Demo Mode
-                </a>{' '}
-                (works without backend)
-              </li>
-              <li>Check if backend is running: <code className="text-amber-400">curl localhost:8001/api/health</code></li>
-              <li>Verify bout exists: <code className="text-amber-400">curl localhost:8001/api/live/{boutId}</code></li>
-            </ol>
           </div>
 
           <div className="flex gap-4 justify-center">
@@ -175,13 +273,13 @@ export default function BroadcastDisplay() {
               onClick={() => window.location.reload()} 
               className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
             >
-              🔄 Retry Connection
+              Retry Connection
             </button>
             <a 
               href={`/arena-demo/${boutId}`}
               className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors inline-block"
             >
-              🎬 Try Demo Mode
+              Try Demo Mode
             </a>
           </div>
         </div>
@@ -207,54 +305,77 @@ export default function BroadcastDisplay() {
   const winner = redTotal > blueTotal ? 'red' : blueTotal > redTotal ? 'blue' : 'draw';
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center p-8">
+    <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center p-4 md:p-8">
+      {/* Connection Status Banner */}
+      {(isOffline || connectionAttempts > 0) && (
+        <div className={`fixed top-0 left-0 right-0 py-2 px-4 text-center text-sm font-semibold ${isOffline ? 'bg-red-600' : 'bg-yellow-600'}`}>
+          {isOffline ? (
+            <>OFFLINE MODE - Using cached data {lastUpdate && `(Last update: ${lastUpdate.toLocaleTimeString()})`}</>
+          ) : (
+            <>Reconnecting... Using cached data</>
+          )}
+        </div>
+      )}
+
       {/* Main Fight Card */}
-      <div className="w-full max-w-6xl">
+      <div className="w-full max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="text-2xl font-bold mb-2" style={{ color: 'hsl(195 100% 70%)' }}>
+        <div className="text-center mb-8">
+          <div className="text-3xl md:text-4xl font-bold mb-2" style={{ color: 'hsl(195 100% 70%)' }}>
             FIGHT JUDGE AI
           </div>
-          <div className="text-lg" style={{ color: 'hsl(0 0% 70%)' }}>
-            LIVE SCORING BROADCAST
+          <div className="text-lg md:text-xl" style={{ color: 'hsl(0 0% 70%)' }}>
+            LIVE SCORING
           </div>
         </div>
 
-        {/* Fighter Names */}
-        <div className="grid grid-cols-2 gap-8 mb-8">
-          <div className="text-center p-6 rounded-lg border-2" style={{ 
+        {/* Fighter Cards with Photos */}
+        <div className="grid grid-cols-2 gap-4 md:gap-8 mb-8">
+          {/* Red Corner */}
+          <div className="text-center p-4 md:p-6 rounded-xl border-2" style={{ 
             borderColor: 'hsl(348 83% 47%)', 
-            background: 'hsl(348 83% 47% / 0.1)',
-            boxShadow: '0 0 30px hsl(348 83% 47% / 0.3)'
+            background: 'linear-gradient(to bottom, hsl(348 83% 47% / 0.15), hsl(348 83% 47% / 0.05))',
+            boxShadow: '0 0 40px hsl(348 83% 47% / 0.3)'
           }}>
-            <div className="text-sm font-semibold tracking-[0.3em] uppercase mb-2" style={{ color: 'hsl(348 83% 47%)' }}>
+            <div className="text-sm md:text-base font-semibold tracking-[0.3em] uppercase mb-3" style={{ color: 'hsl(348 83% 47%)' }}>
               RED CORNER
             </div>
-            <div className="text-4xl font-bold text-white mb-2">
+            <FighterPhoto 
+              src={boutData.fighter1Photo} 
+              corner="red" 
+              name={boutData.fighter1} 
+            />
+            <div className="text-2xl md:text-4xl font-bold text-white mt-4 mb-2 truncate px-2">
               {boutData.fighter1 || 'Fighter 1'}
             </div>
-            <div className="text-6xl font-bold tabular-nums" style={{ 
+            <div className="text-5xl md:text-7xl lg:text-8xl font-bold tabular-nums" style={{ 
               color: 'hsl(348 83% 47%)',
-              textShadow: '0 0 20px hsl(348 83% 47% / 0.6)'
+              textShadow: '0 0 30px hsl(348 83% 47% / 0.7)'
             }}>
               {redTotal}
             </div>
           </div>
 
-          <div className="text-center p-6 rounded-lg border-2" style={{ 
+          {/* Blue Corner */}
+          <div className="text-center p-4 md:p-6 rounded-xl border-2" style={{ 
             borderColor: 'hsl(195 100% 70%)', 
-            background: 'hsl(195 100% 70% / 0.1)',
-            boxShadow: '0 0 30px hsl(195 100% 70% / 0.3)'
+            background: 'linear-gradient(to bottom, hsl(195 100% 70% / 0.15), hsl(195 100% 70% / 0.05))',
+            boxShadow: '0 0 40px hsl(195 100% 70% / 0.3)'
           }}>
-            <div className="text-sm font-semibold tracking-[0.3em] uppercase mb-2" style={{ color: 'hsl(195 100% 70%)' }}>
+            <div className="text-sm md:text-base font-semibold tracking-[0.3em] uppercase mb-3" style={{ color: 'hsl(195 100% 70%)' }}>
               BLUE CORNER
             </div>
-            <div className="text-4xl font-bold text-white mb-2">
+            <FighterPhoto 
+              src={boutData.fighter2Photo} 
+              corner="blue" 
+              name={boutData.fighter2} 
+            />
+            <div className="text-2xl md:text-4xl font-bold text-white mt-4 mb-2 truncate px-2">
               {boutData.fighter2 || 'Fighter 2'}
             </div>
-            <div className="text-6xl font-bold tabular-nums" style={{ 
+            <div className="text-5xl md:text-7xl lg:text-8xl font-bold tabular-nums" style={{ 
               color: 'hsl(195 100% 70%)',
-              textShadow: '0 0 20px hsl(195 100% 70% / 0.6)'
+              textShadow: '0 0 30px hsl(195 100% 70% / 0.7)'
             }}>
               {blueTotal}
             </div>
@@ -289,26 +410,24 @@ export default function BroadcastDisplay() {
 
         {/* Round History */}
         {rounds.length > 0 && !currentRound && !showFinal && (
-          <div className="mt-8 p-6 rounded-lg border" style={{ 
+          <div className="mt-8 p-4 md:p-6 rounded-xl border" style={{ 
             borderColor: 'hsl(195 100% 70% / 0.3)',
             background: 'hsl(0 0% 12% / 0.4)'
           }}>
-            <div className="text-center text-sm font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: 'hsl(195 100% 70%)' }}>
-              Round History
+            <div className="text-center text-sm md:text-base font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: 'hsl(195 100% 70%)' }}>
+              Round Scores
             </div>
             <div className="space-y-2">
               {rounds.map((round, idx) => (
-                <div key={idx} className="flex items-center justify-between text-lg">
-                  <span className="text-gray-400">Round {idx + 1}:</span>
-                  <div className="flex gap-8">
-                    <span style={{ color: 'hsl(348 83% 47%)' }} className="font-bold">
-                      {round.fighter1_score || round.fighter1_total || 0}
-                    </span>
-                    <span className="text-gray-500">-</span>
-                    <span style={{ color: 'hsl(195 100% 70%)' }} className="font-bold">
-                      {round.fighter2_score || round.fighter2_total || 0}
-                    </span>
-                  </div>
+                <div key={idx} className="flex items-center justify-center text-lg md:text-2xl gap-4 md:gap-8">
+                  <span className="text-gray-400 w-24 text-right">Round {idx + 1}</span>
+                  <span style={{ color: 'hsl(348 83% 47%)' }} className="font-bold w-12 text-center">
+                    {round.fighter1_score || round.fighter1_total || 0}
+                  </span>
+                  <span className="text-gray-500">-</span>
+                  <span style={{ color: 'hsl(195 100% 70%)' }} className="font-bold w-12 text-center">
+                    {round.fighter2_score || round.fighter2_total || 0}
+                  </span>
                 </div>
               ))}
             </div>
@@ -317,18 +436,23 @@ export default function BroadcastDisplay() {
 
         {/* Status Indicator */}
         <div className="mt-8 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full" style={{ 
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full" style={{ 
             background: 'hsl(0 0% 15%)',
             border: '1px solid hsl(195 100% 70% / 0.3)'
           }}>
-            <div className="w-3 h-3 rounded-full" style={{ 
+            <div className="w-4 h-4 rounded-full" style={{ 
               background: boutData.status === 'in_progress' ? 'hsl(120 100% 50%)' : 'hsl(0 0% 50%)',
-              boxShadow: boutData.status === 'in_progress' ? '0 0 10px hsl(120 100% 50%)' : 'none',
+              boxShadow: boutData.status === 'in_progress' ? '0 0 15px hsl(120 100% 50%)' : 'none',
               animation: boutData.status === 'in_progress' ? 'pulse 2s ease-in-out infinite' : 'none'
             }} />
-            <span className="text-sm uppercase tracking-wider" style={{ color: 'hsl(195 100% 70%)' }}>
-              {boutData.status === 'in_progress' ? 'LIVE' : boutData.status === 'completed' ? 'COMPLETED' : 'PENDING'}
+            <span className="text-base md:text-lg uppercase tracking-wider font-semibold" style={{ color: 'hsl(195 100% 70%)' }}>
+              {boutData.status === 'in_progress' ? 'LIVE' : boutData.status === 'completed' ? 'FIGHT OVER' : 'PENDING'}
             </span>
+            {liveData?.current_round && boutData.status === 'in_progress' && (
+              <span className="text-gray-400 text-sm md:text-base">
+                | Round {liveData.current_round}
+              </span>
+            )}
           </div>
         </div>
       </div>
