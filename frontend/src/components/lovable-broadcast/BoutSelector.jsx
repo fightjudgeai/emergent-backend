@@ -163,15 +163,35 @@ export const BoutSelector = memo(function BoutSelector({ onConnect, onRefresh, o
                 ))}
               </ul>
             )}
-            <div className="border-t border-gray-700 p-2">
+            <div className="border-t border-gray-700 p-2 space-y-1">
               <Button size="sm" variant="ghost" onClick={fetchBouts} className="w-full h-6 text-xs" disabled={isLoadingBouts}>
                 <RefreshCw className={`w-3 h-3 mr-1 ${isLoadingBouts ? "animate-spin" : ""}`} /> Refresh List
+              </Button>
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                onClick={() => { setIsDropdownOpen(false); setShowCreateDialog(true); }} 
+                className="w-full h-6 text-xs text-lb-gold hover:text-lb-gold hover:bg-lb-gold/10"
+              >
+                <Plus className="w-3 h-3 mr-1" /> Create New Bout
               </Button>
             </div>
           </div>
         )}
       </div>
       <Button size="sm" variant="outline" onClick={handleConnect} className="h-7 px-2 text-xs">Connect</Button>
+      
+      {/* Create New Bout Button */}
+      <Button 
+        size="sm" 
+        variant="outline" 
+        onClick={() => setShowCreateDialog(true)} 
+        className="h-7 px-2 text-xs border-lb-gold/50 text-lb-gold hover:bg-lb-gold/10"
+        title="Create new bout for PFC 50"
+      >
+        <Plus className="w-3 h-3 mr-1" /> New
+      </Button>
+      
       {currentBoutId && (
         <>
           <Button size="sm" variant="ghost" onClick={onRefresh} className="h-7 w-7 p-0" title="Refresh data"><RefreshCw className="w-3.5 h-3.5" /></Button>
@@ -179,6 +199,74 @@ export const BoutSelector = memo(function BoutSelector({ onConnect, onRefresh, o
           <Button size="sm" variant="ghost" onClick={onReset} className="h-7 px-2 text-xs text-gray-400">Reset</Button>
         </>
       )}
+      
+      {/* Create Bout Dialog */}
+      <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+        <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-lb-gold">
+              <Trophy className="w-5 h-5" />
+              Create New Bout - PFC 50
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label className="text-gray-300">Red Corner Fighter</Label>
+              <Input
+                placeholder="Fighter name"
+                value={newBout.fighter1}
+                onChange={(e) => setNewBout({ ...newBout, fighter1: e.target.value })}
+                className="bg-gray-800 border-gray-700 text-white"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-gray-300">Blue Corner Fighter</Label>
+              <Input
+                placeholder="Fighter name"
+                value={newBout.fighter2}
+                onChange={(e) => setNewBout({ ...newBout, fighter2: e.target.value })}
+                className="bg-gray-800 border-gray-700 text-white"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-gray-300">Rounds</Label>
+                <Select value={newBout.total_rounds} onValueChange={(v) => setNewBout({ ...newBout, total_rounds: v })}>
+                  <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 border-gray-700">
+                    <SelectItem value="3">3 Rounds</SelectItem>
+                    <SelectItem value="5">5 Rounds (Title)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-gray-300">Division (Optional)</Label>
+                <Input
+                  placeholder="e.g., Lightweight"
+                  value={newBout.division}
+                  onChange={(e) => setNewBout({ ...newBout, division: e.target.value })}
+                  className="bg-gray-800 border-gray-700 text-white"
+                />
+              </div>
+            </div>
+            <div className="flex gap-2 pt-2">
+              <Button variant="outline" onClick={() => setShowCreateDialog(false)} className="flex-1">
+                Cancel
+              </Button>
+              <Button 
+                onClick={createBout} 
+                disabled={isCreating}
+                className="flex-1 bg-lb-gold text-black hover:bg-lb-gold/90"
+              >
+                {isCreating ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Plus className="w-4 h-4 mr-2" />}
+                Create & Connect
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 });
