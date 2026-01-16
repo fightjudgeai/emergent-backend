@@ -3091,6 +3091,87 @@ async def get_final_broadcast_data(bout_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 # ============================================================================
+# FIGHT COMPLETION & ARCHIVAL
+# ============================================================================
+
+@api_router.post("/fight/complete/{bout_id}")
+async def complete_fight(bout_id: str):
+    """
+    Complete and archive a fight with all stats saved to database.
+    This endpoint should be called when the fight is officially over.
+    """
+    try:
+        # Save the completed fight
+        completed_fight = await save_completed_fight(db, bout_id)
+        
+        # Remove _id for JSON response
+        completed_fight.pop('_id', None)
+        
+        logging.info(f"Fight {bout_id} completed and archived successfully")
+        
+        return {
+            "success": True,
+            "message": f"Fight {completed_fight['fighter1']['name']} vs {completed_fight['fighter2']['name']} completed and archived",
+            "bout_id": bout_id,
+            "winner": completed_fight['fight_details']['winner'],
+            "total_events": completed_fight['metadata']['total_events'],
+            "fighter1_stats": completed_fight['fighter1']['stats']['summary'],
+            "fighter2_stats": completed_fight['fighter2']['stats']['summary']
+        }
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        logging.error(f"Error completing fight {bout_id}: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to complete fight: {str(e)}")
+
+@api_router.get("/fight/completed/{bout_id}")
+async def get_completed_fight(bout_id: str):
+    """
+    Get a completed fight's archived data
+    """
+    try:
+        fight = await db.completed_fights.find_one({"bout_id": bout_id}, {"_id": 0})
+        if not fight:
+            raise HTTPException(status_code=404, detail=f"Completed fight {bout_id} not found")
+        return fight
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching completed fight {bout_id}: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/fights/completed")
+async def list_completed_fights(limit: int = 50, skip: int = 0):
+    """
+    List all completed fights (paginated)
+    """
+    try:
+        fights = await db.completed_fights.find(
+            {}, 
+            {
+                "_id": 0,
+                "bout_id": 1,
+                "fighter1.name": 1,
+                "fighter2.name": 1,
+                "event.event_name": 1,
+                "fight_details": 1,
+                "completed_at": 1
+            }
+        ).sort("completed_at", -1).skip(skip).limit(limit).to_list(limit)
+        
+        total = await db.completed_fights.count_documents({})
+        
+        return {
+            "fights": fights,
+            "total": total,
+            "limit": limit,
+            "skip": skip
+        }
+    except Exception as e:
+        logging.error(f"Error listing completed fights: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============================================================================
 # VI. TELEMETRY & DEVICE HEALTH ENGINE
 # ============================================================================
 
