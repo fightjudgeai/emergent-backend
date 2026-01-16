@@ -12,7 +12,7 @@ from typing import Dict, List, Tuple
 class ICVSSValidator:
     """Comprehensive validation for ICVSS system"""
     
-    def __init__(self, base_url: str = "https://fightdata.preview.emergentagent.com/api/icvss"):
+    def __init__(self, base_url: str = "https://sportsdash-3.preview.emergentagent.com/api/icvss"):
         self.base_url = base_url
         self.results = []
         self.passed = 0
