@@ -3017,8 +3017,17 @@ async def get_live_broadcast_data(bout_id: str):
         
         return {
             "bout_id": bout_id,
+            "fighter1_name": bout.get('fighter1', 'Fighter 1'),
+            "fighter2_name": bout.get('fighter2', 'Fighter 2'),
+            "fighter1_photo": bout.get('fighter1Photo', ''),
+            "fighter2_photo": bout.get('fighter2Photo', ''),
             "round_id": round_id,
+            "current_round": round_id,
+            "total_rounds": bout.get('totalRounds', 3),
+            "status": bout.get('status', 'in_progress'),
             "round_status": bout.get('status', 'IN_PROGRESS'),
+            "fighter1_total": summary.get('total_score', {}).get('red', 0),
+            "fighter2_total": summary.get('total_score', {}).get('blue', 0),
             "red_totals": {
                 "damage": summary.get('damage_score', {}).get('red', 0),
                 "grappling": summary.get('grappling_score', {}).get('red', 0),
@@ -3031,6 +3040,7 @@ async def get_live_broadcast_data(bout_id: str):
                 "control": summary.get('control_score', {}).get('blue', 0),
                 "weighted_score": summary.get('total_score', {}).get('blue', 0)
             },
+            "rounds": bout.get('roundScores', []),
             "time_remaining": bout.get('timeRemaining', '5:00'),
             "events_last_5_sec": len(recent_events),
             "redline_moments": redline_moments,
