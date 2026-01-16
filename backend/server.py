@@ -2966,7 +2966,168 @@ async def get_round_replay(bout_id: str, round_id: int, round_length: int = 300)
         raise HTTPException(status_code=500, detail=str(e))
 
 # ============================================================================
-# III. BROADCAST API LAYER
+# III. BOUTS MANAGEMENT API
+# ============================================================================
+
+class BoutCreate(BaseModel):
+    """Model for creating a new bout"""
+    bout_id: Optional[str] = None
+    fighter1: str
+    fighter2: str
+    fighter1_photo: Optional[str] = ""
+    fighter2_photo: Optional[str] = ""
+    total_rounds: int = 3
+    event_name: Optional[str] = "PFC 50"
+    division: Optional[str] = ""
+
+@api_router.get("/bouts")
+async def list_bouts():
+    """List all bouts in MongoDB"""
+    try:
+        bouts = await db.bouts.find({}, {"_id": 0}).to_list(100)
+        return bouts
+    except Exception as e:
+        logging.error(f"Error listing bouts: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/bouts/active")
+async def list_active_bouts():
+    """List only active/in-progress bouts"""
+    try:
+        bouts = await db.bouts.find(
+            {"status": {"$in": ["in_progress", "pending", "active"]}},
+            {"_id": 0}
+        ).to_list(100)
+        return bouts
+    except Exception as e:
+        logging.error(f"Error listing active bouts: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/bouts")
+async def create_bout(bout: BoutCreate):
+    """Create a new bout for the broadcast system"""
+    try:
+        bout_id = bout.bout_id or f"bout-{str(uuid.uuid4())[:8]}"
+        
+        bout_doc = {
+            "bout_id": bout_id,
+            "boutId": bout_id,  # Also store as boutId for compatibility
+            "fighter1": bout.fighter1,
+            "fighter2": bout.fighter2,
+            "fighter1Photo": bout.fighter1_photo,
+            "fighter2Photo": bout.fighter2_photo,
+            "totalRounds": bout.total_rounds,
+            "currentRound": 1,
+            "status": "in_progress",
+            "eventName": bout.event_name,
+            "division": bout.division,
+            "roundScores": [],
+            "createdAt": datetime.now(timezone.utc).isoformat()
+        }
+        
+        await db.bouts.insert_one(bout_doc)
+        
+        # Return without _id
+        bout_doc.pop("_id", None)
+        
+        logging.info(f"Created bout: {bout_id} - {bout.fighter1} vs {bout.fighter2}")
+        return bout_doc
+    except Exception as e:
+        logging.error(f"Error creating bout: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/bouts/{bout_id}")
+async def get_bout(bout_id: str):
+    """Get a specific bout by ID"""
+    try:
+        bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"_id": 0}
+        )
+        if not bout:
+            raise HTTPException(status_code=404, detail=f"Bout {bout_id} not found")
+        return bout
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error getting bout: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/bouts/{bout_id}/round-score")
+async def update_bout_round_score(bout_id: str, round_num: int, red_score: int, blue_score: int):
+    """Update round score for a bout"""
+    try:
+        bout = await db.bouts.find_one({"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]})
+        if not bout:
+            raise HTTPException(status_code=404, detail=f"Bout {bout_id} not found")
+        
+        round_scores = bout.get("roundScores", [])
+        
+        # Update or append round score
+        round_data = {
+            "round": round_num,
+            "red_score": red_score,
+            "blue_score": blue_score,
+            "unified_red": red_score,
+            "unified_blue": blue_score
+        }
+        
+        # Find existing round or append
+        found = False
+        for i, r in enumerate(round_scores):
+            if r.get("round") == round_num:
+                round_scores[i] = round_data
+                found = True
+                break
+        
+        if not found:
+            round_scores.append(round_data)
+        
+        # Calculate totals
+        total_red = sum(r.get("red_score", 0) for r in round_scores)
+        total_blue = sum(r.get("blue_score", 0) for r in round_scores)
+        
+        await db.bouts.update_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"$set": {
+                "roundScores": round_scores,
+                "fighter1_total": total_red,
+                "fighter2_total": total_blue
+            }}
+        )
+        
+        return {"success": True, "round_scores": round_scores}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating round score: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/bouts/{bout_id}/status")
+async def update_bout_status(bout_id: str, status: str, winner: Optional[str] = None):
+    """Update bout status (in_progress, completed, etc.)"""
+    try:
+        update_data = {"status": status}
+        if winner:
+            update_data["winner"] = winner
+        
+        result = await db.bouts.update_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"$set": update_data}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail=f"Bout {bout_id} not found")
+        
+        return {"success": True, "status": status}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating bout status: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============================================================================
+# IV. BROADCAST API LAYER
 # ============================================================================
 
 @api_router.get("/live/{bout_id}")
