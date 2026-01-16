@@ -23,6 +23,7 @@ const API = `${BACKEND_URL}/api`;
 export default function JudgePanel() {
   const { boutId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [bout, setBout] = useState(null);
   const [scores, setScores] = useState({});
   const [loading, setLoading] = useState(false);
@@ -43,6 +44,9 @@ export default function JudgePanel() {
   const [showFinalResult, setShowFinalResult] = useState(false);
   const [allRounds, setAllRounds] = useState([]);
 
+  // Check for end-fight mode from URL params
+  const isEndFightMode = searchParams.get('mode') === 'end-fight';
+
   useEffect(() => {
     loadBout();
     setupEventListener();
@@ -55,6 +59,27 @@ export default function JudgePanel() {
       deviceSyncManager.cleanup();
     };
   }, [boutId]);
+
+  // Auto-show final results if in end-fight mode
+  useEffect(() => {
+    if (isEndFightMode && bout && Object.keys(scores).length > 0) {
+      // Prepare all rounds data for display
+      const roundsData = [];
+      for (let i = 1; i <= bout.totalRounds; i++) {
+        if (scores[i]) {
+          roundsData.push({
+            round: i,
+            fighter1Score: scores[i]?.card?.split('-')[0] || '10',
+            fighter2Score: scores[i]?.card?.split('-')[1] || '9',
+            winner: scores[i]?.winner || 'DRAW'
+          });
+        }
+      }
+      setAllRounds(roundsData);
+      setShowFinalResult(true);
+      toast.info('End Fight Mode - Displaying final scores');
+    }
+  }, [isEndFightMode, bout, scores]);
 
   useEffect(() => {
     // Recalculate scores whenever events change (including deletions)
