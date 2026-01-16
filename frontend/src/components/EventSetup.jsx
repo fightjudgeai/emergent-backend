@@ -49,10 +49,10 @@ export default function EventSetup() {
   });
 
   const addFight = () => {
-    if (fights.length < 15) {
+    if (fights.length < 25) {
       setFights([...fights, { fighter1: '', fighter2: '', rounds: '3' }]);
     } else {
-      toast.error('Maximum 15 fights allowed per event');
+      toast.error('Maximum 25 fights allowed per event');
     }
   };
 
