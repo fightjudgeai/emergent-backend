@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { BroadcastScorecard } from "@/components/lovable-broadcast/BroadcastScorecard";
+import { BoutSelector } from "@/components/lovable-broadcast/BoutSelector";
+import { OperatorPanel } from "@/components/lovable-broadcast/OperatorPanel";
 import { DemoModeControls } from "@/components/lovable-broadcast/DemoModeControls";
 import { ConnectionIndicator } from "@/components/lovable-broadcast/ConnectionIndicator";
+import { ManualScoreOverride } from "@/components/lovable-broadcast/ManualScoreOverride";
 import { useFightJudgeAPI } from "@/hooks/useFightJudgeAPI";
 import { useDemoMode } from "@/hooks/useDemoMode";
 import { Maximize, Minimize } from "lucide-react";
@@ -16,6 +19,8 @@ export default function LovableBroadcast() {
   const [isDemo, setIsDemo] = useState(!urlBoutId);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [boutId, setBoutId] = useState(urlBoutId);
+  const [overrideData, setOverrideData] = useState(null);
+  const [showOverridePanel, setShowOverridePanel] = useState(false);
   
   // Live API hook
   const liveApi = useFightJudgeAPI(isDemo ? undefined : boutId);
@@ -26,11 +31,12 @@ export default function LovableBroadcast() {
   // Use demo or live data based on mode
   const activeData = isDemo ? demo : liveApi;
 
-  // Final display data
-  const displayData = activeData.data;
+  // Final display data: override takes precedence
+  const displayData = overrideData || activeData.data;
 
   const handleConnect = (id) => {
     setBoutId(id);
+    setIsDemo(false);
     liveApi.connectToBout(id);
   };
 
@@ -41,6 +47,7 @@ export default function LovableBroadcast() {
       setBoutId(undefined);
       liveApi.resetToStandby();
     }
+    setOverrideData(null);
   };
 
   const handleSwitchMode = (demoMode) => {
@@ -48,7 +55,18 @@ export default function LovableBroadcast() {
     if (demoMode) {
       demo.resetToStandby();
     }
+    setOverrideData(null);
   };
+
+  const handleOverride = useCallback((data) => {
+    setOverrideData(data);
+    console.log("[ManualOverride] Override applied:", data);
+  }, []);
+
+  const handleClearOverride = useCallback(() => {
+    setOverrideData(null);
+    console.log("[ManualOverride] Override cleared");
+  }, []);
 
   const toggleFullscreen = useCallback(() => {
     setIsFullscreen((prev) => !prev);
@@ -70,6 +88,11 @@ export default function LovableBroadcast() {
           e.preventDefault();
           toggleFullscreen();
         }
+      }
+      // Override panel toggle (Ctrl+Shift+O)
+      if (e.ctrlKey && e.shiftKey && (e.key === "o" || e.key === "O")) {
+        e.preventDefault();
+        setShowOverridePanel((prev) => !prev);
       }
     };
 
@@ -99,37 +122,84 @@ export default function LovableBroadcast() {
     };
   }, []);
 
+  const isFinalView = activeData.displayMode === "final" && displayData.status === "completed";
+
   return (
     <main className="w-screen h-screen bg-black overflow-hidden">
       <BroadcastScorecard
         data={displayData}
-        connectionStatus={activeData.connectionStatus}
+        connectionStatus={overrideData ? "connected" : activeData.connectionStatus}
         isLoading={activeData.isLoading}
         displayMode={activeData.displayMode}
       />
 
       {/* Connection Status Indicator */}
       <ConnectionIndicator
-        connectionStatus={activeData.connectionStatus}
+        connectionStatus={overrideData ? "connected" : activeData.connectionStatus}
         boutId={boutId}
         isDemo={isDemo}
+        isOverride={!!overrideData}
       />
       
       {/* Controls - hidden in fullscreen */}
       {!isFullscreen && (
-        <DemoModeControls
-          onLoadRounds={demo.loadRounds}
-          onStartSimulation={demo.startSimulation}
-          onShowRoundWinner={isDemo ? demo.showRoundWinner : liveApi.showRoundWinner}
-          onShowFinalResult={isDemo ? demo.showFinalResult : liveApi.showFinalResult}
-          onShowScoresOnly={isDemo ? demo.showScoresOnly : liveApi.showScoresOnly}
-          onReset={handleReset}
-          displayMode={activeData.displayMode}
-          hasRounds={displayData.rounds.length > 0}
-          roundCount={displayData.rounds.length}
-          isDemo={isDemo}
-          onSwitchMode={handleSwitchMode}
-        />
+        <>
+          {/* Live mode: Bout Selector in top left */}
+          {!isDemo && (
+            <div className="fixed top-4 left-4 z-50">
+              <BoutSelector
+                onConnect={handleConnect}
+                onRefresh={liveApi.refreshData}
+                onReset={handleReset}
+                connectionStatus={liveApi.connectionStatus}
+                currentBoutId={boutId}
+              />
+            </div>
+          )}
+
+          {/* Demo Mode Controls - bottom left */}
+          <DemoModeControls
+            onLoadRounds={demo.loadRounds}
+            onStartSimulation={demo.startSimulation}
+            onShowRoundWinner={isDemo ? demo.showRoundWinner : liveApi.showRoundWinner}
+            onShowFinalResult={isDemo ? demo.showFinalResult : liveApi.showFinalResult}
+            onShowScoresOnly={isDemo ? demo.showScoresOnly : liveApi.showScoresOnly}
+            onReset={handleReset}
+            displayMode={activeData.displayMode}
+            hasRounds={displayData.rounds.length > 0}
+            roundCount={displayData.rounds.length}
+            isDemo={isDemo}
+            onSwitchMode={handleSwitchMode}
+          />
+
+          {/* Operator Panel - top right (below connection indicator) */}
+          {!isDemo && displayData.rounds.length > 0 && (
+            <OperatorPanel
+              onShowRoundWinner={liveApi.showRoundWinner}
+              onShowFinalResult={liveApi.showFinalResult}
+              onShowScoresOnly={liveApi.showScoresOnly}
+              onReset={handleReset}
+              displayMode={activeData.displayMode}
+              hasRounds={displayData.rounds.length > 0}
+              roundCount={displayData.rounds.length}
+              isLive={liveApi.connectionStatus === "connected"}
+              fighterRed={displayData.red.name}
+              fighterBlue={displayData.blue.name}
+            />
+          )}
+
+          {/* Emergency Manual Override - bottom left (above demo controls) */}
+          {!isFinalView && (
+            <div className="fixed bottom-16 left-4 z-50">
+              <ManualScoreOverride
+                currentData={activeData.data}
+                onOverride={handleOverride}
+                onClearOverride={handleClearOverride}
+                isOverrideActive={!!overrideData}
+              />
+            </div>
+          )}
+        </>
       )}
 
       {/* Fullscreen Toggle */}
