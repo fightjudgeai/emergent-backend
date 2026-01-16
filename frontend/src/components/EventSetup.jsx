@@ -271,6 +271,7 @@ export default function EventSetup() {
                     
                     <div className="flex-1 space-y-2">
                       <div className="grid md:grid-cols-2 gap-2">
+                        {/* Fighter 1 */}
                         <div className="space-y-1">
                           <Label className="text-xs text-gray-400">Fighter 1 (Red Corner)</Label>
                           <Input
@@ -280,7 +281,15 @@ export default function EventSetup() {
                             onChange={(e) => updateFight(index, 'fighter1', e.target.value)}
                             className="h-9 bg-[#13151a] border-[#2a2d35] text-white placeholder:text-gray-600"
                           />
+                          <Input
+                            data-testid={`fighter1-photo-${index}`}
+                            placeholder="Photo URL (optional)"
+                            value={fight.fighter1Photo || ''}
+                            onChange={(e) => updateFight(index, 'fighter1Photo', e.target.value)}
+                            className="h-8 text-xs bg-[#13151a] border-[#2a2d35] text-white placeholder:text-gray-600"
+                          />
                         </div>
+                        {/* Fighter 2 */}
                         <div className="space-y-1">
                           <Label className="text-xs text-gray-400">Fighter 2 (Blue Corner)</Label>
                           <Input
@@ -289,6 +298,13 @@ export default function EventSetup() {
                             value={fight.fighter2}
                             onChange={(e) => updateFight(index, 'fighter2', e.target.value)}
                             className="h-9 bg-[#13151a] border-[#2a2d35] text-white placeholder:text-gray-600"
+                          />
+                          <Input
+                            data-testid={`fighter2-photo-${index}`}
+                            placeholder="Photo URL (optional)"
+                            value={fight.fighter2Photo || ''}
+                            onChange={(e) => updateFight(index, 'fighter2Photo', e.target.value)}
+                            className="h-8 text-xs bg-[#13151a] border-[#2a2d35] text-white placeholder:text-gray-600"
                           />
                         </div>
                       </div>
