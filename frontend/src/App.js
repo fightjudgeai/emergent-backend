@@ -21,6 +21,8 @@ import FightDetailPage from "@/components/FightDetailPage";
 import FighterProfilePage from "@/components/FighterProfilePage";
 import PostFightReviewPanel from "@/components/PostFightReviewPanel";
 import CVSystemsPage from "@/components/CVSystemsPage";
+import FightHistory from "@/components/FightHistory";
+import FightDetailsArchived from "@/components/FightDetailsArchived";
 
 function App() {
   // Check if judge is logged in
@@ -51,6 +53,10 @@ function App() {
           <Route path="/stats/fight/:fight_id" element={<LiveStatsDashboard />} />
           <Route path="/audit-logs" element={<AuditLogViewer />} />
           <Route path="/profile" element={<JudgeProfile />} />
+          
+          {/* Fight History & Archives */}
+          <Route path="/fight-history" element={<FightHistory />} />
+          <Route path="/fight-details/:boutId" element={<FightDetailsArchived />} />
           
           {/* Public Stats Pages */}
           <Route path="/events" element={<EventsPage />} />
