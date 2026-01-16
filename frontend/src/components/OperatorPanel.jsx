@@ -1574,6 +1574,133 @@ export default function OperatorPanel() {
         </DialogContent>
       </Dialog>
 
+      {/* Fight End Method Dialog */}
+      <Dialog open={showFightEndDialog} onOpenChange={setShowFightEndDialog}>
+        <DialogContent className="bg-[#13151a] border-[#2a2d35] max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <Flag className="h-5 w-5 text-red-500" />
+              End Fight - Select Method
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            {/* Winner Selection */}
+            <div className="space-y-2">
+              <Label className="text-gray-300 font-semibold">Select Winner</Label>
+              <div className="grid grid-cols-3 gap-3">
+                <Button
+                  onClick={() => setFightEndWinner('fighter1')}
+                  className={`h-16 ${fightEndWinner === 'fighter1' 
+                    ? 'bg-red-600 ring-2 ring-red-400' 
+                    : 'bg-[#1a1d24] hover:bg-red-900/30'} text-white`}
+                >
+                  <div className="text-center">
+                    <div className="w-3 h-3 rounded-full bg-red-500 mx-auto mb-1"></div>
+                    <span className="text-sm">{bout?.fighter1 || 'Fighter 1'}</span>
+                  </div>
+                </Button>
+                <Button
+                  onClick={() => setFightEndWinner('draw')}
+                  className={`h-16 ${fightEndWinner === 'draw' 
+                    ? 'bg-yellow-600 ring-2 ring-yellow-400' 
+                    : 'bg-[#1a1d24] hover:bg-yellow-900/30'} text-white`}
+                >
+                  <span className="text-sm">DRAW</span>
+                </Button>
+                <Button
+                  onClick={() => setFightEndWinner('fighter2')}
+                  className={`h-16 ${fightEndWinner === 'fighter2' 
+                    ? 'bg-blue-600 ring-2 ring-blue-400' 
+                    : 'bg-[#1a1d24] hover:bg-blue-900/30'} text-white`}
+                >
+                  <div className="text-center">
+                    <div className="w-3 h-3 rounded-full bg-blue-500 mx-auto mb-1"></div>
+                    <span className="text-sm">{bout?.fighter2 || 'Fighter 2'}</span>
+                  </div>
+                </Button>
+              </div>
+            </div>
+
+            {/* Method Selection */}
+            <div className="space-y-2">
+              <Label className="text-gray-300 font-semibold">Fight End Method</Label>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { value: 'KO', label: 'KO', color: 'from-red-700 to-red-800' },
+                  { value: 'TKO', label: 'TKO', color: 'from-orange-600 to-red-700' },
+                  { value: 'SUB', label: 'Submission', color: 'from-purple-600 to-purple-700' },
+                  { value: 'UNANIMOUS_DEC', label: 'Unanimous Dec', color: 'from-blue-600 to-blue-700' },
+                  { value: 'SPLIT_DEC', label: 'Split Dec', color: 'from-cyan-600 to-blue-600' },
+                  { value: 'MAJORITY_DEC', label: 'Majority Dec', color: 'from-teal-600 to-cyan-600' },
+                  { value: 'DRAW', label: 'Draw', color: 'from-gray-600 to-gray-700' },
+                ].map((method) => (
+                  <Button
+                    key={method.value}
+                    onClick={() => setFightEndMethod(method.value)}
+                    className={`h-14 text-sm font-bold ${
+                      fightEndMethod === method.value 
+                        ? `bg-gradient-to-r ${method.color} ring-2 ring-white` 
+                        : 'bg-[#1a1d24] hover:bg-[#22252d]'
+                    } text-white transition-all`}
+                  >
+                    {method.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Confirm Button */}
+            <div className="pt-4 flex gap-3">
+              <Button
+                onClick={() => {
+                  setShowFightEndDialog(false);
+                  setFightEndMethod(null);
+                  setFightEndWinner(null);
+                }}
+                variant="outline"
+                className="flex-1 bg-[#1a1d24] border-[#2a2d35] text-gray-300 hover:bg-[#22252d]"
+              >
+                Cancel
+              </Button>
+              <Button
+                disabled={!fightEndMethod || !fightEndWinner}
+                onClick={async () => {
+                  if (!fightEndMethod || !fightEndWinner) {
+                    toast.error('Please select both a winner and method');
+                    return;
+                  }
+                  
+                  try {
+                    // Update bout with fight end info
+                    await db.collection('bouts').doc(boutId).update({
+                      status: 'completed',
+                      winner: fightEndWinner,
+                      method: fightEndMethod,
+                      completedAt: new Date().toISOString()
+                    });
+                    
+                    const winnerName = fightEndWinner === 'fighter1' ? bout.fighter1 : 
+                                      fightEndWinner === 'fighter2' ? bout.fighter2 : 'DRAW';
+                    
+                    toast.success(`Fight ended! ${winnerName} wins by ${fightEndMethod}`);
+                    setShowFightEndDialog(false);
+                    
+                    // Open judge panel to show final scores
+                    window.open(`/judge/${boutId}?mode=end-fight`, '_blank');
+                  } catch (error) {
+                    console.error('Error ending fight:', error);
+                    toast.error('Failed to save fight result');
+                  }
+                }}
+                className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold"
+              >
+                Confirm & End Fight
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 }
