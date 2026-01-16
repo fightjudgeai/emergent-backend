@@ -9,6 +9,7 @@ import JudgePanel from "@/components/JudgePanel";
 import BroadcastMode from "@/components/BroadcastMode";
 import BroadcastDisplay from "@/components/BroadcastDisplay";
 import BroadcastDisplayDemo from "@/components/BroadcastDisplayDemo";
+import LovableBroadcast from "@/components/LovableBroadcast";
 import SupervisorPanel from "@/components/SupervisorPanel";
 import ShadowJudgingMode from "@/components/ShadowJudgingMode";
 import LiveStatsDashboard from "@/components/LiveStatsDashboard";
