@@ -1,7 +1,10 @@
 import { memo, useState, useEffect, useRef, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Wifi, WifiOff, RefreshCw, ChevronDown, Loader2, Copy, Check } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Wifi, WifiOff, RefreshCw, ChevronDown, Loader2, Copy, Check, Plus, Trophy } from "lucide-react";
 import { toast } from "sonner";
 
 const API_BASE = process.env.REACT_APP_BACKEND_URL || '';
@@ -11,6 +14,15 @@ export const BoutSelector = memo(function BoutSelector({ onConnect, onRefresh, o
   const [bouts, setBouts] = useState([]);
   const [isLoadingBouts, setIsLoadingBouts] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [newBout, setNewBout] = useState({
+    fighter1: "",
+    fighter2: "",
+    total_rounds: "3",
+    event_name: "PFC 50",
+    division: ""
+  });
   const dropdownRef = useRef(null);
 
   const fetchBouts = async () => {
@@ -32,6 +44,47 @@ export const BoutSelector = memo(function BoutSelector({ onConnect, onRefresh, o
       console.error("[BoutSelector] Failed to fetch bouts:", error);
     } finally {
       setIsLoadingBouts(false);
+    }
+  };
+
+  const createBout = async () => {
+    if (!newBout.fighter1.trim() || !newBout.fighter2.trim()) {
+      toast.error("Please enter both fighter names");
+      return;
+    }
+
+    setIsCreating(true);
+    try {
+      const response = await fetch(`${API_BASE}/api/bouts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fighter1: newBout.fighter1.trim(),
+          fighter2: newBout.fighter2.trim(),
+          total_rounds: parseInt(newBout.total_rounds),
+          event_name: newBout.event_name || "PFC 50",
+          division: newBout.division
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast.success(`Bout created: ${data.fighter1} vs ${data.fighter2}`);
+        setShowCreateDialog(false);
+        setNewBout({ fighter1: "", fighter2: "", total_rounds: "3", event_name: "PFC 50", division: "" });
+        await fetchBouts();
+        // Auto-connect to the new bout
+        setBoutId(data.bout_id);
+        onConnect(data.bout_id);
+      } else {
+        const error = await response.json();
+        toast.error(`Failed to create bout: ${error.detail || "Unknown error"}`);
+      }
+    } catch (error) {
+      console.error("[BoutSelector] Failed to create bout:", error);
+      toast.error("Failed to create bout. Check connection.");
+    } finally {
+      setIsCreating(false);
     }
   };
 
