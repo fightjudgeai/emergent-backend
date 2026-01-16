@@ -20,75 +20,73 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 
 ## What's Been Implemented
 
-### 2025-01-16 Session
-1. **End Fight Button on Operator Panel** (P0 - COMPLETED)
-   - Added 'End Fight' button next to 'Next Round' button
-   - Button navigates to Judge Panel with `mode=end-fight` parameter
-   - Auto-displays final scores when in end-fight mode
+### 2025-01-16 Session (Latest)
+1. **End Fight Button with Method Selection** (COMPLETED)
+   - Removed CV Systems and Show Monitoring buttons from Operator Panel
+   - Added comprehensive "End Fight" dialog with:
+     - Winner selection (Fighter 1, Fighter 2, or Draw)
+     - Method selection: KO, TKO, Submission, Unanimous Dec, Split Dec, Majority Dec, Draw
+   - Saves fight result to database and opens Judge Panel for final scores
 
-2. **Fight Completion API** (P2 - COMPLETED)
-   - Added `/api/fight/complete/{bout_id}` endpoint
-   - Added `/api/fight/completed/{bout_id}` endpoint
-   - Added `/api/fights/completed` for listing all completed fights
-   - Integrated `fight_completion.py` into server.py
+2. **Increased Fight Limit** (COMPLETED)
+   - EventSetup now allows up to 25 fights per event (previously 15)
 
-3. **Judge Panel End-Fight Mode** (COMPLETED)
-   - Added URL parameter handling for `mode=end-fight`
-   - Auto-displays final results when navigating from Operator Panel
+3. **Fight History Page** (`/fight-history`) (COMPLETED)
+   - Displays all completed/archived fights with search functionality
 
-4. **Fight History Page** (COMPLETED)
-   - New `/fight-history` route with search and filtering
-   - Displays all completed/archived fights
-   - Navigation link added to main EventSetup page
+4. **Fight Details Archived Page** (`/fight-details/:boutId`) (COMPLETED)
+   - Detailed fighter statistics comparison
 
-5. **Fight Details Archived Page** (COMPLETED)
-   - New `/fight-details/:boutId` route
-   - Shows detailed fighter statistics (striking, damage, grappling, control)
-   - Side-by-side fighter comparison
+### Previous in this Session
+- End Fight Button on Operator Panel navigating to Judge Panel
+- Fight Completion API endpoints
+- Judge Panel End-Fight Mode with auto-display of final scores
 
 ### Previous Sessions (from handoff)
 - Scoring System: Percentage-based model with categories (Striking 50%, Grappling 40%, Other 10%)
 - Operator Panel: Kick, SS Kick, Guard Passing buttons, keyboard shortcuts
-- Broadcast UI: RoundWinner, FinalResult components from lovable.dev integration
+- Broadcast UI: RoundWinner, FinalResult components
 - Judge Panel: End Round/End Fight buttons with broadcast display
 
 ## Pending Issues
 
 ### P1 - Critical
-- **datafeed_api Backend Non-Functional**: Database migrations in `/app/datafeed_api/migrations/` have not been run. This blocks API Key system, Billing, and Public Stats API features.
+- **datafeed_api Backend Non-Functional**: Database migrations not run
 
 ### P2 - Medium
-- Control Time Logic: Calculate fighter control time from CTRL_START/CTRL_END events (not fully implemented)
-
-## Upcoming Tasks
-1. Clarify if `datafeed_api` features are still needed
-2. If yes, guide user to run SQL migrations
-3. Implement control time calculation logic
+- Control Time Logic: Calculate fighter control time from CTRL_START/CTRL_END events
 
 ## Key Files
-- `/app/frontend/src/components/OperatorPanel.jsx` - Main operator interface
+- `/app/frontend/src/components/OperatorPanel.jsx` - Main operator interface with End Fight dialog
 - `/app/frontend/src/components/JudgePanel.jsx` - Judge scoring interface
+- `/app/frontend/src/components/EventSetup.jsx` - Event creation (25 fights max)
 - `/app/frontend/src/components/FightHistory.jsx` - Fight history list
 - `/app/frontend/src/components/FightDetailsArchived.jsx` - Detailed fight stats
 - `/app/backend/server.py` - Active backend (MongoDB)
-- `/app/backend/fight_completion.py` - Fight archival logic
-- `/app/frontend/src/components/broadcast/` - Broadcast display components
 
 ## API Endpoints (MongoDB Backend)
 - `POST /api/calculate-score-v2` - New scoring engine
 - `POST /api/fight/complete/{bout_id}` - Complete and archive fight
 - `GET /api/fight/completed/{bout_id}` - Get archived fight data
 - `GET /api/fights/completed` - List all completed fights
-- `GET /api/final/{bout_id}` - Final broadcast data
 
 ## Routes
 - `/fight-history` - Browse all completed fights
 - `/fight-details/:boutId` - View detailed archived fight stats
-- `/operator/:boutId` - Operator panel
+- `/operator/:boutId` - Operator panel with End Fight dialog
 - `/judge/:boutId` - Judge panel (supports `?mode=end-fight`)
 
+## Fight End Methods Supported
+- KO (Knockout)
+- TKO (Technical Knockout)
+- SUB (Submission)
+- UNANIMOUS_DEC (Unanimous Decision)
+- SPLIT_DEC (Split Decision)
+- MAJORITY_DEC (Majority Decision)
+- DRAW
+
 ## Database Collections (MongoDB)
-- `bouts` - Fight information
+- `bouts` - Fight information (includes winner, method, status)
 - `events` - Real-time event log
 - `judge_scores` - Judge scorecards
 - `completed_fights` - Archived fight data
