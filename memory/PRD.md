@@ -6,6 +6,7 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 2. Judge Panel for scoring rounds
 3. Broadcast displays for arena screens
 4. Fight completion and archival system
+5. Fight history for reviewing past fights
 
 ## Architecture
 
@@ -15,7 +16,7 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 
 ### Frontend
 - React application at `/app/frontend`
-- Components for Operator Panel, Judge Panel, Broadcast Display
+- Components for Operator Panel, Judge Panel, Broadcast Display, Fight History
 
 ## What's Been Implemented
 
@@ -34,6 +35,16 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 3. **Judge Panel End-Fight Mode** (COMPLETED)
    - Added URL parameter handling for `mode=end-fight`
    - Auto-displays final results when navigating from Operator Panel
+
+4. **Fight History Page** (COMPLETED)
+   - New `/fight-history` route with search and filtering
+   - Displays all completed/archived fights
+   - Navigation link added to main EventSetup page
+
+5. **Fight Details Archived Page** (COMPLETED)
+   - New `/fight-details/:boutId` route
+   - Shows detailed fighter statistics (striking, damage, grappling, control)
+   - Side-by-side fighter comparison
 
 ### Previous Sessions (from handoff)
 - Scoring System: Percentage-based model with categories (Striking 50%, Grappling 40%, Other 10%)
@@ -57,6 +68,8 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 ## Key Files
 - `/app/frontend/src/components/OperatorPanel.jsx` - Main operator interface
 - `/app/frontend/src/components/JudgePanel.jsx` - Judge scoring interface
+- `/app/frontend/src/components/FightHistory.jsx` - Fight history list
+- `/app/frontend/src/components/FightDetailsArchived.jsx` - Detailed fight stats
 - `/app/backend/server.py` - Active backend (MongoDB)
 - `/app/backend/fight_completion.py` - Fight archival logic
 - `/app/frontend/src/components/broadcast/` - Broadcast display components
@@ -67,6 +80,12 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 - `GET /api/fight/completed/{bout_id}` - Get archived fight data
 - `GET /api/fights/completed` - List all completed fights
 - `GET /api/final/{bout_id}` - Final broadcast data
+
+## Routes
+- `/fight-history` - Browse all completed fights
+- `/fight-details/:boutId` - View detailed archived fight stats
+- `/operator/:boutId` - Operator panel
+- `/judge/:boutId` - Judge panel (supports `?mode=end-fight`)
 
 ## Database Collections (MongoDB)
 - `bouts` - Fight information
