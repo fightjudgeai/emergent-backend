@@ -1,161 +1,156 @@
 <analysis>**original_problem_statement:**
-The user is building a real-time sports data feed service. The initial goal was to build a public stats API with API key management, billing, and security features (the ).
+The user is building a real-time sports data feed service. The initial project was a public stats API with key management and billing (). However, the focus has pivoted entirely to enhancing a frontend Operator/Judge Panel and its corresponding MongoDB backend ().
 
-However, during this session, the user's focus has shifted entirely to enhancing an existing frontend Operator and Judge Panel and its corresponding original backend (). The user has made numerous, rapid-fire requests, including:
-1.  Reverting the scoring logic from a fantasy-points system to a detailed, percentage-based model.
-2.  Adding new event buttons ('Kick', 'SS Kick', 'Guard Passing') to the operator panel.
-3.  Adding specific keyboard shortcuts for new events ('T' for Kick).
-4.  Integrating a third-party broadcast mode UI from  for displaying round/final scores.
-5.  Adding End Round and End Fight buttons to the Judge Panel to trigger the new broadcast UI.
-6.  Reorganizing the operator panel UI for better visual grouping of buttons.
-7.  Ensuring completed fight data is saved to the database for future reference.
-8.  Add an 'end fight' button on the operator panel that links to the judge panel.
+The latest and most critical objective is to prepare a professional, visually-rich broadcast UI for a live event, PFC 50, happening next week. The user provided a complete frontend application from , which the agent has integrated. The user is now reporting a critical connection error that prevents the new broadcast display from working.
+
+PRODUCT REQUIREMENTS:
+1.  Fix the live broadcast display connection error before the PFC 50 event.
+2.  The broadcast UI must show live, round-by-round scores and a final winner announcement.
+3.  Provide offline capability for the broadcast display to show cached scores if the connection is lost.
+4.  Add fighter photos to the display.
+5.  Remove legacy UI elements (CV Systems) from the Operator and Judge panels.
+6.  Allow operators to log the method of fight conclusion (e.g., TKO, KO, SUB).
+7.  Increase the maximum number of fights per event to 25.
+8.  Save all completed fight data to a database for historical reference.
+9.  (DEPRIORITIZED) The original  with API keys and billing.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The project is in a dual-backend state.
-1.  **/app/datafeed_api**: A FastAPI application using a Supabase REST client. It contains a full API key system, billing, and public stats endpoints. **Crucially, this entire backend is non-functional** as it depends on database migrations ( files) that the user has not yet been guided to run. This was a critical blocker from the previous session that was not addressed.
-2.  **/app/backend**: A separate, older FastAPI application () that uses MongoDB. All of the user's recent requests have been directed at modifying this backend and its corresponding React frontend.
-3.  **/app/frontend**: A React application that has been heavily modified. A new broadcast display feature from  has been integrated, including new components (, ), routes (), and CSS. The  and  have been significantly updated with new buttons, layouts, and logic.
+The project has two backends. The primary one is  (FastAPI + MongoDB), which has been heavily modified to support the live broadcast. A second, original backend,  (FastAPI + Supabase/Postgres), is non-functional due to un-applied database migrations and has been ignored in favor of the user's recent requests.
+
+The frontend has been significantly enhanced with a complete, professionally designed broadcast UI provided by the user from . This new UI lives under  and is accessible via the  route. It includes features like offline caching, demo modes, and operator controls. The original Operator and Judge panels have also been modified per user requests.
 
 **Last working item**:
-The agent had just started implementing the user's request to save completed fight data to the database (from message #408). It created  and was about to add the new router to . However, the user's most recent message (#421) presents a new, higher-priority task.
-
--   **Last item agent was working**: Implementing the backend logic to save completed fight statistics.
+-   **Last item agent was working**: Debugging a critical connection error reported by the user: . This error prevents the new  broadcast display from fetching live data from the backend. The agent was investigating the data fetching logic.
 -   **Status**: IN PROGRESS
 -   **Agent Testing Done**: N
--   **Which testing method agent to use?**: backend testing agent
+-   **Which testing method agent to use?**: frontend testing agent (to replicate the error and verify the fix on the UI)
 -   **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
--   **Issue 1**: Add 'End Fight' button to Operator Panel (P0)
-    -   **Description**: The user's latest request is to add end fight button on operator panel next to next round so it can be clicked and taken to judge panel to show scores round by round and then final total score. This requires modifying  to add a button that likely navigates the user to the .
+-   **Issue 1**: Fix  error in broadcast display (P0)
+-   **Issue 2**: Backend WebSocket endpoint for live sync might be missing (P1)
+-   **Issue 3**: CRITICAL BLOCKER -  backend is non-functional (P2)
+
+**Issues Detail:**
+-   **Issue 1:**
+    -   **Description**: The new broadcast UI at  cannot connect to the backend due to a JavaScript error when handling the API response. This error typically happens when a Response object's body is read more than once, especially in error-handling logic.
+    -   **Attempted fixes**: Agent viewed  but did not apply a fix.
     -   **Next debug checklist**:
-        1.  Edit .
-        2.  Locate the 'Next Round' button.
-        3.  Add a new 'End Fight' button next to it.
-        4.  Implement the  handler to navigate to the judge panel, potentially passing the .
-    -   **Why fix this issue and what will be achieved with the fix?**: Fulfills the user's most recent request and improves operator workflow.
-    -   **Status**: NOT STARTED
+        1.  Examine the  function inside .
+        2.  Focus on the  block. The error is likely occurring because the  body is being consumed to check , and then attempted to be read again in the  block.
+        3.  Modify the logic to clone the response () before any attempt to read its body if it needs to be accessed in multiple places.
+    -   **Why fix this issue and what will be achieved with the fix?**: This is the highest priority. Fixing it will make the live broadcast display functional for the user's PFC 50 event next week.
+    -   **Status**: IN PROGRESS
+    -   **Is recurring issue?**: Y
     -   **Should Test frontend/backend/both after fix?**: frontend
--   **Issue 2**: CRITICAL BLOCKER -  backend is non-functional (P1)
-    -   **Description**: The entire  backend, which includes the API Key system, public stats API, and billing features, is broken. It relies on database tables and functions that do not exist because the migration scripts ( through ) have not been run. The agent planned to address this but was sidetracked by user requests and never returned to it.
-    -   **Attempted fixes**: None in this session. The previous agent created the migration files.
+-   **Issue 2:**
+    -   **Description**: The user-provided frontend hook  is designed to connect to a WebSocket endpoint at  for real-time updates. It is unclear if this WebSocket endpoint was ever implemented in the backend at .
     -   **Next debug checklist**:
-        1.  **Crucially, ask the user if the  and its features are still required, or if they intend to only use the  (MongoDB) system.**
-        2.  If yes, provide the user with the  created in this session and guide them to run the SQL scripts in their Supabase editor.
-        3.  After user confirmation, restart the  service and conduct comprehensive backend testing.
-    -   **Why fix this issue and what will be achieved with the fix?**: This will make a significant portion of the originally requested features functional and resolve major technical debt.
-    -   **Status**: BLOCKED (on user clarification and action)
+        1.  Review  to see if a WebSocket route () exists.
+        2.  If not, implement a WebSocket endpoint that accepts a , subscribes to updates for that bout (likely via Redis pub/sub, which is already in the project), and pushes score updates to the connected client.
+    -   **Why fix this issue and what will be achieved with the fix?**: The broadcast display will not update scores in real-time without this. It's essential for a live viewing experience.
+    -   **Status**: NOT STARTED
+    -   **Should Test frontend/backend/both after fix?**: both
+-   **Issue 3:**
+    -   **Description**: The entire  backend, which contains features like API key management and public stats, is broken. It depends on database migrations that have not been run. The user has indicated a preference to stick with the MongoDB backend, suggesting this may no longer be needed.
+    -   **Attempted fixes**: None.
+    -   **Next debug checklist**:
+        1.  Confirm with the user that the  and its features are no longer required.
+        2.  If confirmed, create a plan to remove the  directory to reduce project complexity.
+    -   **Why fix this issue and what will be achieved with the fix?**: Will resolve major technical debt and architectural ambiguity.
+    -   **Status**: BLOCKED
     -   **Is recurring issue?**: Y
     -   **Should Test frontend/backend/both after fix?**: backend
-    -   **Blocked on other issue**: User decision required.
 
 **In progress Task List**:
--   **Task 1**: Implement Fight Completion Data Saving (P2)
-    -   **Description**: Fulfill the user request to save all completed fight data (names, weight class, stats) into the database.
-    -   **Where to resume**:
-        1.  Open .
-        2.  Import and include the router from the newly created .
-        3.  Implement the logic within  to accept a , gather all relevant data from the database, and save it to a new collection (e.g., ).
-    -   **What will be achieved with this?**: Creates a persistent historical record of all fights, a core requirement for a stats application.
-    -   **Status**: IN PROGRESS
-    -   **Should Test frontend/backend/both after fix?**: backend
-    -   **Blocked on something**: No.
+None.
 
 **Upcoming and Future Tasks**
+-   **Upcoming Tasks:**
+    -   **Consolidate Broadcast Components (P2)**: The  still uses older broadcast components from . These should be updated to use the new, superior components from  to maintain a consistent UI and reduce code duplication.
 -   **Future Tasks:**
-    -   **Implement Control Time Logic (P3)**: As per the original handoff, build the logic to calculate fighter control time from  and  events. This is still pending.
-    -   **Clarify Backend Strategy**: Discuss with the user the purpose of the two parallel backends ( vs ) and consolidate if possible.
+    -   **Implement Control Time Logic (P3)**: As per the original handoff, build the logic to calculate fighter control time from  and  events.
 
 **Completed work in this session**
--   **Scoring System Rework**: Replaced the fantasy scoring model with a detailed, percentage-based system in .
--   **Operator Panel UI Enhancements**:
-    -   Added 'Kick', 'SS Kick', and 'Guard Passing' buttons.
-    -   Added keyboard shortcuts for 'Kick' ('T' and 'Shift+T').
-    -   Reorganized striking buttons into visually distinct groups.
-    -   Redesigned the Quick Stats input dialog.
--   **Lovable.dev Broadcast UI Integration**:
-    -   Integrated external React components (, ) into the project.
-    -   Created a new arena display page at .
-    -   Fixed multiple compilation errors (module not found) and runtime errors (response clone issue).
-    -   Created a demo page () with mock data to unblock UI development.
--   **Judge Panel Feature Addition**:
-    -   Added End Round and End Fight buttons that trigger the new broadcast components to display scores.
-    -   Fixed a compilation error caused by a duplicated function declaration.
--   **Documentation on Demand**: Created numerous markdown files explaining scoring systems and API endpoints as requested by the user.
-
-**Earlier issues found/mentioned but not fixed**
--   **Issue 1**: The  backend is broken due to pending migrations. This was the main blocker from the previous job and was completely overlooked in this session despite being identified as a priority in the initial plan.
-
-**Known issue recurrence from previous fork**
--   **Issue recurrence in previous fork**: Direct PostgreSQL Connection Blocked. This was correctly handled by the previous agent's Supabase REST client workaround. The new issue is the failure to apply the necessary migrations for that workaround to function.
--   **Recurrence count**: 1
--   **Status**: BLOCKED
+-   **Full  Broadcast UI Integration**: Integrated a complete, user-provided professional broadcast UI, including a new page at , over 10 new React components, 2 hooks (, ), type definitions, and custom CSS for styling.
+-   **PFC 50 Readiness Features**:
+    -   Added support for fighter photos in , the backend API, and the .
+    -   Implemented offline capability in the broadcast UI using  caching.
+-   **Fight Completion & History**:
+    -   Implemented the backend endpoint  to save finished fight data to MongoDB.
+    -   Created a new Fight History page () for viewing archived fights.
+-   **Operator/Judge Panel UI/UX Improvements**:
+    -   Added an End Fight button to the Operator Panel that navigates to the Judge Panel.
+    -   Removed legacy CV Systems UI elements.
+    -   Added a dialog to log the fight's ending method (TKO, KO, etc.).
+    -   Increased the max fight limit in  from 15 to 25.
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Dual Backend Systems**: The agent worked exclusively on the older  (MongoDB) system, while the newer  (Supabase/Postgres) system remains untouched and non-functional. This is a major point of architectural conflict.
--   **Component Integration**: Integrated external TypeScript React components () into a JavaScript () project by converting them to .
--   **On-Demand Feature Development**: The session was characterized by rapid, user-driven changes, requiring the agent to pivot frequently between frontend UI, backend logic, and debugging.
--   **Defensive Frontend Development**: When backend endpoints were unavailable, the agent created a demo component with mock data to unblock UI development and provide a working example for the user.
+-   **Component Integration**: The main achievement was the successful integration of a large and complex set of user-provided React components, hooks, and styles into the existing project.
+-   **Real-time Data Sync**: The new broadcast UI is designed to use a combination of REST API calls for initial data load and a WebSocket for live, real-time score updates.
+-   **Offline First**: The frontend hook  was built with offline capability, using  to cache data and ensure the display remains functional even with intermittent connectivity.
 
 **key DB schema**
--   No changes were made to the DB schema in this session. The work focused on the application layer. The schemas defined in the  migrations remain un-applied.
+-   **completed_fights** (MongoDB Collection): Stores a snapshot of all data for a fight once it has been marked as complete.
 
 **All files of reference**
--   : User's primary interface for data logging. Heavily modified.
--   : User interface for judges. Modified to add end-of-round/fight features.
--   : New component to show  UI. Connects to the backend.
--   : The active backend server that was modified for scoring changes.
--   : **Critical directory of un-applied SQL migrations.**
+-   : **CRITICAL FILE.** Manages all data fetching for the broadcast UI. The  bug is almost certainly located here.
+-   : The active backend. Needs to be checked for a WebSocket implementation.
+-   : The main entry point for the new  broadcast page.
+-   : Directory containing all the new, user-provided UI components.
+-   : Directory containing the broken, likely deprecated Supabase backend.
+
+**Areas that need refactoring**:
+-   **Dual Backends**: The  backend should be officially deprecated and removed to simplify the architecture, pending final user confirmation.
+-   **Dual Broadcast Components**: The application has two sets of broadcast-related components. The old set in  should be removed and any components using them (like ) should be updated to use the new components in .
+
+**key api endpoints**
+-   : Fetches the initial snapshot of data for a live fight.
+-   : Saves a completed fight's data to the archive.
+-   : The WebSocket endpoint **required** by the frontend for real-time updates. **Its existence on the backend needs to be verified.**
 
 **Critical Info for New Agent**
-1.  **Prioritize User's Last Request**: Immediately address the user's request from message #421 to add an 'End Fight' button to the .
-2.  **Clarify Backend Strategy**: The most important task after that is to ask the user about the two backends. Are the features in  (API Keys, Billing, Public Stats) still needed? Or should development focus solely on the  (MongoDB) application? This decision will dictate the entire future direction of the project.
-3.  **Address the  Blocker**: If the user confirms the  is needed, you must guide them to run the pending SQL migrations. Do not proceed with any other backend work on that system until this is done.
-4.  **Be Prepared for Rapid Context Switching**: The user makes frequent and diverse requests. Be ready to pause tasks and pivot to new ones, but keep a clear list of pending items (like this summary provides) so you can return to them.
+1.  **PFC 50 is the only priority.** The user's event is next week. Your first and only goal should be to fix the bugs preventing the  broadcast page from working flawlessly.
+2.  **Fix the  error first.** This is a hard blocker. Investigate  immediately.
+3.  **Verify the WebSocket backend.** The live updates will fail without it. Check  and implement the WebSocket endpoint if it's missing.
+4.  **Ignore  for now.** Do not spend any time on the old Supabase backend unless the user explicitly reverses their decision and makes it a priority.
+5.  All new UI components and logic for the broadcast display are in . Use this as the source of truth.
 
 **documents and test reports created in this job**
--   
--   
--   
--   
--   
--   
--   
--   
--   
--   
+-   /app/memory/PRD.md
 
 **Last 10 User Messages and any pending HUMAN messages**
-10.  (COMPLETED)
-9.   (IN PROGRESS - addressed with a fix)
-8.   (COMPLETED)
-7.   (COMPLETED)
-6.   - User provided an error message  (IN PROGRESS - addressed with a fix)
-5.   (COMPLETED)
-4.   (COMPLETED)
-3.   (IN PROGRESS - Task created)
-2.   (PENDING - This is the next P0 task)
-1.   (COMPLETED - related to Judge Panel buttons)
+10. Asks for a prompt for lovable.dev to generate visuals. (Completed)
+9.  Clarifies they already have the lovable.dev code and want to integrate it. (Completed)
+8.  Provides the main  file for the lovable UI. (Completed)
+7.  Provides , , and component files from lovable. (Completed)
+6.  Provides more component files (, , etc.). (Completed)
+5.  Provides the last set of visual components (, ). (Completed)
+4.  Provides the Tailwind CSS config and custom styles. (Completed)
+3.  Provides  and  components. (Completed)
+2.  **** - Reports the critical bug that is the current P0 task. (PENDING)
+1.  Asks agent to call deployer agent and run health check. (PENDING)
 
 **Project Health Check:**
--   **Broken**: The  backend is entirely non-functional due to un-applied database migrations. This is a critical failure.
--   **Mocked**: The broadcast display has a demo version () with hardcoded data as a temporary workaround.
+-   **Broken**:
+    -   The primary feature, the  live broadcast display, is non-functional due to the  response error.
+    -   The  backend remains completely broken.
+-   **Mocked**: The broadcast UI has a fully functional Demo Mode which uses mock data. This can be used for UI testing while the backend connection is being fixed.
 
 **3rd Party Integrations**
--   **Supabase**: Used for PostgreSQL database and REST API backend services in the . **Connection is established, but the required schema does not exist.**
+-   **Supabase**: Used for the broken  backend.
+-   **lovable.dev**: The source of the newly integrated professional broadcast UI.
 
 **Testing status**
 -   **Testing agent used after significant changes**: NO
 -   **Troubleshoot agent used after agent stuck in loop**: NO
--   **Test files created**: No new test files were created.
--   **Known regressions**: None identified, but the  remains in a regressed/broken state from the start.
+-   **Test files created**: None
+-   **Known regressions**: The  response error is a regression, as similar issues had been fixed in older components previously.
 
 **What agent forgot to execute**
--   **The entire database migration plan.** The agent's #1 priority after its first task was to guide the user to run the SQL migrations for the . This was completely forgotten after a series of user-driven side quests, leaving a major part of the application's backend broken.
--   The agent started the save completed fights task () but was interrupted and did not complete the implementation or integration into .</analysis>
+-   The agent did not verify that the WebSocket endpoint (), which is a hard requirement for the user-provided frontend hook , was actually implemented in the backend server (). This is a critical potential point of failure for the real-time functionality.</analysis>
