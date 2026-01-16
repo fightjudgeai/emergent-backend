@@ -47,7 +47,9 @@ export default function OperatorPanel() {
   const [judgeScores, setJudgeScores] = useState({});
   const [pendingJudges, setPendingJudges] = useState([]);
   const [connectedDevices, setConnectedDevices] = useState([]);
-  const [showMonitoring, setShowMonitoring] = useState(false);
+  const [showFightEndDialog, setShowFightEndDialog] = useState(false);
+  const [fightEndMethod, setFightEndMethod] = useState(null);
+  const [fightEndWinner, setFightEndWinner] = useState(null);
   const timerRef = useRef(null);
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
