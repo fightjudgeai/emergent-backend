@@ -50,33 +50,19 @@ const DEVICE_ROLES = {
     border: 'border-red-600',
     bg: 'bg-red-600/10'
   },
-  BLUE_STRIKING: {
-    id: 'BLUE_STRIKING',
-    label: 'Blue Corner - Striking',
-    shortLabel: 'Blue Striking',
+  BLUE_ALL: {
+    id: 'BLUE_ALL',
+    label: 'Blue Corner - All Events',
+    shortLabel: 'Blue All',
     corner: 'BLUE',
-    aspect: 'STRIKING',
+    aspect: 'ALL',
     color: 'blue',
-    icon: Swords,
-    description: 'Track punches, kicks, elbows, knees, knockdowns for BLUE fighter',
-    events: ['Jab', 'Cross', 'Hook', 'Uppercut', 'Elbow', 'Knee', 'Kick', 'KD', 'Rocked/Stunned'],
+    icon: Target,
+    description: 'Track ALL events (striking + grappling) for BLUE fighter',
+    events: ['Jab', 'Cross', 'Hook', 'KD', 'Takedown', 'Submission Attempt', 'Control'],
     gradient: 'from-blue-600 to-blue-800',
     border: 'border-blue-500',
     bg: 'bg-blue-500/10'
-  },
-  BLUE_GRAPPLING: {
-    id: 'BLUE_GRAPPLING',
-    label: 'Blue Corner - Grappling',
-    shortLabel: 'Blue Grappling',
-    corner: 'BLUE',
-    aspect: 'GRAPPLING',
-    color: 'blue',
-    icon: Shield,
-    description: 'Track takedowns, submissions, sweeps, control for BLUE fighter',
-    events: ['Takedown', 'Submission Attempt', 'Sweep/Reversal', 'Guard Passing', 'Ground Control'],
-    gradient: 'from-blue-700 to-blue-900',
-    border: 'border-blue-600',
-    bg: 'bg-blue-600/10'
   }
 };
 
