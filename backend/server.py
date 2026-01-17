@@ -3376,7 +3376,8 @@ async def compute_unified_round_score(bout_id: str, round_num: int):
 @api_router.get("/sync/status/{bout_id}")
 async def get_sync_status(bout_id: str):
     """
-    Get real-time sync status for a bout - shows all connected judges and their scores.
+    Get real-time sync status - shows ALL events from ALL devices combined.
+    Events from all 4 laptops combine into one unified view.
     """
     try:
         # Get bout info
@@ -3387,42 +3388,55 @@ async def get_sync_status(bout_id: str):
         if not bout:
             raise HTTPException(status_code=404, detail=f"Bout {bout_id} not found")
         
-        # Get all synced scores grouped by judge
-        scores = await db.synced_scores.find({"bout_id": bout_id}).to_list(1000)
+        # Get ALL synced events for this bout
+        all_events = await db.synced_events.find({"bout_id": bout_id}, {"_id": 0}).to_list(10000)
         
         # Get recent events (last 30 seconds)
         thirty_sec_ago = (datetime.now(timezone.utc) - timedelta(seconds=30)).isoformat()
-        recent_events = await db.synced_events.find({
-            "bout_id": bout_id,
-            "server_timestamp": {"$gte": thirty_sec_ago}
-        }).to_list(100)
+        recent_events = [e for e in all_events if e.get("server_timestamp", "") >= thirty_sec_ago]
         
-        # Group scores by judge
-        judges = {}
-        for score in scores:
-            judge_id = score["judge_id"]
-            if judge_id not in judges:
-                judges[judge_id] = {
-                    "judge_id": judge_id,
-                    "judge_name": score["judge_name"],
-                    "rounds": {},
-                    "total_red": 0,
-                    "total_blue": 0,
-                    "last_activity": score.get("submitted_at", "")
+        # Track devices/laptops that contributed
+        devices = {}
+        events_by_round = {}
+        
+        for event in all_events:
+            device_id = event.get("judge_id", "unknown")
+            device_name = event.get("judge_name", "Unknown Device")
+            round_num = event.get("round_num", 1)
+            
+            # Track device activity
+            if device_id not in devices:
+                devices[device_id] = {
+                    "device_id": device_id,
+                    "device_name": device_name,
+                    "event_count": 0,
+                    "last_activity": event.get("server_timestamp", "")
                 }
-            judges[judge_id]["rounds"][score["round_num"]] = {
-                "red": score["fighter1_score"],
-                "blue": score["fighter2_score"],
-                "card": score["card"]
-            }
-            judges[judge_id]["total_red"] += score["fighter1_score"]
-            judges[judge_id]["total_blue"] += score["fighter2_score"]
+            devices[device_id]["event_count"] += 1
+            devices[device_id]["last_activity"] = event.get("server_timestamp", devices[device_id]["last_activity"])
+            
+            # Group events by round
+            if round_num not in events_by_round:
+                events_by_round[round_num] = {"fighter1": [], "fighter2": []}
+            
+            fighter = event.get("fighter", "fighter1")
+            events_by_round[round_num][fighter].append({
+                "event_type": event.get("event_type"),
+                "device": device_name,
+                "timestamp": event.get("timestamp")
+            })
         
-        # Count events per judge
-        for event in recent_events:
-            judge_id = event["judge_id"]
-            if judge_id in judges:
-                judges[judge_id]["last_activity"] = event.get("server_timestamp", judges[judge_id]["last_activity"])
+        # Count stats per round from combined events
+        round_stats = {}
+        for round_num, fighters in events_by_round.items():
+            f1_events = len(fighters.get("fighter1", []))
+            f2_events = len(fighters.get("fighter2", []))
+            round_stats[round_num] = {
+                "round": round_num,
+                "fighter1_events": f1_events,
+                "fighter2_events": f2_events,
+                "total_events": f1_events + f2_events
+            }
         
         return {
             "bout_id": bout_id,
@@ -3431,13 +3445,15 @@ async def get_sync_status(bout_id: str):
             "current_round": bout.get("currentRound", 1),
             "total_rounds": bout.get("totalRounds", 3),
             "status": bout.get("status", "pending"),
-            "active_judges": len(judges),
-            "judges": list(judges.values()),
+            "active_devices": len(devices),
+            "devices": list(devices.values()),
+            "total_events": len(all_events),
+            "recent_events": len(recent_events),
+            "events_by_round": round_stats,
             "unified_scores": bout.get("roundScores", []),
             "unified_total_red": bout.get("fighter1_total", 0),
             "unified_total_blue": bout.get("fighter2_total", 0),
-            "recent_events": len(recent_events),
-            "last_sync": bout.get("last_sync", "")
+            "last_computed": bout.get("last_computed", "")
         }
     except HTTPException:
         raise
