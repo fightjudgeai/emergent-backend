@@ -3176,6 +3176,26 @@ async def register_device(reg: DeviceRegistration):
     Register a device/laptop for syncing. All devices on same account combine events.
     """
     try:
+        # Auto-create bout in MongoDB if it doesn't exist
+        existing_bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": reg.bout_id}, {"boutId": reg.bout_id}]}
+        )
+        if not existing_bout:
+            new_bout = {
+                "bout_id": reg.bout_id,
+                "boutId": reg.bout_id,
+                "fighter1": "Fighter 1",
+                "fighter2": "Fighter 2",
+                "totalRounds": 3,
+                "currentRound": 1,
+                "status": "in_progress",
+                "roundScores": [],
+                "createdAt": datetime.now(timezone.utc).isoformat(),
+                "auto_created": True
+            }
+            await db.bouts.insert_one(new_bout)
+            logging.info(f"[DEVICE] Auto-created bout in MongoDB: {reg.bout_id}")
+        
         await db.registered_devices.update_one(
             {"bout_id": reg.bout_id, "device_id": reg.device_id},
             {"$set": {
