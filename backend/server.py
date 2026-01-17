@@ -3181,102 +3181,197 @@ async def sync_judge_event(event: JudgeEventLog):
         logging.error(f"Error syncing event: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@api_router.post("/sync/round-score")
-async def sync_judge_round_score(score: JudgeRoundScore):
+@api_router.post("/sync/compute-round")
+async def compute_round_from_all_events(bout_id: str, round_num: int):
     """
-    Sync a round score from a judge's device.
-    Scores are stored per-judge and aggregated for display.
+    Compute round score from ALL events logged by ALL devices.
+    Events from all 4 laptops combine into ONE unified score.
     """
     try:
-        score_doc = {
-            "bout_id": score.bout_id,
-            "round_num": score.round_num,
-            "judge_id": score.judge_id,
-            "judge_name": score.judge_name,
-            "fighter1_score": score.fighter1_score,
-            "fighter2_score": score.fighter2_score,
-            "card": score.card,
-            "notes": score.notes,
-            "submitted_at": datetime.now(timezone.utc).isoformat(),
-            "synced": True
-        }
-        
-        # Upsert - update if exists, insert if not
-        await db.synced_scores.update_one(
-            {
-                "bout_id": score.bout_id,
-                "round_num": score.round_num,
-                "judge_id": score.judge_id
-            },
-            {"$set": score_doc},
-            upsert=True
-        )
-        
-        # Update aggregated scores for the bout
-        await update_aggregated_scores(score.bout_id, score.round_num)
-        
-        logging.info(f"[SYNC] Score from {score.judge_name}: Round {score.round_num} = {score.card}")
-        
-        return {"success": True, "submitted_at": score_doc["submitted_at"]}
+        # Compute the unified score from all synced events
+        result = await compute_unified_round_score(bout_id, round_num)
+        return result
     except Exception as e:
-        logging.error(f"Error syncing score: {str(e)}")
+        logging.error(f"Error computing round: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-async def update_aggregated_scores(bout_id: str, round_num: int):
+async def compute_unified_round_score(bout_id: str, round_num: int):
     """
-    Aggregate scores from all judges for a round and update the bout.
-    Uses majority/average scoring for combined display.
+    Combine ALL events from ALL devices and compute ONE unified score.
+    This treats all 4 laptops as one distributed logging system.
     """
     try:
-        # Get all judge scores for this round
-        scores = await db.synced_scores.find({
+        # Get ALL events for this round from ALL devices
+        all_events = await db.synced_events.find({
             "bout_id": bout_id,
             "round_num": round_num
-        }).to_list(100)
+        }).sort("timestamp", 1).to_list(10000)
         
-        if not scores:
-            return
+        if not all_events:
+            return {"bout_id": bout_id, "round_num": round_num, "status": "no_events"}
         
-        # Calculate aggregated scores
-        total_f1 = sum(s["fighter1_score"] for s in scores)
-        total_f2 = sum(s["fighter2_score"] for s in scores)
-        num_judges = len(scores)
-        
-        avg_f1 = round(total_f1 / num_judges, 1)
-        avg_f2 = round(total_f2 / num_judges, 1)
-        
-        # Determine unified card (majority wins)
-        unified_f1 = round(avg_f1)
-        unified_f2 = round(avg_f2)
-        
-        # Get bout and update round scores
-        bout = await db.bouts.find_one({"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]})
-        if not bout:
-            return
-        
-        round_scores = bout.get("roundScores", [])
-        
-        # Find or create round entry
-        round_data = {
-            "round": round_num,
-            "red_score": unified_f1,
-            "blue_score": unified_f2,
-            "unified_red": unified_f1,
-            "unified_blue": unified_f2,
-            "judge_scores": [
-                {
-                    "judge_id": s["judge_id"],
-                    "judge_name": s["judge_name"],
-                    "red": s["fighter1_score"],
-                    "blue": s["fighter2_score"],
-                    "card": s["card"]
-                }
-                for s in scores
-            ],
-            "num_judges": num_judges,
-            "avg_red": avg_f1,
-            "avg_blue": avg_f2
+        # Count events per fighter
+        fighter1_stats = {
+            "significant_strikes": 0,
+            "knockdowns": 0,
+            "takedowns": 0,
+            "submissions": 0,
+            "control_time": 0,
+            "total_events": 0
         }
+        fighter2_stats = {
+            "significant_strikes": 0,
+            "knockdowns": 0,
+            "takedowns": 0,
+            "submissions": 0,
+            "control_time": 0,
+            "total_events": 0
+        }
+        
+        # Track which devices contributed
+        devices = set()
+        
+        # Event scoring weights
+        event_weights = {
+            "KD": 3.0,  # Knockdown
+            "TD": 2.0,  # Takedown
+            "Submission Attempt": 2.5,
+            "Cross": 1.0, "Hook": 1.0, "Uppercut": 1.0, 
+            "Elbow": 1.2, "Knee": 1.2,
+            "Jab": 0.5,
+            "Leg Kick": 0.7, "Body Kick": 0.8, "Head Kick": 1.5,
+            "Ground Top Control": 0.3,
+            "Ground Back Control": 0.5,
+            "Cage Control Time": 0.2,
+            "CTRL_START": 0, "CTRL_END": 0,  # Control markers (computed separately)
+        }
+        
+        # Process all events from all devices
+        for event in all_events:
+            fighter = event.get("fighter", "")
+            event_type = event.get("event_type", "")
+            devices.add(event.get("judge_id", "unknown"))
+            
+            stats = fighter1_stats if fighter == "fighter1" else fighter2_stats
+            stats["total_events"] += 1
+            
+            # Categorize events
+            if event_type == "KD":
+                stats["knockdowns"] += 1
+            elif event_type == "TD":
+                stats["takedowns"] += 1
+            elif event_type == "Submission Attempt":
+                stats["submissions"] += 1
+            elif event_type in ["Cross", "Hook", "Uppercut", "Elbow", "Knee", "Head Kick"]:
+                stats["significant_strikes"] += 1
+            elif event_type in ["Ground Top Control", "Ground Back Control", "Cage Control Time"]:
+                stats["control_time"] += 1
+        
+        # Calculate weighted scores
+        f1_score = 0
+        f2_score = 0
+        
+        for event in all_events:
+            fighter = event.get("fighter", "")
+            event_type = event.get("event_type", "")
+            weight = event_weights.get(event_type, 0.5)
+            
+            if fighter == "fighter1":
+                f1_score += weight
+            else:
+                f2_score += weight
+        
+        # Determine round winner and card
+        score_diff = abs(f1_score - f2_score)
+        
+        if score_diff < 2:
+            # Very close round - could go either way
+            if f1_score >= f2_score:
+                red_score, blue_score = 10, 9
+            else:
+                red_score, blue_score = 9, 10
+        elif score_diff < 8:
+            # Clear winner
+            if f1_score > f2_score:
+                red_score, blue_score = 10, 9
+            else:
+                red_score, blue_score = 9, 10
+        else:
+            # Dominant round - check for 10-8
+            kd_diff = abs(fighter1_stats["knockdowns"] - fighter2_stats["knockdowns"])
+            if f1_score > f2_score:
+                red_score = 10
+                blue_score = 8 if (kd_diff >= 2 or score_diff >= 15) else 9
+            else:
+                blue_score = 10
+                red_score = 8 if (kd_diff >= 2 or score_diff >= 15) else 9
+        
+        card = f"{red_score}-{blue_score}"
+        
+        # Update the bout with computed score
+        bout = await db.bouts.find_one({"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]})
+        if bout:
+            round_scores = bout.get("roundScores", [])
+            
+            round_data = {
+                "round": round_num,
+                "red_score": red_score,
+                "blue_score": blue_score,
+                "unified_red": red_score,
+                "unified_blue": blue_score,
+                "computed_from_events": True,
+                "total_events": len(all_events),
+                "devices_contributed": list(devices),
+                "num_devices": len(devices),
+                "fighter1_stats": fighter1_stats,
+                "fighter2_stats": fighter2_stats,
+                "raw_scores": {"red": round(f1_score, 2), "blue": round(f2_score, 2)}
+            }
+            
+            # Update or append
+            found = False
+            for i, r in enumerate(round_scores):
+                if r.get("round") == round_num:
+                    round_scores[i] = round_data
+                    found = True
+                    break
+            if not found:
+                round_scores.append(round_data)
+            
+            round_scores.sort(key=lambda x: x.get("round", 0))
+            
+            # Calculate totals
+            total_red = sum(r.get("red_score", 0) for r in round_scores)
+            total_blue = sum(r.get("blue_score", 0) for r in round_scores)
+            
+            await db.bouts.update_one(
+                {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+                {"$set": {
+                    "roundScores": round_scores,
+                    "fighter1_total": total_red,
+                    "fighter2_total": total_blue,
+                    "active_devices": len(devices),
+                    "last_computed": datetime.now(timezone.utc).isoformat()
+                }}
+            )
+        
+        logging.info(f"[UNIFIED] Bout {bout_id} Round {round_num}: {card} from {len(all_events)} events ({len(devices)} devices)")
+        
+        return {
+            "bout_id": bout_id,
+            "round_num": round_num,
+            "card": card,
+            "red_score": red_score,
+            "blue_score": blue_score,
+            "total_events": len(all_events),
+            "devices": list(devices),
+            "fighter1_stats": fighter1_stats,
+            "fighter2_stats": fighter2_stats,
+            "raw_scores": {"red": round(f1_score, 2), "blue": round(f2_score, 2)}
+        }
+    except Exception as e:
+        logging.error(f"Error computing unified score: {str(e)}")
+        return {"error": str(e)}
         
         # Update or append
         found = False
