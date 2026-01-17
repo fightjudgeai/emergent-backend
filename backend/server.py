@@ -4126,6 +4126,9 @@ async def compute_round(request: RoundComputeRequest):
         
         logging.info(f"[UNIFIED] Round {round_number} computed: {result['red_points']}-{result['blue_points']} (delta: {result['delta']}) from {result['total_events']} events")
         
+        # BROADCAST to all connected WebSocket clients
+        await broadcast_round_computed(bout_id, round_result)
+        
         return round_result
     except Exception as e:
         logging.error(f"Error computing round: {str(e)}")
