@@ -150,6 +150,13 @@ export default function LovableBroadcast() {
         isOverride={!!overrideData}
       />
       
+      {/* Multi-Judge Status Indicator - shows active judges */}
+      {!isDemo && boutId && !isFullscreen && (
+        <div className="fixed top-14 right-4 z-50">
+          <JudgeStatusIndicator boutId={boutId} />
+        </div>
+      )}
+      
       {/* Controls - hidden in fullscreen */}
       {!isFullscreen && (
         <>
@@ -208,7 +215,32 @@ export default function LovableBroadcast() {
               />
             </div>
           )}
+          
+          {/* Multi-Judge Toggle Button */}
+          {!isDemo && boutId && (
+            <button
+              onClick={() => setShowMultiJudge((prev) => !prev)}
+              className={`fixed bottom-4 left-4 z-50 px-3 py-2 rounded-lg flex items-center gap-2 transition-all ${
+                showMultiJudge 
+                  ? "bg-lb-gold text-black" 
+                  : "bg-gray-900 border border-gray-700 text-gray-300 hover:bg-gray-800"
+              }`}
+              title="Toggle Multi-Judge Scoreboard (J)"
+            >
+              <Users className="w-4 h-4" />
+              <span className="text-xs font-medium">Judges</span>
+            </button>
+          )}
         </>
+      )}
+      
+      {/* Multi-Judge Scoreboard Panel */}
+      {showMultiJudge && boutId && !isFullscreen && (
+        <div className="fixed right-4 top-24 bottom-4 w-80 z-40 overflow-y-auto">
+          <div className="bg-gray-900/95 border border-gray-700 rounded-lg p-4 backdrop-blur-sm">
+            <MultiJudgeScoreboard boutId={boutId} refreshInterval={2000} />
+          </div>
+        </div>
       )}
 
       {/* Fullscreen Toggle */}
