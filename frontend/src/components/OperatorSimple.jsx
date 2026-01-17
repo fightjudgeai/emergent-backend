@@ -278,13 +278,6 @@ export default function OperatorSimple() {
           Round controlled by Supervisor • {eventCount} events logged this round
         </div>
           </div>
-          <Button
-            onClick={() => setCurrentRound(currentRound + 1)}
-            variant="outline"
-            className="flex-1 border-gray-600"
-          >
-            Next Round →
-          </Button>
         </div>
       </div>
     </div>
