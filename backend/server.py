@@ -4055,6 +4055,91 @@ async def operator_heartbeat(data: dict):
     except Exception as e:
         return {"success": False}
 
+# =============================================================================
+# SUPERVISOR CONTROL ENDPOINTS
+# =============================================================================
+
+@api_router.post("/events/create")
+async def create_event(data: dict):
+    """Create a new event (e.g., PFC 50)"""
+    try:
+        event_doc = {
+            "event_id": data.get("event_id"),
+            "event_name": data.get("event_name"),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "status": "active"
+        }
+        await db.events.update_one(
+            {"event_id": event_doc["event_id"]},
+            {"$set": event_doc},
+            upsert=True
+        )
+        logging.info(f"[EVENT] Created: {event_doc['event_name']}")
+        return {"success": True, "event_id": event_doc["event_id"]}
+    except Exception as e:
+        logging.error(f"Error creating event: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/supervisor/fights")
+async def get_supervisor_fights(event_id: str):
+    """Get all fights for an event (for supervisor control panel)"""
+    try:
+        fights = await db.bouts.find(
+            {"event_id": event_id},
+            {"_id": 0}
+        ).sort("created_at", 1).to_list(100)
+        
+        # Also get fights without event_id that match pattern
+        if not fights:
+            fights = await db.bouts.find(
+                {"bout_id": {"$regex": f"^{event_id}"}},
+                {"_id": 0}
+            ).sort("createdAt", 1).to_list(100)
+        
+        return {"event_id": event_id, "fights": fights}
+    except Exception as e:
+        logging.error(f"Error getting fights: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/supervisor/activate-fight")
+async def activate_fight(data: dict):
+    """Activate a fight for scoring (sets others to pending)"""
+    try:
+        event_id = data.get("event_id")
+        bout_id = data.get("bout_id")
+        
+        # Set all fights in event to pending
+        await db.bouts.update_many(
+            {"event_id": event_id},
+            {"$set": {"status": "pending"}}
+        )
+        
+        # Set the selected fight to active
+        await db.bouts.update_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"$set": {"status": "active", "currentRound": 1}}
+        )
+        
+        logging.info(f"[SUPERVISOR] Activated fight: {bout_id}")
+        return {"success": True, "active_bout_id": bout_id}
+    except Exception as e:
+        logging.error(f"Error activating fight: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/bouts/{bout_id}")
+async def delete_bout(bout_id: str):
+    """Delete a bout"""
+    try:
+        await db.bouts.delete_one({"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]})
+        await db.unified_events.delete_many({"bout_id": bout_id})
+        await db.round_results.delete_many({"bout_id": bout_id})
+        await db.operators.delete_many({"bout_id": bout_id})
+        logging.info(f"[BOUT] Deleted: {bout_id}")
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error deleting bout: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/operators/list")
 async def list_operators(bout_id: str):
     """List all registered operators for a bout (for supervisor)."""
