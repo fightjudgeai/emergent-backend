@@ -3949,6 +3949,163 @@ async def get_all_events(bout_id: str, round_number: Optional[int] = None):
         logging.error(f"Error getting events: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# =============================================================================
+# OPERATOR DEVICE MANAGEMENT - For Central Assignment
+# =============================================================================
+
+class OperatorRegister(BaseModel):
+    bout_id: str
+    device_id: str
+    device_name: str
+
+class OperatorAssign(BaseModel):
+    bout_id: str
+    device_id: str
+    role: str
+
+@api_router.post("/operators/register")
+async def register_operator(data: OperatorRegister):
+    """Register an operator device for a bout. Supervisor will assign role."""
+    try:
+        operator_doc = {
+            "bout_id": data.bout_id,
+            "device_id": data.device_id,
+            "device_name": data.device_name,
+            "assigned_role": None,
+            "status": "waiting",
+            "registered_at": datetime.now(timezone.utc).isoformat(),
+            "last_heartbeat": datetime.now(timezone.utc).isoformat()
+        }
+        
+        # Upsert - update if exists, insert if not
+        await db.operators.update_one(
+            {"bout_id": data.bout_id, "device_id": data.device_id},
+            {"$set": operator_doc},
+            upsert=True
+        )
+        
+        logging.info(f"[OPERATORS] Registered: {data.device_name} ({data.device_id}) for bout {data.bout_id}")
+        
+        return {"success": True, "device_id": data.device_id, "status": "waiting"}
+    except Exception as e:
+        logging.error(f"Error registering operator: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/operators/status")
+async def get_operator_status(bout_id: str, device_id: str):
+    """Check if operator has been assigned a role."""
+    try:
+        operator = await db.operators.find_one(
+            {"bout_id": bout_id, "device_id": device_id},
+            {"_id": 0}
+        )
+        
+        if not operator:
+            return {"status": "not_registered", "assigned_role": None}
+        
+        return {
+            "status": operator.get("status", "waiting"),
+            "assigned_role": operator.get("assigned_role"),
+            "device_name": operator.get("device_name")
+        }
+    except Exception as e:
+        logging.error(f"Error getting operator status: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/operators/heartbeat")
+async def operator_heartbeat(data: dict):
+    """Update operator heartbeat to show they're still connected."""
+    try:
+        bout_id = data.get("bout_id")
+        device_id = data.get("device_id")
+        
+        await db.operators.update_one(
+            {"bout_id": bout_id, "device_id": device_id},
+            {"$set": {"last_heartbeat": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        return {"success": True}
+    except Exception as e:
+        return {"success": False}
+
+@api_router.get("/operators/list")
+async def list_operators(bout_id: str):
+    """List all registered operators for a bout (for supervisor)."""
+    try:
+        operators = await db.operators.find(
+            {"bout_id": bout_id},
+            {"_id": 0}
+        ).sort("registered_at", 1).to_list(100)
+        
+        # Check which operators are still active (heartbeat within last 30 seconds)
+        cutoff = datetime.now(timezone.utc).timestamp() - 30
+        for op in operators:
+            heartbeat = op.get("last_heartbeat", "")
+            if heartbeat:
+                try:
+                    heartbeat_time = datetime.fromisoformat(heartbeat.replace("Z", "+00:00")).timestamp()
+                    op["is_active"] = heartbeat_time > cutoff
+                except:
+                    op["is_active"] = False
+            else:
+                op["is_active"] = False
+        
+        return {"bout_id": bout_id, "operators": operators}
+    except Exception as e:
+        logging.error(f"Error listing operators: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/operators/assign")
+async def assign_operator_role(data: OperatorAssign):
+    """Supervisor assigns a role to an operator device."""
+    try:
+        result = await db.operators.update_one(
+            {"bout_id": data.bout_id, "device_id": data.device_id},
+            {"$set": {
+                "assigned_role": data.role,
+                "status": "assigned",
+                "assigned_at": datetime.now(timezone.utc).isoformat()
+            }}
+        )
+        
+        if result.modified_count > 0:
+            logging.info(f"[OPERATORS] Assigned {data.role} to device {data.device_id}")
+            return {"success": True, "role": data.role}
+        else:
+            raise HTTPException(status_code=404, detail="Operator not found")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error assigning operator: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/operators/unassign")
+async def unassign_operator_role(data: dict):
+    """Remove role assignment from an operator."""
+    try:
+        bout_id = data.get("bout_id")
+        device_id = data.get("device_id")
+        
+        await db.operators.update_one(
+            {"bout_id": bout_id, "device_id": device_id},
+            {"$set": {"assigned_role": None, "status": "waiting"}}
+        )
+        
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error unassigning operator: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/operators/remove")
+async def remove_operator(bout_id: str, device_id: str):
+    """Remove an operator from the bout."""
+    try:
+        await db.operators.delete_one({"bout_id": bout_id, "device_id": device_id})
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error removing operator: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.post("/events")
 async def create_event(event: UnifiedEventCreate):
     """
