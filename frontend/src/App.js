@@ -48,6 +48,8 @@ function App() {
           <Route path="/operator/:boutId" element={<OperatorPanel />} />
           <Route path="/operator-setup" element={<OperatorSetup />} />
           <Route path="/op/:boutId" element={<OperatorSimple />} />
+          <Route path="/waiting" element={<OperatorWaiting />} />
+          <Route path="/waiting/:boutId" element={<OperatorWaiting />} />
           <Route path="/supervisor" element={<SupervisorDashboard />} />
           <Route path="/supervisor/:boutId" element={<SupervisorDashboard />} />
           <Route path="/cv-systems/:boutId" element={<CVSystemsPage />} />
