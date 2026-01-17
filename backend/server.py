@@ -3111,6 +3111,33 @@ async def get_bout(bout_id: str):
         logging.error(f"Error getting bout: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.patch("/bouts/{bout_id}")
+async def update_bout(bout_id: str, data: dict):
+    """Update bout settings (totalRounds, fighter names, etc.)"""
+    try:
+        # Only allow certain fields to be updated
+        allowed_fields = ["totalRounds", "fighter1", "fighter2", "currentRound", "status"]
+        update_data = {k: v for k, v in data.items() if k in allowed_fields}
+        
+        if not update_data:
+            raise HTTPException(status_code=400, detail="No valid fields to update")
+        
+        result = await db.bouts.update_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"$set": update_data}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail=f"Bout {bout_id} not found")
+        
+        logging.info(f"[BOUT] Updated {bout_id}: {update_data}")
+        return {"success": True, "updated": update_data}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating bout: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.put("/bouts/{bout_id}/round-score")
 async def update_bout_round_score(bout_id: str, round_num: int, red_score: int, blue_score: int):
     """Update round score for a bout"""
