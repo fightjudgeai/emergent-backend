@@ -329,32 +329,6 @@ export default function SupervisorDashboardPro() {
     }
   };
 
-  // Next Round (manual) - still available as backup
-  const handleNextRound = async () => {
-    if (currentRound < totalRounds) {
-      try {
-        const response = await fetch(`${API}/api/bouts/${boutId}/advance-round`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success) {
-            setCurrentRound(data.current_round);
-            setShowRoundResult(false);
-            toast.success(`Moving to Round ${data.current_round}`);
-          }
-        }
-      } catch (error) {
-        // Fallback to local update
-        setCurrentRound(currentRound + 1);
-        setShowRoundResult(false);
-        toast.success(`Moving to Round ${currentRound + 1}`);
-      }
-    }
-  };
-
   // Finalize Fight
   const handleFinalizeFight = async () => {
     if (!boutId) return;
