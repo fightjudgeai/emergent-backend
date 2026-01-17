@@ -21,10 +21,13 @@ import {
   ChevronRight,
   TrendingUp,
   TrendingDown,
-  Minus
+  Minus,
+  ExternalLink
 } from 'lucide-react';
 import { toast } from 'sonner';
 import OperatorAssignmentPanel from './OperatorAssignmentPanel';
+import { BroadcastScorecard } from './lovable-broadcast/BroadcastScorecard';
+import '@/styles/lovable-broadcast.css';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
