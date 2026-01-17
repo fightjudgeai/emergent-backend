@@ -1192,6 +1192,18 @@ export default function JudgePanel() {
         </div>
       )}
 
+      {/* Combined Sync Panel - Shows events from ALL devices */}
+      <div className="max-w-7xl mx-auto mb-6">
+        <CombinedSyncPanel 
+          boutId={boutId} 
+          currentRound={bout?.currentRound}
+          onRoundComputed={(score) => {
+            toast.success(`Round ${bout?.currentRound} Score: ${score?.card}`);
+            calculateScores(); // Refresh local scores
+          }}
+        />
+      </div>
+
       {/* Round Scores */}
       <div className="max-w-7xl mx-auto space-y-8">
         {Array.from({ length: bout?.totalRounds || 3 }, (_, i) => i + 1).map((roundNum) => {
