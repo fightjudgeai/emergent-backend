@@ -3155,8 +3155,8 @@ class JudgeRoundScore(BaseModel):
 @api_router.post("/sync/event")
 async def sync_judge_event(event: JudgeEventLog):
     """
-    Sync an event from a judge's device in real-time.
-    All events are stored with judge attribution for multi-judge aggregation.
+    Sync an event from any device. All events combine together as ONE unified log.
+    Score auto-computes after each event - treats all devices as one scorer.
     """
     try:
         event_doc = {
@@ -3174,9 +3174,18 @@ async def sync_judge_event(event: JudgeEventLog):
         
         await db.synced_events.insert_one(event_doc)
         
-        logging.info(f"[SYNC] Event from {event.judge_name}: {event.event_type} for {event.fighter}")
+        logging.info(f"[SYNC] Event: {event.event_type} for {event.fighter} (from {event.judge_name})")
         
-        return {"success": True, "synced_at": event_doc["server_timestamp"]}
+        # Auto-compute the unified score from ALL combined events
+        score_result = await compute_unified_round_score(event.bout_id, event.round_num)
+        
+        return {
+            "success": True, 
+            "synced_at": event_doc["server_timestamp"],
+            "current_score": score_result.get("card", ""),
+            "score_diff": score_result.get("score_diff", 0),
+            "total_events": score_result.get("total_events", 0)
+        }
     except Exception as e:
         logging.error(f"Error syncing event: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
