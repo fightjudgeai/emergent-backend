@@ -15,9 +15,11 @@ import {
   Maximize,
   Clock,
   Target,
-  Award
+  Award,
+  Settings
 } from 'lucide-react';
 import { toast } from 'sonner';
+import OperatorAssignmentPanel from './OperatorAssignmentPanel';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
