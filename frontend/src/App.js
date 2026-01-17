@@ -46,6 +46,7 @@ function App() {
           <Route path="/event/:eventId/fights" element={<FightList />} />
           <Route path="/operator/:boutId" element={<OperatorPanel />} />
           <Route path="/operator-setup" element={<OperatorSetup />} />
+          <Route path="/op/:boutId" element={<OperatorSimple />} />
           <Route path="/supervisor" element={<SupervisorDashboard />} />
           <Route path="/supervisor/:boutId" element={<SupervisorDashboard />} />
           <Route path="/cv-systems/:boutId" element={<CVSystemsPage />} />
