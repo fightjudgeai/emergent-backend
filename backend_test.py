@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 
 class CombatJudgingAPITester:
-    def __init__(self, base_url="https://fightscore-live.preview.emergentagent.com"):
+    def __init__(self, base_url="https://fightscoreai.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.tests_run = 0

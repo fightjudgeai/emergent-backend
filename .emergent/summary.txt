@@ -1,156 +1,136 @@
 <analysis>**original_problem_statement:**
-The user is building a real-time sports data feed service. The initial project was a public stats API with key management and billing (). However, the focus has pivoted entirely to enhancing a frontend Operator/Judge Panel and its corresponding MongoDB backend ().
+The user is building a live, multi-operator scoring system for MMA fights called Fight Judge AI. The primary goal is to have four operators on different laptops scoring different aspects of the same fight (e.g., Red Striking, Red Grappling, Blue Striking, Blue Grappling). All events logged by these operators must be combined in real-time on the server to produce ONE unified, official score for each round and a final score for the entire fight. This unified score is then streamed to the main arena broadcast screen.
 
-The latest and most critical objective is to prepare a professional, visually-rich broadcast UI for a live event, PFC 50, happening next week. The user provided a complete frontend application from , which the agent has integrated. The user is now reporting a critical connection error that prevents the new broadcast display from working.
+The critical bug reported is that each operator's laptop UI (Judge Panel) only shows the events they have personally logged, not the combined events from all four laptops. This prevents the system from calculating a unified score and defeats the purpose of the application.
 
-PRODUCT REQUIREMENTS:
-1.  Fix the live broadcast display connection error before the PFC 50 event.
-2.  The broadcast UI must show live, round-by-round scores and a final winner announcement.
-3.  Provide offline capability for the broadcast display to show cached scores if the connection is lost.
-4.  Add fighter photos to the display.
-5.  Remove legacy UI elements (CV Systems) from the Operator and Judge panels.
-6.  Allow operators to log the method of fight conclusion (e.g., TKO, KO, SUB).
-7.  Increase the maximum number of fights per event to 25.
-8.  Save all completed fight data to a database for historical reference.
-9.  (DEPRIORITIZED) The original  with API keys and billing.
+The user has provided a detailed, non-negotiable technical specification for a **server-authoritative architecture** to fix this issue. The server must be the single source of truth for all events and score calculations.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The project has two backends. The primary one is  (FastAPI + MongoDB), which has been heavily modified to support the live broadcast. A second, original backend,  (FastAPI + Supabase/Postgres), is non-functional due to un-applied database migrations and has been ignored in favor of the user's recent requests.
+The application consists of a FastAPI/MongoDB backend () and a React frontend. The agent has successfully fixed an initial connection error and implemented features for the PFC 50 broadcast page, including a way for operators to create bouts directly in MongoDB.
 
-The frontend has been significantly enhanced with a complete, professionally designed broadcast UI provided by the user from . This new UI lives under  and is accessible via the  route. It includes features like offline caching, demo modes, and operator controls. The original Operator and Judge panels have also been modified per user requests.
+However, the core multi-device scoring system is in a partially implemented and broken state. The agent was in the middle of a major architectural refactor to make the system server-authoritative, as requested by the user. A new backend file () was created, and new V2 API endpoints were added to , but the implementation is incomplete. The frontend components (, ) still contain legacy Firebase logic and have not been fully updated to use the new server-authoritative endpoints.
 
 **Last working item**:
--   **Last item agent was working**: Debugging a critical connection error reported by the user: . This error prevents the new  broadcast display from fetching live data from the backend. The agent was investigating the data fetching logic.
+-   **Last item agent was working**: Implementing the server-authoritative unified scoring system. The agent had just started this major refactor by creating a new backend file (), adding new V2 API stubs to , creating database indexes, and overwriting  to use the new API. The work is far from complete.
 -   **Status**: IN PROGRESS
 -   **Agent Testing Done**: N
--   **Which testing method agent to use?**: frontend testing agent (to replicate the error and verify the fix on the UI)
+-   **Which testing method agent to use?**: both. The new backend V2 API needs to be tested via . The frontend UI needs to be tested with the  to verify that all operator UIs display the same combined data from the server.
 -   **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
--   **Issue 1**: Fix  error in broadcast display (P0)
--   **Issue 2**: Backend WebSocket endpoint for live sync might be missing (P1)
--   **Issue 3**: CRITICAL BLOCKER -  backend is non-functional (P2)
+-   **Issue 1**: **CRITICAL BUG (P0)** - Each operator laptop's UI only shows its own logged events, not the combined total from all connected devices. End Round computes scores based on this incomplete, local data.
+-   **Issue 2**: **(P2)** - The  backend is non-functional and likely deprecated.
+-   **Issue 3**: **(P2)** - The  and other original components still use Firebase, creating a data-source mismatch with the MongoDB-based broadcast system.
 
 **Issues Detail:**
 -   **Issue 1:**
-    -   **Description**: The new broadcast UI at  cannot connect to the backend due to a JavaScript error when handling the API response. This error typically happens when a Response object's body is read more than once, especially in error-handling logic.
-    -   **Attempted fixes**: Agent viewed  but did not apply a fix.
+    -   **Attempted fixes**: The agent made several attempts to sync data client-side, which failed. The current and correct approach is a full server-authoritative refactor, which is in progress.
     -   **Next debug checklist**:
-        1.  Examine the  function inside .
-        2.  Focus on the  block. The error is likely occurring because the  body is being consumed to check , and then attempted to be read again in the  block.
-        3.  Modify the logic to clone the response () before any attempt to read its body if it needs to be accessed in multiple places.
-    -   **Why fix this issue and what will be achieved with the fix?**: This is the highest priority. Fixing it will make the live broadcast display functional for the user's PFC 50 event next week.
+        1.  Implement the logic inside  for all V2 endpoints as per the user's specification (Message #339).
+        2.  Thoroughly refactor  and : remove all Firebase calls, remove local event state management, and make them thin clients that exclusively use the new V2 server endpoints (, , etc.).
+        3.  Ensure the End Round button on the UI calls  and displays the result from the server.
+        4.  Update the main broadcast page () to fetch its data from the new unified endpoints ().
+    -   **Why fix this issue and what will be achieved with the fix?**: This is the core requirement of the application. Fixing it will enable a unified, official score to be computed from the inputs of all four operators.
     -   **Status**: IN PROGRESS
     -   **Is recurring issue?**: Y
-    -   **Should Test frontend/backend/both after fix?**: frontend
--   **Issue 2:**
-    -   **Description**: The user-provided frontend hook  is designed to connect to a WebSocket endpoint at  for real-time updates. It is unclear if this WebSocket endpoint was ever implemented in the backend at .
-    -   **Next debug checklist**:
-        1.  Review  to see if a WebSocket route () exists.
-        2.  If not, implement a WebSocket endpoint that accepts a , subscribes to updates for that bout (likely via Redis pub/sub, which is already in the project), and pushes score updates to the connected client.
-    -   **Why fix this issue and what will be achieved with the fix?**: The broadcast display will not update scores in real-time without this. It's essential for a live viewing experience.
-    -   **Status**: NOT STARTED
     -   **Should Test frontend/backend/both after fix?**: both
--   **Issue 3:**
-    -   **Description**: The entire  backend, which contains features like API key management and public stats, is broken. It depends on database migrations that have not been run. The user has indicated a preference to stick with the MongoDB backend, suggesting this may no longer be needed.
-    -   **Attempted fixes**: None.
-    -   **Next debug checklist**:
-        1.  Confirm with the user that the  and its features are no longer required.
-        2.  If confirmed, create a plan to remove the  directory to reduce project complexity.
-    -   **Why fix this issue and what will be achieved with the fix?**: Will resolve major technical debt and architectural ambiguity.
-    -   **Status**: BLOCKED
-    -   **Is recurring issue?**: Y
-    -   **Should Test frontend/backend/both after fix?**: backend
 
 **In progress Task List**:
-None.
+-   **Task 1: Complete the Server-Authoritative Scoring System Refactor (P0)**
+    -   **Where to resume**: The backend files (, ) and frontend component () have been created/modified. The immediate next step is to populate the logic in  and then overhaul  to use these new server endpoints.
+    -   **What will be achieved with this?**: A robust, server-driven, real-time scoring system that unifies input from all operator laptops.
+    -   **Status**: IN PROGRESS
+    -   **Should Test frontend/backend/both after fix?**: both
+    -   **Blocked on something**: No.
 
 **Upcoming and Future Tasks**
 -   **Upcoming Tasks:**
-    -   **Consolidate Broadcast Components (P2)**: The  still uses older broadcast components from . These should be updated to use the new, superior components from  to maintain a consistent UI and reduce code duplication.
+    -   **Implement  (P1)**: Create the endpoint to calculate and save the final fight winner.
+    -   **Implement Operator Roles (P2)**: Add a  selector (, , etc.) to the operator UI to tag events correctly for auditing purposes.
 -   **Future Tasks:**
-    -   **Implement Control Time Logic (P3)**: As per the original handoff, build the logic to calculate fighter control time from  and  events.
+    -   **Full Firebase Migration (P2)**: Migrate all remaining Firebase-dependent pages (, ) to use MongoDB via backend APIs.
+    -   **Deprecate  (P3)**: After user confirmation, remove the old, broken Postgres backend directory.
 
 **Completed work in this session**
--   **Full  Broadcast UI Integration**: Integrated a complete, user-provided professional broadcast UI, including a new page at , over 10 new React components, 2 hooks (, ), type definitions, and custom CSS for styling.
--   **PFC 50 Readiness Features**:
-    -   Added support for fighter photos in , the backend API, and the .
-    -   Implemented offline capability in the broadcast UI using  caching.
--   **Fight Completion & History**:
-    -   Implemented the backend endpoint  to save finished fight data to MongoDB.
-    -   Created a new Fight History page () for viewing archived fights.
--   **Operator/Judge Panel UI/UX Improvements**:
-    -   Added an End Fight button to the Operator Panel that navigates to the Judge Panel.
-    -   Removed legacy CV Systems UI elements.
-    -   Added a dialog to log the fight's ending method (TKO, KO, etc.).
-    -   Increased the max fight limit in  from 15 to 25.
+-   Fixed the critical  connection error for the broadcast display.
+-   Implemented missing backend endpoints (, ) to support the broadcast UI.
+-   Added a Create New Bout feature to the broadcast UI, allowing operators to create bouts directly in MongoDB.
+-   Increased the maximum number of fights per event from 25 to 30.
+-   Made the backend auto-create bouts in MongoDB if they don't exist when a sync event is received, resolving a key data inconsistency issue.
+-   Added an End Round button to the .
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Component Integration**: The main achievement was the successful integration of a large and complex set of user-provided React components, hooks, and styles into the existing project.
--   **Real-time Data Sync**: The new broadcast UI is designed to use a combination of REST API calls for initial data load and a WebSocket for live, real-time score updates.
--   **Offline First**: The frontend hook  was built with offline capability, using  to cache data and ensure the display remains functional even with intermittent connectivity.
+-   **Server-Authoritative Architecture**: The fundamental principle for the current refactor. The server is the single source of truth for all data (events, scores). Clients are thin and only send events and display server-provided state.
+-   **Idempotent API endpoints**: The round computation endpoint () will use an  operation to ensure it can be called multiple times without creating duplicate data.
+-   **Real-time Data Sync**: The system will combine polling and potentially WebSockets to ensure all connected clients have a live, unified view of the fight data.
 
 **key DB schema**
--   **completed_fights** (MongoDB Collection): Stores a snapshot of all data for a fight once it has been marked as complete.
+-   **unified_events**: 
+-   **unified_round_results**: 
+-   **fight_results**: 
+-   **bouts**: Stores bout information.
+-   **completed_fights**: Stores archived fight data.
+
+**changes in tech stack**
+-   None. The architecture is being refactored within the existing FastAPI, React, and MongoDB stack.
 
 **All files of reference**
--   : **CRITICAL FILE.** Manages all data fetching for the broadcast UI. The  bug is almost certainly located here.
--   : The active backend. Needs to be checked for a WebSocket implementation.
--   : The main entry point for the new  broadcast page.
--   : Directory containing all the new, user-provided UI components.
--   : Directory containing the broken, likely deprecated Supabase backend.
+-   **/app/backend/server.py**: Contains the API router and needs to correctly include the new V2 endpoints from .
+-   **/app/backend/unified_scoring.py**: **NEW CRITICAL FILE.** Must contain all the server-side logic for event handling and score computation.
+-   **/app/frontend/src/components/OperatorPanel.jsx**: **CRITICAL FILE.** Requires a major refactor to remove local state/Firebase logic and use the new V2 endpoints.
+-   **/app/frontend/src/components/JudgePanel.jsx**: Also requires a major refactor to display the unified server state.
+-   **/app/frontend/src/components/CombinedSyncPanel.jsx**: The UI component intended to show the unified state, which needs to be integrated correctly into the operator panels.
 
 **Areas that need refactoring**:
--   **Dual Backends**: The  backend should be officially deprecated and removed to simplify the architecture, pending final user confirmation.
--   **Dual Broadcast Components**: The application has two sets of broadcast-related components. The old set in  should be removed and any components using them (like ) should be updated to use the new components in .
+-   ** and **: These components are the primary source of the bug. They must be refactored to be thin clients that fetch all state from the server and have no local scoring logic.
+-   ****: This file is becoming excessively large. The new  is a good first step, but a future task should be to break down  into a proper directory structure (e.g., , ).
 
 **key api endpoints**
--   : Fetches the initial snapshot of data for a live fight.
--   : Saves a completed fight's data to the archive.
--   : The WebSocket endpoint **required** by the frontend for real-time updates. **Its existence on the backend needs to be verified.**
+-   : To log a single event from any operator.
+-   : To fetch all combined events for a round.
+-   : The server-authoritative endpoint to calculate and save a round's result.
+-   : To fetch all computed round results for a bout.
+-   : To compute and save the final fight result.
 
 **Critical Info for New Agent**
-1.  **PFC 50 is the only priority.** The user's event is next week. Your first and only goal should be to fix the bugs preventing the  broadcast page from working flawlessly.
-2.  **Fix the  error first.** This is a hard blocker. Investigate  immediately.
-3.  **Verify the WebSocket backend.** The live updates will fail without it. Check  and implement the WebSocket endpoint if it's missing.
-4.  **Ignore  for now.** Do not spend any time on the old Supabase backend unless the user explicitly reverses their decision and makes it a priority.
-5.  All new UI components and logic for the broadcast display are in . Use this as the source of truth.
+1.  **Follow the User's Specification**: The user's message #339 is a detailed, non-negotiable technical specification for the server-authoritative architecture. You MUST follow it precisely.
+2.  **Server is the Source of Truth**: Your primary goal is to move all state management and computation to the backend. The frontend should NEVER compute scores locally or filter events. It only sends new events and displays the state provided by the server.
+3.  **Refactor **: This is the most critical frontend file to fix. Rip out the Firebase logic and local event state () and replace it with API calls to the new V2 endpoints.
+4.  **Complete the Backend Logic**: The file  was created but is largely empty. You need to implement the full logic for event aggregation and delta-based scoring inside the functions that will be called by the new V2 endpoints.
 
 **documents and test reports created in this job**
 -   /app/memory/PRD.md
 
 **Last 10 User Messages and any pending HUMAN messages**
-10. Asks for a prompt for lovable.dev to generate visuals. (Completed)
-9.  Clarifies they already have the lovable.dev code and want to integrate it. (Completed)
-8.  Provides the main  file for the lovable UI. (Completed)
-7.  Provides , , and component files from lovable. (Completed)
-6.  Provides more component files (, , etc.). (Completed)
-5.  Provides the last set of visual components (, ). (Completed)
-4.  Provides the Tailwind CSS config and custom styles. (Completed)
-3.  Provides  and  components. (Completed)
-2.  **** - Reports the critical bug that is the current P0 task. (PENDING)
-1.  Asks agent to call deployer agent and run health check. (PENDING)
+10. Asks to add an 'end round' button to show combined totals. (Implemented)
+9.  Reports the critical bug again: laptops still not showing combined logs or scores, and an extra next round button exists. (Partially addressed)
+8.  Asks agent to call deployer agent for a health check. (Completed)
+7.  Requests to use the original delta scoring system, not direct 10-9 decisions. (Agent confirmed this is already the case)
+6.  Clarifies that events should be combined to decide the score delta as if one person logged them. (Understood, led to current refactor)
+5.  Refines the unified scoring requirement: all events from all laptops should combine to compute a single score. (Understood)
+4.  Reports that each judge profile shows its own scores, not the combined total. (Understood, led to UI sync attempts)
+3.  Requests real-time sync when everyone is signed into the same account, with scores computed when everyone clicks 'next round'. (Implemented an iteration of this)
+2.  Specifies the desired workflow: 4 laptops scoring different aspects, combining into one final score. (Understood)
+1.  **PENDING: User provided a detailed, non-negotiable architecture spec for a server-authoritative system to fix the unified scoring bug.** (This is the current P0 task)
 
 **Project Health Check:**
 -   **Broken**:
-    -   The primary feature, the  live broadcast display, is non-functional due to the  response error.
-    -   The  backend remains completely broken.
--   **Mocked**: The broadcast UI has a fully functional Demo Mode which uses mock data. This can be used for UI testing while the backend connection is being fixed.
+    -   The core multi-operator unified scoring feature is fundamentally broken. The UI on each operator's laptop does not show the combined, real-time data from all other laptops, which is the primary feature required.
+-   **Mocked**: N/A
 
 **3rd Party Integrations**
--   **Supabase**: Used for the broken  backend.
--   **lovable.dev**: The source of the newly integrated professional broadcast UI.
+-   **Firebase**: Still actively used in legacy components like , , and . This is a source of data inconsistency and needs to be migrated to the MongoDB backend.
+-   **Supabase**: Used by the broken and deprecated  backend.
 
 **Testing status**
 -   **Testing agent used after significant changes**: NO
--   **Troubleshoot agent used after agent stuck in loop**: NO
 -   **Test files created**: None
--   **Known regressions**: The  response error is a regression, as similar issues had been fixed in older components previously.
+-   **Known regressions**: The failure to properly sync data across multiple devices has been a recurring issue, with multiple client-side fixes attempted before pivoting to the current server-side architectural fix.
 
 **What agent forgot to execute**
--   The agent did not verify that the WebSocket endpoint (), which is a hard requirement for the user-provided frontend hook , was actually implemented in the backend server (). This is a critical potential point of failure for the real-time functionality.</analysis>
+-   The agent started the major server-authoritative refactor but did not complete it. The backend logic in  is missing, and the critical frontend components (, ) have not been updated to use the new V2 APIs. This is the main piece of unfinished work that the next agent must pick up.</analysis>

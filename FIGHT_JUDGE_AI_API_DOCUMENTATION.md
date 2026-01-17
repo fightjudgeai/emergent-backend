@@ -1,7 +1,7 @@
 # Fight Judge AI - API Documentation
 ## Integration Guide for Lovable.dev & External Platforms
 
-**Base URL:** `https://fightscore-live.preview.emergentagent.com/api`  
+**Base URL:** `https://fightscoreai.preview.emergentagent.com/api`  
 **Production URL:** (Will be provided after deployment)  
 **Protocol:** REST API + WebSocket for real-time updates  
 **Authentication:** None (Open API - Add your own auth layer if needed)  
@@ -28,7 +28,7 @@
 
 ### Basic Health Check
 ```bash
-curl https://fightscore-live.preview.emergentagent.com/api/
+curl https://fightscoreai.preview.emergentagent.com/api/
 ```
 
 **Response:**
@@ -42,7 +42,7 @@ curl https://fightscore-live.preview.emergentagent.com/api/
 
 ### Calculate Round Score (Main Endpoint)
 ```bash
-curl -X POST https://fightscore-live.preview.emergentagent.com/api/calculate-score \
+curl -X POST https://fightscoreai.preview.emergentagent.com/api/calculate-score \
   -H "Content-Type: application/json" \
   -d '{
     "bout_id": "bout-123",
@@ -195,7 +195,7 @@ curl -X POST https://fightscore-live.preview.emergentagent.com/api/calculate-sco
 
 **Request:**
 ```bash
-curl https://fightscore-live.preview.emergentagent.com/api/live/bout-123
+curl https://fightscoreai.preview.emergentagent.com/api/live/bout-123
 ```
 
 **Response:**
@@ -421,7 +421,7 @@ curl https://fightscore-live.preview.emergentagent.com/api/live/bout-123
 
 **Request:**
 ```bash
-curl https://fightscore-live.preview.emergentagent.com/api/fighters/John%20Doe/stats
+curl https://fightscoreai.preview.emergentagent.com/api/fighters/John%20Doe/stats
 ```
 
 **Response:**
@@ -464,7 +464,7 @@ curl https://fightscore-live.preview.emergentagent.com/api/fighters/John%20Doe/s
 
 **Request:**
 ```bash
-curl "https://fightscore-live.preview.emergentagent.com/api/fighters/compare?fighter1=John%20Doe&fighter2=Jane%20Smith"
+curl "https://fightscoreai.preview.emergentagent.com/api/fighters/compare?fighter1=John%20Doe&fighter2=Jane%20Smith"
 ```
 
 **Response:**
@@ -690,7 +690,7 @@ All endpoints return standard HTTP status codes:
 ### React/Next.js Integration
 ```javascript
 // lib/fightJudgeApi.js
-const API_BASE = 'https://fightscore-live.preview.emergentagent.com/api';
+const API_BASE = 'https://fightscoreai.preview.emergentagent.com/api';
 
 export const calculateRoundScore = async (boutId, roundNum, events) => {
   const response = await fetch(`${API_BASE}/calculate-score`, {
@@ -724,7 +724,7 @@ export const subscribeToLiveScoring = (boutId, callback) => {
 ```python
 import requests
 
-API_BASE = 'https://fightscore-live.preview.emergentagent.com/api'
+API_BASE = 'https://fightscoreai.preview.emergentagent.com/api'
 
 def calculate_round_score(bout_id, round_num, events):
     response = requests.post(
@@ -751,7 +751,7 @@ def get_fighter_stats(fighter_name):
 
 For integrating with Lovable.dev or any external platform:
 
-1. ✅ **Base URL:** `https://fightscore-live.preview.emergentagent.com/api`
+1. ✅ **Base URL:** `https://fightscoreai.preview.emergentagent.com/api`
 2. ✅ **Authentication:** None required (add if needed)
 3. ✅ **CORS:** Enabled for all origins
 4. ✅ **Main Endpoint:** `POST /api/calculate-score`
