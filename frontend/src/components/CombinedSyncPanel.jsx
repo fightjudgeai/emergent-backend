@@ -50,6 +50,9 @@ export default function CombinedSyncPanel({ boutId, currentRound, onRoundCompute
         if (statusRes.ok) {
           const data = await statusRes.json();
           setSyncStatus(data);
+          console.log('[CombinedSync] Status:', data.total_events, 'events,', data.connected_devices, 'devices');
+        } else {
+          console.warn('[CombinedSync] Status fetch failed:', statusRes.status);
         }
 
         // Get current round status
@@ -58,6 +61,7 @@ export default function CombinedSyncPanel({ boutId, currentRound, onRoundCompute
           if (roundRes.ok) {
             const data = await roundRes.json();
             setRoundStatus(data);
+            console.log('[CombinedSync] Round', currentRound, ':', data.total_events, 'events');
           }
         }
       } catch (error) {
@@ -73,7 +77,8 @@ export default function CombinedSyncPanel({ boutId, currentRound, onRoundCompute
   const registerDevice = async () => {
     try {
       const profile = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
-      const deviceName = localStorage.getItem('sync_device_name') || `Laptop ${deviceId.slice(-4)}`;
+      const storedDeviceName = localStorage.getItem('sync_device_name');
+      const deviceName = storedDeviceName || `Laptop ${deviceId?.slice(-4) || 'Unknown'}`;
       
       const response = await fetch(`${API}/api/sync/register-device`, {
         method: 'POST',
