@@ -3375,8 +3375,7 @@ async def compute_unified_round_score(bout_id: str, round_num: int):
 @api_router.get("/sync/status/{bout_id}")
 async def get_sync_status(bout_id: str):
     """
-    Get real-time sync status - shows ALL events from ALL devices combined.
-    Events from all 4 laptops combine into one unified view.
+    Get real-time sync status - ALL events combined as ONE unified scorer.
     """
     try:
         # Get bout info
@@ -3387,55 +3386,38 @@ async def get_sync_status(bout_id: str):
         if not bout:
             raise HTTPException(status_code=404, detail=f"Bout {bout_id} not found")
         
-        # Get ALL synced events for this bout
+        # Get ALL synced events for this bout (combined from all devices)
         all_events = await db.synced_events.find({"bout_id": bout_id}, {"_id": 0}).to_list(10000)
         
-        # Get recent events (last 30 seconds)
-        thirty_sec_ago = (datetime.now(timezone.utc) - timedelta(seconds=30)).isoformat()
-        recent_events = [e for e in all_events if e.get("server_timestamp", "") >= thirty_sec_ago]
-        
-        # Track devices/laptops that contributed
-        devices = {}
+        # Count combined events by round and fighter
         events_by_round = {}
+        total_f1_events = 0
+        total_f2_events = 0
+        device_count = len(set(e.get("judge_id", "") for e in all_events))
         
         for event in all_events:
-            device_id = event.get("judge_id", "unknown")
-            device_name = event.get("judge_name", "Unknown Device")
             round_num = event.get("round_num", 1)
-            
-            # Track device activity
-            if device_id not in devices:
-                devices[device_id] = {
-                    "device_id": device_id,
-                    "device_name": device_name,
-                    "event_count": 0,
-                    "last_activity": event.get("server_timestamp", "")
-                }
-            devices[device_id]["event_count"] += 1
-            devices[device_id]["last_activity"] = event.get("server_timestamp", devices[device_id]["last_activity"])
-            
-            # Group events by round
-            if round_num not in events_by_round:
-                events_by_round[round_num] = {"fighter1": [], "fighter2": []}
-            
             fighter = event.get("fighter", "fighter1")
-            events_by_round[round_num][fighter].append({
-                "event_type": event.get("event_type"),
-                "device": device_name,
-                "timestamp": event.get("timestamp")
-            })
-        
-        # Count stats per round from combined events
-        round_stats = {}
-        for round_num, fighters in events_by_round.items():
-            f1_events = len(fighters.get("fighter1", []))
-            f2_events = len(fighters.get("fighter2", []))
-            round_stats[round_num] = {
-                "round": round_num,
-                "fighter1_events": f1_events,
-                "fighter2_events": f2_events,
-                "total_events": f1_events + f2_events
-            }
+            event_type = event.get("event_type", "")
+            
+            if round_num not in events_by_round:
+                events_by_round[round_num] = {
+                    "round": round_num,
+                    "fighter1_events": 0,
+                    "fighter2_events": 0,
+                    "event_types": {"fighter1": {}, "fighter2": {}}
+                }
+            
+            if fighter == "fighter1":
+                events_by_round[round_num]["fighter1_events"] += 1
+                total_f1_events += 1
+            else:
+                events_by_round[round_num]["fighter2_events"] += 1
+                total_f2_events += 1
+            
+            # Track event types
+            types_dict = events_by_round[round_num]["event_types"][fighter]
+            types_dict[event_type] = types_dict.get(event_type, 0) + 1
         
         return {
             "bout_id": bout_id,
@@ -3444,11 +3426,11 @@ async def get_sync_status(bout_id: str):
             "current_round": bout.get("currentRound", 1),
             "total_rounds": bout.get("totalRounds", 3),
             "status": bout.get("status", "pending"),
-            "active_devices": len(devices),
-            "devices": list(devices.values()),
             "total_events": len(all_events),
-            "recent_events": len(recent_events),
-            "events_by_round": round_stats,
+            "total_f1_events": total_f1_events,
+            "total_f2_events": total_f2_events,
+            "connected_devices": device_count,
+            "events_by_round": list(events_by_round.values()),
             "unified_scores": bout.get("roundScores", []),
             "unified_total_red": bout.get("fighter1_total", 0),
             "unified_total_blue": bout.get("fighter2_total", 0),
