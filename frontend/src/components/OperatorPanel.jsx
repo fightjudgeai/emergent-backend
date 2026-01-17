@@ -346,13 +346,39 @@ export default function OperatorPanel() {
       // Get current control time for the selected fighter
       const currentTime = controlTimers[selectedFighter].time;
       
-      // Use syncManager for offline-first event logging
+      // Use syncManager for offline-first event logging (Firebase)
       const result = await syncManager.addEvent(boutId, bout.currentRound, {
         fighter: selectedFighter,
         event_type: eventType,
         timestamp: currentTime,
         metadata
       });
+      
+      // ALSO sync to combined scoring backend for multi-device sync
+      try {
+        const profile = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
+        const deviceId = localStorage.getItem('sync_device_id') || 'unknown';
+        const deviceName = localStorage.getItem('sync_device_name') || `Device ${deviceId.slice(-4)}`;
+        
+        await fetch(`${backendUrl}/api/sync/event`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bout_id: boutId,
+            round_num: bout.currentRound,
+            judge_id: deviceId,
+            judge_name: deviceName,
+            fighter: selectedFighter,
+            event_type: eventType,
+            timestamp: Date.now() / 1000,
+            metadata: metadata
+          })
+        });
+        console.log(`[SYNC] Event synced to combined scoring: ${eventType}`);
+      } catch (syncError) {
+        console.warn('[SYNC] Failed to sync to combined backend:', syncError);
+        // Don't show error - the event is still logged locally
+      }
       
       const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
       const modeIndicator = result.mode === 'offline' ? ' (saved locally)' : '';
