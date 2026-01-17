@@ -291,6 +291,29 @@ export default function OperatorPanel() {
         });
 
         console.log('Multi-device sync initialized for operator');
+        
+        // ALSO register with combined scoring backend
+        let deviceId = localStorage.getItem('sync_device_id');
+        if (!deviceId) {
+          deviceId = `device-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
+          localStorage.setItem('sync_device_id', deviceId);
+        }
+        
+        const profile = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
+        const deviceName = localStorage.getItem('sync_device_name') || `Operator ${deviceId.slice(-4)}`;
+        
+        await fetch(`${backendUrl}/api/sync/register-device`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bout_id: boutId,
+            device_id: deviceId,
+            account_id: profile.judgeId || 'default',
+            device_name: deviceName
+          })
+        });
+        console.log('[SYNC] Device registered for combined scoring');
+        
       } catch (error) {
         console.warn('Multi-device sync not available:', error.message);
       }
