@@ -3412,8 +3412,30 @@ async def sync_judge_event(event: JudgeEventLog):
     """
     Sync an event from any device. All events combine together as ONE unified log.
     Score auto-computes after each event - treats all devices as one scorer.
+    Auto-creates bout in MongoDB if it doesn't exist (for Firebase integration).
     """
     try:
+        # Auto-create bout in MongoDB if it doesn't exist
+        existing_bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": event.bout_id}, {"boutId": event.bout_id}]}
+        )
+        if not existing_bout:
+            # Create a placeholder bout - will be updated with real names later
+            new_bout = {
+                "bout_id": event.bout_id,
+                "boutId": event.bout_id,
+                "fighter1": "Fighter 1",
+                "fighter2": "Fighter 2",
+                "totalRounds": 3,
+                "currentRound": event.round_num,
+                "status": "in_progress",
+                "roundScores": [],
+                "createdAt": datetime.now(timezone.utc).isoformat(),
+                "auto_created": True
+            }
+            await db.bouts.insert_one(new_bout)
+            logging.info(f"[SYNC] Auto-created bout in MongoDB: {event.bout_id}")
+        
         event_doc = {
             "bout_id": event.bout_id,
             "round_num": event.round_num,
