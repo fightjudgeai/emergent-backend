@@ -588,23 +588,16 @@ export default function SupervisorDashboardPro() {
 
           {/* Action Buttons */}
           <div className="space-y-2 mt-auto">
-            <Button onClick={handleEndRound} disabled={isLoading} className="w-full bg-amber-500 hover:bg-amber-600 text-black font-bold h-12">
+            <Button onClick={handleEndRound} disabled={isLoading || currentRound > totalRounds} className="w-full bg-amber-500 hover:bg-amber-600 text-black font-bold h-12">
               {isLoading ? <RefreshCw className="w-5 h-5 animate-spin mr-2" /> : <Flag className="w-5 h-5 mr-2" />}
               END ROUND {currentRound}
             </Button>
             
-            <div className="grid grid-cols-2 gap-2">
-              {roundResults.length > 0 && currentRound < totalRounds && (
-                <Button onClick={handleNextRound} className="bg-green-600 hover:bg-green-700">
-                  <ChevronRight className="w-4 h-4 mr-1" /> Next Round
-                </Button>
-              )}
-              {roundResults.length > 0 && (
-                <Button onClick={handleFinalizeFight} disabled={isLoading} className="bg-purple-600 hover:bg-purple-700">
-                  <Trophy className="w-4 h-4 mr-1" /> Finalize
-                </Button>
-              )}
-            </div>
+            {roundResults.length > 0 && (
+              <Button onClick={handleFinalizeFight} disabled={isLoading} className="w-full bg-purple-600 hover:bg-purple-700">
+                <Trophy className="w-4 h-4 mr-2" /> Finalize Fight
+              </Button>
+            )}
           </div>
         </Card>
 
