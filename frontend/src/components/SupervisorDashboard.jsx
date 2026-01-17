@@ -62,6 +62,31 @@ export default function SupervisorDashboard() {
   const [showFinalResult, setShowFinalResult] = useState(false);
   const [finalResult, setFinalResult] = useState(null);
   const [lastPollTime, setLastPollTime] = useState(null);
+  const [showAssignmentPanel, setShowAssignmentPanel] = useState(false);
+  const [operatorCount, setOperatorCount] = useState(0);
+
+  // Fetch operator count
+  const fetchOperatorCount = useCallback(async () => {
+    if (!boutId) return;
+    try {
+      const response = await fetch(`${API}/api/operators/list?bout_id=${boutId}`);
+      if (response.ok) {
+        const data = await response.json();
+        const assigned = (data.operators || []).filter(op => op.assigned_role).length;
+        setOperatorCount(assigned);
+      }
+    } catch (e) {
+      // Silent fail
+    }
+  }, [boutId]);
+
+  // Poll operator count
+  useEffect(() => {
+    if (!boutId) return;
+    fetchOperatorCount();
+    const interval = setInterval(fetchOperatorCount, 5000);
+    return () => clearInterval(interval);
+  }, [boutId, fetchOperatorCount]);
 
   // Poll server for events
   const fetchEvents = useCallback(async () => {
