@@ -3954,6 +3954,7 @@ async def create_event(event: UnifiedEventCreate):
     """
     Create a new event for unified scoring.
     Event is stored with device_role for auditing, but NEVER filtered by it.
+    Broadcasts to all connected WebSocket clients for real-time sync.
     """
     try:
         # Auto-create bout if it doesn't exist
@@ -3997,9 +3998,13 @@ async def create_event(event: UnifiedEventCreate):
         
         logging.info(f"[UNIFIED] Event created: {event.event_type} for {event.corner} (from {event.device_role})")
         
+        # BROADCAST to all connected WebSocket clients
+        await broadcast_event_added(event.bout_id, event_doc)
+        
         return {
             "success": True,
-            "event": event_doc
+            "event": event_doc,
+            "connected_clients": ws_manager.get_connection_count(event.bout_id)
         }
     except Exception as e:
         logging.error(f"Error creating event: {str(e)}")
