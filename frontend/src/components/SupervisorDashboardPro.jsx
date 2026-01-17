@@ -699,7 +699,6 @@ export default function SupervisorDashboardPro() {
                 Close
               </Button>
             </div>
-            </div>
           )}
         </DialogContent>
       </Dialog>
