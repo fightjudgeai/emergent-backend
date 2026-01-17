@@ -260,19 +260,23 @@ export default function OperatorSimple() {
         </div>
       )}
 
-      {/* Round Controls */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-black/80 backdrop-blur">
-        <div className="flex gap-3">
-          <Button
-            onClick={() => setCurrentRound(Math.max(1, currentRound - 1))}
-            disabled={currentRound <= 1}
-            variant="outline"
-            className="flex-1 border-gray-600"
-          >
-            ← Prev Round
-          </Button>
-          <div className="flex items-center justify-center px-6 bg-gray-800 rounded-lg">
-            <span className="text-white font-bold">Round {currentRound}</span>
+      {/* Round Indicator - Controlled by Supervisor */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-black/90 backdrop-blur border-t border-gray-800">
+        <div className={`flex items-center justify-center gap-4 p-3 rounded-lg ${roundJustChanged ? 'bg-green-500/20 border border-green-500 animate-pulse' : 'bg-gray-800'}`}>
+          <div className="text-center">
+            <div className="text-gray-400 text-xs uppercase tracking-wider">Current Round</div>
+            <div className="text-3xl font-bold text-amber-400">
+              Round {currentRound}
+              <span className="text-gray-500 text-lg ml-2">/ {totalRounds}</span>
+            </div>
+          </div>
+          {roundJustChanged && (
+            <Badge className="bg-green-500 animate-bounce">NEW ROUND!</Badge>
+          )}
+        </div>
+        <div className="text-center text-xs text-gray-500 mt-2">
+          Round controlled by Supervisor • {eventCount} events logged this round
+        </div>
           </div>
           <Button
             onClick={() => setCurrentRound(currentRound + 1)}
