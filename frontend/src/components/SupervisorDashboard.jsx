@@ -304,6 +304,15 @@ export default function SupervisorDashboard() {
           </Badge>
         </div>
         <div className="flex items-center gap-4">
+          <Button 
+            size="sm" 
+            variant="outline" 
+            onClick={() => setShowAssignmentPanel(true)}
+            className="border-amber-500 text-amber-400 hover:bg-amber-500/20"
+          >
+            <Users className="w-4 h-4 mr-2" />
+            Operators ({operatorCount}/3)
+          </Button>
           <span className="text-gray-400 text-sm">
             Bout: {boutId}
           </span>
@@ -312,6 +321,13 @@ export default function SupervisorDashboard() {
           </Button>
         </div>
       </div>
+
+      {/* Assignment Panel Dialog */}
+      <Dialog open={showAssignmentPanel} onOpenChange={setShowAssignmentPanel}>
+        <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-2xl">
+          <OperatorAssignmentPanel boutId={boutId} onClose={() => setShowAssignmentPanel(false)} />
+        </DialogContent>
+      </Dialog>
 
       {/* Main Content */}
       <div className="p-6 space-y-6">
