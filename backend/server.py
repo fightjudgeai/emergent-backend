@@ -3185,7 +3185,7 @@ async def sync_judge_event(event: JudgeEventLog):
 async def compute_round_from_all_events(bout_id: str, round_num: int):
     """
     Compute round score from ALL events logged by ALL devices.
-    Events from all 4 laptops combine into ONE unified score.
+    Events from all 4 laptops combine into ONE unified score using the delta scoring system.
     """
     try:
         # Compute the unified score from all synced events
@@ -3197,116 +3197,97 @@ async def compute_round_from_all_events(bout_id: str, round_num: int):
 
 async def compute_unified_round_score(bout_id: str, round_num: int):
     """
-    Combine ALL events from ALL devices and compute ONE unified score.
-    This treats all 4 laptops as one distributed logging system.
+    Combine ALL events from ALL devices and compute ONE unified score
+    using the existing delta-based scoring system.
     """
     try:
         # Get ALL events for this round from ALL devices
-        all_events = await db.synced_events.find({
+        all_events_raw = await db.synced_events.find({
             "bout_id": bout_id,
             "round_num": round_num
         }).sort("timestamp", 1).to_list(10000)
         
-        if not all_events:
+        if not all_events_raw:
             return {"bout_id": bout_id, "round_num": round_num, "status": "no_events"}
-        
-        # Count events per fighter
-        fighter1_stats = {
-            "significant_strikes": 0,
-            "knockdowns": 0,
-            "takedowns": 0,
-            "submissions": 0,
-            "control_time": 0,
-            "total_events": 0
-        }
-        fighter2_stats = {
-            "significant_strikes": 0,
-            "knockdowns": 0,
-            "takedowns": 0,
-            "submissions": 0,
-            "control_time": 0,
-            "total_events": 0
-        }
         
         # Track which devices contributed
         devices = set()
+        for e in all_events_raw:
+            devices.add(e.get("judge_id", "unknown"))
         
-        # Event scoring weights
-        event_weights = {
-            "KD": 3.0,  # Knockdown
-            "TD": 2.0,  # Takedown
-            "Submission Attempt": 2.5,
-            "Cross": 1.0, "Hook": 1.0, "Uppercut": 1.0, 
-            "Elbow": 1.2, "Knee": 1.2,
-            "Jab": 0.5,
-            "Leg Kick": 0.7, "Body Kick": 0.8, "Head Kick": 1.5,
-            "Ground Top Control": 0.3,
-            "Ground Back Control": 0.5,
-            "Cage Control Time": 0.2,
-            "CTRL_START": 0, "CTRL_END": 0,  # Control markers (computed separately)
-        }
+        # Convert to EventData format for the scoring engine
+        events_for_scoring = []
+        for e in all_events_raw:
+            events_for_scoring.append(EventData(
+                fighter=e.get("fighter", "fighter1"),
+                event_type=e.get("event_type", ""),
+                timestamp=e.get("timestamp", 0),
+                metadata=e.get("metadata", {})
+            ))
         
-        # Process all events from all devices
-        for event in all_events:
-            fighter = event.get("fighter", "")
-            event_type = event.get("event_type", "")
-            devices.add(event.get("judge_id", "unknown"))
-            
-            stats = fighter1_stats if fighter == "fighter1" else fighter2_stats
-            stats["total_events"] += 1
-            
-            # Categorize events
-            if event_type == "KD":
-                stats["knockdowns"] += 1
-            elif event_type == "TD":
-                stats["takedowns"] += 1
-            elif event_type == "Submission Attempt":
-                stats["submissions"] += 1
-            elif event_type in ["Cross", "Hook", "Uppercut", "Elbow", "Knee", "Head Kick"]:
-                stats["significant_strikes"] += 1
-            elif event_type in ["Ground Top Control", "Ground Back Control", "Cage Control Time"]:
-                stats["control_time"] += 1
+        # Use the existing scoring engine
+        f1_total, f1_categories, f1_counts = calculate_new_score(events_for_scoring, "fighter1")
+        f2_total, f2_categories, f2_counts = calculate_new_score(events_for_scoring, "fighter2")
         
-        # Calculate weighted scores
-        f1_score = 0
-        f2_score = 0
+        # Calculate score differential
+        score_diff = f1_total - f2_total
         
-        for event in all_events:
-            fighter = event.get("fighter", "")
-            event_type = event.get("event_type", "")
-            weight = event_weights.get(event_type, 0.5)
-            
-            if fighter == "fighter1":
-                f1_score += weight
-            else:
-                f2_score += weight
+        # GUARDRAILS - same as calculate_score_v2
+        f1_has_near_finish = f1_categories.get("has_near_finish_striking") or f1_categories.get("has_near_finish_grappling")
+        f2_has_near_finish = f2_categories.get("has_near_finish_striking") or f2_categories.get("has_near_finish_grappling")
         
-        # Determine round winner and card
-        score_diff = abs(f1_score - f2_score)
-        
-        if score_diff < 2:
-            # Very close round - could go either way
-            if f1_score >= f2_score:
-                red_score, blue_score = 10, 9
-            else:
-                red_score, blue_score = 9, 10
-        elif score_diff < 8:
-            # Clear winner
-            if f1_score > f2_score:
-                red_score, blue_score = 10, 9
-            else:
-                red_score, blue_score = 9, 10
+        if f1_has_near_finish and not f2_has_near_finish:
+            score_diff = max(f1_total - f2_total, 10.0)
+        elif f2_has_near_finish and not f1_has_near_finish:
+            score_diff = min(f1_total - f2_total, -10.0)
         else:
-            # Dominant round - check for 10-8
-            kd_diff = abs(fighter1_stats["knockdowns"] - fighter2_stats["knockdowns"])
-            if f1_score > f2_score:
-                red_score = 10
-                blue_score = 8 if (kd_diff >= 2 or score_diff >= 15) else 9
-            else:
-                blue_score = 10
-                red_score = 8 if (kd_diff >= 2 or score_diff >= 15) else 9
+            striking_margin = f1_categories['striking'] - f2_categories['striking']
+            if abs(striking_margin) >= 20.0:
+                if striking_margin > 0 and not f2_categories.get("has_near_finish_grappling"):
+                    score_diff = max(f1_total - f2_total, 10.0)
+                elif striking_margin < 0 and not f1_categories.get("has_near_finish_grappling"):
+                    score_diff = min(f1_total - f2_total, -10.0)
         
-        card = f"{red_score}-{blue_score}"
+        # KD and strike differential for 10-8 guardrails
+        f1_kd_count = f1_counts.get("KD", 0)
+        f2_kd_count = f2_counts.get("KD", 0)
+        kd_differential = abs(f1_kd_count - f2_kd_count)
+        
+        f1_total_strikes = sum([f1_counts.get(t, 0) for t in ["Jab", "Cross", "Hook", "Uppercut", "Elbow", "Knee", "Head Kick", "Body Kick", "Low Kick"]])
+        f2_total_strikes = sum([f2_counts.get(t, 0) for t in ["Jab", "Cross", "Hook", "Uppercut", "Elbow", "Knee", "Head Kick", "Body Kick", "Low Kick"]])
+        strike_differential = abs(f1_total_strikes - f2_total_strikes)
+        
+        allow_extreme_score = (kd_differential >= 2) or (strike_differential >= 100)
+        
+        # Determine card using the same thresholds as calculate_score_v2
+        if abs(score_diff) <= 3.0:
+            card = "10-10"
+            winner = "DRAW"
+        elif abs(score_diff) < 140.0:
+            winner = "fighter1" if score_diff > 0 else "fighter2"
+            card = "10-9" if score_diff > 0 else "9-10"
+        elif abs(score_diff) < 200.0:
+            winner = "fighter1" if score_diff > 0 else "fighter2"
+            if allow_extreme_score:
+                card = "10-8" if score_diff > 0 else "8-10"
+            else:
+                card = "10-9" if score_diff > 0 else "9-10"
+        else:
+            winner = "fighter1" if score_diff > 0 else "fighter2"
+            if allow_extreme_score and abs(score_diff) >= 250.0:
+                card = "10-7" if score_diff > 0 else "7-10"
+            elif allow_extreme_score:
+                card = "10-8" if score_diff > 0 else "8-10"
+            else:
+                card = "10-9" if score_diff > 0 else "9-10"
+        
+        # Parse card to get scores
+        if "-" in card:
+            parts = card.split("-")
+            red_score = int(parts[0])
+            blue_score = int(parts[1])
+        else:
+            red_score, blue_score = 10, 9
         
         # Update the bout with computed score
         bout = await db.bouts.find_one({"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]})
@@ -3320,12 +3301,14 @@ async def compute_unified_round_score(bout_id: str, round_num: int):
                 "unified_red": red_score,
                 "unified_blue": blue_score,
                 "computed_from_events": True,
-                "total_events": len(all_events),
+                "total_events": len(all_events_raw),
                 "devices_contributed": list(devices),
                 "num_devices": len(devices),
-                "fighter1_stats": fighter1_stats,
-                "fighter2_stats": fighter2_stats,
-                "raw_scores": {"red": round(f1_score, 2), "blue": round(f2_score, 2)}
+                "score_diff": round(score_diff, 2),
+                "f1_total": round(f1_total, 2),
+                "f2_total": round(f2_total, 2),
+                "f1_counts": f1_counts,
+                "f2_counts": f2_counts
             }
             
             # Update or append
@@ -3355,7 +3338,7 @@ async def compute_unified_round_score(bout_id: str, round_num: int):
                 }}
             )
         
-        logging.info(f"[UNIFIED] Bout {bout_id} Round {round_num}: {card} from {len(all_events)} events ({len(devices)} devices)")
+        logging.info(f"[UNIFIED] Bout {bout_id} Round {round_num}: {card} (diff: {score_diff:.2f}) from {len(all_events_raw)} events ({len(devices)} devices)")
         
         return {
             "bout_id": bout_id,
@@ -3363,11 +3346,16 @@ async def compute_unified_round_score(bout_id: str, round_num: int):
             "card": card,
             "red_score": red_score,
             "blue_score": blue_score,
-            "total_events": len(all_events),
+            "winner": winner,
+            "score_diff": round(score_diff, 2),
+            "total_events": len(all_events_raw),
             "devices": list(devices),
-            "fighter1_stats": fighter1_stats,
-            "fighter2_stats": fighter2_stats,
-            "raw_scores": {"red": round(f1_score, 2), "blue": round(f2_score, 2)}
+            "f1_total": round(f1_total, 2),
+            "f2_total": round(f2_total, 2),
+            "f1_counts": f1_counts,
+            "f2_counts": f2_counts,
+            "kd_differential": kd_differential,
+            "strike_differential": strike_differential
         }
     except Exception as e:
         logging.error(f"Error computing unified score: {str(e)}")
