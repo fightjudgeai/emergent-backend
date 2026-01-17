@@ -49,10 +49,10 @@ export default function EventSetup() {
   });
 
   const addFight = () => {
-    if (fights.length < 25) {
+    if (fights.length < 30) {
       setFights([...fights, { fighter1: '', fighter2: '', rounds: '3' }]);
     } else {
-      toast.error('Maximum 25 fights allowed per event');
+      toast.error('Maximum 30 fights allowed per event');
     }
   };
 
@@ -250,11 +250,11 @@ export default function EventSetup() {
 
           <div className="border-t border-[#2a2d35] pt-3">
             <div className="flex items-center justify-between mb-3">
-              <Label className="text-gray-300 text-sm font-medium">Fights ({fights.length}/25)</Label>
+              <Label className="text-gray-300 text-sm font-medium">Fights ({fights.length}/30)</Label>
               <Button
                 data-testid="add-fight-btn"
                 onClick={addFight}
-                disabled={fights.length >= 25}
+                disabled={fights.length >= 30}
                 className="h-8 px-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white text-sm disabled:opacity-50"
               >
                 <Plus className="w-4 h-4 mr-1" />
