@@ -278,12 +278,13 @@ export default function SupervisorDashboardPro() {
     return () => clearInterval(interval);
   }, [boutId, currentRound, fetchEvents, fetchRoundResults, fetchBoutInfo]);
 
-  // End Round
+  // End Round - compute and auto-advance
   const handleEndRound = async () => {
     if (!boutId) return;
     
     setIsLoading(true);
     try {
+      // 1. Compute the round score
       const response = await fetch(`${API}/api/rounds/compute`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -296,9 +297,29 @@ export default function SupervisorDashboardPro() {
       if (response.ok) {
         const result = await response.json();
         setLastRoundResult(result);
-        setShowRoundResult(true);
         await fetchRoundResults();
-        toast.success(`Round ${currentRound}: ${result.red_points}-${result.blue_points}`);
+        
+        toast.success(`Round ${currentRound}: ${result.red_points}-${result.blue_points} (${result.winner === 'RED' ? boutInfo.fighter1 : result.winner === 'BLUE' ? boutInfo.fighter2 : 'DRAW'})`);
+        
+        // 2. Auto-advance to next round if not final
+        if (currentRound < totalRounds) {
+          const advanceResponse = await fetch(`${API}/api/bouts/${boutId}/advance-round`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          
+          if (advanceResponse.ok) {
+            const advanceData = await advanceResponse.json();
+            if (advanceData.success) {
+              setCurrentRound(advanceData.current_round);
+              toast.success(`Moving to Round ${advanceData.current_round}`, { duration: 2000 });
+            }
+          }
+        } else {
+          toast.info('Final round completed! Click "Finalize" to declare winner.');
+        }
+        
+        setShowRoundResult(true);
       } else {
         toast.error('Failed to compute round');
       }
@@ -309,12 +330,29 @@ export default function SupervisorDashboardPro() {
     }
   };
 
-  // Next Round
-  const handleNextRound = () => {
+  // Next Round (manual) - still available as backup
+  const handleNextRound = async () => {
     if (currentRound < totalRounds) {
-      setCurrentRound(currentRound + 1);
-      setShowRoundResult(false);
-      toast.success(`Moving to Round ${currentRound + 1}`);
+      try {
+        const response = await fetch(`${API}/api/bouts/${boutId}/advance-round`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            setCurrentRound(data.current_round);
+            setShowRoundResult(false);
+            toast.success(`Moving to Round ${data.current_round}`);
+          }
+        }
+      } catch (error) {
+        // Fallback to local update
+        setCurrentRound(currentRound + 1);
+        setShowRoundResult(false);
+        toast.success(`Moving to Round ${currentRound + 1}`);
+      }
     }
   };
 
