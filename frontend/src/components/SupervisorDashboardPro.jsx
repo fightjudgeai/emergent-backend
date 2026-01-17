@@ -18,7 +18,6 @@ import {
   Target,
   Award,
   Tv,
-  ChevronRight,
   TrendingUp,
   TrendingDown,
   Minus,
