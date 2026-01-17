@@ -712,12 +712,19 @@ export default function SupervisorDashboardPro() {
               <div className="text-gray-400 text-sm">
                 Delta: {lastRoundResult.delta?.toFixed(1)} | {lastRoundResult.total_events} events
               </div>
-              <div className="flex gap-2 mt-4">
-                <Button onClick={() => setShowRoundResult(false)} variant="outline" className="flex-1">Close</Button>
-                {currentRound < totalRounds && (
-                  <Button onClick={() => { setShowRoundResult(false); handleNextRound(); }} className="flex-1 bg-green-600">Next Round</Button>
-                )}
-              </div>
+              {currentRound <= totalRounds ? (
+                <div className="text-green-400 text-sm">
+                  Auto-advancing to Round {currentRound}...
+                </div>
+              ) : (
+                <div className="text-amber-400 text-sm">
+                  Final round complete! Click "Finalize Fight" to declare winner.
+                </div>
+              )}
+              <Button onClick={() => setShowRoundResult(false)} className="w-full bg-gray-700 hover:bg-gray-600 mt-4">
+                Close
+              </Button>
+            </div>
             </div>
           )}
         </DialogContent>
