@@ -96,6 +96,13 @@ export default function LovableBroadcast() {
         e.preventDefault();
         setShowOverridePanel((prev) => !prev);
       }
+      // Multi-Judge panel toggle (Ctrl+Shift+J or just J)
+      if ((e.key === "j" || e.key === "J") && !e.ctrlKey) {
+        if (document.activeElement?.tagName !== "INPUT") {
+          e.preventDefault();
+          setShowMultiJudge((prev) => !prev);
+        }
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
