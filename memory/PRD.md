@@ -8,10 +8,13 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 4. Fight completion and archival system
 5. Fight history for reviewing past fights
 
+**CRITICAL REQUIREMENT**: Four operators on different laptops scoring different aspects of the same fight (e.g., Red Striking, Red Grappling, Blue Striking, Blue Grappling). All events logged by these operators must be combined in real-time on the server to produce ONE unified, official score.
+
 ## Architecture
 
 ### Backend Systems
 - **Primary Backend**: `/app/backend/server.py` (MongoDB) - ACTIVE
+- **Unified Scoring Engine**: `/app/backend/unified_scoring.py` - Delta-based scoring logic
 - **Deprecated**: `/app/datafeed_api/` (Supabase/Postgres) - NOT IN USE
 
 ### Frontend
@@ -21,101 +24,174 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 
 ## What's Been Implemented
 
-### 2026-01-16 Session - Bug Fixes & Enhancements
+### 2026-01-17 Session - Server-Authoritative Unified Scoring System (COMPLETED)
+
+1. **WebSocket Real-Time Updates** (COMPLETED)
+   - WebSocket endpoint at `/api/ws/unified/{bout_id}`
+   - Connection manager for all operator laptops
+   - Real-time broadcast of events, round computations, and fight finalization
+   - All connected clients receive SAME data from server
+
+2. **Unified Events API** (COMPLETED)
+   - `POST /api/events` - Create event with device_role tagging
+   - `GET /api/events` - Get ALL events (NO device filter)
+   - Events stored with device_role for auditing only
+   - Auto-creates bout if doesn't exist
+
+3. **Server-Authoritative Round Computation** (COMPLETED)
+   - `POST /api/rounds/compute` - Computes from ALL events, ALL devices
+   - `GET /api/rounds` - Get all computed round results
+   - Idempotent (safe to call multiple times)
+   - Uses delta-based scoring system
+
+4. **Fight Finalization** (COMPLETED)
+   - `POST /api/fights/finalize` - Calculate final winner
+   - `GET /api/fights/{bout_id}/result` - Get fight result
+
+5. **Frontend Hooks** (COMPLETED)
+   - `useUnifiedScoring.js` - WebSocket-based real-time hook
+   - `CombinedSyncPanel.jsx` - Updated to use new hook
+   - `OperatorPanel.jsx` - Updated to use unified API as primary
+
+### Test Results (2026-01-17)
+- **18/18 tests passed (100% success rate)**
+- All device roles (RED_STRIKING, RED_GRAPPLING, BLUE_STRIKING, BLUE_GRAPPLING) combine correctly
+- Delta scoring system working with correct event values
+- WebSocket broadcasts functioning
+
+### Previous Sessions
 1. **Fixed Broadcast Connection Error** (COMPLETED)
-   - Added missing `/api/bouts` and `/api/bouts/active` endpoints
-   - Added `/api/bouts/{bout_id}` for individual bout retrieval
-   - Added `/api/bouts/{bout_id}/round-score` for updating scores
-   - Added `/api/bouts/{bout_id}/status` for status updates
-   - Bouts can now be created directly in MongoDB for broadcast display
-
 2. **Enhanced BoutSelector Component** (COMPLETED)
-   - Added "New" button to create bouts directly from broadcast UI
-   - Added "Create New Bout - PFC 50" dialog
-   - Auto-connects to newly created bouts
-   - Dropdown shows all active bouts from MongoDB
+3. **Lovable Broadcast Components Integrated** (COMPLETED)
 
-### Previous Session - Lovable Integration
-1. **Lovable Broadcast Components Integrated** (COMPLETED)
-   - Created `/app/frontend/src/components/lovable-broadcast/` with all components
-   - BroadcastScorecard, TopBar, FighterHeader, ScoreGrid, FinalResult, RoundWinner
-   - SignalLostOverlay, StandbyScreen, ConnectionIndicator, DemoModeControls
-   - Custom CSS with PFC 50 gold/cyan color scheme
+## Server-Authoritative Scoring Architecture
 
-2. **Hooks Created**
-   - `useFightJudgeAPI.js` - Connects to backend `/api/live/{bout_id}`
-   - `useDemoMode.js` - Demo simulation for testing
+### Core Principle
+The SERVER is the SINGLE SOURCE OF TRUTH for all scoring data. Operator laptops are "thin clients" that:
+1. Send events to the server
+2. Display state provided by the server
+3. NEVER compute scores locally
 
-3. **Additional Features**
-   - Fighter Photos Support in EventSetup
-   - Offline Capability with localStorage caching
-   - End Fight Dialog with method selection (KO, TKO, SUB, etc.)
-   - Increased fight limit to 25 per event
+### Data Flow
+```
+Operator 1 (RED_STRIKING) ──┐
+Operator 2 (RED_GRAPPLING) ──┼──> Server (MongoDB) ──> WebSocket Broadcast ──> ALL Operators
+Operator 3 (BLUE_STRIKING) ──┤                                                see SAME data
+Operator 4 (BLUE_GRAPPLING) ─┘
+```
 
-## PFC 50 Live Broadcast Setup
-
-### URLs for Arena Display:
-- **Lovable Display (Premium)**: `/pfc50` or `/pfc50/{boutId}`
-- **Standard Display**: `/arena/{boutId}`
-
-### Quick Start for PFC 50:
-1. Go to `/pfc50` in browser
-2. Click "New" button in top bar
-3. Enter fighter names, rounds, division
-4. Click "Create & Connect"
-5. Press F for fullscreen
-
-### How to Use at PFC 50:
-1. **Arena Display PC**: Open `/pfc50/{boutId}` in full-screen Chrome (press F)
-2. **Controls Panel**: Click gear icon (bottom-left) to access display controls
-3. **Demo Mode**: Test visuals before going live
-4. **Live Mode**: Switch to "Live" and scores auto-update from backend
-
-### Display Modes:
-- **Scores**: Show live round-by-round scoring
-- **R1/R2/R3**: Show round winner announcement
-- **Final**: Show fight winner with totals
-
-### Keyboard Shortcuts:
-- **F**: Toggle fullscreen
-- **Ctrl+Shift+R**: Emergency refresh
+### Device Roles
+- `RED_STRIKING` - Tracks Red corner striking events
+- `RED_GRAPPLING` - Tracks Red corner grappling events
+- `BLUE_STRIKING` - Tracks Blue corner striking events
+- `BLUE_GRAPPLING` - Tracks Blue corner grappling events
 
 ## API Endpoints
+
+### Unified Scoring API (V2)
+- `POST /api/events` - Create event (broadcasts via WebSocket)
+- `GET /api/events?bout_id=X&round_number=Y` - Get ALL events
+- `POST /api/rounds/compute` - Compute round score (server-authoritative)
+- `GET /api/rounds?bout_id=X` - Get all round results
+- `POST /api/fights/finalize` - Finalize fight
+- `GET /api/fights/{bout_id}/result` - Get fight result
+- `WS /api/ws/unified/{bout_id}` - WebSocket for real-time updates
 
 ### Bout Management
 - `GET /api/bouts` - List all bouts
 - `GET /api/bouts/active` - List active bouts only
 - `POST /api/bouts` - Create new bout
 - `GET /api/bouts/{bout_id}` - Get specific bout
-- `PUT /api/bouts/{bout_id}/round-score` - Update round score
-- `PUT /api/bouts/{bout_id}/status` - Update bout status
 
 ### Broadcast
 - `GET /api/live/{bout_id}` - Live scoring data (used by Lovable)
-- `GET /api/final/{bout_id}` - Final results
-
-### Fight Completion
-- `POST /api/fight/complete/{bout_id}` - Archive completed fight
 
 ## Key Files
-- `/app/frontend/src/components/LovableBroadcast.jsx` - Main Lovable page
-- `/app/frontend/src/components/lovable-broadcast/BoutSelector.jsx` - Bout selection and creation
-- `/app/frontend/src/hooks/useFightJudgeAPI.js` - Backend connection
-- `/app/frontend/src/styles/lovable-broadcast.css` - Custom styles
-- `/app/backend/server.py` - API with bout management and broadcast endpoints
 
-## Color Scheme (Lovable)
-- Gold/Cyan: `hsl(195, 100%, 70%)`
-- Accent Gold: `hsl(43, 85%, 55%)`
-- Corner Red: `hsl(348, 83%, 47%)`
-- Corner Blue: `hsl(225, 73%, 57%)`
+### Backend
+- `/app/backend/server.py` - Main FastAPI server with WebSocket
+- `/app/backend/unified_scoring.py` - Delta-based scoring logic
+
+### Frontend
+- `/app/frontend/src/hooks/useUnifiedScoring.js` - WebSocket hook
+- `/app/frontend/src/components/CombinedSyncPanel.jsx` - Unified display
+- `/app/frontend/src/components/OperatorPanel.jsx` - Event logging
+- `/app/frontend/src/components/LovableBroadcast.jsx` - Arena display
+
+## Delta Scoring System
+
+### Event Values
+| Event Type | Value | Notes |
+|------------|-------|-------|
+| KD (Near-Finish) | 100.0 | Highest impact |
+| KD (Hard) | 70.0 | |
+| KD (Flash) | 40.0 | |
+| Rocked/Stunned | 30.0 | |
+| Takedown | 25.0 | |
+| Cross/Hook/Uppercut/Elbow (sig) | 14.0 | |
+| Head Kick (sig) | 15.0 | |
+| Jab (sig) | 10.0 | |
+| Submission Attempt (Near-Finish) | 100.0 | |
+| Submission Attempt (Deep) | 60.0 | |
+
+### Round Score Mapping
+- Delta ≤ 3.0: 10-10 DRAW
+- Delta < 140.0: 10-9 (standard)
+- Delta < 200.0: 10-8 (dominant)
+- Delta ≥ 200.0: 10-7 (extreme)
+
+## Database Collections
+
+### unified_events
+```javascript
+{
+  bout_id: String,
+  round_number: Number,
+  corner: "RED" | "BLUE",
+  aspect: "STRIKING" | "GRAPPLING",
+  event_type: String,
+  value: Number,
+  device_role: String,
+  metadata: Object,
+  created_at: DateTime,
+  created_by: String  // For audit only
+}
+```
+
+### round_results
+```javascript
+{
+  bout_id: String,
+  round_number: Number,  // Unique compound key
+  red_points: Number,
+  blue_points: Number,
+  delta: Number,
+  red_total: Number,
+  blue_total: Number,
+  red_breakdown: Object,
+  blue_breakdown: Object,
+  total_events: Number
+}
+```
+
+### fight_results
+```javascript
+{
+  bout_id: String,  // Unique
+  final_red: Number,
+  final_blue: Number,
+  winner: "RED" | "BLUE" | "DRAW",
+  winner_name: String,
+  rounds: Array
+}
+```
 
 ## Known Issues
-1. **Firebase/MongoDB Sync**: EventSetup uses Firebase, broadcast uses MongoDB. Manual bout creation needed for broadcast.
-2. **datafeed_api**: The old Supabase backend is completely non-functional and should be removed.
+1. **Firebase/MongoDB Sync**: Legacy components still use Firebase. EventSetup uses Firebase while broadcast uses MongoDB.
+2. **datafeed_api**: The old Supabase backend is completely non-functional.
 
-## Future Tasks
-- Implement WebSocket for real-time updates (currently using polling)
-- Consolidate Firebase and MongoDB data flows
-- Remove deprecated `/app/datafeed_api/` directory
-- Add fighter control time calculation
+## Future Tasks (P2+)
+- [ ] Full Firebase migration for remaining pages (EventSetup, FightList)
+- [ ] Deprecate `/app/datafeed_api/` directory
+- [ ] Add fighter photos to unified scoring display
+- [ ] Implement operator authentication/authorization
