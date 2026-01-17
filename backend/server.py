@@ -4384,7 +4384,7 @@ async def unified_scoring_websocket(websocket: WebSocket, bout_id: str):
                 # Send keepalive ping
                 try:
                     await websocket.send_json({"type": "ping"})
-                except:
+                except Exception:
                     break
                     
     except WebSocketDisconnect:
