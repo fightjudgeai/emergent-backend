@@ -16,34 +16,56 @@ import {
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
-// Event configurations by type
+// Event configurations by type - COMPLETE LIST
 const STRIKING_EVENTS = [
-  { type: 'Jab', color: 'bg-gray-600', tier: null },
-  { type: 'Cross', color: 'bg-orange-600', tier: 'Sig' },
-  { type: 'Hook', color: 'bg-orange-600', tier: 'Sig' },
-  { type: 'Uppercut', color: 'bg-orange-600', tier: 'Sig' },
-  { type: 'Elbow', color: 'bg-orange-700', tier: 'Sig' },
-  { type: 'Knee', color: 'bg-orange-700', tier: 'Sig' },
-  { type: 'Body Kick', color: 'bg-yellow-600', tier: null },
-  { type: 'Leg Kick', color: 'bg-yellow-600', tier: null },
-  { type: 'Head Kick', color: 'bg-red-600', tier: 'Sig' },
-  { type: 'Rocked/Stunned', color: 'bg-red-700', tier: null },
+  // Basic Strikes
+  { type: 'Jab', color: 'bg-gray-500', tier: null, label: 'Jab' },
+  { type: 'Jab', color: 'bg-gray-600', tier: 'Sig', label: 'SS Jab' },
+  { type: 'Cross', color: 'bg-gray-500', tier: null, label: 'Cross' },
+  { type: 'Cross', color: 'bg-orange-600', tier: 'Sig', label: 'SS Cross' },
+  { type: 'Hook', color: 'bg-gray-500', tier: null, label: 'Hook' },
+  { type: 'Hook', color: 'bg-orange-600', tier: 'Sig', label: 'SS Hook' },
+  { type: 'Uppercut', color: 'bg-gray-500', tier: null, label: 'Uppercut' },
+  { type: 'Uppercut', color: 'bg-orange-600', tier: 'Sig', label: 'SS Uppercut' },
+  // Elbows & Knees
+  { type: 'Elbow', color: 'bg-orange-500', tier: null, label: 'Elbow' },
+  { type: 'Elbow', color: 'bg-orange-700', tier: 'Sig', label: 'SS Elbow' },
+  { type: 'Knee', color: 'bg-orange-500', tier: null, label: 'Knee' },
+  { type: 'Knee', color: 'bg-orange-700', tier: 'Sig', label: 'SS Knee' },
+  // Kicks
+  { type: 'Leg Kick', color: 'bg-yellow-500', tier: null, label: 'Leg Kick' },
+  { type: 'Leg Kick', color: 'bg-yellow-600', tier: 'Sig', label: 'SS Leg Kick' },
+  { type: 'Body Kick', color: 'bg-yellow-500', tier: null, label: 'Body Kick' },
+  { type: 'Body Kick', color: 'bg-yellow-600', tier: 'Sig', label: 'SS Body Kick' },
+  { type: 'Head Kick', color: 'bg-red-500', tier: null, label: 'Head Kick' },
+  { type: 'Head Kick', color: 'bg-red-600', tier: 'Sig', label: 'SS Head Kick' },
+  // Impact Events
+  { type: 'Rocked/Stunned', color: 'bg-red-700', tier: null, label: 'Rocked/Stunned' },
   { type: 'KD', color: 'bg-red-800', tier: 'Flash', label: 'KD (Flash)' },
   { type: 'KD', color: 'bg-red-900', tier: 'Hard', label: 'KD (Hard)' },
   { type: 'KD', color: 'bg-purple-800', tier: 'Near-Finish', label: 'KD (Near Finish)' },
 ];
 
 const GRAPPLING_EVENTS = [
-  { type: 'Takedown Landed', color: 'bg-teal-600', tier: null },
-  { type: 'Takedown Defended', color: 'bg-teal-500', tier: null },
-  { type: 'Sweep/Reversal', color: 'bg-cyan-600', tier: null },
-  { type: 'Guard Passing', color: 'bg-cyan-700', tier: null },
-  { type: 'Back Control', color: 'bg-indigo-600', tier: null },
-  { type: 'Mount Control', color: 'bg-indigo-600', tier: null },
-  { type: 'Submission Attempt', color: 'bg-purple-600', tier: 'Standard', label: 'Sub (Standard)' },
+  // Takedowns
+  { type: 'Takedown Landed', color: 'bg-teal-600', tier: null, label: 'TD Landed' },
+  { type: 'Takedown Defended', color: 'bg-teal-500', tier: null, label: 'TD Defended' },
+  { type: 'Slam', color: 'bg-teal-700', tier: null, label: 'Slam' },
+  // Position
+  { type: 'Sweep/Reversal', color: 'bg-cyan-600', tier: null, label: 'Sweep/Reversal' },
+  { type: 'Guard Passing', color: 'bg-cyan-700', tier: null, label: 'Guard Pass' },
+  { type: 'Back Control', color: 'bg-indigo-600', tier: null, label: 'Back Control' },
+  { type: 'Mount Control', color: 'bg-indigo-600', tier: null, label: 'Mount Control' },
+  { type: 'Side Control', color: 'bg-indigo-500', tier: null, label: 'Side Control' },
+  { type: 'Clinch Control', color: 'bg-indigo-500', tier: null, label: 'Clinch Control' },
+  // Submissions
+  { type: 'Submission Attempt', color: 'bg-purple-500', tier: 'Standard', label: 'Sub Attempt' },
   { type: 'Submission Attempt', color: 'bg-purple-700', tier: 'Deep', label: 'Sub (Deep)' },
   { type: 'Submission Attempt', color: 'bg-purple-900', tier: 'Near-Finish', label: 'Sub (Near Finish)' },
-  { type: 'Ground Strike', color: 'bg-amber-600', tier: 'Sig' },
+  // Ground Strikes
+  { type: 'Ground Strike', color: 'bg-amber-500', tier: null, label: 'Ground Strike' },
+  { type: 'Ground Strike', color: 'bg-amber-600', tier: 'Sig', label: 'SS Ground Strike' },
+  { type: 'GNP', color: 'bg-amber-700', tier: 'Sig', label: 'GNP (Sig)' },
 ];
 
 /**
