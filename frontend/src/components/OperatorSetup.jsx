@@ -151,8 +151,8 @@ export default function OperatorSetup() {
 
     setIsLoading(false);
     
-    // Navigate to operator panel
-    navigate(`/operator/${boutId}`);
+    // Navigate to simple operator panel
+    navigate(`/op/${boutId}`);
   };
 
   const selectedRoleConfig = selectedRole ? DEVICE_ROLES[selectedRole] : null;
