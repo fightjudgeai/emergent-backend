@@ -3127,7 +3127,337 @@ async def update_bout_status(bout_id: str, status: str, winner: Optional[str] = 
         raise HTTPException(status_code=500, detail=str(e))
 
 # ============================================================================
-# IV. BROADCAST API LAYER
+# IV. MULTI-JUDGE REAL-TIME SYNC SYSTEM
+# ============================================================================
+
+class JudgeEventLog(BaseModel):
+    """Event logged by a specific judge"""
+    bout_id: str
+    round_num: int
+    judge_id: str
+    judge_name: str
+    fighter: str  # "fighter1" or "fighter2"
+    event_type: str
+    timestamp: float
+    metadata: Optional[Dict[str, Any]] = {}
+
+class JudgeRoundScore(BaseModel):
+    """Round score from a specific judge"""
+    bout_id: str
+    round_num: int
+    judge_id: str
+    judge_name: str
+    fighter1_score: int
+    fighter2_score: int
+    card: str  # "10-9", "10-8", etc.
+    notes: Optional[str] = ""
+
+@api_router.post("/sync/event")
+async def sync_judge_event(event: JudgeEventLog):
+    """
+    Sync an event from a judge's device in real-time.
+    All events are stored with judge attribution for multi-judge aggregation.
+    """
+    try:
+        event_doc = {
+            "bout_id": event.bout_id,
+            "round_num": event.round_num,
+            "judge_id": event.judge_id,
+            "judge_name": event.judge_name,
+            "fighter": event.fighter,
+            "event_type": event.event_type,
+            "timestamp": event.timestamp,
+            "metadata": event.metadata,
+            "server_timestamp": datetime.now(timezone.utc).isoformat(),
+            "synced": True
+        }
+        
+        await db.synced_events.insert_one(event_doc)
+        
+        logging.info(f"[SYNC] Event from {event.judge_name}: {event.event_type} for {event.fighter}")
+        
+        return {"success": True, "synced_at": event_doc["server_timestamp"]}
+    except Exception as e:
+        logging.error(f"Error syncing event: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/sync/round-score")
+async def sync_judge_round_score(score: JudgeRoundScore):
+    """
+    Sync a round score from a judge's device.
+    Scores are stored per-judge and aggregated for display.
+    """
+    try:
+        score_doc = {
+            "bout_id": score.bout_id,
+            "round_num": score.round_num,
+            "judge_id": score.judge_id,
+            "judge_name": score.judge_name,
+            "fighter1_score": score.fighter1_score,
+            "fighter2_score": score.fighter2_score,
+            "card": score.card,
+            "notes": score.notes,
+            "submitted_at": datetime.now(timezone.utc).isoformat(),
+            "synced": True
+        }
+        
+        # Upsert - update if exists, insert if not
+        await db.synced_scores.update_one(
+            {
+                "bout_id": score.bout_id,
+                "round_num": score.round_num,
+                "judge_id": score.judge_id
+            },
+            {"$set": score_doc},
+            upsert=True
+        )
+        
+        # Update aggregated scores for the bout
+        await update_aggregated_scores(score.bout_id, score.round_num)
+        
+        logging.info(f"[SYNC] Score from {score.judge_name}: Round {score.round_num} = {score.card}")
+        
+        return {"success": True, "submitted_at": score_doc["submitted_at"]}
+    except Exception as e:
+        logging.error(f"Error syncing score: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+async def update_aggregated_scores(bout_id: str, round_num: int):
+    """
+    Aggregate scores from all judges for a round and update the bout.
+    Uses majority/average scoring for combined display.
+    """
+    try:
+        # Get all judge scores for this round
+        scores = await db.synced_scores.find({
+            "bout_id": bout_id,
+            "round_num": round_num
+        }).to_list(100)
+        
+        if not scores:
+            return
+        
+        # Calculate aggregated scores
+        total_f1 = sum(s["fighter1_score"] for s in scores)
+        total_f2 = sum(s["fighter2_score"] for s in scores)
+        num_judges = len(scores)
+        
+        avg_f1 = round(total_f1 / num_judges, 1)
+        avg_f2 = round(total_f2 / num_judges, 1)
+        
+        # Determine unified card (majority wins)
+        unified_f1 = round(avg_f1)
+        unified_f2 = round(avg_f2)
+        
+        # Get bout and update round scores
+        bout = await db.bouts.find_one({"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]})
+        if not bout:
+            return
+        
+        round_scores = bout.get("roundScores", [])
+        
+        # Find or create round entry
+        round_data = {
+            "round": round_num,
+            "red_score": unified_f1,
+            "blue_score": unified_f2,
+            "unified_red": unified_f1,
+            "unified_blue": unified_f2,
+            "judge_scores": [
+                {
+                    "judge_id": s["judge_id"],
+                    "judge_name": s["judge_name"],
+                    "red": s["fighter1_score"],
+                    "blue": s["fighter2_score"],
+                    "card": s["card"]
+                }
+                for s in scores
+            ],
+            "num_judges": num_judges,
+            "avg_red": avg_f1,
+            "avg_blue": avg_f2
+        }
+        
+        # Update or append
+        found = False
+        for i, r in enumerate(round_scores):
+            if r.get("round") == round_num:
+                round_scores[i] = round_data
+                found = True
+                break
+        
+        if not found:
+            round_scores.append(round_data)
+        
+        # Sort by round number
+        round_scores.sort(key=lambda x: x.get("round", 0))
+        
+        # Calculate totals
+        total_red = sum(r.get("unified_red", 0) for r in round_scores)
+        total_blue = sum(r.get("unified_blue", 0) for r in round_scores)
+        
+        # Update bout
+        await db.bouts.update_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"$set": {
+                "roundScores": round_scores,
+                "fighter1_total": total_red,
+                "fighter2_total": total_blue,
+                "active_judges": num_judges,
+                "last_sync": datetime.now(timezone.utc).isoformat()
+            }}
+        )
+        
+        logging.info(f"[AGGREGATED] Bout {bout_id} Round {round_num}: {unified_f1}-{unified_f2} from {num_judges} judges")
+        
+    except Exception as e:
+        logging.error(f"Error updating aggregated scores: {str(e)}")
+
+@api_router.get("/sync/status/{bout_id}")
+async def get_sync_status(bout_id: str):
+    """
+    Get real-time sync status for a bout - shows all connected judges and their scores.
+    """
+    try:
+        # Get bout info
+        bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"_id": 0}
+        )
+        if not bout:
+            raise HTTPException(status_code=404, detail=f"Bout {bout_id} not found")
+        
+        # Get all synced scores grouped by judge
+        scores = await db.synced_scores.find({"bout_id": bout_id}).to_list(1000)
+        
+        # Get recent events (last 30 seconds)
+        thirty_sec_ago = (datetime.now(timezone.utc) - timedelta(seconds=30)).isoformat()
+        recent_events = await db.synced_events.find({
+            "bout_id": bout_id,
+            "server_timestamp": {"$gte": thirty_sec_ago}
+        }).to_list(100)
+        
+        # Group scores by judge
+        judges = {}
+        for score in scores:
+            judge_id = score["judge_id"]
+            if judge_id not in judges:
+                judges[judge_id] = {
+                    "judge_id": judge_id,
+                    "judge_name": score["judge_name"],
+                    "rounds": {},
+                    "total_red": 0,
+                    "total_blue": 0,
+                    "last_activity": score.get("submitted_at", "")
+                }
+            judges[judge_id]["rounds"][score["round_num"]] = {
+                "red": score["fighter1_score"],
+                "blue": score["fighter2_score"],
+                "card": score["card"]
+            }
+            judges[judge_id]["total_red"] += score["fighter1_score"]
+            judges[judge_id]["total_blue"] += score["fighter2_score"]
+        
+        # Count events per judge
+        for event in recent_events:
+            judge_id = event["judge_id"]
+            if judge_id in judges:
+                judges[judge_id]["last_activity"] = event.get("server_timestamp", judges[judge_id]["last_activity"])
+        
+        return {
+            "bout_id": bout_id,
+            "fighter1": bout.get("fighter1", "Fighter 1"),
+            "fighter2": bout.get("fighter2", "Fighter 2"),
+            "current_round": bout.get("currentRound", 1),
+            "total_rounds": bout.get("totalRounds", 3),
+            "status": bout.get("status", "pending"),
+            "active_judges": len(judges),
+            "judges": list(judges.values()),
+            "unified_scores": bout.get("roundScores", []),
+            "unified_total_red": bout.get("fighter1_total", 0),
+            "unified_total_blue": bout.get("fighter2_total", 0),
+            "recent_events": len(recent_events),
+            "last_sync": bout.get("last_sync", "")
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error getting sync status: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/sync/events/{bout_id}/{round_num}")
+async def get_synced_events(bout_id: str, round_num: int, judge_id: Optional[str] = None):
+    """
+    Get all synced events for a round, optionally filtered by judge.
+    """
+    try:
+        query = {"bout_id": bout_id, "round_num": round_num}
+        if judge_id:
+            query["judge_id"] = judge_id
+        
+        events = await db.synced_events.find(query, {"_id": 0}).sort("timestamp", 1).to_list(1000)
+        
+        # Group by judge for display
+        by_judge = {}
+        for event in events:
+            jid = event["judge_id"]
+            if jid not in by_judge:
+                by_judge[jid] = {
+                    "judge_id": jid,
+                    "judge_name": event["judge_name"],
+                    "events": []
+                }
+            by_judge[jid]["events"].append(event)
+        
+        return {
+            "bout_id": bout_id,
+            "round_num": round_num,
+            "total_events": len(events),
+            "judges": list(by_judge.values())
+        }
+    except Exception as e:
+        logging.error(f"Error getting synced events: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/sync/heartbeat")
+async def judge_heartbeat(judge_id: str, judge_name: str, bout_id: str):
+    """
+    Heartbeat from a judge's device to track active connections.
+    """
+    try:
+        await db.judge_heartbeats.update_one(
+            {"judge_id": judge_id, "bout_id": bout_id},
+            {"$set": {
+                "judge_id": judge_id,
+                "judge_name": judge_name,
+                "bout_id": bout_id,
+                "last_seen": datetime.now(timezone.utc).isoformat(),
+                "active": True
+            }},
+            upsert=True
+        )
+        
+        # Get all active judges for this bout (seen in last 30 seconds)
+        thirty_sec_ago = (datetime.now(timezone.utc) - timedelta(seconds=30)).isoformat()
+        active_judges = await db.judge_heartbeats.find({
+            "bout_id": bout_id,
+            "last_seen": {"$gte": thirty_sec_ago}
+        }, {"_id": 0}).to_list(100)
+        
+        return {
+            "success": True,
+            "active_judges": len(active_judges),
+            "judges": [{"judge_id": j["judge_id"], "judge_name": j["judge_name"]} for j in active_judges]
+        }
+    except Exception as e:
+        logging.error(f"Error processing heartbeat: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Need timedelta import for sync features
+from datetime import timedelta
+
+# ============================================================================
+# V. BROADCAST API LAYER
 # ============================================================================
 
 @api_router.get("/live/{bout_id}")
