@@ -6,9 +6,10 @@ import { OperatorPanel } from "@/components/lovable-broadcast/OperatorPanel";
 import { DemoModeControls } from "@/components/lovable-broadcast/DemoModeControls";
 import { ConnectionIndicator } from "@/components/lovable-broadcast/ConnectionIndicator";
 import { ManualScoreOverride } from "@/components/lovable-broadcast/ManualScoreOverride";
+import { MultiJudgeScoreboard, JudgeStatusIndicator } from "@/components/lovable-broadcast/MultiJudgeScoreboard";
 import { useFightJudgeAPI } from "@/hooks/useFightJudgeAPI";
 import { useDemoMode } from "@/hooks/useDemoMode";
-import { Maximize, Minimize } from "lucide-react";
+import { Maximize, Minimize, Users } from "lucide-react";
 import "@/styles/lovable-broadcast.css";
 
 export default function LovableBroadcast() {
@@ -21,6 +22,7 @@ export default function LovableBroadcast() {
   const [boutId, setBoutId] = useState(urlBoutId);
   const [overrideData, setOverrideData] = useState(null);
   const [showOverridePanel, setShowOverridePanel] = useState(false);
+  const [showMultiJudge, setShowMultiJudge] = useState(false);
   
   // Live API hook
   const liveApi = useFightJudgeAPI(isDemo ? undefined : boutId);
