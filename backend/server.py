@@ -3810,8 +3810,448 @@ async def judge_heartbeat(judge_id: str, judge_name: str, bout_id: str):
 # Need timedelta import for sync features
 from datetime import timedelta
 
+# Import unified scoring system
+from unified_scoring import compute_round_from_events, compute_fight_totals, get_event_value
+
 # ============================================================================
-# V. BROADCAST API LAYER
+# VI. UNIFIED SCORING API (SERVER-AUTHORITATIVE)
+# ============================================================================
+# ALL scoring computations happen HERE on the server.
+# Operators NEVER compute scores locally - they only display server results.
+# This ensures all 4 laptops see the SAME combined score.
+
+class UnifiedEventCreate(BaseModel):
+    """Event creation for unified scoring"""
+    bout_id: str
+    round_number: int
+    corner: str  # RED or BLUE
+    aspect: str  # STRIKING or GRAPPLING
+    event_type: str
+    device_role: str  # RED_STRIKING, RED_GRAPPLING, BLUE_STRIKING, BLUE_GRAPPLING
+    metadata: Optional[Dict[str, Any]] = {}
+
+class RoundComputeRequest(BaseModel):
+    """Request to compute a round score"""
+    bout_id: str
+    round_number: int
+
+class FightFinalizeRequest(BaseModel):
+    """Request to finalize a fight"""
+    bout_id: str
+
+@api_router.get("/events")
+async def get_all_events(bout_id: str, round_number: Optional[int] = None):
+    """
+    Get ALL events for a bout (and optionally a specific round).
+    CRITICAL: This returns ALL events from ALL devices - NO filtering by device/user.
+    """
+    try:
+        query = {"bout_id": bout_id}
+        if round_number is not None:
+            query["round_number"] = round_number
+        
+        # Also check the synced_events collection with round_num field
+        events = await db.unified_events.find(query, {"_id": 0}).sort("created_at", 1).to_list(10000)
+        
+        # Also get from synced_events (legacy/bridge)
+        legacy_query = {"bout_id": bout_id}
+        if round_number is not None:
+            legacy_query["round_num"] = round_number
+        legacy_events = await db.synced_events.find(legacy_query, {"_id": 0}).sort("server_timestamp", 1).to_list(10000)
+        
+        # Convert legacy events to unified format
+        for evt in legacy_events:
+            # Map fighter to corner
+            corner = "RED" if evt.get("fighter") == "fighter1" else "BLUE"
+            events.append({
+                "bout_id": evt.get("bout_id"),
+                "round_number": evt.get("round_num"),
+                "corner": corner,
+                "aspect": "STRIKING",  # Default, could be improved
+                "event_type": evt.get("event_type"),
+                "device_role": evt.get("judge_name", "UNKNOWN"),
+                "metadata": evt.get("metadata", {}),
+                "created_at": evt.get("server_timestamp"),
+                "created_by": evt.get("judge_id"),
+                "fighter": evt.get("fighter")  # Keep for backwards compat
+            })
+        
+        # Sort by created_at
+        events.sort(key=lambda x: x.get("created_at", ""))
+        
+        logging.info(f"[UNIFIED] GET /events bout={bout_id} round={round_number}: {len(events)} events (NO DEVICE FILTER)")
+        
+        return {
+            "bout_id": bout_id,
+            "round_number": round_number,
+            "total_events": len(events),
+            "events": events
+        }
+    except Exception as e:
+        logging.error(f"Error getting events: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/events")
+async def create_event(event: UnifiedEventCreate):
+    """
+    Create a new event for unified scoring.
+    Event is stored with device_role for auditing, but NEVER filtered by it.
+    """
+    try:
+        # Auto-create bout if it doesn't exist
+        existing_bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": event.bout_id}, {"boutId": event.bout_id}]}
+        )
+        if not existing_bout:
+            new_bout = {
+                "bout_id": event.bout_id,
+                "boutId": event.bout_id,
+                "fighter1": "Red Corner",
+                "fighter2": "Blue Corner",
+                "totalRounds": 5,
+                "currentRound": event.round_number,
+                "status": "in_progress",
+                "roundScores": [],
+                "createdAt": datetime.now(timezone.utc).isoformat(),
+                "auto_created": True
+            }
+            await db.bouts.insert_one(new_bout)
+            logging.info(f"[UNIFIED] Auto-created bout: {event.bout_id}")
+        
+        # Calculate event value
+        value = get_event_value(event.event_type, event.metadata)
+        
+        event_doc = {
+            "bout_id": event.bout_id,
+            "round_number": event.round_number,
+            "corner": event.corner.upper(),
+            "aspect": event.aspect.upper(),
+            "event_type": event.event_type,
+            "value": value,
+            "device_role": event.device_role,
+            "metadata": event.metadata,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "created_by": event.device_role  # For audit only
+        }
+        
+        await db.unified_events.insert_one(event_doc)
+        event_doc.pop("_id", None)
+        
+        logging.info(f"[UNIFIED] Event created: {event.event_type} for {event.corner} (from {event.device_role})")
+        
+        return {
+            "success": True,
+            "event": event_doc
+        }
+    except Exception as e:
+        logging.error(f"Error creating event: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/rounds/compute")
+async def compute_round(request: RoundComputeRequest):
+    """
+    SERVER-AUTHORITATIVE round computation.
+    Loads ALL events for bout_id + round_number from ALL devices,
+    computes the unified score, and persists the RoundResult.
+    
+    This is IDEMPOTENT - calling multiple times produces the same result.
+    """
+    try:
+        bout_id = request.bout_id
+        round_number = request.round_number
+        
+        # Get ALL events for this round from ALL sources (NO DEVICE FILTER)
+        unified_events = await db.unified_events.find(
+            {"bout_id": bout_id, "round_number": round_number},
+            {"_id": 0}
+        ).to_list(10000)
+        
+        # Also get from synced_events (bridge/legacy)
+        synced_events = await db.synced_events.find(
+            {"bout_id": bout_id, "round_num": round_number},
+            {"_id": 0}
+        ).to_list(10000)
+        
+        # Convert synced_events to unified format
+        all_events = list(unified_events)
+        for evt in synced_events:
+            corner = "RED" if evt.get("fighter") == "fighter1" else "BLUE"
+            all_events.append({
+                "corner": corner,
+                "event_type": evt.get("event_type"),
+                "metadata": evt.get("metadata", {}),
+                "fighter": evt.get("fighter")
+            })
+        
+        logging.info(f"[UNIFIED] Computing round {round_number} for bout {bout_id}: {len(all_events)} events from ALL devices")
+        
+        # Compute the round score using unified scoring logic
+        result = compute_round_from_events(all_events)
+        
+        # Get bout info for fighter names
+        bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"_id": 0}
+        )
+        
+        # Create RoundResult document
+        round_result = {
+            "bout_id": bout_id,
+            "round_number": round_number,
+            "red_points": result["red_points"],
+            "blue_points": result["blue_points"],
+            "delta": result["delta"],
+            "red_total": result["red_total"],
+            "blue_total": result["blue_total"],
+            "red_breakdown": result["red_breakdown"],
+            "blue_breakdown": result["blue_breakdown"],
+            "total_events": result["total_events"],
+            "winner": result["winner"],
+            "red_kd": result.get("red_kd", 0),
+            "blue_kd": result.get("blue_kd", 0),
+            "computed_at": datetime.now(timezone.utc).isoformat(),
+            "fighter1_name": bout.get("fighter1", "Red Corner") if bout else "Red Corner",
+            "fighter2_name": bout.get("fighter2", "Blue Corner") if bout else "Blue Corner"
+        }
+        
+        # UPSERT - idempotent storage
+        await db.round_results.update_one(
+            {"bout_id": bout_id, "round_number": round_number},
+            {"$set": round_result},
+            upsert=True
+        )
+        
+        # Also update bout's roundScores for backwards compatibility
+        if bout:
+            round_scores = bout.get("roundScores", [])
+            round_data = {
+                "round": round_number,
+                "red_score": result["red_points"],
+                "blue_score": result["blue_points"],
+                "unified_red": result["red_points"],
+                "unified_blue": result["blue_points"],
+                "delta": result["delta"],
+                "total_events": result["total_events"],
+                "computed_at": round_result["computed_at"]
+            }
+            
+            # Update or append
+            found = False
+            for i, r in enumerate(round_scores):
+                if r.get("round") == round_number:
+                    round_scores[i] = round_data
+                    found = True
+                    break
+            if not found:
+                round_scores.append(round_data)
+            
+            round_scores.sort(key=lambda x: x.get("round", 0))
+            
+            # Calculate totals
+            total_red = sum(r.get("red_score", 0) for r in round_scores)
+            total_blue = sum(r.get("blue_score", 0) for r in round_scores)
+            
+            await db.bouts.update_one(
+                {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+                {"$set": {
+                    "roundScores": round_scores,
+                    "fighter1_total": total_red,
+                    "fighter2_total": total_blue,
+                    "last_computed": round_result["computed_at"]
+                }}
+            )
+        
+        logging.info(f"[UNIFIED] Round {round_number} computed: {result['red_points']}-{result['blue_points']} (delta: {result['delta']}) from {result['total_events']} events")
+        
+        return round_result
+    except Exception as e:
+        logging.error(f"Error computing round: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/rounds")
+async def get_all_rounds(bout_id: str):
+    """
+    Get all computed RoundResults for a bout.
+    Returns the server-authoritative scores for all rounds.
+    """
+    try:
+        round_results = await db.round_results.find(
+            {"bout_id": bout_id},
+            {"_id": 0}
+        ).sort("round_number", 1).to_list(100)
+        
+        # Also get from bout's roundScores if round_results is empty (backwards compat)
+        if not round_results:
+            bout = await db.bouts.find_one(
+                {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+                {"_id": 0}
+            )
+            if bout and bout.get("roundScores"):
+                for r in bout["roundScores"]:
+                    round_results.append({
+                        "bout_id": bout_id,
+                        "round_number": r.get("round"),
+                        "red_points": r.get("red_score", r.get("unified_red", 0)),
+                        "blue_points": r.get("blue_score", r.get("unified_blue", 0)),
+                        "delta": r.get("delta", 0),
+                        "total_events": r.get("total_events", 0)
+                    })
+        
+        # Calculate running totals
+        running_red = 0
+        running_blue = 0
+        for r in round_results:
+            running_red += r.get("red_points", 0)
+            running_blue += r.get("blue_points", 0)
+        
+        # Get bout info
+        bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"_id": 0}
+        )
+        
+        return {
+            "bout_id": bout_id,
+            "fighter1": bout.get("fighter1", "Red Corner") if bout else "Red Corner",
+            "fighter2": bout.get("fighter2", "Blue Corner") if bout else "Blue Corner",
+            "rounds": round_results,
+            "total_rounds": len(round_results),
+            "running_red": running_red,
+            "running_blue": running_blue
+        }
+    except Exception as e:
+        logging.error(f"Error getting rounds: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/fights/finalize")
+async def finalize_fight(request: FightFinalizeRequest):
+    """
+    Finalize a fight - compute final totals and determine winner.
+    This is the authoritative final result.
+    """
+    try:
+        bout_id = request.bout_id
+        
+        # Get all round results
+        round_results = await db.round_results.find(
+            {"bout_id": bout_id},
+            {"_id": 0}
+        ).sort("round_number", 1).to_list(100)
+        
+        # If no round_results, try to get from bout
+        if not round_results:
+            bout = await db.bouts.find_one(
+                {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+                {"_id": 0}
+            )
+            if bout and bout.get("roundScores"):
+                for r in bout["roundScores"]:
+                    round_results.append({
+                        "round_number": r.get("round"),
+                        "red_points": r.get("red_score", r.get("unified_red", 0)),
+                        "blue_points": r.get("blue_score", r.get("unified_blue", 0)),
+                        "delta": r.get("delta", 0)
+                    })
+        
+        # Compute final totals
+        fight_totals = compute_fight_totals(round_results)
+        
+        # Get bout info for fighter names
+        bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"_id": 0}
+        )
+        
+        fighter1_name = bout.get("fighter1", "Red Corner") if bout else "Red Corner"
+        fighter2_name = bout.get("fighter2", "Blue Corner") if bout else "Blue Corner"
+        
+        if fight_totals["winner"] == "RED":
+            winner_name = fighter1_name
+        elif fight_totals["winner"] == "BLUE":
+            winner_name = fighter2_name
+        else:
+            winner_name = "DRAW"
+        
+        # Create FightResult document
+        fight_result = {
+            "bout_id": bout_id,
+            "final_red": fight_totals["final_red"],
+            "final_blue": fight_totals["final_blue"],
+            "winner": fight_totals["winner"],
+            "winner_name": winner_name,
+            "fighter1_name": fighter1_name,
+            "fighter2_name": fighter2_name,
+            "total_rounds": fight_totals["total_rounds"],
+            "rounds": [
+                {
+                    "round": r.get("round_number"),
+                    "red": r.get("red_points"),
+                    "blue": r.get("blue_points"),
+                    "delta": r.get("delta", 0)
+                }
+                for r in round_results
+            ],
+            "finalized_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        # UPSERT - idempotent storage
+        await db.fight_results.update_one(
+            {"bout_id": bout_id},
+            {"$set": fight_result},
+            upsert=True
+        )
+        
+        # Update bout status
+        await db.bouts.update_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"$set": {
+                "status": "completed",
+                "fighter1_total": fight_totals["final_red"],
+                "fighter2_total": fight_totals["final_blue"],
+                "winner": fight_totals["winner"],
+                "winner_name": winner_name,
+                "finalized_at": fight_result["finalized_at"]
+            }}
+        )
+        
+        logging.info(f"[UNIFIED] Fight finalized: {bout_id} - {fighter1_name} {fight_totals['final_red']} vs {fight_totals['final_blue']} {fighter2_name} | Winner: {winner_name}")
+        
+        return fight_result
+    except Exception as e:
+        logging.error(f"Error finalizing fight: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/fights/{bout_id}/result")
+async def get_fight_result(bout_id: str):
+    """
+    Get the final fight result (if finalized).
+    """
+    try:
+        result = await db.fight_results.find_one(
+            {"bout_id": bout_id},
+            {"_id": 0}
+        )
+        
+        if not result:
+            # Try to compute from rounds
+            rounds_response = await get_all_rounds(bout_id)
+            return {
+                "bout_id": bout_id,
+                "status": "in_progress",
+                "running_red": rounds_response["running_red"],
+                "running_blue": rounds_response["running_blue"],
+                "rounds": rounds_response["rounds"],
+                "finalized": False
+            }
+        
+        result["finalized"] = True
+        return result
+    except Exception as e:
+        logging.error(f"Error getting fight result: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============================================================================
+# VII. BROADCAST API LAYER
 # ============================================================================
 
 @api_router.get("/live/{bout_id}")
