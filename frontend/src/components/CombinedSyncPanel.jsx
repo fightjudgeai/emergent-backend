@@ -101,15 +101,25 @@ export default function CombinedSyncPanel({ boutId, currentRound, onRoundCompute
     
     setIsLoading(true);
     try {
+      // First refresh to get latest events from all devices
+      const roundRes = await fetch(`${API}/api/sync/round-status/${boutId}/${currentRound}`);
+      if (roundRes.ok) {
+        const roundData = await roundRes.json();
+        setRoundStatus(roundData);
+        console.log('[CombinedSync] Pre-compute events:', roundData.total_events, 'from devices');
+      }
+      
+      // Compute the round score from ALL combined events
       const response = await fetch(`${API}/api/sync/compute-round?bout_id=${boutId}&round_num=${currentRound}`, {
         method: 'POST'
       });
 
       if (response.ok) {
         const data = await response.json();
+        console.log('[CombinedSync] Computed score:', data);
         setLastComputedRound(data);
         setShowRoundResult(true);
-        toast.success(`Round ${currentRound}: ${data.card}`);
+        toast.success(`Round ${currentRound}: ${data.card} (${data.total_events} events from ${data.devices?.length || 0} devices)`);
         
         // Refresh status to get updated scores
         const statusRes = await fetch(`${API}/api/sync/status/${boutId}`);
@@ -118,9 +128,20 @@ export default function CombinedSyncPanel({ boutId, currentRound, onRoundCompute
           setSyncStatus(statusData);
         }
         
+        // Also refresh round status
+        const roundRes2 = await fetch(`${API}/api/sync/round-status/${boutId}/${currentRound}`);
+        if (roundRes2.ok) {
+          const roundData2 = await roundRes2.json();
+          setRoundStatus(roundData2);
+        }
+        
         if (onRoundComputed) {
           onRoundComputed(data);
         }
+      } else {
+        const errData = await response.json();
+        console.error('[CombinedSync] Compute failed:', errData);
+        toast.error(`Failed to compute: ${errData.detail || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('[CombinedSync] End round error:', error);
