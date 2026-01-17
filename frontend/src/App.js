@@ -5,6 +5,7 @@ import JudgeLogin from "@/components/JudgeLogin";
 import EventSetup from "@/components/EventSetup";
 import FightList from "@/components/FightList";
 import OperatorPanel from "@/components/OperatorPanel";
+import OperatorSetup from "@/components/OperatorSetup";
 import JudgePanel from "@/components/JudgePanel";
 import BroadcastMode from "@/components/BroadcastMode";
 import BroadcastDisplay from "@/components/BroadcastDisplay";
