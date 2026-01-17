@@ -3152,6 +3152,261 @@ class JudgeRoundScore(BaseModel):
     card: str  # "10-9", "10-8", etc.
     notes: Optional[str] = ""
 
+class DeviceRegistration(BaseModel):
+    """Register a device for multi-device sync"""
+    bout_id: str
+    device_id: str
+    account_id: str  # Same account on all devices (e.g., "ericgann")
+    device_name: str  # e.g., "Laptop 1", "Laptop 2"
+
+class NextRoundRequest(BaseModel):
+    """Signal that a device is ready for next round"""
+    bout_id: str
+    device_id: str
+    account_id: str
+    current_round: int
+
+# ============================================================================
+# MULTI-DEVICE SYNC (Same Account on Multiple Laptops)
+# ============================================================================
+
+@api_router.post("/sync/register-device")
+async def register_device(reg: DeviceRegistration):
+    """
+    Register a device/laptop for syncing. All devices on same account combine events.
+    """
+    try:
+        await db.registered_devices.update_one(
+            {"bout_id": reg.bout_id, "device_id": reg.device_id},
+            {"$set": {
+                "bout_id": reg.bout_id,
+                "device_id": reg.device_id,
+                "account_id": reg.account_id,
+                "device_name": reg.device_name,
+                "registered_at": datetime.now(timezone.utc).isoformat(),
+                "active": True,
+                "ready_for_next_round": False,
+                "current_round": 1
+            }},
+            upsert=True
+        )
+        
+        # Get all registered devices for this bout
+        devices = await db.registered_devices.find(
+            {"bout_id": reg.bout_id, "active": True},
+            {"_id": 0}
+        ).to_list(100)
+        
+        logging.info(f"[DEVICE] Registered {reg.device_name} ({reg.device_id}) for bout {reg.bout_id}")
+        
+        return {
+            "success": True,
+            "device_id": reg.device_id,
+            "total_devices": len(devices),
+            "devices": [{"device_id": d["device_id"], "device_name": d["device_name"]} for d in devices]
+        }
+    except Exception as e:
+        logging.error(f"Error registering device: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/sync/next-round")
+async def signal_next_round(req: NextRoundRequest):
+    """
+    Signal that this device is ready to move to next round.
+    When ALL devices click next round, the round score is computed and locked.
+    """
+    try:
+        # Mark this device as ready
+        await db.registered_devices.update_one(
+            {"bout_id": req.bout_id, "device_id": req.device_id},
+            {"$set": {
+                "ready_for_next_round": True,
+                "current_round": req.current_round,
+                "ready_at": datetime.now(timezone.utc).isoformat()
+            }}
+        )
+        
+        # Check if ALL devices are ready
+        all_devices = await db.registered_devices.find(
+            {"bout_id": req.bout_id, "active": True},
+            {"_id": 0}
+        ).to_list(100)
+        
+        ready_devices = [d for d in all_devices if d.get("ready_for_next_round") and d.get("current_round") == req.current_round]
+        
+        all_ready = len(ready_devices) == len(all_devices) and len(all_devices) > 0
+        
+        result = {
+            "success": True,
+            "device_id": req.device_id,
+            "current_round": req.current_round,
+            "devices_ready": len(ready_devices),
+            "devices_total": len(all_devices),
+            "all_ready": all_ready,
+            "waiting_for": [d["device_name"] for d in all_devices if not d.get("ready_for_next_round") or d.get("current_round") != req.current_round]
+        }
+        
+        if all_ready:
+            # Compute and lock the round score
+            score_result = await compute_unified_round_score(req.bout_id, req.current_round)
+            
+            # Reset ready status for all devices and move to next round
+            next_round = req.current_round + 1
+            await db.registered_devices.update_many(
+                {"bout_id": req.bout_id, "active": True},
+                {"$set": {"ready_for_next_round": False, "current_round": next_round}}
+            )
+            
+            # Update bout's current round
+            await db.bouts.update_one(
+                {"$or": [{"bout_id": req.bout_id}, {"boutId": req.bout_id}]},
+                {"$set": {"currentRound": next_round}}
+            )
+            
+            result["round_computed"] = True
+            result["score"] = score_result
+            result["next_round"] = next_round
+            
+            logging.info(f"[SYNC] All {len(all_devices)} devices ready - Round {req.current_round} computed: {score_result.get('card')}")
+        
+        return result
+    except Exception as e:
+        logging.error(f"Error in next round: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/sync/round-status/{bout_id}/{round_num}")
+async def get_round_status(bout_id: str, round_num: int):
+    """
+    Get real-time status of current round - combined events from all devices.
+    """
+    try:
+        # Get all events for this round
+        events = await db.synced_events.find(
+            {"bout_id": bout_id, "round_num": round_num},
+            {"_id": 0}
+        ).to_list(10000)
+        
+        # Get registered devices
+        devices = await db.registered_devices.find(
+            {"bout_id": bout_id, "active": True},
+            {"_id": 0}
+        ).to_list(100)
+        
+        # Count events by fighter
+        f1_events = [e for e in events if e.get("fighter") == "fighter1"]
+        f2_events = [e for e in events if e.get("fighter") == "fighter2"]
+        
+        # Count event types
+        f1_types = {}
+        f2_types = {}
+        for e in f1_events:
+            t = e.get("event_type", "")
+            f1_types[t] = f1_types.get(t, 0) + 1
+        for e in f2_events:
+            t = e.get("event_type", "")
+            f2_types[t] = f2_types.get(t, 0) + 1
+        
+        # Get current computed score if any
+        bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"_id": 0, "roundScores": 1, "fighter1": 1, "fighter2": 1}
+        )
+        
+        current_score = None
+        if bout:
+            for r in bout.get("roundScores", []):
+                if r.get("round") == round_num:
+                    current_score = r
+                    break
+        
+        return {
+            "bout_id": bout_id,
+            "round_num": round_num,
+            "fighter1": bout.get("fighter1", "Fighter 1") if bout else "Fighter 1",
+            "fighter2": bout.get("fighter2", "Fighter 2") if bout else "Fighter 2",
+            "total_events": len(events),
+            "fighter1_events": len(f1_events),
+            "fighter2_events": len(f2_events),
+            "fighter1_types": f1_types,
+            "fighter2_types": f2_types,
+            "devices": [{"device_id": d["device_id"], "device_name": d["device_name"], "ready": d.get("ready_for_next_round", False)} for d in devices],
+            "devices_ready": len([d for d in devices if d.get("ready_for_next_round")]),
+            "devices_total": len(devices),
+            "current_score": current_score
+        }
+    except Exception as e:
+        logging.error(f"Error getting round status: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/sync/end-fight")
+async def end_fight_sync(bout_id: str):
+    """
+    End the fight and compute final totals from all combined rounds.
+    """
+    try:
+        bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"_id": 0}
+        )
+        
+        if not bout:
+            raise HTTPException(status_code=404, detail="Bout not found")
+        
+        round_scores = bout.get("roundScores", [])
+        
+        # Calculate final totals
+        total_red = sum(r.get("red_score", 0) for r in round_scores)
+        total_blue = sum(r.get("blue_score", 0) for r in round_scores)
+        
+        # Determine winner
+        if total_red > total_blue:
+            winner = "fighter1"
+            winner_name = bout.get("fighter1", "Fighter 1")
+        elif total_blue > total_red:
+            winner = "fighter2"
+            winner_name = bout.get("fighter2", "Fighter 2")
+        else:
+            winner = "draw"
+            winner_name = "Draw"
+        
+        # Update bout status
+        await db.bouts.update_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"$set": {
+                "status": "completed",
+                "fighter1_total": total_red,
+                "fighter2_total": total_blue,
+                "winner": winner,
+                "winner_name": winner_name,
+                "completed_at": datetime.now(timezone.utc).isoformat()
+            }}
+        )
+        
+        # Deactivate devices
+        await db.registered_devices.update_many(
+            {"bout_id": bout_id},
+            {"$set": {"active": False}}
+        )
+        
+        logging.info(f"[FIGHT END] {bout_id}: {bout.get('fighter1')} {total_red} - {total_blue} {bout.get('fighter2')} | Winner: {winner_name}")
+        
+        return {
+            "success": True,
+            "bout_id": bout_id,
+            "fighter1": bout.get("fighter1"),
+            "fighter2": bout.get("fighter2"),
+            "fighter1_total": total_red,
+            "fighter2_total": total_blue,
+            "winner": winner,
+            "winner_name": winner_name,
+            "rounds": round_scores
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error ending fight: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.post("/sync/event")
 async def sync_judge_event(event: JudgeEventLog):
     """
