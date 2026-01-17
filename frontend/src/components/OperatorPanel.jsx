@@ -370,15 +370,59 @@ export default function OperatorPanel() {
       // Get current control time for the selected fighter
       const currentTime = controlTimers[selectedFighter].time;
       
-      // Use syncManager for offline-first event logging (Firebase)
-      const result = await syncManager.addEvent(boutId, bout.currentRound, {
-        fighter: selectedFighter,
-        event_type: eventType,
-        timestamp: currentTime,
-        metadata
-      });
+      // Determine corner from fighter selection
+      const corner = selectedFighter === 'fighter1' ? 'RED' : 'BLUE';
       
-      // ALSO sync to combined scoring backend for multi-device sync
+      // Get device role for tagging
+      const deviceRole = localStorage.getItem('device_role') || 'UNKNOWN';
+      
+      // PRIMARY: Use unified scoring API (server-authoritative)
+      // This broadcasts to all connected operator laptops via WebSocket
+      try {
+        const response = await fetch(`${backendUrl}/api/events`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bout_id: boutId,
+            round_number: bout.currentRound,
+            corner: corner,
+            aspect: metadata.category || 'STRIKING',
+            event_type: eventType,
+            device_role: deviceRole,
+            metadata: {
+              ...metadata,
+              timestamp: currentTime,
+              fighter: selectedFighter
+            }
+          })
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+          const connectedMsg = result.connected_clients > 0 ? ` (${result.connected_clients} devices synced)` : '';
+          toast.success(`${eventType} logged for ${fighterName}${connectedMsg}`);
+          console.log(`[UNIFIED] Event logged: ${eventType} for ${corner} (${deviceRole})`);
+        } else {
+          throw new Error('Server returned error');
+        }
+      } catch (apiError) {
+        console.warn('[UNIFIED] Primary API failed, falling back to Firebase:', apiError);
+        
+        // FALLBACK: Use Firebase syncManager for offline-first event logging
+        const result = await syncManager.addEvent(boutId, bout.currentRound, {
+          fighter: selectedFighter,
+          event_type: eventType,
+          timestamp: currentTime,
+          metadata
+        });
+        
+        const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
+        const modeIndicator = result.mode === 'offline' ? ' (saved locally)' : ' (Firebase)';
+        toast.success(`${eventType} logged for ${fighterName}${modeIndicator}`);
+      }
+      
+      // ALSO sync to legacy combined scoring backend (for backwards compatibility)
       try {
         const profile = JSON.parse(localStorage.getItem('judgeProfile') || '{}');
         const deviceId = localStorage.getItem('sync_device_id') || 'unknown';
@@ -398,15 +442,11 @@ export default function OperatorPanel() {
             metadata: metadata
           })
         });
-        console.log(`[SYNC] Event synced to combined scoring: ${eventType}`);
+        console.log(`[SYNC] Event also synced to legacy backend: ${eventType}`);
       } catch (syncError) {
-        console.warn('[SYNC] Failed to sync to combined backend:', syncError);
-        // Don't show error - the event is still logged locally
+        // Silent fail for legacy sync - not critical
+        console.warn('[SYNC] Legacy sync failed (non-critical):', syncError.message);
       }
-      
-      const fighterName = selectedFighter === 'fighter1' ? bout.fighter1 : bout.fighter2;
-      const modeIndicator = result.mode === 'offline' ? ' (saved locally)' : '';
-      toast.success(`${eventType} logged for ${fighterName}${modeIndicator}`);
     } catch (error) {
       console.error('Error logging event:', error);
       toast.error('Failed to log event');
