@@ -4106,6 +4106,83 @@ async def remove_operator(bout_id: str, device_id: str):
         logging.error(f"Error removing operator: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/bouts/{bout_id}/advance-round")
+async def advance_round(bout_id: str, data: dict = None):
+    """
+    Advance to next round after supervisor ends current round.
+    Updates bout's currentRound and notifies all operators.
+    """
+    try:
+        # Get current bout
+        bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]}
+        )
+        
+        if not bout:
+            raise HTTPException(status_code=404, detail="Bout not found")
+        
+        current = bout.get("currentRound", 1)
+        total = bout.get("totalRounds", 5)
+        next_round = current + 1
+        
+        if next_round > total:
+            return {
+                "success": False,
+                "message": "Already at final round",
+                "current_round": current,
+                "is_final": True
+            }
+        
+        # Update bout's current round
+        await db.bouts.update_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"$set": {"currentRound": next_round}}
+        )
+        
+        # Update all operators to new round
+        await db.operators.update_many(
+            {"bout_id": bout_id},
+            {"$set": {"current_round": next_round, "round_locked": False}}
+        )
+        
+        logging.info(f"[BOUT] Advanced {bout_id} to round {next_round}")
+        
+        return {
+            "success": True,
+            "previous_round": current,
+            "current_round": next_round,
+            "total_rounds": total,
+            "is_final": next_round >= total
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error advancing round: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/bouts/{bout_id}/current-round")
+async def get_current_round(bout_id: str):
+    """Get current round for a bout - used by operators to sync."""
+    try:
+        bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"_id": 0, "currentRound": 1, "totalRounds": 1, "status": 1, "fighter1": 1, "fighter2": 1}
+        )
+        
+        if not bout:
+            return {"current_round": 1, "total_rounds": 5, "status": "unknown"}
+        
+        return {
+            "current_round": bout.get("currentRound", 1),
+            "total_rounds": bout.get("totalRounds", 5),
+            "status": bout.get("status", "in_progress"),
+            "fighter1": bout.get("fighter1", "Red Corner"),
+            "fighter2": bout.get("fighter2", "Blue Corner")
+        }
+    except Exception as e:
+        logging.error(f"Error getting current round: {e}")
+        return {"current_round": 1, "total_rounds": 5, "status": "error"}
+
 @api_router.post("/events")
 async def create_event(event: UnifiedEventCreate):
     """
