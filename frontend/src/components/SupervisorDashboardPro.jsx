@@ -591,18 +591,27 @@ export default function SupervisorDashboardPro() {
         </DialogContent>
       </Dialog>
 
-      {/* Arena Broadcast View */}
+      {/* Arena Broadcast View - Using Lovable Frontend */}
       <Dialog open={showBroadcast} onOpenChange={setShowBroadcast}>
-        <DialogContent className="bg-black border-none text-white max-w-4xl p-0">
-          <ArenaBroadcastView 
-            boutInfo={boutInfo}
-            currentRound={currentRound}
-            totalRounds={totalRounds}
-            roundResults={roundResults}
-            runningTotals={runningTotals}
-            lastRoundResult={lastRoundResult}
-            finalResult={finalResult}
-          />
+        <DialogContent className="bg-black border-lb-gold/30 text-white max-w-5xl p-0 overflow-hidden">
+          <div className="h-[600px]">
+            <BroadcastScorecard
+              data={convertToLovableFormat(boutInfo, roundResults, runningTotals, finalResult)}
+              connectionStatus="connected"
+              isLoading={false}
+              displayMode={finalResult ? "final" : "scores"}
+            />
+          </div>
+          <div className="absolute top-2 right-12 flex gap-2">
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              onClick={() => window.open(`/pfc50?bout=${boutId}`, '_blank')}
+              className="text-amber-400 hover:text-amber-300"
+            >
+              <ExternalLink className="w-4 h-4 mr-1" /> Open Fullscreen
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
 
