@@ -4282,6 +4282,9 @@ async def finalize_fight(request: FightFinalizeRequest):
         
         logging.info(f"[UNIFIED] Fight finalized: {bout_id} - {fighter1_name} {fight_totals['final_red']} vs {fight_totals['final_blue']} {fighter2_name} | Winner: {winner_name}")
         
+        # BROADCAST to all connected WebSocket clients
+        await broadcast_fight_finalized(bout_id, fight_result)
+        
         return fight_result
     except Exception as e:
         logging.error(f"Error finalizing fight: {str(e)}")
