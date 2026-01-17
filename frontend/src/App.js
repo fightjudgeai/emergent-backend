@@ -52,6 +52,7 @@ function App() {
           <Route path="/op/:boutId" element={<OperatorSimple />} />
           <Route path="/waiting" element={<OperatorWaiting />} />
           <Route path="/waiting/:boutId" element={<OperatorWaiting />} />
+          <Route path="/control" element={<SupervisorControl />} />
           <Route path="/supervisor" element={<SupervisorDashboardPro />} />
           <Route path="/supervisor/:boutId" element={<SupervisorDashboardPro />} />
           <Route path="/supervisor-old" element={<SupervisorDashboard />} />
