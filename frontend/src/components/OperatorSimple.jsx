@@ -277,8 +277,6 @@ export default function OperatorSimple() {
         <div className="text-center text-xs text-gray-500 mt-2">
           Round controlled by Supervisor • {eventCount} events logged this round
         </div>
-          </div>
-        </div>
       </div>
     </div>
   );
