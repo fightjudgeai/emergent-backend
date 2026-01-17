@@ -4308,6 +4308,202 @@ async def get_fight_result(bout_id: str):
         logging.error(f"Error getting fight result: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# =============================================================================
+# WEBSOCKET ENDPOINT FOR REAL-TIME UNIFIED SCORING
+# =============================================================================
+
+@app.websocket("/api/ws/unified/{bout_id}")
+async def unified_scoring_websocket(websocket: WebSocket, bout_id: str):
+    """
+    WebSocket endpoint for real-time unified scoring updates.
+    
+    All connected operator laptops receive the SAME data from the server.
+    This ensures all 4 operators see identical event counts and scores.
+    
+    Message types sent to clients:
+    - event_added: New event was logged (from any device)
+    - round_computed: Round score was computed
+    - fight_finalized: Fight was finalized
+    - state_sync: Full state synchronization
+    - connection_count: Number of connected operators
+    """
+    await ws_manager.connect(websocket, bout_id)
+    
+    try:
+        # Send initial state on connect
+        initial_state = await get_unified_state(bout_id)
+        await websocket.send_json({
+            "type": "state_sync",
+            "data": initial_state,
+            "connection_count": ws_manager.get_connection_count(bout_id)
+        })
+        
+        # Broadcast new connection to all clients
+        await ws_manager.broadcast_to_bout(bout_id, {
+            "type": "connection_count",
+            "count": ws_manager.get_connection_count(bout_id)
+        })
+        
+        while True:
+            # Wait for messages from client (heartbeat, round change, etc.)
+            try:
+                data = await asyncio.wait_for(websocket.receive_json(), timeout=30.0)
+                
+                if data.get("type") == "ping":
+                    await websocket.send_json({"type": "pong", "timestamp": datetime.now(timezone.utc).isoformat()})
+                
+                elif data.get("type") == "request_sync":
+                    # Client requesting full state sync
+                    state = await get_unified_state(bout_id, data.get("round_number"))
+                    await websocket.send_json({
+                        "type": "state_sync",
+                        "data": state
+                    })
+                
+                elif data.get("type") == "set_round":
+                    # Client changed round - send state for new round
+                    round_num = data.get("round_number", 1)
+                    state = await get_unified_state(bout_id, round_num)
+                    await websocket.send_json({
+                        "type": "state_sync",
+                        "data": state
+                    })
+                    
+            except asyncio.TimeoutError:
+                # Send keepalive ping
+                try:
+                    await websocket.send_json({"type": "ping"})
+                except:
+                    break
+                    
+    except WebSocketDisconnect:
+        logging.info(f"[WS] Client disconnected from bout {bout_id}")
+    except Exception as e:
+        logging.error(f"[WS] Error in websocket: {e}")
+    finally:
+        await ws_manager.disconnect(websocket, bout_id)
+        # Broadcast updated connection count
+        await ws_manager.broadcast_to_bout(bout_id, {
+            "type": "connection_count",
+            "count": ws_manager.get_connection_count(bout_id)
+        })
+
+async def get_unified_state(bout_id: str, round_number: int = None) -> dict:
+    """
+    Get the complete unified state for a bout (and optionally a specific round).
+    This is the authoritative state that all clients should display.
+    """
+    try:
+        # Get bout info
+        bout = await db.bouts.find_one(
+            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
+            {"_id": 0}
+        )
+        
+        if not bout:
+            return {"error": "Bout not found", "bout_id": bout_id}
+        
+        current_round = round_number or bout.get("currentRound", 1)
+        
+        # Get ALL events for current round (NO DEVICE FILTER)
+        events_query = {"bout_id": bout_id, "round_number": current_round}
+        unified_events = await db.unified_events.find(events_query, {"_id": 0}).sort("created_at", 1).to_list(10000)
+        
+        # Also get from synced_events (legacy)
+        legacy_events = await db.synced_events.find(
+            {"bout_id": bout_id, "round_num": current_round},
+            {"_id": 0}
+        ).sort("server_timestamp", 1).to_list(10000)
+        
+        # Merge and aggregate events
+        all_events = list(unified_events)
+        for evt in legacy_events:
+            corner = "RED" if evt.get("fighter") == "fighter1" else "BLUE"
+            all_events.append({
+                "bout_id": evt.get("bout_id"),
+                "round_number": evt.get("round_num"),
+                "corner": corner,
+                "event_type": evt.get("event_type"),
+                "device_role": evt.get("judge_name", "UNKNOWN"),
+                "metadata": evt.get("metadata", {}),
+                "created_at": evt.get("server_timestamp"),
+                "fighter": evt.get("fighter")
+            })
+        
+        # Aggregate by corner
+        red_events = {}
+        blue_events = {}
+        for evt in all_events:
+            corner = evt.get("corner", "").upper()
+            if not corner:
+                corner = "RED" if evt.get("fighter") == "fighter1" else "BLUE"
+            event_type = evt.get("event_type", "")
+            
+            if corner == "RED":
+                red_events[event_type] = red_events.get(event_type, 0) + 1
+            else:
+                blue_events[event_type] = blue_events.get(event_type, 0) + 1
+        
+        # Get all computed round results
+        round_results = await db.round_results.find(
+            {"bout_id": bout_id},
+            {"_id": 0}
+        ).sort("round_number", 1).to_list(100)
+        
+        # Calculate running totals
+        running_red = sum(r.get("red_points", 0) for r in round_results)
+        running_blue = sum(r.get("blue_points", 0) for r in round_results)
+        
+        return {
+            "bout_id": bout_id,
+            "fighter1": bout.get("fighter1", "Red Corner"),
+            "fighter2": bout.get("fighter2", "Blue Corner"),
+            "current_round": current_round,
+            "total_rounds": bout.get("totalRounds", 5),
+            "status": bout.get("status", "in_progress"),
+            "events": {
+                "round_number": current_round,
+                "red": red_events,
+                "blue": blue_events,
+                "red_total": sum(red_events.values()),
+                "blue_total": sum(blue_events.values()),
+                "all_events": len(all_events)
+            },
+            "round_results": round_results,
+            "running_totals": {
+                "red": running_red,
+                "blue": running_blue
+            },
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+    except Exception as e:
+        logging.error(f"Error getting unified state: {e}")
+        return {"error": str(e), "bout_id": bout_id}
+
+async def broadcast_event_added(bout_id: str, event: dict):
+    """Broadcast a new event to all connected clients"""
+    await ws_manager.broadcast_to_bout(bout_id, {
+        "type": "event_added",
+        "event": event,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    })
+
+async def broadcast_round_computed(bout_id: str, result: dict):
+    """Broadcast round computation result to all connected clients"""
+    await ws_manager.broadcast_to_bout(bout_id, {
+        "type": "round_computed",
+        "result": result,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    })
+
+async def broadcast_fight_finalized(bout_id: str, result: dict):
+    """Broadcast fight finalization to all connected clients"""
+    await ws_manager.broadcast_to_bout(bout_id, {
+        "type": "fight_finalized",
+        "result": result,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    })
+
 # ============================================================================
 # VII. BROADCAST API LAYER
 # ============================================================================
