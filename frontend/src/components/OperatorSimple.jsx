@@ -52,6 +52,7 @@ const GRAPPLING_EVENTS = [
  * This component ONLY logs events to the server.
  * NO local scoring, NO complex state management.
  * Events are sent to server → Supervisor Dashboard shows combined totals.
+ * Auto-syncs round changes from supervisor.
  */
 export default function OperatorSimple() {
   const { boutId } = useParams();
@@ -60,10 +61,13 @@ export default function OperatorSimple() {
   const [deviceRole, setDeviceRole] = useState(localStorage.getItem('device_role') || 'RED_STRIKING');
   const [operatorName, setOperatorName] = useState(localStorage.getItem('sync_device_name') || 'Operator');
   const [currentRound, setCurrentRound] = useState(1);
+  const [totalRounds, setTotalRounds] = useState(5);
   const [isConnected, setIsConnected] = useState(true);
   const [eventCount, setEventCount] = useState(0);
   const [lastEvent, setLastEvent] = useState(null);
   const [boutInfo, setBoutInfo] = useState({ fighter1: 'Red Corner', fighter2: 'Blue Corner' });
+  const [roundLocked, setRoundLocked] = useState(false);
+  const [roundJustChanged, setRoundJustChanged] = useState(false);
 
   // Determine corner from role
   const corner = deviceRole.startsWith('RED') ? 'RED' : 'BLUE';
@@ -77,7 +81,46 @@ export default function OperatorSimple() {
     return STRIKING_EVENTS;
   };
 
-  // Fetch bout info
+  // Poll for round changes from supervisor
+  useEffect(() => {
+    if (!boutId) return;
+    
+    const syncRound = async () => {
+      try {
+        const response = await fetch(`${API}/api/bouts/${boutId}/current-round`);
+        if (response.ok) {
+          const data = await response.json();
+          setIsConnected(true);
+          setBoutInfo({
+            fighter1: data.fighter1 || 'Red Corner',
+            fighter2: data.fighter2 || 'Blue Corner'
+          });
+          setTotalRounds(data.total_rounds || 5);
+          
+          // Check if round changed
+          if (data.current_round !== currentRound) {
+            setCurrentRound(data.current_round);
+            setEventCount(0); // Reset event count for new round
+            setRoundJustChanged(true);
+            toast.success(`Round ${data.current_round} started!`, { duration: 3000 });
+            
+            // Clear the "just changed" indicator after 2 seconds
+            setTimeout(() => setRoundJustChanged(false), 2000);
+          }
+        }
+      } catch (error) {
+        setIsConnected(false);
+      }
+    };
+    
+    // Poll every 1 second for round changes
+    const interval = setInterval(syncRound, 1000);
+    syncRound(); // Initial sync
+    
+    return () => clearInterval(interval);
+  }, [boutId, currentRound]);
+
+  // Fetch bout info (initial)
   useEffect(() => {
     const fetchBout = async () => {
       try {
