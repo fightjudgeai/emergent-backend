@@ -5809,6 +5809,39 @@ async def startup_databases():
     except Exception as e:
         logger.warning(f"MongoDB initialization skipped: {e}")
     
+    # Create indexes for unified scoring collections
+    try:
+        logger.info("🔧 Creating unified scoring indexes...")
+        
+        # unified_events: { bout_id: 1, round_number: 1, created_at: 1 }
+        await db.unified_events.create_index([
+            ("bout_id", 1),
+            ("round_number", 1),
+            ("created_at", 1)
+        ], name="unified_events_bout_round_created")
+        
+        # round_results: { bout_id: 1, round_number: 1 } UNIQUE
+        await db.round_results.create_index([
+            ("bout_id", 1),
+            ("round_number", 1)
+        ], unique=True, name="round_results_bout_round_unique")
+        
+        # fight_results: { bout_id: 1 } UNIQUE
+        await db.fight_results.create_index([
+            ("bout_id", 1)
+        ], unique=True, name="fight_results_bout_unique")
+        
+        # synced_events: { bout_id: 1, round_num: 1, server_timestamp: 1 }
+        await db.synced_events.create_index([
+            ("bout_id", 1),
+            ("round_num", 1),
+            ("server_timestamp", 1)
+        ], name="synced_events_bout_round_ts")
+        
+        logger.info("✓ Unified scoring indexes created")
+    except Exception as e:
+        logger.warning(f"Index creation warning: {e}")
+    
     # Initialize Postgres
     try:
         await init_db()
