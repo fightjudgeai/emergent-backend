@@ -3219,6 +3219,8 @@ async def compute_unified_round_score(bout_id: str, round_num: int):
         events_for_scoring = []
         for e in all_events_raw:
             events_for_scoring.append(EventData(
+                bout_id=bout_id,
+                round_num=round_num,
                 fighter=e.get("fighter", "fighter1"),
                 event_type=e.get("event_type", ""),
                 timestamp=e.get("timestamp", 0),
