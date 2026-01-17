@@ -14,10 +14,34 @@ import deviceSyncManager from '@/utils/deviceSync';
 import { Textarea } from '@/components/ui/textarea';
 import { RoundWinner } from '@/components/broadcast/RoundWinner.jsx';
 import { FinalResult } from '@/components/broadcast/FinalResult.jsx';
+import CombinedSyncPanel from '@/components/CombinedSyncPanel';
 import '@/styles/broadcast.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
+
+// Sync event to combined scoring backend
+const syncEventToBackend = async (boutId, roundNum, judgeId, judgeName, fighter, eventType, metadata = {}) => {
+  try {
+    await fetch(`${BACKEND_URL}/api/sync/event`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        bout_id: boutId,
+        round_num: roundNum,
+        judge_id: judgeId,
+        judge_name: judgeName,
+        fighter: fighter,
+        event_type: eventType,
+        timestamp: Date.now() / 1000,
+        metadata: metadata
+      })
+    });
+    console.log(`[SYNC] Event synced: ${eventType} for ${fighter}`);
+  } catch (error) {
+    console.error('[SYNC] Failed to sync event:', error);
+  }
+};
 
 export default function JudgePanel() {
   const { boutId } = useParams();
