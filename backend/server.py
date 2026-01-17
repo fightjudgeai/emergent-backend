@@ -3372,41 +3372,6 @@ async def compute_unified_round_score(bout_id: str, round_num: int):
     except Exception as e:
         logging.error(f"Error computing unified score: {str(e)}")
         return {"error": str(e)}
-        
-        # Update or append
-        found = False
-        for i, r in enumerate(round_scores):
-            if r.get("round") == round_num:
-                round_scores[i] = round_data
-                found = True
-                break
-        
-        if not found:
-            round_scores.append(round_data)
-        
-        # Sort by round number
-        round_scores.sort(key=lambda x: x.get("round", 0))
-        
-        # Calculate totals
-        total_red = sum(r.get("unified_red", 0) for r in round_scores)
-        total_blue = sum(r.get("unified_blue", 0) for r in round_scores)
-        
-        # Update bout
-        await db.bouts.update_one(
-            {"$or": [{"bout_id": bout_id}, {"boutId": bout_id}]},
-            {"$set": {
-                "roundScores": round_scores,
-                "fighter1_total": total_red,
-                "fighter2_total": total_blue,
-                "active_judges": num_judges,
-                "last_sync": datetime.now(timezone.utc).isoformat()
-            }}
-        )
-        
-        logging.info(f"[AGGREGATED] Bout {bout_id} Round {round_num}: {unified_f1}-{unified_f2} from {num_judges} judges")
-        
-    except Exception as e:
-        logging.error(f"Error updating aggregated scores: {str(e)}")
 
 @api_router.get("/sync/status/{bout_id}")
 async def get_sync_status(bout_id: str):
