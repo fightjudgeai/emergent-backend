@@ -77,6 +77,63 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
+# =============================================================================
+# WEBSOCKET CONNECTION MANAGER FOR REAL-TIME UNIFIED SCORING
+# =============================================================================
+
+class UnifiedScoringConnectionManager:
+    """
+    Manages WebSocket connections for real-time unified scoring updates.
+    All connected operator laptops receive the same data from the server.
+    """
+    def __init__(self):
+        # bout_id -> list of connected WebSockets
+        self.active_connections: Dict[str, List[WebSocket]] = {}
+        self.lock = asyncio.Lock()
+    
+    async def connect(self, websocket: WebSocket, bout_id: str):
+        """Connect a client to a bout's real-time updates"""
+        await websocket.accept()
+        async with self.lock:
+            if bout_id not in self.active_connections:
+                self.active_connections[bout_id] = []
+            self.active_connections[bout_id].append(websocket)
+            logging.info(f"[WS] Client connected to bout {bout_id}. Total: {len(self.active_connections[bout_id])}")
+    
+    async def disconnect(self, websocket: WebSocket, bout_id: str):
+        """Disconnect a client"""
+        async with self.lock:
+            if bout_id in self.active_connections:
+                if websocket in self.active_connections[bout_id]:
+                    self.active_connections[bout_id].remove(websocket)
+                    logging.info(f"[WS] Client disconnected from bout {bout_id}. Remaining: {len(self.active_connections[bout_id])}")
+                if not self.active_connections[bout_id]:
+                    del self.active_connections[bout_id]
+    
+    async def broadcast_to_bout(self, bout_id: str, message: dict):
+        """Broadcast a message to ALL clients watching a bout"""
+        async with self.lock:
+            if bout_id in self.active_connections:
+                disconnected = []
+                for connection in self.active_connections[bout_id]:
+                    try:
+                        await connection.send_json(message)
+                    except Exception as e:
+                        logging.warning(f"[WS] Failed to send to client: {e}")
+                        disconnected.append(connection)
+                
+                # Clean up disconnected clients
+                for conn in disconnected:
+                    if conn in self.active_connections[bout_id]:
+                        self.active_connections[bout_id].remove(conn)
+    
+    def get_connection_count(self, bout_id: str) -> int:
+        """Get number of connected clients for a bout"""
+        return len(self.active_connections.get(bout_id, []))
+
+# Global WebSocket manager for unified scoring
+ws_manager = UnifiedScoringConnectionManager()
+
 # Define Models
 class StatusCheck(BaseModel):
     model_config = ConfigDict(extra="ignore")
