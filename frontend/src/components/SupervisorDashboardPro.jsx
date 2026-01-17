@@ -73,6 +73,51 @@ const getRoundScore = (delta) => {
   return delta > 0 ? { red: 10, blue: 7, label: '10-7' } : { red: 7, blue: 10, label: '10-7' };
 };
 
+// Convert our data format to Lovable BroadcastScorecard format
+const convertToLovableFormat = (boutInfo, roundResults, runningTotals, finalResult) => {
+  // Build rounds array in Lovable format
+  const rounds = [];
+  for (let i = 0; i < 5; i++) {
+    const roundData = roundResults.find(r => r.round_number === i + 1);
+    if (roundData) {
+      rounds.push({
+        red: roundData.red_points,
+        blue: roundData.blue_points,
+        winner: roundData.red_points > roundData.blue_points ? 'red' : 
+                roundData.blue_points > roundData.red_points ? 'blue' : null
+      });
+    } else {
+      rounds.push({ red: null, blue: null, winner: null });
+    }
+  }
+  
+  // Determine winner
+  let winner = null;
+  if (finalResult) {
+    winner = finalResult.winner === 'RED' ? 'red' : finalResult.winner === 'BLUE' ? 'blue' : null;
+  }
+  
+  return {
+    event: "PFC 50",
+    division: "Main Event",
+    status: finalResult ? "completed" : roundResults.length > 0 ? "in_progress" : "pending",
+    red: {
+      name: boutInfo.fighter1 || "Red Corner",
+      photo: ""
+    },
+    blue: {
+      name: boutInfo.fighter2 || "Blue Corner", 
+      photo: ""
+    },
+    rounds: rounds,
+    unified_total: {
+      red: runningTotals.red || 0,
+      blue: runningTotals.blue || 0
+    },
+    winner: winner
+  };
+};
+
 export default function SupervisorDashboardPro() {
   const { boutId: paramBoutId } = useParams();
   const [boutId, setBoutId] = useState(paramBoutId || '');
