@@ -214,10 +214,12 @@ export default function CombinedSyncPanel({ boutId, currentRound, onRoundCompute
     );
   }
 
+  const currentDeviceName = localStorage.getItem('sync_device_name') || `Laptop ${deviceId?.slice(-4) || ''}`;
+
   return (
     <>
       <Card className="p-4 bg-gray-900 border-gray-700 space-y-4">
-        {/* Header */}
+        {/* Header with Device Name */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Monitor className="w-5 h-5 text-green-400" />
@@ -226,9 +228,33 @@ export default function CombinedSyncPanel({ boutId, currentRound, onRoundCompute
               {syncStatus?.connected_devices || 0} Devices
             </Badge>
           </div>
-          <Button size="sm" variant="ghost" onClick={registerDevice}>
-            <RefreshCw className="w-4 h-4" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <select 
+              value={currentDeviceName}
+              onChange={(e) => {
+                localStorage.setItem('sync_device_name', e.target.value);
+                registerDevice();
+              }}
+              className="bg-gray-800 border border-gray-600 text-white text-xs rounded px-2 py-1"
+            >
+              <option value="Red Striking">Red Striking</option>
+              <option value="Red Grappling">Red Grappling</option>
+              <option value="Blue Striking">Blue Striking</option>
+              <option value="Blue Grappling">Blue Grappling</option>
+              <option value="Laptop 1">Laptop 1</option>
+              <option value="Laptop 2">Laptop 2</option>
+              <option value="Laptop 3">Laptop 3</option>
+              <option value="Laptop 4">Laptop 4</option>
+            </select>
+            <Button size="sm" variant="ghost" onClick={registerDevice}>
+              <RefreshCw className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+        
+        {/* Debug Info */}
+        <div className="text-xs text-gray-500 bg-gray-800/50 rounded p-2">
+          Bout: {boutId} | Round: {currentRound} | This Device: {currentDeviceName}
         </div>
 
         {/* Current Round Events (Combined from ALL devices) */}
