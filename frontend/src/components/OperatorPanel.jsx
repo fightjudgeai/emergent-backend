@@ -1072,16 +1072,6 @@ export default function OperatorPanel() {
                 </svg>
                 Undo (F1)
               </Button>
-              
-              {bout.currentRound < bout.totalRounds && (
-                <Button
-                  data-testid="next-round-btn"
-                  onClick={nextRound}
-                  className="h-14 px-8 bg-[#1a1d24] hover:bg-[#22252d] text-amber-500 border border-amber-500/30 font-semibold"
-                >
-                  Next Round <ChevronRight className="ml-2 h-5 w-5" />
-                </Button>
-              )}
             </div>
 
             {/* Pending Judges Indicator */}
