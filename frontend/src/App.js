@@ -10,6 +10,7 @@ import OperatorSimple from "@/components/OperatorSimple";
 import OperatorWaiting from "@/components/OperatorWaiting";
 import SupervisorDashboard from "@/components/SupervisorDashboard";
 import SupervisorDashboardPro from "@/components/SupervisorDashboardPro";
+import SupervisorControl from "@/components/SupervisorControl";
 import JudgePanel from "@/components/JudgePanel";
 import BroadcastMode from "@/components/BroadcastMode";
 import BroadcastDisplay from "@/components/BroadcastDisplay";
