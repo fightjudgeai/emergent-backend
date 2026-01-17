@@ -365,9 +365,10 @@ export default function SupervisorControl() {
                         <Plus className="w-4 h-4 mr-1" /> Add Fight
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="bg-gray-900 border-gray-700 text-white">
+                    <DialogContent className="bg-gray-900 border-gray-700 text-white" aria-describedby="add-fight-description">
                       <DialogHeader>
                         <DialogTitle>Add New Fight</DialogTitle>
+                        <p id="add-fight-description" className="sr-only">Form to add a new fight to the event card</p>
                       </DialogHeader>
                       <div className="space-y-4 py-4">
                         {/* Red Corner */}
