@@ -1159,6 +1159,17 @@ export default function OperatorPanel() {
         </Card>
       </div>
 
+      {/* Combined Sync Panel - Shows events from ALL devices */}
+      <div className="max-w-7xl mx-auto mb-6">
+        <CombinedSyncPanel 
+          boutId={boutId} 
+          currentRound={bout?.currentRound}
+          onRoundComputed={(score) => {
+            toast.success(`Round ${bout?.currentRound} Score: ${score?.card}`);
+          }}
+        />
+      </div>
+
       {/* Event Buttons - Organized by Category */}
       <div className="max-w-7xl mx-auto mb-6 space-y-6">
         {/* Striking Events */}
