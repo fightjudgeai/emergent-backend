@@ -1330,7 +1330,7 @@ export default function OperatorPanel() {
             ))}
           </div>
           <div className="mt-3 p-3 bg-yellow-900/20 border border-yellow-600/30 rounded-lg text-sm text-yellow-200">
-            <strong>⚠️ Important:</strong> Point deductions will be applied to the selected fighter's score for this round. 
+            <strong>⚠️ Important:</strong> Point deductions will be applied to the selected fighter&apos;s score for this round. 
             Confirm carefully before deducting points.
           </div>
         </div>
