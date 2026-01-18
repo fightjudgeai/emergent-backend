@@ -911,22 +911,15 @@ export default function OperatorPanel() {
     }
   };
 
-  // Striking Events (regular and significant)
+  // Striking Events (simplified - no significant distinction)
   const strikingButtons = [
     { label: 'Jab', event: 'Jab' },
-    { label: 'SS Jab', event: 'Jab', isSignificant: true },
     { label: 'Cross', event: 'Cross' },
-    { label: 'SS Cross', event: 'Cross', isSignificant: true },
     { label: 'Hook', event: 'Hook' },
-    { label: 'SS Hook', event: 'Hook', isSignificant: true },
     { label: 'Uppercut', event: 'Uppercut' },
-    { label: 'SS Uppercut', event: 'Uppercut', isSignificant: true },
     { label: 'Elbow', event: 'Elbow' },
-    { label: 'SS Elbow', event: 'Elbow', isSignificant: true },
     { label: 'Knee', event: 'Knee' },
-    { label: 'SS Knee', event: 'Knee', isSignificant: true },
-    { label: 'Kick', event: 'Kick' },
-    { label: 'SS Kick', event: 'Kick', isSignificant: true }
+    { label: 'Kick', event: 'Kick' }
   ];
 
   // Damage Events
