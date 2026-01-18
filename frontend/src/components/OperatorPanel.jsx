@@ -1430,47 +1430,6 @@ export default function OperatorPanel() {
         </DialogContent>
       </Dialog>
 
-      {/* Strike Significant Dialog */}
-      <Dialog open={showStrikeDialog} onOpenChange={setShowStrikeDialog}>
-        <DialogContent className="bg-[#13151a] border-[#2a2d35]">
-          <DialogHeader>
-            <DialogTitle className="text-white">{pendingStrikeEvent}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="flex items-center space-x-3 p-4 bg-[#1a1d24] rounded-lg border border-[#2a2d35]">
-              <Checkbox 
-                id="significant"
-                checked={isSignificantStrike}
-                onCheckedChange={setIsSignificantStrike}
-                className="border-amber-500 data-[state=checked]:bg-amber-500"
-              />
-              <div className="flex-1">
-                <Label 
-                  htmlFor="significant" 
-                  className="text-gray-300 font-semibold cursor-pointer"
-                >
-                  Significant Strike
-                </Label>
-                <p className="text-xs text-gray-500 mt-1">
-                  Check if this strike was significant (landed cleanly with impact)
-                </p>
-              </div>
-            </div>
-            <Button
-              data-testid="submit-strike-btn"
-              onClick={handleStrikeEvent}
-              className={`w-full bg-gradient-to-r ${
-                selectedFighter === 'fighter1'
-                  ? 'from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
-                  : 'from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
-              } text-white font-bold`}
-            >
-              Log Strike
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
       {/* Quick Stats Input Dialog */}
       <Dialog open={showQuickStatsDialog} onOpenChange={setShowQuickStatsDialog}>
         <DialogContent className="bg-[#13151a] border-[#2a2d35] max-w-lg">
