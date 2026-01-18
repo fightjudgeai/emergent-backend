@@ -28,30 +28,37 @@ SCORING_CONFIG = {
         "other": 10.0
     },
     "base_values": {
-        # Striking - base values per occurrence (before normalization)
+        # Striking - percentage values (0.14 = 14%)
         "KD": {"category": "striking", "Near-Finish": 1.00, "Hard": 0.70, "Flash": 0.40},
         "Rocked/Stunned": {"category": "striking", "value": 0.30},
-        # Significant strikes (0.10-0.14 range)
-        "Cross": {"category": "striking", "sig": 0.14, "non_sig": 0.07},
-        "Hook": {"category": "striking", "sig": 0.14, "non_sig": 0.07},
-        "Uppercut": {"category": "striking", "sig": 0.14, "non_sig": 0.07},
-        "Elbow": {"category": "striking", "sig": 0.14, "non_sig": 0.07},
-        "Jab": {"category": "striking", "sig": 0.10, "non_sig": 0.05},
-        "Knee": {"category": "striking", "sig": 0.10, "non_sig": 0.05},
-        # Grappling - base values per occurrence or per second
-        "Submission Attempt": {"category": "grappling", "Near-Finish": 1.00, "Deep": 0.60, "Light": 0.25},
+        "Cross": {"category": "striking", "value": 0.14},
+        "Hook": {"category": "striking", "value": 0.14},
+        "Uppercut": {"category": "striking", "value": 0.14},
+        "Elbow": {"category": "striking", "value": 0.14},
+        "Kick": {"category": "striking", "value": 0.14},
+        "Jab": {"category": "striking", "value": 0.10},
+        "Knee": {"category": "striking", "value": 0.10},
+        "Ground Strike": {"category": "striking", "value": 0.08},
+        # Grappling - percentage values
+        "Submission Attempt": {"category": "grappling", "Near-Finish": 1.00, "Deep": 0.60, "Light": 0.25, "Standard": 0.25},
         "Takedown Landed": {"category": "grappling", "value": 0.25},
         "Sweep/Reversal": {"category": "grappling", "value": 0.05},
         "Guard Passing": {"category": "grappling", "value": 0.05},
+        "Back Control": {"category": "grappling", "value_per_sec": 0.012},
+        "Mount Control": {"category": "grappling", "value_per_sec": 0.010},
+        "Side Control": {"category": "grappling", "value_per_sec": 0.010},
         "Ground Back Control": {"category": "grappling", "value_per_sec": 0.012},
         "Ground Top Control": {"category": "grappling", "value_per_sec": 0.010},
-        # Other - base values
+        # Other - percentage values
         "Cage Control Time": {"category": "other", "value_per_sec": 0.006},
-        "Takedown Stuffed": {"category": "other", "value": 0.04}
+        "Takedown Stuffed": {"category": "other", "value": 0.04},
+        "Takedown Defended": {"category": "other", "value": 0.04}
     },
-    "volume_dampening": {
-        "non_sig_strike_threshold": 20,  # Beyond +20 advantage
-        "dampening_factor": 0.70  # Excess scores at 70%
+    "round_thresholds": {
+        "draw_max": 5.0,        # ≤5% = 10-10
+        "standard_max": 80.0,   # 5-80% = 10-9
+        "dominant_max": 95.0,   # 80-95% = 10-8
+        # >95% = 10-7 (near impossible)
     }
 }
 
