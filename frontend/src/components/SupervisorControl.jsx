@@ -74,7 +74,7 @@ export default function SupervisorControl() {
   const [newFight, setNewFight] = useState({
     fighter1: '',
     fighter2: '',
-    weightClass: 'Lightweight',
+    weightClass: 'M-Lightweight',
     rounds: 3,
     isTitleFight: false,
     isMainEvent: false
