@@ -203,7 +203,7 @@ export default function SupervisorControl() {
         setNewFight({
           fighter1: '',
           fighter2: '',
-          weightClass: 'Lightweight',
+          weightClass: 'M-Lightweight',
           rounds: 3,
           isTitleFight: false,
           isMainEvent: false
