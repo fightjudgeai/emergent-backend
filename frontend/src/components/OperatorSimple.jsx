@@ -11,45 +11,72 @@ import {
   Wifi,
   WifiOff,
   ArrowLeft,
-  Zap
+  Zap,
+  Keyboard
 } from 'lucide-react';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
-// Event configurations - SIMPLIFIED STRIKING
+// Clean, organized event configurations with consistent styling
 const STRIKING_EVENTS = [
-  { type: 'Jab', color: 'bg-gray-600', tier: null },
-  { type: 'Cross', color: 'bg-orange-600', tier: null },
-  { type: 'Hook', color: 'bg-orange-600', tier: null },
-  { type: 'Uppercut', color: 'bg-orange-600', tier: null },
-  { type: 'Elbow', color: 'bg-orange-700', tier: null },
-  { type: 'Knee', color: 'bg-orange-700', tier: null },
-  { type: 'Kick', color: 'bg-yellow-600', tier: null },
-  { type: 'Rocked/Stunned', color: 'bg-red-700', tier: null },
-  { type: 'KD', color: 'bg-red-800', tier: 'Flash', label: 'KD (Flash)' },
-  { type: 'KD', color: 'bg-red-900', tier: 'Hard', label: 'KD (Hard)' },
-  { type: 'KD', color: 'bg-purple-800', tier: 'Near-Finish', label: 'KD (Near Finish)' },
+  // Basic Strikes - Neutral dark
+  { type: 'Jab', category: 'strike', tier: null, key: '1' },
+  { type: 'Cross', category: 'strike', tier: null, key: '2' },
+  { type: 'Hook', category: 'strike', tier: null, key: '3' },
+  { type: 'Uppercut', category: 'strike', tier: null, key: '4' },
+  { type: 'Elbow', category: 'strike', tier: null, key: '5' },
+  { type: 'Knee', category: 'strike', tier: null, key: '6' },
+  { type: 'Kick', category: 'strike', tier: null, key: '7' },
+  { type: 'Ground Strike', category: 'strike', tier: null, key: '8', label: 'Ground Strike' },
+  // Damage - Escalating danger
+  { type: 'Rocked/Stunned', category: 'damage', tier: null, key: 'Q', label: 'Rocked' },
+  { type: 'KD', category: 'damage-kd', tier: 'Flash', key: 'W', label: 'KD Flash' },
+  { type: 'KD', category: 'damage-kd', tier: 'Hard', key: 'E', label: 'KD Hard' },
+  { type: 'KD', category: 'damage-kd', tier: 'Near-Finish', key: 'R', label: 'KD Near-Finish' },
 ];
 
 const GRAPPLING_EVENTS = [
-  { type: 'Takedown Landed', color: 'bg-teal-600', tier: null, label: 'TD Landed' },
-  { type: 'Takedown Defended', color: 'bg-teal-500', tier: null, label: 'TD Defended' },
-  { type: 'Back Control', color: 'bg-indigo-600', tier: null, label: 'Back Control' },
-  { type: 'Mount Control', color: 'bg-indigo-600', tier: null, label: 'Mount' },
-  { type: 'Side Control', color: 'bg-indigo-500', tier: null, label: 'Side Control' },
-  { type: 'Submission Attempt', color: 'bg-purple-600', tier: 'Standard', label: 'Sub Attempt' },
-  { type: 'Submission Attempt', color: 'bg-purple-800', tier: 'Deep', label: 'Sub (Deep)' },
-  { type: 'Submission Attempt', color: 'bg-purple-900', tier: 'Near-Finish', label: 'Sub (Near Finish)' },
-  { type: 'Ground Strike', color: 'bg-amber-600', tier: null, label: 'Ground Strike' },
+  // Takedowns
+  { type: 'Takedown Landed', category: 'grappling', tier: null, key: 'V', label: 'TD Landed' },
+  { type: 'Takedown Defended', category: 'grappling', tier: null, key: 'B', label: 'TD Defended' },
+  // Control
+  { type: 'Back Control', category: 'control', tier: null, label: 'Back Control' },
+  { type: 'Mount Control', category: 'control', tier: null, label: 'Mount' },
+  { type: 'Side Control', category: 'control', tier: null, label: 'Side Control' },
+  // Submissions - Escalating danger
+  { type: 'Submission Attempt', category: 'submission', tier: 'Standard', key: 'A', label: 'Sub Attempt' },
+  { type: 'Submission Attempt', category: 'submission', tier: 'Deep', key: 'S', label: 'Sub Deep' },
+  { type: 'Submission Attempt', category: 'submission', tier: 'Near-Finish', key: 'D', label: 'Sub Near-Finish' },
+  // Ground Strike
+  { type: 'Ground Strike', category: 'strike', tier: null, key: 'G', label: 'Ground Strike' },
 ];
 
+// Get button style based on category - clean, professional colors
+const getButtonStyle = (category, corner) => {
+  const isRed = corner === 'RED';
+  
+  switch (category) {
+    case 'strike':
+      return isRed 
+        ? 'bg-slate-700 hover:bg-slate-600 border-slate-600' 
+        : 'bg-slate-700 hover:bg-slate-600 border-slate-600';
+    case 'damage':
+      return 'bg-amber-600 hover:bg-amber-500 border-amber-500';
+    case 'damage-kd':
+      return 'bg-red-600 hover:bg-red-500 border-red-500';
+    case 'grappling':
+      return 'bg-emerald-700 hover:bg-emerald-600 border-emerald-600';
+    case 'control':
+      return 'bg-cyan-700 hover:bg-cyan-600 border-cyan-600';
+    case 'submission':
+      return 'bg-purple-700 hover:bg-purple-600 border-purple-600';
+    default:
+      return 'bg-slate-700 hover:bg-slate-600 border-slate-600';
+  }
+};
+
 /**
- * OperatorSimple - Streamlined event logging for operators
- * 
- * This component ONLY logs events to the server.
- * NO local scoring, NO complex state management.
- * Events are sent to server → Supervisor Dashboard shows combined totals.
- * Auto-syncs round changes from supervisor.
+ * OperatorSimple - Professional event logging for operators
  */
 export default function OperatorSimple() {
   const { boutId } = useParams();
@@ -63,7 +90,6 @@ export default function OperatorSimple() {
   const [eventCount, setEventCount] = useState(0);
   const [lastEvent, setLastEvent] = useState(null);
   const [boutInfo, setBoutInfo] = useState({ fighter1: 'Red Corner', fighter2: 'Blue Corner' });
-  const [roundLocked, setRoundLocked] = useState(false);
   const [roundJustChanged, setRoundJustChanged] = useState(false);
 
   // Determine corner from role
@@ -74,14 +100,13 @@ export default function OperatorSimple() {
   const getEventsForRole = () => {
     if (deviceRole === 'RED_STRIKING') return STRIKING_EVENTS;
     if (deviceRole === 'RED_GRAPPLING') return GRAPPLING_EVENTS;
-    if (deviceRole === 'BLUE_ALL') return [...STRIKING_EVENTS, ...GRAPPLING_EVENTS];
+    if (deviceRole === 'BLUE_ALL') return [...STRIKING_EVENTS, ...GRAPPLING_EVENTS.filter(e => e.type !== 'Ground Strike')];
     return STRIKING_EVENTS;
   };
 
-  // Keyboard shortcuts handler - Red Dragon K585 compatible
+  // Keyboard shortcuts handler
   useEffect(() => {
     const handleKeyDown = async (event) => {
-      // Don't trigger in input fields
       if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') return;
       if (!boutId) return;
 
@@ -93,71 +118,29 @@ export default function OperatorSimple() {
       }
 
       try {
-        // STRIKING - Numbers 1-7 (no more sig/non-sig, just the strike)
-        if (key === '1') {
-          await logEvent('Jab');
-          toast.success('Jab logged (Key 1)');
-        } else if (key === '2') {
-          await logEvent('Cross');
-          toast.success('Cross logged (Key 2)');
-        } else if (key === '3') {
-          await logEvent('Hook');
-          toast.success('Hook logged (Key 3)');
-        } else if (key === '4') {
-          await logEvent('Uppercut');
-          toast.success('Uppercut logged (Key 4)');
-        } else if (key === '5') {
-          await logEvent('Elbow');
-          toast.success('Elbow logged (Key 5)');
-        } else if (key === '6') {
-          await logEvent('Knee');
-          toast.success('Knee logged (Key 6)');
-        } else if (key === '7' || key.toLowerCase() === 't') {
-          await logEvent('Kick');
-          toast.success('Kick logged (Key 7/T)');
-        } else if (key === '8' || key.toLowerCase() === 'g') {
-          await logEvent('Ground Strike');
-          toast.success('Ground Strike logged (Key 8/G)');
-        }
-        
-        // GRAPPLING - V and B
-        else if (key.toLowerCase() === 'v') {
-          await logEvent('Takedown Landed');
-          toast.success('TD Landed logged (Key V)');
-        } else if (key.toLowerCase() === 'b') {
-          await logEvent('Takedown Defended');
-          toast.success('TD Defended logged (Key B)');
-        }
-        
-        // SUBMISSIONS - A, S, D
-        else if (key.toLowerCase() === 'a') {
-          await logEvent('Submission Attempt', 'Standard');
-          toast.success('Sub Attempt logged (Key A)');
-        } else if (key.toLowerCase() === 's') {
-          await logEvent('Submission Attempt', 'Deep');
-          toast.success('Sub (Deep) logged (Key S)');
-        } else if (key.toLowerCase() === 'd') {
-          await logEvent('Submission Attempt', 'Near-Finish');
-          toast.success('Sub (Near-Finish) logged (Key D)');
-        }
-        
-        // DAMAGE - Q, W, E, R
-        else if (key.toLowerCase() === 'q') {
-          await logEvent('Rocked/Stunned');
-          toast.success('Rocked/Stunned logged (Key Q)');
-        } else if (key.toLowerCase() === 'w') {
-          await logEvent('KD', 'Flash');
-          toast.success('KD (Flash) logged (Key W)');
-        } else if (key.toLowerCase() === 'e') {
-          await logEvent('KD', 'Hard');
-          toast.success('KD (Hard) logged (Key E)');
-        } else if (key.toLowerCase() === 'r') {
-          await logEvent('KD', 'Near-Finish');
-          toast.success('KD (Near-Finish) logged (Key R)');
-        }
+        // STRIKING
+        if (key === '1') { await logEvent('Jab'); }
+        else if (key === '2') { await logEvent('Cross'); }
+        else if (key === '3') { await logEvent('Hook'); }
+        else if (key === '4') { await logEvent('Uppercut'); }
+        else if (key === '5') { await logEvent('Elbow'); }
+        else if (key === '6') { await logEvent('Knee'); }
+        else if (key === '7' || key.toLowerCase() === 't') { await logEvent('Kick'); }
+        else if (key === '8' || key.toLowerCase() === 'g') { await logEvent('Ground Strike'); }
+        // GRAPPLING
+        else if (key.toLowerCase() === 'v') { await logEvent('Takedown Landed'); }
+        else if (key.toLowerCase() === 'b') { await logEvent('Takedown Defended'); }
+        // SUBMISSIONS
+        else if (key.toLowerCase() === 'a') { await logEvent('Submission Attempt', 'Standard'); }
+        else if (key.toLowerCase() === 's') { await logEvent('Submission Attempt', 'Deep'); }
+        else if (key.toLowerCase() === 'd') { await logEvent('Submission Attempt', 'Near-Finish'); }
+        // DAMAGE
+        else if (key.toLowerCase() === 'q') { await logEvent('Rocked/Stunned'); }
+        else if (key.toLowerCase() === 'w') { await logEvent('KD', 'Flash'); }
+        else if (key.toLowerCase() === 'e') { await logEvent('KD', 'Hard'); }
+        else if (key.toLowerCase() === 'r') { await logEvent('KD', 'Near-Finish'); }
       } catch (error) {
         console.error('Keyboard shortcut error:', error);
-        toast.error('Failed to log event');
       }
     };
 
@@ -181,14 +164,11 @@ export default function OperatorSimple() {
           });
           setTotalRounds(data.total_rounds || 5);
           
-          // Check if round changed
           if (data.current_round !== currentRound) {
             setCurrentRound(data.current_round);
-            setEventCount(0); // Reset event count for new round
+            setEventCount(0);
             setRoundJustChanged(true);
             toast.success(`Round ${data.current_round} started!`, { duration: 3000 });
-            
-            // Clear the "just changed" indicator after 2 seconds
             setTimeout(() => setRoundJustChanged(false), 2000);
           }
         }
@@ -197,14 +177,12 @@ export default function OperatorSimple() {
       }
     };
     
-    // Poll every 1 second for round changes
     const interval = setInterval(syncRound, 1000);
-    syncRound(); // Initial sync
-    
+    syncRound();
     return () => clearInterval(interval);
   }, [boutId, currentRound]);
 
-  // Fetch bout info (initial)
+  // Fetch bout info
   useEffect(() => {
     const fetchBout = async () => {
       try {
@@ -221,7 +199,6 @@ export default function OperatorSimple() {
         console.error('Error fetching bout:', error);
       }
     };
-    
     if (boutId) fetchBout();
   }, [boutId]);
 
@@ -249,118 +226,245 @@ export default function OperatorSimple() {
         setIsConnected(true);
         
         const tierLabel = tier ? ` (${tier})` : '';
-        toast.success(`${eventType}${tierLabel} → ${fighterName}`, { duration: 1500 });
+        toast.success(`${eventType}${tierLabel}`, { duration: 1200 });
       } else {
         throw new Error('Server error');
       }
     } catch (error) {
       setIsConnected(false);
-      toast.error('Failed to log event - check connection');
+      toast.error('Failed to log event');
     }
   };
 
-  // Get role display info
-  const getRoleInfo = () => {
+  const getRoleLabel = () => {
     switch (deviceRole) {
-      case 'RED_STRIKING':
-        return { icon: Swords, label: 'Red Striking', color: 'red' };
-      case 'RED_GRAPPLING':
-        return { icon: Shield, label: 'Red Grappling', color: 'red' };
-      case 'BLUE_ALL':
-        return { icon: Target, label: 'Blue All', color: 'blue' };
-      default:
-        return { icon: Target, label: deviceRole, color: 'gray' };
+      case 'RED_STRIKING': return 'STRIKING';
+      case 'RED_GRAPPLING': return 'GRAPPLING';
+      case 'BLUE_ALL': return 'ALL EVENTS';
+      default: return deviceRole;
     }
   };
-
-  const roleInfo = getRoleInfo();
-  const RoleIcon = roleInfo.icon;
 
   return (
-    <div className={`min-h-screen ${corner === 'RED' ? 'bg-red-950' : 'bg-blue-950'}`}>
+    <div className="min-h-screen bg-slate-950">
+      {/* Role Banner - Large, clear indicator */}
+      <div className={`${corner === 'RED' ? 'bg-red-600' : 'bg-blue-600'} py-2 text-center`}>
+        <span className="text-white font-black text-lg tracking-wider">
+          {corner} CORNER — {getRoleLabel()}
+        </span>
+      </div>
+
       {/* Header */}
-      <div className={`${corner === 'RED' ? 'bg-red-900' : 'bg-blue-900'} px-4 py-3 flex items-center justify-between`}>
-        <div className="flex items-center gap-3">
-          <Button size="sm" variant="ghost" onClick={() => navigate('/operator-setup')}>
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-          <RoleIcon className="w-6 h-6 text-white" />
-          <div>
-            <div className="font-bold text-white">{roleInfo.label}</div>
-            <div className="text-xs text-gray-300">{operatorName}</div>
+      <div className="bg-slate-900 border-b border-slate-700 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              onClick={() => navigate('/operator-setup')}
+              className="text-slate-400 hover:text-white"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
+            <div>
+              <div className="text-white font-semibold">{operatorName}</div>
+              <div className="text-slate-400 text-xs flex items-center gap-1">
+                <Keyboard className="w-3 h-3" /> Keyboard enabled
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Badge className={`${isConnected ? 'bg-green-600' : 'bg-red-600'} text-white`}>
+              {isConnected ? <Wifi className="w-3 h-3 mr-1" /> : <WifiOff className="w-3 h-3 mr-1" />}
+              {isConnected ? 'LIVE' : 'OFFLINE'}
+            </Badge>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <Badge className={isConnected ? 'bg-green-500' : 'bg-red-500'}>
-            {isConnected ? <Wifi className="w-3 h-3 mr-1" /> : <WifiOff className="w-3 h-3 mr-1" />}
-            {isConnected ? 'LIVE' : 'OFFLINE'}
-          </Badge>
-          <Badge className="bg-amber-500 text-black">
-            R{currentRound}
-          </Badge>
+      </div>
+
+      {/* Fighter Name & Round */}
+      <div className="bg-slate-900 px-4 py-4 border-b border-slate-800">
+        <div className="text-center">
+          <div className={`text-3xl font-black ${corner === 'RED' ? 'text-red-400' : 'text-blue-400'}`}>
+            {fighterName}
+          </div>
+          <div className="flex items-center justify-center gap-4 mt-2">
+            <span className="text-slate-400">Round</span>
+            <span className={`text-2xl font-bold ${roundJustChanged ? 'text-green-400 animate-pulse' : 'text-white'}`}>
+              {currentRound}
+            </span>
+            <span className="text-slate-500">of {totalRounds}</span>
+            <span className="text-slate-600">•</span>
+            <span className="text-slate-400">{eventCount} events</span>
+          </div>
         </div>
       </div>
 
-      {/* Fighter Info */}
-      <div className={`${corner === 'RED' ? 'bg-red-800' : 'bg-blue-800'} px-4 py-3 text-center`}>
-        <div className="text-2xl font-bold text-white">{fighterName}</div>
-        <div className="text-sm text-gray-300">
-          Logging events for {corner} corner • {eventCount} events logged
-        </div>
+      {/* Event Buttons - Clean grid */}
+      <div className="p-3">
+        {/* Section: Strikes */}
+        {(deviceRole === 'RED_STRIKING' || deviceRole === 'BLUE_ALL') && (
+          <div className="mb-4">
+            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+              Strikes
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              {['Jab', 'Cross', 'Hook', 'Uppercut', 'Elbow', 'Knee', 'Kick', 'Ground Strike'].map((strike, idx) => (
+                <Button
+                  key={strike}
+                  data-testid={`btn-${strike.toLowerCase().replace(' ', '-')}`}
+                  onClick={() => logEvent(strike)}
+                  className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                >
+                  <div className="text-center">
+                    <div>{strike}</div>
+                    <div className="text-[10px] text-slate-400">{idx + 1 === 8 ? '8/G' : idx + 1}</div>
+                  </div>
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Section: Damage */}
+        {(deviceRole === 'RED_STRIKING' || deviceRole === 'BLUE_ALL') && (
+          <div className="mb-4">
+            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+              Damage
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              <Button
+                data-testid="btn-rocked"
+                onClick={() => logEvent('Rocked/Stunned')}
+                className={`${getButtonStyle('damage', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+              >
+                <div className="text-center">
+                  <div>Rocked</div>
+                  <div className="text-[10px] text-amber-200">Q</div>
+                </div>
+              </Button>
+              {[
+                { tier: 'Flash', key: 'W' },
+                { tier: 'Hard', key: 'E' },
+                { tier: 'Near-Finish', key: 'R' }
+              ].map((kd) => (
+                <Button
+                  key={kd.tier}
+                  data-testid={`btn-kd-${kd.tier.toLowerCase()}`}
+                  onClick={() => logEvent('KD', kd.tier)}
+                  className={`${getButtonStyle('damage-kd', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                >
+                  <div className="text-center">
+                    <div>KD {kd.tier}</div>
+                    <div className="text-[10px] text-red-200">{kd.key}</div>
+                  </div>
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Section: Grappling */}
+        {(deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') && (
+          <div className="mb-4">
+            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+              Grappling
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <Button
+                data-testid="btn-td-landed"
+                onClick={() => logEvent('Takedown Landed')}
+                className={`${getButtonStyle('grappling', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+              >
+                <div className="text-center">
+                  <div>TD Landed</div>
+                  <div className="text-[10px] text-emerald-200">V</div>
+                </div>
+              </Button>
+              <Button
+                data-testid="btn-td-defended"
+                onClick={() => logEvent('Takedown Defended')}
+                className={`${getButtonStyle('grappling', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+              >
+                <div className="text-center">
+                  <div>TD Defended</div>
+                  <div className="text-[10px] text-emerald-200">B</div>
+                </div>
+              </Button>
+              <div></div>
+            </div>
+          </div>
+        )}
+
+        {/* Section: Control */}
+        {(deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') && (
+          <div className="mb-4">
+            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+              Control Position
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {['Back Control', 'Mount', 'Side Control'].map((control) => (
+                <Button
+                  key={control}
+                  data-testid={`btn-${control.toLowerCase().replace(' ', '-')}`}
+                  onClick={() => logEvent(control === 'Mount' ? 'Mount Control' : control)}
+                  className={`${getButtonStyle('control', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                >
+                  {control}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Section: Submissions */}
+        {(deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') && (
+          <div className="mb-4">
+            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+              Submissions
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { tier: 'Standard', key: 'A', label: 'Sub Attempt' },
+                { tier: 'Deep', key: 'S', label: 'Sub Deep' },
+                { tier: 'Near-Finish', key: 'D', label: 'Sub Near-Finish' }
+              ].map((sub) => (
+                <Button
+                  key={sub.tier}
+                  data-testid={`btn-sub-${sub.tier.toLowerCase()}`}
+                  onClick={() => logEvent('Submission Attempt', sub.tier)}
+                  className={`${getButtonStyle('submission', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                >
+                  <div className="text-center">
+                    <div>{sub.label}</div>
+                    <div className="text-[10px] text-purple-200">{sub.key}</div>
+                  </div>
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Event Buttons */}
-      <div className="p-4">
-        <div className="grid grid-cols-3 gap-2">
-          {getEventsForRole().map((event, idx) => (
-            <Button
-              key={`${event.type}-${event.tier || idx}`}
-              onClick={() => logEvent(event.type, event.tier)}
-              className={`${event.color} hover:opacity-80 text-white font-medium h-16 text-sm`}
-            >
-              <div className="text-center">
-                <div>{event.label || event.type}</div>
-                {event.tier && <div className="text-xs opacity-75">{event.tier}</div>}
-              </div>
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      {/* Last Event */}
-      {lastEvent && (
-        <div className="px-4">
-          <Card className={`${corner === 'RED' ? 'bg-red-900/50 border-red-700' : 'bg-blue-900/50 border-blue-700'} p-3`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Zap className="w-4 h-4 text-amber-400" />
-                <span className="text-white">Last: {lastEvent.type}{lastEvent.tier ? ` (${lastEvent.tier})` : ''}</span>
-              </div>
-              <span className="text-gray-400 text-sm">
-                {lastEvent.time.toLocaleTimeString()}
+      {/* Last Event - Fixed at bottom */}
+      <div className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-700 p-3">
+        {lastEvent ? (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Zap className="w-4 h-4 text-amber-400" />
+              <span className="text-white font-medium">
+                {lastEvent.type}{lastEvent.tier ? ` (${lastEvent.tier})` : ''}
               </span>
             </div>
-          </Card>
-        </div>
-      )}
-
-      {/* Round Indicator - Controlled by Supervisor */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-black/90 backdrop-blur border-t border-gray-800">
-        <div className={`flex items-center justify-center gap-4 p-3 rounded-lg ${roundJustChanged ? 'bg-green-500/20 border border-green-500 animate-pulse' : 'bg-gray-800'}`}>
-          <div className="text-center">
-            <div className="text-gray-400 text-xs uppercase tracking-wider">Current Round</div>
-            <div className="text-3xl font-bold text-amber-400">
-              Round {currentRound}
-              <span className="text-gray-500 text-lg ml-2">/ {totalRounds}</span>
-            </div>
+            <span className="text-slate-400 text-sm">
+              {lastEvent.time.toLocaleTimeString()}
+            </span>
           </div>
-          {roundJustChanged && (
-            <Badge className="bg-green-500 animate-bounce">NEW ROUND!</Badge>
-          )}
-        </div>
-        <div className="text-center text-xs text-gray-500 mt-2">
-          Round controlled by Supervisor • {eventCount} events logged this round
-        </div>
+        ) : (
+          <div className="text-slate-500 text-center text-sm">
+            No events logged yet — tap a button or use keyboard shortcuts
+          </div>
+        )}
       </div>
     </div>
   );
