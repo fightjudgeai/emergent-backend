@@ -28,39 +28,57 @@ class DeviceRole(str, Enum):
     BLUE_STRIKING = "BLUE_STRIKING"
     BLUE_GRAPPLING = "BLUE_GRAPPLING"
 
-# Event type weights for delta scoring
+# Event type weights for percentage-based scoring
+# Values are percentages (0.14 = 14%)
 EVENT_WEIGHTS = {
-    # Knockdowns - highest impact
-    "KD": {"category": "striking", "Near-Finish": 100.0, "Hard": 70.0, "Flash": 40.0, "default": 40.0},
-    "Rocked/Stunned": {"category": "striking", "value": 30.0},
+    # Category weights
+    "CATEGORY_WEIGHTS": {"striking": 0.50, "grappling": 0.40, "other": 0.10},
     
-    # Significant strikes
-    "Cross": {"category": "striking", "sig": 14.0, "non_sig": 7.0, "default": 10.0},
-    "Hook": {"category": "striking", "sig": 14.0, "non_sig": 7.0, "default": 10.0},
-    "Uppercut": {"category": "striking", "sig": 14.0, "non_sig": 7.0, "default": 10.0},
-    "Elbow": {"category": "striking", "sig": 14.0, "non_sig": 7.0, "default": 10.0},
-    "Jab": {"category": "striking", "sig": 10.0, "non_sig": 5.0, "default": 7.0},
-    "Knee": {"category": "striking", "sig": 10.0, "non_sig": 5.0, "default": 7.0},
-    "Head Kick": {"category": "striking", "sig": 15.0, "non_sig": 8.0, "default": 12.0},
-    "Body Kick": {"category": "striking", "sig": 12.0, "non_sig": 6.0, "default": 9.0},
-    "Low Kick": {"category": "striking", "sig": 8.0, "non_sig": 4.0, "default": 6.0},
-    "Leg Kick": {"category": "striking", "sig": 8.0, "non_sig": 4.0, "default": 6.0},
+    # Knockdowns - highest impact (striking)
+    "KD": {"category": "striking", "Near-Finish": 1.00, "Hard": 0.70, "Flash": 0.40, "default": 0.40},
+    "Rocked/Stunned": {"category": "striking", "value": 0.30},
+    
+    # Strikes (striking) - all use single "value" now
+    "Cross": {"category": "striking", "value": 0.14},
+    "Hook": {"category": "striking", "value": 0.14},
+    "Uppercut": {"category": "striking", "value": 0.14},
+    "Elbow": {"category": "striking", "value": 0.14},
+    "Kick": {"category": "striking", "value": 0.14},
+    "Head Kick": {"category": "striking", "value": 0.14},
+    "Body Kick": {"category": "striking", "value": 0.14},
+    "Low Kick": {"category": "striking", "value": 0.14},
+    "Leg Kick": {"category": "striking", "value": 0.14},
+    "Jab": {"category": "striking", "value": 0.10},
+    "Knee": {"category": "striking", "value": 0.10},
+    "Ground Strike": {"category": "striking", "value": 0.08},
     
     # Grappling
-    "TD": {"category": "grappling", "value": 25.0, "default": 25.0},
-    "Takedown": {"category": "grappling", "value": 25.0, "default": 25.0},
-    "Takedown Landed": {"category": "grappling", "value": 25.0, "default": 25.0},
-    "Submission Attempt": {"category": "grappling", "Near-Finish": 100.0, "Deep": 60.0, "Light": 25.0, "default": 40.0},
-    "Sweep/Reversal": {"category": "grappling", "value": 15.0, "default": 15.0},
-    "Guard Passing": {"category": "grappling", "value": 10.0, "default": 10.0},
-    "Ground Back Control": {"category": "grappling", "value": 20.0, "default": 20.0},
-    "Ground Top Control": {"category": "grappling", "value": 15.0, "default": 15.0},
+    "Submission Attempt": {"category": "grappling", "Near-Finish": 1.00, "Deep": 0.60, "Light": 0.25, "Standard": 0.25, "default": 0.25},
+    "TD": {"category": "grappling", "value": 0.25},
+    "Takedown": {"category": "grappling", "value": 0.25},
+    "Takedown Landed": {"category": "grappling", "value": 0.25},
+    "Sweep/Reversal": {"category": "grappling", "value": 0.05},
+    "Guard Passing": {"category": "grappling", "value": 0.05},
+    "Back Control": {"category": "grappling", "value_per_sec": 0.012},
+    "Mount Control": {"category": "grappling", "value_per_sec": 0.010},
+    "Side Control": {"category": "grappling", "value_per_sec": 0.010},
+    "Ground Back Control": {"category": "grappling", "value_per_sec": 0.012},
+    "Ground Top Control": {"category": "grappling", "value_per_sec": 0.010},
     
     # Other/Control
-    "Cage Control Time": {"category": "other", "value": 5.0, "default": 5.0},
-    "Takedown Stuffed": {"category": "other", "value": 8.0, "default": 8.0},
-    "CTRL_START": {"category": "other", "value": 0.0, "default": 0.0},
-    "CTRL_END": {"category": "other", "value": 0.0, "default": 0.0},
+    "Cage Control Time": {"category": "other", "value_per_sec": 0.006},
+    "Takedown Stuffed": {"category": "other", "value": 0.04},
+    "Takedown Defended": {"category": "other", "value": 0.04},
+    "CTRL_START": {"category": "other", "value": 0.0},
+    "CTRL_END": {"category": "other", "value": 0.0},
+}
+
+# Round scoring thresholds (percentage delta)
+ROUND_THRESHOLDS = {
+    "draw_max": 5.0,        # ≤5% = 10-10
+    "standard_max": 80.0,   # 5-80% = 10-9  
+    "dominant_max": 95.0,   # 80-95% = 10-8
+    # >95% = 10-7 (near impossible)
 }
 
 # =============================================================================
