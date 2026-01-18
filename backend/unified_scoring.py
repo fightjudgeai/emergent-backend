@@ -126,39 +126,42 @@ class FightResult(BaseModel):
 # SCORING LOGIC
 # =============================================================================
 
-def get_event_value(event_type: str, metadata: Dict[str, Any] = None) -> float:
-    """Calculate the delta value for an event type"""
+def get_event_value(event_type: str, metadata: Dict[str, Any] = None) -> tuple[float, str]:
+    """
+    Calculate the percentage value for an event type.
+    Returns: (value, category)
+    """
     metadata = metadata or {}
     
     if event_type not in EVENT_WEIGHTS:
-        return 5.0  # Default value for unknown events
+        return 0.05, "other"  # Default 5% for unknown events
     
     weights = EVENT_WEIGHTS[event_type]
+    category = weights.get("category", "other")
     
     # Check for tier-based values (KD, Submission Attempt)
     tier = metadata.get("tier", "")
     if tier and tier in weights:
-        return weights[tier]
+        return weights[tier], category
     
-    # Check for significant flag
-    is_sig = metadata.get("significant", True)
-    if "sig" in weights and "non_sig" in weights:
-        return weights["sig"] if is_sig else weights["non_sig"]
+    # Check for duration-based values (control time)
+    if "value_per_sec" in weights:
+        duration = metadata.get("duration", 0)
+        return weights["value_per_sec"] * duration, category
     
-    # Return value or default
-    return weights.get("value", weights.get("default", 5.0))
+    # Return standard value or default
+    return weights.get("value", weights.get("default", 0.05)), category
 
 
 def compute_round_from_events(events: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
-    Compute round score from ALL events.
-    This is the SINGLE scoring function - no duplicates allowed.
+    Compute round score from ALL events using percentage-based scoring.
     
     Args:
         events: List of all events for a bout_id + round_number
         
     Returns:
-        Round result with scores, delta, breakdown
+        Round result with percentage scores, category breakdowns
     """
     if not events:
         return {
@@ -169,27 +172,23 @@ def compute_round_from_events(events: List[Dict[str, Any]]) -> Dict[str, Any]:
             "blue_total": 0.0,
             "red_breakdown": {},
             "blue_breakdown": {},
+            "red_categories": {"striking": 0.0, "grappling": 0.0, "other": 0.0},
+            "blue_categories": {"striking": 0.0, "grappling": 0.0, "other": 0.0},
             "total_events": 0,
             "winner": "DRAW"
         }
     
-    # Aggregate by corner
-    red_total = 0.0
-    blue_total = 0.0
+    # Category accumulators
+    red_categories = {"striking": 0.0, "grappling": 0.0, "other": 0.0}
+    blue_categories = {"striking": 0.0, "grappling": 0.0, "other": 0.0}
     red_breakdown = {}
     blue_breakdown = {}
     red_kd_count = 0
     blue_kd_count = 0
-    red_strikes = 0
-    blue_strikes = 0
-    
-    strike_types = ["Jab", "Cross", "Hook", "Uppercut", "Elbow", "Knee", 
-                    "Head Kick", "Body Kick", "Low Kick", "Leg Kick"]
     
     for event in events:
         corner = event.get("corner", "").upper()
         if corner not in ["RED", "BLUE"]:
-            # Try to infer from fighter field
             fighter = event.get("fighter", "")
             if fighter == "fighter1":
                 corner = "RED"
@@ -200,38 +199,42 @@ def compute_round_from_events(events: List[Dict[str, Any]]) -> Dict[str, Any]:
         
         event_type = event.get("event_type", "")
         metadata = event.get("metadata", {})
-        value = get_event_value(event_type, metadata)
+        value, category = get_event_value(event_type, metadata)
         
         if corner == "RED":
-            red_total += value
+            red_categories[category] = red_categories.get(category, 0.0) + value
             red_breakdown[event_type] = red_breakdown.get(event_type, 0) + 1
             if event_type == "KD":
                 red_kd_count += 1
-            if event_type in strike_types:
-                red_strikes += 1
         else:
-            blue_total += value
+            blue_categories[category] = blue_categories.get(category, 0.0) + value
             blue_breakdown[event_type] = blue_breakdown.get(event_type, 0) + 1
             if event_type == "KD":
                 blue_kd_count += 1
-            if event_type in strike_types:
-                blue_strikes += 1
     
-    # Calculate delta (positive = red advantage)
-    delta = red_total - blue_total
+    # Apply category weights (50% striking, 40% grappling, 10% other)
+    cat_weights = EVENT_WEIGHTS["CATEGORY_WEIGHTS"]
+    red_total = (
+        red_categories["striking"] * cat_weights["striking"] +
+        red_categories["grappling"] * cat_weights["grappling"] +
+        red_categories["other"] * cat_weights["other"]
+    )
+    blue_total = (
+        blue_categories["striking"] * cat_weights["striking"] +
+        blue_categories["grappling"] * cat_weights["grappling"] +
+        blue_categories["other"] * cat_weights["other"]
+    )
     
-    # Determine round score using delta thresholds
-    kd_differential = abs(red_kd_count - blue_kd_count)
-    strike_differential = abs(red_strikes - blue_strikes)
-    allow_extreme = (kd_differential >= 2) or (strike_differential >= 100)
-    
+    # Calculate delta as percentage (convert to 0-100 scale for display)
+    delta = (red_total - blue_total) * 100
     abs_delta = abs(delta)
     
-    if abs_delta <= 3.0:
+    # Determine round score using percentage thresholds
+    if abs_delta <= ROUND_THRESHOLDS["draw_max"]:
         # Very close - 10-10 draw
         red_points, blue_points = 10, 10
         winner = "DRAW"
-    elif abs_delta < 140.0:
+    elif abs_delta <= ROUND_THRESHOLDS["standard_max"]:
         # Standard round - 10-9
         if delta > 0:
             red_points, blue_points = 10, 9
@@ -239,47 +242,33 @@ def compute_round_from_events(events: List[Dict[str, Any]]) -> Dict[str, Any]:
         else:
             red_points, blue_points = 9, 10
             winner = "BLUE"
-    elif abs_delta < 200.0:
-        # Dominant round
+    elif abs_delta <= ROUND_THRESHOLDS["dominant_max"]:
+        # Dominant round - 10-8 (rare)
         if delta > 0:
-            if allow_extreme:
-                red_points, blue_points = 10, 8
-            else:
-                red_points, blue_points = 10, 9
+            red_points, blue_points = 10, 8
             winner = "RED"
         else:
-            if allow_extreme:
-                red_points, blue_points = 8, 10
-            else:
-                red_points, blue_points = 9, 10
+            red_points, blue_points = 8, 10
             winner = "BLUE"
     else:
-        # Extreme dominance
+        # Extreme dominance - 10-7 (near impossible)
         if delta > 0:
-            if allow_extreme and abs_delta >= 250.0:
-                red_points, blue_points = 10, 7
-            elif allow_extreme:
-                red_points, blue_points = 10, 8
-            else:
-                red_points, blue_points = 10, 9
+            red_points, blue_points = 10, 7
             winner = "RED"
         else:
-            if allow_extreme and abs_delta >= 250.0:
-                red_points, blue_points = 7, 10
-            elif allow_extreme:
-                red_points, blue_points = 8, 10
-            else:
-                red_points, blue_points = 9, 10
+            red_points, blue_points = 7, 10
             winner = "BLUE"
     
     return {
         "red_points": red_points,
         "blue_points": blue_points,
         "delta": round(delta, 2),
-        "red_total": round(red_total, 2),
-        "blue_total": round(blue_total, 2),
+        "red_total": round(red_total * 100, 2),
+        "blue_total": round(blue_total * 100, 2),
         "red_breakdown": red_breakdown,
         "blue_breakdown": blue_breakdown,
+        "red_categories": {k: round(v * 100, 2) for k, v in red_categories.items()},
+        "blue_categories": {k: round(v * 100, 2) for k, v in blue_categories.items()},
         "total_events": len(events),
         "winner": winner,
         "red_kd": red_kd_count,
