@@ -1184,16 +1184,18 @@ export default function OperatorPanel() {
         {/* Striking Events */}
         <div>
           <h3 className="text-amber-500 font-bold text-lg mb-3">⚡ Striking</h3>
-          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
-            {['Jab', 'Cross', 'Hook', 'Uppercut', 'Elbow', 'Knee', 'Kick'].map((strike) => (
+          <div className="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-3">
+            {['Jab', 'Cross', 'Hook', 'Uppercut', 'Elbow', 'Knee', 'Kick', 'Ground Strike'].map((strike) => (
               <Button
                 key={strike}
                 onClick={() => {
                   logEvent(strike, {});
                   toast.success(`${strike} logged`);
                 }}
-                className={`h-16 text-base font-bold bg-gradient-to-br ${
-                  selectedFighter === 'fighter1'
+                className={`h-16 text-sm font-bold bg-gradient-to-br ${
+                  strike === 'Ground Strike' 
+                    ? 'from-amber-600 to-amber-700'
+                    : selectedFighter === 'fighter1'
                     ? 'from-orange-600 to-red-600'
                     : 'from-blue-500 to-blue-700'
                 } hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
