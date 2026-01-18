@@ -31,15 +31,10 @@ export default function OperatorPanel() {
   const [showKdDialog, setShowKdDialog] = useState(false);
   const [kdTier, setKdTier] = useState('Flash');
   const [showQuickStatsDialog, setShowQuickStatsDialog] = useState(false);
-  const [showStrikeDialog, setShowStrikeDialog] = useState(false);
-  const [pendingStrikeEvent, setPendingStrikeEvent] = useState(null);
-  const [isSignificantStrike, setIsSignificantStrike] = useState(true);
-  const [quickStrikeMode, setQuickStrikeMode] = useState('significant'); // 'significant' or 'non-significant'
   const [quickStats, setQuickStats] = useState({
     kd: 0,
     rocked: 0,
     totalStrikes: 0,
-    ssStrikes: 0,
     takedowns: 0,
     subAttempts: 0,
     controlTime: 0
