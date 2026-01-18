@@ -1049,26 +1049,22 @@ def calculate_new_score(events: List[EventData], fighter: str) -> tuple[float, d
                 has_near_finish_striking = True
                 
         elif event_type == "Submission Attempt":
-            tier = meta.get("tier", meta.get("depth", "Light"))
-            base_value = base_config.get(tier, base_config["Light"])
+            tier = meta.get("tier", meta.get("depth", "Standard"))
+            base_value = base_config.get(tier, base_config.get("Standard", 0.25))
             if tier == "Near-Finish":
                 has_near_finish_grappling = True
                 
-        elif event_type in ["Ground Back Control", "Ground Top Control", "Cage Control Time"]:
+        elif event_type in ["Ground Back Control", "Ground Top Control", "Back Control", "Mount Control", "Side Control", "Cage Control Time"]:
             duration = meta.get("duration", 0)
-            base_value = base_config["value_per_sec"] * duration
+            base_value = base_config.get("value_per_sec", 0.01) * duration
             
-        elif event_type in ["Cross", "Hook", "Uppercut", "Elbow", "Jab", "Knee"]:
-            is_significant = meta.get("significant", True)
-            if is_significant:
-                base_value = base_config["sig"]
-            else:
-                base_value = base_config["non_sig"]
-                non_sig_strike_count += 1
+        elif event_type in ["Cross", "Hook", "Uppercut", "Elbow", "Jab", "Knee", "Kick", "Ground Strike"]:
+            # All strikes now use single "value" - no sig/non_sig distinction
+            base_value = base_config.get("value", 0.10)
                 
         else:
             # Simple value events (Rocked, TD Landed, TD Stuffed, Sweep/Reversal)
-            base_value = base_config["value"]
+            base_value = base_config.get("value", 0.05)
         
         # Add to category raw score
         if category == "striking":
