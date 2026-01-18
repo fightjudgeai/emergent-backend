@@ -1205,51 +1205,22 @@ export default function OperatorPanel() {
         {/* Striking Events */}
         <div>
           <h3 className="text-amber-500 font-bold text-lg mb-3">⚡ Striking</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-            {/* Group strikes in pairs */}
-            {[
-              ['Jab', 'SS Jab'],
-              ['Cross', 'SS Cross'],
-              ['Hook', 'SS Hook'],
-              ['Uppercut', 'SS Uppercut'],
-              ['Elbow', 'SS Elbow'],
-              ['Knee', 'SS Knee'],
-              ['Kick', 'SS Kick']
-            ].map(([normal, significant], groupIndex) => (
-              <div key={groupIndex} className="flex flex-col gap-2 p-2 rounded-lg border border-gray-700 bg-gray-900/30">
-                {/* Strike Type Label */}
-                <div className="text-center text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-                  {normal}
-                </div>
-                
-                {/* Normal Strike Button */}
-                <Button
-                  onClick={() => {
-                    const eventName = normal === 'SS Jab' ? 'Jab' : normal;
-                    logEvent(eventName, { significant: false });
-                    toast.success(`${normal} logged`);
-                  }}
-                  className="h-12 text-sm font-bold bg-gradient-to-br from-gray-600 to-gray-700 hover:opacity-90 text-white shadow-lg transition-all active:scale-95"
-                >
-                  Normal
-                </Button>
-                
-                {/* Significant Strike Button */}
-                <Button
-                  onClick={() => {
-                    const eventName = significant.replace('SS ', '');
-                    logEvent(eventName, { significant: true });
-                    toast.success(`${significant} logged`);
-                  }}
-                  className={`h-12 text-sm font-bold bg-gradient-to-br ${
-                    selectedFighter === 'fighter1'
-                      ? 'from-orange-600 to-red-600'
-                      : 'from-blue-500 to-blue-700'
-                  } hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
-                >
-                  Significant
-                </Button>
-              </div>
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+            {['Jab', 'Cross', 'Hook', 'Uppercut', 'Elbow', 'Knee', 'Kick'].map((strike) => (
+              <Button
+                key={strike}
+                onClick={() => {
+                  logEvent(strike, {});
+                  toast.success(`${strike} logged`);
+                }}
+                className={`h-16 text-base font-bold bg-gradient-to-br ${
+                  selectedFighter === 'fighter1'
+                    ? 'from-orange-600 to-red-600'
+                    : 'from-blue-500 to-blue-700'
+                } hover:opacity-90 text-white shadow-lg transition-all active:scale-95`}
+              >
+                {strike}
+              </Button>
             ))}
           </div>
         </div>
