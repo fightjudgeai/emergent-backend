@@ -416,11 +416,37 @@ export default function SupervisorControl() {
                           <Label>Weight Class</Label>
                           <Select value={newFight.weightClass} onValueChange={(v) => setNewFight({...newFight, weightClass: v})}>
                             <SelectTrigger className="bg-gray-800 border-gray-700">
-                              <SelectValue />
+                              <SelectValue placeholder="Select weight class" />
                             </SelectTrigger>
-                            <SelectContent className="bg-gray-800 border-gray-700">
-                              {WEIGHT_CLASSES.map(wc => (
-                                <SelectItem key={wc} value={wc}>{wc}</SelectItem>
+                            <SelectContent className="bg-gray-800 border-gray-700 max-h-80">
+                              {/* Men's Division */}
+                              <div className="px-2 py-1 text-xs font-semibold text-blue-400 uppercase tracking-wider">
+                                Men's Division
+                              </div>
+                              {WEIGHT_CLASSES.mens.map(wc => (
+                                <SelectItem key={wc.value} value={wc.value} className="text-white">
+                                  {wc.label}
+                                </SelectItem>
+                              ))}
+                              
+                              {/* Women's Division */}
+                              <div className="px-2 py-1 text-xs font-semibold text-pink-400 uppercase tracking-wider mt-2 border-t border-gray-700 pt-2">
+                                Women's Division
+                              </div>
+                              {WEIGHT_CLASSES.womens.map(wc => (
+                                <SelectItem key={wc.value} value={wc.value} className="text-white">
+                                  {wc.label}
+                                </SelectItem>
+                              ))}
+                              
+                              {/* Other */}
+                              <div className="px-2 py-1 text-xs font-semibold text-amber-400 uppercase tracking-wider mt-2 border-t border-gray-700 pt-2">
+                                Other
+                              </div>
+                              {WEIGHT_CLASSES.other.map(wc => (
+                                <SelectItem key={wc.value} value={wc.value} className="text-white">
+                                  {wc.label}
+                                </SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
