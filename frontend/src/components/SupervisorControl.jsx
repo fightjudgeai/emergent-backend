@@ -30,11 +30,29 @@ import {
 const API = process.env.REACT_APP_BACKEND_URL;
 
 // Weight classes
-const WEIGHT_CLASSES = [
-  'Strawweight', 'Flyweight', 'Bantamweight', 'Featherweight', 
-  'Lightweight', 'Welterweight', 'Middleweight', 'Light Heavyweight', 
-  'Heavyweight', 'Catchweight'
-];
+// MMA Weight Classes - Men's, Women's, and Catchweight
+const WEIGHT_CLASSES = {
+  mens: [
+    { value: 'M-Strawweight', label: "Men's Strawweight (115 lbs)" },
+    { value: 'M-Flyweight', label: "Men's Flyweight (125 lbs)" },
+    { value: 'M-Bantamweight', label: "Men's Bantamweight (135 lbs)" },
+    { value: 'M-Featherweight', label: "Men's Featherweight (145 lbs)" },
+    { value: 'M-Lightweight', label: "Men's Lightweight (155 lbs)" },
+    { value: 'M-Welterweight', label: "Men's Welterweight (170 lbs)" },
+    { value: 'M-Middleweight', label: "Men's Middleweight (185 lbs)" },
+    { value: 'M-Light Heavyweight', label: "Men's Light Heavyweight (205 lbs)" },
+    { value: 'M-Heavyweight', label: "Men's Heavyweight (265 lbs)" },
+  ],
+  womens: [
+    { value: 'W-Strawweight', label: "Women's Strawweight (115 lbs)" },
+    { value: 'W-Flyweight', label: "Women's Flyweight (125 lbs)" },
+    { value: 'W-Bantamweight', label: "Women's Bantamweight (135 lbs)" },
+    { value: 'W-Featherweight', label: "Women's Featherweight (145 lbs)" },
+  ],
+  other: [
+    { value: 'Catchweight', label: 'Catchweight (Custom)' },
+  ]
+};
 
 /**
  * SupervisorControl - Main control panel for supervisor
