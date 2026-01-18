@@ -63,102 +63,90 @@ export default function OperatorPanel() {
       }
       
       const key = event.key;
-      const shiftPressed = event.shiftKey;
       
       // Prevent default for shortcut keys
-      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'v', 'b', 'a', 's', 'd', 'f', 'q', 'w', 'e', 'r', 'z', 'x', 'c', 'Escape', '/'];
-      if (shortcutKeys.includes(key) || key.startsWith('F')) {
+      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', '8', 't', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'z', 'x', 'c', 'g', 'Escape', '/'];
+      if (shortcutKeys.includes(key.toLowerCase()) || key.startsWith('F')) {
         event.preventDefault();
       }
       
       // Wrap all keyboard actions in try-catch for error handling
       try {
       
-      // STRIKING - Numbers 1-6 (regular and significant with shift)
-      if (key === '1' && !shiftPressed) {
+      // STRIKING - Numbers 1-7 (simplified - no more sig/non-sig)
+      if (key === '1') {
         console.log('Keyboard: Logging Jab');
-        await logEvent('Jab', { significant: false });
-      } else if (key === '!' || (key === '1' && shiftPressed)) {
-        console.log('Keyboard: Logging SS Jab');
-        await logEvent('Jab', { significant: true });
-      } else if (key === '2' && !shiftPressed) {
-        await logEvent('Cross', { significant: false });
-      } else if (key === '@' || (key === '2' && shiftPressed)) {
-        await logEvent('Cross', { significant: true });
-      } else if (key === '3' && !shiftPressed) {
-        await logEvent('Hook', { significant: false });
-      } else if (key === '#' || (key === '3' && shiftPressed)) {
-        await logEvent('Hook', { significant: true });
-      } else if (key === '4' && !shiftPressed) {
-        await logEvent('Uppercut', { significant: false });
-      } else if (key === '$' || (key === '4' && shiftPressed)) {
-        await logEvent('Uppercut', { significant: true });
-      } else if (key === '5' && !shiftPressed) {
-        await logEvent('Elbow', { significant: false });
-      } else if (key === '%' || (key === '5' && shiftPressed)) {
-        await logEvent('Elbow', { significant: true });
-      } else if (key === '6' && !shiftPressed) {
-        await logEvent('Knee', { significant: false });
-      } else if (key === '^' || (key === '6' && shiftPressed)) {
-        await logEvent('Knee', { significant: true });
-      } else if (key === '7' && !shiftPressed) {
-        await logEvent('Kick', { significant: false });
-      } else if (key === '&' || (key === '7' && shiftPressed)) {
-        await logEvent('Kick', { significant: true });
-      }
-      
-      // ADDITIONAL KICK SHORTCUTS - T key
-      else if ((key === 't' || key === 'T') && !shiftPressed) {
-        await logEvent('Kick', { significant: false });
-      } else if (key === 'T' && shiftPressed) {
-        await logEvent('Kick', { significant: true });
+        await logEvent('Jab', {});
+        toast.success('Jab logged');
+      } else if (key === '2') {
+        await logEvent('Cross', {});
+        toast.success('Cross logged');
+      } else if (key === '3') {
+        await logEvent('Hook', {});
+        toast.success('Hook logged');
+      } else if (key === '4') {
+        await logEvent('Uppercut', {});
+        toast.success('Uppercut logged');
+      } else if (key === '5') {
+        await logEvent('Elbow', {});
+        toast.success('Elbow logged');
+      } else if (key === '6') {
+        await logEvent('Knee', {});
+        toast.success('Knee logged');
+      } else if (key === '7' || key.toLowerCase() === 't') {
+        await logEvent('Kick', {});
+        toast.success('Kick logged');
+      } else if (key === '8' || key.toLowerCase() === 'g') {
+        await logEvent('Ground Strike', {});
+        toast.success('Ground Strike logged');
       }
       
       // GRAPPLING - V and B
-      else if (key === 'v' || key === 'V') {
+      else if (key.toLowerCase() === 'v') {
         await logEvent('Takedown Landed');
-      } else if (key === 'b' || key === 'B') {
+        toast.success('TD Landed logged');
+      } else if (key.toLowerCase() === 'b') {
         await logEvent('Takedown Stuffed');
+        toast.success('TD Stuffed logged');
       }
       
-      // SUBMISSIONS - A, S, D, F
-      else if (key === 'a' || key === 'A') {
-        await logEvent('Submission Attempt', { tier: 'Light' });
-      } else if (key === 's' || key === 'S') {
+      // SUBMISSIONS - A, S, D (removed F for Sweep)
+      else if (key.toLowerCase() === 'a') {
+        await logEvent('Submission Attempt', { tier: 'Standard' });
+        toast.success('Sub Attempt logged');
+      } else if (key.toLowerCase() === 's') {
         await logEvent('Submission Attempt', { tier: 'Deep' });
-      } else if (key === 'd' || key === 'D') {
+        toast.success('Sub (Deep) logged');
+      } else if (key.toLowerCase() === 'd') {
         await logEvent('Submission Attempt', { tier: 'Near-Finish' });
-      } else if (key === 'f' || key === 'F') {
-        await logEvent('Sweep/Reversal');
+        toast.success('Sub (Near-Finish) logged');
       }
       
       // DAMAGE - Q, W, E, R
-      else if (key === 'q' || key === 'Q') {
-        await logEvent('Rocked/Stunned', { significant: true });
-      } else if (key === 'w' || key === 'W') {
+      else if (key.toLowerCase() === 'q') {
+        await logEvent('Rocked/Stunned', {});
+        toast.success('Rocked/Stunned logged');
+      } else if (key.toLowerCase() === 'w') {
         await logEvent('KD', { tier: 'Flash' });
-      } else if (key === 'e' || key === 'E') {
+        toast.success('KD (Flash) logged');
+      } else if (key.toLowerCase() === 'e') {
         await logEvent('KD', { tier: 'Hard' });
-      } else if (key === 'r' || key === 'R') {
+        toast.success('KD (Hard) logged');
+      } else if (key.toLowerCase() === 'r') {
         await logEvent('KD', { tier: 'Near-Finish' });
+        toast.success('KD (Near-Finish) logged');
       }
       
-      // CONTROL TIMERS - Z, X, C (with shift to stop)
-      else if (key === 'z' && !shiftPressed) {
+      // CONTROL TIMERS - Z, X, C
+      else if (key.toLowerCase() === 'z') {
         await handleControlToggle('Ground Top Control');
-      } else if (key === 'Z' && shiftPressed) {
-        await handleControlToggle('Ground Top Control');
-      } else if (key === 'x' && !shiftPressed) {
+      } else if (key.toLowerCase() === 'x') {
         await handleControlToggle('Ground Back Control');
-      } else if (key === 'X' && shiftPressed) {
-        await handleControlToggle('Ground Back Control');
-      } else if (key === 'c' && !shiftPressed) {
-        await handleControlToggle('Cage Control Time');
-      } else if (key === 'C' && shiftPressed) {
+      } else if (key.toLowerCase() === 'c') {
         await handleControlToggle('Cage Control Time');
       }
       
-      // FUNCTION KEYS - F1-F7 (or G1-G7 on gaming keyboards)
+      // FUNCTION KEYS - F1-F8
       else if (key === 'F1') {
         await undoLastEvent();
       } else if (key === 'F2') {
@@ -170,19 +158,15 @@ export default function OperatorPanel() {
       } else if (key === 'F5') {
         await handleMedicalTimeout();
       } else if (key === 'F6') {
-        // -1 Point Deduction
         await handlePointDeductionQuick(1, 'Foul');
       } else if (key === 'F7') {
-        // -2 Point Deduction
         await handlePointDeductionQuick(2, 'Serious Foul');
       } else if (key === 'F8') {
-        // Warning (no deduction)
         await handlePointDeductionQuick(0, 'Warning');
       }
       
       // SPECIAL ACTIONS
       else if (key === '/') {
-        // Save and Sync
         toast.success('Manual save triggered via keyboard');
       }
       } catch (error) {
