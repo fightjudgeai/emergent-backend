@@ -37,7 +37,7 @@ SCORING_CONFIG = {
         "Elbow": {"category": "striking", "value": 0.14},
         "Kick": {"category": "striking", "value": 0.14},
         "Jab": {"category": "striking", "value": 0.10},
-        "Knee": {"category": "striking", "value": 0.10},
+        "Knee": {"category": "striking", "value": 0.14},
         "Ground Strike": {"category": "striking", "value": 0.08},
         # Grappling - percentage values
         "Submission Attempt": {"category": "grappling", "Near-Finish": 1.00, "Deep": 0.60, "Light": 0.25, "Standard": 0.25},

@@ -49,7 +49,7 @@ EVENT_WEIGHTS = {
     "Low Kick": {"category": "striking", "value": 0.14},
     "Leg Kick": {"category": "striking", "value": 0.14},
     "Jab": {"category": "striking", "value": 0.10},
-    "Knee": {"category": "striking", "value": 0.10},
+    "Knee": {"category": "striking", "value": 0.14},
     "Ground Strike": {"category": "striking", "value": 0.08},
     
     # Grappling

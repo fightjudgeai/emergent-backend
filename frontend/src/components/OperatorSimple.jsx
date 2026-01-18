@@ -34,9 +34,6 @@ const STRIKING_EVENTS = [
 const GRAPPLING_EVENTS = [
   { type: 'Takedown Landed', color: 'bg-teal-600', tier: null, label: 'TD Landed' },
   { type: 'Takedown Defended', color: 'bg-teal-500', tier: null, label: 'TD Defended' },
-  { type: 'Slam', color: 'bg-teal-700', tier: null },
-  { type: 'Sweep/Reversal', color: 'bg-cyan-600', tier: null, label: 'Sweep' },
-  { type: 'Guard Passing', color: 'bg-cyan-700', tier: null, label: 'Guard Pass' },
   { type: 'Back Control', color: 'bg-indigo-600', tier: null, label: 'Back Control' },
   { type: 'Mount Control', color: 'bg-indigo-600', tier: null, label: 'Mount' },
   { type: 'Side Control', color: 'bg-indigo-500', tier: null, label: 'Side Control' },
