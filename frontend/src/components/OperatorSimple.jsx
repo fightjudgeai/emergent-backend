@@ -78,6 +78,93 @@ export default function OperatorSimple() {
     return STRIKING_EVENTS;
   };
 
+  // Keyboard shortcuts handler - Red Dragon K585 compatible
+  useEffect(() => {
+    const handleKeyDown = async (event) => {
+      // Don't trigger in input fields
+      if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') return;
+      if (!boutId) return;
+
+      const key = event.key;
+      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', '8', 't', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g'];
+      
+      if (shortcutKeys.includes(key.toLowerCase())) {
+        event.preventDefault();
+      }
+
+      try {
+        // STRIKING - Numbers 1-7 (no more sig/non-sig, just the strike)
+        if (key === '1') {
+          await logEvent('Jab');
+          toast.success('Jab logged (Key 1)');
+        } else if (key === '2') {
+          await logEvent('Cross');
+          toast.success('Cross logged (Key 2)');
+        } else if (key === '3') {
+          await logEvent('Hook');
+          toast.success('Hook logged (Key 3)');
+        } else if (key === '4') {
+          await logEvent('Uppercut');
+          toast.success('Uppercut logged (Key 4)');
+        } else if (key === '5') {
+          await logEvent('Elbow');
+          toast.success('Elbow logged (Key 5)');
+        } else if (key === '6') {
+          await logEvent('Knee');
+          toast.success('Knee logged (Key 6)');
+        } else if (key === '7' || key.toLowerCase() === 't') {
+          await logEvent('Kick');
+          toast.success('Kick logged (Key 7/T)');
+        } else if (key === '8' || key.toLowerCase() === 'g') {
+          await logEvent('Ground Strike');
+          toast.success('Ground Strike logged (Key 8/G)');
+        }
+        
+        // GRAPPLING - V and B
+        else if (key.toLowerCase() === 'v') {
+          await logEvent('Takedown Landed');
+          toast.success('TD Landed logged (Key V)');
+        } else if (key.toLowerCase() === 'b') {
+          await logEvent('Takedown Defended');
+          toast.success('TD Defended logged (Key B)');
+        }
+        
+        // SUBMISSIONS - A, S, D
+        else if (key.toLowerCase() === 'a') {
+          await logEvent('Submission Attempt', 'Standard');
+          toast.success('Sub Attempt logged (Key A)');
+        } else if (key.toLowerCase() === 's') {
+          await logEvent('Submission Attempt', 'Deep');
+          toast.success('Sub (Deep) logged (Key S)');
+        } else if (key.toLowerCase() === 'd') {
+          await logEvent('Submission Attempt', 'Near-Finish');
+          toast.success('Sub (Near-Finish) logged (Key D)');
+        }
+        
+        // DAMAGE - Q, W, E, R
+        else if (key.toLowerCase() === 'q') {
+          await logEvent('Rocked/Stunned');
+          toast.success('Rocked/Stunned logged (Key Q)');
+        } else if (key.toLowerCase() === 'w') {
+          await logEvent('KD', 'Flash');
+          toast.success('KD (Flash) logged (Key W)');
+        } else if (key.toLowerCase() === 'e') {
+          await logEvent('KD', 'Hard');
+          toast.success('KD (Hard) logged (Key E)');
+        } else if (key.toLowerCase() === 'r') {
+          await logEvent('KD', 'Near-Finish');
+          toast.success('KD (Near-Finish) logged (Key R)');
+        }
+      } catch (error) {
+        console.error('Keyboard shortcut error:', error);
+        toast.error('Failed to log event');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [boutId, corner, currentRound, deviceRole, fighterName]);
+
   // Poll for round changes from supervisor
   useEffect(() => {
     if (!boutId) return;
