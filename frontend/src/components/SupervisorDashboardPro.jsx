@@ -373,23 +373,32 @@ export default function SupervisorDashboardPro() {
     }
   };
 
-  // Finalize Fight
-  const handleFinalizeFight = async () => {
+  // Show finish method dialog
+  const handleFinalizeFight = () => {
+    setShowFinishMethodDialog(true);
+  };
+
+  // Actually finalize the fight with selected method
+  const confirmFinalizeFight = async (method) => {
     if (!boutId) return;
     
+    setFinishMethod(method);
     setIsLoading(true);
     try {
       const response = await fetch(`${API}/api/fights/finalize`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bout_id: boutId })
+        body: JSON.stringify({ bout_id: boutId, finish_method: method })
       });
       
       if (response.ok) {
         const result = await response.json();
+        // Add finish method to result
+        result.finish_method = method;
         setFinalResult(result);
+        setShowFinishMethodDialog(false);
         setShowFinalResult(true);
-        toast.success(`Fight finalized! Winner: ${result.winner_name}`);
+        toast.success(`Fight finalized! Winner: ${result.winner_name} by ${method}`);
       } else {
         toast.error('Failed to finalize fight');
       }
@@ -398,6 +407,11 @@ export default function SupervisorDashboardPro() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Show result on arena broadcast
+  const showOnArena = () => {
+    setShowResultBroadcast(true);
   };
 
   // Toggle fullscreen
