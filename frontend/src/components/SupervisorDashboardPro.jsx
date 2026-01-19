@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -21,7 +21,9 @@ import {
   TrendingUp,
   TrendingDown,
   Minus,
-  ExternalLink
+  ExternalLink,
+  ChevronRight,
+  Home
 } from 'lucide-react';
 import { toast } from 'sonner';
 import OperatorAssignmentPanel from './OperatorAssignmentPanel';
