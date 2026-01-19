@@ -157,6 +157,45 @@ export default function SupervisorDashboardPro() {
   const [showAssignmentPanel, setShowAssignmentPanel] = useState(false);
   const [showBroadcast, setShowBroadcast] = useState(false);
   const [operatorCount, setOperatorCount] = useState(0);
+  const [nextFight, setNextFight] = useState(null);
+  
+  const navigate = useNavigate();
+
+  // Fetch next fight in the event
+  const fetchNextFight = useCallback(async () => {
+    if (!boutId) return;
+    try {
+      // Get event ID from current bout
+      const boutResponse = await fetch(`${API}/api/bouts/${boutId}`);
+      if (!boutResponse.ok) return;
+      const boutData = await boutResponse.json();
+      const eventId = boutData.event_id;
+      
+      if (!eventId) return;
+      
+      // Get all fights for this event
+      const fightsResponse = await fetch(`${API}/api/supervisor/fights?event_id=${eventId}`);
+      if (!fightsResponse.ok) return;
+      const fightsData = await fightsResponse.json();
+      const fights = fightsData.fights || [];
+      
+      // Find current fight index and get next one
+      const currentIndex = fights.findIndex(f => f.bout_id === boutId);
+      if (currentIndex >= 0 && currentIndex < fights.length - 1) {
+        const next = fights[currentIndex + 1];
+        setNextFight(next);
+      }
+    } catch (error) {
+      console.error('Error fetching next fight:', error);
+    }
+  }, [boutId]);
+
+  // Fetch next fight when final result is shown
+  useEffect(() => {
+    if (showFinalResult) {
+      fetchNextFight();
+    }
+  }, [showFinalResult, fetchNextFight]);
 
   // Fetch operator count
   const fetchOperatorCount = useCallback(async () => {
