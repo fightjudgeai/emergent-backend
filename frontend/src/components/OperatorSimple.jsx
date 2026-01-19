@@ -70,9 +70,18 @@ const getButtonStyle = (category, corner) => {
       return 'bg-cyan-700 hover:bg-cyan-600 border-cyan-600';
     case 'submission':
       return 'bg-purple-700 hover:bg-purple-600 border-purple-600';
+    case 'control-active':
+      return 'bg-green-600 hover:bg-green-500 border-green-500 animate-pulse';
     default:
       return 'bg-slate-700 hover:bg-slate-600 border-slate-600';
   }
+};
+
+// Format seconds to MM:SS
+const formatTime = (seconds) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
 };
 
 /**
@@ -91,6 +100,11 @@ export default function OperatorSimple() {
   const [lastEvent, setLastEvent] = useState(null);
   const [boutInfo, setBoutInfo] = useState({ fighter1: 'Red Corner', fighter2: 'Blue Corner' });
   const [roundJustChanged, setRoundJustChanged] = useState(false);
+  
+  // Control timer state
+  const [activeControl, setActiveControl] = useState(null); // 'Back Control', 'Top Control', 'Cage Control'
+  const [controlTime, setControlTime] = useState(0);
+  const [controlStartTime, setControlStartTime] = useState(null);
 
   // Determine corner from role
   const corner = deviceRole.startsWith('RED') ? 'RED' : 'BLUE';
