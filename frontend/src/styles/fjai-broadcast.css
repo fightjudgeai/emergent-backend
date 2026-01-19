@@ -1,0 +1,81 @@
+/* FJAI Broadcast Overlay Styles */
+
+/* FJAI Broadcast Colors */
+:root {
+  --fjai-gold: 195 100% 70%;
+  --fjai-red: 348 83% 47%;
+  --fjai-muted: 0 0% 12%;
+}
+
+/* FJAI Animations */
+@keyframes fjai-count-reveal {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fjai-flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes fjai-pulse-red {
+  0%, 100% { box-shadow: 0 0 20px hsl(348 83% 47% / 0.4); }
+  50% { box-shadow: 0 0 40px hsl(348 83% 47% / 0.7); }
+}
+
+@keyframes fjai-pulse-blue {
+  0%, 100% { box-shadow: 0 0 20px hsl(195 100% 70% / 0.4); }
+  50% { box-shadow: 0 0 40px hsl(195 100% 70% / 0.7); }
+}
+
+@keyframes fjai-glow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.2); }
+}
+
+.animate-fjai-count-reveal { 
+  animation: fjai-count-reveal 0.8s ease-out forwards; 
+}
+
+.animate-fjai-flash { 
+  animation: fjai-flash 0.5s ease-out 3; 
+}
+
+.animate-fjai-pulse-red { 
+  animation: fjai-pulse-red 2s ease-in-out infinite; 
+}
+
+.animate-fjai-pulse-blue { 
+  animation: fjai-pulse-blue 2s ease-in-out infinite; 
+}
+
+.animate-fjai-glow {
+  animation: fjai-glow 2s ease-in-out infinite;
+}
+
+/* FJAI Font Styling */
+.fjai-broadcast {
+  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+}
+
+/* FJAI Broadcast Container */
+.fjai-broadcast-overlay {
+  background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(10,10,10,0.98) 100%);
+  backdrop-filter: blur(10px);
+}
+
+/* FJAI Score Cards */
+.fjai-score-card {
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.fjai-score-card:hover {
+  transform: scale(1.02);
+}
+
+/* FJAI Winner Badge */
+.fjai-winner-badge {
+  background: linear-gradient(135deg, hsl(45 100% 50%) 0%, hsl(35 100% 45%) 100%);
+  box-shadow: 0 0 20px hsl(45 100% 50% / 0.5);
+}
