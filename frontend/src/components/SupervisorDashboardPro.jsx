@@ -765,7 +765,35 @@ export default function SupervisorDashboardPro() {
                 </div>
               </>
             )}
-            <Button onClick={() => setShowFinalResult(false)} className="bg-amber-500 text-black font-bold">Close</Button>
+            
+            <div className="flex gap-3 justify-center pt-4">
+              {nextFight ? (
+                <Button 
+                  onClick={() => {
+                    setShowFinalResult(false);
+                    navigate(`/supervisor/${nextFight.bout_id}`);
+                  }} 
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold px-6"
+                >
+                  <ChevronRight className="w-4 h-4 mr-2" />
+                  Next Fight: {nextFight.fighter1} vs {nextFight.fighter2}
+                </Button>
+              ) : (
+                <Button 
+                  onClick={() => {
+                    setShowFinalResult(false);
+                    navigate('/control');
+                  }} 
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6"
+                >
+                  <Home className="w-4 h-4 mr-2" />
+                  Back to Control Panel
+                </Button>
+              )}
+              <Button onClick={() => setShowFinalResult(false)} variant="outline" className="border-gray-600 text-gray-300">
+                Close
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
