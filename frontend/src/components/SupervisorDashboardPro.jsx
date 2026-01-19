@@ -158,6 +158,9 @@ export default function SupervisorDashboardPro() {
   const [showBroadcast, setShowBroadcast] = useState(false);
   const [operatorCount, setOperatorCount] = useState(0);
   const [nextFight, setNextFight] = useState(null);
+  const [showFinishMethodDialog, setShowFinishMethodDialog] = useState(false);
+  const [finishMethod, setFinishMethod] = useState(null);
+  const [showResultBroadcast, setShowResultBroadcast] = useState(false);
   
   const navigate = useNavigate();
 
