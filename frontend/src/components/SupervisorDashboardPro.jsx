@@ -875,50 +875,32 @@ export default function SupervisorDashboardPro() {
         </DialogContent>
       </Dialog>
 
-      {/* Arena Result Broadcast */}
+      {/* Arena Result Broadcast - Using FJAI Component */}
       <Dialog open={showResultBroadcast} onOpenChange={setShowResultBroadcast}>
-        <DialogContent className="bg-black border-none text-white max-w-4xl p-0">
-          <div className="relative w-full aspect-video bg-gradient-to-b from-gray-900 to-black flex flex-col items-center justify-center p-8">
+        <DialogContent className="bg-black border-none text-white max-w-2xl p-0 fjai-broadcast">
+          <div className="relative w-full bg-gradient-to-b from-gray-900 to-black p-2">
             {/* Close button */}
             <Button 
               onClick={() => setShowResultBroadcast(false)}
-              className="absolute top-4 right-4 bg-gray-800 hover:bg-gray-700"
+              className="absolute top-2 right-2 bg-gray-800 hover:bg-gray-700 z-10"
               size="sm"
             >
               Close
             </Button>
             
-            {/* Result Display for Arena */}
-            <div className="text-center space-y-8">
-              <div className="text-amber-400 text-3xl font-bold tracking-widest">FJAI RESULT</div>
-              
-              {/* Winner Display */}
-              <div className="space-y-4">
-                <div className="text-gray-400 text-xl uppercase tracking-wider">Winner</div>
-                <div className={`text-6xl font-black ${finalResult?.winner === 'RED' ? 'text-red-400' : 'text-blue-400'}`}>
-                  {finalResult?.winner === 'RED' ? boutInfo.fighter1 : boutInfo.fighter2}
-                </div>
-                
-                {/* Show score only for Decision */}
-                {(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') && (
-                  <div className="mt-6">
-                    <div className="text-5xl font-black text-white">
-                      <span className="text-red-400">{finalResult?.final_red}</span>
-                      <span className="text-gray-600 mx-4">-</span>
-                      <span className="text-blue-400">{finalResult?.final_blue}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-              
-              {/* Victory Method */}
-              <div className="mt-6">
-                <div className="text-gray-500 text-lg">VICTORY BY</div>
-                <div className="text-amber-400 text-5xl font-black tracking-wider mt-2">
-                  {finalResult?.finish_method || finishMethod}
-                </div>
-              </div>
-            </div>
+            {/* FJAI Final Result Component */}
+            <FinalResult
+              total={{
+                red: finalResult?.final_red || runningTotals.red,
+                blue: finalResult?.final_blue || runningTotals.blue
+              }}
+              winner={finalResult?.winner?.toLowerCase() || null}
+              redName={boutInfo.fighter1}
+              blueName={boutInfo.fighter2}
+              isVisible={true}
+              finishMethod={finalResult?.finish_method || finishMethod}
+              totalRounds={totalRounds}
+            />
           </div>
         </DialogContent>
       </Dialog>
