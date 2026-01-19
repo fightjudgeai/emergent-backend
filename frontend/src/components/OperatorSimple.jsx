@@ -153,6 +153,10 @@ export default function OperatorSimple() {
         else if (key.toLowerCase() === 'w') { await logEvent('KD', 'Flash'); }
         else if (key.toLowerCase() === 'e') { await logEvent('KD', 'Hard'); }
         else if (key.toLowerCase() === 'r') { await logEvent('KD', 'Near-Finish'); }
+        // Control timers - Z, X, C
+        else if (key.toLowerCase() === 'z') { handleControlToggle('Back Control'); }
+        else if (key.toLowerCase() === 'x') { handleControlToggle('Top Control'); }
+        else if (key.toLowerCase() === 'c') { handleControlToggle('Cage Control'); }
       } catch (error) {
         console.error('Keyboard shortcut error:', error);
       }
@@ -160,7 +164,87 @@ export default function OperatorSimple() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [boutId, corner, currentRound, deviceRole, fighterName]);
+  }, [boutId, corner, currentRound, deviceRole, fighterName, activeControl]);
+
+  // Control timer - increment every second when active
+  useEffect(() => {
+    if (!activeControl) return;
+    
+    const interval = setInterval(() => {
+      setControlTime(prev => prev + 1);
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, [activeControl]);
+
+  // Handle control toggle (start/stop timer)
+  const handleControlToggle = async (controlType) => {
+    if (activeControl === controlType) {
+      // Stop the timer and log the control event with duration
+      const duration = controlTime;
+      setActiveControl(null);
+      setControlTime(0);
+      setControlStartTime(null);
+      
+      // Log the control event with duration
+      try {
+        const response = await fetch(`${API}/api/events`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bout_id: boutId,
+            round_number: currentRound,
+            corner: corner,
+            aspect: 'GRAPPLING',
+            event_type: controlType === 'Top Control' ? 'Ground Top Control' : 
+                       controlType === 'Cage Control' ? 'Cage Control Time' :
+                       controlType === 'Back Control' ? 'Ground Back Control' : controlType,
+            device_role: deviceRole,
+            metadata: { duration }
+          })
+        });
+        
+        if (response.ok) {
+          setEventCount(prev => prev + 1);
+          setLastEvent({ type: controlType, tier: `${duration}s`, time: new Date() });
+          toast.success(`${controlType}: ${formatTime(duration)} logged`);
+        }
+      } catch (error) {
+        toast.error('Failed to log control time');
+      }
+    } else {
+      // Start new timer (stop any existing one first)
+      if (activeControl) {
+        // Log the previous control before starting new one
+        const duration = controlTime;
+        try {
+          await fetch(`${API}/api/events`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              bout_id: boutId,
+              round_number: currentRound,
+              corner: corner,
+              aspect: 'GRAPPLING',
+              event_type: activeControl === 'Top Control' ? 'Ground Top Control' : 
+                         activeControl === 'Cage Control' ? 'Cage Control Time' :
+                         activeControl === 'Back Control' ? 'Ground Back Control' : activeControl,
+              device_role: deviceRole,
+              metadata: { duration }
+            })
+          });
+          toast.info(`${activeControl}: ${formatTime(duration)} logged`);
+        } catch (error) {
+          console.error('Failed to log previous control');
+        }
+      }
+      
+      setActiveControl(controlType);
+      setControlTime(0);
+      setControlStartTime(new Date());
+      toast.info(`${controlType} timer started`);
+    }
+  };
 
   // Poll for round changes from supervisor
   useEffect(() => {
