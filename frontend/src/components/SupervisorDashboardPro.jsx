@@ -889,14 +889,17 @@ export default function SupervisorDashboardPro() {
             
             {/* Result Display for Arena */}
             <div className="text-center space-y-6">
-              <div className="text-amber-400 text-2xl font-bold tracking-widest">OFFICIAL RESULT</div>
+              <div className="text-amber-400 text-2xl font-bold tracking-widest">FJAI RESULT</div>
               
               <div className="flex items-center justify-center gap-8">
                 <div className={`text-center ${finalResult?.winner === 'RED' ? 'opacity-100' : 'opacity-50'}`}>
-                  <div className="text-red-400 text-6xl font-black">{finalResult?.final_red}</div>
-                  <div className="text-red-400 text-2xl font-bold mt-2">{boutInfo.fighter1}</div>
+                  {/* Only show scores for Decision */}
+                  {(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') && (
+                    <div className="text-red-400 text-6xl font-black">{finalResult?.final_red}</div>
+                  )}
+                  <div className={`text-red-400 ${(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') ? 'text-2xl mt-2' : 'text-4xl'} font-bold`}>{boutInfo.fighter1}</div>
                   {finalResult?.winner === 'RED' && (
-                    <div className="mt-2">
+                    <div className="mt-4">
                       <Badge className="bg-amber-500 text-black text-lg px-4 py-1">WINNER</Badge>
                     </div>
                   )}
@@ -905,10 +908,13 @@ export default function SupervisorDashboardPro() {
                 <div className="text-gray-600 text-4xl font-bold">VS</div>
                 
                 <div className={`text-center ${finalResult?.winner === 'BLUE' ? 'opacity-100' : 'opacity-50'}`}>
-                  <div className="text-blue-400 text-6xl font-black">{finalResult?.final_blue}</div>
-                  <div className="text-blue-400 text-2xl font-bold mt-2">{boutInfo.fighter2}</div>
+                  {/* Only show scores for Decision */}
+                  {(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') && (
+                    <div className="text-blue-400 text-6xl font-black">{finalResult?.final_blue}</div>
+                  )}
+                  <div className={`text-blue-400 ${(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') ? 'text-2xl mt-2' : 'text-4xl'} font-bold`}>{boutInfo.fighter2}</div>
                   {finalResult?.winner === 'BLUE' && (
-                    <div className="mt-2">
+                    <div className="mt-4">
                       <Badge className="bg-amber-500 text-black text-lg px-4 py-1">WINNER</Badge>
                     </div>
                   )}
@@ -922,7 +928,7 @@ export default function SupervisorDashboardPro() {
                 </div>
                 {(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') && (
                   <div className="text-gray-400 text-lg mt-1">
-                    Round {currentRound} of {totalRounds}
+                    After {totalRounds} Rounds
                   </div>
                 )}
               </div>
