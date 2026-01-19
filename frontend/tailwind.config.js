@@ -52,10 +52,10 @@ module.exports = {
                                 '3': 'hsl(var(--chart-3))',
                                 '4': 'hsl(var(--chart-4))',
                                 '5': 'hsl(var(--chart-5))'
-                        }
+                        },
                         'fjai-gold': 'hsl(195 100% 70%)',
                         'fjai-red': 'hsl(348 83% 47%)',
-                        'fjai-muted': 'hsl(0 0% 12%)',
+                        'fjai-muted': 'hsl(0 0% 12%)'
                 },
                 keyframes: {
                         'accordion-down': {
