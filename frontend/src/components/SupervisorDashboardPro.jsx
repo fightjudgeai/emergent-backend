@@ -28,6 +28,7 @@ import {
 import { toast } from 'sonner';
 import OperatorAssignmentPanel from './OperatorAssignmentPanel';
 import { BroadcastScorecard } from './lovable-broadcast/BroadcastScorecard';
+import { FinalResult, RoundWinner, transformFinalResult } from './broadcast/FightJudgeAI';
 import '@/styles/lovable-broadcast.css';
 
 const API = process.env.REACT_APP_BACKEND_URL;
