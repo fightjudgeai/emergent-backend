@@ -494,24 +494,40 @@ export default function OperatorSimple() {
           </div>
         )}
 
-        {/* Section: Control */}
+        {/* Section: Control - With Timers */}
         {(deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') && (
           <div className="mb-4">
             <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
-              Control Position
+              Control Time {activeControl && <span className="text-green-400 ml-2">● Recording</span>}
             </div>
             <div className="grid grid-cols-3 gap-2">
-              {['Back Control', 'Mount', 'Side Control'].map((control) => (
+              {[
+                { name: 'Back Control', key: 'Z' },
+                { name: 'Top Control', key: 'X' },
+                { name: 'Cage Control', key: 'C' }
+              ].map((control) => (
                 <Button
-                  key={control}
-                  data-testid={`btn-${control.toLowerCase().replace(' ', '-')}`}
-                  onClick={() => logEvent(control === 'Mount' ? 'Mount Control' : control)}
-                  className={`${getButtonStyle('control', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                  key={control.name}
+                  data-testid={`btn-${control.name.toLowerCase().replace(' ', '-')}`}
+                  onClick={() => handleControlToggle(control.name)}
+                  className={`${activeControl === control.name ? getButtonStyle('control-active', corner) : getButtonStyle('control', corner)} text-white font-semibold h-16 text-sm border transition-all active:scale-95`}
                 >
-                  {control}
+                  <div className="text-center">
+                    <div>{control.name}</div>
+                    {activeControl === control.name ? (
+                      <div className="text-lg font-bold text-green-200">{formatTime(controlTime)}</div>
+                    ) : (
+                      <div className="text-[10px] text-cyan-200">{control.key} - Tap to start</div>
+                    )}
+                  </div>
                 </Button>
               ))}
             </div>
+            {activeControl && (
+              <div className="mt-2 text-center text-sm text-green-400">
+                Tap the active button again to stop and log the control time
+              </div>
+            )}
           </div>
         )}
 
