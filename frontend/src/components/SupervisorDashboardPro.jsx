@@ -916,11 +916,6 @@ export default function SupervisorDashboardPro() {
                 <div className="text-amber-400 text-5xl font-black tracking-wider mt-2">
                   {finalResult?.finish_method || finishMethod}
                 </div>
-                {(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') && (
-                  <div className="text-gray-500 text-lg mt-2">
-                    After {totalRounds} Rounds
-                  </div>
-                )}
               </div>
             </div>
           </div>
