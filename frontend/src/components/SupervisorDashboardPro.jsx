@@ -888,46 +888,36 @@ export default function SupervisorDashboardPro() {
             </Button>
             
             {/* Result Display for Arena */}
-            <div className="text-center space-y-6">
-              <div className="text-amber-400 text-2xl font-bold tracking-widest">FJAI RESULT</div>
+            <div className="text-center space-y-8">
+              <div className="text-amber-400 text-3xl font-bold tracking-widest">FJAI RESULT</div>
               
-              <div className="flex items-center justify-center gap-8">
-                <div className={`text-center ${finalResult?.winner === 'RED' ? 'opacity-100' : 'opacity-50'}`}>
-                  {/* Only show scores for Decision */}
-                  {(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') && (
-                    <div className="text-red-400 text-6xl font-black">{finalResult?.final_red}</div>
-                  )}
-                  <div className={`text-red-400 ${(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') ? 'text-2xl mt-2' : 'text-4xl'} font-bold`}>{boutInfo.fighter1}</div>
-                  {finalResult?.winner === 'RED' && (
-                    <div className="mt-4">
-                      <Badge className="bg-amber-500 text-black text-lg px-4 py-1">WINNER</Badge>
-                    </div>
-                  )}
+              {/* Winner Display */}
+              <div className="space-y-4">
+                <div className="text-gray-400 text-xl uppercase tracking-wider">Winner</div>
+                <div className={`text-6xl font-black ${finalResult?.winner === 'RED' ? 'text-red-400' : 'text-blue-400'}`}>
+                  {finalResult?.winner === 'RED' ? boutInfo.fighter1 : boutInfo.fighter2}
                 </div>
                 
-                <div className="text-gray-600 text-4xl font-bold">VS</div>
-                
-                <div className={`text-center ${finalResult?.winner === 'BLUE' ? 'opacity-100' : 'opacity-50'}`}>
-                  {/* Only show scores for Decision */}
-                  {(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') && (
-                    <div className="text-blue-400 text-6xl font-black">{finalResult?.final_blue}</div>
-                  )}
-                  <div className={`text-blue-400 ${(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') ? 'text-2xl mt-2' : 'text-4xl'} font-bold`}>{boutInfo.fighter2}</div>
-                  {finalResult?.winner === 'BLUE' && (
-                    <div className="mt-4">
-                      <Badge className="bg-amber-500 text-black text-lg px-4 py-1">WINNER</Badge>
+                {/* Show score only for Decision */}
+                {(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') && (
+                  <div className="mt-6">
+                    <div className="text-5xl font-black text-white">
+                      <span className="text-red-400">{finalResult?.final_red}</span>
+                      <span className="text-gray-600 mx-4">-</span>
+                      <span className="text-blue-400">{finalResult?.final_blue}</span>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
               
-              <div className="mt-8">
-                <div className="text-gray-400 text-xl">VICTORY BY</div>
-                <div className="text-white text-5xl font-black tracking-wider mt-2">
+              {/* Victory Method */}
+              <div className="mt-6">
+                <div className="text-gray-500 text-lg">VICTORY BY</div>
+                <div className="text-amber-400 text-5xl font-black tracking-wider mt-2">
                   {finalResult?.finish_method || finishMethod}
                 </div>
                 {(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') && (
-                  <div className="text-gray-400 text-lg mt-1">
+                  <div className="text-gray-500 text-lg mt-2">
                     After {totalRounds} Rounds
                   </div>
                 )}
