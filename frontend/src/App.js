@@ -1,4 +1,6 @@
 import "@/App.css";
+import "@fontsource/oswald";
+import "@/styles/fjai-broadcast.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import JudgeLogin from "@/components/JudgeLogin";
