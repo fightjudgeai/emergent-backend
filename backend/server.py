@@ -45,8 +45,8 @@ SCORING_CONFIG = {
         "Sweep/Reversal": {"category": "grappling", "value": 0.05},
         "Guard Passing": {"category": "grappling", "value": 0.05},
         "Back Control": {"category": "grappling", "value_per_sec": 0.012},
-        "Mount Control": {"category": "grappling", "value_per_sec": 0.010},
-        "Side Control": {"category": "grappling", "value_per_sec": 0.010},
+        "Top Control": {"category": "grappling", "value_per_sec": 0.010},
+        "Cage Control": {"category": "other", "value_per_sec": 0.006},
         "Ground Back Control": {"category": "grappling", "value_per_sec": 0.012},
         "Ground Top Control": {"category": "grappling", "value_per_sec": 0.010},
         # Other - percentage values
