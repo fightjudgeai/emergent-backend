@@ -39,7 +39,20 @@ function App() {
 
   return (
     <div className="App">
-      <Toaster position="top-right" richColors />
+      <Toaster 
+        position="bottom-center" 
+        richColors 
+        toastOptions={{
+          duration: 1000,
+          style: {
+            background: '#1e293b',
+            color: '#fff',
+            border: '1px solid #334155',
+            fontSize: '14px',
+            padding: '8px 16px',
+          }
+        }}
+      />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<JudgeLogin />} />
