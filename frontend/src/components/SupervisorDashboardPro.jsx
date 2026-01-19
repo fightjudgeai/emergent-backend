@@ -775,7 +775,7 @@ export default function SupervisorDashboardPro() {
                   <span className="text-blue-400">{finalResult.final_blue}</span>
                 </div>
                 <div>
-                  <div className="text-xl text-gray-400">WINNER</div>
+                  <div className="text-xl text-gray-400">WINNER BY {finalResult.finish_method || finishMethod}</div>
                   <div className={`text-4xl font-bold ${finalResult.winner === 'RED' ? 'text-red-400' : 'text-blue-400'}`}>
                     {finalResult.winner_name}
                   </div>
@@ -783,7 +783,16 @@ export default function SupervisorDashboardPro() {
               </>
             )}
             
-            <div className="flex gap-3 justify-center pt-4">
+            {/* Show on Arena Button */}
+            <Button 
+              onClick={showOnArena}
+              className="w-full bg-amber-500 hover:bg-amber-600 text-black font-bold py-3"
+            >
+              <Tv className="w-5 h-5 mr-2" />
+              Show Result on Arena Screen
+            </Button>
+            
+            <div className="flex gap-3 justify-center pt-2">
               {nextFight ? (
                 <Button 
                   onClick={() => {
@@ -810,6 +819,113 @@ export default function SupervisorDashboardPro() {
               <Button onClick={() => setShowFinalResult(false)} variant="outline" className="border-gray-600 text-gray-300">
                 Close
               </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Finish Method Selection Dialog */}
+      <Dialog open={showFinishMethodDialog} onOpenChange={setShowFinishMethodDialog}>
+        <DialogContent className="bg-gray-900 border-amber-500 text-white max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-center text-amber-400">How Did The Fight End?</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-2 gap-4 py-6">
+            <Button 
+              onClick={() => confirmFinalizeFight('KO')}
+              disabled={isLoading}
+              className="h-20 text-xl font-bold bg-red-600 hover:bg-red-700 text-white"
+            >
+              KO
+              <span className="block text-xs font-normal opacity-75">Knockout</span>
+            </Button>
+            <Button 
+              onClick={() => confirmFinalizeFight('TKO')}
+              disabled={isLoading}
+              className="h-20 text-xl font-bold bg-orange-600 hover:bg-orange-700 text-white"
+            >
+              TKO
+              <span className="block text-xs font-normal opacity-75">Technical KO</span>
+            </Button>
+            <Button 
+              onClick={() => confirmFinalizeFight('SUB')}
+              disabled={isLoading}
+              className="h-20 text-xl font-bold bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              SUB
+              <span className="block text-xs font-normal opacity-75">Submission</span>
+            </Button>
+            <Button 
+              onClick={() => confirmFinalizeFight('DEC')}
+              disabled={isLoading}
+              className="h-20 text-xl font-bold bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              DEC
+              <span className="block text-xs font-normal opacity-75">Decision</span>
+            </Button>
+          </div>
+          <Button 
+            onClick={() => setShowFinishMethodDialog(false)} 
+            variant="outline" 
+            className="w-full border-gray-600 text-gray-400"
+          >
+            Cancel
+          </Button>
+        </DialogContent>
+      </Dialog>
+
+      {/* Arena Result Broadcast */}
+      <Dialog open={showResultBroadcast} onOpenChange={setShowResultBroadcast}>
+        <DialogContent className="bg-black border-none text-white max-w-4xl p-0">
+          <div className="relative w-full aspect-video bg-gradient-to-b from-gray-900 to-black flex flex-col items-center justify-center p-8">
+            {/* Close button */}
+            <Button 
+              onClick={() => setShowResultBroadcast(false)}
+              className="absolute top-4 right-4 bg-gray-800 hover:bg-gray-700"
+              size="sm"
+            >
+              Close
+            </Button>
+            
+            {/* Result Display for Arena */}
+            <div className="text-center space-y-6">
+              <div className="text-amber-400 text-2xl font-bold tracking-widest">OFFICIAL RESULT</div>
+              
+              <div className="flex items-center justify-center gap-8">
+                <div className={`text-center ${finalResult?.winner === 'RED' ? 'opacity-100' : 'opacity-50'}`}>
+                  <div className="text-red-400 text-6xl font-black">{finalResult?.final_red}</div>
+                  <div className="text-red-400 text-2xl font-bold mt-2">{boutInfo.fighter1}</div>
+                  {finalResult?.winner === 'RED' && (
+                    <div className="mt-2">
+                      <Badge className="bg-amber-500 text-black text-lg px-4 py-1">WINNER</Badge>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="text-gray-600 text-4xl font-bold">VS</div>
+                
+                <div className={`text-center ${finalResult?.winner === 'BLUE' ? 'opacity-100' : 'opacity-50'}`}>
+                  <div className="text-blue-400 text-6xl font-black">{finalResult?.final_blue}</div>
+                  <div className="text-blue-400 text-2xl font-bold mt-2">{boutInfo.fighter2}</div>
+                  {finalResult?.winner === 'BLUE' && (
+                    <div className="mt-2">
+                      <Badge className="bg-amber-500 text-black text-lg px-4 py-1">WINNER</Badge>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <div className="mt-8">
+                <div className="text-gray-400 text-xl">VICTORY BY</div>
+                <div className="text-white text-5xl font-black tracking-wider mt-2">
+                  {finalResult?.finish_method || finishMethod}
+                </div>
+                {(finalResult?.finish_method === 'DEC' || finishMethod === 'DEC') && (
+                  <div className="text-gray-400 text-lg mt-1">
+                    Round {currentRound} of {totalRounds}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </DialogContent>
