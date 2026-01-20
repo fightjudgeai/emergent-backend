@@ -802,7 +802,18 @@ export default function SupervisorDashboardPro() {
                   Final round complete! Click "Finalize Fight" to declare winner.
                 </div>
               )}
-              <Button onClick={() => setShowRoundResult(false)} className="w-full bg-gray-700 hover:bg-gray-600 mt-4">
+              {/* Show Round on Arena Button */}
+              <Button 
+                onClick={() => {
+                  setShowRoundBroadcast(true);
+                  setShowRoundResult(false);
+                }}
+                className="w-full bg-amber-500 hover:bg-amber-600 text-black font-bold"
+              >
+                <Tv className="w-5 h-5 mr-2" />
+                Show Round Result on Arena
+              </Button>
+              <Button onClick={() => setShowRoundResult(false)} className="w-full bg-gray-700 hover:bg-gray-600 mt-2">
                 Close
               </Button>
             </div>
