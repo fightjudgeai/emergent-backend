@@ -74,11 +74,15 @@ EVENT_WEIGHTS = {
 }
 
 # Round scoring thresholds (percentage delta)
+# Delta = (red_total - blue_total) * 100 where totals are weighted category sums
+# Example: 10 jabs (1.0 striking) * 0.5 weight = 0.5 total, delta = 50 if opponent has 0
+# To get 10-8, need massive one-sided volume (delta > 150 = ~100% advantage with 50% more)
+# To get 10-7, need fight-ending level dominance (delta > 200 = essentially impossible)
 ROUND_THRESHOLDS = {
     "draw_max": 5.0,        # ≤5% = 10-10
-    "standard_max": 98.0,   # 5-98% = 10-9 (vast majority of rounds)
-    "dominant_max": 99.5,   # 98-99.5% = 10-8 (near impossible - requires total dominance)
-    # >99.5% = 10-7 (virtually impossible - requires multiple KDs or near-finish)
+    "standard_max": 150.0,  # 5-150% = 10-9 (almost all rounds)
+    "dominant_max": 200.0,  # 150-200% = 10-8 (requires near-finish or multiple KDs + volume)
+    # >200% = 10-7 (virtually impossible without stopping the fight)
 }
 
 # =============================================================================
