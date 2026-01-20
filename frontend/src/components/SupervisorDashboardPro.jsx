@@ -67,11 +67,14 @@ const getEventDelta = (eventType, tier) => {
 };
 
 // Determine round score from delta
+// Delta is calculated as (red% - blue%) * 100, so 50 = huge gap
+// 10-8 requires near-total dominance (multiple KDs or near-finish)
+// 10-7 is virtually impossible (fight-ending level dominance)
 const getRoundScore = (delta) => {
   const absDelta = Math.abs(delta);
   if (absDelta <= 3) return { red: 10, blue: 10, label: 'DRAW' };
-  if (absDelta < 140) return delta > 0 ? { red: 10, blue: 9, label: '10-9' } : { red: 9, blue: 10, label: '10-9' };
-  if (absDelta < 200) return delta > 0 ? { red: 10, blue: 8, label: '10-8' } : { red: 8, blue: 10, label: '10-8' };
+  if (absDelta < 350) return delta > 0 ? { red: 10, blue: 9, label: '10-9' } : { red: 9, blue: 10, label: '10-9' };
+  if (absDelta < 500) return delta > 0 ? { red: 10, blue: 8, label: '10-8' } : { red: 8, blue: 10, label: '10-8' };
   return delta > 0 ? { red: 10, blue: 7, label: '10-7' } : { red: 7, blue: 10, label: '10-7' };
 };
 
