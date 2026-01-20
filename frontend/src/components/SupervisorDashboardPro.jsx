@@ -169,6 +169,9 @@ export default function SupervisorDashboardPro() {
   const [reviewRoundData, setReviewRoundData] = useState(null);
   const [reviewRoundEvents, setReviewRoundEvents] = useState([]);
   
+  // Round Broadcast state
+  const [showRoundBroadcast, setShowRoundBroadcast] = useState(false);
+  
   const navigate = useNavigate();
 
   // Fetch round data for review
