@@ -181,16 +181,43 @@ export default function OperatorSimple() {
     return () => clearInterval(interval);
   }, [activeControl]);
 
-  // Handle control toggle (start/stop timer)
+  // Reset control totals when round changes
+  useEffect(() => {
+    // Log any active control time and reset totals for new round
+    if (activeControl && controlTime > 0) {
+      // Add current session to totals before resetting
+      setControlTotals(prev => ({
+        ...prev,
+        [activeControl]: prev[activeControl] + controlTime
+      }));
+    }
+    // Reset for new round
+    setActiveControl(null);
+    setControlTime(0);
+    setControlTotals({
+      'Back Control': 0,
+      'Top Control': 0,
+      'Cage Control': 0
+    });
+  }, [currentRound]);
+
+  // Handle control toggle (start/stop timer) - accumulates time within round
   const handleControlToggle = async (controlType) => {
     if (activeControl === controlType) {
-      // Stop the timer and log the control event with duration
-      const duration = controlTime;
+      // Stop the timer - add current session to cumulative total
+      const sessionTime = controlTime;
+      const newTotal = controlTotals[controlType] + sessionTime;
+      
+      // Update cumulative totals
+      setControlTotals(prev => ({
+        ...prev,
+        [controlType]: newTotal
+      }));
+      
       setActiveControl(null);
       setControlTime(0);
-      setControlStartTime(null);
       
-      // Log the control event with duration
+      // Log the cumulative control time for this round
       try {
         const response = await fetch(`${API}/api/events`, {
           method: 'POST',
@@ -204,23 +231,35 @@ export default function OperatorSimple() {
                        controlType === 'Cage Control' ? 'Cage Control Time' :
                        controlType === 'Back Control' ? 'Ground Back Control' : controlType,
             device_role: deviceRole,
-            metadata: { duration }
+            metadata: { 
+              duration: newTotal,
+              session_time: sessionTime,
+              is_cumulative: true
+            }
           })
         });
         
         if (response.ok) {
           setEventCount(prev => prev + 1);
-          setLastEvent({ type: controlType, tier: `${duration}s`, time: new Date() });
-          toast.success(`${controlType}: ${formatTime(duration)} logged`);
+          setLastEvent({ type: controlType, tier: `${newTotal}s total`, time: new Date() });
+          toast.success(`${controlType}: ${formatTime(newTotal)} total logged`);
         }
       } catch (error) {
         toast.error('Failed to log control time');
       }
     } else {
-      // Start new timer (stop any existing one first)
+      // Start new timer (stop any existing one first and save its time)
       if (activeControl) {
-        // Log the previous control before starting new one
-        const duration = controlTime;
+        // Save the previous control's time to totals
+        const prevSessionTime = controlTime;
+        const prevTotal = controlTotals[activeControl] + prevSessionTime;
+        
+        setControlTotals(prev => ({
+          ...prev,
+          [activeControl]: prevTotal
+        }));
+        
+        // Log the previous control
         try {
           await fetch(`${API}/api/events`, {
             method: 'POST',
@@ -234,19 +273,23 @@ export default function OperatorSimple() {
                          activeControl === 'Cage Control' ? 'Cage Control Time' :
                          activeControl === 'Back Control' ? 'Ground Back Control' : activeControl,
               device_role: deviceRole,
-              metadata: { duration }
+              metadata: { 
+                duration: prevTotal,
+                session_time: prevSessionTime,
+                is_cumulative: true
+              }
             })
           });
-          toast.info(`${activeControl}: ${formatTime(duration)} logged`);
+          toast.info(`${activeControl}: ${formatTime(prevTotal)} total logged`);
         } catch (error) {
           console.error('Failed to log previous control');
         }
       }
       
+      // Start the new control timer (continue from previous total if any)
       setActiveControl(controlType);
-      setControlTime(0);
-      setControlStartTime(new Date());
-      toast.info(`${controlType} timer started`);
+      setControlTime(0); // Start fresh session, total is in controlTotals
+      toast.info(`${controlType} timer started (${formatTime(controlTotals[controlType])} already logged)`);
     }
   };
 
