@@ -949,6 +949,131 @@ export default function SupervisorDashboardPro() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Round Review Dialog */}
+      <Dialog open={showRoundReview} onOpenChange={setShowRoundReview}>
+        <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-3xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <Clock className="w-5 h-5 text-amber-400" />
+              Round {reviewRoundNumber} Review
+            </DialogTitle>
+          </DialogHeader>
+          
+          {reviewRoundData && (
+            <div className="space-y-4">
+              {/* Round Score Summary */}
+              <div className="bg-gray-800 rounded-lg p-4">
+                <div className="text-center mb-4">
+                  <div className="text-gray-400 text-sm uppercase mb-2">Round {reviewRoundNumber} Score</div>
+                  <div className="flex items-center justify-center gap-8">
+                    <div className="text-center">
+                      <div className="text-red-400 text-4xl font-bold">{reviewRoundData.red_points}</div>
+                      <div className="text-gray-400 text-sm">{boutInfo.fighter1}</div>
+                    </div>
+                    <div className="text-gray-600 text-2xl">-</div>
+                    <div className="text-center">
+                      <div className="text-blue-400 text-4xl font-bold">{reviewRoundData.blue_points}</div>
+                      <div className="text-gray-400 text-sm">{boutInfo.fighter2}</div>
+                    </div>
+                  </div>
+                  <Badge className={`mt-3 ${
+                    reviewRoundData.winner === 'RED' ? 'bg-red-600' : 
+                    reviewRoundData.winner === 'BLUE' ? 'bg-blue-600' : 'bg-gray-600'
+                  }`}>
+                    {reviewRoundData.winner === 'RED' ? `${boutInfo.fighter1} wins round` : 
+                     reviewRoundData.winner === 'BLUE' ? `${boutInfo.fighter2} wins round` : 'DRAW'}
+                  </Badge>
+                </div>
+                
+                {/* Delta Breakdown */}
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <div className="bg-red-900/30 rounded p-3">
+                    <div className="text-red-400 text-sm font-semibold mb-1">Red Delta</div>
+                    <div className="text-white text-2xl font-bold">{reviewRoundData.red_total?.toFixed(1) || 0}</div>
+                  </div>
+                  <div className="bg-blue-900/30 rounded p-3">
+                    <div className="text-blue-400 text-sm font-semibold mb-1">Blue Delta</div>
+                    <div className="text-white text-2xl font-bold">{reviewRoundData.blue_total?.toFixed(1) || 0}</div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Event Breakdown */}
+              <div className="grid grid-cols-2 gap-4">
+                {/* Red Events */}
+                <div className="bg-red-950/30 rounded-lg p-3">
+                  <div className="text-red-400 font-semibold mb-2 flex items-center gap-2">
+                    {boutInfo.fighter1}
+                    <Badge className="bg-red-700">{reviewRoundData.red_breakdown ? Object.values(reviewRoundData.red_breakdown).reduce((a, b) => a + b, 0) : 0} events</Badge>
+                  </div>
+                  <div className="space-y-1 max-h-48 overflow-y-auto">
+                    {reviewRoundData.red_breakdown && Object.entries(reviewRoundData.red_breakdown).map(([eventType, count]) => (
+                      <div key={eventType} className="flex justify-between text-sm bg-red-900/30 rounded px-2 py-1">
+                        <span className="text-gray-300">{eventType}</span>
+                        <span className="text-red-400 font-semibold">x{count}</span>
+                      </div>
+                    ))}
+                    {(!reviewRoundData.red_breakdown || Object.keys(reviewRoundData.red_breakdown).length === 0) && (
+                      <div className="text-gray-500 text-sm italic">No events</div>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Blue Events */}
+                <div className="bg-blue-950/30 rounded-lg p-3">
+                  <div className="text-blue-400 font-semibold mb-2 flex items-center gap-2">
+                    {boutInfo.fighter2}
+                    <Badge className="bg-blue-700">{reviewRoundData.blue_breakdown ? Object.values(reviewRoundData.blue_breakdown).reduce((a, b) => a + b, 0) : 0} events</Badge>
+                  </div>
+                  <div className="space-y-1 max-h-48 overflow-y-auto">
+                    {reviewRoundData.blue_breakdown && Object.entries(reviewRoundData.blue_breakdown).map(([eventType, count]) => (
+                      <div key={eventType} className="flex justify-between text-sm bg-blue-900/30 rounded px-2 py-1">
+                        <span className="text-gray-300">{eventType}</span>
+                        <span className="text-blue-400 font-semibold">x{count}</span>
+                      </div>
+                    ))}
+                    {(!reviewRoundData.blue_breakdown || Object.keys(reviewRoundData.blue_breakdown).length === 0) && (
+                      <div className="text-gray-500 text-sm italic">No events</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              {/* All Events Timeline */}
+              {reviewRoundEvents.length > 0 && (
+                <div className="bg-gray-800 rounded-lg p-3">
+                  <div className="text-gray-400 text-sm font-semibold mb-2">Event Timeline ({reviewRoundEvents.length} events)</div>
+                  <ScrollArea className="max-h-48">
+                    <div className="space-y-1">
+                      {reviewRoundEvents.map((event, idx) => (
+                        <div key={idx} className={`flex items-center justify-between text-sm rounded px-2 py-1 ${
+                          event.corner === 'RED' ? 'bg-red-900/20' : 'bg-blue-900/20'
+                        }`}>
+                          <div className="flex items-center gap-2">
+                            <span className={event.corner === 'RED' ? 'text-red-400' : 'text-blue-400'}>
+                              {event.corner}
+                            </span>
+                            <span className="text-white">{event.event_type}</span>
+                            {event.metadata?.tier && <span className="text-gray-400 text-xs">({event.metadata.tier})</span>}
+                          </div>
+                          <span className="text-gray-500 text-xs">{event.device_role}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </div>
+              )}
+            </div>
+          )}
+          
+          <div className="flex justify-end mt-4">
+            <Button onClick={() => setShowRoundReview(false)} variant="outline" className="border-gray-600">
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
