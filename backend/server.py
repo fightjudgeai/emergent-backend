@@ -3037,8 +3037,13 @@ class BoutCreate(BaseModel):
     fighter2: str
     fighter1_photo: Optional[str] = ""
     fighter2_photo: Optional[str] = ""
-    total_rounds: int = 3
+    total_rounds: Optional[int] = None
+    totalRounds: Optional[int] = 3
     event_name: Optional[str] = "PFC 50"
+    event_id: Optional[str] = ""
+    weight_class: Optional[str] = ""
+    is_title_fight: Optional[bool] = False
+    is_main_event: Optional[bool] = False
     division: Optional[str] = ""
 
 @api_router.get("/bouts")
