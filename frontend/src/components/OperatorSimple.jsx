@@ -140,7 +140,12 @@ export default function OperatorSimple() {
         else if (key === '5') { await logEvent('Elbow'); }
         else if (key === '6') { await logEvent('Knee'); }
         else if (key === '7' || key.toLowerCase() === 't') { await logEvent('Kick'); }
-        else if (key === '8' || key.toLowerCase() === 'g') { await logEvent('Ground Strike'); }
+        // Ground Strike - ONLY for grappling roles (RED_GRAPPLING or BLUE_ALL)
+        else if (key.toLowerCase() === 'g') { 
+          if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') {
+            await logEvent('Ground Strike'); 
+          }
+        }
         // GRAPPLING
         else if (key.toLowerCase() === 'v') { await logEvent('Takedown Landed'); }
         else if (key.toLowerCase() === 'b') { await logEvent('Takedown Defended'); }
@@ -153,10 +158,16 @@ export default function OperatorSimple() {
         else if (key.toLowerCase() === 'w') { await logEvent('KD', 'Flash'); }
         else if (key.toLowerCase() === 'e') { await logEvent('KD', 'Hard'); }
         else if (key.toLowerCase() === 'r') { await logEvent('KD', 'Near-Finish'); }
-        // Control timers - Z, X, C
-        else if (key.toLowerCase() === 'z') { handleControlToggle('Back Control'); }
-        else if (key.toLowerCase() === 'x') { handleControlToggle('Top Control'); }
-        else if (key.toLowerCase() === 'c') { handleControlToggle('Cage Control'); }
+        // Control timers - Z, X, C (only for grappling roles)
+        else if (key.toLowerCase() === 'z') { 
+          if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') handleControlToggle('Back Control'); 
+        }
+        else if (key.toLowerCase() === 'x') { 
+          if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') handleControlToggle('Top Control'); 
+        }
+        else if (key.toLowerCase() === 'c') { 
+          if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') handleControlToggle('Cage Control'); 
+        }
       } catch (error) {
         console.error('Keyboard shortcut error:', error);
       }
