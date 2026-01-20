@@ -76,9 +76,9 @@ EVENT_WEIGHTS = {
 # Round scoring thresholds (percentage delta)
 ROUND_THRESHOLDS = {
     "draw_max": 5.0,        # ≤5% = 10-10
-    "standard_max": 92.0,   # 5-92% = 10-9  
-    "dominant_max": 98.0,   # 92-98% = 10-8 (very rare - need near total dominance)
-    # >98% = 10-7 (nearly impossible)
+    "standard_max": 98.0,   # 5-98% = 10-9 (vast majority of rounds)
+    "dominant_max": 99.5,   # 98-99.5% = 10-8 (near impossible - requires total dominance)
+    # >99.5% = 10-7 (virtually impossible - requires multiple KDs or near-finish)
 }
 
 # =============================================================================
