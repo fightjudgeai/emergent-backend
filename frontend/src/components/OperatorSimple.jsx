@@ -400,14 +400,14 @@ export default function OperatorSimple() {
 
       {/* Event Buttons - Clean grid */}
       <div className="p-3">
-        {/* Section: Strikes */}
+        {/* Section: Strikes - NO Ground Strike here */}
         {(deviceRole === 'RED_STRIKING' || deviceRole === 'BLUE_ALL') && (
           <div className="mb-4">
             <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
               Strikes
             </div>
             <div className="grid grid-cols-4 gap-2">
-              {['Jab', 'Cross', 'Hook', 'Uppercut', 'Elbow', 'Knee', 'Kick', 'Ground Strike'].map((strike, idx) => (
+              {['Jab', 'Cross', 'Hook', 'Uppercut', 'Elbow', 'Knee', 'Kick'].map((strike, idx) => (
                 <Button
                   key={strike}
                   data-testid={`btn-${strike.toLowerCase().replace(' ', '-')}`}
@@ -416,7 +416,7 @@ export default function OperatorSimple() {
                 >
                   <div className="text-center">
                     <div>{strike}</div>
-                    <div className="text-[10px] text-slate-400">{idx + 1 === 8 ? '8/G' : idx + 1}</div>
+                    <div className="text-[10px] text-slate-400">{idx + 1}</div>
                   </div>
                 </Button>
               ))}
