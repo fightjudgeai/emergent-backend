@@ -114,7 +114,7 @@ export default function OperatorSimple() {
   const getEventsForRole = () => {
     if (deviceRole === 'RED_STRIKING') return STRIKING_EVENTS;
     if (deviceRole === 'RED_GRAPPLING') return GRAPPLING_EVENTS;
-    if (deviceRole === 'BLUE_ALL') return [...STRIKING_EVENTS, ...GRAPPLING_EVENTS.filter(e => e.type !== 'Ground Strike')];
+    if (deviceRole === 'BLUE_ALL') return [...STRIKING_EVENTS, ...GRAPPLING_EVENTS];
     return STRIKING_EVENTS;
   };
 
@@ -125,7 +125,7 @@ export default function OperatorSimple() {
       if (!boutId) return;
 
       const key = event.key;
-      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', '8', 't', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g'];
+      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g', 'z', 'x', 'c'];
       
       if (shortcutKeys.includes(key.toLowerCase())) {
         event.preventDefault();
