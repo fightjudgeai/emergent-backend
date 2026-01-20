@@ -964,6 +964,36 @@ export default function SupervisorDashboardPro() {
         </DialogContent>
       </Dialog>
 
+      {/* Round Winner Broadcast Dialog */}
+      <Dialog open={showRoundBroadcast} onOpenChange={setShowRoundBroadcast}>
+        <DialogContent className="bg-black border-none text-white max-w-2xl p-0 fjai-broadcast">
+          <div className="relative w-full bg-gradient-to-b from-gray-900 to-black p-2">
+            {/* Close button */}
+            <Button 
+              onClick={() => setShowRoundBroadcast(false)}
+              className="absolute top-2 right-2 bg-gray-800 hover:bg-gray-700 z-10"
+              size="sm"
+            >
+              Close
+            </Button>
+            
+            {/* FJAI Round Winner Component */}
+            {lastRoundResult && (
+              <RoundWinner
+                round={{
+                  unified_red: lastRoundResult.red_points,
+                  unified_blue: lastRoundResult.blue_points
+                }}
+                roundNumber={lastRoundResult.round_number}
+                redName={boutInfo.fighter1}
+                blueName={boutInfo.fighter2}
+                isVisible={true}
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Round Review Dialog */}
       <Dialog open={showRoundReview} onOpenChange={setShowRoundReview}>
         <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-3xl max-h-[80vh] overflow-y-auto">
