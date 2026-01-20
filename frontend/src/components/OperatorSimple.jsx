@@ -447,26 +447,86 @@ export default function OperatorSimple() {
 
       {/* Event Buttons - Clean grid */}
       <div className="p-3">
-        {/* Section: Strikes - NO Ground Strike here */}
+        {/* Section: Strikes - Arranged in pairs: Jab/Cross, Hook/Uppercut, Kick/Knee, Elbow */}
         {(deviceRole === 'RED_STRIKING' || deviceRole === 'BLUE_ALL') && (
           <div className="mb-4">
             <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
               Strikes
             </div>
             <div className="grid grid-cols-4 gap-2">
-              {['Jab', 'Cross', 'Hook', 'Uppercut', 'Elbow', 'Knee', 'Kick'].map((strike, idx) => (
-                <Button
-                  key={strike}
-                  data-testid={`btn-${strike.toLowerCase().replace(' ', '-')}`}
-                  onClick={() => logEvent(strike)}
-                  className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-                >
-                  <div className="text-center">
-                    <div>{strike}</div>
-                    <div className="text-[10px] text-slate-400">{idx + 1}</div>
-                  </div>
-                </Button>
-              ))}
+              {/* Row 1: Jab, Hook, Kick, Elbow */}
+              <Button
+                data-testid="btn-jab"
+                onClick={() => logEvent('Jab')}
+                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+              >
+                <div className="text-center">
+                  <div>Jab</div>
+                  <div className="text-[10px] text-slate-400">1</div>
+                </div>
+              </Button>
+              <Button
+                data-testid="btn-hook"
+                onClick={() => logEvent('Hook')}
+                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+              >
+                <div className="text-center">
+                  <div>Hook</div>
+                  <div className="text-[10px] text-slate-400">3</div>
+                </div>
+              </Button>
+              <Button
+                data-testid="btn-kick"
+                onClick={() => logEvent('Kick')}
+                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+              >
+                <div className="text-center">
+                  <div>Kick</div>
+                  <div className="text-[10px] text-slate-400">7</div>
+                </div>
+              </Button>
+              <Button
+                data-testid="btn-elbow"
+                onClick={() => logEvent('Elbow')}
+                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+              >
+                <div className="text-center">
+                  <div>Elbow</div>
+                  <div className="text-[10px] text-slate-400">5</div>
+                </div>
+              </Button>
+              
+              {/* Row 2: Cross, Uppercut, Knee */}
+              <Button
+                data-testid="btn-cross"
+                onClick={() => logEvent('Cross')}
+                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+              >
+                <div className="text-center">
+                  <div>Cross</div>
+                  <div className="text-[10px] text-slate-400">2</div>
+                </div>
+              </Button>
+              <Button
+                data-testid="btn-uppercut"
+                onClick={() => logEvent('Uppercut')}
+                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+              >
+                <div className="text-center">
+                  <div>Uppercut</div>
+                  <div className="text-[10px] text-slate-400">4</div>
+                </div>
+              </Button>
+              <Button
+                data-testid="btn-knee"
+                onClick={() => logEvent('Knee')}
+                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+              >
+                <div className="text-center">
+                  <div>Knee</div>
+                  <div className="text-[10px] text-slate-400">6</div>
+                </div>
+              </Button>
             </div>
           </div>
         )}
