@@ -520,8 +520,9 @@ export default function SupervisorControl() {
                                 {fight.is_title_fight && <Crown className="w-4 h-4 text-amber-400" />}
                               </div>
                               <div className="flex items-center gap-2 text-xs text-gray-400 mt-1">
-                                <Scale className="w-3 h-3" /> {fight.weight_class}
-                                <Clock className="w-3 h-3 ml-2" /> {fight.totalRounds} rds
+                                <Scale className="w-3 h-3" /> {fight.weight_class || 'TBD'}
+                                <Clock className="w-3 h-3 ml-2" /> {fight.totalRounds || fight.total_rounds || 3} rds
+                                {fight.is_main_event && <Badge className="bg-amber-600 text-xs ml-2">Main Event</Badge>}
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
