@@ -628,10 +628,17 @@ export default function SupervisorDashboardPro() {
           {/* Round Results */}
           {roundResults.length > 0 && (
             <div className="bg-gray-800/50 rounded-lg p-3 mb-4 flex-1">
-              <div className="text-gray-400 text-xs uppercase mb-2">Completed Rounds</div>
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-gray-400 text-xs uppercase">Completed Rounds</div>
+                <div className="text-gray-500 text-xs">Click to review</div>
+              </div>
               <div className="space-y-1">
                 {roundResults.map((round) => (
-                  <div key={round.round_number} className="flex items-center justify-between bg-gray-900/50 rounded px-3 py-2">
+                  <div 
+                    key={round.round_number} 
+                    onClick={() => fetchRoundForReview(round.round_number)}
+                    className="flex items-center justify-between bg-gray-900/50 rounded px-3 py-2 cursor-pointer hover:bg-gray-800/70 transition-colors"
+                  >
                     <span className="text-gray-400">R{round.round_number}</span>
                     <div className="font-bold">
                       <span className="text-red-400">{round.red_points}</span>
