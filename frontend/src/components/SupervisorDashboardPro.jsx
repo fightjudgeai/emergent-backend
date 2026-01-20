@@ -180,7 +180,7 @@ export default function SupervisorDashboardPro() {
     
     try {
       // Fetch events for the specific round
-      const eventsResponse = await fetch(`${API}/api/unified/events?bout_id=${boutId}&round_number=${roundNum}`);
+      const eventsResponse = await fetch(`${API}/api/events?bout_id=${boutId}&round_number=${roundNum}`);
       if (eventsResponse.ok) {
         const eventsData = await eventsResponse.json();
         setReviewRoundEvents(eventsData.events || []);
