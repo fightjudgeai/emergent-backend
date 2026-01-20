@@ -233,7 +233,16 @@ def compute_round_from_events(events: List[Dict[str, Any]]) -> Dict[str, Any]:
     delta = (red_total - blue_total) * 100
     abs_delta = abs(delta)
     
-    # Determine round score using percentage thresholds
+    # Determine which corner is winning and their KD count
+    winning_corner = "RED" if delta > 0 else "BLUE"
+    winning_kd_count = red_kd_count if delta > 0 else blue_kd_count
+    
+    # HARD REQUIREMENT: 10-8 and 10-7 are IMPOSSIBLE without 2+ knockdowns
+    # Even with massive delta, must have knockdowns to score 10-8 or 10-7
+    min_kd_for_10_8 = 2  # Must have at least 2 KDs for 10-8
+    min_kd_for_10_7 = 3  # Must have at least 3 KDs for 10-7
+    
+    # Determine round score
     if abs_delta <= ROUND_THRESHOLDS["draw_max"]:
         # Very close - 10-10 draw
         red_points, blue_points = 10, 10
@@ -247,21 +256,49 @@ def compute_round_from_events(events: List[Dict[str, Any]]) -> Dict[str, Any]:
             red_points, blue_points = 9, 10
             winner = "BLUE"
     elif abs_delta <= ROUND_THRESHOLDS["dominant_max"]:
-        # Dominant round - 10-8 (rare)
-        if delta > 0:
-            red_points, blue_points = 10, 8
-            winner = "RED"
+        # Potentially dominant round - but REQUIRES 2+ KDs for 10-8
+        if winning_kd_count >= min_kd_for_10_8:
+            # Has enough KDs - can be 10-8
+            if delta > 0:
+                red_points, blue_points = 10, 8
+                winner = "RED"
+            else:
+                red_points, blue_points = 8, 10
+                winner = "BLUE"
         else:
-            red_points, blue_points = 8, 10
-            winner = "BLUE"
+            # Not enough KDs - capped at 10-9 regardless of delta
+            if delta > 0:
+                red_points, blue_points = 10, 9
+                winner = "RED"
+            else:
+                red_points, blue_points = 9, 10
+                winner = "BLUE"
     else:
-        # Extreme dominance - 10-7 (near impossible)
-        if delta > 0:
-            red_points, blue_points = 10, 7
-            winner = "RED"
+        # Extreme dominance - but REQUIRES 3+ KDs for 10-7, 2+ for 10-8
+        if winning_kd_count >= min_kd_for_10_7:
+            # Has enough KDs for 10-7
+            if delta > 0:
+                red_points, blue_points = 10, 7
+                winner = "RED"
+            else:
+                red_points, blue_points = 7, 10
+                winner = "BLUE"
+        elif winning_kd_count >= min_kd_for_10_8:
+            # Has enough KDs for 10-8 but not 10-7
+            if delta > 0:
+                red_points, blue_points = 10, 8
+                winner = "RED"
+            else:
+                red_points, blue_points = 8, 10
+                winner = "BLUE"
         else:
-            red_points, blue_points = 7, 10
-            winner = "BLUE"
+            # Not enough KDs - capped at 10-9 regardless of delta
+            if delta > 0:
+                red_points, blue_points = 10, 9
+                winner = "RED"
+            else:
+                red_points, blue_points = 9, 10
+                winner = "BLUE"
     
     return {
         "red_points": red_points,
