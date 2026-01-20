@@ -101,10 +101,14 @@ export default function OperatorSimple() {
   const [boutInfo, setBoutInfo] = useState({ fighter1: 'Red Corner', fighter2: 'Blue Corner' });
   const [roundJustChanged, setRoundJustChanged] = useState(false);
   
-  // Control timer state
+  // Control timer state - tracks cumulative time per control type for the round
   const [activeControl, setActiveControl] = useState(null); // 'Back Control', 'Top Control', 'Cage Control'
-  const [controlTime, setControlTime] = useState(0);
-  const [controlStartTime, setControlStartTime] = useState(null);
+  const [controlTime, setControlTime] = useState(0); // Current session time
+  const [controlTotals, setControlTotals] = useState({
+    'Back Control': 0,
+    'Top Control': 0,
+    'Cage Control': 0
+  }); // Cumulative time per control type for the round
 
   // Determine corner from role
   const corner = deviceRole.startsWith('RED') ? 'RED' : 'BLUE';
