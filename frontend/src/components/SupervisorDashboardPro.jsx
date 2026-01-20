@@ -801,7 +801,7 @@ export default function SupervisorDashboardPro() {
                 </div>
               ) : (
                 <div className="text-amber-400 text-sm">
-                  Final round complete! Click "Finalize Fight" to declare winner.
+                  Final round complete! Click &quot;Finalize Fight&quot; to declare winner.
                 </div>
               )}
               {/* Show Round on Arena Button */}
