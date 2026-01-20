@@ -252,7 +252,9 @@ export default function SupervisorDashboardPro() {
         const assigned = (data.operators || []).filter(op => op.assigned_role).length;
         setOperatorCount(assigned);
       }
-    } catch (e) {}
+    } catch (e) {
+      // Silently ignore operator count fetch errors
+    }
   }, [boutId]);
 
   // Poll operator count
