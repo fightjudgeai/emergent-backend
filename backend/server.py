@@ -3075,6 +3075,9 @@ async def create_bout(bout: BoutCreate):
     try:
         bout_id = bout.bout_id or f"bout-{str(uuid.uuid4())[:8]}"
         
+        # Use totalRounds if provided, otherwise fall back to total_rounds
+        rounds = bout.totalRounds or bout.total_rounds or 3
+        
         bout_doc = {
             "bout_id": bout_id,
             "boutId": bout_id,  # Also store as boutId for compatibility
@@ -3082,10 +3085,14 @@ async def create_bout(bout: BoutCreate):
             "fighter2": bout.fighter2,
             "fighter1Photo": bout.fighter1_photo,
             "fighter2Photo": bout.fighter2_photo,
-            "totalRounds": bout.total_rounds,
+            "totalRounds": rounds,
             "currentRound": 1,
             "status": "in_progress",
             "eventName": bout.event_name,
+            "event_id": bout.event_id,
+            "weight_class": bout.weight_class,
+            "is_title_fight": bout.is_title_fight,
+            "is_main_event": bout.is_main_event,
             "division": bout.division,
             "roundScores": [],
             "createdAt": datetime.now(timezone.utc).isoformat()
