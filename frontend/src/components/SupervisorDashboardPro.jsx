@@ -163,7 +163,45 @@ export default function SupervisorDashboardPro() {
   const [finishMethod, setFinishMethod] = useState(null);
   const [showResultBroadcast, setShowResultBroadcast] = useState(false);
   
+  // Round Review state
+  const [showRoundReview, setShowRoundReview] = useState(false);
+  const [reviewRoundNumber, setReviewRoundNumber] = useState(null);
+  const [reviewRoundData, setReviewRoundData] = useState(null);
+  const [reviewRoundEvents, setReviewRoundEvents] = useState([]);
+  
   const navigate = useNavigate();
+
+  // Fetch round data for review
+  const fetchRoundForReview = async (roundNum) => {
+    if (!boutId || !roundNum) return;
+    
+    try {
+      // Fetch events for the specific round
+      const eventsResponse = await fetch(`${API}/api/unified/events?bout_id=${boutId}&round_number=${roundNum}`);
+      if (eventsResponse.ok) {
+        const eventsData = await eventsResponse.json();
+        setReviewRoundEvents(eventsData.events || []);
+      }
+      
+      // Fetch round score
+      const scoreResponse = await fetch(`${API}/api/rounds/compute`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bout_id: boutId, round_number: roundNum })
+      });
+      
+      if (scoreResponse.ok) {
+        const scoreData = await scoreResponse.json();
+        setReviewRoundData(scoreData);
+      }
+      
+      setReviewRoundNumber(roundNum);
+      setShowRoundReview(true);
+    } catch (error) {
+      console.error('Error fetching round for review:', error);
+      toast.error('Failed to load round data');
+    }
+  };
 
   // Fetch next fight in the event
   const fetchNextFight = useCallback(async () => {
