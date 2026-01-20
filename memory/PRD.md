@@ -141,11 +141,29 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 - `/app/backend/server.py` - API endpoints
 - `/app/backend/unified_scoring.py` - Delta scoring logic
 
-## Test Results - Iteration 4 (2026-01-17)
-- Frontend: 6/6 tests passed (100%)
-- All supervisor workflow features verified ✅
-- Operator simplified buttons verified ✅
-- localStorage persistence verified ✅
+## Test Results - Iteration 5 (2026-01-20)
+- Frontend: 5/5 tests passed (100%)
+- Round broadcast feature verified ✅
+- Round review dialog verified ✅
+- Round count display (both 3 and 5 rounds) verified ✅
+- Fixed API endpoint bug: /api/unified/events → /api/events
+
+## Recent Updates (2026-01-20)
+
+### P0 - Round Broadcast Feature (COMPLETED ✅)
+- Added "Show Round Result on Arena" button to round end dialog
+- Implemented RoundWinner broadcast overlay using FightJudgeAI.jsx component
+- Shows round number, scores (red/blue), and winner name
+- Fullscreen overlay with professional styling
+
+### Bug Fix - API Endpoint (COMPLETED ✅)
+- Fixed: fetchRoundForReview was calling /api/unified/events (404) instead of /api/events
+- Round review dialog now works correctly
+
+### Verified - Round Count Display (WORKING ✅)
+- Both 5-round and 3-round fights display correctly in /control page
+- API returns correct totalRounds value
+- Frontend displays correct "X rds" in fight cards
 
 ## Future/Backlog Tasks
 
