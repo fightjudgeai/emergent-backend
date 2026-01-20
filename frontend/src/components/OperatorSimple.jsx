@@ -489,7 +489,16 @@ export default function OperatorSimple() {
                   <div className="text-[10px] text-emerald-200">B</div>
                 </div>
               </Button>
-              <div></div>
+              <Button
+                data-testid="btn-ground-strike"
+                onClick={() => logEvent('Ground Strike')}
+                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+              >
+                <div className="text-center">
+                  <div>Ground Strike</div>
+                  <div className="text-[10px] text-slate-400">G</div>
+                </div>
+              </Button>
             </div>
           </div>
         )}
