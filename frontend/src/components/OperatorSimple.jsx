@@ -561,23 +561,38 @@ export default function OperatorSimple() {
                 { name: 'Back Control', key: 'Z' },
                 { name: 'Top Control', key: 'X' },
                 { name: 'Cage Control', key: 'C' }
-              ].map((control) => (
-                <Button
-                  key={control.name}
-                  data-testid={`btn-${control.name.toLowerCase().replace(' ', '-')}`}
-                  onClick={() => handleControlToggle(control.name)}
-                  className={`${activeControl === control.name ? getButtonStyle('control-active', corner) : getButtonStyle('control', corner)} text-white font-semibold h-16 text-sm border transition-all active:scale-95`}
-                >
-                  <div className="text-center">
-                    <div>{control.name}</div>
-                    {activeControl === control.name ? (
-                      <div className="text-lg font-bold text-green-200">{formatTime(controlTime)}</div>
-                    ) : (
-                      <div className="text-[10px] text-cyan-200">{control.key} - Tap to start</div>
-                    )}
-                  </div>
-                </Button>
-              ))}
+              ].map((control) => {
+                const isActive = activeControl === control.name;
+                const totalTime = controlTotals[control.name] + (isActive ? controlTime : 0);
+                
+                return (
+                  <Button
+                    key={control.name}
+                    data-testid={`btn-${control.name.toLowerCase().replace(' ', '-')}`}
+                    onClick={() => handleControlToggle(control.name)}
+                    className={`${isActive ? getButtonStyle('control-active', corner) : getButtonStyle('control', corner)} text-white font-semibold h-20 text-sm border transition-all active:scale-95`}
+                  >
+                    <div className="text-center">
+                      <div className="text-xs">{control.name}</div>
+                      {isActive ? (
+                        <>
+                          <div className="text-xl font-bold text-green-200">{formatTime(totalTime)}</div>
+                          <div className="text-[9px] text-green-300">Tap to stop</div>
+                        </>
+                      ) : (
+                        <>
+                          {totalTime > 0 ? (
+                            <div className="text-lg font-bold text-cyan-300">{formatTime(totalTime)}</div>
+                          ) : (
+                            <div className="text-[10px] text-cyan-200 mt-1">{control.key}</div>
+                          )}
+                          <div className="text-[9px] text-slate-400">{totalTime > 0 ? 'Tap to add more' : 'Tap to start'}</div>
+                        </>
+                      )}
+                    </div>
+                  </Button>
+                );
+              })}
             </div>
             {activeControl && (
               <div className="mt-2 text-center text-sm text-green-400">
