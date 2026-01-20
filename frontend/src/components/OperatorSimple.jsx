@@ -18,6 +18,7 @@ import {
 const API = process.env.REACT_APP_BACKEND_URL;
 
 // Clean, organized event configurations with consistent styling
+// Ground Strike is ONLY in grappling, NOT in striking
 const STRIKING_EVENTS = [
   // Basic Strikes - Neutral dark
   { type: 'Jab', category: 'strike', tier: null, key: '1' },
@@ -27,7 +28,6 @@ const STRIKING_EVENTS = [
   { type: 'Elbow', category: 'strike', tier: null, key: '5' },
   { type: 'Knee', category: 'strike', tier: null, key: '6' },
   { type: 'Kick', category: 'strike', tier: null, key: '7' },
-  { type: 'Ground Strike', category: 'strike', tier: null, key: '8', label: 'Ground Strike' },
   // Damage - Escalating danger
   { type: 'Rocked/Stunned', category: 'damage', tier: null, key: 'Q', label: 'Rocked' },
   { type: 'KD', category: 'damage-kd', tier: 'Flash', key: 'W', label: 'KD Flash' },
@@ -39,16 +39,12 @@ const GRAPPLING_EVENTS = [
   // Takedowns
   { type: 'Takedown Landed', category: 'grappling', tier: null, key: 'V', label: 'TD Landed' },
   { type: 'Takedown Defended', category: 'grappling', tier: null, key: 'B', label: 'TD Defended' },
-  // Control
-  { type: 'Back Control', category: 'control', tier: null, label: 'Back Control' },
-  { type: 'Mount Control', category: 'control', tier: null, label: 'Mount' },
-  { type: 'Side Control', category: 'control', tier: null, label: 'Side Control' },
+  // Ground Strike - belongs with grappling
+  { type: 'Ground Strike', category: 'strike', tier: null, key: 'G', label: 'Ground Strike' },
   // Submissions - Escalating danger
   { type: 'Submission Attempt', category: 'submission', tier: 'Standard', key: 'A', label: 'Sub Attempt' },
   { type: 'Submission Attempt', category: 'submission', tier: 'Deep', key: 'S', label: 'Sub Deep' },
   { type: 'Submission Attempt', category: 'submission', tier: 'Near-Finish', key: 'D', label: 'Sub Near-Finish' },
-  // Ground Strike
-  { type: 'Ground Strike', category: 'strike', tier: null, key: 'G', label: 'Ground Strike' },
 ];
 
 // Get button style based on category - clean, professional colors
