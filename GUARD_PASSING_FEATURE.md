@@ -216,7 +216,7 @@ Sub Attempt (Light):  0.25 (5x more valuable)
 
 ### Log Guard Passing Event:
 ```bash
-curl -X POST https://mmascore.preview.emergentagent.com/api/events/v2/log \
+curl -X POST https://scoremma.preview.emergentagent.com/api/events/v2/log \
   -H "Content-Type: application/json" \
   -d '{
     "bout_id": "bout-123",
@@ -236,7 +236,7 @@ curl -X POST https://mmascore.preview.emergentagent.com/api/events/v2/log \
 
 ### Calculate Score with Guard Passing:
 ```bash
-curl -X POST https://mmascore.preview.emergentagent.com/api/calculate-score-v2 \
+curl -X POST https://scoremma.preview.emergentagent.com/api/calculate-score-v2 \
   -H "Content-Type: application/json" \
   -d '{
     "bout_id": "bout-123",
