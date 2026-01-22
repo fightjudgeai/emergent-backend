@@ -4415,8 +4415,8 @@ async def compute_round(request: RoundComputeRequest):
         
         logging.info(f"[UNIFIED] Computing round {round_number} for bout {bout_id}: {len(all_events)} events from ALL devices")
         
-        # Compute the round score using unified scoring logic
-        result = compute_round_from_events(all_events)
+        # Compute the round score using V2 scoring engine with UWID rules
+        result = score_round_delta_v2(round_number=round_number, events=all_events)
         
         # Get bout info for fighter names
         bout = await db.bouts.find_one(
@@ -4424,7 +4424,7 @@ async def compute_round(request: RoundComputeRequest):
             {"_id": 0}
         )
         
-        # Create RoundResult document
+        # Create RoundResult document with V2 receipt
         round_result = {
             "bout_id": bout_id,
             "round_number": round_number,
@@ -4439,6 +4439,12 @@ async def compute_round(request: RoundComputeRequest):
             "winner": result["winner"],
             "red_kd": result.get("red_kd", 0),
             "blue_kd": result.get("blue_kd", 0),
+            # V2 additions
+            "receipt": result.get("receipt", {}),
+            "deltas": result.get("deltas", {}),
+            "verdict": result.get("verdict", {}),
+            "red_categories": result.get("red_categories", {}),
+            "blue_categories": result.get("blue_categories", {}),
             "computed_at": datetime.now(timezone.utc).isoformat(),
             "fighter1_name": bout.get("fighter1", "Red Corner") if bout else "Red Corner",
             "fighter2_name": bout.get("fighter2", "Blue Corner") if bout else "Blue Corner"
