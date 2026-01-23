@@ -186,7 +186,7 @@ export default function OperatorSimple() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [boutId, corner, currentRound, deviceRole, fighterName, activeControl]);
+  }, [boutId, corner, currentRound, deviceRole, fighterName, activeControl, groundStrikeQuality]);
 
   // Control timer - increment every second when active
   useEffect(() => {
