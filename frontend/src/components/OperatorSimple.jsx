@@ -358,8 +358,12 @@ export default function OperatorSimple() {
   }, [boutId]);
 
   // Log event to server
-  const logEvent = async (eventType, tier = null) => {
+  const logEvent = async (eventType, tier = null, quality = null) => {
     try {
+      const metadata = {};
+      if (tier) metadata.tier = tier;
+      if (quality) metadata.quality = quality;
+      
       const response = await fetch(`${API}/api/events`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -371,17 +375,18 @@ export default function OperatorSimple() {
                   deviceRole === 'BLUE_ALL' ? 'ALL' : 'STRIKING',
           event_type: eventType,
           device_role: deviceRole,
-          metadata: tier ? { tier } : {}
+          metadata: Object.keys(metadata).length > 0 ? metadata : {}
         })
       });
       
       if (response.ok) {
         setEventCount(prev => prev + 1);
-        setLastEvent({ type: eventType, tier, time: new Date() });
+        setLastEvent({ type: eventType, tier, quality, time: new Date() });
         setIsConnected(true);
         
         const tierLabel = tier ? ` (${tier})` : '';
-        toast.success(`${eventType}${tierLabel}`, { duration: 1200 });
+        const qualityLabel = quality ? ` [${quality}]` : '';
+        toast.success(`${eventType}${tierLabel}${qualityLabel}`, { duration: 1200 });
       } else {
         throw new Error('Server error');
       }
