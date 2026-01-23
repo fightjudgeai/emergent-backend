@@ -4415,8 +4415,8 @@ async def compute_round(request: RoundComputeRequest):
         
         logging.info(f"[UNIFIED] Computing round {round_number} for bout {bout_id}: {len(all_events)} events from ALL devices")
         
-        # Compute the round score using V2 scoring engine with UWID rules
-        result = score_round_delta_v2(round_number=round_number, events=all_events)
+        # Compute the round score using V3 Impact-First scoring engine
+        result = score_round_v3(round_number=round_number, events=all_events)
         
         # Get bout info for fighter names
         bout = await db.bouts.find_one(
