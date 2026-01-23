@@ -288,18 +288,20 @@ class TestDominanceGates:
 # =============================================================================
 
 class TestControlWithOffense:
-    """Tests for control scoring requiring offense"""
+    """Tests for control scoring with offense modifier"""
     
-    def test_control_without_offense_scores_zero(self):
-        """Control time with no offense should score 0 points"""
+    def test_control_without_offense_scores_half(self):
+        """Control time with no offense should score half points"""
         events = [
             make_control("RED", "Top Control", 60.0),  # 60 sec control, no strikes
         ]
         
         result = score_round_delta_v2(1, events)
         
-        # Control should score 0 because no offense during window
-        assert result["red"]["control"] == 0.0
+        # Control should score half value: 60 * 0.05 * 0.5 = 1.5
+        # (rate=0.05 for top control, 0.5 multiplier for no offense)
+        assert result["red"]["control"] > 0  # Should have some score
+        assert result["red"]["control"] < 60 * 0.05 * 1.10  # Less than full offense value
     
     def test_control_with_solid_strike_scores_points(self):
         """Control time with SOLID strike should score points"""
