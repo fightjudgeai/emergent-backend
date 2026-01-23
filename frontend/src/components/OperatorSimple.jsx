@@ -105,6 +105,9 @@ export default function OperatorSimple() {
     'Top Control': 0,
     'Cage Control': 0
   }); // Cumulative time per control type for the round
+  
+  // Ground strike quality toggle state
+  const [groundStrikeQuality, setGroundStrikeQuality] = useState('SOLID'); // 'SOLID' or 'LIGHT'
 
   // Determine corner from role
   const corner = deviceRole.startsWith('RED') ? 'RED' : 'BLUE';
