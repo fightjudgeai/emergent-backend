@@ -646,8 +646,14 @@ export default function OperatorSimple() {
         {/* Section: Control - With Timers */}
         {(deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') && (
           <div className="mb-4">
-            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
-              Control Time {activeControl && <span className="text-green-400 ml-2">● Recording</span>}
+            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1 flex items-center">
+              Control Time 
+              {activeControl && (
+                <span className="ml-2 flex items-center text-green-400">
+                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-1"></span>
+                  RECORDING {activeControl.toUpperCase()}
+                </span>
+              )}
             </div>
             <div className="grid grid-cols-3 gap-2">
               {[
