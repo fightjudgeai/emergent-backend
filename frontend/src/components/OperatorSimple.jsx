@@ -144,9 +144,17 @@ export default function OperatorSimple() {
         else if (key === '6') { await logEvent('Knee'); }
         else if (key === '7' || key.toLowerCase() === 't') { await logEvent('Kick'); }
         // Ground Strike - ONLY for grappling roles (RED_GRAPPLING or BLUE_ALL)
+        // Uses current quality setting (SOLID/LIGHT toggle)
         else if (key.toLowerCase() === 'g') { 
           if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') {
-            await logEvent('Ground Strike'); 
+            await logEvent('Ground Strike', null, groundStrikeQuality); 
+          }
+        }
+        // Toggle ground strike quality with 'F' key
+        else if (key.toLowerCase() === 'f') {
+          if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') {
+            setGroundStrikeQuality(prev => prev === 'SOLID' ? 'LIGHT' : 'SOLID');
+            toast.info(`Ground strike quality: ${groundStrikeQuality === 'SOLID' ? 'LIGHT' : 'SOLID'}`, { duration: 800 });
           }
         }
         // GRAPPLING
