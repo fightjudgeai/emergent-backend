@@ -290,6 +290,34 @@ export default function SupervisorDashboardPro() {
         setRedEvents(red);
         setBlueEvents(blue);
         
+        // Detect active control timers (CTRL_START without matching CTRL_END)
+        const detectActiveControl = (cornerEvents) => {
+          const ctrlStarts = {};
+          const ctrlEnds = {};
+          
+          cornerEvents.forEach(e => {
+            const ctrlType = e.metadata?.control_type || 'TOP';
+            if (e.event_type === 'CTRL_START') {
+              ctrlStarts[ctrlType] = e;
+            } else if (e.event_type === 'CTRL_END') {
+              ctrlEnds[ctrlType] = e;
+            }
+          });
+          
+          // Return the control type that has a start but no end
+          for (const ctrlType of Object.keys(ctrlStarts)) {
+            if (!ctrlEnds[ctrlType]) {
+              return ctrlType;
+            }
+          }
+          return null;
+        };
+        
+        setActiveControls({
+          red: detectActiveControl(red),
+          blue: detectActiveControl(blue)
+        });
+        
         // Calculate deltas
         let redTotal = 0;
         let blueTotal = 0;
