@@ -235,6 +235,29 @@ export default function OperatorSimple() {
       setActiveControl(null);
       setControlTime(0);
       
+      // Log CTRL_END event
+      try {
+        await fetch(`${API}/api/events`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bout_id: boutId,
+            round_number: currentRound,
+            corner: corner,
+            aspect: 'GRAPPLING',
+            event_type: 'CTRL_END',
+            device_role: deviceRole,
+            metadata: { 
+              control_type: controlType === 'Top Control' ? 'TOP' : 
+                           controlType === 'Cage Control' ? 'CAGE' :
+                           controlType === 'Back Control' ? 'BACK' : 'TOP'
+            }
+          })
+        });
+      } catch (error) {
+        console.error('Failed to log CTRL_END');
+      }
+      
       // Log the cumulative control time for this round
       try {
         const response = await fetch(`${API}/api/events`, {
