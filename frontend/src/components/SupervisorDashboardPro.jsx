@@ -142,6 +142,9 @@ export default function SupervisorDashboardPro() {
   const [redEvents, setRedEvents] = useState([]);
   const [blueEvents, setBlueEvents] = useState([]);
   
+  // Active control timers (from operators)
+  const [activeControls, setActiveControls] = useState({ red: null, blue: null });
+  
   // Delta calculations
   const [redDelta, setRedDelta] = useState(0);
   const [blueDelta, setBlueDelta] = useState(0);
