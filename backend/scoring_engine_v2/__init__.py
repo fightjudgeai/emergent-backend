@@ -1,46 +1,42 @@
 """
-Scoring Engine V2 - UWID Rules Implementation
-Complete replacement for unified_scoring.py
+Scoring Engine v3.0 - Impact-First Implementation
+Complete replacement for scoring engine v2.
 
 Implements:
-- Plan A/B/C hierarchy (Unified Rules)
-- Impact-based scoring with gates
-- Strict 10-8 and 10-7 requirements
-- Control-with-offense rules
-- Leg damage escalation
-- Full receipt/explainability output
+- Config-driven event weights
+- 5 Regularization rules (anti-spam)
+- Impact Lock system (KD overrides volume)
+- Full auditability and round receipts
 """
 
-from .engine import score_round_delta_v2
-from .types import (
-    RoundScoreResult,
-    RoundReceipt,
-    PlanBreakdown,
-    Verdict,
-    ContributionItem,
-    ControlWindow,
-    StrikeEvent,
-    GrapplingEvent,
-    ImpactEvent,
-    QualityTag,
-    KnockdownTier,
-    SubmissionDepth,
-    ControlType
+from .engine_v3 import score_round_v3, ScoringEngineV3, get_engine
+from .config_v3 import (
+    SCORING_CONFIG,
+    REGULARIZATION_RULES,
+    IMPACT_LOCK_RULES,
+    ROUND_SCORING,
+    UI_TOOLTIPS,
+    get_all_event_configs,
+    get_event_points,
+    is_ss_event,
+    is_protected_event,
 )
 
+# Legacy compatibility - point to v3 engine
+score_round_delta_v2 = score_round_v3
+
 __all__ = [
-    'score_round_delta_v2',
-    'RoundScoreResult',
-    'RoundReceipt',
-    'PlanBreakdown',
-    'Verdict',
-    'ContributionItem',
-    'ControlWindow',
-    'StrikeEvent',
-    'GrapplingEvent',
-    'ImpactEvent',
-    'QualityTag',
-    'KnockdownTier',
-    'SubmissionDepth',
-    'ControlType'
+    'score_round_v3',
+    'score_round_delta_v2',  # Legacy alias
+    'ScoringEngineV3',
+    'get_engine',
+    'SCORING_CONFIG',
+    'REGULARIZATION_RULES',
+    'IMPACT_LOCK_RULES',
+    'ROUND_SCORING',
+    'UI_TOOLTIPS',
+    'get_all_event_configs',
+    'get_event_points',
+    'is_ss_event',
+    'is_protected_event',
 ]
