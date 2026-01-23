@@ -188,8 +188,8 @@ def compute_control_score(windows: List[ControlWindow], plan_c_only: bool = Fals
     """
     Compute control scores for each fighter.
     
-    Control earns 0 points if no offense occurred during window.
-    If offense occurred, apply base rate * duration * offense multiplier.
+    Control earns HALF points if no offense occurred during window.
+    If offense occurred, apply base rate * duration * offense multiplier (1.10x).
     
     Args:
         windows: List of control windows
@@ -200,6 +200,9 @@ def compute_control_score(windows: List[ControlWindow], plan_c_only: bool = Fals
     """
     scores = {"red": 0.0, "blue": 0.0}
     
+    # Multiplier for control WITHOUT offense (half value)
+    NO_OFFENSE_MULTIPLIER = 0.5
+    
     for window in windows:
         # Skip non-cage control if plan_c_only
         if plan_c_only and window.control_type != ControlType.CAGE:
@@ -209,13 +212,15 @@ def compute_control_score(windows: List[ControlWindow], plan_c_only: bool = Fals
         if not plan_c_only and window.control_type == ControlType.CAGE:
             continue
         
-        # Control earns 0 if no offense
-        if not window.has_offense:
-            continue
-        
-        # Calculate score
+        # Calculate score based on offense
         rate = CONTROL_RATES.get(window.control_type.value, 0.02)
-        score = window.duration_seconds * rate * CONTROL_OFFENSE_MULTIPLIER
+        
+        if window.has_offense:
+            # Full value with offense multiplier
+            score = window.duration_seconds * rate * CONTROL_OFFENSE_MULTIPLIER
+        else:
+            # Half value without offense
+            score = window.duration_seconds * rate * NO_OFFENSE_MULTIPLIER
         
         if window.fighter == Corner.RED:
             scores["red"] += score
