@@ -378,16 +378,20 @@ class TestRoundScoring108:
     """Test 10-8 scoring requires 2+ protected events or delta >= 100"""
     
     def test_10_8_with_2_protected_events(self):
-        """10-8 round with 2+ protected events"""
+        """10-8 round with 2+ protected events (but delta < 200 to avoid 10-7)"""
         events = [
             make_event("RED", "KD", {"tier": "Flash"}),  # 100 pts, protected
-            make_event("RED", "KD", {"tier": "Flash"}),  # 100 pts, protected
+            make_event("RED", "Rocked"),  # 60 pts, protected
         ]
+        # Add some blue points to keep delta under 200
+        for _ in range(20):
+            events.append(make_event("BLUE", "Jab"))  # 20 pts total
         
         result = score_round_v3(1, events)
         
-        # Red has 200 points, 2 protected events
-        assert result["red_raw_points"] == 200
+        # Red has 160 points, Blue has ~20, delta ~140
+        # 2 protected events should trigger 10-8
+        assert result["red_raw_points"] == 160
         assert result["red_points"] == 10
         assert result["blue_points"] == 8
     
