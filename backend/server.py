@@ -3910,14 +3910,14 @@ async def judge_heartbeat(judge_id: str, judge_name: str, bout_id: str):
 # Need timedelta import for sync features
 from datetime import timedelta
 
-# Import unified scoring system (V2 with UWID rules)
-from scoring_engine_v2 import score_round_delta_v2
+# Import unified scoring system (V3 Impact-First engine)
+from scoring_engine_v2 import score_round_v3
 # Keep old import for backwards compatibility during migration
 from unified_scoring import compute_fight_totals, get_event_value
 
 def compute_round_from_events(events):
-    """Wrapper to call new V2 engine with backwards-compatible signature"""
-    return score_round_delta_v2(round_number=1, events=events)
+    """Wrapper to call V3 engine with backwards-compatible signature"""
+    return score_round_v3(round_number=1, events=events)
 
 # ============================================================================
 # VI. UNIFIED SCORING API (SERVER-AUTHORITATIVE)
