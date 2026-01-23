@@ -277,7 +277,30 @@ export default function OperatorSimple() {
           [activeControl]: prevTotal
         }));
         
-        // Log the previous control
+        // Log CTRL_END for previous control
+        try {
+          await fetch(`${API}/api/events`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              bout_id: boutId,
+              round_number: currentRound,
+              corner: corner,
+              aspect: 'GRAPPLING',
+              event_type: 'CTRL_END',
+              device_role: deviceRole,
+              metadata: { 
+                control_type: activeControl === 'Top Control' ? 'TOP' : 
+                             activeControl === 'Cage Control' ? 'CAGE' :
+                             activeControl === 'Back Control' ? 'BACK' : 'TOP'
+              }
+            })
+          });
+        } catch (error) {
+          console.error('Failed to log CTRL_END');
+        }
+        
+        // Log the previous control with duration
         try {
           await fetch(`${API}/api/events`, {
             method: 'POST',
@@ -302,6 +325,29 @@ export default function OperatorSimple() {
         } catch (error) {
           console.error('Failed to log previous control');
         }
+      }
+      
+      // Log CTRL_START for new control
+      try {
+        await fetch(`${API}/api/events`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bout_id: boutId,
+            round_number: currentRound,
+            corner: corner,
+            aspect: 'GRAPPLING',
+            event_type: 'CTRL_START',
+            device_role: deviceRole,
+            metadata: { 
+              control_type: controlType === 'Top Control' ? 'TOP' : 
+                           controlType === 'Cage Control' ? 'CAGE' :
+                           controlType === 'Back Control' ? 'BACK' : 'TOP'
+            }
+          })
+        });
+      } catch (error) {
+        console.error('Failed to log CTRL_START');
       }
       
       // Start the new control timer (continue from previous total if any)
