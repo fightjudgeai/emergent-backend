@@ -609,6 +609,20 @@ class ScoringEngineV3:
     
     def to_dict(self, result: RoundResult) -> Dict[str, Any]:
         """Convert RoundResult to dictionary for API response"""
+        # Build breakdown from scored events
+        red_breakdown = {}
+        blue_breakdown = {}
+        
+        if result.red_state:
+            for event in result.red_state.events:
+                key = event.event_key
+                red_breakdown[key] = red_breakdown.get(key, 0) + event.final_points
+        
+        if result.blue_state:
+            for event in result.blue_state.events:
+                key = event.event_key
+                blue_breakdown[key] = blue_breakdown.get(key, 0) + event.final_points
+        
         return {
             "round_number": result.round_number,
             "red_points": result.red_round_score,
@@ -625,9 +639,11 @@ class ScoringEngineV3:
             "red_control_discount_applied": result.red_control_discount_applied,
             "blue_control_discount_applied": result.blue_control_discount_applied,
             
-            # Legacy compatibility fields
+            # Legacy compatibility fields (required by server.py)
             "red_total": round(result.red_raw_points, 2),
             "blue_total": round(result.blue_raw_points, 2),
+            "red_breakdown": {k: round(v, 2) for k, v in red_breakdown.items()},
+            "blue_breakdown": {k: round(v, 2) for k, v in blue_breakdown.items()},
             "total_events": len(result.red_state.events) + len(result.blue_state.events) if result.red_state and result.blue_state else 0,
             "red_kd": sum([
                 result.red_impact_flags.get("kd_flash", False),
@@ -640,7 +656,47 @@ class ScoringEngineV3:
                 result.blue_impact_flags.get("kd_nf", False),
             ]),
             
-            # Debug info
+            # V3 receipt fields
+            "receipt": {
+                "round_number": result.round_number,
+                "winner": result.winner,
+                "score": f"{result.red_round_score}-{result.blue_round_score}",
+                "red_raw": round(result.red_raw_points, 2),
+                "blue_raw": round(result.blue_raw_points, 2),
+                "winner_reason": result.winner_reason,
+                "impact_lock_applied": result.winner_reason != "points",
+                "red_control_discounted": result.red_control_discount_applied,
+                "blue_control_discounted": result.blue_control_discount_applied,
+            },
+            "deltas": {
+                "round": round(result.delta, 2),
+            },
+            "verdict": {
+                "winner": result.winner,
+                "score_string": f"{result.red_round_score}-{result.blue_round_score}",
+                "red_points": result.red_round_score,
+                "blue_points": result.blue_round_score,
+            },
+            "red_categories": {
+                "striking": round(result.red_state.strike_points, 2) if result.red_state else 0,
+                "grappling": 0,  # Not tracked separately in v3
+                "control": round(result.red_state.control_points, 2) if result.red_state else 0,
+                "impact": sum([60 if result.red_impact_flags.get("rocked") else 0,
+                              100 if result.red_impact_flags.get("kd_flash") else 0,
+                              150 if result.red_impact_flags.get("kd_hard") else 0,
+                              210 if result.red_impact_flags.get("kd_nf") else 0]),
+            },
+            "blue_categories": {
+                "striking": round(result.blue_state.strike_points, 2) if result.blue_state else 0,
+                "grappling": 0,
+                "control": round(result.blue_state.control_points, 2) if result.blue_state else 0,
+                "impact": sum([60 if result.blue_impact_flags.get("rocked") else 0,
+                              100 if result.blue_impact_flags.get("kd_flash") else 0,
+                              150 if result.blue_impact_flags.get("kd_hard") else 0,
+                              210 if result.blue_impact_flags.get("kd_nf") else 0]),
+            },
+            
+            # Debug info (v3 specific)
             "debug": self.get_debug_info(result) if result.red_state and result.blue_state else {},
         }
     
