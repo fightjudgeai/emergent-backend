@@ -17,8 +17,8 @@ STRIKE_BASE_WEIGHTS = {
     "leg_kick": 1.5,
     "elbow": 2.5,
     "knee": 2.5,
-    "ground_strike": 2.0,  # Default for ground strikes
-    "ground_strike_bottom": 1.5,  # Strikes from bottom position
+    "ground_strike": 1.5,  # Ground strikes worth slightly less than standing (was 2.0)
+    "ground_strike_bottom": 1.0,  # Strikes from bottom position worth less
 }
 
 # =============================================================================
