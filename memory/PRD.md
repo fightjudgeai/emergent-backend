@@ -40,55 +40,124 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
               └─────────────────────────────────┘
 ```
 
-### 3 Operator Roles:
-1. **RED_STRIKING** - Track punches, kicks, elbows, knees, knockdowns for RED
-2. **RED_GRAPPLING** - Track takedowns, submissions, sweeps, control for RED
-3. **BLUE_ALL** - Track ALL events (striking + grappling) for BLUE
+## Scoring Engine v3.0 - Impact-First (IMPLEMENTED ✅ 2026-01-23)
 
-## What's Been Implemented
+### Overview
+The scoring engine uses a config-driven, impact-first approach with 5 regularization rules to prevent score inflation from spam.
 
-### 2026-01-17 - Complete Supervisor-Centric System
+### Event Catalog & Point Values
+| Event Type | Base Points | Category |
+|------------|-------------|----------|
+| Jab | 1 | Striking |
+| SS Jab | 2 | Striking (Significant) |
+| Cross | 3 | Striking |
+| SS Cross | 6 | Striking (Significant) |
+| Hook | 3 | Striking |
+| SS Hook | 6 | Striking (Significant) |
+| Uppercut | 3 | Striking |
+| SS Uppercut | 6 | Striking (Significant) |
+| Kick | 4 | Striking |
+| SS Kick | 8 | Striking (Significant) |
+| Elbow | 5 | Striking |
+| SS Elbow | 10 | Striking (Significant) |
+| Knee | 5 | Striking |
+| SS Knee | 10 | Striking (Significant) |
+| Rocked | 60 | Damage (Protected) |
+| KD Flash | 100 | Damage (Protected) |
+| KD Hard | 150 | Damage (Protected) |
+| KD Near-Finish | 210 | Damage (Protected) |
+| Takedown | 10 | Grappling |
+| TD Stuffed | 5 | Grappling |
+| GnP Light | 1 | Ground Strikes |
+| GnP Hard | 3 | Ground Strikes |
+| Sub Light | 12 | Submissions |
+| Sub Deep | 28 | Submissions |
+| Sub Near-Finish | 60 | Submissions (Protected) |
 
-1. **Supervisor Control Page** (`/control`) - VERIFIED ✅
-   - Create events with localStorage persistence
-   - Add fights with fighter names, weight class, rounds
-   - Start/activate fights
-   - Connected operators display
-   - Navigate to scoring dashboard
+### Control Scoring (Time-Bucketed)
+| Control Type | Points per 10s |
+|--------------|----------------|
+| Cage Control | 1 |
+| Top Control | 3 |
+| Back Control | 5 |
 
-2. **Simple Operator View** (`/op/{boutId}`) - VERIFIED ✅
-   - Simplified striking buttons (Jab, Cross, Hook - NO "SS" prefix)
-   - Clean button grid for event logging
-   - Color-coded by event type/severity
-   - Round synced from supervisor
-   - Toast notifications for logged events
-   - Events sent directly to server API
+### 5 Regularization Rules
 
-3. **Supervisor Dashboard Pro** (`/supervisor/{boutId}`) - VERIFIED ✅
-   - Polls server every 500ms
-   - Shows combined events from ALL operators
-   - Delta scoring breakdown
-   - Net round score projections
-   - "END ROUND" / "FINALIZE FIGHT" buttons
-   - Operator assignment panel
-   - Arena View dialog with broadcast graphics
-   - Round scores display
+#### Rule 1: Technique Diminishing Returns
+Per technique, per fighter, per round:
+- Events 1-10: 100% value
+- Events 11-20: 75% value
+- Events 21+: 50% value
 
-4. **Operator Waiting Room** (`/waiting/{boutId}`) - COMPLETED
-   - Operators register and wait for role assignment
-   - Supervisor assigns roles from control panel
+#### Rule 2: SS Abuse Guardrail
+All Significant Strikes combined per fighter per round:
+- SS 1-8: 100% value
+- SS 9-14: 75% value
+- SS 15+: 50% value
 
-5. **Backend Unified Scoring API** - COMPLETED
-   - `POST /api/events` - Store event with device_role
-   - `GET /api/events` - Get ALL events
-   - `POST /api/rounds/compute` - Server-authoritative scoring
-   - `GET /api/rounds` - Get round results
-   - `POST /api/fights/finalize` - Calculate winner
-   - `POST /api/bouts` - Create new bout
-   - `GET /api/supervisor/fights` - Get fights for event
-   - `POST /api/supervisor/activate-fight` - Activate a fight
-   - `POST /api/operators/register` - Operator registration
-   - `POST /api/operators/assign` - Assign role to operator
+#### Rule 3: Control Time Diminishing Returns
+After 60 seconds continuous control, points drop to 50% value.
+Gaps of 15+ seconds reset the continuous streak.
+
+#### Rule 4: Control Without Work Discount
+If control points ≥ 20 AND no offensive work (strikes < 10 OR no submission OR GnP hard < 10):
+- Control points discounted by 25%
+
+#### Rule 5: TD Stuffed Cap
+- First 3 TD Stuffed: 100% value
+- TD Stuffed 4+: 50% value
+
+### Impact Lock System
+Impact events can "lock" a round win even if opponent has more volume points.
+
+| Lock Type | Trigger Event | Delta Threshold |
+|-----------|---------------|-----------------|
+| Soft Lock | KD Flash | 50 points |
+| Hard Lock | KD Hard | 110 points |
+| NF Lock | KD Near-Finish | 150 points |
+| Sub NF Lock | Sub Near-Finish | 90 points |
+
+**Lock Logic**: Fighter with impact lock wins UNLESS opponent leads by ≥ threshold.
+
+### Round Scoring (10-Point Must)
+- **10-10 Draw**: Delta < 5 and no impact events
+- **10-9**: Default when one fighter wins
+- **10-8**: Requires 2+ protected events OR delta ≥ 100
+- **10-7**: Requires 3+ protected events OR delta ≥ 200
+
+## Key Files
+
+### Scoring Engine (V3)
+- `/app/backend/scoring_engine_v2/engine_v3.py` - Main v3 scoring engine
+- `/app/backend/scoring_engine_v2/config_v3.py` - Event weights and rules config
+- `/app/backend/scoring_engine_v2/__init__.py` - Exports score_round_v3
+
+### Frontend
+- `/app/frontend/src/components/SupervisorControl.jsx` - Event/fight creation
+- `/app/frontend/src/components/SupervisorDashboardPro.jsx` - Live scoring
+- `/app/frontend/src/components/OperatorSimple.jsx` - Event logging
+
+### Backend
+- `/app/backend/server.py` - API endpoints (uses v3 engine)
+
+### Tests
+- `/app/backend/tests/test_v3_scoring_comprehensive.py` - 38 tests for v3 engine
+- `/app/backend/tests/test_scoring_engine_v3.py` - 19 tests for v3 engine
+
+## API Endpoints
+
+### Event Management
+- `POST /api/events` - Store event with device_role
+- `GET /api/events` - Get ALL events for a bout
+
+### Round Scoring
+- `POST /api/rounds/compute` - Server-authoritative scoring (v3 engine)
+- `GET /api/rounds` - Get round results
+
+### Fight Management
+- `POST /api/fights/finalize` - Calculate winner
+- `POST /api/bouts` - Create new bout
+- `GET /api/supervisor/fights` - Get fights for event
 
 ## URLs / Routes
 
@@ -98,85 +167,43 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
 | `/supervisor/{boutId}` | Supervisor: Live scoring dashboard |
 | `/op/{boutId}` | Operator: Simple event logging |
 | `/waiting/{boutId}` | Operator: Wait for role assignment |
-| `/operator-setup` | Legacy: Manual role selection |
 | `/pfc50/{boutId}` | Arena: Broadcast graphics |
 
-## How to Use (Fight Night)
+## Test Results - V3 Engine (2026-01-23)
+- **57/57 tests passed (100%)**
+- Event point values verified
+- Impact Lock system verified (KD Flash, KD Hard)
+- All 5 regularization rules verified
+- 10-8 scoring logic verified
+- API integration verified
 
-1. **Setup (Before Fight)**
-   - Supervisor opens `/control`
-   - Create event (e.g., "PFC 50")
-   - Add fights with fighter names and rounds
-   - Click "Start" on the first fight
+## Upcoming Tasks
 
-2. **Operator Connection**
-   - Each operator laptop opens `/waiting/{boutId}`
-   - Operators register with their device name
-   - Supervisor assigns roles from `/control`
-   - Operators automatically redirected to `/op/{boutId}`
+### P0 - Operator UI Updates
+- Add buttons for all new "significant strike" (SS) events
+- Add tooltips explaining SS, KD NF, etc. definitions
+- Implement control time-bucket clicking on operator screen
 
-3. **During Round**
-   - Operators tap buttons to log events
-   - Supervisor Dashboard shows combined totals in real-time (500ms polling)
-
-4. **End of Round**
-   - Supervisor clicks "END ROUND" on `/supervisor/{boutId}`
-   - Server computes score from ALL events
-   - Score displayed on dashboard
-
-5. **End of Fight**
-   - After final round, Supervisor clicks "FINALIZE FIGHT"
-   - Winner determined and displayed
-
-## Key Files
-
-### Frontend
-- `/app/frontend/src/components/SupervisorControl.jsx` - Event/fight creation
-- `/app/frontend/src/components/SupervisorDashboardPro.jsx` - Live scoring
-- `/app/frontend/src/components/OperatorSimple.jsx` - Event logging
-- `/app/frontend/src/components/OperatorWaiting.jsx` - Operator waiting room
-- `/app/frontend/src/components/OperatorAssignmentPanel.jsx` - Role assignment
-
-### Backend
-- `/app/backend/server.py` - API endpoints
-- `/app/backend/unified_scoring.py` - Delta scoring logic
-
-## Test Results - Iteration 5 (2026-01-20)
-- Frontend: 5/5 tests passed (100%)
-- Round broadcast feature verified ✅
-- Round review dialog verified ✅
-- Round count display (both 3 and 5 rounds) verified ✅
-- Fixed API endpoint bug: /api/unified/events → /api/events
-
-## Recent Updates (2026-01-20)
-
-### P0 - Round Broadcast Feature (COMPLETED ✅)
-- Added "Show Round Result on Arena" button to round end dialog
-- Implemented RoundWinner broadcast overlay using FightJudgeAI.jsx component
-- Shows round number, scores (red/blue), and winner name
-- Fullscreen overlay with professional styling
-
-### Bug Fix - API Endpoint (COMPLETED ✅)
-- Fixed: fetchRoundForReview was calling /api/unified/events (404) instead of /api/events
-- Round review dialog now works correctly
-
-### Verified - Round Count Display (WORKING ✅)
-- Both 5-round and 3-round fights display correctly in /control page
-- API returns correct totalRounds value
-- Frontend displays correct "X rds" in fight cards
-
-## Future/Backlog Tasks
+### P1 - Additional Testing
+- Add more edge case tests for control scoring
+- Add tests for Rule 3 (control diminishing returns)
+- Add tests for Rule 4 (control without work)
 
 ### P2 - Firebase Migration
 - Remove Firebase dependencies from legacy components
 - Migrate EventSetup.jsx, FightList.jsx to MongoDB backend
 
-### P2 - Visual Improvements
-- Add larger role indicator banner on OperatorSimple.jsx
-
 ### P3 - Backend Refactoring
 - Break down server.py into modular structure (/routes, /models, /services)
 
-### P3 - Cleanup
-- Remove obsolete components (OperatorPanel.jsx, JudgePanel.jsx, CombinedSyncPanel.jsx)
-- Remove deprecated datafeed_api directory
+## Future Tasks (Backlog)
+
+### Fan Engagement App
+- Build separate mobile-friendly web app for fans
+- QR code scanning for live score submission
+- Display fan scores on big screen
+
+### Product Enhancements
+- Live Score Reveal Animation
+- Sponsored Scorecard Frame
+- Round-by-round statistics display
