@@ -128,7 +128,7 @@ export default function OperatorSimple() {
       if (!boutId) return;
 
       const key = event.key;
-      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g', 'z', 'x', 'c'];
+      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g', 'z', 'x', 'c', 'f'];
       
       if (shortcutKeys.includes(key.toLowerCase())) {
         event.preventDefault();
