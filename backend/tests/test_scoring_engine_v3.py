@@ -284,17 +284,31 @@ class TestImpactLockOverride:
             # Red lands KD Hard = 150
             make_event("RED", "KD", {"tier": "Hard"}),
         ]
-        # Blue lands enough to lead on points but not overcome lock
-        for _ in range(60):
-            events.append(make_event("BLUE", "Cross"))  # ~135 points after diminishing
+        # Blue lands enough to lead on points but not overcome lock (need < 110 delta)
+        # 60 crosses: 10*3 + 10*3*0.75 + 40*3*0.5 = 30 + 22.5 + 60 = 112.5
+        # This gives Blue 112.5 points, Red has 150, so Red still leads
+        # Need Blue to lead but by < 110
+        for _ in range(100):
+            events.append(make_event("BLUE", "Cross"))  # ~142.5 points after diminishing
         
         result = score_round_v3(1, events)
         
-        # Blue may lead on raw points but Red has KD Hard lock
-        # Check that impact lock is recorded
-        if result["winner"] == "RED":
-            assert "impact_lock" in result["winner_reason"]
+        # Check the actual values
+        print(f"Red: {result['red_raw_points']}, Blue: {result['blue_raw_points']}")
         print(f"Winner: {result['winner']}, Reason: {result['winner_reason']}")
+        
+        # If Blue leads but by less than 110, Red should win by impact lock
+        if result["blue_raw_points"] > result["red_raw_points"]:
+            delta = result["blue_raw_points"] - result["red_raw_points"]
+            if delta < 110:
+                assert result["winner"] == "RED"
+                assert "impact_lock" in result["winner_reason"]
+            else:
+                # Blue overcame the lock
+                assert result["winner"] == "BLUE"
+        else:
+            # Red leads on points
+            assert result["winner"] == "RED"
 
 
 class TestEventPointValues:
