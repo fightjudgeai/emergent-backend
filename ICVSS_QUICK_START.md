@@ -50,7 +50,7 @@ X-API-Key: your-vendor-api-key
 ### **Event Format**
 Send events to:
 ```
-POST https://scoremma.preview.emergentagent.com/api/icvss/cv/event
+POST https://fight-judge-ai.preview.emergentagent.com/api/icvss/cv/event
 ```
 
 **Request Body**:
@@ -108,7 +108,7 @@ Your system → ICVSS standard:
 import requests
 import time
 
-BASE_URL = "https://scoremma.preview.emergentagent.com/api/icvss"
+BASE_URL = "https://fight-judge-ai.preview.emergentagent.com/api/icvss"
 API_KEY = "your-vendor-api-key"
 
 def send_cv_event(bout_id, round_id, fighter, event_type, confidence, severity):
@@ -145,7 +145,7 @@ print(result)  # {"success": true, "message": "Event accepted"}
 
 ### **JavaScript Example**
 ```javascript
-const BASE_URL = "https://scoremma.preview.emergentagent.com/api/icvss";
+const BASE_URL = "https://fight-judge-ai.preview.emergentagent.com/api/icvss";
 const API_KEY = "your-vendor-api-key";
 
 async function sendCVEvent(boutId, roundId, fighter, eventType, confidence, severity) {
@@ -217,7 +217,7 @@ sendCVEvent(
 
 ### **Check System Health**
 ```bash
-curl https://scoremma.preview.emergentagent.com/api/icvss/health
+curl https://fight-judge-ai.preview.emergentagent.com/api/icvss/health
 ```
 
 Expected response:
@@ -231,7 +231,7 @@ Expected response:
 
 ### **Get Statistics**
 ```bash
-curl https://scoremma.preview.emergentagent.com/api/icvss/stats
+curl https://fight-judge-ai.preview.emergentagent.com/api/icvss/stats
 ```
 
 Response shows:

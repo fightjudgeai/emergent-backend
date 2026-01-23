@@ -1,136 +1,115 @@
 <analysis>**original_problem_statement:**
-The user is building a live, multi-operator scoring system for MMA fights called Fight Judge AI. The primary goal is to have four operators on different laptops scoring different aspects of the same fight (e.g., Red Striking, Red Grappling, Blue Striking, Blue Grappling). All events logged by these operators must be combined in real-time on the server to produce ONE unified, official score for each round and a final score for the entire fight. This unified score is then streamed to the main arena broadcast screen.
+The user is building Fight Judge AI, a live, multi-operator MMA scoring system. The primary goal is a supervisor-centric system where a single supervisor controls all aspects of the event, from fight creation to final result broadcasting. Operators have a simplified interface for logging events.
 
-The critical bug reported is that each operator's laptop UI (Judge Panel) only shows the events they have personally logged, not the combined events from all four laptops. This prevents the system from calculating a unified score and defeats the purpose of the application.
-
-The user has provided a detailed, non-negotiable technical specification for a **server-authoritative architecture** to fix this issue. The server must be the single source of truth for all events and score calculations.
+The user's latest and most critical request is to completely **replace the current scoring engine** with a new, highly-detailed Impact-First v1.0 specification (also referred to as Scoring Model v3.0). This new engine has a non-negotiable set of rules, including:
+- A new event catalog with specific point values for standard and significant strikes (SS).
+- Regularization rules to prevent spamming, including diminishing returns for techniques and a guardrail for significant strikes.
+- Time-bucketed control scoring with diminishing returns and a control without work discount.
+- Impact Lock rules that override point totals if a fighter lands a significant impact event (e.g., a hard knockdown), preventing volume from stealing a round.
+- A detailed Round Receipt for explainability, showing top scoring drivers and why certain rules were triggered.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The application consists of a FastAPI/MongoDB backend () and a React frontend. The agent has successfully fixed an initial connection error and implemented features for the PFC 50 broadcast page, including a way for operators to create bouts directly in MongoDB.
+The application is a full-stack system with a FastAPI backend and a React frontend, built around a supervisor-controlled, server-polling architecture. The core supervisor and operator workflows are functional.
 
-However, the core multi-device scoring system is in a partially implemented and broken state. The agent was in the middle of a major architectural refactor to make the system server-authoritative, as requested by the user. A new backend file () was created, and new V2 API endpoints were added to , but the implementation is incomplete. The frontend components (, ) still contain legacy Firebase logic and have not been fully updated to use the new server-authoritative endpoints.
+The agent just completed a significant refactor, replacing the original scoring logic with a v2 engine based on a detailed user spec. This engine includes features like knockdown gates and ground strike quality toggles.
+
+However, immediately upon completion, the user provided a new, even more detailed spec for a v3 engine (Impact-First v1.0). The agent has only just created the initial files for this new v3 engine ( and ), but no logic has been implemented yet.
 
 **Last working item**:
--   **Last item agent was working**: Implementing the server-authoritative unified scoring system. The agent had just started this major refactor by creating a new backend file (), adding new V2 API stubs to , creating database indexes, and overwriting  to use the new API. The work is far from complete.
--   **Status**: IN PROGRESS
+-   **Last item agent was working**: The agent was starting the implementation of the brand new Impact-First v1.0 scoring engine, as detailed in the user's final prompt. The task involves replacing the entire existing scoring logic with this new model. The agent created the initial files for this new engine.
+-   **Status**: NOT STARTED
 -   **Agent Testing Done**: N
--   **Which testing method agent to use?**: both. The new backend V2 API needs to be tested via . The frontend UI needs to be tested with the  to verify that all operator UIs display the same combined data from the server.
+-   **Which testing method agent to use?**: backend testing agent. The agent should create comprehensive unit tests covering all regularization and impact lock rules specified in the prompt. After implementation,  tests should be used to validate the end-to-end flow with the new engine.
 -   **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
--   **Issue 1**: **CRITICAL BUG (P0)** - Each operator laptop's UI only shows its own logged events, not the combined total from all connected devices. End Round computes scores based on this incomplete, local data.
--   **Issue 2**: **(P2)** - The  backend is non-functional and likely deprecated.
--   **Issue 3**: **(P2)** - The  and other original components still use Firebase, creating a data-source mismatch with the MongoDB-based broadcast system.
-
-**Issues Detail:**
--   **Issue 1:**
-    -   **Attempted fixes**: The agent made several attempts to sync data client-side, which failed. The current and correct approach is a full server-authoritative refactor, which is in progress.
-    -   **Next debug checklist**:
-        1.  Implement the logic inside  for all V2 endpoints as per the user's specification (Message #339).
-        2.  Thoroughly refactor  and : remove all Firebase calls, remove local event state management, and make them thin clients that exclusively use the new V2 server endpoints (, , etc.).
-        3.  Ensure the End Round button on the UI calls  and displays the result from the server.
-        4.  Update the main broadcast page () to fetch its data from the new unified endpoints ().
-    -   **Why fix this issue and what will be achieved with the fix?**: This is the core requirement of the application. Fixing it will enable a unified, official score to be computed from the inputs of all four operators.
-    -   **Status**: IN PROGRESS
-    -   **Is recurring issue?**: Y
-    -   **Should Test frontend/backend/both after fix?**: both
+-   There are no outstanding bugs. The sole focus is the implementation of the new scoring engine.
 
 **In progress Task List**:
--   **Task 1: Complete the Server-Authoritative Scoring System Refactor (P0)**
-    -   **Where to resume**: The backend files (, ) and frontend component () have been created/modified. The immediate next step is to populate the logic in  and then overhaul  to use these new server endpoints.
-    -   **What will be achieved with this?**: A robust, server-driven, real-time scoring system that unifies input from all operator laptops.
-    -   **Status**: IN PROGRESS
-    -   **Should Test frontend/backend/both after fix?**: both
-    -   **Blocked on something**: No.
+-   **Task 1**: Implement the Impact-First v1.0 Scoring Engine (P0)
+
+**Task Detail:**
+-   **Task 1:**
+    -   **Where to resume**: The agent has created the files  and . The next step is to populate these files with the complete logic as per the user's final, detailed specification.
+    -   **What will be achieved with this?**: This will replace the entire scoring logic of the application with a more sophisticated, rule-based engine that prioritizes impact over volume and includes anti-spam measures.
+    -   **Status**: NOT STARTED
+    -   **Should Test frontend/backend/both after fix?**: backend
+    -   **Blocked on something**: None.
 
 **Upcoming and Future Tasks**
 -   **Upcoming Tasks:**
-    -   **Implement  (P1)**: Create the endpoint to calculate and save the final fight winner.
-    -   **Implement Operator Roles (P2)**: Add a  selector (, , etc.) to the operator UI to tag events correctly for auditing purposes.
+    -   **P0**: Update the operator UI to include buttons for all new significant strike (SS) events and provide tooltips explaining the definitions (SS, KD NF, etc.) as per the new spec.
+    -   **P1**: Implement the UI for control time-bucket clicking on the operator screen.
+    -   **P1**: Add comprehensive unit tests for the new v3 engine, covering all regularization and impact lock rules.
 -   **Future Tasks:**
-    -   **Full Firebase Migration (P2)**: Migrate all remaining Firebase-dependent pages (, ) to use MongoDB via backend APIs.
-    -   **Deprecate  (P3)**: After user confirmation, remove the old, broken Postgres backend directory.
+    -   **Fan Engagement App**: Build a separate, mobile-friendly web app for fans to scan a QR code and submit their own scores live, with results displayed on the big screen.
+    -   **Product Enhancements**: Consider implementing quick win features from the brainstormed list, such as Live Score Reveal Animation or a Sponsored Scorecard Frame.
+    -   **Backend Refactoring**: Break down the monolithic  into a more organized structure.
+    -   **Firebase Deprecation**: Migrate all remaining Firebase-dependent pages and remove the dependency.
 
 **Completed work in this session**
--   Fixed the critical  connection error for the broadcast display.
--   Implemented missing backend endpoints (, ) to support the broadcast UI.
--   Added a Create New Bout feature to the broadcast UI, allowing operators to create bouts directly in MongoDB.
--   Increased the maximum number of fights per event from 25 to 30.
--   Made the backend auto-create bouts in MongoDB if they don't exist when a sync event is received, resolving a key data inconsistency issue.
--   Added an End Round button to the .
+-   **Round-by-Round Broadcast**: Implemented a feature for the supervisor to display a broadcast graphic for each round's winner and score.
+-   **Recurring Bug Fix**: The bug where the fight card on the  page showed an incorrect number of rounds has been resolved and verified.
+-   **Scoring Threshold Adjustments**: Made multiple iterative updates to the scoring logic to make 10-8 and 10-7 rounds much rarer.
+-   **Knockdown Gate for Scoring**: Implemented a hard rule requiring 2+ knockdowns for a 10-8 and 3+ for a 10-7, regardless of the point delta.
+-   **Ground Strike Quality Toggle**: Added a SOLID/LIGHT toggle for ground strikes on the operator UI, with LIGHT strikes scoring half points. Implemented UI changes for button color and labels.
+-   **Active Control Timer Indicator**: Added a visual, pulsing indicator on both the operator and supervisor dashboards to show when a control timer is actively running.
+-   **Full End-to-End Sync Test**: Verified that all operator events, including control timers, sync instantly and correctly to the supervisor dashboard.
+-   **Scoring Engine v2 Implementation**: Fully implemented and tested an entire v2 scoring engine based on a detailed user spec (this is the engine that is now being replaced by v3).
+-   **Product Strategy Brainstorm**: Provided a detailed list of 25 potential product enhancements, packaging recommendations, and fan engagement ideas.
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Server-Authoritative Architecture**: The fundamental principle for the current refactor. The server is the single source of truth for all data (events, scores). Clients are thin and only send events and display server-provided state.
--   **Idempotent API endpoints**: The round computation endpoint () will use an  operation to ensure it can be called multiple times without creating duplicate data.
--   **Real-time Data Sync**: The system will combine polling and potentially WebSockets to ensure all connected clients have a live, unified view of the fight data.
+-   **Modular Scoring Engine**: The scoring logic is being architected into a self-contained, replaceable module. The latest version is Impact-First v1.0.
+-   **Rule-Based Regularization**: The new engine uses diminishing returns and abuse guardrails to prevent score inflation from spamming a single technique.
+-   **Impact Locks**: A system of override rules where significant impact events (like knockdowns) can lock in a round win, even if the point totals are close.
+-   **Deterministic Computation**: The engine must produce the exact same output given the same input stream of events, with no reliance on external state during calculation.
 
 **key DB schema**
--   **unified_events**: 
--   **unified_round_results**: 
--   **fight_results**: 
--   **bouts**: Stores bout information.
--   **completed_fights**: Stores archived fight data.
-
-**changes in tech stack**
--   None. The architecture is being refactored within the existing FastAPI, React, and MongoDB stack.
+The new v3 engine requires storing every scoring event with detailed fields for auditing:
+-   **scoring_events**: 
+-   **round_totals**: 
 
 **All files of reference**
--   **/app/backend/server.py**: Contains the API router and needs to correctly include the new V2 endpoints from .
--   **/app/backend/unified_scoring.py**: **NEW CRITICAL FILE.** Must contain all the server-side logic for event handling and score computation.
--   **/app/frontend/src/components/OperatorPanel.jsx**: **CRITICAL FILE.** Requires a major refactor to remove local state/Firebase logic and use the new V2 endpoints.
--   **/app/frontend/src/components/JudgePanel.jsx**: Also requires a major refactor to display the unified server state.
--   **/app/frontend/src/components/CombinedSyncPanel.jsx**: The UI component intended to show the unified state, which needs to be integrated correctly into the operator panels.
-
-**Areas that need refactoring**:
--   ** and **: These components are the primary source of the bug. They must be refactored to be thin clients that fetch all state from the server and have no local scoring logic.
--   ****: This file is becoming excessively large. The new  is a good first step, but a future task should be to break down  into a proper directory structure (e.g., , ).
-
-**key api endpoints**
--   : To log a single event from any operator.
--   : To fetch all combined events for a round.
--   : The server-authoritative endpoint to calculate and save a round's result.
--   : To fetch all computed round results for a bout.
--   : To compute and save the final fight result.
+-   **/app/backend/scoring_engine_v2/engine_v3.py**: The new, empty file where the Impact-First v1.0 engine must be implemented.
+-   **/app/backend/scoring_engine_v2/config_v3.py**: The configuration file for the new v3 engine.
+-   **/app/backend/server.py**: The main server file that will need to be updated to call the new  module.
+-   **/app/frontend/src/components/OperatorSimple.jsx**: The operator UI, which will need to be updated with new buttons for significant strikes (SS) and tooltips.
 
 **Critical Info for New Agent**
-1.  **Follow the User's Specification**: The user's message #339 is a detailed, non-negotiable technical specification for the server-authoritative architecture. You MUST follow it precisely.
-2.  **Server is the Source of Truth**: Your primary goal is to move all state management and computation to the backend. The frontend should NEVER compute scores locally or filter events. It only sends new events and displays the state provided by the server.
-3.  **Refactor **: This is the most critical frontend file to fix. Rip out the Firebase logic and local event state () and replace it with API calls to the new V2 endpoints.
-4.  **Complete the Backend Logic**: The file  was created but is largely empty. You need to implement the full logic for event aggregation and delta-based scoring inside the functions that will be called by the new V2 endpoints.
-
-**documents and test reports created in this job**
--   /app/memory/PRD.md
+1.  **Focus Solely on the New v3 Engine**: The user's last message contains a complete, non-negotiable specification for a new scoring engine (Impact-First v1.0). You must implement this exactly as written.
+2.  **Deprecate the v2 Engine**: The agent just finished a v2 engine in . This work is now obsolete. You should focus all efforts on  and . Consider removing  and its related files to avoid confusion.
+3.  **Follow the Spec Precisely**: Do not simplify, omit, or change any of the rules, weights, or logic from the user's final prompt. The user expects a deterministic engine that matches their spec to the letter.
+4.  **Plan for UI Changes**: The new engine requires new significant strike (SS) event buttons on the operator UI. Plan to update  after the backend engine is complete.
 
 **Last 10 User Messages and any pending HUMAN messages**
-10. Asks to add an 'end round' button to show combined totals. (Implemented)
-9.  Reports the critical bug again: laptops still not showing combined logs or scores, and an extra next round button exists. (Partially addressed)
-8.  Asks agent to call deployer agent for a health check. (Completed)
-7.  Requests to use the original delta scoring system, not direct 10-9 decisions. (Agent confirmed this is already the case)
-6.  Clarifies that events should be combined to decide the score delta as if one person logged them. (Understood, led to current refactor)
-5.  Refines the unified scoring requirement: all events from all laptops should combine to compute a single score. (Understood)
-4.  Reports that each judge profile shows its own scores, not the combined total. (Understood, led to UI sync attempts)
-3.  Requests real-time sync when everyone is signed into the same account, with scores computed when everyone clicks 'next round'. (Implemented an iteration of this)
-2.  Specifies the desired workflow: 4 laptops scoring different aspects, combining into one final score. (Understood)
-1.  **PENDING: User provided a detailed, non-negotiable architecture spec for a server-authoritative system to fix the unified scoring bug.** (This is the current P0 task)
+10. **Request**: Test the operator dashboard to ensure events log correctly and sync instantly to the supervisor dashboard. (Completed)
+9.  **Request**: Change fighter names to Red Corner/Blue Corner and adjust kick shortcut. **P1**: Add LIGHT/SOLID quality toggle for ground strikes. (Completed)
+8.  **Request**: Change GnP button color and labels. Add visual indicators for active control timers on both operator and supervisor dashboards. (Completed)
+7.  **Request**: Verify scoring of mixed SOLID/LIGHT ground strikes. (Completed)
+6.  **Request**: **(CRITICAL)** Provides a highly detailed, non-negotiable spec to replace the entire scoring engine with a new Impact-First v1.0 model (v3). (In Progress - Just Started)
+5.  **Follow-up on v3 engine**: No response yet.
+4.  **Follow-up on v3 engine**: No response yet.
+3.  **Follow-up on v3 engine**: No response yet.
+2.  **Follow-up on v3 engine**: No response yet.
+1.  **Follow-up on v3 engine**: No response yet.
 
 **Project Health Check:**
--   **Broken**:
-    -   The core multi-operator unified scoring feature is fundamentally broken. The UI on each operator's laptop does not show the combined, real-time data from all other laptops, which is the primary feature required.
+-   **Broken**: N/A
 -   **Mocked**: N/A
 
 **3rd Party Integrations**
--   **Firebase**: Still actively used in legacy components like , , and . This is a source of data inconsistency and needs to be migrated to the MongoDB backend.
--   **Supabase**: Used by the broken and deprecated  backend.
+-   **Firebase**: Still present in legacy components but is not used in the new supervisor/operator workflow. Slated for future removal.
 
 **Testing status**
--   **Testing agent used after significant changes**: NO
--   **Test files created**: None
--   **Known regressions**: The failure to properly sync data across multiple devices has been a recurring issue, with multiple client-side fixes attempted before pivoting to the current server-side architectural fix.
+-   **Testing agent used after significant changes**: YES (to fix a bug in the round review feature)
+-   **Troubleshoot agent used after agent stuck in loop**: NO
+-   **Test files created**:  (Tests the now-obsolete v2 engine. New tests are needed for v3).
+-   **Known regressions**: None.
 
 **What agent forgot to execute**
--   The agent started the major server-authoritative refactor but did not complete it. The backend logic in  is missing, and the critical frontend components (, ) have not been updated to use the new V2 APIs. This is the main piece of unfinished work that the next agent must pick up.</analysis>
+The session ended immediately after creating the stub files for the new v3 scoring engine. The agent has not yet implemented any of the logic for this critical new request.</analysis>
