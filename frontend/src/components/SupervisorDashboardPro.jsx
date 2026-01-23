@@ -734,6 +734,16 @@ export default function SupervisorDashboardPro() {
             <Badge className="bg-blue-600 text-lg">{blueEvents.length} events</Badge>
           </div>
           
+          {/* Active Control Timer Indicator */}
+          {activeControls.blue && (
+            <div className="bg-green-900/50 border border-green-500 rounded-lg p-2 mb-3 flex items-center justify-center animate-pulse">
+              <span className="w-3 h-3 bg-green-400 rounded-full mr-2 animate-ping"></span>
+              <span className="text-green-400 font-bold text-sm uppercase">
+                {activeControls.blue} Control Active
+              </span>
+            </div>
+          )}
+          
           {/* Delta Score */}
           <div className="bg-blue-900/30 rounded-lg p-3 mb-3 text-center">
             <div className="text-gray-400 text-xs uppercase">Delta Score</div>
