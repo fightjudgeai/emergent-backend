@@ -624,19 +624,19 @@ export default function OperatorSimple() {
                 <Button
                   data-testid="btn-ground-strike"
                   onClick={() => logEvent('Ground Strike', null, groundStrikeQuality)}
-                  className={`${groundStrikeQuality === 'SOLID' ? 'bg-orange-600 hover:bg-orange-500 border-orange-500' : 'bg-yellow-600 hover:bg-yellow-500 border-yellow-500'} text-white font-semibold h-10 text-sm border transition-all active:scale-95`}
+                  className={`${groundStrikeQuality === 'SOLID' ? 'bg-red-600 hover:bg-red-500 border-red-500' : 'bg-red-400 hover:bg-red-300 border-red-400'} text-white font-semibold h-10 text-sm border transition-all active:scale-95`}
                 >
                   <div className="text-center">
-                    <div>GnP {groundStrikeQuality === 'SOLID' ? '●' : '○'}</div>
+                    <div>{groundStrikeQuality === 'SOLID' ? 'GnP Solid' : 'GnP Light'}</div>
                     <div className="text-[10px] text-white/80">G</div>
                   </div>
                 </Button>
                 <Button
                   data-testid="btn-ground-strike-toggle"
                   onClick={() => setGroundStrikeQuality(prev => prev === 'SOLID' ? 'LIGHT' : 'SOLID')}
-                  className={`${groundStrikeQuality === 'SOLID' ? 'bg-orange-800 hover:bg-orange-700' : 'bg-yellow-800 hover:bg-yellow-700'} text-white font-medium h-6 text-[10px] border-0 transition-all`}
+                  className={`${groundStrikeQuality === 'SOLID' ? 'bg-red-800 hover:bg-red-700' : 'bg-red-600 hover:bg-red-500'} text-white font-medium h-6 text-[10px] border-0 transition-all`}
                 >
-                  {groundStrikeQuality} (F)
+                  Switch to {groundStrikeQuality === 'SOLID' ? 'Light' : 'Solid'} (F)
                 </Button>
               </div>
             </div>
