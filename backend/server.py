@@ -4377,6 +4377,136 @@ async def create_event(event: UnifiedEventCreate):
         logging.error(f"Error creating event: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+class SupervisorEventCreate(BaseModel):
+    """Supervisor event creation - can add events for any corner"""
+    bout_id: str
+    round_number: int
+    corner: str  # RED or BLUE
+    event_type: str
+    metadata: Optional[Dict[str, Any]] = {}
+
+
+@api_router.post("/events/supervisor")
+async def supervisor_create_event(event: SupervisorEventCreate):
+    """
+    Supervisor-only event creation.
+    Allows supervisor to add events directly (to fix operator mistakes).
+    """
+    try:
+        from unified_scoring import get_event_value
+        
+        # Calculate event value
+        value = get_event_value(event.event_type, event.metadata)
+        
+        event_doc = {
+            "bout_id": event.bout_id,
+            "round_number": event.round_number,
+            "corner": event.corner.upper(),
+            "aspect": "SUPERVISOR",
+            "event_type": event.event_type,
+            "value": value,
+            "device_role": "SUPERVISOR",
+            "metadata": event.metadata,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "created_by": "SUPERVISOR"
+        }
+        
+        await db.unified_events.insert_one(event_doc)
+        event_doc.pop("_id", None)
+        
+        logging.info(f"[SUPERVISOR] Event created: {event.event_type} for {event.corner}")
+        
+        # BROADCAST to all connected WebSocket clients
+        await broadcast_event_added(event.bout_id, event_doc)
+        
+        return {
+            "success": True,
+            "event": event_doc
+        }
+    except Exception as e:
+        logging.error(f"Error creating supervisor event: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+class EventDeleteRequest(BaseModel):
+    """Request to delete an event"""
+    bout_id: str
+    round_number: int
+    event_type: str
+    corner: str
+    created_at: Optional[str] = None  # For precise deletion
+
+
+@api_router.delete("/events")
+async def delete_event(request: EventDeleteRequest):
+    """
+    Delete an event (supervisor override).
+    Can delete by bout_id + round + event_type + corner, or more precisely with created_at.
+    """
+    try:
+        query = {
+            "bout_id": request.bout_id,
+            "round_number": request.round_number,
+            "event_type": request.event_type,
+            "corner": request.corner.upper()
+        }
+        
+        if request.created_at:
+            query["created_at"] = request.created_at
+        
+        # Delete one event (most recent if no created_at specified)
+        result = await db.unified_events.find_one_and_delete(
+            query,
+            sort=[("created_at", -1)]  # Delete most recent if multiple
+        )
+        
+        if result:
+            logging.info(f"[SUPERVISOR] Event deleted: {request.event_type} for {request.corner}")
+            
+            # Broadcast the deletion
+            await ws_manager.broadcast_to_bout(request.bout_id, {
+                "type": "event_deleted",
+                "event_type": request.event_type,
+                "corner": request.corner,
+                "round_number": request.round_number
+            })
+            
+            return {"success": True, "deleted": True}
+        else:
+            return {"success": False, "deleted": False, "message": "Event not found"}
+    except Exception as e:
+        logging.error(f"Error deleting event: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.delete("/events/by-id/{event_id}")
+async def delete_event_by_id(event_id: str, bout_id: str):
+    """
+    Delete a specific event by its created_at timestamp (used as unique ID).
+    """
+    try:
+        result = await db.unified_events.find_one_and_delete(
+            {"bout_id": bout_id, "created_at": event_id}
+        )
+        
+        if result:
+            logging.info(f"[SUPERVISOR] Event deleted by ID: {event_id}")
+            
+            # Broadcast the deletion
+            await ws_manager.broadcast_to_bout(bout_id, {
+                "type": "event_deleted",
+                "event_id": event_id
+            })
+            
+            return {"success": True, "deleted": True}
+        else:
+            return {"success": False, "deleted": False, "message": "Event not found"}
+    except Exception as e:
+        logging.error(f"Error deleting event: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.post("/rounds/compute")
 async def compute_round(request: RoundComputeRequest):
     """
