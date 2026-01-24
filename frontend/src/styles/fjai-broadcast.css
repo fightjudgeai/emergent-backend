@@ -1,81 +1,501 @@
-/* FJAI Broadcast Overlay Styles */
+/**
+ * Fight Judge AI - Broadcast Graphics CSS
+ * v3.0 - Lovable.dev Integration
+ */
 
-/* FJAI Broadcast Colors */
 :root {
-  --fjai-gold: 195 100% 70%;
+  --fjai-bg: 0 0% 0%;
+  --fjai-fg: 0 0% 100%;
+  --fjai-accent: 195 100% 70%;
   --fjai-red: 348 83% 47%;
-  --fjai-muted: 0 0% 12%;
+  --fjai-gold: 45 100% 60%;
+  --fjai-muted: 0 0% 70%;
 }
 
-/* FJAI Animations */
-@keyframes fjai-count-reveal {
-  0% { opacity: 0; transform: scale(0.8); }
-  100% { opacity: 1; transform: scale(1); }
+/* Panel Base */
+.fjai-panel {
+  border-top: 4px solid hsl(var(--fjai-accent));
+  background: linear-gradient(to top, hsl(0 0% 12% / 0.6), transparent);
+  font-family: 'Oswald', sans-serif;
+}
+.fjai-panel-final { 
+  box-shadow: 0 -8px 30px hsl(var(--fjai-accent) / 0.3); 
+}
+.fjai-content { 
+  padding: 0.5rem 0.75rem; 
 }
 
-@keyframes fjai-flash {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+/* Header */
+.fjai-header { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 0.75rem; 
+  margin-bottom: 0.5rem; 
+}
+.fjai-header-line { 
+  height: 1px; 
+  flex: 1; 
+  background: linear-gradient(to right, transparent, hsl(var(--fjai-accent) / 0.5), transparent); 
+}
+.fjai-header-text { 
+  font-size: 0.75rem; 
+  font-weight: 700; 
+  letter-spacing: 0.4em; 
+  text-transform: uppercase; 
+  color: hsl(var(--fjai-accent)); 
+}
+.fjai-header-glow { 
+  text-shadow: 0 0 10px hsl(var(--fjai-accent) / 0.5); 
 }
 
-@keyframes fjai-pulse-red {
-  0%, 100% { box-shadow: 0 0 20px hsl(348 83% 47% / 0.4); }
-  50% { box-shadow: 0 0 40px hsl(348 83% 47% / 0.7); }
+/* Score Grid */
+.fjai-scores-grid { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 0.75rem; 
+  margin-bottom: 0.5rem; 
+}
+.fjai-scores-final { 
+  margin-bottom: 0.5rem; 
+}
+.fjai-score-box { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  padding: 0.75rem; 
+  border-radius: 0.25rem; 
+  border-width: 2px; 
+  border-style: solid; 
+}
+.fjai-score-large { 
+  border-width: 2px; 
+}
+.fjai-score-red { 
+  border-color: hsl(var(--fjai-red)); 
+  background: hsl(var(--fjai-red) / 0.15); 
+  box-shadow: 0 0 25px hsl(var(--fjai-red) / 0.4); 
+}
+.fjai-score-blue { 
+  border-color: hsl(var(--fjai-accent)); 
+  background: hsl(var(--fjai-accent) / 0.15); 
+  box-shadow: 0 0 25px hsl(var(--fjai-accent) / 0.4); 
+}
+.fjai-score-label { 
+  font-size: 0.75rem; 
+  font-weight: 500; 
+  letter-spacing: 0.2em; 
+  text-transform: uppercase; 
+  margin-bottom: 0.25rem; 
+}
+.fjai-score-value { 
+  font-size: 2.5rem; 
+  font-weight: 700; 
+  font-variant-numeric: tabular-nums; 
+}
+.fjai-score-value-lg { 
+  font-size: 2.75rem; 
+  font-weight: 700; 
+  font-variant-numeric: tabular-nums; 
+}
+.fjai-text-red { 
+  color: hsl(var(--fjai-red)); 
+  text-shadow: 0 0 15px hsl(var(--fjai-red) / 0.6); 
+}
+.fjai-text-blue { 
+  color: hsl(var(--fjai-accent)); 
+  text-shadow: 0 0 15px hsl(var(--fjai-accent) / 0.6); 
 }
 
-@keyframes fjai-pulse-blue {
-  0%, 100% { box-shadow: 0 0 20px hsl(195 100% 70% / 0.4); }
-  50% { box-shadow: 0 0 40px hsl(195 100% 70% / 0.7); }
+/* Winner Box */
+.fjai-winner-box { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  padding: 0.75rem; 
+  border-radius: 0.25rem; 
+  border-width: 2px; 
+  border-style: solid; 
 }
-
-@keyframes fjai-glow {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.2); }
-}
-
-.animate-fjai-count-reveal { 
-  animation: fjai-count-reveal 0.8s ease-out forwards; 
-}
-
-.animate-fjai-flash { 
-  animation: fjai-flash 0.5s ease-out 3; 
-}
-
-.animate-fjai-pulse-red { 
+.fjai-winner-red { 
+  border-color: hsl(var(--fjai-red)); 
+  background: linear-gradient(to bottom, hsl(var(--fjai-red) / 0.25), hsl(var(--fjai-red) / 0.1)); 
+  box-shadow: 0 0 30px hsl(var(--fjai-red) / 0.5); 
   animation: fjai-pulse-red 2s ease-in-out infinite; 
 }
-
-.animate-fjai-pulse-blue { 
+.fjai-winner-blue { 
+  border-color: hsl(var(--fjai-accent)); 
+  background: linear-gradient(to bottom, hsl(var(--fjai-accent) / 0.25), hsl(var(--fjai-accent) / 0.1)); 
+  box-shadow: 0 0 30px hsl(var(--fjai-accent) / 0.5); 
   animation: fjai-pulse-blue 2s ease-in-out infinite; 
 }
-
-.animate-fjai-glow {
-  animation: fjai-glow 2s ease-in-out infinite;
+.fjai-winner-label { 
+  font-size: 0.75rem; 
+  font-weight: 600; 
+  letter-spacing: 0.4em; 
+  text-transform: uppercase; 
+  color: hsl(var(--fjai-muted)); 
+  margin-bottom: 0.125rem; 
+}
+.fjai-winner-name { 
+  font-size: 1.5rem; 
+  font-weight: 700; 
+  letter-spacing: 0.1em; 
+  text-transform: uppercase; 
+  color: white; 
+  text-shadow: 0 0 8px rgba(255,255,255,0.3); 
+}
+.fjai-winner-name-lg { 
+  font-size: 1.5rem; 
+  font-weight: 700; 
+  letter-spacing: 0.1em; 
+  text-transform: uppercase; 
+  color: white; 
+  text-shadow: 0 0 8px rgba(255,255,255,0.3); 
+}
+.fjai-winner-corner { 
+  font-size: 0.875rem; 
+  font-weight: 700; 
+  letter-spacing: 0.25em; 
+  text-transform: uppercase; 
+  margin-top: 0.125rem; 
+}
+.fjai-victory-text { 
+  font-size: 1rem; 
+  font-weight: 700; 
+  letter-spacing: 0.2em; 
+  text-transform: uppercase; 
+  margin-top: 0.375rem; 
+  color: hsl(var(--fjai-gold)); 
+  text-shadow: 0 0 10px hsl(var(--fjai-gold) / 0.5); 
+}
+.fjai-stoppage-round { 
+  font-size: 0.75rem; 
+  font-weight: 500; 
+  letter-spacing: 0.15em; 
+  text-transform: uppercase; 
+  margin-top: 0.125rem; 
+  color: hsl(var(--fjai-muted)); 
 }
 
-/* FJAI Font Styling */
-.fjai-broadcast {
-  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+/* Winner Announcement Overlay */
+.fjai-announcement-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Oswald', sans-serif;
+  background: hsl(0 0% 0% / 0.95);
 }
 
-/* FJAI Broadcast Container */
-.fjai-broadcast-overlay {
-  background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(10,10,10,0.98) 100%);
-  backdrop-filter: blur(10px);
+.fjai-color-sweep {
+  position: absolute;
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fjai-sweep-active { 
+  transform: scaleX(1); 
+}
+.fjai-sweep-exit { 
+  transform: scaleX(0); 
+  transition: transform 0.5s ease-in; 
 }
 
-/* FJAI Score Cards */
-.fjai-score-card {
-  backdrop-filter: blur(5px);
-  transition: all 0.3s ease;
+.fjai-announcement-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.5s ease-out;
+}
+.fjai-content-visible { 
+  opacity: 1; 
+  transform: scale(1); 
+}
+.fjai-content-exit { 
+  opacity: 0; 
+  transform: scale(0.9); 
+  transition: all 0.3s ease-in; 
 }
 
-.fjai-score-card:hover {
-  transform: scale(1.02);
+.fjai-announcement-header { 
+  margin-bottom: 1rem; 
+}
+.fjai-round-title { 
+  font-size: 2rem; 
+  font-weight: 700; 
+  letter-spacing: 0.3em; 
+  text-transform: uppercase; 
+}
+.fjai-main-title { 
+  font-size: 1.5rem; 
+  font-weight: 600; 
+  letter-spacing: 0.4em; 
+  text-transform: uppercase; 
 }
 
-/* FJAI Winner Badge */
-.fjai-winner-badge {
-  background: linear-gradient(135deg, hsl(45 100% 50%) 0%, hsl(35 100% 45%) 100%);
-  box-shadow: 0 0 20px hsl(45 100% 50% / 0.5);
+.fjai-winner-name-large {
+  font-size: 5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.fjai-corner-badge {
+  padding: 0.75rem 2rem;
+  border: 2px solid;
+  border-radius: 0.25rem;
+  margin-bottom: 1.5rem;
+}
+.fjai-corner-badge span { 
+  font-size: 1.25rem; 
+  font-weight: 700; 
+  letter-spacing: 0.3em; 
+  text-transform: uppercase; 
+}
+
+.fjai-decision-scores { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 2rem; 
+  margin-top: 1.5rem; 
+}
+.fjai-dec-score { 
+  font-size: 3rem; 
+  font-weight: 700; 
+  font-variant-numeric: tabular-nums; 
+}
+.fjai-dec-red { 
+  color: hsl(348, 83%, 60%); 
+}
+.fjai-dec-blue { 
+  color: hsl(45, 100%, 65%); 
+}
+.fjai-dec-divider { 
+  font-size: 2rem; 
+  font-weight: 300; 
+  color: white; 
+}
+
+.fjai-stoppage-info { 
+  font-size: 1.25rem; 
+  font-weight: 500; 
+  letter-spacing: 0.2em; 
+  text-transform: uppercase; 
+  color: hsl(0 0% 70%); 
+  margin-top: 1rem; 
+}
+.fjai-dismiss-hint { 
+  position: absolute; 
+  bottom: 2rem; 
+  font-size: 0.875rem; 
+  font-weight: 400; 
+  letter-spacing: 0.1em; 
+  color: hsl(0 0% 50%); 
+  animation: fjai-pulse-opacity 2s ease-in-out infinite; 
+}
+
+/* Strike Stats Panel */
+.fjai-stats-panel { 
+  background: hsl(0 0% 0% / 0.9); 
+  border: 2px solid hsl(195 100% 70% / 0.5); 
+  border-radius: 0.5rem; 
+  padding: 1rem; 
+  font-family: 'Oswald', sans-serif; 
+}
+.fjai-stats-fullscreen { 
+  position: fixed; 
+  inset: 0; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  border: none; 
+  border-radius: 0; 
+  padding: 3rem; 
+}
+.fjai-stats-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 1.5rem; 
+  padding-bottom: 0.75rem; 
+  border-bottom: 1px solid hsl(195 100% 70% / 0.3); 
+}
+.fjai-stats-name { 
+  font-size: 1.25rem; 
+  font-weight: 700; 
+  letter-spacing: 0.1em; 
+  text-transform: uppercase; 
+}
+.fjai-stats-title { 
+  font-size: 0.875rem; 
+  font-weight: 600; 
+  letter-spacing: 0.4em; 
+  color: hsl(195 100% 70%); 
+}
+.fjai-stats-grid { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.75rem; 
+}
+.fjai-stat-row { 
+  display: grid; 
+  grid-template-columns: 1fr auto 1fr; 
+  align-items: center; 
+  gap: 1rem; 
+}
+.fjai-stat-label { 
+  font-size: 0.875rem; 
+  font-weight: 500; 
+  letter-spacing: 0.1em; 
+  text-transform: uppercase; 
+  color: hsl(0 0% 70%); 
+  text-align: center; 
+}
+.fjai-stat-number { 
+  font-size: 1.5rem; 
+  font-weight: 700; 
+  font-variant-numeric: tabular-nums; 
+}
+.fjai-stat-red { 
+  color: hsl(348 83% 55%); 
+  text-shadow: 0 0 10px hsl(348 83% 47% / 0.5); 
+}
+.fjai-stat-blue { 
+  color: hsl(195 100% 70%); 
+  text-shadow: 0 0 10px hsl(195 100% 70% / 0.5); 
+}
+
+/* Lower Third */
+.fjai-lower-third { 
+  position: fixed; 
+  bottom: 5rem; 
+  left: 3rem; 
+  font-family: 'Oswald', sans-serif; 
+  animation: fjai-slide-in 0.5s ease-out; 
+}
+.fjai-lt-fullscreen { 
+  position: fixed; 
+  inset: 0; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  background: hsl(0 0% 0% / 0.95); 
+  left: 0; 
+  bottom: 0; 
+}
+.fjai-lt-fullscreen .fjai-lt-container { 
+  transform: scale(1.5); 
+}
+.fjai-lt-container { 
+  background: hsl(0 0% 5% / 0.95); 
+  border-left: 4px solid; 
+  padding: 1rem 1.5rem; 
+  min-width: 300px; 
+  position: relative; 
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.fjai-lt-corner-bar { 
+  position: absolute; 
+  left: 0; 
+  top: 0; 
+  bottom: 0; 
+  width: 4px; 
+}
+.fjai-lt-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid;
+}
+.fjai-lt-photo-red {
+  border-color: hsl(var(--fjai-red));
+}
+.fjai-lt-photo-blue {
+  border-color: hsl(var(--fjai-accent));
+}
+.fjai-lt-content { 
+  padding-left: 0.5rem; 
+}
+.fjai-lt-nickname { 
+  font-size: 0.875rem; 
+  font-weight: 500; 
+  font-style: italic; 
+  letter-spacing: 0.05em; 
+  margin-bottom: 0.25rem; 
+}
+.fjai-lt-name { 
+  font-size: 1.75rem; 
+  font-weight: 700; 
+  letter-spacing: 0.05em; 
+  text-transform: uppercase; 
+  color: white; 
+}
+.fjai-lt-details { 
+  font-size: 0.875rem; 
+  font-weight: 500; 
+  color: hsl(0 0% 70%); 
+  margin-top: 0.25rem; 
+}
+.fjai-lt-gym { 
+  font-size: 0.75rem; 
+  font-weight: 400; 
+  color: hsl(0 0% 50%); 
+  margin-top: 0.25rem; 
+}
+.fjai-lt-corner-label { 
+  position: absolute; 
+  top: 0.5rem; 
+  right: 0.75rem; 
+  font-size: 0.625rem; 
+  font-weight: 700; 
+  letter-spacing: 0.2em; 
+}
+
+/* Animations */
+.fjai-flash { 
+  animation: fjai-flash 0.5s ease-out 3 !important; 
+}
+.fjai-animate-reveal { 
+  animation: fjai-reveal 0.8s ease-out forwards; 
+}
+
+@keyframes fjai-reveal { 
+  0% { opacity: 0; transform: scale(0.8); } 
+  100% { opacity: 1; transform: scale(1); } 
+}
+@keyframes fjai-flash { 
+  0%, 100% { opacity: 1; } 
+  50% { opacity: 0.3; } 
+}
+@keyframes fjai-pulse-red { 
+  0%, 100% { box-shadow: 0 0 20px hsl(var(--fjai-red) / 0.4); } 
+  50% { box-shadow: 0 0 40px hsl(var(--fjai-red) / 0.7); } 
+}
+@keyframes fjai-pulse-blue { 
+  0%, 100% { box-shadow: 0 0 20px hsl(var(--fjai-accent) / 0.4); } 
+  50% { box-shadow: 0 0 40px hsl(var(--fjai-accent) / 0.7); } 
+}
+@keyframes fjai-pulse-opacity { 
+  0%, 100% { opacity: 0.5; } 
+  50% { opacity: 1; } 
+}
+@keyframes fjai-slide-in { 
+  0% { transform: translateX(-100%); opacity: 0; } 
+  100% { transform: translateX(0); opacity: 1; } 
 }
