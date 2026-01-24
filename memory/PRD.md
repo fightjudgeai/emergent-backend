@@ -40,6 +40,42 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
               └─────────────────────────────────┘
 ```
 
+## Broadcast Graphics System (IMPLEMENTED ✅ 2026-01-24)
+
+### Features
+- **Strike Counter**: Live stats display (Total Strikes, Sig. Strikes, Knockdowns, Takedowns, Control Time)
+- **Lower Third Graphics**: Fighter introduction cards with Name, Record, Weight Class, Photo
+- **Dual Lower Thirds**: Side-by-side display of both fighters
+- **OBS Overlay**: Clean overlay URL for streaming (`/overlay/{boutId}`)
+- **Supervisor Controls**: Toggle graphics on/off from dashboard
+
+### URLs
+- Arena View: `/pfc50/{boutId}` 
+- OBS Overlay: `/overlay/{boutId}`
+- Overlay with static params: `/overlay/{boutId}?stats=1&lowerBoth=1`
+
+### Supervisor Controls (Graphics button in dashboard)
+- Copy OBS overlay URL
+- Toggle Live Strike Stats
+- Toggle Both Fighter Cards
+- Toggle Red/Blue individual cards
+- Hide All / Open Overlay buttons
+
+### Fight Setup Enhancements
+- Fighter Record (W-L) field
+- Fighter Photo URL (optional)
+- All MMA weight classes (Men's, Women's, Catchweight)
+
+### API Endpoints
+- `GET /api/overlay/stats/{bout_id}` - Live fight statistics
+- `GET /api/broadcast/control/{bout_id}` - Get current control state
+- `POST /api/broadcast/control/{bout_id}` - Update control state
+
+## Operator Roles (UPDATED ✅ 2026-01-24)
+All 6 operator role options are now available:
+- RED_ALL, RED_STRIKING, RED_GRAPPLING
+- BLUE_ALL, BLUE_STRIKING, BLUE_GRAPPLING
+
 ## Supervisor Event Management (IMPLEMENTED ✅ 2026-01-24)
 
 ### Features
