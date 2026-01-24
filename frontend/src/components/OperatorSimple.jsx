@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { toast } from 'sonner';
 import { 
   Swords, 
@@ -12,7 +13,11 @@ import {
   WifiOff,
   ArrowLeft,
   Zap,
-  Keyboard
+  Keyboard,
+  Info,
+  Clock,
+  Plus,
+  Minus
 } from 'lucide-react';
 
 const API = process.env.REACT_APP_BACKEND_URL;
