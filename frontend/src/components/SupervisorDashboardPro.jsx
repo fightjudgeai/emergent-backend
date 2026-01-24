@@ -866,13 +866,23 @@ export default function SupervisorDashboardPro() {
                   const tier = event.metadata?.tier;
                   const delta = getEventDelta(event.event_type, tier);
                   return (
-                    <div key={idx} className="bg-blue-900/30 rounded px-3 py-2 flex items-center justify-between">
-                      <div>
+                    <div key={idx} className="bg-blue-900/30 rounded px-3 py-2 flex items-center justify-between group">
+                      <div className="flex-1">
                         <div className="text-white font-medium">{event.event_type}</div>
                         {tier && <div className="text-blue-400 text-xs">{tier}</div>}
                         <div className="text-gray-500 text-xs">{event.device_role}</div>
                       </div>
-                      <Badge className="bg-blue-700 text-white">+{delta}</Badge>
+                      <div className="flex items-center gap-2">
+                        <Badge className="bg-blue-700 text-white">+{delta}</Badge>
+                        <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          onClick={() => handleDeleteEvent(event)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0 text-blue-400 hover:text-blue-300 hover:bg-blue-900/50"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                      </div>
                     </div>
                   );
                 })
