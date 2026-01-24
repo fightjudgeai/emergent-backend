@@ -206,7 +206,11 @@ export default function SupervisorControl() {
         setShowNewFight(false);
         setNewFight({
           fighter1: '',
+          fighter1Record: '',
+          fighter1Photo: '',
           fighter2: '',
+          fighter2Record: '',
+          fighter2Photo: '',
           weightClass: 'M-Lightweight',
           rounds: 3,
           isTitleFight: false,
