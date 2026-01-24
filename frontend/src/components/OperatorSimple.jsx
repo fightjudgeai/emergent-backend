@@ -234,50 +234,56 @@ export default function OperatorSimple() {
       if (!boutId) return;
 
       const key = event.key;
-      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g', 'z', 'x', 'c', 'f'];
+      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g', 'z', 'x', 'c', 'f', '`', '~'];
       
-      if (shortcutKeys.includes(key.toLowerCase())) {
+      if (shortcutKeys.includes(key.toLowerCase()) || shortcutKeys.includes(key)) {
         event.preventDefault();
       }
 
       try {
-        // STRIKING
-        if (key === '1') { await logEvent('Jab'); }
-        else if (key === '2') { await logEvent('Cross'); }
-        else if (key === '3') { await logEvent('Hook'); }
-        else if (key === '4') { await logEvent('Uppercut'); }
-        else if (key === '5') { await logEvent('Elbow'); }
-        else if (key === '6') { await logEvent('Knee'); }
-        else if (key === '7' || key.toLowerCase() === 't') { await logEvent('Kick'); }
-        // Ground Strike - ONLY for grappling roles (RED_GRAPPLING or BLUE_ALL)
-        // Uses current quality setting (SOLID/LIGHT toggle)
+        // Toggle SS mode with backtick/tilde
+        if (key === '`' || key === '~') {
+          setSsMode(prev => !prev);
+          toast.info(`SS Mode: ${!ssMode ? 'ON' : 'OFF'}`, { duration: 800 });
+          return;
+        }
+        
+        // STRIKING (with SS mode support)
+        if (key === '1') { await logEvent(ssMode ? 'SS Jab' : 'Jab'); }
+        else if (key === '2') { await logEvent(ssMode ? 'SS Cross' : 'Cross'); }
+        else if (key === '3') { await logEvent(ssMode ? 'SS Hook' : 'Hook'); }
+        else if (key === '4') { await logEvent(ssMode ? 'SS Uppercut' : 'Uppercut'); }
+        else if (key === '5') { await logEvent(ssMode ? 'SS Elbow' : 'Elbow'); }
+        else if (key === '6') { await logEvent(ssMode ? 'SS Knee' : 'Knee'); }
+        else if (key === '7' || key.toLowerCase() === 't') { await logEvent(ssMode ? 'SS Kick' : 'Kick'); }
+        // Ground Strike - uses current quality setting (SOLID/LIGHT toggle)
         else if (key.toLowerCase() === 'g') { 
-          if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') {
+          if (hasGrappling) {
             await logEvent('Ground Strike', null, groundStrikeQuality); 
           }
         }
         // Toggle ground strike quality with 'F' key
         else if (key.toLowerCase() === 'f') {
-          if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') {
+          if (hasGrappling) {
             setGroundStrikeQuality(prev => prev === 'SOLID' ? 'LIGHT' : 'SOLID');
             toast.info(`Ground strike quality: ${groundStrikeQuality === 'SOLID' ? 'LIGHT' : 'SOLID'}`, { duration: 800 });
           }
         }
         // GRAPPLING
-        else if (key.toLowerCase() === 'v') { await logEvent('Takedown Landed'); }
-        else if (key.toLowerCase() === 'b') { await logEvent('Takedown Defended'); }
+        else if (key.toLowerCase() === 'v') { await logEvent('Takedown'); }
+        else if (key.toLowerCase() === 'b') { await logEvent('Takedown Stuffed'); }
         // SUBMISSIONS
-        else if (key.toLowerCase() === 'a') { await logEvent('Submission Attempt', 'Standard'); }
+        else if (key.toLowerCase() === 'a') { await logEvent('Submission Attempt', 'Light'); }
         else if (key.toLowerCase() === 's') { await logEvent('Submission Attempt', 'Deep'); }
         else if (key.toLowerCase() === 'd') { await logEvent('Submission Attempt', 'Near-Finish'); }
         // DAMAGE
-        else if (key.toLowerCase() === 'q') { await logEvent('Rocked/Stunned'); }
+        else if (key.toLowerCase() === 'q') { await logEvent('Rocked'); }
         else if (key.toLowerCase() === 'w') { await logEvent('KD', 'Flash'); }
         else if (key.toLowerCase() === 'e') { await logEvent('KD', 'Hard'); }
         else if (key.toLowerCase() === 'r') { await logEvent('KD', 'Near-Finish'); }
         // Control timers - Z, X, C (only for grappling roles)
         else if (key.toLowerCase() === 'z') { 
-          if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') handleControlToggle('Back Control'); 
+          if (hasGrappling) handleControlToggle('Back Control'); 
         }
         else if (key.toLowerCase() === 'x') { 
           if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') handleControlToggle('Top Control'); 
