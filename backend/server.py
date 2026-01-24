@@ -5794,6 +5794,136 @@ async def get_buffered_data(bout_id: str, timestamp: Optional[float] = None):
         logger.error(f"Error getting buffered data: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+# ============================================================================
+# OVERLAY & BROADCAST GRAPHICS API
+# ============================================================================
+
+# In-memory storage for broadcast control (per bout)
+broadcast_control_state = {}
+
+@api_router.get("/overlay/stats/{bout_id}")
+async def get_overlay_stats(bout_id: str):
+    """
+    Get live fight statistics for overlay display.
+    Returns: Total Strikes, Significant Strikes, Knockdowns, Takedowns, Control Time
+    """
+    try:
+        # Get all events for this bout
+        events = await db.unified_events.find(
+            {"bout_id": bout_id},
+            {"_id": 0}
+        ).to_list(10000)
+        
+        # Calculate stats
+        stats = {
+            "total": {"red": 0, "blue": 0},
+            "significant": {"red": 0, "blue": 0},
+            "knockdowns": {"red": 0, "blue": 0},
+            "takedowns": {"red": 0, "blue": 0},
+            "controlTime": {"red": 0, "blue": 0}
+        }
+        
+        # Strike event types
+        strike_types = ['Jab', 'Cross', 'Hook', 'Uppercut', 'Kick', 'Knee', 'Elbow', 'Ground Strike']
+        ss_types = ['SS Jab', 'SS Cross', 'SS Hook', 'SS Uppercut', 'SS Kick', 'SS Knee', 'SS Elbow']
+        
+        for event in events:
+            corner = event.get("corner", "").upper()
+            event_type = event.get("event_type", "")
+            key = "red" if corner == "RED" else "blue"
+            
+            # Total strikes
+            if any(st in event_type for st in strike_types) or any(ss in event_type for ss in ss_types):
+                stats["total"][key] += 1
+            
+            # Significant strikes
+            if any(ss in event_type for ss in ss_types) or event_type == "Rocked":
+                stats["significant"][key] += 1
+            
+            # Knockdowns
+            if event_type == "KD":
+                stats["knockdowns"][key] += 1
+            
+            # Takedowns
+            if event_type == "Takedown":
+                stats["takedowns"][key] += 1
+        
+        # Get control time from control_timers collection
+        timers = await db.control_timers.find(
+            {"bout_id": bout_id},
+            {"_id": 0}
+        ).to_list(100)
+        
+        for timer in timers:
+            corner = timer.get("corner", "").upper()
+            duration = timer.get("duration", 0)
+            key = "red" if corner == "RED" else "blue"
+            stats["controlTime"][key] += duration
+        
+        return stats
+        
+    except Exception as e:
+        logging.error(f"Error getting overlay stats: {e}")
+        return {
+            "total": {"red": 0, "blue": 0},
+            "significant": {"red": 0, "blue": 0},
+            "knockdowns": {"red": 0, "blue": 0},
+            "takedowns": {"red": 0, "blue": 0},
+            "controlTime": {"red": 0, "blue": 0}
+        }
+
+
+class BroadcastControlUpdate(BaseModel):
+    """Update broadcast control state"""
+    showStats: Optional[bool] = None
+    showLowerRed: Optional[bool] = None
+    showLowerBlue: Optional[bool] = None
+    showLowerBoth: Optional[bool] = None
+
+
+@api_router.get("/broadcast/control/{bout_id}")
+async def get_broadcast_control(bout_id: str):
+    """
+    Get current broadcast control state for a bout.
+    Used by overlay page to know what to show.
+    """
+    return broadcast_control_state.get(bout_id, {
+        "showStats": False,
+        "showLowerRed": False,
+        "showLowerBlue": False,
+        "showLowerBoth": False
+    })
+
+
+@api_router.post("/broadcast/control/{bout_id}")
+async def update_broadcast_control(bout_id: str, update: BroadcastControlUpdate):
+    """
+    Update broadcast control state (called by supervisor).
+    Controls what graphics are shown on the overlay.
+    """
+    if bout_id not in broadcast_control_state:
+        broadcast_control_state[bout_id] = {
+            "showStats": False,
+            "showLowerRed": False,
+            "showLowerBlue": False,
+            "showLowerBoth": False
+        }
+    
+    if update.showStats is not None:
+        broadcast_control_state[bout_id]["showStats"] = update.showStats
+    if update.showLowerRed is not None:
+        broadcast_control_state[bout_id]["showLowerRed"] = update.showLowerRed
+    if update.showLowerBlue is not None:
+        broadcast_control_state[bout_id]["showLowerBlue"] = update.showLowerBlue
+    if update.showLowerBoth is not None:
+        broadcast_control_state[bout_id]["showLowerBoth"] = update.showLowerBoth
+    
+    logging.info(f"[BROADCAST] Updated control for {bout_id}: {broadcast_control_state[bout_id]}")
+    
+    return {"success": True, "state": broadcast_control_state[bout_id]}
+
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
