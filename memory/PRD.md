@@ -40,7 +40,23 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
               └─────────────────────────────────┘
 ```
 
-## Scoring Engine v3.0 - Impact-First (IMPLEMENTED ✅ 2026-01-23)
+## Supervisor Event Management (IMPLEMENTED ✅ 2026-01-24)
+
+### Features
+- **Edit Events Button**: Green button in supervisor dashboard header opens Event Manager
+- **Add Events**: Supervisor can add any event type for either corner
+- **Delete Events**: Trash icon visible on ALL events (operator or supervisor logged)
+- **Real-time Updates**: Events list refreshes immediately after add/delete
+
+### How to Use
+1. Navigate to `/supervisor/{boutId}`
+2. **To Add**: Click "Edit Events" → Select corner → Click event button
+3. **To Delete**: Click trash icon next to any event in the event lists
+4. Score updates automatically
+
+### API Endpoints
+- `POST /api/events/supervisor` - Add event as supervisor
+- `DELETE /api/events/by-id/{created_at}?bout_id={boutId}` - Delete specific event
 
 ### Overview
 The scoring engine uses a config-driven, impact-first approach with 5 regularization rules to prevent score inflation from spam.
