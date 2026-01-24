@@ -183,10 +183,48 @@ export default function OperatorSimple() {
   
   // Determine which events to show
   const getEventsForRole = () => {
-    if (deviceRole === 'RED_STRIKING') return STRIKING_EVENTS;
-    if (deviceRole === 'RED_GRAPPLING') return GRAPPLING_EVENTS;
-    if (deviceRole === 'BLUE_ALL') return [...STRIKING_EVENTS, ...GRAPPLING_EVENTS];
+    if (deviceRole === 'RED_STRIKING' || deviceRole === 'BLUE_STRIKING') return STRIKING_EVENTS;
+    if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_GRAPPLING') return GRAPPLING_EVENTS;
+    if (deviceRole === 'RED_ALL' || deviceRole === 'BLUE_ALL') return [...STRIKING_EVENTS, ...GRAPPLING_EVENTS];
     return STRIKING_EVENTS;
+  };
+  
+  // Check if role includes grappling
+  const hasGrappling = deviceRole.includes('GRAPPLING') || deviceRole.includes('ALL');
+  const hasStriking = deviceRole.includes('STRIKING') || deviceRole.includes('ALL');
+  
+  // Log control time bucket (quick add without timer)
+  const logControlBucket = async (controlType, seconds) => {
+    try {
+      const eventType = controlType === 'Top' ? 'Ground Top Control' : 
+                       controlType === 'Cage' ? 'Cage Control Time' :
+                       controlType === 'Back' ? 'Ground Back Control' : controlType;
+      
+      const response = await fetch(`${API}/api/events`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          round_number: currentRound,
+          corner: corner,
+          aspect: 'GRAPPLING',
+          event_type: eventType,
+          device_role: deviceRole,
+          metadata: { 
+            duration: seconds,
+            bucket_entry: true
+          }
+        })
+      });
+      
+      if (response.ok) {
+        setEventCount(prev => prev + 1);
+        setLastEvent({ type: `${controlType} Control`, tier: `${seconds}s`, time: new Date() });
+        toast.success(`${controlType} Control: ${seconds}s logged`);
+      }
+    } catch (error) {
+      toast.error('Failed to log control time');
+    }
   };
 
   // Keyboard shortcuts handler
