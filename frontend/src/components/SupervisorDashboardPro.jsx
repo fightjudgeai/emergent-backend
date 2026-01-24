@@ -181,7 +181,97 @@ export default function SupervisorDashboardPro() {
   // Round Broadcast state
   const [showRoundBroadcast, setShowRoundBroadcast] = useState(false);
   
+  // Supervisor Event Management state
+  const [showEventManager, setShowEventManager] = useState(false);
+  const [selectedCorner, setSelectedCorner] = useState('RED');
+  
   const navigate = useNavigate();
+
+  // Quick event types for supervisor to add
+  const QUICK_EVENTS = {
+    striking: [
+      { type: 'Jab', label: 'Jab' },
+      { type: 'Cross', label: 'Cross' },
+      { type: 'Hook', label: 'Hook' },
+      { type: 'Uppercut', label: 'Upper' },
+      { type: 'Kick', label: 'Kick' },
+      { type: 'Knee', label: 'Knee' },
+      { type: 'Elbow', label: 'Elbow' },
+    ],
+    significant: [
+      { type: 'SS Jab', label: 'SS Jab' },
+      { type: 'SS Cross', label: 'SS Cross' },
+      { type: 'SS Hook', label: 'SS Hook' },
+      { type: 'SS Kick', label: 'SS Kick' },
+      { type: 'SS Knee', label: 'SS Knee' },
+      { type: 'SS Elbow', label: 'SS Elbow' },
+    ],
+    damage: [
+      { type: 'Rocked', label: 'Rocked' },
+      { type: 'KD', label: 'KD Flash', metadata: { tier: 'Flash' } },
+      { type: 'KD', label: 'KD Hard', metadata: { tier: 'Hard' } },
+      { type: 'KD', label: 'KD NF', metadata: { tier: 'Near-Finish' } },
+    ],
+    grappling: [
+      { type: 'Takedown', label: 'Takedown' },
+      { type: 'Takedown Stuffed', label: 'TD Stuffed' },
+      { type: 'Ground Strike', label: 'GnP Light', metadata: { quality: 'LIGHT' } },
+      { type: 'Ground Strike', label: 'GnP Hard', metadata: { quality: 'SOLID' } },
+    ],
+    submissions: [
+      { type: 'Submission Attempt', label: 'Sub Light', metadata: { tier: 'Light' } },
+      { type: 'Submission Attempt', label: 'Sub Deep', metadata: { tier: 'Deep' } },
+      { type: 'Submission Attempt', label: 'Sub NF', metadata: { tier: 'Near-Finish' } },
+    ],
+  };
+
+  // Add event as supervisor
+  const handleSupervisorAddEvent = async (eventType, metadata = {}) => {
+    if (!boutId) return;
+    
+    try {
+      const response = await fetch(`${API}/api/events/supervisor`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          round_number: currentRound,
+          corner: selectedCorner,
+          event_type: eventType,
+          metadata: metadata
+        })
+      });
+      
+      if (response.ok) {
+        toast.success(`Added ${eventType} for ${selectedCorner}`);
+        fetchEvents(); // Refresh events
+      } else {
+        toast.error('Failed to add event');
+      }
+    } catch (error) {
+      toast.error('Error adding event');
+    }
+  };
+
+  // Delete event as supervisor
+  const handleDeleteEvent = async (event) => {
+    if (!boutId) return;
+    
+    try {
+      const response = await fetch(`${API}/api/events/by-id/${encodeURIComponent(event.created_at)}?bout_id=${boutId}`, {
+        method: 'DELETE'
+      });
+      
+      if (response.ok) {
+        toast.success(`Deleted ${event.event_type}`);
+        fetchEvents(); // Refresh events
+      } else {
+        toast.error('Failed to delete event');
+      }
+    } catch (error) {
+      toast.error('Error deleting event');
+    }
+  };
 
   // Fetch round data for review
   const fetchRoundForReview = async (roundNum) => {
