@@ -587,9 +587,12 @@ export default function OperatorSimple() {
 
   const getRoleLabel = () => {
     switch (deviceRole) {
+      case 'RED_ALL': return 'ALL EVENTS';
       case 'RED_STRIKING': return 'STRIKING';
       case 'RED_GRAPPLING': return 'GRAPPLING';
       case 'BLUE_ALL': return 'ALL EVENTS';
+      case 'BLUE_STRIKING': return 'STRIKING';
+      case 'BLUE_GRAPPLING': return 'GRAPPLING';
       default: return deviceRole;
     }
   };
