@@ -188,7 +188,53 @@ export default function SupervisorDashboardPro() {
   const [showEventManager, setShowEventManager] = useState(false);
   const [selectedCorner, setSelectedCorner] = useState('RED');
   
+  // Broadcast Graphics Control state
+  const [showBroadcastControls, setShowBroadcastControls] = useState(false);
+  const [broadcastState, setBroadcastState] = useState({
+    showStats: false,
+    showLowerRed: false,
+    showLowerBlue: false,
+    showLowerBoth: false
+  });
+  
   const navigate = useNavigate();
+
+  // Update broadcast control on server
+  const updateBroadcastControl = async (key, value) => {
+    if (!boutId) return;
+    
+    const newState = { ...broadcastState, [key]: value };
+    setBroadcastState(newState);
+    
+    try {
+      await fetch(`${API}/api/broadcast/control/${boutId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [key]: value })
+      });
+    } catch (error) {
+      console.error('Error updating broadcast control:', error);
+    }
+  };
+
+  // Fetch current broadcast state
+  const fetchBroadcastState = useCallback(async () => {
+    if (!boutId) return;
+    try {
+      const response = await fetch(`${API}/api/broadcast/control/${boutId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setBroadcastState(data);
+      }
+    } catch (error) {
+      // Ignore
+    }
+  }, [boutId]);
+
+  // Fetch broadcast state on load
+  useEffect(() => {
+    fetchBroadcastState();
+  }, [fetchBroadcastState]);
 
   // Quick event types for supervisor to add
   const QUICK_EVENTS = {
