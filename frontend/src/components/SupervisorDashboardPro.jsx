@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Switch } from '@/components/ui/switch';
 import { 
   Monitor, 
   Trophy, 
@@ -26,7 +27,9 @@ import {
   Home,
   Plus,
   Trash2,
-  Edit3
+  Edit3,
+  BarChart3,
+  UserSquare2
 } from 'lucide-react';
 import { toast } from 'sonner';
 import OperatorAssignmentPanel from './OperatorAssignmentPanel';
