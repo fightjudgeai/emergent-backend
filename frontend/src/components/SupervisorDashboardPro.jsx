@@ -23,7 +23,10 @@ import {
   Minus,
   ExternalLink,
   ChevronRight,
-  Home
+  Home,
+  Plus,
+  Trash2,
+  Edit3
 } from 'lucide-react';
 import { toast } from 'sonner';
 import OperatorAssignmentPanel from './OperatorAssignmentPanel';
