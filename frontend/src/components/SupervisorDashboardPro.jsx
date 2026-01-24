@@ -1532,6 +1532,140 @@ export default function SupervisorDashboardPro() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Broadcast Graphics Control Dialog */}
+      <Dialog open={showBroadcastControls} onOpenChange={setShowBroadcastControls}>
+        <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-cyan-400" />
+              Broadcast Graphics Control
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-6 py-4">
+            {/* Overlay URL */}
+            <div className="bg-gray-800 rounded-lg p-3">
+              <div className="text-gray-400 text-xs uppercase mb-2">OBS Overlay URL</div>
+              <code className="text-cyan-400 text-sm break-all">
+                {window.location.origin}/overlay/{boutId}
+              </code>
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="mt-2 w-full border-gray-600"
+                onClick={() => {
+                  navigator.clipboard.writeText(`${window.location.origin}/overlay/${boutId}`);
+                  toast.success('Overlay URL copied!');
+                }}
+              >
+                Copy URL
+              </Button>
+            </div>
+
+            {/* Toggle Controls */}
+            <div className="space-y-4">
+              <div className="text-gray-400 text-xs uppercase">Show on Arena Screen</div>
+              
+              {/* Stats Counter */}
+              <div className="flex items-center justify-between bg-gray-800/50 rounded-lg p-3">
+                <div className="flex items-center gap-3">
+                  <BarChart3 className="w-5 h-5 text-cyan-400" />
+                  <div>
+                    <div className="text-white font-medium">Live Strike Stats</div>
+                    <div className="text-gray-500 text-xs">Total, SS, KD, TD, Control Time</div>
+                  </div>
+                </div>
+                <Switch 
+                  checked={broadcastState.showStats}
+                  onCheckedChange={(checked) => updateBroadcastControl('showStats', checked)}
+                />
+              </div>
+              
+              {/* Lower Thirds - Both */}
+              <div className="flex items-center justify-between bg-gray-800/50 rounded-lg p-3">
+                <div className="flex items-center gap-3">
+                  <UserSquare2 className="w-5 h-5 text-amber-400" />
+                  <div>
+                    <div className="text-white font-medium">Both Fighter Cards</div>
+                    <div className="text-gray-500 text-xs">Name, Record, Weight Class, Photo</div>
+                  </div>
+                </div>
+                <Switch 
+                  checked={broadcastState.showLowerBoth}
+                  onCheckedChange={(checked) => {
+                    updateBroadcastControl('showLowerBoth', checked);
+                    if (checked) {
+                      updateBroadcastControl('showLowerRed', false);
+                      updateBroadcastControl('showLowerBlue', false);
+                    }
+                  }}
+                />
+              </div>
+              
+              {/* Lower Third - Red */}
+              <div className="flex items-center justify-between bg-red-950/30 rounded-lg p-3">
+                <div className="flex items-center gap-3">
+                  <UserSquare2 className="w-5 h-5 text-red-400" />
+                  <div>
+                    <div className="text-white font-medium">Red Corner Card</div>
+                    <div className="text-gray-500 text-xs">{boutInfo.fighter1}</div>
+                  </div>
+                </div>
+                <Switch 
+                  checked={broadcastState.showLowerRed}
+                  onCheckedChange={(checked) => {
+                    updateBroadcastControl('showLowerRed', checked);
+                    if (checked) updateBroadcastControl('showLowerBoth', false);
+                  }}
+                  disabled={broadcastState.showLowerBoth}
+                />
+              </div>
+              
+              {/* Lower Third - Blue */}
+              <div className="flex items-center justify-between bg-blue-950/30 rounded-lg p-3">
+                <div className="flex items-center gap-3">
+                  <UserSquare2 className="w-5 h-5 text-blue-400" />
+                  <div>
+                    <div className="text-white font-medium">Blue Corner Card</div>
+                    <div className="text-gray-500 text-xs">{boutInfo.fighter2}</div>
+                  </div>
+                </div>
+                <Switch 
+                  checked={broadcastState.showLowerBlue}
+                  onCheckedChange={(checked) => {
+                    updateBroadcastControl('showLowerBlue', checked);
+                    if (checked) updateBroadcastControl('showLowerBoth', false);
+                  }}
+                  disabled={broadcastState.showLowerBoth}
+                />
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-gray-700">
+              <Button 
+                variant="outline" 
+                className="border-gray-600"
+                onClick={() => {
+                  updateBroadcastControl('showStats', false);
+                  updateBroadcastControl('showLowerRed', false);
+                  updateBroadcastControl('showLowerBlue', false);
+                  updateBroadcastControl('showLowerBoth', false);
+                }}
+              >
+                Hide All
+              </Button>
+              <Button 
+                className="bg-cyan-600 hover:bg-cyan-700"
+                onClick={() => window.open(`/overlay/${boutId}`, '_blank')}
+              >
+                <ExternalLink className="w-4 h-4 mr-1" /> Open Overlay
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
