@@ -73,7 +73,11 @@ export default function SupervisorControl() {
   const [showNewFight, setShowNewFight] = useState(false);
   const [newFight, setNewFight] = useState({
     fighter1: '',
+    fighter1Record: '',
+    fighter1Photo: '',
     fighter2: '',
+    fighter2Record: '',
+    fighter2Photo: '',
     weightClass: 'M-Lightweight',
     rounds: 3,
     isTitleFight: false,
