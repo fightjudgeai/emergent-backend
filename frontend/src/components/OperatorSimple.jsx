@@ -170,6 +170,12 @@ export default function OperatorSimple() {
   
   // Ground strike quality toggle state
   const [groundStrikeQuality, setGroundStrikeQuality] = useState('SOLID'); // 'SOLID' or 'LIGHT'
+  
+  // SS mode toggle - when enabled, all strikes are logged as SS
+  const [ssMode, setSsMode] = useState(false);
+  
+  // Control bucket mode - for quick time logging
+  const [showControlBuckets, setShowControlBuckets] = useState(false);
 
   // Determine corner from role
   const corner = deviceRole.startsWith('RED') ? 'RED' : 'BLUE';
