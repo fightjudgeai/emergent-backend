@@ -80,6 +80,7 @@ function App() {
           <Route path="/arena-demo/:boutId" element={<BroadcastDisplayDemo />} />
           <Route path="/pfc50/:boutId" element={<LovableBroadcast />} />
           <Route path="/pfc50" element={<LovableBroadcast />} />
+          <Route path="/overlay/:boutId" element={<BroadcastOverlay />} />
           <Route path="/supervisor/:boutId" element={<SupervisorPanel />} />
           <Route path="/shadow-judging" element={<ShadowJudgingMode />} />
           <Route path="/review-dashboard" element={<ReviewDashboard />} />
