@@ -18,11 +18,14 @@ import { toast } from 'sonner';
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
-// Available roles
+// Available roles - All operator options
 const ROLES = [
+  { id: 'RED_ALL', label: 'Red All', icon: Target, color: 'red', bg: 'bg-red-500' },
   { id: 'RED_STRIKING', label: 'Red Striking', icon: Swords, color: 'red', bg: 'bg-red-600' },
   { id: 'RED_GRAPPLING', label: 'Red Grappling', icon: Shield, color: 'red', bg: 'bg-red-700' },
-  { id: 'BLUE_ALL', label: 'Blue All', icon: Target, color: 'blue', bg: 'bg-blue-600' }
+  { id: 'BLUE_ALL', label: 'Blue All', icon: Target, color: 'blue', bg: 'bg-blue-500' },
+  { id: 'BLUE_STRIKING', label: 'Blue Striking', icon: Swords, color: 'blue', bg: 'bg-blue-600' },
+  { id: 'BLUE_GRAPPLING', label: 'Blue Grappling', icon: Shield, color: 'blue', bg: 'bg-blue-700' }
 ];
 
 /**
