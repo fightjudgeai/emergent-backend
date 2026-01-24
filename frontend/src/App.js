@@ -32,6 +32,7 @@ import PostFightReviewPanel from "@/components/PostFightReviewPanel";
 import CVSystemsPage from "@/components/CVSystemsPage";
 import FightHistory from "@/components/FightHistory";
 import FightDetailsArchived from "@/components/FightDetailsArchived";
+import BroadcastOverlay from "@/pages/BroadcastOverlay";
 
 function App() {
   // Check if judge is logged in
