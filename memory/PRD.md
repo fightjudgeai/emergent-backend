@@ -40,6 +40,41 @@ Building a real-time sports data feed service focused on MMA/Combat sports judgi
               └─────────────────────────────────┘
 ```
 
+## Operator UI Enhancements (IMPLEMENTED ✅ 2026-01-24)
+
+### Significant Strike (SS) Mode
+- **SS Mode Toggle**: Button in header toggles all strikes to Significant Strikes (2x points)
+- **Keyboard shortcut**: Press backtick (`) to toggle SS mode
+- **Visual feedback**: Button turns amber when SS mode is ON, strikes show "SS Jab", "SS Cross", etc.
+- **Info tooltip**: Explains what SS mode does
+
+### Tooltips on All Buttons
+Every event button now has a hover tooltip explaining:
+- What the event means
+- Point value
+- Impact Lock rules (for KD events)
+
+### Control Time Buckets (P1)
+- **Quick Add button**: Reveals quick-add control time buckets
+- **Time buckets**: +10s, +20s, +30s for Back, Top, Cage control
+- **Use case**: When timer wasn't started but control time needs to be logged retroactively
+
+### Keyboard Shortcuts Updated
+- **`** (backtick): Toggle SS mode
+- **1-7**: Basic strikes (with SS mode support)
+- **Q,W,E,R**: Damage events (Rocked, KD Flash, KD Hard, KD NF)
+- **V,B**: Takedown, TD Stuffed
+- **G**: Ground Strike (with quality toggle)
+- **F**: Toggle GnP quality (Solid/Light)
+- **A,S,D**: Submissions (Light, Deep, Near-Finish)
+- **Z,X,C**: Control timers (Back, Top, Cage)
+
+### Event Type Updates (V3 Engine Alignment)
+- "Takedown Landed" → "Takedown"
+- "Takedown Defended" → "Takedown Stuffed"  
+- "Sub Attempt Standard" → "Sub Light"
+- Added all SS event types
+
 ## Broadcast Graphics System (IMPLEMENTED ✅ 2026-01-24)
 
 ### Features
