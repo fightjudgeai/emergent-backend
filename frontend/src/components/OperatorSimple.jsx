@@ -286,10 +286,10 @@ export default function OperatorSimple() {
           if (hasGrappling) handleControlToggle('Back Control'); 
         }
         else if (key.toLowerCase() === 'x') { 
-          if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') handleControlToggle('Top Control'); 
+          if (hasGrappling) handleControlToggle('Top Control'); 
         }
         else if (key.toLowerCase() === 'c') { 
-          if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') handleControlToggle('Cage Control'); 
+          if (hasGrappling) handleControlToggle('Cage Control'); 
         }
       } catch (error) {
         console.error('Keyboard shortcut error:', error);
@@ -298,7 +298,7 @@ export default function OperatorSimple() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [boutId, corner, currentRound, deviceRole, fighterName, activeControl, groundStrikeQuality]);
+  }, [boutId, corner, currentRound, deviceRole, fighterName, activeControl, groundStrikeQuality, ssMode, hasGrappling]);
 
   // Control timer - increment every second when active
   useEffect(() => {
