@@ -639,6 +639,9 @@ export default function SupervisorDashboardPro() {
           </Badge>
         </div>
         <div className="flex items-center gap-2">
+          <Button size="sm" variant="outline" onClick={() => setShowEventManager(true)} className="border-green-500 text-green-400">
+            <Edit3 className="w-4 h-4 mr-1" /> Edit Events
+          </Button>
           <Button size="sm" variant="outline" onClick={() => setShowAssignmentPanel(true)} className="border-amber-500 text-amber-400">
             <Users className="w-4 h-4 mr-1" /> Operators ({operatorCount}/3)
           </Button>
