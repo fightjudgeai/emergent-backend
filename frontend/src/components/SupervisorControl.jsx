@@ -391,32 +391,78 @@ export default function SupervisorControl() {
                         <Plus className="w-4 h-4 mr-1" /> Add Fight
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="bg-gray-900 border-gray-700 text-white" aria-describedby="add-fight-description">
+                    <DialogContent className="bg-gray-900 border-gray-700 text-white max-h-[90vh] overflow-y-auto" aria-describedby="add-fight-description">
                       <DialogHeader>
                         <DialogTitle>Add New Fight</DialogTitle>
                         <p id="add-fight-description" className="sr-only">Form to add a new fight to the event card</p>
                       </DialogHeader>
                       <div className="space-y-4 py-4">
                         {/* Red Corner */}
-                        <div className="space-y-2">
-                          <Label className="text-red-400">Red Corner</Label>
-                          <Input
-                            value={newFight.fighter1}
-                            onChange={(e) => setNewFight({...newFight, fighter1: e.target.value})}
-                            placeholder="Fighter name"
-                            className="bg-gray-800 border-red-900"
-                          />
+                        <div className="p-3 bg-red-950/30 rounded-lg border border-red-900/50 space-y-3">
+                          <div className="text-red-400 font-semibold text-sm uppercase tracking-wider">Red Corner</div>
+                          <div className="space-y-2">
+                            <Label className="text-gray-400 text-xs">Fighter Name *</Label>
+                            <Input
+                              value={newFight.fighter1}
+                              onChange={(e) => setNewFight({...newFight, fighter1: e.target.value})}
+                              placeholder="Fighter name"
+                              className="bg-gray-800 border-red-900"
+                            />
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="space-y-1">
+                              <Label className="text-gray-400 text-xs">Record (W-L)</Label>
+                              <Input
+                                value={newFight.fighter1Record}
+                                onChange={(e) => setNewFight({...newFight, fighter1Record: e.target.value})}
+                                placeholder="12-3"
+                                className="bg-gray-800 border-gray-700"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <Label className="text-gray-400 text-xs">Photo URL (optional)</Label>
+                              <Input
+                                value={newFight.fighter1Photo}
+                                onChange={(e) => setNewFight({...newFight, fighter1Photo: e.target.value})}
+                                placeholder="https://..."
+                                className="bg-gray-800 border-gray-700"
+                              />
+                            </div>
+                          </div>
                         </div>
                         
                         {/* Blue Corner */}
-                        <div className="space-y-2">
-                          <Label className="text-blue-400">Blue Corner</Label>
-                          <Input
-                            value={newFight.fighter2}
-                            onChange={(e) => setNewFight({...newFight, fighter2: e.target.value})}
-                            placeholder="Fighter name"
-                            className="bg-gray-800 border-blue-900"
-                          />
+                        <div className="p-3 bg-blue-950/30 rounded-lg border border-blue-900/50 space-y-3">
+                          <div className="text-blue-400 font-semibold text-sm uppercase tracking-wider">Blue Corner</div>
+                          <div className="space-y-2">
+                            <Label className="text-gray-400 text-xs">Fighter Name *</Label>
+                            <Input
+                              value={newFight.fighter2}
+                              onChange={(e) => setNewFight({...newFight, fighter2: e.target.value})}
+                              placeholder="Fighter name"
+                              className="bg-gray-800 border-blue-900"
+                            />
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="space-y-1">
+                              <Label className="text-gray-400 text-xs">Record (W-L)</Label>
+                              <Input
+                                value={newFight.fighter2Record}
+                                onChange={(e) => setNewFight({...newFight, fighter2Record: e.target.value})}
+                                placeholder="8-2"
+                                className="bg-gray-800 border-gray-700"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <Label className="text-gray-400 text-xs">Photo URL (optional)</Label>
+                              <Input
+                                value={newFight.fighter2Photo}
+                                onChange={(e) => setNewFight({...newFight, fighter2Photo: e.target.value})}
+                                placeholder="https://..."
+                                className="bg-gray-800 border-gray-700"
+                              />
+                            </div>
+                          </div>
                         </div>
                         
                         {/* Weight Class */}
