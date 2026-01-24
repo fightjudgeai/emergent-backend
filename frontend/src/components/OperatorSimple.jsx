@@ -40,17 +40,70 @@ const STRIKING_EVENTS = [
   { type: 'KD', category: 'damage-kd', tier: 'Near-Finish', key: 'R', label: 'KD Near-Finish' },
 ];
 
+// Significant Strike Events (SS) - Double point value
+const SS_EVENTS = [
+  { type: 'SS Jab', category: 'ss', tier: null, key: '!', label: 'SS Jab' },
+  { type: 'SS Cross', category: 'ss', tier: null, key: '@', label: 'SS Cross' },
+  { type: 'SS Hook', category: 'ss', tier: null, key: '#', label: 'SS Hook' },
+  { type: 'SS Uppercut', category: 'ss', tier: null, key: '$', label: 'SS Upper' },
+  { type: 'SS Elbow', category: 'ss', tier: null, key: '%', label: 'SS Elbow' },
+  { type: 'SS Knee', category: 'ss', tier: null, key: '^', label: 'SS Knee' },
+  { type: 'SS Kick', category: 'ss', tier: null, key: '&', label: 'SS Kick' },
+];
+
 const GRAPPLING_EVENTS = [
   // Takedowns
-  { type: 'Takedown Landed', category: 'grappling', tier: null, key: 'V', label: 'TD Landed' },
-  { type: 'Takedown Defended', category: 'grappling', tier: null, key: 'B', label: 'TD Defended' },
+  { type: 'Takedown', category: 'grappling', tier: null, key: 'V', label: 'Takedown' },
+  { type: 'Takedown Stuffed', category: 'grappling', tier: null, key: 'B', label: 'TD Stuffed' },
   // Ground Strike - belongs with grappling
-  { type: 'Ground Strike', category: 'strike', tier: null, key: 'G', label: 'Ground Strike' },
+  { type: 'Ground Strike', category: 'strike', tier: null, key: 'G', label: 'GnP' },
   // Submissions - Escalating danger
-  { type: 'Submission Attempt', category: 'submission', tier: 'Standard', key: 'A', label: 'Sub Attempt' },
+  { type: 'Submission Attempt', category: 'submission', tier: 'Light', key: 'A', label: 'Sub Light' },
   { type: 'Submission Attempt', category: 'submission', tier: 'Deep', key: 'S', label: 'Sub Deep' },
-  { type: 'Submission Attempt', category: 'submission', tier: 'Near-Finish', key: 'D', label: 'Sub Near-Finish' },
+  { type: 'Submission Attempt', category: 'submission', tier: 'Near-Finish', key: 'D', label: 'Sub NF' },
 ];
+
+// Tooltips for event types (shown on hover/long-press)
+const EVENT_TOOLTIPS = {
+  // Basic Strikes
+  'Jab': 'Quick punch with lead hand. 1 point.',
+  'Cross': 'Straight punch with rear hand. 3 points.',
+  'Hook': 'Curved punch to the side. 3 points.',
+  'Uppercut': 'Upward punch to chin. 3 points.',
+  'Elbow': 'Elbow strike. 5 points.',
+  'Knee': 'Knee strike. 5 points.',
+  'Kick': 'Any kick (body, leg, head). 4 points.',
+  
+  // Significant Strikes (SS) - Double points
+  'SS Jab': 'SIGNIFICANT: Clean, impactful jab that visibly affects opponent. 2 points.',
+  'SS Cross': 'SIGNIFICANT: Power cross that lands clean with visible impact. 6 points.',
+  'SS Hook': 'SIGNIFICANT: Hook that lands clean with visible effect. 6 points.',
+  'SS Uppercut': 'SIGNIFICANT: Clean uppercut with visible impact. 6 points.',
+  'SS Elbow': 'SIGNIFICANT: Clean elbow that cuts or staggers. 10 points.',
+  'SS Knee': 'SIGNIFICANT: Knee that lands clean with visible effect. 10 points.',
+  'SS Kick': 'SIGNIFICANT: Clean, impactful kick with visible damage. 8 points.',
+  
+  // Damage Events
+  'Rocked/Stunned': 'Fighter visibly hurt/wobbled but not knocked down. 60 points.',
+  'KD Flash': 'Quick knockdown - fighter touches canvas but recovers immediately. 100 points. IMPACT LOCK: Winner unless opponent leads by 50+ points.',
+  'KD Hard': 'Fighter goes down and needs time to recover. 150 points. IMPACT LOCK: Winner unless opponent leads by 110+ points.',
+  'KD Near-Finish': 'Fighter badly hurt - referee could have stopped it. 210 points. IMPACT LOCK: Winner unless opponent leads by 150+ points.',
+  
+  // Grappling
+  'Takedown': 'Successfully takes opponent to ground. 10 points.',
+  'Takedown Stuffed': 'Defends a takedown attempt. 5 points (diminishing after 3).',
+  'Ground Strike': 'Ground and pound strike. SOLID: 3 points, LIGHT: 1 point.',
+  
+  // Submissions
+  'Submission Attempt Light': 'Light submission attempt, no real danger. 12 points.',
+  'Submission Attempt Deep': 'Deep submission - opponent in danger. 28 points.',
+  'Submission Attempt Near-Finish': 'Almost finished - tap or stop was imminent. 60 points. IMPACT LOCK.',
+  
+  // Control
+  'Cage Control': 'Pressed against cage with control. 1 point per 10 seconds.',
+  'Top Control': 'Dominant position on ground. 3 points per 10 seconds.',
+  'Back Control': 'Back mount or back control. 5 points per 10 seconds.',
+};
 
 // Get button style based on category - clean, professional colors
 const getButtonStyle = (category, corner) => {
