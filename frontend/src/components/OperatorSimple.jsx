@@ -650,266 +650,349 @@ export default function OperatorSimple() {
       </div>
 
       {/* Event Buttons - Clean grid */}
-      <div className="p-3">
-        {/* Section: Strikes - Arranged in pairs: Jab/Cross, Hook/Uppercut, Kick/Knee, Elbow */}
-        {(deviceRole === 'RED_STRIKING' || deviceRole === 'BLUE_ALL') && (
-          <div className="mb-4">
-            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
-              Strikes
-            </div>
-            <div className="grid grid-cols-4 gap-2">
-              {/* Row 1: Jab, Hook, Kick, Elbow */}
+      <TooltipProvider delayDuration={300}>
+        <div className="p-3">
+          {/* SS Mode Toggle */}
+          {hasStriking && (
+            <div className="mb-3 flex items-center justify-between bg-slate-800 rounded-lg p-2">
+              <div className="flex items-center gap-2">
+                <Zap className="w-4 h-4 text-amber-400" />
+                <span className="text-slate-300 text-sm">Significant Strike Mode</span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="w-3 h-3 text-slate-500 cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>When ON, all strikes logged as Significant (SS) with 2x points. Use for clean, impactful strikes that visibly affect opponent.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
               <Button
-                data-testid="btn-jab"
-                onClick={() => logEvent('Jab')}
-                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                size="sm"
+                onClick={() => setSsMode(!ssMode)}
+                className={`${ssMode ? 'bg-amber-600 hover:bg-amber-500' : 'bg-slate-700 hover:bg-slate-600'} text-white text-xs px-3`}
               >
-                <div className="text-center">
-                  <div>Jab</div>
-                  <div className="text-[10px] text-slate-400">1</div>
-                </div>
-              </Button>
-              <Button
-                data-testid="btn-hook"
-                onClick={() => logEvent('Hook')}
-                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-              >
-                <div className="text-center">
-                  <div>Hook</div>
-                  <div className="text-[10px] text-slate-400">3</div>
-                </div>
-              </Button>
-              <Button
-                data-testid="btn-kick"
-                onClick={() => logEvent('Kick')}
-                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-              >
-                <div className="text-center">
-                  <div>Kick</div>
-                  <div className="text-[10px] text-slate-400">7</div>
-                </div>
-              </Button>
-              <Button
-                data-testid="btn-elbow"
-                onClick={() => logEvent('Elbow')}
-                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-              >
-                <div className="text-center">
-                  <div>Elbow</div>
-                  <div className="text-[10px] text-slate-400">5</div>
-                </div>
-              </Button>
-              
-              {/* Row 2: Cross, Uppercut, Knee */}
-              <Button
-                data-testid="btn-cross"
-                onClick={() => logEvent('Cross')}
-                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-              >
-                <div className="text-center">
-                  <div>Cross</div>
-                  <div className="text-[10px] text-slate-400">2</div>
-                </div>
-              </Button>
-              <Button
-                data-testid="btn-uppercut"
-                onClick={() => logEvent('Uppercut')}
-                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-              >
-                <div className="text-center">
-                  <div>Uppercut</div>
-                  <div className="text-[10px] text-slate-400">4</div>
-                </div>
-              </Button>
-              <Button
-                data-testid="btn-knee"
-                onClick={() => logEvent('Knee')}
-                className={`${getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-              >
-                <div className="text-center">
-                  <div>Knee</div>
-                  <div className="text-[10px] text-slate-400">6</div>
-                </div>
+                {ssMode ? 'SS ON' : 'SS OFF'} (`)
               </Button>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Section: Damage */}
-        {(deviceRole === 'RED_STRIKING' || deviceRole === 'BLUE_ALL') && (
-          <div className="mb-4">
-            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
-              Damage
-            </div>
-            <div className="grid grid-cols-4 gap-2">
-              <Button
-                data-testid="btn-rocked"
-                onClick={() => logEvent('Rocked/Stunned')}
-                className={`${getButtonStyle('damage', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-              >
-                <div className="text-center">
-                  <div>Rocked</div>
-                  <div className="text-[10px] text-amber-200">Q</div>
-                </div>
-              </Button>
-              {[
-                { tier: 'Flash', key: 'W' },
-                { tier: 'Hard', key: 'E' },
-                { tier: 'Near-Finish', key: 'R' }
-              ].map((kd) => (
-                <Button
-                  key={kd.tier}
-                  data-testid={`btn-kd-${kd.tier.toLowerCase()}`}
-                  onClick={() => logEvent('KD', kd.tier)}
-                  className={`${getButtonStyle('damage-kd', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-                >
-                  <div className="text-center">
-                    <div>KD {kd.tier}</div>
-                    <div className="text-[10px] text-red-200">{kd.key}</div>
-                  </div>
-                </Button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Section: Grappling */}
-        {(deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') && (
-          <div className="mb-4">
-            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
-              Grappling
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              <Button
-                data-testid="btn-td-landed"
-                onClick={() => logEvent('Takedown Landed')}
-                className={`${getButtonStyle('grappling', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-              >
-                <div className="text-center">
-                  <div>TD Landed</div>
-                  <div className="text-[10px] text-emerald-200">V</div>
-                </div>
-              </Button>
-              <Button
-                data-testid="btn-td-defended"
-                onClick={() => logEvent('Takedown Defended')}
-                className={`${getButtonStyle('grappling', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-              >
-                <div className="text-center">
-                  <div>TD Defended</div>
-                  <div className="text-[10px] text-emerald-200">B</div>
-                </div>
-              </Button>
-              {/* Ground Strike with quality indicator */}
-              <div className="flex flex-col gap-1">
-                <Button
-                  data-testid="btn-ground-strike"
-                  onClick={() => logEvent('Ground Strike', null, groundStrikeQuality)}
-                  className={`${groundStrikeQuality === 'SOLID' ? 'bg-red-600 hover:bg-red-500 border-red-500' : 'bg-red-400 hover:bg-red-300 border-red-400'} text-white font-semibold h-10 text-sm border transition-all active:scale-95`}
-                >
-                  <div className="text-center">
-                    <div>{groundStrikeQuality === 'SOLID' ? 'GnP Solid' : 'GnP Light'}</div>
-                    <div className="text-[10px] text-white/80">G</div>
-                  </div>
-                </Button>
-                <Button
-                  data-testid="btn-ground-strike-toggle"
-                  onClick={() => setGroundStrikeQuality(prev => prev === 'SOLID' ? 'LIGHT' : 'SOLID')}
-                  className={`${groundStrikeQuality === 'SOLID' ? 'bg-red-800 hover:bg-red-700' : 'bg-red-600 hover:bg-red-500'} text-white font-medium h-6 text-[10px] border-0 transition-all`}
-                >
-                  Switch to {groundStrikeQuality === 'SOLID' ? 'Light' : 'Solid'} (F)
-                </Button>
+          {/* Section: Strikes */}
+          {hasStriking && (
+            <div className="mb-4">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1 flex items-center gap-2">
+                {ssMode ? <span className="text-amber-400">Significant Strikes (2x pts)</span> : 'Strikes'}
+              </div>
+              <div className="grid grid-cols-4 gap-2">
+                {/* Row 1 */}
+                {[
+                  { type: 'Jab', key: '1', ssType: 'SS Jab' },
+                  { type: 'Hook', key: '3', ssType: 'SS Hook' },
+                  { type: 'Kick', key: '7', ssType: 'SS Kick' },
+                  { type: 'Elbow', key: '5', ssType: 'SS Elbow' },
+                ].map(strike => (
+                  <Tooltip key={strike.type}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        data-testid={`btn-${strike.type.toLowerCase()}`}
+                        onClick={() => logEvent(ssMode ? strike.ssType : strike.type)}
+                        className={`${ssMode ? getButtonStyle('ss', corner) : getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                      >
+                        <div className="text-center">
+                          <div>{ssMode ? `SS ${strike.type}` : strike.type}</div>
+                          <div className="text-[10px] text-slate-400">{strike.key}</div>
+                        </div>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{EVENT_TOOLTIPS[ssMode ? strike.ssType : strike.type]}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+                
+                {/* Row 2 */}
+                {[
+                  { type: 'Cross', key: '2', ssType: 'SS Cross' },
+                  { type: 'Uppercut', key: '4', ssType: 'SS Uppercut' },
+                  { type: 'Knee', key: '6', ssType: 'SS Knee' },
+                ].map(strike => (
+                  <Tooltip key={strike.type}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        data-testid={`btn-${strike.type.toLowerCase()}`}
+                        onClick={() => logEvent(ssMode ? strike.ssType : strike.type)}
+                        className={`${ssMode ? getButtonStyle('ss', corner) : getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                      >
+                        <div className="text-center">
+                          <div>{ssMode ? `SS ${strike.type}` : strike.type}</div>
+                          <div className="text-[10px] text-slate-400">{strike.key}</div>
+                        </div>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{EVENT_TOOLTIPS[ssMode ? strike.ssType : strike.type]}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Section: Control - With Timers */}
-        {(deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') && (
-          <div className="mb-4">
-            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1 flex items-center">
-              Control Time 
-              {activeControl && (
-                <span className="ml-2 flex items-center text-green-400">
-                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-1"></span>
-                  RECORDING {activeControl.toUpperCase()}
-                </span>
+          {/* Section: Damage */}
+          {hasStriking && (
+            <div className="mb-4">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+                Damage
+              </div>
+              <div className="grid grid-cols-4 gap-2">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      data-testid="btn-rocked"
+                      onClick={() => logEvent('Rocked')}
+                      className={`${getButtonStyle('damage', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                    >
+                      <div className="text-center">
+                        <div>Rocked</div>
+                        <div className="text-[10px] text-amber-200">Q</div>
+                      </div>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{EVENT_TOOLTIPS['Rocked/Stunned']}</p>
+                  </TooltipContent>
+                </Tooltip>
+                {[
+                  { tier: 'Flash', key: 'W', label: 'KD Flash' },
+                  { tier: 'Hard', key: 'E', label: 'KD Hard' },
+                  { tier: 'Near-Finish', key: 'R', label: 'KD NF' }
+                ].map((kd) => (
+                  <Tooltip key={kd.tier}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        data-testid={`btn-kd-${kd.tier.toLowerCase()}`}
+                        onClick={() => logEvent('KD', kd.tier)}
+                        className={`${getButtonStyle('damage-kd', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                      >
+                        <div className="text-center">
+                          <div>{kd.label}</div>
+                          <div className="text-[10px] text-red-200">{kd.key}</div>
+                        </div>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs">
+                      <p>{EVENT_TOOLTIPS[`KD ${kd.tier}`]}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Section: Grappling */}
+          {hasGrappling && (
+            <div className="mb-4">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+                Grappling
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      data-testid="btn-td"
+                      onClick={() => logEvent('Takedown')}
+                      className={`${getButtonStyle('grappling', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                    >
+                      <div className="text-center">
+                        <div>Takedown</div>
+                        <div className="text-[10px] text-emerald-200">V</div>
+                      </div>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{EVENT_TOOLTIPS['Takedown']}</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      data-testid="btn-td-stuffed"
+                      onClick={() => logEvent('Takedown Stuffed')}
+                      className={`${getButtonStyle('grappling', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                    >
+                      <div className="text-center">
+                        <div>TD Stuffed</div>
+                        <div className="text-[10px] text-emerald-200">B</div>
+                      </div>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{EVENT_TOOLTIPS['Takedown Stuffed']}</p>
+                  </TooltipContent>
+                </Tooltip>
+                {/* Ground Strike with quality indicator */}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="flex flex-col gap-1">
+                      <Button
+                        data-testid="btn-ground-strike"
+                        onClick={() => logEvent('Ground Strike', null, groundStrikeQuality)}
+                        className={`${groundStrikeQuality === 'SOLID' ? 'bg-red-600 hover:bg-red-500 border-red-500' : 'bg-red-400 hover:bg-red-300 border-red-400'} text-white font-semibold h-10 text-sm border transition-all active:scale-95`}
+                      >
+                        <div className="text-center">
+                          <div>{groundStrikeQuality === 'SOLID' ? 'GnP Solid' : 'GnP Light'}</div>
+                          <div className="text-[10px] text-white/80">G</div>
+                        </div>
+                      </Button>
+                      <Button
+                        data-testid="btn-ground-strike-toggle"
+                        onClick={() => setGroundStrikeQuality(prev => prev === 'SOLID' ? 'LIGHT' : 'SOLID')}
+                        className={`${groundStrikeQuality === 'SOLID' ? 'bg-red-800 hover:bg-red-700' : 'bg-red-600 hover:bg-red-500'} text-white font-medium h-6 text-[10px] border-0 transition-all`}
+                      >
+                        {groundStrikeQuality === 'SOLID' ? '→ Light' : '→ Solid'} (F)
+                      </Button>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{EVENT_TOOLTIPS['Ground Strike']}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </div>
+          )}
+
+          {/* Section: Control - With Timers and Buckets */}
+          {hasGrappling && (
+            <div className="mb-4">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1 flex items-center justify-between">
+                <div className="flex items-center">
+                  <Clock className="w-3 h-3 mr-1" />
+                  Control Time 
+                  {activeControl && (
+                    <span className="ml-2 flex items-center text-green-400">
+                      <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-1"></span>
+                      RECORDING
+                    </span>
+                  )}
+                </div>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => setShowControlBuckets(!showControlBuckets)}
+                  className="text-cyan-400 text-xs h-5 px-2"
+                >
+                  {showControlBuckets ? 'Hide' : 'Quick Add'}
+                </Button>
+              </div>
+              
+              {/* Control Timer Buttons */}
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { name: 'Back Control', key: 'Z', short: 'Back' },
+                  { name: 'Top Control', key: 'X', short: 'Top' },
+                  { name: 'Cage Control', key: 'C', short: 'Cage' }
+                ].map((control) => {
+                  const isActive = activeControl === control.name;
+                  const totalTime = controlTotals[control.name] + (isActive ? controlTime : 0);
+                  
+                  return (
+                    <Tooltip key={control.name}>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-${control.name.toLowerCase().replace(' ', '-')}`}
+                          onClick={() => handleControlToggle(control.name)}
+                          className={`${isActive ? getButtonStyle('control-active', corner) : getButtonStyle('control', corner)} text-white font-semibold h-16 text-sm border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className="text-xs">{control.short}</div>
+                            {isActive ? (
+                              <>
+                                <div className="text-lg font-bold text-green-200">{formatTime(totalTime)}</div>
+                                <div className="text-[8px] text-green-300">Tap to stop</div>
+                              </>
+                            ) : (
+                              <>
+                                {totalTime > 0 ? (
+                                  <div className="text-sm font-bold text-cyan-300">{formatTime(totalTime)}</div>
+                                ) : (
+                                  <div className="text-[10px] text-cyan-200 mt-1">{control.key}</div>
+                                )}
+                              </>
+                            )}
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{EVENT_TOOLTIPS[control.name]}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                })}
+              </div>
+              
+              {/* Control Bucket Quick Add (Hidden by default) */}
+              {showControlBuckets && (
+                <div className="mt-3 bg-slate-800/50 rounded-lg p-2">
+                  <div className="text-slate-400 text-xs mb-2 text-center">Quick add control time (no timer)</div>
+                  <div className="grid grid-cols-3 gap-2">
+                    {['Back', 'Top', 'Cage'].map(type => (
+                      <div key={type} className="space-y-1">
+                        <div className="text-center text-xs text-cyan-400">{type}</div>
+                        <div className="flex gap-1 justify-center">
+                          {[10, 20, 30].map(secs => (
+                            <Button
+                              key={secs}
+                              size="sm"
+                              onClick={() => logControlBucket(type, secs)}
+                              className={`${getButtonStyle('control-bucket', corner)} text-white text-xs h-7 px-2`}
+                            >
+                              +{secs}s
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { name: 'Back Control', key: 'Z' },
-                { name: 'Top Control', key: 'X' },
-                { name: 'Cage Control', key: 'C' }
-              ].map((control) => {
-                const isActive = activeControl === control.name;
-                const totalTime = controlTotals[control.name] + (isActive ? controlTime : 0);
-                
-                return (
-                  <Button
-                    key={control.name}
-                    data-testid={`btn-${control.name.toLowerCase().replace(' ', '-')}`}
-                    onClick={() => handleControlToggle(control.name)}
-                    className={`${isActive ? getButtonStyle('control-active', corner) : getButtonStyle('control', corner)} text-white font-semibold h-20 text-sm border transition-all active:scale-95`}
-                  >
-                    <div className="text-center">
-                      <div className="text-xs">{control.name}</div>
-                      {isActive ? (
-                        <>
-                          <div className="text-xl font-bold text-green-200">{formatTime(totalTime)}</div>
-                          <div className="text-[9px] text-green-300">Tap to stop</div>
-                        </>
-                      ) : (
-                        <>
-                          {totalTime > 0 ? (
-                            <div className="text-lg font-bold text-cyan-300">{formatTime(totalTime)}</div>
-                          ) : (
-                            <div className="text-[10px] text-cyan-200 mt-1">{control.key}</div>
-                          )}
-                          <div className="text-[9px] text-slate-400">{totalTime > 0 ? 'Tap to add more' : 'Tap to start'}</div>
-                        </>
-                      )}
-                    </div>
-                  </Button>
-                );
-              })}
-            </div>
-            {activeControl && (
-              <div className="mt-2 text-center text-sm text-green-400">
-                Tap the active button again to stop and log the control time
-              </div>
-            )}
-          </div>
-        )}
+          )}
 
-        {/* Section: Submissions */}
-        {(deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_ALL') && (
-          <div className="mb-4">
-            <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
-              Submissions
+          {/* Section: Submissions */}
+          {hasGrappling && (
+            <div className="mb-4">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+                Submissions
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { tier: 'Light', key: 'A', label: 'Sub Light' },
+                  { tier: 'Deep', key: 'S', label: 'Sub Deep' },
+                  { tier: 'Near-Finish', key: 'D', label: 'Sub NF' }
+                ].map((sub) => (
+                  <Tooltip key={sub.tier}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        data-testid={`btn-sub-${sub.tier.toLowerCase()}`}
+                        onClick={() => logEvent('Submission Attempt', sub.tier)}
+                        className={`${getButtonStyle('submission', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                      >
+                        <div className="text-center">
+                          <div>{sub.label}</div>
+                          <div className="text-[10px] text-purple-200">{sub.key}</div>
+                        </div>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{EVENT_TOOLTIPS[`Submission Attempt ${sub.tier}`]}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { tier: 'Standard', key: 'A', label: 'Sub Attempt' },
-                { tier: 'Deep', key: 'S', label: 'Sub Deep' },
-                { tier: 'Near-Finish', key: 'D', label: 'Sub Near-Finish' }
-              ].map((sub) => (
-                <Button
-                  key={sub.tier}
-                  data-testid={`btn-sub-${sub.tier.toLowerCase()}`}
-                  onClick={() => logEvent('Submission Attempt', sub.tier)}
-                  className={`${getButtonStyle('submission', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-                >
-                  <div className="text-center">
-                    <div>{sub.label}</div>
-                    <div className="text-[10px] text-purple-200">{sub.key}</div>
-                  </div>
-                </Button>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </TooltipProvider>
 
       {/* Last Event - Fixed at bottom */}
       <div className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-700 p-3">
