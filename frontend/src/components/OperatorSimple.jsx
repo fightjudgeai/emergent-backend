@@ -114,6 +114,8 @@ const getButtonStyle = (category, corner) => {
       return isRed 
         ? 'bg-slate-700 hover:bg-slate-600 border-slate-600' 
         : 'bg-slate-700 hover:bg-slate-600 border-slate-600';
+    case 'ss':
+      return 'bg-amber-700 hover:bg-amber-600 border-amber-500 ring-1 ring-amber-400/50';
     case 'damage':
       return 'bg-amber-600 hover:bg-amber-500 border-amber-500';
     case 'damage-kd':
@@ -126,6 +128,8 @@ const getButtonStyle = (category, corner) => {
       return 'bg-purple-700 hover:bg-purple-600 border-purple-600';
     case 'control-active':
       return 'bg-green-600 hover:bg-green-500 border-green-500 animate-pulse';
+    case 'control-bucket':
+      return 'bg-cyan-800 hover:bg-cyan-700 border-cyan-600';
     default:
       return 'bg-slate-700 hover:bg-slate-600 border-slate-600';
   }
