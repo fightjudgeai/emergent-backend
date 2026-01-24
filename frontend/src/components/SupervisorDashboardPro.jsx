@@ -1290,6 +1290,186 @@ export default function SupervisorDashboardPro() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Supervisor Event Manager Dialog */}
+      <Dialog open={showEventManager} onOpenChange={setShowEventManager}>
+        <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <Edit3 className="w-5 h-5 text-green-400" />
+              Supervisor Event Manager - Round {currentRound}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            {/* Corner Selector */}
+            <div className="flex gap-2 justify-center">
+              <Button 
+                onClick={() => setSelectedCorner('RED')}
+                className={`w-32 ${selectedCorner === 'RED' ? 'bg-red-600 hover:bg-red-700' : 'bg-gray-700 hover:bg-gray-600'}`}
+              >
+                {boutInfo.fighter1}
+              </Button>
+              <Button 
+                onClick={() => setSelectedCorner('BLUE')}
+                className={`w-32 ${selectedCorner === 'BLUE' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-700 hover:bg-gray-600'}`}
+              >
+                {boutInfo.fighter2}
+              </Button>
+            </div>
+            
+            <div className="text-center text-sm text-gray-400">
+              Adding events for: <span className={selectedCorner === 'RED' ? 'text-red-400' : 'text-blue-400'}>{selectedCorner}</span>
+            </div>
+
+            {/* Quick Add Event Buttons */}
+            <div className="space-y-4">
+              {/* Striking */}
+              <div>
+                <div className="text-gray-400 text-xs uppercase mb-2">Basic Strikes</div>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_EVENTS.striking.map((e) => (
+                    <Button 
+                      key={e.label}
+                      size="sm"
+                      onClick={() => handleSupervisorAddEvent(e.type, e.metadata || {})}
+                      className="bg-gray-700 hover:bg-gray-600"
+                    >
+                      <Plus className="w-3 h-3 mr-1" /> {e.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Significant Strikes */}
+              <div>
+                <div className="text-amber-400 text-xs uppercase mb-2">Significant Strikes (SS)</div>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_EVENTS.significant.map((e) => (
+                    <Button 
+                      key={e.label}
+                      size="sm"
+                      onClick={() => handleSupervisorAddEvent(e.type, e.metadata || {})}
+                      className="bg-amber-900/50 hover:bg-amber-800/50 text-amber-300"
+                    >
+                      <Plus className="w-3 h-3 mr-1" /> {e.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Damage */}
+              <div>
+                <div className="text-red-400 text-xs uppercase mb-2">Damage Events</div>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_EVENTS.damage.map((e) => (
+                    <Button 
+                      key={e.label}
+                      size="sm"
+                      onClick={() => handleSupervisorAddEvent(e.type, e.metadata || {})}
+                      className="bg-red-900/50 hover:bg-red-800/50 text-red-300"
+                    >
+                      <Plus className="w-3 h-3 mr-1" /> {e.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Grappling */}
+              <div>
+                <div className="text-purple-400 text-xs uppercase mb-2">Grappling</div>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_EVENTS.grappling.map((e) => (
+                    <Button 
+                      key={e.label}
+                      size="sm"
+                      onClick={() => handleSupervisorAddEvent(e.type, e.metadata || {})}
+                      className="bg-purple-900/50 hover:bg-purple-800/50 text-purple-300"
+                    >
+                      <Plus className="w-3 h-3 mr-1" /> {e.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Submissions */}
+              <div>
+                <div className="text-pink-400 text-xs uppercase mb-2">Submissions</div>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_EVENTS.submissions.map((e) => (
+                    <Button 
+                      key={e.label}
+                      size="sm"
+                      onClick={() => handleSupervisorAddEvent(e.type, e.metadata || {})}
+                      className="bg-pink-900/50 hover:bg-pink-800/50 text-pink-300"
+                    >
+                      <Plus className="w-3 h-3 mr-1" /> {e.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* Current Events for this Round */}
+            <div className="border-t border-gray-700 pt-4 mt-4">
+              <div className="text-gray-400 text-xs uppercase mb-3">Current Round {currentRound} Events (hover to delete)</div>
+              <div className="grid grid-cols-2 gap-4">
+                {/* Red Events */}
+                <div className="bg-red-950/30 rounded-lg p-3">
+                  <div className="text-red-400 font-semibold mb-2">{boutInfo.fighter1} ({redEvents.length})</div>
+                  <ScrollArea className="max-h-40">
+                    <div className="space-y-1">
+                      {redEvents.map((event, idx) => (
+                        <div key={idx} className="flex items-center justify-between bg-red-900/30 rounded px-2 py-1 group">
+                          <span className="text-sm text-gray-300">{event.event_type}</span>
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            onClick={() => handleDeleteEvent(event)}
+                            className="opacity-0 group-hover:opacity-100 h-5 w-5 p-0 text-red-400 hover:text-red-300"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      ))}
+                      {redEvents.length === 0 && <div className="text-gray-500 text-sm italic">No events</div>}
+                    </div>
+                  </ScrollArea>
+                </div>
+                
+                {/* Blue Events */}
+                <div className="bg-blue-950/30 rounded-lg p-3">
+                  <div className="text-blue-400 font-semibold mb-2">{boutInfo.fighter2} ({blueEvents.length})</div>
+                  <ScrollArea className="max-h-40">
+                    <div className="space-y-1">
+                      {blueEvents.map((event, idx) => (
+                        <div key={idx} className="flex items-center justify-between bg-blue-900/30 rounded px-2 py-1 group">
+                          <span className="text-sm text-gray-300">{event.event_type}</span>
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            onClick={() => handleDeleteEvent(event)}
+                            className="opacity-0 group-hover:opacity-100 h-5 w-5 p-0 text-blue-400 hover:text-blue-300"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      ))}
+                      {blueEvents.length === 0 && <div className="text-gray-500 text-sm italic">No events</div>}
+                    </div>
+                  </ScrollArea>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex justify-end mt-4">
+            <Button onClick={() => setShowEventManager(false)} className="bg-gray-700 hover:bg-gray-600">
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
