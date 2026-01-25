@@ -13,7 +13,7 @@ import os
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from scoring_engine_v2.engine_v3 import ImpactFirstScoringEngine, FighterRoundState
+from scoring_engine_v2.engine_v3 import ScoringEngineV3, FighterRoundState, score_round_v3
 
 
 class TestControlGapReset:
@@ -21,7 +21,7 @@ class TestControlGapReset:
     
     def setup_method(self):
         """Setup fresh engine for each test"""
-        self.engine = ImpactFirstScoringEngine()
+        self.engine = ScoringEngineV3()
     
     def test_continuous_control_no_gap_applies_diminishing(self):
         """
@@ -220,7 +220,7 @@ class TestControlDiminishingReturns:
     """Additional tests for diminishing returns calculation"""
     
     def setup_method(self):
-        self.engine = ImpactFirstScoringEngine()
+        self.engine = ScoringEngineV3()
     
     def test_exactly_60s_no_diminishing(self):
         """Test: Exactly 60s should NOT trigger diminishing (threshold is after 60s)"""
