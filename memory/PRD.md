@@ -273,9 +273,9 @@ Impact events can "lock" a round win even if opponent has more volume points.
 - **Kick Points**: Fixed - Changed from 4 to 3 points
 
 ### P1 - Remaining Tasks
-- Add more edge case tests for control scoring
-- Add tests for Rule 3 (control diminishing returns)
-- Add tests for Rule 4 (control without work)
+- ~~Add edge case tests for control scoring~~ ✅ DONE (2026-01-25)
+- Add tests for Rule 3 (control diminishing returns) ✅ DONE
+- Add tests for Rule 4 (control without work) ✅ DONE
 
 ### P2 - Firebase Migration
 - Remove Firebase dependencies from legacy components
