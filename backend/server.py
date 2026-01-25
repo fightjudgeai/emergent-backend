@@ -3087,6 +3087,12 @@ async def create_bout(bout: BoutCreate):
             "fighter2": bout.fighter2,
             "fighter1Photo": bout.fighter1_photo,
             "fighter2Photo": bout.fighter2_photo,
+            "fighter1_photo": bout.fighter1_photo,  # Also store snake_case for consistency
+            "fighter2_photo": bout.fighter2_photo,
+            "fighter1Record": bout.fighter1_record,
+            "fighter2Record": bout.fighter2_record,
+            "fighter1_record": bout.fighter1_record,  # Also store snake_case for consistency
+            "fighter2_record": bout.fighter2_record,
             "totalRounds": rounds,
             "currentRound": 1,
             "status": "in_progress",
