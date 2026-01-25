@@ -299,7 +299,7 @@ class TestRealTimeEventLogging:
                     "round_number": 1,
                     "corner": "RED",
                     "aspect": "STRIKING",
-                    "event_type": "Jab",  # Use Jab (1pt) for predictable scoring
+                    "event_type": "Jab",  # Jab = 1.5 pts each
                     "device_role": "RED_STRIKING"
                 })
             
@@ -309,7 +309,7 @@ class TestRealTimeEventLogging:
                 "round_number": 1
             })
             initial_score = response1.json()["red_total"]
-            assert initial_score == 3, f"Expected 3 pts (3 jabs). Got {initial_score}"
+            assert initial_score == 4.5, f"Expected 4.5 pts (3 jabs * 1.5). Got {initial_score}"
             
             # Delete one event
             delete_response = api_client.delete(
