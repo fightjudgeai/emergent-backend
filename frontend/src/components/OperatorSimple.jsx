@@ -655,31 +655,6 @@ export default function OperatorSimple() {
       {/* Event Buttons - Clean grid */}
       <TooltipProvider delayDuration={300}>
         <div className="p-3">
-          {/* SS Mode Toggle */}
-          {hasStriking && (
-            <div className="mb-3 flex items-center justify-between bg-slate-800 rounded-lg p-2">
-              <div className="flex items-center gap-2">
-                <Zap className="w-4 h-4 text-amber-400" />
-                <span className="text-slate-300 text-sm">Significant Strike Mode</span>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info className="w-3 h-3 text-slate-500 cursor-help" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>When ON, all strikes logged as Significant (SS) with 2x points. Use for clean, impactful strikes that visibly affect opponent.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-              <Button
-                size="sm"
-                onClick={() => setSsMode(!ssMode)}
-                className={`${ssMode ? 'bg-amber-600 hover:bg-amber-500' : 'bg-slate-700 hover:bg-slate-600'} text-white text-xs px-3`}
-              >
-                {ssMode ? 'SS ON' : 'SS OFF'} (`)
-              </Button>
-            </div>
-          )}
-
           {/* Section: Strikes - Each strike has main button + SS button */}
           {hasStriking && (
             <div className="mb-4">
