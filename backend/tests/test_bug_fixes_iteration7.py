@@ -150,6 +150,7 @@ class TestKickPointValue:
             "bout_id": bout_id,
             "round_number": 1,
             "corner": "RED",
+            "aspect": "STRIKING",
             "event_type": "Kick",
             "device_role": "TEST"
         }
@@ -201,6 +202,7 @@ class TestGnPButtons:
             "bout_id": bout_id,
             "round_number": 1,
             "corner": "RED",
+            "aspect": "GRAPPLING",
             "event_type": "Ground Strike",
             "device_role": "RED_GRAPPLING",
             "metadata": {"quality": "LIGHT"}
@@ -240,6 +242,7 @@ class TestGnPButtons:
             "bout_id": bout_id,
             "round_number": 1,
             "corner": "RED",
+            "aspect": "GRAPPLING",
             "event_type": "Ground Strike",
             "device_role": "RED_GRAPPLING",
             "metadata": {"quality": "SOLID"}
