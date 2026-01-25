@@ -66,22 +66,22 @@ const GRAPPLING_EVENTS = [
 // Tooltips for event types (shown on hover/long-press)
 const EVENT_TOOLTIPS = {
   // Basic Strikes
-  'Jab': 'Quick punch with lead hand. 1 point.',
+  'Jab': 'Quick punch with lead hand. 1.5 points.',
   'Cross': 'Straight punch with rear hand. 3 points.',
   'Hook': 'Curved punch to the side. 3 points.',
   'Uppercut': 'Upward punch to chin. 3 points.',
-  'Elbow': 'Elbow strike. 5 points.',
-  'Knee': 'Knee strike. 5 points.',
+  'Elbow': 'Elbow strike. 4 points.',
+  'Knee': 'Knee strike. 4 points.',
   'Kick': 'Any kick (body, leg, head). 4 points.',
   
-  // Significant Strikes (SS) - Double points
+  // Significant Strikes (SS)
   'SS Jab': 'SIGNIFICANT: Clean, impactful jab that visibly affects opponent. 2 points.',
-  'SS Cross': 'SIGNIFICANT: Power cross that lands clean with visible impact. 6 points.',
-  'SS Hook': 'SIGNIFICANT: Hook that lands clean with visible effect. 6 points.',
-  'SS Uppercut': 'SIGNIFICANT: Clean uppercut with visible impact. 6 points.',
-  'SS Elbow': 'SIGNIFICANT: Clean elbow that cuts or staggers. 10 points.',
-  'SS Knee': 'SIGNIFICANT: Knee that lands clean with visible effect. 10 points.',
-  'SS Kick': 'SIGNIFICANT: Clean, impactful kick with visible damage. 8 points.',
+  'SS Cross': 'SIGNIFICANT: Power cross that lands clean with visible impact. 4.5 points.',
+  'SS Hook': 'SIGNIFICANT: Hook that lands clean with visible effect. 4.5 points.',
+  'SS Uppercut': 'SIGNIFICANT: Clean uppercut with visible impact. 4.5 points.',
+  'SS Elbow': 'SIGNIFICANT: Clean elbow that cuts or staggers. 6 points.',
+  'SS Knee': 'SIGNIFICANT: Knee that lands clean with visible effect. 6 points.',
+  'SS Kick': 'SIGNIFICANT: Clean, impactful kick with visible damage. 6 points.',
   
   // Damage Events
   'Rocked/Stunned': 'Fighter visibly hurt/wobbled but not knocked down. 60 points.',
