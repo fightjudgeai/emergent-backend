@@ -1078,11 +1078,11 @@ export default function OperatorSimple() {
                       <Button
                         data-testid={`btn-sub-${sub.tier.toLowerCase()}`}
                         onClick={() => logEvent('Submission Attempt', sub.tier)}
-                        className={`${getButtonStyle('submission', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                        className={`${getButtonStyle('submission', corner)} text-white font-bold h-16 text-base border transition-all active:scale-95`}
                       >
                         <div className="text-center">
-                          <div>{sub.label}</div>
-                          <div className="text-[10px] text-purple-200">{sub.key}</div>
+                          <div className="text-lg">{sub.label}</div>
+                          <div className="text-[10px] text-purple-200 font-normal">{sub.key}</div>
                         </div>
                       </Button>
                     </TooltipTrigger>
