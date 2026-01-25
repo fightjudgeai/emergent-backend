@@ -873,7 +873,7 @@ export default function OperatorSimple() {
               <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
                 Grappling
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
@@ -908,16 +908,44 @@ export default function OperatorSimple() {
                     <p>{EVENT_TOOLTIPS['Takedown Stuffed']}</p>
                   </TooltipContent>
                 </Tooltip>
-                {/* Ground Strike with quality indicator */}
+                {/* Ground Strike - Solid and Light as separate buttons */}
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="flex flex-col gap-1">
-                      <Button
-                        data-testid="btn-ground-strike"
-                        onClick={() => logEvent('Ground Strike', null, groundStrikeQuality)}
-                        className={`${groundStrikeQuality === 'SOLID' ? 'bg-red-600 hover:bg-red-500 border-red-500' : 'bg-red-400 hover:bg-red-300 border-red-400'} text-white font-bold h-12 text-base border transition-all active:scale-95`}
-                      >
-                        <div className="text-center">
+                    <Button
+                      data-testid="btn-gnp-solid"
+                      onClick={() => logEvent('Ground Strike', null, 'SOLID')}
+                      className="bg-red-600 hover:bg-red-500 border-red-500 text-white font-bold h-16 text-base border transition-all active:scale-95"
+                    >
+                      <div className="text-center">
+                        <div className="text-lg">GnP Solid</div>
+                        <div className="text-[10px] text-red-200 font-normal">G</div>
+                      </div>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Ground strike with solid impact. 3 points.</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      data-testid="btn-gnp-light"
+                      onClick={() => logEvent('Ground Strike', null, 'LIGHT')}
+                      className="bg-red-400 hover:bg-red-300 border-red-400 text-white font-bold h-16 text-base border transition-all active:scale-95"
+                    >
+                      <div className="text-center">
+                        <div className="text-lg">GnP Light</div>
+                        <div className="text-[10px] text-red-200 font-normal">F</div>
+                      </div>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Light ground strike, glancing blow. 1 point.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </div>
+          )}
                           <div className="text-lg">{groundStrikeQuality === 'SOLID' ? 'GnP Solid' : 'GnP Light'}</div>
                           <div className="text-[10px] text-white/80 font-normal">G</div>
                         </div>
