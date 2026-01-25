@@ -256,17 +256,15 @@ export default function OperatorSimple() {
         else if (key === '5') { await logEvent(ssMode ? 'SS Elbow' : 'Elbow'); }
         else if (key === '6') { await logEvent(ssMode ? 'SS Knee' : 'Knee'); }
         else if (key === '7' || key.toLowerCase() === 't') { await logEvent(ssMode ? 'SS Kick' : 'Kick'); }
-        // Ground Strike - uses current quality setting (SOLID/LIGHT toggle)
+        // Ground Strike - G for Solid, F for Light
         else if (key.toLowerCase() === 'g') { 
           if (hasGrappling) {
-            await logEvent('Ground Strike', null, groundStrikeQuality); 
+            await logEvent('Ground Strike', null, 'SOLID'); 
           }
         }
-        // Toggle ground strike quality with 'F' key
         else if (key.toLowerCase() === 'f') {
           if (hasGrappling) {
-            setGroundStrikeQuality(prev => prev === 'SOLID' ? 'LIGHT' : 'SOLID');
-            toast.info(`Ground strike quality: ${groundStrikeQuality === 'SOLID' ? 'LIGHT' : 'SOLID'}`, { duration: 800 });
+            await logEvent('Ground Strike', null, 'LIGHT');
           }
         }
         // GRAPPLING
