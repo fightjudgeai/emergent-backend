@@ -23,7 +23,7 @@ SCORING_CONFIG = {
         "ss_hook": {"points": 4.5, "category": "striking", "label": "SS Hook", "is_ss": True},
         "uppercut": {"points": 3, "category": "striking", "label": "Uppercut", "is_ss": False},
         "ss_uppercut": {"points": 4.5, "category": "striking", "label": "SS Uppercut", "is_ss": True},
-        "kick": {"points": 4, "category": "striking", "label": "Kick", "is_ss": False},
+        "kick": {"points": 3, "category": "striking", "label": "Kick", "is_ss": False},
         "ss_kick": {"points": 6, "category": "striking", "label": "SS Kick", "is_ss": True},
         "elbow": {"points": 4, "category": "striking", "label": "Elbow", "is_ss": False},
         "ss_elbow": {"points": 6, "category": "striking", "label": "SS Elbow", "is_ss": True},

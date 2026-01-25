@@ -3119,7 +3119,41 @@ async def get_bout(bout_id: str):
         )
         if not bout:
             raise HTTPException(status_code=404, detail=f"Bout {bout_id} not found")
-        return bout
+        
+        # Normalize photo fields - ensure both snake_case and camelCase are available
+        # Frontend components use different conventions
+        normalized_bout = dict(bout)
+        
+        # Handle fighter1 photo - support both naming conventions
+        if 'fighter1Photo' in normalized_bout:
+            normalized_bout['fighter1_photo'] = normalized_bout.get('fighter1Photo', '')
+        elif 'fighter1_photo' in normalized_bout:
+            normalized_bout['fighter1Photo'] = normalized_bout.get('fighter1_photo', '')
+        else:
+            normalized_bout['fighter1_photo'] = ''
+            normalized_bout['fighter1Photo'] = ''
+        
+        # Handle fighter2 photo - support both naming conventions  
+        if 'fighter2Photo' in normalized_bout:
+            normalized_bout['fighter2_photo'] = normalized_bout.get('fighter2Photo', '')
+        elif 'fighter2_photo' in normalized_bout:
+            normalized_bout['fighter2Photo'] = normalized_bout.get('fighter2_photo', '')
+        else:
+            normalized_bout['fighter2_photo'] = ''
+            normalized_bout['fighter2Photo'] = ''
+        
+        # Similarly normalize record fields
+        if 'fighter1Record' in normalized_bout:
+            normalized_bout['fighter1_record'] = normalized_bout.get('fighter1Record', '')
+        elif 'fighter1_record' in normalized_bout:
+            normalized_bout['fighter1Record'] = normalized_bout.get('fighter1_record', '')
+        
+        if 'fighter2Record' in normalized_bout:
+            normalized_bout['fighter2_record'] = normalized_bout.get('fighter2Record', '')
+        elif 'fighter2_record' in normalized_bout:
+            normalized_bout['fighter2Record'] = normalized_bout.get('fighter2_record', '')
+            
+        return normalized_bout
     except HTTPException:
         raise
     except Exception as e:

@@ -132,6 +132,26 @@ const convertToLovableFormat = (boutInfo, roundResults, runningTotals, finalResu
 export default function SupervisorDashboardPro() {
   const { boutId: paramBoutId } = useParams();
   const [boutId, setBoutId] = useState(paramBoutId || '');
+  
+  // Sync boutId state when URL param changes (for next fight navigation)
+  useEffect(() => {
+    if (paramBoutId && paramBoutId !== boutId) {
+      setBoutId(paramBoutId);
+      // Reset state for new fight
+      setCurrentRound(1);
+      setAllEvents([]);
+      setRedEvents([]);
+      setBlueEvents([]);
+      setRoundResults([]);
+      setRunningTotals({ red: 0, blue: 0 });
+      setRedDelta(0);
+      setBlueDelta(0);
+      setNetDelta(0);
+      setShowFinalResult(false);
+      setFinalResult(null);
+      setNextFight(null);
+    }
+  }, [paramBoutId]);
   const [isConnected, setIsConnected] = useState(false);
   const [currentRound, setCurrentRound] = useState(1);
   const [totalRounds, setTotalRounds] = useState(5);

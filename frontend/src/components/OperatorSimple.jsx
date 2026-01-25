@@ -72,7 +72,7 @@ const EVENT_TOOLTIPS = {
   'Uppercut': 'Upward punch to chin. 3 points.',
   'Elbow': 'Elbow strike. 4 points.',
   'Knee': 'Knee strike. 4 points.',
-  'Kick': 'Any kick (body, leg, head). 4 points.',
+  'Kick': 'Any kick (body, leg, head). 3 points.',
   
   // Significant Strikes (SS)
   'SS Jab': 'SIGNIFICANT: Clean, impactful jab that visibly affects opponent. 2 points.',
