@@ -8,7 +8,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/timesync/now",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/timesync/now",
       "response": {
         "server_timestamp_ms": 1764138297365,
         "server_time_iso": "2025-11-26T06:24:57.365319+00:00",
@@ -21,7 +21,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/timesync/health",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/timesync/health",
       "response": {
         "status": "healthy",
         "service": "Time Sync + FightClock",
@@ -33,7 +33,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/timesync/clock/now",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/timesync/clock/now",
       "response": {
         "server_timestamp_ms": 1764138297448,
         "server_time_iso": "2025-11-26T06:24:57.448402+00:00",
@@ -54,7 +54,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/timesync/clock/start",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/timesync/clock/start",
       "response": {
         "elapsed_ms": 1,
         "elapsed_seconds": 0.0,
@@ -69,7 +69,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/timesync/clock/pause",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/timesync/clock/pause",
       "response": {
         "elapsed_ms": 42,
         "elapsed_seconds": 0.04,
@@ -84,7 +84,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/timesync/clock/reset",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/timesync/clock/reset",
       "response": {
         "elapsed_ms": 0,
         "elapsed_seconds": 0.0,
@@ -99,7 +99,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/timesync/clock/start",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/timesync/clock/start",
       "response": {
         "elapsed_ms": 0,
         "elapsed_seconds": 0.0,
@@ -114,7 +114,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/timesync/clock/now",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/timesync/clock/now",
       "response": {
         "server_timestamp_ms": 1764138297653,
         "server_time_iso": "2025-11-26T06:24:57.653776+00:00",
@@ -135,7 +135,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/timesync/clock/pause",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/timesync/clock/pause",
       "response": {
         "elapsed_ms": 81,
         "elapsed_seconds": 0.08,
@@ -150,7 +150,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/timesync/clock/start",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/timesync/clock/start",
       "response": {
         "elapsed_ms": 81,
         "elapsed_seconds": 0.08,
@@ -165,7 +165,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/timesync/clock/reset",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/timesync/clock/reset",
       "response": {
         "elapsed_ms": 0,
         "elapsed_seconds": 0.0,
@@ -180,7 +180,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calibration/get",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calibration/get",
       "response": {
         "kd_threshold": 0.75,
         "rocked_threshold": 0.65,
@@ -199,7 +199,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calibration/set?modified_by=test_user",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calibration/set?modified_by=test_user",
       "response": {
         "kd_threshold": 0.8,
         "rocked_threshold": 0.7,
@@ -218,7 +218,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calibration/reset",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calibration/reset",
       "response": {
         "kd_threshold": 0.75,
         "rocked_threshold": 0.65,
@@ -237,7 +237,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calibration/history?limit=10",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calibration/history?limit=10",
       "response": [
         {
           "timestamp": "2025-11-26T06:24:57.841483Z",
@@ -281,7 +281,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calibration/health",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calibration/health",
       "response": {
         "status": "healthy",
         "service": "Calibration API",
@@ -293,7 +293,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 422,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/validator/validate",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/validator/validate",
       "error": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"round_id\"],\"msg\":\"Field required\",\"input\":null,\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"},{\"type\":\"missing\",\"loc\":[\"query\",\"bout_id\"],\"msg\":\"Field"
     },
     {
@@ -301,7 +301,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/",
       "response": {
         "message": "Combat Sports Judging API"
       }
@@ -311,7 +311,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/status",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/status",
       "response": {
         "id": "5528e47a-fbe6-4741-ae02-30471af51462",
         "client_name": "test_client_062458",
@@ -323,7 +323,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/status",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/status",
       "response": [
         {
           "id": "05ea4451-e778-4d4b-831e-7fa6f0a4ead5",
@@ -442,7 +442,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calculate-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_123",
         "round_num": 1,
@@ -521,7 +521,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calculate-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_empty",
         "round_num": 1,
@@ -600,7 +600,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calculate-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_invalid",
         "round_num": 1,
@@ -679,7 +679,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calculate-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_counts",
         "round_num": 1,
@@ -756,7 +756,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calculate-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calculate-score",
       "response": {
         "bout_id": "test_bout_actual",
         "round_num": 1,
@@ -833,7 +833,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_001",
         "round_num": 1,
@@ -900,7 +900,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_002",
         "round_num": 1,
@@ -967,7 +967,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_003",
         "round_num": 1,
@@ -1035,7 +1035,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_004",
         "round_num": 1,
@@ -1102,7 +1102,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_005",
         "round_num": 1,
@@ -1169,7 +1169,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/calculate-score-v2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/calculate-score-v2",
       "response": {
         "bout_id": "test_control_timer_006",
         "round_num": 1,
@@ -1239,7 +1239,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/seed",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/seed",
       "response": {
         "success": true,
         "message": "Seeded 16 training rounds",
@@ -1251,7 +1251,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/rounds",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/rounds",
       "response": [
         {
           "id": "f7379ec8-7194-4593-beca-ffc812ddb036",
@@ -1500,7 +1500,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "95fdbd28-e62f-4c4c-ab46-78b89d539cca",
         "judgeId": "test-judge-1",
@@ -1520,7 +1520,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "33488870-0dd3-4762-a681-d7f87e843d70",
         "judgeId": "test-judge-1",
@@ -1540,7 +1540,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "10fbd60d-3db5-4e23-b853-a6356804e535",
         "judgeId": "test-judge-1",
@@ -1560,7 +1560,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "e4fd97d1-ea16-4df1-8959-75509ba83dbc",
         "judgeId": "test-judge-2",
@@ -1580,7 +1580,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "294a9ae5-0b8a-45e2-94a4-9ca0ec0ef3c4",
         "judgeId": "test-judge-2",
@@ -1600,7 +1600,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "7c1b03d9-2ae5-4981-bd6a-6dfb74d42aec",
         "judgeId": "test-judge-3",
@@ -1620,7 +1620,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "c0085251-9329-44d6-811d-59c6b4b7d861",
         "judgeId": "test-judge-3",
@@ -1640,7 +1640,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "95862b70-149b-4728-bc67-9c1670fc833f",
         "judgeId": "test-judge-3",
@@ -1660,7 +1660,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/submit-score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/submit-score",
       "response": {
         "id": "7986afbc-f4cd-4bae-9f93-d015fc42d6b2",
         "judgeId": "test-judge-3",
@@ -1680,7 +1680,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/training-library/judge-stats/test-judge-1",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/training-library/judge-stats/test-judge-1",
       "response": {
         "judgeId": "test-judge-1",
         "judgeName": "Alex Rodriguez",
@@ -1696,7 +1696,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/log",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "847ecfbb-9ee0-406c-9585-3702f2279955"
@@ -1707,7 +1707,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/log",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "4b42b65b-da8d-4d30-8e85-1b564e18e0a3"
@@ -1718,7 +1718,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/log",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/log",
       "response": {
         "success": true,
         "log_id": "8646593e-0a99-4d6e-b5bc-d532abf2bdc1"
@@ -1729,7 +1729,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/logs?judge_id=owner-001",
       "response": {
         "logs": [
           {
@@ -3688,7 +3688,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation",
       "response": {
         "logs": [
           {
@@ -5691,7 +5691,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&user_id=judge-001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&user_id=judge-001",
       "response": {
         "logs": [
           {
@@ -6085,7 +6085,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&resource_type=round_score",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&resource_type=round_score",
       "response": {
         "logs": [
           {
@@ -8088,7 +8088,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation&user_id=judge-001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/logs?judge_id=owner-001&action_type=score_calculation&user_id=judge-001",
       "response": {
         "logs": [
           {
@@ -8482,7 +8482,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/verify/847ecfbb-9ee0-406c-9585-3702f2279955?judge_id=owner-001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/verify/847ecfbb-9ee0-406c-9585-3702f2279955?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "a288d68081e22d8c5e2f44a02317be59847640a1bd091c8af7563b35335c3069",
@@ -8495,7 +8495,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/verify/4b42b65b-da8d-4d30-8e85-1b564e18e0a3?judge_id=owner-001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/verify/4b42b65b-da8d-4d30-8e85-1b564e18e0a3?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "1d536d2cdc3dc52e78764ecbf55d6b59fda94e6f4e6f2c9f8dd0a9fa27df27ad",
@@ -8508,7 +8508,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/verify/8646593e-0a99-4d6e-b5bc-d532abf2bdc1?judge_id=owner-001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/verify/8646593e-0a99-4d6e-b5bc-d532abf2bdc1?judge_id=owner-001",
       "response": {
         "valid": true,
         "signature": "74791ffd2de815de1f4b68e33c9b758bdd67ac1d694ab609b43f3ef55e347cbc",
@@ -8521,7 +8521,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/verify/non-existent-log-id?judge_id=owner-001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/verify/non-existent-log-id?judge_id=owner-001",
       "response": {
         "detail": "Audit log not found"
       }
@@ -8531,7 +8531,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/stats?judge_id=owner-001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/stats?judge_id=owner-001",
       "response": {
         "total_logs": 190,
         "by_action_type": [
@@ -8579,7 +8579,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/audit/export?judge_id=owner-001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/audit/export?judge_id=owner-001",
       "response": {
         "export_format": "json",
         "export_timestamp": "2025-11-26T06:24:59.639106+00:00",
@@ -12299,7 +12299,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/judges",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -12311,7 +12311,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/judges",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -12323,7 +12323,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/judges",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/judges",
       "response": {
         "success": true,
         "message": "Profile updated successfully",
@@ -12335,7 +12335,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/judges/JUDGE001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/judges/JUDGE001",
       "response": {
         "judgeId": "JUDGE001",
         "judgeName": "Sarah Mitchell",
@@ -12358,7 +12358,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/judges/JUDGE002",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/judges/JUDGE002",
       "response": {
         "judgeId": "JUDGE002",
         "judgeName": "Carlos Rodriguez",
@@ -12380,7 +12380,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/judges/owner-001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/judges/owner-001",
       "response": {
         "judgeId": "owner-001",
         "judgeName": "Owner Judge",
@@ -12401,7 +12401,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/judges/NON_EXISTENT",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/judges/NON_EXISTENT",
       "response": {
         "detail": "Judge profile not found"
       }
@@ -12411,7 +12411,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Jon Jones"
@@ -12422,7 +12422,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Daniel Cormier"
@@ -12433,7 +12433,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fighters/update-stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fighters/update-stats",
       "response": {
         "success": true,
         "message": "Updated stats for Amanda Nunes"
@@ -12444,7 +12444,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fighters/Jon%20Jones/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fighters/Jon%20Jones/stats",
       "error": "{\"detail\":\"Fighter not found\"}"
     },
     {
@@ -12452,7 +12452,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fighters/Daniel%20Cormier/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fighters/Daniel%20Cormier/stats",
       "error": "{\"detail\":\"Fighter not found\"}"
     },
     {
@@ -12460,7 +12460,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fighters/Amanda%20Nunes/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fighters/Amanda%20Nunes/stats",
       "error": "{\"detail\":\"Fighter not found\"}"
     },
     {
@@ -12468,7 +12468,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fighters/NonExistentFighter/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fighters/NonExistentFighter/stats",
       "response": {
         "detail": "Fighter not found"
       }
@@ -12478,7 +12478,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "e61974e1-e653-47be-86c7-99cf732aacc0"
@@ -12489,7 +12489,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "9a8cd12d-e18e-45e6-a6bf-4dc93ef29a3e"
@@ -12500,7 +12500,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "a47b15c6-419a-42d3-be40-14cdb036c5ba"
@@ -12511,7 +12511,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/create-flag",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/create-flag",
       "response": {
         "success": true,
         "flag_id": "f6b0391d-514b-4eaa-aa4f-8e478d8b5524"
@@ -12522,7 +12522,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/flags",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/flags",
       "response": {
         "flags": [
           {
@@ -14324,7 +14324,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/flags?status=pending",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/flags?status=pending",
       "response": {
         "flags": [
           {
@@ -16126,7 +16126,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/flags?severity=high",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/flags?severity=high",
       "response": {
         "flags": [
           {
@@ -16781,7 +16781,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/flags?flag_type=boundary_case",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/flags?flag_type=boundary_case",
       "response": {
         "flags": [
           {
@@ -17081,7 +17081,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/flags/UFC_299_001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/flags/UFC_299_001",
       "response": {
         "flags": [
           {
@@ -17381,7 +17381,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "0fd23d87-2da2-4ace-b297-2a79a3c9c2c8",
@@ -17426,7 +17426,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "7a3a7d1c-42f7-4dec-a95d-8b980b1fc0b3",
@@ -17471,7 +17471,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/create",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/create",
       "response": {
         "success": true,
         "profile_id": "425e21fe-9705-4e45-9643-89c6f6553874",
@@ -17516,7 +17516,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles",
       "response": {
         "profiles": [
           {
@@ -18718,7 +18718,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/0fd23d87-2da2-4ace-b297-2a79a3c9c2c8",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/0fd23d87-2da2-4ace-b297-2a79a3c9c2c8",
       "response": {
         "id": "0fd23d87-2da2-4ace-b297-2a79a3c9c2c8",
         "name": "UFC Standard",
@@ -18759,7 +18759,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/7a3a7d1c-42f7-4dec-a95d-8b980b1fc0b3",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/7a3a7d1c-42f7-4dec-a95d-8b980b1fc0b3",
       "response": {
         "id": "7a3a7d1c-42f7-4dec-a95d-8b980b1fc0b3",
         "name": "Bellator Aggressive",
@@ -18800,7 +18800,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/425e21fe-9705-4e45-9643-89c6f6553874",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/425e21fe-9705-4e45-9643-89c6f6553874",
       "response": {
         "id": "425e21fe-9705-4e45-9643-89c6f6553874",
         "name": "ONE Championship",
@@ -18841,7 +18841,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -18851,7 +18851,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/0fd23d87-2da2-4ace-b297-2a79a3c9c2c8",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/0fd23d87-2da2-4ace-b297-2a79a3c9c2c8",
       "response": {
         "id": "0fd23d87-2da2-4ace-b297-2a79a3c9c2c8",
         "name": "UFC Standard v2.0",
@@ -18892,7 +18892,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -18902,7 +18902,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/425e21fe-9705-4e45-9643-89c6f6553874",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/425e21fe-9705-4e45-9643-89c6f6553874",
       "response": {
         "success": true,
         "message": "Profile deleted"
@@ -18913,7 +18913,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/425e21fe-9705-4e45-9643-89c6f6553874",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/425e21fe-9705-4e45-9643-89c6f6553874",
       "response": {
         "detail": "Profile not found"
       }
@@ -18923,7 +18923,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/tuning-profiles/non-existent-id",
       "response": {
         "detail": "Profile not found"
       }
@@ -18933,7 +18933,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "0d0f45f2-535f-4dcc-bfd6-f2c6a8a71610",
         "bout_id": "test-bout-1764138300",
@@ -18952,7 +18952,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "51f5cbcc-eade-468d-8a10-f873c297392f",
         "bout_id": "test-bout-1764138300",
@@ -18969,7 +18969,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "3c445726-a5cd-4bf9-9ec4-cc45b102da03",
         "bout_id": "test-bout-1764138300",
@@ -18986,7 +18986,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes/test-bout-1764138300/1",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes/test-bout-1764138300/1",
       "response": {
         "notes": [
           {
@@ -19020,7 +19020,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes/test-bout-1764138300/1?judge_id=JUDGE001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes/test-bout-1764138300/1?judge_id=JUDGE001",
       "response": {
         "notes": [
           {
@@ -19044,7 +19044,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes/test-bout-1764138300",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes/test-bout-1764138300",
       "response": {
         "notes": [
           {
@@ -19126,7 +19126,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes/test-bout-1764138300?judge_id=JUDGE002",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes/test-bout-1764138300?judge_id=JUDGE002",
       "response": {
         "notes": [
           {
@@ -19162,7 +19162,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "2c38d648-2fc9-42a5-bc53-092212076ce1",
         "bout_id": "test-bout-update-1764138301",
@@ -19179,7 +19179,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes/2c38d648-2fc9-42a5-bc53-092212076ce1",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes/2c38d648-2fc9-42a5-bc53-092212076ce1",
       "response": {
         "success": true,
         "message": "Note updated successfully"
@@ -19190,7 +19190,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes/test-bout-update-1764138301/1",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes/test-bout-update-1764138301/1",
       "response": {
         "notes": [
           {
@@ -19213,7 +19213,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes",
       "response": {
         "id": "548dec21-b5ef-40c1-86f6-2ce2592b950c",
         "bout_id": "test-bout-delete-1764138301",
@@ -19230,7 +19230,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes/548dec21-b5ef-40c1-86f6-2ce2592b950c",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes/548dec21-b5ef-40c1-86f6-2ce2592b950c",
       "response": {
         "success": true,
         "message": "Note deleted successfully"
@@ -19241,7 +19241,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes/test-bout-delete-1764138301/1",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes/test-bout-delete-1764138301/1",
       "response": {
         "notes": [],
         "count": 0
@@ -19252,7 +19252,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes/fake-note-id-999",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes/fake-note-id-999",
       "response": {
         "detail": "Note not found"
       }
@@ -19262,7 +19262,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes/fake-note-id-999",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes/fake-note-id-999",
       "response": {
         "detail": "Note not found"
       }
@@ -19272,7 +19272,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/round-notes/non-existent-bout/1",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/round-notes/non-existent-bout/1",
       "response": {
         "notes": [],
         "count": 0
@@ -19283,7 +19283,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/supervisor/dashboard/test-bout-supervisor-123",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/supervisor/dashboard/test-bout-supervisor-123",
       "response": {
         "bout_id": "test-bout-supervisor-123",
         "judge_scores": [],
@@ -19299,7 +19299,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/variance/detect/test-bout-variance-123/1",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/variance/detect/test-bout-variance-123/1",
       "response": {
         "bout_id": "test-bout-variance-123",
         "round_num": 1,
@@ -19313,7 +19313,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/variance/detect/test-bout-variance-456/1",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/variance/detect/test-bout-variance-456/1",
       "response": {
         "bout_id": "test-bout-variance-456",
         "round_num": 1,
@@ -19327,7 +19327,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/branding/promotion",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/branding/promotion",
       "response": {
         "id": "6718f764-ba74-4d07-94f3-aa43810b9131",
         "promotion_name": "UFC",
@@ -19345,7 +19345,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/branding/promotion/UFC",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/branding/promotion/UFC",
       "response": {
         "id": "6718f764-ba74-4d07-94f3-aa43810b9131",
         "promotion_name": "UFC",
@@ -19364,7 +19364,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/branding/promotion/Bellator",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/branding/promotion/Bellator",
       "response": {
         "promotion_name": "Bellator",
         "logo_url": null,
@@ -19380,7 +19380,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/branding/promotion",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/branding/promotion",
       "response": {
         "id": "24728572-72a1-41df-8c26-dc71ad422ac9",
         "promotion_name": "UFC",
@@ -19398,7 +19398,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -19414,7 +19414,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/broadcast/buffer/test-bout-buffer-123",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/broadcast/buffer/test-bout-buffer-123",
       "response": {
         "bout_id": "test-bout-buffer-123",
         "delay_seconds": 10,
@@ -19428,7 +19428,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -19444,7 +19444,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -19460,7 +19460,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/broadcast/buffer/config",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/broadcast/buffer/config",
       "response": {
         "success": true,
         "config": {
@@ -19476,7 +19476,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/broadcast/buffer/non-existent-bout-999",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/broadcast/buffer/non-existent-bout-999",
       "response": {
         "bout_id": "non-existent-bout-999",
         "delay_seconds": 5,
@@ -19490,7 +19490,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/icvss/health",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/icvss/health",
       "response": {
         "status": "healthy",
         "service": "ICVSS",
@@ -19503,7 +19503,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/icvss/system/status",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/icvss/system/status",
       "response": {
         "status": "healthy",
         "timestamp": "2025-11-26T06:25:02.178148+00:00",
@@ -19532,7 +19532,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/icvss/round/open?bout_id=TEST_BOUT_1&round_num=1",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/icvss/round/open?bout_id=TEST_BOUT_1&round_num=1",
       "response": {
         "round_id": "faa1121f-3fef-4596-9080-661b05540dad",
         "bout_id": "TEST_BOUT_1",
@@ -19556,7 +19556,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/icvss/round/event?round_id=bettingdata",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/icvss/round/event?round_id=bettingdata",
       "response": {
         "success": true,
         "message": "Event accepted"
@@ -19567,7 +19567,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/icvss/round/event?round_id=bettingdata",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/icvss/round/event?round_id=bettingdata",
       "response": {
         "success": true,
         "message": "Event accepted"
@@ -19578,7 +19578,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/icvss/round/event?round_id=bettingdata",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/icvss/round/event?round_id=bettingdata",
       "response": {
         "success": true,
         "message": "Event accepted"
@@ -19589,7 +19589,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/icvss/round/score/faa1121f-3fef-4596-9080-661b05540dad",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/icvss/round/score/faa1121f-3fef-4596-9080-661b05540dad",
       "response": {
         "bout_id": "TEST_BOUT_1",
         "round_id": "faa1121f-3fef-4596-9080-661b05540dad",
@@ -19626,7 +19626,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 500,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/icvss/round/lock/faa1121f-3fef-4596-9080-661b05540dad",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/icvss/round/lock/faa1121f-3fef-4596-9080-661b05540dad",
       "error": "{\"detail\":\"Object of type datetime is not JSON serializable\"}"
     },
     {
@@ -19634,7 +19634,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/health",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/health",
       "response": {
         "status": "healthy",
         "service": "Heartbeat Monitor",
@@ -19646,7 +19646,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "99569b69-0519-417f-8c3e-82d0f9b46634",
         "service_name": "CV Router",
@@ -19666,7 +19666,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "69425f9c-28b5-451d-b6a6-412cf9dda581",
         "service_name": "CV Router",
@@ -19686,7 +19686,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "e2ee5e3e-018e-4cec-a24b-23b841a925a7",
         "service_name": "CV Router",
@@ -19706,7 +19706,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "b6bdb663-dd97-4e36-8526-3f93ef9a46e7",
         "service_name": "CV Analytics",
@@ -19726,7 +19726,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "a2d57f79-28fc-47c9-8b44-364579489e4c",
         "service_name": "CV Analytics",
@@ -19746,7 +19746,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "1adcb581-b499-4383-9aa9-0ce0e4d46107",
         "service_name": "CV Analytics",
@@ -19766,7 +19766,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "3a1d6ba4-bdf2-4c46-8c16-3b3ac75c650b",
         "service_name": "Scoring Engine",
@@ -19786,7 +19786,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "3f31b722-d154-49a5-9772-d1c57200978f",
         "service_name": "Scoring Engine",
@@ -19806,7 +19806,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "84a92687-b517-4ecb-869d-8133348df52e",
         "service_name": "Scoring Engine",
@@ -19826,7 +19826,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "c474c8ba-0bf4-4674-916a-47b71f528d9d",
         "service_name": "Replay Worker",
@@ -19846,7 +19846,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "724ce064-74d3-49d9-b2fd-90b08c68c16a",
         "service_name": "Replay Worker",
@@ -19866,7 +19866,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "52654470-13bf-40d8-9746-eec46e08838d",
         "service_name": "Replay Worker",
@@ -19886,7 +19886,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "1b8d59c5-7069-4a67-b070-8966e8f38d4f",
         "service_name": "Highlight Worker",
@@ -19906,7 +19906,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "a843e29c-e788-4ff6-b9f7-fa9581aad695",
         "service_name": "Highlight Worker",
@@ -19926,7 +19926,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "b82f3605-3408-4f38-95a0-b9982bc07d9d",
         "service_name": "Highlight Worker",
@@ -19946,7 +19946,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "37af222a-32f7-425f-af22-ba8fce470ff2",
         "service_name": "Storage Manager",
@@ -19966,7 +19966,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "f456c723-8da4-42de-8a75-1b7b38243a96",
         "service_name": "Storage Manager",
@@ -19986,7 +19986,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "2a520889-2759-4809-ae9e-d379e1c4e113",
         "service_name": "Storage Manager",
@@ -20006,7 +20006,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "d07dcd5b-4d15-4b21-bd75-de5832886c9f",
         "service_name": "Supervisor Console",
@@ -20026,7 +20026,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "7406946d-fb52-4fe1-98f6-c7cf1cfc074b",
         "service_name": "Supervisor Console",
@@ -20046,7 +20046,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "895cd4d4-8cf3-4bd7-9c3c-902a844e1efd",
         "service_name": "Supervisor Console",
@@ -20066,7 +20066,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -20090,7 +20090,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -20114,7 +20114,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -20138,7 +20138,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -20162,7 +20162,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -20186,7 +20186,7 @@
       "success": true,
       "expected_status": 422,
       "actual_status": 422,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "detail": [
           {
@@ -20210,7 +20210,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/summary",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/summary",
       "response": {
         "total_services": 7,
         "healthy_services": 0,
@@ -20318,7 +20318,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/CV Router",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/CV Router",
       "response": [
         {
           "id": "e2ee5e3e-018e-4cec-a24b-23b841a925a7",
@@ -20464,7 +20464,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/CV Router?limit=2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/CV Router?limit=2",
       "response": [
         {
           "id": "e2ee5e3e-018e-4cec-a24b-23b841a925a7",
@@ -20499,7 +20499,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/CV Analytics",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/CV Analytics",
       "response": [
         {
           "id": "1adcb581-b499-4383-9aa9-0ce0e4d46107",
@@ -20625,7 +20625,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/CV Analytics?limit=2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/CV Analytics?limit=2",
       "response": [
         {
           "id": "1adcb581-b499-4383-9aa9-0ce0e4d46107",
@@ -20660,7 +20660,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/Scoring Engine",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/Scoring Engine",
       "response": [
         {
           "id": "84a92687-b517-4ecb-869d-8133348df52e",
@@ -20842,7 +20842,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/Scoring Engine?limit=2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/Scoring Engine?limit=2",
       "response": [
         {
           "id": "84a92687-b517-4ecb-869d-8133348df52e",
@@ -20877,7 +20877,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/Replay Worker",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/Replay Worker",
       "response": [
         {
           "id": "52654470-13bf-40d8-9746-eec46e08838d",
@@ -21003,7 +21003,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/Replay Worker?limit=2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/Replay Worker?limit=2",
       "response": [
         {
           "id": "52654470-13bf-40d8-9746-eec46e08838d",
@@ -21038,7 +21038,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/Highlight Worker",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/Highlight Worker",
       "response": [
         {
           "id": "b82f3605-3408-4f38-95a0-b9982bc07d9d",
@@ -21164,7 +21164,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/Highlight Worker?limit=2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/Highlight Worker?limit=2",
       "response": [
         {
           "id": "b82f3605-3408-4f38-95a0-b9982bc07d9d",
@@ -21199,7 +21199,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/Storage Manager",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/Storage Manager",
       "response": [
         {
           "id": "2a520889-2759-4809-ae9e-d379e1c4e113",
@@ -21325,7 +21325,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/Storage Manager?limit=2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/Storage Manager?limit=2",
       "response": [
         {
           "id": "2a520889-2759-4809-ae9e-d379e1c4e113",
@@ -21360,7 +21360,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/Supervisor Console",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/Supervisor Console",
       "response": [
         {
           "id": "895cd4d4-8cf3-4bd7-9c3c-902a844e1efd",
@@ -21486,7 +21486,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/history/Supervisor Console?limit=2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/history/Supervisor Console?limit=2",
       "response": [
         {
           "id": "895cd4d4-8cf3-4bd7-9c3c-902a844e1efd",
@@ -21521,7 +21521,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "d73d43d2-fb4f-4171-8cc6-9ba6d06dc480",
         "service_name": "CV Router",
@@ -21538,7 +21538,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/summary",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/summary",
       "response": {
         "total_services": 7,
         "healthy_services": 1,
@@ -21643,7 +21643,7 @@
       "success": true,
       "expected_status": 201,
       "actual_status": 201,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat",
       "response": {
         "id": "0515eacc-aaa7-4e02-ba90-6abf56151361",
         "service_name": "Scoring Engine",
@@ -21678,7 +21678,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/heartbeat/summary",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/heartbeat/summary",
       "response": {
         "total_services": 7,
         "healthy_services": 1,
@@ -21798,7 +21798,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/health",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/health",
       "response": {
         "service": "Real-Time CV",
         "version": "1.0.0",
@@ -21812,7 +21812,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/cv-data/health",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/cv-data/health",
       "response": {
         "service": "CV Data Collection",
         "version": "1.0.0",
@@ -21824,7 +21824,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/models",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/models",
       "response": {
         "models": [
           {
@@ -21867,7 +21867,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/streams/start",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/streams/start",
       "response": {
         "stream_id": "89e952b9-52da-408b-854a-1238848ad52d",
         "bout_id": "cv_test_001",
@@ -21887,7 +21887,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/streams/active",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/streams/active",
       "response": {
         "active_streams": [
           {
@@ -21908,7 +21908,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/streams/stop/89e952b9-52da-408b-854a-1238848ad52d",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/streams/stop/89e952b9-52da-408b-854a-1238848ad52d",
       "response": {
         "stream_id": "89e952b9-52da-408b-854a-1238848ad52d",
         "status": "stopped",
@@ -21920,7 +21920,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/streams/stop/nonexistent_stream_123",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/streams/stop/nonexistent_stream_123",
       "response": {
         "detail": "Stream not found"
       }
@@ -21930,7 +21930,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/frames/analyze",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/frames/analyze",
       "response": {
         "frame_id": "ea697fd3-5c6b-45b9-bfe7-a97e90e7933e",
         "bout_id": "cv_test_002",
@@ -21955,7 +21955,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/simulate/frame?bout_id=cv_test_003&camera_id=main&frame_count=10",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/simulate/frame?bout_id=cv_test_003&camera_id=main&frame_count=10",
       "response": {
         "bout_id": "cv_test_003",
         "frames_analyzed": 10,
@@ -22011,7 +22011,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/simulate/frame?bout_id=cv_test_004&frame_count=15",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/simulate/frame?bout_id=cv_test_004&frame_count=15",
       "response": {
         "bout_id": "cv_test_004",
         "frames_analyzed": 15,
@@ -22085,7 +22085,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/detections/cv_test_004",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/detections/cv_test_004",
       "response": {
         "bout_id": "cv_test_004",
         "detections": [
@@ -22198,7 +22198,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/detections/cv_test_004?limit=5",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/detections/cv_test_004?limit=5",
       "response": {
         "bout_id": "cv_test_004",
         "detections": [
@@ -22261,7 +22261,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/stats/cv_test_004",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/stats/cv_test_004",
       "response": {
         "bout_id": "cv_test_004",
         "total_detections": 10,
@@ -22280,7 +22280,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/cv-data/datasets",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/cv-data/datasets",
       "response": {
         "datasets": [
           {
@@ -22361,7 +22361,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/cv-data/datasets/github_combat_dataset_1",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/cv-data/datasets/github_combat_dataset_1",
       "response": {
         "source_id": "github_combat_dataset_1",
         "source_type": "github",
@@ -22387,7 +22387,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/cv-data/datasets/nonexistent_dataset_xyz",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/cv-data/datasets/nonexistent_dataset_xyz",
       "response": {
         "detail": "Dataset not found"
       }
@@ -22397,7 +22397,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/cv-data/datasets/github_combat_dataset_1/download",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/cv-data/datasets/github_combat_dataset_1/download",
       "response": {
         "source_id": "github_combat_dataset_1",
         "success": true,
@@ -22409,7 +22409,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/cv-data/datasets/github_combat_dataset_1/process",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/cv-data/datasets/github_combat_dataset_1/process",
       "response": {
         "success": true,
         "stats": {
@@ -22441,7 +22441,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/cv-data/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/cv-data/stats",
       "response": {
         "total_datasets": 5,
         "downloaded": 1,
@@ -22472,7 +22472,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/streams/start",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/streams/start",
       "response": {
         "stream_id": "01a07a13-e3e6-4907-ad5b-bac7de54c821",
         "bout_id": "cv_integration_test_001",
@@ -22492,7 +22492,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/simulate/frame?bout_id=cv_integration_test_001&frame_count=20",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/simulate/frame?bout_id=cv_integration_test_001&frame_count=20",
       "response": {
         "bout_id": "cv_integration_test_001",
         "frames_analyzed": 20,
@@ -22596,7 +22596,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/detections/cv_integration_test_001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/detections/cv_integration_test_001",
       "response": {
         "bout_id": "cv_integration_test_001",
         "detections": [
@@ -22759,7 +22759,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/stats/cv_integration_test_001",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/stats/cv_integration_test_001",
       "response": {
         "bout_id": "cv_integration_test_001",
         "total_detections": 15,
@@ -22779,7 +22779,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/realtime-cv/streams/stop/01a07a13-e3e6-4907-ad5b-bac7de54c821",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/realtime-cv/streams/stop/01a07a13-e3e6-4907-ad5b-bac7de54c821",
       "response": {
         "stream_id": "01a07a13-e3e6-4907-ad5b-bac7de54c821",
         "status": "stopped",
@@ -22791,7 +22791,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/events",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/events",
       "response": {
         "events": [],
         "count": 0
@@ -22802,7 +22802,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fights/non-existent-fight/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fights/non-existent-fight/stats",
       "response": {
         "detail": "Fight not found"
       }
@@ -22815,7 +22815,7 @@
         404
       ],
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fights/test_fight_123/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fights/test_fight_123/stats",
       "response": {
         "detail": "Fight not found"
       }
@@ -22825,7 +22825,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fighters/non-existent-fighter/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fighters/non-existent-fighter/stats",
       "response": {
         "detail": "Fighter not found"
       }
@@ -22838,7 +22838,7 @@
         404
       ],
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fighters/test_fighter_123/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fighters/test_fighter_123/stats",
       "response": {
         "detail": "Fighter not found"
       }
@@ -22848,7 +22848,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/events",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/events",
       "response": {
         "events": [],
         "count": 0
@@ -22859,7 +22859,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fights/test-fallback-123/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fights/test-fallback-123/stats",
       "response": {
         "detail": "Fight not found"
       }
@@ -22869,7 +22869,7 @@
       "success": true,
       "expected_status": 404,
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fighters/test-no-stats/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fighters/test-no-stats/stats",
       "response": {
         "detail": "Fighter not found"
       }
@@ -22879,7 +22879,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/events",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/events",
       "response": {
         "events": [],
         "count": 0
@@ -22893,7 +22893,7 @@
         404
       ],
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fights/test-timing/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fights/test-timing/stats",
       "response": {
         "detail": "Fight not found"
       }
@@ -22906,7 +22906,7 @@
         404
       ],
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/fighters/test-timing/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/fighters/test-timing/stats",
       "response": {
         "detail": "Fighter not found"
       }
@@ -22916,7 +22916,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/events",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/events",
       "response": {
         "events": [],
         "count": 0
@@ -22927,7 +22927,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/scraper/health",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/scraper/health",
       "response": {
         "service": "Tapology Scraper",
         "version": "1.0.0",
@@ -22941,7 +22941,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/scraper/status",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/scraper/status",
       "response": {
         "is_running": false,
         "current_operation": null,
@@ -22972,7 +22972,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/scraper/events/recent?limit=2",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/scraper/events/recent?limit=2",
       "response": {
         "status": "started",
         "operation": "scrape_recent_events",
@@ -22985,7 +22985,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/scraper/status",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/scraper/status",
       "response": {
         "is_running": false,
         "current_operation": null,
@@ -23024,7 +23024,7 @@
         404
       ],
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/scraper/fighter/Conor McGregor",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/scraper/fighter/Conor McGregor",
       "response": {
         "status": "success",
         "fighter": {
@@ -23041,7 +23041,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/scraper/fighters/search?query=mcgregor&limit=5",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/scraper/fighters/search?query=mcgregor&limit=5",
       "response": {
         "query": "mcgregor",
         "count": 0,
@@ -23056,7 +23056,7 @@
         500
       ],
       "actual_status": 404,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/scraper/fighter/nonexistentfighter999999",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/scraper/fighter/nonexistentfighter999999",
       "response": {
         "detail": "Fighter 'nonexistentfighter999999' not found on Tapology"
       }
@@ -23066,7 +23066,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/scraper/fighters/search?query=zzzzz&limit=5",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/scraper/fighters/search?query=zzzzz&limit=5",
       "response": {
         "query": "zzzzz",
         "count": 0,
@@ -23078,7 +23078,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/scraper/status",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/scraper/status",
       "response": {
         "is_running": false,
         "current_operation": null,
@@ -23114,7 +23114,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/ai-merge/health",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/ai-merge/health",
       "response": {
         "service": "AI Merge Engine",
         "version": "1.0.0",
@@ -23127,7 +23127,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 500,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/ai-merge/submit-batch",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/ai-merge/submit-batch",
       "error": "Internal Server Error"
     },
     {
@@ -23135,7 +23135,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/ai-merge/submit-batch",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/ai-merge/submit-batch",
       "response": {
         "status": "success",
         "fight_id": "test_fight_ai_review",
@@ -23168,7 +23168,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 500,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/ai-merge/review-items?status=pending",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/ai-merge/review-items?status=pending",
       "error": "Internal Server Error"
     },
     {
@@ -23179,7 +23179,7 @@
         404
       ],
       "actual_status": 422,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/ai-merge/review-items/mock_review_123/approve",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/ai-merge/review-items/mock_review_123/approve",
       "error": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"approved_version\"],\"msg\":\"Field required\",\"input\":null,\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"},{\"type\":\"missing\",\"loc\":[\"query\",\"approved_by\"],"
     },
     {
@@ -23187,7 +23187,7 @@
       "success": false,
       "expected_status": 200,
       "actual_status": 500,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/ai-merge/stats",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/ai-merge/stats",
       "error": "Internal Server Error"
     },
     {
@@ -23195,7 +23195,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/health",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/health",
       "response": {
         "service": "Post-Fight Review Interface",
         "version": "1.0.0",
@@ -23208,7 +23208,7 @@
       "success": true,
       "expected_status": 200,
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/timeline/test_fight_review_123",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/timeline/test_fight_review_123",
       "response": {
         "fight_id": "test_fight_review_123",
         "total_events": 0,
@@ -23225,7 +23225,7 @@
         404
       ],
       "actual_status": 400,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/events/test_event_123",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/events/test_event_123",
       "response": {
         "detail": "Event not found"
       }
@@ -23239,7 +23239,7 @@
         404
       ],
       "actual_status": 400,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/events/test_event_123?supervisor_id=supervisor_123&reason=Duplicate event removal",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/events/test_event_123?supervisor_id=supervisor_123&reason=Duplicate event removal",
       "response": {
         "detail": "Event not found"
       }
@@ -23253,7 +23253,7 @@
         404
       ],
       "actual_status": 400,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/events/merge",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/events/merge",
       "response": {
         "detail": "Some events not found"
       }
@@ -23267,7 +23267,7 @@
         404
       ],
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/fights/test_fight_review_123/approve?supervisor_id=supervisor_123",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/fights/test_fight_review_123/approve?supervisor_id=supervisor_123",
       "response": {
         "status": "success",
         "fight_id": "test_fight_review_123",
@@ -23282,7 +23282,7 @@
         404
       ],
       "actual_status": 200,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/events/test_event_123/history",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/events/test_event_123/history",
       "response": {
         "event_id": "test_event_123",
         "version_count": 0,
@@ -23297,7 +23297,7 @@
         400
       ],
       "actual_status": 422,
-      "url": "https://fight-judge-ai.preview.emergentagent.com/api/review/videos/upload",
+      "url": "https://mma-score-pro.preview.emergentagent.com/api/review/videos/upload",
       "response": {
         "detail": [
           {

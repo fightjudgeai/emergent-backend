@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 
 class TuningServicesAPITester:
-    def __init__(self, base_url="https://fight-judge-ai.preview.emergentagent.com"):
+    def __init__(self, base_url="https://mma-score-pro.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.tests_run = 0

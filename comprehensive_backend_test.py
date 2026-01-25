@@ -11,7 +11,7 @@ import time
 from datetime import datetime
 
 class ComprehensiveBackendTester:
-    def __init__(self, base_url="https://fight-judge-ai.preview.emergentagent.com"):
+    def __init__(self, base_url="https://mma-score-pro.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.tests_run = 0
@@ -456,7 +456,7 @@ class ComprehensiveBackendTester:
 
 if __name__ == "__main__":
     import os
-    base_url = os.environ.get('BACKEND_URL', 'https://fight-judge-ai.preview.emergentagent.com')
+    base_url = os.environ.get('BACKEND_URL', 'https://mma-score-pro.preview.emergentagent.com')
     
     tester = ComprehensiveBackendTester(base_url)
     success = tester.run_comprehensive_tests()
