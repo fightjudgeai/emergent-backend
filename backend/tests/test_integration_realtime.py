@@ -280,48 +280,64 @@ class TestRealTimeEventLogging:
         assert result["red_total"] >= 10, f"Expected Red>=10. Got {result['red_total']}"
         assert result["blue_total"] >= 6, f"Expected Blue>=6. Got {result['blue_total']}"
     
-    def test_event_deletion_and_recompute(self, api_client, bout_id):
+    def test_event_deletion_and_recompute(self, api_client):
         """Test that deleted events don't appear in recomputed scores"""
-        # Create events
-        for _ in range(3):
-            api_client.post("/events", json={
+        # Create a unique bout for this test
+        bout_id = f"test-delete-{int(time.time())}"
+        api_client.post("/bouts", json={
+            "bout_id": bout_id,
+            "fighter1": "Delete Test Red",
+            "fighter2": "Delete Test Blue",
+            "totalRounds": 3
+        })
+        
+        try:
+            # Create events
+            for _ in range(3):
+                api_client.post("/events", json={
+                    "bout_id": bout_id,
+                    "round_number": 1,
+                    "corner": "RED",
+                    "aspect": "STRIKING",
+                    "event_type": "Jab",  # Use Jab (1pt) for predictable scoring
+                    "device_role": "RED_STRIKING"
+                })
+            
+            # First compute
+            response1 = api_client.post("/rounds/compute", json={
                 "bout_id": bout_id,
-                "round_number": 1,
-                "corner": "RED",
-                "aspect": "STRIKING",
-                "event_type": "Jab",  # Use Jab (1pt) for predictable scoring
-                "device_role": "RED_STRIKING"
+                "round_number": 1
             })
-        
-        # First compute
-        response1 = api_client.post("/rounds/compute", json={
-            "bout_id": bout_id,
-            "round_number": 1
-        })
-        initial_score = response1.json()["red_total"]
-        assert initial_score == 3, f"Expected 3 pts (3 jabs). Got {initial_score}"
-        
-        # Delete one event
-        delete_response = api_client.delete(
-            f"/events/{bout_id}",
-            params={
-                "round_number": 1,
-                "event_type": "Jab",
-                "corner": "RED"
-            }
-        )
-        # Note: deletion endpoint may return 200 or 404 depending on implementation
-        
-        # Recompute
-        response2 = api_client.post("/rounds/compute", json={
-            "bout_id": bout_id,
-            "round_number": 1
-        })
-        new_score = response2.json()["red_total"]
-        
-        # If deletion worked, score should be reduced
-        # If not, score stays the same (test still passes, just documents behavior)
-        assert new_score <= initial_score, "Score should not increase after deletion"
+            initial_score = response1.json()["red_total"]
+            assert initial_score == 3, f"Expected 3 pts (3 jabs). Got {initial_score}"
+            
+            # Delete one event
+            delete_response = api_client.delete(
+                f"/events/{bout_id}",
+                params={
+                    "round_number": 1,
+                    "event_type": "Jab",
+                    "corner": "RED"
+                }
+            )
+            # Note: deletion endpoint may return 200 or 404 depending on implementation
+            
+            # Recompute
+            response2 = api_client.post("/rounds/compute", json={
+                "bout_id": bout_id,
+                "round_number": 1
+            })
+            new_score = response2.json()["red_total"]
+            
+            # If deletion worked, score should be reduced
+            # If not, score stays the same (test still passes, just documents behavior)
+            assert new_score <= initial_score, "Score should not increase after deletion"
+        finally:
+            # Cleanup
+            try:
+                api_client.delete(f"/bouts/{bout_id}")
+            except:
+                pass
 
 
 class TestBroadcastOverlayData:
