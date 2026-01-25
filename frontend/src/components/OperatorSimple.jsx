@@ -904,11 +904,11 @@ export default function OperatorSimple() {
                     <Button
                       data-testid="btn-td"
                       onClick={() => logEvent('Takedown')}
-                      className={`${getButtonStyle('grappling', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                      className={`${getButtonStyle('grappling', corner)} text-white font-bold h-16 text-base border transition-all active:scale-95`}
                     >
                       <div className="text-center">
-                        <div>Takedown</div>
-                        <div className="text-[10px] text-emerald-200">V</div>
+                        <div className="text-lg">Takedown</div>
+                        <div className="text-[10px] text-emerald-200 font-normal">V</div>
                       </div>
                     </Button>
                   </TooltipTrigger>
@@ -921,11 +921,11 @@ export default function OperatorSimple() {
                     <Button
                       data-testid="btn-td-stuffed"
                       onClick={() => logEvent('Takedown Stuffed')}
-                      className={`${getButtonStyle('grappling', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                      className={`${getButtonStyle('grappling', corner)} text-white font-bold h-16 text-base border transition-all active:scale-95`}
                     >
                       <div className="text-center">
-                        <div>TD Stuffed</div>
-                        <div className="text-[10px] text-emerald-200">B</div>
+                        <div className="text-lg">TD Stuffed</div>
+                        <div className="text-[10px] text-emerald-200 font-normal">B</div>
                       </div>
                     </Button>
                   </TooltipTrigger>
@@ -940,11 +940,11 @@ export default function OperatorSimple() {
                       <Button
                         data-testid="btn-ground-strike"
                         onClick={() => logEvent('Ground Strike', null, groundStrikeQuality)}
-                        className={`${groundStrikeQuality === 'SOLID' ? 'bg-red-600 hover:bg-red-500 border-red-500' : 'bg-red-400 hover:bg-red-300 border-red-400'} text-white font-semibold h-10 text-sm border transition-all active:scale-95`}
+                        className={`${groundStrikeQuality === 'SOLID' ? 'bg-red-600 hover:bg-red-500 border-red-500' : 'bg-red-400 hover:bg-red-300 border-red-400'} text-white font-bold h-12 text-base border transition-all active:scale-95`}
                       >
                         <div className="text-center">
-                          <div>{groundStrikeQuality === 'SOLID' ? 'GnP Solid' : 'GnP Light'}</div>
-                          <div className="text-[10px] text-white/80">G</div>
+                          <div className="text-lg">{groundStrikeQuality === 'SOLID' ? 'GnP Solid' : 'GnP Light'}</div>
+                          <div className="text-[10px] text-white/80 font-normal">G</div>
                         </div>
                       </Button>
                       <Button
