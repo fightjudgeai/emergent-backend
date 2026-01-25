@@ -853,11 +853,11 @@ export default function OperatorSimple() {
                     <Button
                       data-testid="btn-rocked"
                       onClick={() => logEvent('Rocked')}
-                      className={`${getButtonStyle('damage', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                      className={`${getButtonStyle('damage', corner)} text-white font-bold h-16 text-base border transition-all active:scale-95`}
                     >
                       <div className="text-center">
-                        <div>Rocked</div>
-                        <div className="text-[10px] text-amber-200">Q</div>
+                        <div className="text-lg">Rocked</div>
+                        <div className="text-[10px] text-amber-200 font-normal">Q</div>
                       </div>
                     </Button>
                   </TooltipTrigger>
@@ -875,11 +875,11 @@ export default function OperatorSimple() {
                       <Button
                         data-testid={`btn-kd-${kd.tier.toLowerCase()}`}
                         onClick={() => logEvent('KD', kd.tier)}
-                        className={`${getButtonStyle('damage-kd', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
+                        className={`${getButtonStyle('damage-kd', corner)} text-white font-bold h-16 text-base border transition-all active:scale-95`}
                       >
                         <div className="text-center">
-                          <div>{kd.label}</div>
-                          <div className="text-[10px] text-red-200">{kd.key}</div>
+                          <div className="text-lg">{kd.label}</div>
+                          <div className="text-[10px] text-red-200 font-normal">{kd.key}</div>
                         </div>
                       </Button>
                     </TooltipTrigger>
