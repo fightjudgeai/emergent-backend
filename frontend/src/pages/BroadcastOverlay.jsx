@@ -32,9 +32,13 @@ export default function BroadcastOverlay() {
     fighter1: 'Red Corner',
     fighter1_record: '',
     fighter1_photo: '',
+    fighter1Record: '',
+    fighter1Photo: '',
     fighter2: 'Blue Corner',
     fighter2_record: '',
     fighter2_photo: '',
+    fighter2Record: '',
+    fighter2Photo: '',
     weight_class: ''
   });
   
