@@ -680,62 +680,162 @@ export default function OperatorSimple() {
             </div>
           )}
 
-          {/* Section: Strikes */}
+          {/* Section: Strikes - Each strike has main button + SS button */}
           {hasStriking && (
             <div className="mb-4">
-              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1 flex items-center gap-2">
-                {ssMode ? <span className="text-amber-400">Significant Strikes (2x pts)</span> : 'Strikes'}
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+                Strikes
               </div>
-              <div className="grid grid-cols-4 gap-2">
-                {/* Row 1 */}
+              <div className="grid grid-cols-2 gap-3">
+                {/* Row 1: Jab, Cross */}
                 {[
-                  { type: 'Jab', key: '1', ssType: 'SS Jab' },
-                  { type: 'Hook', key: '3', ssType: 'SS Hook' },
-                  { type: 'Kick', key: '7', ssType: 'SS Kick' },
-                  { type: 'Elbow', key: '5', ssType: 'SS Elbow' },
+                  { type: 'Jab', key: '1', ssType: 'SS Jab', ssKey: '!' },
+                  { type: 'Cross', key: '2', ssType: 'SS Cross', ssKey: '@' },
                 ].map(strike => (
-                  <Tooltip key={strike.type}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        data-testid={`btn-${strike.type.toLowerCase()}`}
-                        onClick={() => logEvent(ssMode ? strike.ssType : strike.type)}
-                        className={`${ssMode ? getButtonStyle('ss', corner) : getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-                      >
-                        <div className="text-center">
-                          <div>{ssMode ? `SS ${strike.type}` : strike.type}</div>
-                          <div className="text-[10px] text-slate-400">{strike.key}</div>
-                        </div>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>{EVENT_TOOLTIPS[ssMode ? strike.ssType : strike.type]}</p>
-                    </TooltipContent>
-                  </Tooltip>
+                  <div key={strike.type} className="flex gap-1">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.type)}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold h-16 text-lg flex-1 border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className="text-xl">{strike.type}</div>
+                            <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.type]}</p></TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-ss-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.ssType)}
+                          className={`${getButtonStyle('ss', corner)} text-white font-bold h-16 w-14 text-sm border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className="text-base">SS</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.ssType]}</p></TooltipContent>
+                    </Tooltip>
+                  </div>
                 ))}
                 
-                {/* Row 2 */}
+                {/* Row 2: Hook, Uppercut */}
                 {[
-                  { type: 'Cross', key: '2', ssType: 'SS Cross' },
-                  { type: 'Uppercut', key: '4', ssType: 'SS Uppercut' },
-                  { type: 'Knee', key: '6', ssType: 'SS Knee' },
+                  { type: 'Hook', key: '3', ssType: 'SS Hook', ssKey: '#' },
+                  { type: 'Uppercut', key: '4', ssType: 'SS Uppercut', ssKey: '$' },
                 ].map(strike => (
-                  <Tooltip key={strike.type}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        data-testid={`btn-${strike.type.toLowerCase()}`}
-                        onClick={() => logEvent(ssMode ? strike.ssType : strike.type)}
-                        className={`${ssMode ? getButtonStyle('ss', corner) : getButtonStyle('strike', corner)} text-white font-semibold h-14 text-sm border transition-all active:scale-95`}
-                      >
-                        <div className="text-center">
-                          <div>{ssMode ? `SS ${strike.type}` : strike.type}</div>
-                          <div className="text-[10px] text-slate-400">{strike.key}</div>
-                        </div>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>{EVENT_TOOLTIPS[ssMode ? strike.ssType : strike.type]}</p>
-                    </TooltipContent>
-                  </Tooltip>
+                  <div key={strike.type} className="flex gap-1">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.type)}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold h-16 text-lg flex-1 border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className="text-xl">{strike.type}</div>
+                            <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.type]}</p></TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-ss-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.ssType)}
+                          className={`${getButtonStyle('ss', corner)} text-white font-bold h-16 w-14 text-sm border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className="text-base">SS</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.ssType]}</p></TooltipContent>
+                    </Tooltip>
+                  </div>
+                ))}
+                
+                {/* Row 3: Kick, Knee */}
+                {[
+                  { type: 'Kick', key: '7', ssType: 'SS Kick', ssKey: '&' },
+                  { type: 'Knee', key: '6', ssType: 'SS Knee', ssKey: '^' },
+                ].map(strike => (
+                  <div key={strike.type} className="flex gap-1">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.type)}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold h-16 text-lg flex-1 border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className="text-xl">{strike.type}</div>
+                            <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.type]}</p></TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-ss-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.ssType)}
+                          className={`${getButtonStyle('ss', corner)} text-white font-bold h-16 w-14 text-sm border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className="text-base">SS</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.ssType]}</p></TooltipContent>
+                    </Tooltip>
+                  </div>
+                ))}
+                
+                {/* Row 4: Elbow (single with SS) */}
+                {[
+                  { type: 'Elbow', key: '5', ssType: 'SS Elbow', ssKey: '%' },
+                ].map(strike => (
+                  <div key={strike.type} className="flex gap-1">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.type)}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold h-16 text-lg flex-1 border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className="text-xl">{strike.type}</div>
+                            <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.type]}</p></TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-ss-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.ssType)}
+                          className={`${getButtonStyle('ss', corner)} text-white font-bold h-16 w-14 text-sm border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className="text-base">SS</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.ssType]}</p></TooltipContent>
+                    </Tooltip>
+                  </div>
                 ))}
               </div>
             </div>
