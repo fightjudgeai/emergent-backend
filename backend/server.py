@@ -4582,8 +4582,24 @@ async def compute_round(request: RoundComputeRequest):
                 "corner": corner,
                 "event_type": evt.get("event_type"),
                 "metadata": evt.get("metadata", {}),
-                "fighter": evt.get("fighter")
+                "fighter": evt.get("fighter"),
+                "created_at": evt.get("server_timestamp")
             })
+        
+        # Convert created_at (ISO string) to timestamp (seconds) for scoring engine
+        for evt in all_events:
+            created_at = evt.get("created_at")
+            if created_at and isinstance(created_at, str):
+                try:
+                    dt = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                    evt["timestamp"] = dt.timestamp()
+                except:
+                    evt["timestamp"] = 0
+            elif not evt.get("timestamp"):
+                evt["timestamp"] = 0
+        
+        # Sort events by timestamp for proper sequence
+        all_events.sort(key=lambda x: x.get("timestamp", 0))
         
         logging.info(f"[UNIFIED] Computing round {round_number} for bout {bout_id}: {len(all_events)} events from ALL devices")
         
