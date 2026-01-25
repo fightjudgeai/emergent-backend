@@ -946,27 +946,6 @@ export default function OperatorSimple() {
               </div>
             </div>
           )}
-                          <div className="text-lg">{groundStrikeQuality === 'SOLID' ? 'GnP Solid' : 'GnP Light'}</div>
-                          <div className="text-[10px] text-white/80 font-normal">G</div>
-                        </div>
-                      </Button>
-                      <Button
-                        data-testid="btn-ground-strike-toggle"
-                        onClick={() => setGroundStrikeQuality(prev => prev === 'SOLID' ? 'LIGHT' : 'SOLID')}
-                        className={`${groundStrikeQuality === 'SOLID' ? 'bg-red-800 hover:bg-red-700' : 'bg-red-600 hover:bg-red-500'} text-white font-medium h-6 text-[10px] border-0 transition-all`}
-                      >
-                        {groundStrikeQuality === 'SOLID' ? '→ Light' : '→ Solid'} (F)
-                      </Button>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{EVENT_TOOLTIPS['Ground Strike']}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-            </div>
-          )}
-
           {/* Section: Control - With Timers and Buckets */}
           {hasGrappling && (
             <div className="mb-4">
