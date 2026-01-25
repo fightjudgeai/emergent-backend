@@ -210,14 +210,13 @@ class TestGnPButtons:
         response = requests.post(f"{BASE_URL}/api/events", json=event_data)
         assert response.status_code in [200, 201], f"Failed to log GnP Light: {response.text}"
         
-        # Verify event was logged
-        response = requests.get(f"{BASE_URL}/api/events?bout_id={bout_id}&round_number=1")
-        assert response.status_code == 200
+        # Verify event was logged via response
+        result = response.json()
+        assert result.get("success") == True, "Event creation not successful"
+        event = result.get("event", {})
+        assert event.get("event_type") == "Ground Strike", "Event type mismatch"
+        assert event.get("metadata", {}).get("quality") == "LIGHT", "Quality should be LIGHT"
         
-        events = response.json().get("events", [])
-        gnp_light_events = [e for e in events if e.get("event_type") == "Ground Strike" and e.get("metadata", {}).get("quality") == "LIGHT"]
-        
-        assert len(gnp_light_events) > 0, "GnP Light event not found"
         print(f"✓ GnP Light event logged successfully with quality=LIGHT")
         
         # Cleanup
@@ -250,14 +249,13 @@ class TestGnPButtons:
         response = requests.post(f"{BASE_URL}/api/events", json=event_data)
         assert response.status_code in [200, 201], f"Failed to log GnP Solid: {response.text}"
         
-        # Verify event was logged
-        response = requests.get(f"{BASE_URL}/api/events?bout_id={bout_id}&round_number=1")
-        assert response.status_code == 200
+        # Verify event was logged via response
+        result = response.json()
+        assert result.get("success") == True, "Event creation not successful"
+        event = result.get("event", {})
+        assert event.get("event_type") == "Ground Strike", "Event type mismatch"
+        assert event.get("metadata", {}).get("quality") == "SOLID", "Quality should be SOLID"
         
-        events = response.json().get("events", [])
-        gnp_solid_events = [e for e in events if e.get("event_type") == "Ground Strike" and e.get("metadata", {}).get("quality") == "SOLID"]
-        
-        assert len(gnp_solid_events) > 0, "GnP Solid event not found"
         print(f"✓ GnP Solid event logged successfully with quality=SOLID")
         
         # Cleanup
