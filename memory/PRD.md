@@ -143,12 +143,12 @@ The scoring engine uses a config-driven, impact-first approach with 5 regulariza
 | SS Hook | 6 | Striking (Significant) |
 | Uppercut | 3 | Striking |
 | SS Uppercut | 6 | Striking (Significant) |
-| Kick | 4 | Striking |
-| SS Kick | 8 | Striking (Significant) |
-| Elbow | 5 | Striking |
-| SS Elbow | 10 | Striking (Significant) |
-| Knee | 5 | Striking |
-| SS Knee | 10 | Striking (Significant) |
+| Kick | 3 | Striking |
+| SS Kick | 6 | Striking (Significant) |
+| Elbow | 4 | Striking |
+| SS Elbow | 6 | Striking (Significant) |
+| Knee | 4 | Striking |
+| SS Knee | 6 | Striking (Significant) |
 | Rocked | 60 | Damage (Protected) |
 | KD Flash | 100 | Damage (Protected) |
 | KD Hard | 150 | Damage (Protected) |
@@ -156,7 +156,7 @@ The scoring engine uses a config-driven, impact-first approach with 5 regulariza
 | Takedown | 10 | Grappling |
 | TD Stuffed | 5 | Grappling |
 | GnP Light | 1 | Ground Strikes |
-| GnP Hard | 3 | Ground Strikes |
+| GnP Solid | 3 | Ground Strikes |
 | Sub Light | 12 | Submissions |
 | Sub Deep | 28 | Submissions |
 | Sub Near-Finish | 60 | Submissions (Protected) |
