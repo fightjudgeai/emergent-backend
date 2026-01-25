@@ -19,10 +19,6 @@ from scoring_engine_v2.engine_v3 import ScoringEngineV3, FighterRoundState, scor
 class TestControlGapReset:
     """Test cases for gap reset logic in control time scoring"""
     
-    def setup_method(self):
-        """Setup fresh engine for each test"""
-        self.engine = ScoringEngineV3()
-    
     def test_continuous_control_no_gap_applies_diminishing(self):
         """
         Test: Continuous control (no gap) should apply diminishing returns after 60s
@@ -48,7 +44,7 @@ class TestControlGapReset:
             }
         ]
         
-        result = self.engine.score_round(1, events)
+        result = score_round_v3(1, events)
         
         # First 60s: full value = 30 pts
         # Next 30s: after threshold, 0.5x = 7.5 pts
@@ -81,7 +77,7 @@ class TestControlGapReset:
             }
         ]
         
-        result = self.engine.score_round(1, events)
+        result = score_round_v3(1, events)
         
         # Both chunks at full value due to gap reset: 30 + 30 = 60 pts
         # Control-without-work discount may apply (0.75x)
@@ -107,7 +103,7 @@ class TestControlGapReset:
             }
         ]
         
-        result = self.engine.score_round(1, events)
+        result = score_round_v3(1, events)
         
         # With reset: 30 + 15 = 45 pts (before discount)
         # Without reset: 30 + 7.5 = 37.5 pts
@@ -133,7 +129,7 @@ class TestControlGapReset:
             }
         ]
         
-        result = self.engine.score_round(1, events)
+        result = score_round_v3(1, events)
         
         # Streak continues: diminishing returns should apply
         # First 60s: 30 pts, next 30s at 0.5x: 7.5 pts
@@ -160,7 +156,7 @@ class TestControlGapReset:
              "metadata": {"duration": 30}, "timestamp": 100},  # 20s gap
         ]
         
-        result = self.engine.score_round(1, events)
+        result = score_round_v3(1, events)
         
         # All 3 chunks at full value: 15 + 15 + 15 = 45 pts
         # Minus control-without-work discount if applicable
@@ -182,7 +178,7 @@ class TestControlGapReset:
              "metadata": {"duration": 30}, "timestamp": 65},
         ]
         
-        result = self.engine.score_round(1, events)
+        result = score_round_v3(1, events)
         
         # Back control: 30 pts (at threshold)
         # Top control: 9 pts (fresh streak, 3 buckets * 3 pts)
@@ -207,7 +203,7 @@ class TestControlGapReset:
             {"corner": "RED", "event_type": "Cross", "metadata": {}, "timestamp": 40},
         ]
         
-        result = self.engine.score_round(1, events)
+        result = score_round_v3(1, events)
         
         # Control: 30 + 30 = 60 pts (gap reset, no diminishing)
         # Strikes: 4 * 3 = 12 pts
@@ -219,9 +215,6 @@ class TestControlGapReset:
 class TestControlDiminishingReturns:
     """Additional tests for diminishing returns calculation"""
     
-    def setup_method(self):
-        self.engine = ScoringEngineV3()
-    
     def test_exactly_60s_no_diminishing(self):
         """Test: Exactly 60s should NOT trigger diminishing (threshold is after 60s)"""
         events = [
@@ -229,7 +222,7 @@ class TestControlDiminishingReturns:
              "metadata": {"duration": 60}, "timestamp": 0},
         ]
         
-        result = self.engine.score_round(1, events)
+        result = score_round_v3(1, events)
         
         # 60s = 6 buckets * 5 pts = 30 pts (no diminishing yet)
         # May have control-without-work discount: 30 * 0.75 = 22.5 pts
@@ -242,7 +235,7 @@ class TestControlDiminishingReturns:
              "metadata": {"duration": 70}, "timestamp": 0},  # 7 buckets
         ]
         
-        result = self.engine.score_round(1, events)
+        result = score_round_v3(1, events)
         
         # First 6 buckets at full: 30 pts
         # 7th bucket at 0.5x: 2.5 pts
