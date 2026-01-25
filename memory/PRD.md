@@ -266,12 +266,13 @@ Impact events can "lock" a round win even if opponent has more volume points.
 
 ## Upcoming Tasks
 
-### P0 - Operator UI Updates
-- Add buttons for all new "significant strike" (SS) events
-- Add tooltips explaining SS, KD NF, etc. definitions
-- Implement control time-bucket clicking on operator screen
+### P0 - Critical Bugs Fixed (2026-01-25) ✅
+- **Next Fight Navigation**: Fixed - URL param sync useEffect in SupervisorDashboardPro
+- **Fighter Photos**: Fixed - Backend normalizes photo fields to both snake_case and camelCase
+- **GnP Buttons**: Verified working - Separate "GnP Light" (F key) and "GnP Solid" (G key) buttons
+- **Kick Points**: Fixed - Changed from 4 to 3 points
 
-### P1 - Additional Testing
+### P1 - Remaining Tasks
 - Add more edge case tests for control scoring
 - Add tests for Rule 3 (control diminishing returns)
 - Add tests for Rule 4 (control without work)
