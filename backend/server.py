@@ -3037,6 +3037,8 @@ class BoutCreate(BaseModel):
     fighter2: str
     fighter1_photo: Optional[str] = ""
     fighter2_photo: Optional[str] = ""
+    fighter1_record: Optional[str] = ""
+    fighter2_record: Optional[str] = ""
     total_rounds: Optional[int] = None
     totalRounds: Optional[int] = 3
     event_name: Optional[str] = "PFC 50"
