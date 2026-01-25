@@ -15,20 +15,20 @@ SCORING_CONFIG = {
     # STRIKING (STAND-UP)
     # -------------------------------------------------------------------------
     "striking": {
-        "jab": {"points": 1, "category": "striking", "label": "Jab", "is_ss": False},
+        "jab": {"points": 1.5, "category": "striking", "label": "Jab", "is_ss": False},
         "ss_jab": {"points": 2, "category": "striking", "label": "SS Jab", "is_ss": True},
         "cross": {"points": 3, "category": "striking", "label": "Cross", "is_ss": False},
-        "ss_cross": {"points": 6, "category": "striking", "label": "SS Cross", "is_ss": True},
+        "ss_cross": {"points": 4.5, "category": "striking", "label": "SS Cross", "is_ss": True},
         "hook": {"points": 3, "category": "striking", "label": "Hook", "is_ss": False},
-        "ss_hook": {"points": 6, "category": "striking", "label": "SS Hook", "is_ss": True},
+        "ss_hook": {"points": 4.5, "category": "striking", "label": "SS Hook", "is_ss": True},
         "uppercut": {"points": 3, "category": "striking", "label": "Uppercut", "is_ss": False},
-        "ss_uppercut": {"points": 6, "category": "striking", "label": "SS Uppercut", "is_ss": True},
+        "ss_uppercut": {"points": 4.5, "category": "striking", "label": "SS Uppercut", "is_ss": True},
         "kick": {"points": 4, "category": "striking", "label": "Kick", "is_ss": False},
-        "ss_kick": {"points": 8, "category": "striking", "label": "SS Kick", "is_ss": True},
-        "elbow": {"points": 5, "category": "striking", "label": "Elbow", "is_ss": False},
-        "ss_elbow": {"points": 10, "category": "striking", "label": "SS Elbow", "is_ss": True},
-        "knee": {"points": 5, "category": "striking", "label": "Knee", "is_ss": False},
-        "ss_knee": {"points": 10, "category": "striking", "label": "SS Knee", "is_ss": True},
+        "ss_kick": {"points": 6, "category": "striking", "label": "SS Kick", "is_ss": True},
+        "elbow": {"points": 4, "category": "striking", "label": "Elbow", "is_ss": False},
+        "ss_elbow": {"points": 6, "category": "striking", "label": "SS Elbow", "is_ss": True},
+        "knee": {"points": 4, "category": "striking", "label": "Knee", "is_ss": False},
+        "ss_knee": {"points": 6, "category": "striking", "label": "SS Knee", "is_ss": True},
     },
     
     # -------------------------------------------------------------------------
