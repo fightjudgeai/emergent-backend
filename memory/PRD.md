@@ -274,8 +274,9 @@ Impact events can "lock" a round win even if opponent has more volume points.
 
 ### P1 - Remaining Tasks
 - ~~Add edge case tests for control scoring~~ ✅ DONE (2026-01-25)
-- Add tests for Rule 3 (control diminishing returns) ✅ DONE
-- Add tests for Rule 4 (control without work) ✅ DONE
+- ~~Add tests for Rule 3 (control diminishing returns)~~ ✅ DONE
+- ~~Add tests for Rule 4 (control without work)~~ ✅ DONE
+- ~~Add integration tests for real-time event logging~~ ✅ DONE (2026-01-25)
 
 ### P2 - Firebase Migration
 - Remove Firebase dependencies from legacy components
