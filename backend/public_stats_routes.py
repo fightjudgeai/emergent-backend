@@ -100,7 +100,7 @@ async def get_events(
             {
                 "$sort": {"event_date": -1}
             }
-        ]
+        ])
         
         cursor = db.fight_stats.aggregate(pipeline)
         events = await cursor.to_list(length=None)
