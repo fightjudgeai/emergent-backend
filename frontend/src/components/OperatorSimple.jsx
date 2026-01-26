@@ -852,7 +852,7 @@ export default function OperatorSimple() {
                     >
                       <div className="text-center">
                         <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-lg'}>Rocked</div>
-                        <div className="text-[10px] text-amber-200 font-normal">Q</div>
+                        <div className="text-[10px] text-amber-200 font-normal">G2/F2</div>
                       </div>
                     </Button>
                   </TooltipTrigger>
@@ -861,9 +861,9 @@ export default function OperatorSimple() {
                   </TooltipContent>
                 </Tooltip>
                 {[
-                  { tier: 'Flash', key: 'W', label: 'KD Flash' },
-                  { tier: 'Hard', key: 'E', label: 'KD Hard' },
-                  { tier: 'Near-Finish', key: 'R', label: 'KD NF' }
+                  { tier: 'Flash', key: 'G3/F3', label: 'KD Flash' },
+                  { tier: 'Hard', key: 'G4/F4', label: 'KD Hard' },
+                  { tier: 'Near-Finish', key: 'G5/F5', label: 'KD NF' }
                 ].map((kd) => (
                   <Tooltip key={kd.tier}>
                     <TooltipTrigger asChild>
