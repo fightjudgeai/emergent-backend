@@ -4568,6 +4568,91 @@ async def delete_event_by_id(event_id: str, bout_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@api_router.post("/rounds/preview")
+async def preview_round_score(request: RoundComputeRequest):
+    """
+    LIVE SCORE PREVIEW - Computes round score without persisting.
+    Shows real-time scoring for operators without saving to database.
+    Used for live scoring displays and operator feedback.
+    """
+    try:
+        bout_id = request.bout_id
+        round_number = request.round_number
+        
+        # Get ALL events for this round from ALL sources (NO DEVICE FILTER)
+        unified_events = await db.unified_events.find(
+            {"bout_id": bout_id, "round_number": round_number},
+            {"_id": 0}
+        ).to_list(10000)
+        
+        # Also get from synced_events (bridge/legacy)
+        synced_events = await db.synced_events.find(
+            {"bout_id": bout_id, "round_number": round_number},
+            {"_id": 0}
+        ).to_list(10000)
+        
+        # Combine and deduplicate events
+        all_events = unified_events + synced_events
+        
+        if not all_events:
+            return {
+                "bout_id": bout_id,
+                "round_number": round_number,
+                "status": "no_events",
+                "message": "No events found for this round",
+                "preview": True
+            }
+        
+        # Convert to EventData format for scoring
+        event_data_list = []
+        for event in all_events:
+            try:
+                event_data = EventData(
+                    bout_id=event.get("bout_id", bout_id),
+                    round_num=event.get("round_number", round_number),
+                    fighter=event.get("fighter_id", "fighter1"),
+                    event_type=event.get("event_type", "Unknown"),
+                    timestamp=event.get("timestamp_ms", 0) / 1000.0,
+                    metadata=event.get("metadata", {})
+                )
+                event_data_list.append(event_data)
+            except Exception as e:
+                logging.warning(f"[PREVIEW] Skipping malformed event: {e}")
+                continue
+        
+        # Create scoring request
+        score_request = ScoreRequest(
+            bout_id=bout_id,
+            round_num=round_number,
+            events=event_data_list,
+            round_duration=300  # 5 minutes default
+        )
+        
+        # Calculate score using V2 engine
+        round_score = await calculate_score_v2(score_request)
+        
+        # Return preview result (no persistence)
+        return {
+            "bout_id": bout_id,
+            "round_number": round_number,
+            "status": "preview_complete",
+            "preview": True,
+            "total_events": len(event_data_list),
+            "score": round_score.model_dump(),
+            "message": "Live preview - not saved to database"
+        }
+        
+    except Exception as e:
+        logging.error(f"[PREVIEW] Error computing round preview: {str(e)}")
+        return {
+            "bout_id": request.bout_id,
+            "round_number": request.round_number,
+            "status": "error",
+            "preview": True,
+            "error": str(e),
+            "message": "Preview computation failed"
+        }
+
 @api_router.post("/rounds/compute")
 async def compute_round(request: RoundComputeRequest):
     """
