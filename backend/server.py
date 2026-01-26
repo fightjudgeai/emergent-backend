@@ -6825,3 +6825,59 @@ async def shutdown_db_client():
     if redis_available:
         from redis_utils import close_redis
         await close_redis()
+
+# ============================================================================
+# HEALTH CHECK & KEEP-ALIVE
+# ============================================================================
+
+@api_router.get("/health")
+async def health_check():
+    """
+    Health check endpoint for monitoring and keep-alive pings.
+    Returns server status and uptime information.
+    """
+    return {
+        "status": "healthy",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "service": "Fight Judge AI",
+        "version": "1.0.0"
+    }
+
+# Background keep-alive task
+async def keep_alive_task():
+    """
+    Background task that runs every 5 minutes to keep the server warm.
+    Prevents cold starts by maintaining server activity.
+    """
+    import httpx
+    
+    # Get the backend URL from environment or use localhost
+    backend_url = os.environ.get("BACKEND_URL", "http://localhost:8001")
+    health_url = f"{backend_url}/api/health"
+    
+    while True:
+        try:
+            await asyncio.sleep(300)  # 5 minutes
+            
+            # Self-ping to keep server warm
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                response = await client.get(health_url)
+                if response.status_code == 200:
+                    logger.info(f"[KEEP-ALIVE] Server ping successful at {datetime.now(timezone.utc).isoformat()}")
+                else:
+                    logger.warning(f"[KEEP-ALIVE] Ping returned status {response.status_code}")
+        except Exception as e:
+            # If external ping fails, just do internal activity
+            logger.debug(f"[KEEP-ALIVE] External ping skipped: {e}")
+            # Do a simple DB ping to keep connections warm
+            try:
+                await db.command("ping")
+                logger.info(f"[KEEP-ALIVE] Internal DB ping successful at {datetime.now(timezone.utc).isoformat()}")
+            except:
+                pass
+
+@app.on_event("startup")
+async def start_keep_alive():
+    """Start the keep-alive background task on server startup"""
+    asyncio.create_task(keep_alive_task())
+    logger.info("✓ Keep-alive task started (5-minute interval)")
