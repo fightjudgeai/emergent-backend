@@ -529,6 +529,33 @@ export default function SupervisorDashboardPro() {
     }
   }, [boutId]);
 
+  // Fetch live score preview (computes actual score without saving)
+  const fetchLiveScore = useCallback(async () => {
+    if (!boutId || !currentRound) return;
+    
+    try {
+      const response = await fetch(`${API}/api/rounds/compute`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          round_number: currentRound,
+          preview_only: true  // Don't save, just compute
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setLiveScore({
+          red: Math.round((data.red_total || 0) * 10) / 10,
+          blue: Math.round((data.blue_total || 0) * 10) / 10
+        });
+      }
+    } catch (error) {
+      console.error('Fetch live score error:', error);
+    }
+  }, [boutId, currentRound]);
+
   // Fetch bout info
   const fetchBoutInfo = useCallback(async () => {
     if (!boutId) return;
