@@ -532,10 +532,18 @@ export default function SupervisorDashboardPro() {
       
       if (response.ok) {
         const data = await response.json();
+        const redTotal = data.red_total || 0;
+        const blueTotal = data.blue_total || 0;
+        
         setLiveScore({
-          red: Math.round((data.red_total || 0) * 10) / 10,
-          blue: Math.round((data.blue_total || 0) * 10) / 10
+          red: Math.round(redTotal * 10) / 10,
+          blue: Math.round(blueTotal * 10) / 10
         });
+        
+        // Update delta displays with accurate scoring engine values
+        setRedDelta(Math.round(redTotal * 10) / 10);
+        setBlueDelta(Math.round(blueTotal * 10) / 10);
+        setNetDelta(Math.round((redTotal - blueTotal) * 10) / 10);
       }
     } catch (error) {
       console.error('Fetch live score error:', error);
