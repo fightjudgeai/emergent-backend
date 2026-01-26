@@ -6840,8 +6840,14 @@ async def health_check():
         "status": "healthy",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "service": "Fight Judge AI",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "keep_alive": "active"
     }
+
+@api_router.get("/ping")
+async def ping():
+    """Simple ping endpoint for keep-alive checks"""
+    return {"pong": True, "timestamp": datetime.now(timezone.utc).isoformat()}
 
 # Background keep-alive task
 async def keep_alive_task():
