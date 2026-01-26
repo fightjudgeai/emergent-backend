@@ -6875,7 +6875,6 @@ async def keep_alive_task():
         except Exception as e:
             # If external ping fails, just do internal activity
             logger.debug(f"[KEEP-ALIVE] External ping skipped: {e}")
-            logger.debug(f"[KEEP-ALIVE] External ping skipped: {e}")
             # Do a simple DB ping to keep connections warm
             try:
                 await db.command("ping")
