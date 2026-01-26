@@ -6846,27 +6846,8 @@ async def shutdown_db_client():
         await close_redis()
 
 # ============================================================================
-# HEALTH CHECK & KEEP-ALIVE
+# KEEP-ALIVE BACKGROUND TASK
 # ============================================================================
-
-@api_router.get("/health")
-async def health_check():
-    """
-    Health check endpoint for monitoring and keep-alive pings.
-    Returns server status and uptime information.
-    """
-    return {
-        "status": "healthy",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "service": "Fight Judge AI",
-        "version": "1.0.0",
-        "keep_alive": "active"
-    }
-
-@api_router.get("/ping")
-async def ping():
-    """Simple ping endpoint for keep-alive checks"""
-    return {"pong": True, "timestamp": datetime.now(timezone.utc).isoformat()}
 
 # Background keep-alive task
 async def keep_alive_task():
@@ -6893,6 +6874,7 @@ async def keep_alive_task():
                     logger.warning(f"[KEEP-ALIVE] Ping returned status {response.status_code}")
         except Exception as e:
             # If external ping fails, just do internal activity
+            logger.debug(f"[KEEP-ALIVE] External ping skipped: {e}")
             logger.debug(f"[KEEP-ALIVE] External ping skipped: {e}")
             # Do a simple DB ping to keep connections warm
             try:
