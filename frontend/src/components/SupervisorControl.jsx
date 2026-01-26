@@ -686,8 +686,8 @@ export default function SupervisorControl() {
                           {operators.filter(o => !o.assigned_role).map((op) => (
                             <div key={op.device_id} className="flex items-center justify-between text-sm bg-amber-500/10 rounded px-2 py-1">
                               <span className="text-amber-400">{op.device_name}</span>
-                              <div className="flex gap-1">
-                                {['RED_STRIKING', 'RED_GRAPPLING', 'BLUE_ALL'].map((role) => {
+                              <div className="flex gap-1 flex-wrap">
+                                {['RED_ALL', 'RED_STRIKING', 'RED_GRAPPLING', 'BLUE_ALL', 'BLUE_STRIKING', 'BLUE_GRAPPLING'].map((role) => {
                                   const taken = operators.find(o => o.assigned_role === role);
                                   if (taken) return null;
                                   return (
@@ -708,7 +708,7 @@ export default function SupervisorControl() {
                                         fetchOperators();
                                         toast.success(`Assigned ${op.device_name} to ${role}`);
                                       }}
-                                      className={`text-xs h-6 ${role.includes('RED') ? 'text-red-400' : 'text-blue-400'}`}
+                                      className={`text-xs h-6 ${role.includes('RED') ? 'text-red-400 hover:bg-red-500/20' : 'text-blue-400 hover:bg-blue-500/20'}`}
                                     >
                                       {role.replace('_', ' ')}
                                     </Button>
