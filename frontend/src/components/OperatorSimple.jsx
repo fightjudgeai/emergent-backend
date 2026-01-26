@@ -722,8 +722,8 @@ export default function OperatorSimple() {
                 
                 {/* Row 2: Hook, Uppercut */}
                 {[
-                  { type: 'Hook', key: '3', ssType: 'SS Hook', ssKey: '#' },
-                  { type: 'Uppercut', key: '4', ssType: 'SS Uppercut', ssKey: '$' },
+                  { type: 'Hook', key: '3', ssType: 'SS Hook', ssKey: '⇧3' },
+                  { type: 'Uppercut', key: '4', ssType: 'SS Uppercut', ssKey: '⇧4' },
                 ].map(strike => (
                   <div key={strike.type} className="flex gap-1">
                     <Tooltip>
