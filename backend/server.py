@@ -4743,6 +4743,12 @@ async def compute_round(request: RoundComputeRequest):
             "fighter2_name": bout.get("fighter2", "Blue Corner") if bout else "Blue Corner"
         }
         
+        # If preview_only, skip database persistence and just return the result
+        if request.preview_only:
+            logging.debug(f"[UNIFIED] Preview-only computation for round {round_number}: {result['red_points']}-{result['blue_points']}")
+            round_result["preview_only"] = True
+            return round_result
+        
         # UPSERT - idempotent storage
         await db.round_results.update_one(
             {"bout_id": bout_id, "round_number": round_number},
