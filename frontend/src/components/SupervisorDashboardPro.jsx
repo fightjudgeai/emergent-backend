@@ -217,6 +217,9 @@ export default function SupervisorDashboardPro() {
     showLowerBoth: false
   });
   
+  // Live score preview state
+  const [liveScore, setLiveScore] = useState({ red: 0, blue: 0 });
+  
   const navigate = useNavigate();
 
   // Update broadcast control on server
