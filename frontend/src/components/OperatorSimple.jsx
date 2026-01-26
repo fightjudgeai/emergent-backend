@@ -871,16 +871,18 @@ export default function OperatorSimple() {
               <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
                 Grappling
               </div>
+              {/* 2x2 grid: Takedown/GnP Light on top, TD Stuffed/GnP Solid on bottom */}
               <div className="grid grid-cols-2 gap-2">
+                {/* Row 1: Takedown, GnP Light */}
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
                       data-testid="btn-td"
                       onClick={() => logEvent('Takedown')}
-                      className={`${getButtonStyle('grappling', corner)} text-white font-bold h-16 text-base border transition-all active:scale-95`}
+                      className={`${getButtonStyle('grappling', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
                     >
                       <div className="text-center">
-                        <div className="text-lg">Takedown</div>
+                        <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-lg'}>Takedown</div>
                         <div className="text-[10px] text-emerald-200 font-normal">V</div>
                       </div>
                     </Button>
@@ -892,12 +894,31 @@ export default function OperatorSimple() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
-                      data-testid="btn-td-stuffed"
-                      onClick={() => logEvent('Takedown Stuffed')}
-                      className={`${getButtonStyle('grappling', corner)} text-white font-bold h-16 text-base border transition-all active:scale-95`}
+                      data-testid="btn-gnp-light"
+                      onClick={() => logEvent('Ground Strike', null, 'LIGHT')}
+                      className={`bg-red-400 hover:bg-red-300 border-red-400 text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
                     >
                       <div className="text-center">
-                        <div className="text-lg">TD Stuffed</div>
+                        <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-lg'}>GnP Light</div>
+                        <div className="text-[10px] text-red-200 font-normal">F</div>
+                      </div>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Light ground strike, glancing blow. 1 point.</p>
+                  </TooltipContent>
+                </Tooltip>
+                
+                {/* Row 2: TD Stuffed, GnP Solid */}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      data-testid="btn-td-stuffed"
+                      onClick={() => logEvent('Takedown Stuffed')}
+                      className={`${getButtonStyle('grappling', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
+                    >
+                      <div className="text-center">
+                        <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-lg'}>TD Stuffed</div>
                         <div className="text-[10px] text-emerald-200 font-normal">B</div>
                       </div>
                     </Button>
@@ -906,39 +927,21 @@ export default function OperatorSimple() {
                     <p>{EVENT_TOOLTIPS['Takedown Stuffed']}</p>
                   </TooltipContent>
                 </Tooltip>
-                {/* Ground Strike - Solid and Light as separate buttons */}
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
                       data-testid="btn-gnp-solid"
                       onClick={() => logEvent('Ground Strike', null, 'SOLID')}
-                      className="bg-red-600 hover:bg-red-500 border-red-500 text-white font-bold h-16 text-base border transition-all active:scale-95"
+                      className={`bg-red-600 hover:bg-red-500 border-red-500 text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
                     >
                       <div className="text-center">
-                        <div className="text-lg">GnP Solid</div>
+                        <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-lg'}>GnP Solid</div>
                         <div className="text-[10px] text-red-200 font-normal">G</div>
                       </div>
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Ground strike with solid impact. 3 points.</p>
-                  </TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      data-testid="btn-gnp-light"
-                      onClick={() => logEvent('Ground Strike', null, 'LIGHT')}
-                      className="bg-red-400 hover:bg-red-300 border-red-400 text-white font-bold h-16 text-base border transition-all active:scale-95"
-                    >
-                      <div className="text-center">
-                        <div className="text-lg">GnP Light</div>
-                        <div className="text-[10px] text-red-200 font-normal">F</div>
-                      </div>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Light ground strike, glancing blow. 1 point.</p>
                   </TooltipContent>
                 </Tooltip>
               </div>
