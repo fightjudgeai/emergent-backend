@@ -798,7 +798,7 @@ export default function OperatorSimple() {
                 
                 {/* Row 4: Elbow (single with SS) */}
                 {[
-                  { type: 'Elbow', key: '5', ssType: 'SS Elbow', ssKey: '%' },
+                  { type: 'Elbow', key: '5', ssType: 'SS Elbow', ssKey: '⇧5' },
                 ].map(strike => (
                   <div key={strike.type} className="flex gap-1">
                     <Tooltip>
