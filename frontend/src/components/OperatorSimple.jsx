@@ -987,19 +987,19 @@ export default function OperatorSimple() {
                         <Button
                           data-testid={`btn-${control.name.toLowerCase().replace(' ', '-')}`}
                           onClick={() => handleControlToggle(control.name)}
-                          className={`${isActive ? getButtonStyle('control-active', corner) : getButtonStyle('control', corner)} text-white font-semibold h-16 text-sm border transition-all active:scale-95`}
+                          className={`${isActive ? getButtonStyle('control-active', corner) : getButtonStyle('control', corner)} text-white font-semibold ${deviceRole.includes('ALL') ? 'h-12' : 'h-16'} text-sm border transition-all active:scale-95`}
                         >
                           <div className="text-center">
                             <div className="text-xs">{control.short}</div>
                             {isActive ? (
                               <>
-                                <div className="text-lg font-bold text-green-200">{formatTime(totalTime)}</div>
+                                <div className={`${deviceRole.includes('ALL') ? 'text-base' : 'text-lg'} font-bold text-green-200`}>{formatTime(totalTime)}</div>
                                 <div className="text-[8px] text-green-300">Tap to stop</div>
                               </>
                             ) : (
                               <>
                                 {totalTime > 0 ? (
-                                  <div className="text-sm font-bold text-cyan-300">{formatTime(totalTime)}</div>
+                                  <div className={`${deviceRole.includes('ALL') ? 'text-xs' : 'text-sm'} font-bold text-cyan-300`}>{formatTime(totalTime)}</div>
                                 ) : (
                                   <div className="text-[10px] text-cyan-200 mt-1">{control.key}</div>
                                 )}
@@ -1061,10 +1061,10 @@ export default function OperatorSimple() {
                       <Button
                         data-testid={`btn-sub-${sub.tier.toLowerCase()}`}
                         onClick={() => logEvent('Submission Attempt', sub.tier)}
-                        className={`${getButtonStyle('submission', corner)} text-white font-bold h-16 text-base border transition-all active:scale-95`}
+                        className={`${getButtonStyle('submission', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-10 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
                       >
                         <div className="text-center">
-                          <div className="text-lg">{sub.label}</div>
+                          <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-lg'}>{sub.label}</div>
                           <div className="text-[10px] text-purple-200 font-normal">{sub.key}</div>
                         </div>
                       </Button>
