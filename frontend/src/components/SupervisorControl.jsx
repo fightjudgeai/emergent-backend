@@ -642,12 +642,15 @@ export default function SupervisorControl() {
                     
                     {/* Role Assignments */}
                     <div className="space-y-2">
-                      {['RED_STRIKING', 'RED_GRAPPLING', 'BLUE_ALL'].map((role) => {
+                      {['RED_ALL', 'RED_STRIKING', 'RED_GRAPPLING', 'BLUE_ALL', 'BLUE_STRIKING', 'BLUE_GRAPPLING'].map((role) => {
                         const op = operators.find(o => o.assigned_role === role);
                         const roleConfig = {
+                          RED_ALL: { label: 'Red All', color: 'red' },
                           RED_STRIKING: { label: 'Red Striking', color: 'red' },
                           RED_GRAPPLING: { label: 'Red Grappling', color: 'red' },
-                          BLUE_ALL: { label: 'Blue All', color: 'blue' }
+                          BLUE_ALL: { label: 'Blue All', color: 'blue' },
+                          BLUE_STRIKING: { label: 'Blue Striking', color: 'blue' },
+                          BLUE_GRAPPLING: { label: 'Blue Grappling', color: 'blue' }
                         }[role];
                         
                         return (
