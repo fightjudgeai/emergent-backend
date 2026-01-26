@@ -234,9 +234,12 @@ export default function OperatorSimple() {
       if (!boutId) return;
 
       const key = event.key;
-      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g', 'z', 'x', 'c', 'f', '`', '~'];
+      const shiftKey = event.shiftKey;
       
-      if (shortcutKeys.includes(key.toLowerCase()) || shortcutKeys.includes(key)) {
+      // List of shortcut keys we handle
+      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'T', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g', 'z', 'x', 'c', 'f', '`', '~', '!', '@', '#', '$', '%', '^', 'F2', 'F3', 'F4', 'F5'];
+      
+      if (shortcutKeys.includes(key) || shortcutKeys.includes(key.toLowerCase())) {
         event.preventDefault();
       }
 
@@ -248,21 +251,45 @@ export default function OperatorSimple() {
           return;
         }
         
-        // STRIKING (with SS mode support)
-        if (key === '1') { await logEvent(ssMode ? 'SS Jab' : 'Jab'); }
-        else if (key === '2') { await logEvent(ssMode ? 'SS Cross' : 'Cross'); }
-        else if (key === '3') { await logEvent(ssMode ? 'SS Hook' : 'Hook'); }
-        else if (key === '4') { await logEvent(ssMode ? 'SS Uppercut' : 'Uppercut'); }
-        else if (key === '5') { await logEvent(ssMode ? 'SS Elbow' : 'Elbow'); }
-        else if (key === '6') { await logEvent(ssMode ? 'SS Knee' : 'Knee'); }
-        else if (key === '7' || key.toLowerCase() === 't') { await logEvent(ssMode ? 'SS Kick' : 'Kick'); }
+        // SS STRIKES (Shift + number) - Red Dragon K585 layout
+        if (key === '!' || (shiftKey && key === '1')) { await logEvent('SS Jab'); return; }
+        if (key === '@' || (shiftKey && key === '2')) { await logEvent('SS Cross'); return; }
+        if (key === '#' || (shiftKey && key === '3')) { await logEvent('SS Hook'); return; }
+        if (key === '$' || (shiftKey && key === '4')) { await logEvent('SS Uppercut'); return; }
+        if (key === '%' || (shiftKey && key === '5')) { await logEvent('SS Elbow'); return; }
+        if (key === '^' || (shiftKey && key === '6')) { await logEvent('SS Knee'); return; }
+        
+        // SS Kick = Shift+T
+        if (key === 'T' || (shiftKey && key.toLowerCase() === 't')) { await logEvent('SS Kick'); return; }
+        
+        // STRIKING (regular - no shift)
+        if (key === '1' && !shiftKey) { await logEvent(ssMode ? 'SS Jab' : 'Jab'); }
+        else if (key === '2' && !shiftKey) { await logEvent(ssMode ? 'SS Cross' : 'Cross'); }
+        else if (key === '3' && !shiftKey) { await logEvent(ssMode ? 'SS Hook' : 'Hook'); }
+        else if (key === '4' && !shiftKey) { await logEvent(ssMode ? 'SS Uppercut' : 'Uppercut'); }
+        else if (key === '5' && !shiftKey) { await logEvent(ssMode ? 'SS Elbow' : 'Elbow'); }
+        else if (key === '6' && !shiftKey) { await logEvent(ssMode ? 'SS Knee' : 'Knee'); }
+        // Kick = T (lowercase only, Shift+T is SS Kick)
+        else if (key === 't' && !shiftKey) { await logEvent(ssMode ? 'SS Kick' : 'Kick'); }
+        
+        // DAMAGE - G2=F2, G3=F3, G4=F4, G5=F5 (program your Red Dragon macro keys to send F2-F5)
+        else if (key === 'F2') { await logEvent('Rocked'); }       // G2 -> F2
+        else if (key === 'F3') { await logEvent('KD', 'Flash'); }  // G3 -> F3
+        else if (key === 'F4') { await logEvent('KD', 'Hard'); }   // G4 -> F4
+        else if (key === 'F5') { await logEvent('KD', 'Near-Finish'); } // G5 -> F5
+        // Fallback: Q, W, E, R still work for damage
+        else if (key.toLowerCase() === 'q') { await logEvent('Rocked'); }
+        else if (key.toLowerCase() === 'w') { await logEvent('KD', 'Flash'); }
+        else if (key.toLowerCase() === 'e') { await logEvent('KD', 'Hard'); }
+        else if (key.toLowerCase() === 'r') { await logEvent('KD', 'Near-Finish'); }
+        
         // Ground Strike - G for Solid, F for Light
-        else if (key.toLowerCase() === 'g') { 
+        else if (key.toLowerCase() === 'g' && !shiftKey) { 
           if (hasGrappling) {
             await logEvent('Ground Strike', null, 'SOLID'); 
           }
         }
-        else if (key.toLowerCase() === 'f') {
+        else if (key.toLowerCase() === 'f' && !shiftKey) {
           if (hasGrappling) {
             await logEvent('Ground Strike', null, 'LIGHT');
           }
@@ -274,11 +301,6 @@ export default function OperatorSimple() {
         else if (key.toLowerCase() === 'a') { await logEvent('Submission Attempt', 'Light'); }
         else if (key.toLowerCase() === 's') { await logEvent('Submission Attempt', 'Deep'); }
         else if (key.toLowerCase() === 'd') { await logEvent('Submission Attempt', 'Near-Finish'); }
-        // DAMAGE
-        else if (key.toLowerCase() === 'q') { await logEvent('Rocked'); }
-        else if (key.toLowerCase() === 'w') { await logEvent('KD', 'Flash'); }
-        else if (key.toLowerCase() === 'e') { await logEvent('KD', 'Hard'); }
-        else if (key.toLowerCase() === 'r') { await logEvent('KD', 'Near-Finish'); }
         // Control timers - Z, X, C (only for grappling roles)
         else if (key.toLowerCase() === 'z') { 
           if (hasGrappling) handleControlToggle('Back Control'); 
