@@ -4001,6 +4001,7 @@ class RoundComputeRequest(BaseModel):
     """Request to compute a round score"""
     bout_id: str
     round_number: int
+    preview_only: Optional[bool] = False  # If True, don't save to database
 
 class FightFinalizeRequest(BaseModel):
     """Request to finalize a fight"""
