@@ -760,8 +760,8 @@ export default function OperatorSimple() {
                 
                 {/* Row 3: Kick, Knee */}
                 {[
-                  { type: 'Kick', key: '7', ssType: 'SS Kick', ssKey: '&' },
-                  { type: 'Knee', key: '6', ssType: 'SS Knee', ssKey: '^' },
+                  { type: 'Kick', key: 'T', ssType: 'SS Kick', ssKey: '⇧T' },
+                  { type: 'Knee', key: '6', ssType: 'SS Knee', ssKey: '⇧6' },
                 ].map(strike => (
                   <div key={strike.type} className="flex gap-1">
                     <Tooltip>
