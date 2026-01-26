@@ -583,10 +583,12 @@ export default function SupervisorDashboardPro() {
     fetchBoutInfo();
     fetchEvents();
     fetchRoundResults();
+    fetchLiveScore();
     
     // More aggressive polling for real-time feel
     const eventInterval = setInterval(() => {
       fetchEvents();
+      fetchLiveScore();  // Also compute live score
     }, 300);  // Poll events every 300ms
     
     // Also poll round results and bout info less frequently
@@ -599,7 +601,7 @@ export default function SupervisorDashboardPro() {
       clearInterval(eventInterval);
       clearInterval(roundInterval);
     };
-  }, [boutId, currentRound, fetchEvents, fetchRoundResults, fetchBoutInfo]);
+  }, [boutId, currentRound, fetchEvents, fetchRoundResults, fetchBoutInfo, fetchLiveScore]);
 
   // End Round - compute and auto-advance
   const handleEndRound = async () => {
