@@ -1107,6 +1107,25 @@ def calculate_new_score(events: List[EventData], fighter: str) -> tuple[float, d
 async def root():
     return {"message": "Combat Sports Judging API"}
 
+@api_router.get("/health")
+async def health_check():
+    """
+    Health check endpoint for monitoring and keep-alive pings.
+    Returns server status and uptime information.
+    """
+    return {
+        "status": "healthy",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "service": "Fight Judge AI",
+        "version": "1.0.0",
+        "keep_alive": "active"
+    }
+
+@api_router.get("/ping")
+async def ping():
+    """Simple ping endpoint for keep-alive checks"""
+    return {"pong": True, "timestamp": datetime.now(timezone.utc).isoformat()}
+
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.model_dump()
