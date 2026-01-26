@@ -684,8 +684,8 @@ export default function OperatorSimple() {
               <div className="grid grid-cols-2 gap-2">
                 {/* Row 1: Jab, Cross */}
                 {[
-                  { type: 'Jab', key: '1', ssType: 'SS Jab', ssKey: '!' },
-                  { type: 'Cross', key: '2', ssType: 'SS Cross', ssKey: '@' },
+                  { type: 'Jab', key: '1', ssType: 'SS Jab', ssKey: '⇧1' },
+                  { type: 'Cross', key: '2', ssType: 'SS Cross', ssKey: '⇧2' },
                 ].map(strike => (
                   <div key={strike.type} className="flex gap-1">
                     <Tooltip>
