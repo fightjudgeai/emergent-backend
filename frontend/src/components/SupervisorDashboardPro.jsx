@@ -546,7 +546,7 @@ export default function SupervisorDashboardPro() {
     }
   }, [boutId]);
 
-  // Poll every 500ms
+  // Poll every 300ms for real-time updates
   useEffect(() => {
     if (!boutId) return;
     
@@ -554,11 +554,21 @@ export default function SupervisorDashboardPro() {
     fetchEvents();
     fetchRoundResults();
     
-    const interval = setInterval(() => {
+    // More aggressive polling for real-time feel
+    const eventInterval = setInterval(() => {
       fetchEvents();
-    }, 500);
+    }, 300);  // Poll events every 300ms
     
-    return () => clearInterval(interval);
+    // Also poll round results and bout info less frequently
+    const roundInterval = setInterval(() => {
+      fetchRoundResults();
+      fetchBoutInfo();
+    }, 1000);  // Poll round results every 1s
+    
+    return () => {
+      clearInterval(eventInterval);
+      clearInterval(roundInterval);
+    };
   }, [boutId, currentRound, fetchEvents, fetchRoundResults, fetchBoutInfo]);
 
   // End Round - compute and auto-advance
