@@ -6859,7 +6859,7 @@ async def keep_alive_task():
     
     # Get the backend URL from environment or use localhost
     backend_url = os.environ.get("BACKEND_URL", "http://localhost:8001")
-    health_url = f"{backend_url}/api/health"
+    ping_url = f"{backend_url}/api/ping"
     
     while True:
         try:
@@ -6867,7 +6867,7 @@ async def keep_alive_task():
             
             # Self-ping to keep server warm
             async with httpx.AsyncClient(timeout=10.0) as client:
-                response = await client.get(health_url)
+                response = await client.get(ping_url)
                 if response.status_code == 200:
                     logger.info(f"[KEEP-ALIVE] Server ping successful at {datetime.now(timezone.utc).isoformat()}")
                 else:
