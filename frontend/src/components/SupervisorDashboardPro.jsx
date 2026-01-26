@@ -483,23 +483,9 @@ export default function SupervisorDashboardPro() {
           blue: detectActiveControl(blue)
         });
         
-        // Calculate deltas
-        let redTotal = 0;
-        let blueTotal = 0;
-        
-        red.forEach(e => {
-          const tier = e.metadata?.tier;
-          redTotal += getEventDelta(e.event_type, tier);
-        });
-        
-        blue.forEach(e => {
-          const tier = e.metadata?.tier;
-          blueTotal += getEventDelta(e.event_type, tier);
-        });
-        
-        setRedDelta(redTotal);
-        setBlueDelta(blueTotal);
-        setNetDelta(redTotal - blueTotal);
+        // Note: Delta calculation is now done via fetchLiveScore using the actual scoring engine
+        // The frontend calculation here is just a rough estimate
+        // The accurate score comes from liveScore state which is updated in parallel
         
         setIsConnected(true);
         setLastPollTime(new Date());
