@@ -659,7 +659,7 @@ export default function OperatorSimple() {
               <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
                 Strikes
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 {/* Row 1: Jab, Cross */}
                 {[
                   { type: 'Jab', key: '1', ssType: 'SS Jab', ssKey: '!' },
@@ -671,10 +671,10 @@ export default function OperatorSimple() {
                         <Button
                           data-testid={`btn-${strike.type.toLowerCase()}`}
                           onClick={() => logEvent(strike.type)}
-                          className={`${getButtonStyle('strike', corner)} text-white font-bold h-16 text-lg flex-1 border transition-all active:scale-95`}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12' : 'h-16'} text-lg flex-1 border transition-all active:scale-95`}
                         >
                           <div className="text-center">
-                            <div className="text-xl">{strike.type}</div>
+                            <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-xl'}>{strike.type}</div>
                             <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
                           </div>
                         </Button>
@@ -686,10 +686,10 @@ export default function OperatorSimple() {
                         <Button
                           data-testid={`btn-ss-${strike.type.toLowerCase()}`}
                           onClick={() => logEvent(strike.ssType)}
-                          className={`${getButtonStyle('ss', corner)} text-white font-bold h-16 w-14 text-sm border transition-all active:scale-95`}
+                          className={`${getButtonStyle('ss', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 w-12' : 'h-16 w-14'} text-sm border transition-all active:scale-95`}
                         >
                           <div className="text-center">
-                            <div className="text-base">SS</div>
+                            <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-base'}>SS</div>
                           </div>
                         </Button>
                       </TooltipTrigger>
@@ -709,10 +709,10 @@ export default function OperatorSimple() {
                         <Button
                           data-testid={`btn-${strike.type.toLowerCase()}`}
                           onClick={() => logEvent(strike.type)}
-                          className={`${getButtonStyle('strike', corner)} text-white font-bold h-16 text-lg flex-1 border transition-all active:scale-95`}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12' : 'h-16'} text-lg flex-1 border transition-all active:scale-95`}
                         >
                           <div className="text-center">
-                            <div className="text-xl">{strike.type}</div>
+                            <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-xl'}>{strike.type}</div>
                             <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
                           </div>
                         </Button>
@@ -724,10 +724,10 @@ export default function OperatorSimple() {
                         <Button
                           data-testid={`btn-ss-${strike.type.toLowerCase()}`}
                           onClick={() => logEvent(strike.ssType)}
-                          className={`${getButtonStyle('ss', corner)} text-white font-bold h-16 w-14 text-sm border transition-all active:scale-95`}
+                          className={`${getButtonStyle('ss', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 w-12' : 'h-16 w-14'} text-sm border transition-all active:scale-95`}
                         >
                           <div className="text-center">
-                            <div className="text-base">SS</div>
+                            <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-base'}>SS</div>
                           </div>
                         </Button>
                       </TooltipTrigger>
@@ -747,10 +747,10 @@ export default function OperatorSimple() {
                         <Button
                           data-testid={`btn-${strike.type.toLowerCase()}`}
                           onClick={() => logEvent(strike.type)}
-                          className={`${getButtonStyle('strike', corner)} text-white font-bold h-16 text-lg flex-1 border transition-all active:scale-95`}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12' : 'h-16'} text-lg flex-1 border transition-all active:scale-95`}
                         >
                           <div className="text-center">
-                            <div className="text-xl">{strike.type}</div>
+                            <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-xl'}>{strike.type}</div>
                             <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
                           </div>
                         </Button>
@@ -762,10 +762,10 @@ export default function OperatorSimple() {
                         <Button
                           data-testid={`btn-ss-${strike.type.toLowerCase()}`}
                           onClick={() => logEvent(strike.ssType)}
-                          className={`${getButtonStyle('ss', corner)} text-white font-bold h-16 w-14 text-sm border transition-all active:scale-95`}
+                          className={`${getButtonStyle('ss', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 w-12' : 'h-16 w-14'} text-sm border transition-all active:scale-95`}
                         >
                           <div className="text-center">
-                            <div className="text-base">SS</div>
+                            <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-base'}>SS</div>
                           </div>
                         </Button>
                       </TooltipTrigger>
@@ -784,10 +784,10 @@ export default function OperatorSimple() {
                         <Button
                           data-testid={`btn-${strike.type.toLowerCase()}`}
                           onClick={() => logEvent(strike.type)}
-                          className={`${getButtonStyle('strike', corner)} text-white font-bold h-16 text-lg flex-1 border transition-all active:scale-95`}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12' : 'h-16'} text-lg flex-1 border transition-all active:scale-95`}
                         >
                           <div className="text-center">
-                            <div className="text-xl">{strike.type}</div>
+                            <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-xl'}>{strike.type}</div>
                             <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
                           </div>
                         </Button>
