@@ -223,6 +223,23 @@ export default function OperatorSimple() {
   const hasGrappling = deviceRole.includes('GRAPPLING') || deviceRole.includes('ALL');
   const hasStriking = deviceRole.includes('STRIKING') || deviceRole.includes('ALL');
   
+  // Keep-alive ping - every 15 seconds while operator is active
+  useEffect(() => {
+    const pingServer = async () => {
+      try {
+        await fetch(`${API}/api/ping`);
+      } catch (e) {
+        // Silently ignore
+      }
+    };
+    
+    // Ping immediately and every 15 seconds
+    pingServer();
+    const interval = setInterval(pingServer, 15000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
   // Log control time bucket (quick add without timer)
   const logControlBucket = async (controlType, seconds) => {
     try {
