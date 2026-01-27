@@ -350,9 +350,22 @@ export default function BroadcastDisplay() {
   const winner = redTotal > blueTotal ? 'red' : blueTotal > redTotal ? 'blue' : 'draw';
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center p-4 md:p-8">
-      {/* Connection Status Banner */}
-      {(isOffline || connectionAttempts > 0) && (
+    <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center p-4 md:p-8 relative">
+      {/* Fullscreen Toggle Button - Hidden when in fullscreen */}
+      {!isFullscreen && (
+        <button
+          onClick={toggleFullscreen}
+          className="fixed top-4 right-4 z-50 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-semibold transition-colors flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+          </svg>
+          Fullscreen
+        </button>
+      )}
+      
+      {/* Connection Status Banner - Hidden in fullscreen */}
+      {!isFullscreen && (isOffline || connectionAttempts > 0) && (
         <div className={`fixed top-0 left-0 right-0 py-2 px-4 text-center text-sm font-semibold ${isOffline ? 'bg-red-600' : 'bg-yellow-600'}`}>
           {isOffline ? (
             <>OFFLINE MODE - Using cached data {lastUpdate && `(Last update: ${lastUpdate.toLocaleTimeString()})`}</>
