@@ -6944,8 +6944,9 @@ async def shutdown_db_client():
 # Background keep-alive task
 async def keep_alive_task():
     """
-    Background task that runs every 5 minutes to keep the server warm.
+    Background task that runs every 60 seconds to keep the server warm.
     Prevents cold starts by maintaining server activity.
+    More aggressive interval for live scoring reliability.
     """
     import httpx
     
@@ -6955,13 +6956,13 @@ async def keep_alive_task():
     
     while True:
         try:
-            await asyncio.sleep(300)  # 5 minutes
+            await asyncio.sleep(60)  # Every 60 seconds for live events
             
             # Self-ping to keep server warm
             async with httpx.AsyncClient(timeout=10.0) as client:
                 response = await client.get(ping_url)
                 if response.status_code == 200:
-                    logger.info(f"[KEEP-ALIVE] Server ping successful at {datetime.now(timezone.utc).isoformat()}")
+                    logger.debug(f"[KEEP-ALIVE] Ping OK at {datetime.now(timezone.utc).strftime('%H:%M:%S')}")
                 else:
                     logger.warning(f"[KEEP-ALIVE] Ping returned status {response.status_code}")
         except Exception as e:
@@ -6970,7 +6971,7 @@ async def keep_alive_task():
             # Do a simple DB ping to keep connections warm
             try:
                 await db.command("ping")
-                logger.info(f"[KEEP-ALIVE] Internal DB ping successful at {datetime.now(timezone.utc).isoformat()}")
+                logger.debug(f"[KEEP-ALIVE] DB ping OK at {datetime.now(timezone.utc).strftime('%H:%M:%S')}")
             except:
                 pass
 
@@ -6978,4 +6979,4 @@ async def keep_alive_task():
 async def start_keep_alive():
     """Start the keep-alive background task on server startup"""
     asyncio.create_task(keep_alive_task())
-    logger.info("✓ Keep-alive task started (5-minute interval)")
+    logger.info("✓ Keep-alive task started (60-second interval for live events)")
