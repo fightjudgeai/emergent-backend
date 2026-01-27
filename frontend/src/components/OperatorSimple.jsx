@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,9 @@ import {
   Info,
   Clock,
   Plus,
-  Minus
+  Minus,
+  Maximize,
+  Minimize
 } from 'lucide-react';
 
 const API = process.env.REACT_APP_BACKEND_URL;
