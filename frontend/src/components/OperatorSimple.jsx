@@ -150,6 +150,7 @@ const formatTime = (seconds) => {
 export default function OperatorSimple() {
   const { boutId } = useParams();
   const navigate = useNavigate();
+  const containerRef = useRef(null);
   
   const [deviceRole, setDeviceRole] = useState(localStorage.getItem('device_role') || 'RED_STRIKING');
   const [operatorName, setOperatorName] = useState(localStorage.getItem('sync_device_name') || 'Operator');
@@ -160,6 +161,7 @@ export default function OperatorSimple() {
   const [lastEvent, setLastEvent] = useState(null);
   const [boutInfo, setBoutInfo] = useState({ fighter1: 'Red Corner', fighter2: 'Blue Corner' });
   const [roundJustChanged, setRoundJustChanged] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   
   // Control timer state - tracks cumulative time per control type for the round
   const [activeControl, setActiveControl] = useState(null); // 'Back Control', 'Top Control', 'Cage Control'
@@ -178,6 +180,32 @@ export default function OperatorSimple() {
   
   // Control bucket mode - for quick time logging
   const [showControlBuckets, setShowControlBuckets] = useState(false);
+  
+  // Fullscreen toggle handler
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await containerRef.current?.requestFullscreen();
+        setIsFullscreen(true);
+      } else {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    } catch (error) {
+      console.error('Fullscreen error:', error);
+      toast.error('Fullscreen not supported');
+    }
+  };
+  
+  // Listen for fullscreen changes (including Escape key)
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
   // Determine corner from role
   const corner = deviceRole.startsWith('RED') ? 'RED' : 'BLUE';
