@@ -92,8 +92,8 @@ const EVENT_TOOLTIPS = {
   'KD Near-Finish': 'Fighter badly hurt - referee could have stopped it. 210 points. IMPACT LOCK: Winner unless opponent leads by 150+ points.',
   
   // Grappling
-  'Takedown': 'Successfully takes opponent to ground. 10 points.',
-  'Takedown Stuffed': 'Defends a takedown attempt. 5 points (diminishing after 3).',
+  'Takedown': 'Successfully takes opponent to ground. 6 points.',
+  'Takedown Stuffed': 'Defends a takedown attempt. 2 points (diminishing after 3).',
   'Ground Strike': 'Ground and pound strike. SOLID: 3 points, LIGHT: 1 point.',
   
   // Submissions
