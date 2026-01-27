@@ -648,7 +648,7 @@ export default function OperatorSimple() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div ref={containerRef} className={`min-h-screen bg-slate-950 ${isFullscreen ? 'overflow-auto' : ''}`}>
       {/* Role Banner - Large, clear indicator */}
       <div className={`${corner === 'RED' ? 'bg-red-600' : 'bg-blue-600'} py-2 text-center`}>
         <span className="text-white font-black text-lg tracking-wider">
@@ -676,6 +676,16 @@ export default function OperatorSimple() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Fullscreen Toggle Button */}
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={toggleFullscreen}
+              className="text-slate-400 hover:text-white"
+              data-testid="btn-fullscreen"
+            >
+              {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+            </Button>
             <Badge className={`${isConnected ? 'bg-green-600' : 'bg-red-600'} text-white`}>
               {isConnected ? <Wifi className="w-3 h-3 mr-1" /> : <WifiOff className="w-3 h-3 mr-1" />}
               {isConnected ? 'LIVE' : 'OFFLINE'}
