@@ -281,6 +281,13 @@ export default function OperatorSimple() {
           return;
         }
         
+        // F11 for fullscreen toggle
+        if (key === 'F11') {
+          event.preventDefault();
+          toggleFullscreen();
+          return;
+        }
+        
         // SS STRIKES (Shift + number) - Red Dragon K585 layout
         if (key === '!' || (shiftKey && key === '1')) { await logEvent('SS Jab'); return; }
         if (key === '@' || (shiftKey && key === '2')) { await logEvent('SS Cross'); return; }
