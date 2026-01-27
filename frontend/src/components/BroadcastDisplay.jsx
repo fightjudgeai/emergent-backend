@@ -440,29 +440,110 @@ export default function BroadcastDisplay() {
           </div>
         </div>
 
-        {/* Current Round Score */}
+        {/* Current Round Score - FULLSCREEN CLEAN VIEW */}
         {currentRound && (
-          <div className="mb-8">
-            <RoundWinner
-              round={currentRound}
-              roundNumber={currentRound.round}
-              redName={boutData.fighter1}
-              blueName={boutData.fighter2}
-              isVisible={true}
-            />
+          <div className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center">
+            {/* Background gradient based on winner */}
+            <div className={`absolute inset-0 ${
+              currentRound.unified_red > currentRound.unified_blue
+                ? 'bg-gradient-to-br from-red-900/30 via-black to-red-950/20'
+                : currentRound.unified_blue > currentRound.unified_red
+                  ? 'bg-gradient-to-br from-blue-900/30 via-black to-blue-950/20'
+                  : 'bg-gradient-to-br from-gray-900/30 via-black to-gray-950/20'
+            }`} />
+            
+            <div className="relative z-10 text-center space-y-8 px-8 w-full max-w-4xl">
+              {/* Round Label */}
+              <div className="text-3xl md:text-4xl font-bold text-cyan-400 tracking-[0.4em] uppercase">
+                Round {currentRound.round || currentRound.round_number} Score
+              </div>
+              
+              {/* Score Display - Large */}
+              <div className="flex items-center justify-center gap-8 md:gap-16">
+                {/* Red Score */}
+                <div className="text-center">
+                  <div className="text-lg md:text-xl text-red-400 font-semibold tracking-wider uppercase mb-2">
+                    {boutData?.fighter1 || 'RED'}
+                  </div>
+                  <div className="text-7xl md:text-9xl font-black text-red-400" style={{ textShadow: '0 0 40px rgba(239, 68, 68, 0.6)' }}>
+                    {Math.round((currentRound.unified_red || currentRound.red_total || 0) * 10) / 10}
+                  </div>
+                </div>
+                
+                {/* VS */}
+                <div className="text-4xl md:text-5xl text-gray-600 font-bold">
+                  -
+                </div>
+                
+                {/* Blue Score */}
+                <div className="text-center">
+                  <div className="text-lg md:text-xl text-blue-400 font-semibold tracking-wider uppercase mb-2">
+                    {boutData?.fighter2 || 'BLUE'}
+                  </div>
+                  <div className="text-7xl md:text-9xl font-black text-blue-400" style={{ textShadow: '0 0 40px rgba(59, 130, 246, 0.6)' }}>
+                    {Math.round((currentRound.unified_blue || currentRound.blue_total || 0) * 10) / 10}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Round Winner */}
+              <div className="mt-8">
+                <div className="text-xl text-gray-500 uppercase tracking-wider mb-2">Round Winner</div>
+                <div className={`text-5xl md:text-7xl font-black uppercase tracking-wider ${
+                  currentRound.unified_red > currentRound.unified_blue
+                    ? 'text-red-400'
+                    : currentRound.unified_blue > currentRound.unified_red
+                      ? 'text-blue-400'
+                      : 'text-gray-400'
+                }`} style={{ textShadow: '0 0 30px currentColor' }}>
+                  {currentRound.unified_red > currentRound.unified_blue
+                    ? boutData?.fighter1 || 'RED'
+                    : currentRound.unified_blue > currentRound.unified_red
+                      ? boutData?.fighter2 || 'BLUE'
+                      : 'DRAW'}
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
-        {/* Final Result */}
+        {/* Final Result - FULLSCREEN CLEAN VIEW */}
         {showFinal && (
-          <div className="mb-8">
-            <FinalResult
-              total={{ red: redTotal, blue: blueTotal }}
-              winner={winner}
-              redName={boutData.fighter1}
-              blueName={boutData.fighter2}
-              isVisible={true}
-            />
+          <div className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center">
+            {/* Background gradient based on winner */}
+            <div className={`absolute inset-0 ${
+              winner === 'red'
+                ? 'bg-gradient-to-br from-red-900/40 via-black to-red-950/30'
+                : 'bg-gradient-to-br from-blue-900/40 via-black to-blue-950/30'
+            }`} />
+            
+            <div className="relative z-10 text-center space-y-8 px-8 w-full max-w-4xl">
+              {/* Trophy/Winner Label */}
+              <div className="text-4xl md:text-5xl font-black text-amber-400 tracking-widest uppercase">
+                ★ WINNER ★
+              </div>
+              
+              {/* Winner Name - HUGE */}
+              <div className={`text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-wider ${
+                winner === 'red' ? 'text-red-400' : 'text-blue-400'
+              }`} style={{ textShadow: '0 0 60px currentColor' }}>
+                {winner === 'red' ? boutData?.fighter1 : boutData?.fighter2}
+              </div>
+              
+              {/* Final Score */}
+              <div className="text-4xl md:text-5xl font-bold mt-8">
+                <span className="text-red-400">{redTotal}</span>
+                <span className="text-gray-600 mx-4">-</span>
+                <span className="text-blue-400">{blueTotal}</span>
+              </div>
+              
+              {/* Fighter names */}
+              <div className="text-xl md:text-2xl text-gray-500 mt-4">
+                <span className="text-red-400/80">{boutData?.fighter1}</span>
+                <span className="text-gray-700 mx-3">vs</span>
+                <span className="text-blue-400/80">{boutData?.fighter2}</span>
+              </div>
+            </div>
           </div>
         )}
 
