@@ -221,6 +221,23 @@ export default function SupervisorDashboardPro() {
   const [liveScore, setLiveScore] = useState({ red: 0, blue: 0 });
   
   const navigate = useNavigate();
+  
+  // Keep-alive ping - every 15 seconds while supervisor is active
+  useEffect(() => {
+    const pingServer = async () => {
+      try {
+        await fetch(`${API}/api/ping`);
+      } catch (e) {
+        // Silently ignore
+      }
+    };
+    
+    // Ping immediately and every 15 seconds
+    pingServer();
+    const interval = setInterval(pingServer, 15000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   // Update broadcast control on server
   const updateBroadcastControl = async (key, value) => {
