@@ -26,9 +26,54 @@ export default function BroadcastDisplay() {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const [lastUpdate, setLastUpdate] = useState(null);
   const [connectionAttempts, setConnectionAttempts] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Cache key for offline storage
   const CACHE_KEY = `broadcast_${boutId}`;
+  
+  // Fullscreen toggle handler
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+        setIsFullscreen(true);
+      } else {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    } catch (error) {
+      console.error('Fullscreen error:', error);
+    }
+  };
+  
+  // Listen for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+  
+  // Auto-enter fullscreen on load for arena display
+  useEffect(() => {
+    // Add click listener to enter fullscreen on first interaction
+    const handleFirstClick = async () => {
+      if (!document.fullscreenElement) {
+        try {
+          await document.documentElement.requestFullscreen();
+          setIsFullscreen(true);
+        } catch (e) {
+          // Silently fail - user may not have interacted yet
+        }
+      }
+      document.removeEventListener('click', handleFirstClick);
+    };
+    
+    document.addEventListener('click', handleFirstClick);
+    return () => document.removeEventListener('click', handleFirstClick);
+  }, []);
 
   // Save to local storage for offline access
   const saveToCache = useCallback((data) => {
