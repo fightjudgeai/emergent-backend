@@ -3,6 +3,7 @@ import "@fontsource/oswald";
 import "@/styles/fjai-broadcast.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "sonner";
+import { useEffect } from "react";
 import JudgeLogin from "@/components/JudgeLogin";
 import EventSetup from "@/components/EventSetup";
 import FightList from "@/components/FightList";
@@ -34,7 +35,45 @@ import FightHistory from "@/components/FightHistory";
 import FightDetailsArchived from "@/components/FightDetailsArchived";
 import BroadcastOverlay from "@/pages/BroadcastOverlay";
 
+const API = process.env.REACT_APP_BACKEND_URL;
+
+// Global keep-alive hook - prevents server from sleeping while app is open
+function useKeepAlive() {
+  useEffect(() => {
+    // Ping every 30 seconds to keep server awake
+    const pingServer = async () => {
+      try {
+        await fetch(`${API}/api/ping`, { method: 'GET' });
+      } catch (e) {
+        // Silently ignore errors
+      }
+    };
+
+    // Initial ping
+    pingServer();
+
+    // Set up interval - ping every 30 seconds
+    const interval = setInterval(pingServer, 30000);
+
+    // Also ping on visibility change (when user returns to tab)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        pingServer();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+}
+
 function App() {
+  // Keep server awake while app is open
+  useKeepAlive();
+  
   // Check if judge is logged in
   const isJudgeLoggedIn = () => {
     return localStorage.getItem('judgeProfile') !== null;
