@@ -1188,9 +1188,6 @@ export default function SupervisorDashboardPro() {
           </div>
         </div>
       )}
-          </div>
-        </div>
-      )}
 
       {/* Finish Method Selection Dialog */}
       <Dialog open={showFinishMethodDialog} onOpenChange={setShowFinishMethodDialog}>
