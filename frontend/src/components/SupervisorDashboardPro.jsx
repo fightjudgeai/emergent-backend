@@ -1130,9 +1130,12 @@ export default function SupervisorDashboardPro() {
       </Dialog>
 
       {/* Final Result Dialog */}
-      {/* FULLSCREEN WINNER DISPLAY */}
+      {/* FULLSCREEN WINNER DISPLAY - Clean view for arena */}
       {showFinalResult && finalResult && (
-        <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center">
+        <div 
+          className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center cursor-pointer"
+          onClick={() => setShowFinalResult(false)}
+        >
           {/* Animated background gradient */}
           <div className={`absolute inset-0 ${
             finalResult.winner === 'RED' 
@@ -1179,45 +1182,12 @@ export default function SupervisorDashboardPro() {
             </div>
           </div>
           
-          {/* Bottom action buttons */}
-          <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-4 px-8">
-            <Button 
-              onClick={showOnArena}
-              className="bg-amber-500 hover:bg-amber-600 text-black font-bold px-8 py-3 text-lg"
-            >
-              <Tv className="w-5 h-5 mr-2" />
-              Arena Screen
-            </Button>
-            {nextFight ? (
-              <Button 
-                onClick={() => {
-                  setShowFinalResult(false);
-                  navigate(`/supervisor/${nextFight.bout_id}`);
-                }} 
-                className="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3 text-lg"
-              >
-                <ChevronRight className="w-5 h-5 mr-2" />
-                Next Fight
-              </Button>
-            ) : (
-              <Button 
-                onClick={() => {
-                  setShowFinalResult(false);
-                  navigate('/control');
-                }} 
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 text-lg"
-              >
-                <Home className="w-5 h-5 mr-2" />
-                Control Panel
-              </Button>
-            )}
-            <Button 
-              onClick={() => setShowFinalResult(false)} 
-              variant="outline" 
-              className="border-gray-600 text-gray-300 px-8 py-3 text-lg"
-            >
-              Close
-            </Button>
+          {/* Tap to close hint - subtle */}
+          <div className="absolute bottom-8 text-gray-600 text-sm">
+            Tap anywhere to close
+          </div>
+        </div>
+      )}
           </div>
         </div>
       )}
