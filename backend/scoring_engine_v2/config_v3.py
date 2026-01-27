@@ -45,8 +45,8 @@ SCORING_CONFIG = {
     # GRAPPLING
     # -------------------------------------------------------------------------
     "grappling": {
-        "takedown": {"points": 10, "category": "grappling", "label": "Takedown", "is_ss": False},
-        "takedown_stuffed": {"points": 5, "category": "grappling", "label": "TD Stuffed", "is_ss": False, "max_full_value": 3},
+        "takedown": {"points": 6, "category": "grappling", "label": "Takedown", "is_ss": False},
+        "takedown_stuffed": {"points": 2, "category": "grappling", "label": "TD Stuffed", "is_ss": False, "max_full_value": 3},
     },
     
     # -------------------------------------------------------------------------
