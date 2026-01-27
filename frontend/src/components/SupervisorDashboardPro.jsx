@@ -546,7 +546,8 @@ export default function SupervisorDashboardPro() {
         setNetDelta(Math.round((redTotal - blueTotal) * 10) / 10);
       }
     } catch (error) {
-      console.error('Fetch live score error:', error);
+      // Silently handle errors - don't spam console during cold starts
+      // The next poll will retry automatically
     }
   }, [boutId, currentRound]);
 
@@ -566,11 +567,11 @@ export default function SupervisorDashboardPro() {
         setCurrentRound(data.currentRound || 1);
       }
     } catch (error) {
-      console.error('Fetch bout error:', error);
+      // Silently handle - will retry on next poll
     }
   }, [boutId]);
 
-  // Poll every 300ms for real-time updates
+  // Poll every 500ms for real-time updates (balanced for reliability)
   useEffect(() => {
     if (!boutId) return;
     
