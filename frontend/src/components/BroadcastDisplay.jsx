@@ -492,27 +492,29 @@ export default function BroadcastDisplay() {
           </div>
         )}
 
-        {/* Status Indicator */}
-        <div className="mt-8 text-center">
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full" style={{ 
-            background: 'hsl(0 0% 15%)',
-            border: '1px solid hsl(195 100% 70% / 0.3)'
-          }}>
-            <div className="w-4 h-4 rounded-full" style={{ 
-              background: boutData.status === 'in_progress' ? 'hsl(120 100% 50%)' : 'hsl(0 0% 50%)',
-              boxShadow: boutData.status === 'in_progress' ? '0 0 15px hsl(120 100% 50%)' : 'none',
-              animation: boutData.status === 'in_progress' ? 'pulse 2s ease-in-out infinite' : 'none'
-            }} />
-            <span className="text-base md:text-lg uppercase tracking-wider font-semibold" style={{ color: 'hsl(195 100% 70%)' }}>
-              {boutData.status === 'in_progress' ? 'LIVE' : boutData.status === 'completed' ? 'FIGHT OVER' : 'PENDING'}
-            </span>
-            {liveData?.current_round && boutData.status === 'in_progress' && (
-              <span className="text-gray-400 text-sm md:text-base">
-                | Round {liveData.current_round}
+        {/* Status Indicator - Hidden in fullscreen for cleaner arena display */}
+        {!isFullscreen && (
+          <div className="mt-8 text-center">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full" style={{ 
+              background: 'hsl(0 0% 15%)',
+              border: '1px solid hsl(195 100% 70% / 0.3)'
+            }}>
+              <div className="w-4 h-4 rounded-full" style={{ 
+                background: boutData.status === 'in_progress' ? 'hsl(120 100% 50%)' : 'hsl(0 0% 50%)',
+                boxShadow: boutData.status === 'in_progress' ? '0 0 15px hsl(120 100% 50%)' : 'none',
+                animation: boutData.status === 'in_progress' ? 'pulse 2s ease-in-out infinite' : 'none'
+              }} />
+              <span className="text-base md:text-lg uppercase tracking-wider font-semibold" style={{ color: 'hsl(195 100% 70%)' }}>
+                {boutData.status === 'in_progress' ? 'LIVE' : boutData.status === 'completed' ? 'FIGHT OVER' : 'PENDING'}
               </span>
-            )}
+              {liveData?.current_round && boutData.status === 'in_progress' && (
+                <span className="text-gray-400 text-sm md:text-base">
+                  | Round {liveData.current_round}
+                </span>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
