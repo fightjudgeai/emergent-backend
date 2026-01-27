@@ -267,7 +267,7 @@ export default function OperatorSimple() {
       const shiftKey = event.shiftKey;
       
       // List of shortcut keys we handle
-      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'T', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g', 'z', 'x', 'c', 'f', '`', '~', '!', '@', '#', '$', '%', '^', 'F2', 'F3', 'F4', 'F5'];
+      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'T', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g', 'z', 'x', 'c', 'f', '`', '~', '!', '@', '#', '$', '%', '^', 'F2', 'F3', 'F4', 'F5', 'F11'];
       
       if (shortcutKeys.includes(key) || shortcutKeys.includes(key.toLowerCase())) {
         event.preventDefault();
