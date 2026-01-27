@@ -584,13 +584,13 @@ export default function SupervisorDashboardPro() {
     const eventInterval = setInterval(() => {
       fetchEvents();
       fetchLiveScore();  // Also compute live score
-    }, 300);  // Poll events every 300ms
+    }, 500);  // Poll events every 500ms (balanced for reliability)
     
     // Also poll round results and bout info less frequently
     const roundInterval = setInterval(() => {
       fetchRoundResults();
       fetchBoutInfo();
-    }, 1000);  // Poll round results every 1s
+    }, 2000);  // Poll round results every 2s
     
     return () => {
       clearInterval(eventInterval);
