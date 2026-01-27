@@ -1130,67 +1130,97 @@ export default function SupervisorDashboardPro() {
       </Dialog>
 
       {/* Final Result Dialog */}
-      <Dialog open={showFinalResult} onOpenChange={setShowFinalResult}>
-        <DialogContent className="bg-black border-amber-500 text-white max-w-lg">
-          <div className="text-center space-y-6 py-6">
-            <Trophy className="w-16 h-16 text-amber-400 mx-auto" />
-            <div className="text-3xl font-bold text-amber-400">FIGHT RESULT</div>
-            {finalResult && (
-              <>
-                <div className="text-5xl font-bold">
-                  <span className="text-red-400">{finalResult.final_red}</span>
-                  <span className="text-gray-500 mx-3">-</span>
-                  <span className="text-blue-400">{finalResult.final_blue}</span>
-                </div>
-                <div>
-                  <div className="text-xl text-gray-400">WINNER BY {finalResult.finish_method || finishMethod}</div>
-                  <div className={`text-4xl font-bold ${finalResult.winner === 'RED' ? 'text-red-400' : 'text-blue-400'}`}>
-                    {finalResult.winner_name}
-                  </div>
-                </div>
-              </>
-            )}
+      {/* FULLSCREEN WINNER DISPLAY */}
+      {showFinalResult && finalResult && (
+        <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center">
+          {/* Animated background gradient */}
+          <div className={`absolute inset-0 ${
+            finalResult.winner === 'RED' 
+              ? 'bg-gradient-to-br from-red-900/50 via-black to-red-950/30' 
+              : 'bg-gradient-to-br from-blue-900/50 via-black to-blue-950/30'
+          }`} />
+          
+          {/* Main content */}
+          <div className="relative z-10 text-center space-y-8 px-8 max-w-4xl">
+            {/* Trophy icon */}
+            <Trophy className={`w-32 h-32 mx-auto ${
+              finalResult.winner === 'RED' ? 'text-red-400' : 'text-blue-400'
+            } animate-pulse`} />
             
-            {/* Show on Arena Button */}
-            <Button 
-              onClick={showOnArena}
-              className="w-full bg-amber-500 hover:bg-amber-600 text-black font-bold py-3"
-            >
-              <Tv className="w-5 h-5 mr-2" />
-              Show Result on Arena Screen
-            </Button>
+            {/* WINNER label */}
+            <div className="text-4xl md:text-5xl font-black text-amber-400 tracking-widest">
+              WINNER
+            </div>
             
-            <div className="flex gap-3 justify-center pt-2">
-              {nextFight ? (
-                <Button 
-                  onClick={() => {
-                    setShowFinalResult(false);
-                    navigate(`/supervisor/${nextFight.bout_id}`);
-                  }} 
-                  className="bg-green-600 hover:bg-green-700 text-white font-bold px-6"
-                >
-                  <ChevronRight className="w-4 h-4 mr-2" />
-                  Next Fight: {nextFight.fighter1} vs {nextFight.fighter2}
-                </Button>
-              ) : (
-                <Button 
-                  onClick={() => {
-                    setShowFinalResult(false);
-                    navigate('/control');
-                  }} 
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6"
-                >
-                  <Home className="w-4 h-4 mr-2" />
-                  Back to Control Panel
-                </Button>
-              )}
-              <Button onClick={() => setShowFinalResult(false)} variant="outline" className="border-gray-600 text-gray-300">
-                Close
-              </Button>
+            {/* Winner name - HUGE */}
+            <div className={`text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-wider ${
+              finalResult.winner === 'RED' ? 'text-red-400' : 'text-blue-400'
+            }`} style={{ textShadow: '0 0 60px currentColor' }}>
+              {finalResult.winner_name}
+            </div>
+            
+            {/* Finish method */}
+            <div className="text-3xl md:text-4xl font-bold text-white/90">
+              BY {finalResult.finish_method || finishMethod}
+            </div>
+            
+            {/* Score */}
+            <div className="text-4xl md:text-5xl font-bold mt-8">
+              <span className="text-red-400">{finalResult.final_red}</span>
+              <span className="text-gray-500 mx-4">-</span>
+              <span className="text-blue-400">{finalResult.final_blue}</span>
+            </div>
+            
+            {/* Fighter names */}
+            <div className="text-xl md:text-2xl text-gray-400 mt-4">
+              <span className="text-red-400">{boutInfo.fighter1}</span>
+              <span className="text-gray-600 mx-3">vs</span>
+              <span className="text-blue-400">{boutInfo.fighter2}</span>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+          
+          {/* Bottom action buttons */}
+          <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-4 px-8">
+            <Button 
+              onClick={showOnArena}
+              className="bg-amber-500 hover:bg-amber-600 text-black font-bold px-8 py-3 text-lg"
+            >
+              <Tv className="w-5 h-5 mr-2" />
+              Arena Screen
+            </Button>
+            {nextFight ? (
+              <Button 
+                onClick={() => {
+                  setShowFinalResult(false);
+                  navigate(`/supervisor/${nextFight.bout_id}`);
+                }} 
+                className="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3 text-lg"
+              >
+                <ChevronRight className="w-5 h-5 mr-2" />
+                Next Fight
+              </Button>
+            ) : (
+              <Button 
+                onClick={() => {
+                  setShowFinalResult(false);
+                  navigate('/control');
+                }} 
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 text-lg"
+              >
+                <Home className="w-5 h-5 mr-2" />
+                Control Panel
+              </Button>
+            )}
+            <Button 
+              onClick={() => setShowFinalResult(false)} 
+              variant="outline" 
+              className="border-gray-600 text-gray-300 px-8 py-3 text-lg"
+            >
+              Close
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Finish Method Selection Dialog */}
       <Dialog open={showFinishMethodDialog} onOpenChange={setShowFinishMethodDialog}>
