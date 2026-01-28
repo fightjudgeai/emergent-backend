@@ -858,16 +858,17 @@ export default function SupervisorDashboardPro() {
                         </div>
                         <div className="text-gray-500 text-xs">{event.device_role}</div>
                       </div>
-                      <div className="flex items-center gap-1 ml-2">
+                      <div className="flex items-center gap-2 ml-2">
                         <Badge className="bg-red-700 text-white text-xs">+{delta}</Badge>
                         <Button 
                           size="sm" 
-                          variant="ghost" 
+                          variant="destructive"
                           onClick={() => handleDeleteEvent(event)}
-                          className="h-6 w-6 p-0 text-gray-500 hover:text-red-400 hover:bg-red-900/50"
+                          className="h-8 w-8 p-0 bg-red-800 hover:bg-red-600 text-white border border-red-500"
                           title="Delete event"
+                          data-testid={`delete-red-event-${idx}`}
                         >
-                          <Trash2 className="w-3 h-3" />
+                          <X className="w-4 h-4" />
                         </Button>
                       </div>
                     </div>
@@ -1021,16 +1022,17 @@ export default function SupervisorDashboardPro() {
                         </div>
                         <div className="text-gray-500 text-xs">{event.device_role}</div>
                       </div>
-                      <div className="flex items-center gap-1 ml-2">
+                      <div className="flex items-center gap-2 ml-2">
                         <Badge className="bg-blue-700 text-white text-xs">+{delta}</Badge>
                         <Button 
                           size="sm" 
-                          variant="ghost" 
+                          variant="destructive"
                           onClick={() => handleDeleteEvent(event)}
-                          className="h-6 w-6 p-0 text-gray-500 hover:text-blue-400 hover:bg-blue-900/50"
+                          className="h-8 w-8 p-0 bg-red-800 hover:bg-red-600 text-white border border-red-500"
                           title="Delete event"
+                          data-testid={`delete-blue-event-${idx}`}
                         >
-                          <Trash2 className="w-3 h-3" />
+                          <X className="w-4 h-4" />
                         </Button>
                       </div>
                     </div>
