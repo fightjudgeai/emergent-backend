@@ -38,20 +38,20 @@ def init_public_stats_routes(database: AsyncIOMotorDatabase):
     logger.info("✅ Public Stats Routes initialized")
 
 
-@router.get("/events")
+@router.get("/cards")
 async def get_events(
     sport_type: Optional[str] = Query(None, description="Filter by sport type (mma, boxing, etc.)"),
     organization_id: Optional[str] = Query(None, description="Filter by organization ID")
 ):
     """
-    Get all events with fight count and total strikes per card
+    Get all event cards with fight count and total strikes per card
     
     Query Parameters:
     - sport_type: Filter by sport type (mma, boxing, dirty_boxing, bkfc, karate_combat, other)
     - organization_id: Filter events by organization (optional)
     
     Returns:
-    - List of events with:
+    - List of event cards with:
       - event_name
       - event_date
       - fight_count
