@@ -355,12 +355,25 @@ export default function SupervisorDashboardPro() {
       if (response.ok) {
         toast.success(`Deleted ${event.event_type}`);
         fetchEvents(); // Refresh events
+        fetchLiveScore(); // Recalculate score
       } else {
         toast.error('Failed to delete event');
       }
     } catch (error) {
       toast.error('Error deleting event');
     }
+  };
+  
+  // Delete last event for a specific corner
+  const handleUndoLast = async (corner) => {
+    const events = corner === 'RED' ? redEvents : blueEvents;
+    if (events.length === 0) {
+      toast.error(`No ${corner} events to undo`);
+      return;
+    }
+    // Get the most recent event (last in array)
+    const lastEvent = events[events.length - 1];
+    await handleDeleteEvent(lastEvent);
   };
 
   // Fetch round data for review
