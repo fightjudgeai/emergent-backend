@@ -1545,7 +1545,7 @@ export default function SupervisorDashboardPro() {
             
             {/* Current Events for this Round */}
             <div className="border-t border-gray-700 pt-4 mt-4">
-              <div className="text-gray-400 text-xs uppercase mb-3">Current Round {currentRound} Events (hover to delete)</div>
+              <div className="text-gray-400 text-xs uppercase mb-3">Current Round {currentRound} Events (tap ✕ to delete)</div>
               <div className="grid grid-cols-2 gap-4">
                 {/* Red Events */}
                 <div className="bg-red-950/30 rounded-lg p-3">
@@ -1553,15 +1553,16 @@ export default function SupervisorDashboardPro() {
                   <ScrollArea className="max-h-40">
                     <div className="space-y-1">
                       {redEvents.map((event, idx) => (
-                        <div key={idx} className="flex items-center justify-between bg-red-900/30 rounded px-2 py-1 group">
+                        <div key={idx} className="flex items-center justify-between bg-red-900/30 rounded px-2 py-1">
                           <span className="text-sm text-gray-300">{event.event_type}</span>
                           <Button 
                             size="sm" 
                             variant="ghost" 
                             onClick={() => handleDeleteEvent(event)}
-                            className="opacity-0 group-hover:opacity-100 h-5 w-5 p-0 text-red-400 hover:text-red-300"
+                            className="h-6 w-6 p-0 text-red-400 hover:text-white hover:bg-red-600"
+                            data-testid={`delete-red-event-${idx}`}
                           >
-                            <Trash2 className="w-3 h-3" />
+                            <X className="w-4 h-4" />
                           </Button>
                         </div>
                       ))}
@@ -1576,15 +1577,16 @@ export default function SupervisorDashboardPro() {
                   <ScrollArea className="max-h-40">
                     <div className="space-y-1">
                       {blueEvents.map((event, idx) => (
-                        <div key={idx} className="flex items-center justify-between bg-blue-900/30 rounded px-2 py-1 group">
+                        <div key={idx} className="flex items-center justify-between bg-blue-900/30 rounded px-2 py-1">
                           <span className="text-sm text-gray-300">{event.event_type}</span>
                           <Button 
                             size="sm" 
                             variant="ghost" 
                             onClick={() => handleDeleteEvent(event)}
-                            className="opacity-0 group-hover:opacity-100 h-5 w-5 p-0 text-blue-400 hover:text-blue-300"
+                            className="h-6 w-6 p-0 text-blue-400 hover:text-white hover:bg-blue-600"
+                            data-testid={`delete-blue-event-${idx}`}
                           >
-                            <Trash2 className="w-3 h-3" />
+                            <X className="w-4 h-4" />
                           </Button>
                         </div>
                       ))}
