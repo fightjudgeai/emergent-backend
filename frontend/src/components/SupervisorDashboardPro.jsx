@@ -838,6 +838,18 @@ export default function SupervisorDashboardPro() {
             <div className="text-4xl font-bold text-red-400">{redDelta.toFixed(1)}</div>
           </div>
           
+          {/* Undo Last Button - Quick access */}
+          {redEvents.length > 0 && (
+            <Button 
+              onClick={() => handleUndoLast('RED')}
+              className="w-full mb-3 bg-red-800 hover:bg-red-600 text-white font-bold border-2 border-red-500 h-10"
+              data-testid="undo-last-red"
+            >
+              <X className="w-5 h-5 mr-2" />
+              UNDO LAST RED EVENT
+            </Button>
+          )}
+          
           {/* Event List */}
           <ScrollArea className="flex-1">
             <div className="space-y-2">
@@ -1001,6 +1013,18 @@ export default function SupervisorDashboardPro() {
             <div className="text-gray-400 text-xs uppercase">Delta Score</div>
             <div className="text-4xl font-bold text-blue-400">{blueDelta.toFixed(1)}</div>
           </div>
+          
+          {/* Undo Last Button - Quick access */}
+          {blueEvents.length > 0 && (
+            <Button 
+              onClick={() => handleUndoLast('BLUE')}
+              className="w-full mb-3 bg-red-800 hover:bg-red-600 text-white font-bold border-2 border-red-500 h-10"
+              data-testid="undo-last-blue"
+            >
+              <X className="w-5 h-5 mr-2" />
+              UNDO LAST BLUE EVENT
+            </Button>
+          )}
           
           {/* Event List */}
           <ScrollArea className="flex-1">
