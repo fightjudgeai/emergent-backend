@@ -18,7 +18,7 @@ ICVSS is a hybrid scoring system that combines:
 ## 📡 Base URL
 
 ```
-https://mma-score-pro.preview.emergentagent.com/api/icvss
+https://fight-scoring-pro.preview.emergentagent.com/api/icvss
 ```
 
 ---
@@ -442,7 +442,7 @@ ws_url = f"wss://.../ws/cv-feed/{bout_id}?auth_token=your-token"
 import requests
 import json
 
-BASE_URL = "https://mma-score-pro.preview.emergentagent.com/api/icvss"
+BASE_URL = "https://fight-scoring-pro.preview.emergentagent.com/api/icvss"
 
 # 1. Open round
 response = requests.post(f"{BASE_URL}/round/open", json={
