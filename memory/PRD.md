@@ -264,6 +264,22 @@ Impact events can "lock" a round win even if opponent has more volume points.
 - 10-8 scoring logic verified
 - API integration verified
 
+## Completed Work (2026-01-28)
+
+### Delete Button Enhancement ✅
+- **Prominent "UNDO LAST" Buttons**: Added large red "UNDO LAST RED EVENT" and "UNDO LAST BLUE EVENT" buttons at top of event lists for quick correction
+- **Visible Delete (X) Buttons**: Each event row now has a clearly visible red X button (was previously gray and hidden)
+- **Styling Updates**: 
+  - Button size increased from 6x6 to 8x8 pixels
+  - Red background with border for high visibility
+  - Uses X icon instead of Trash2 for cleaner look
+- **Test IDs Added**: `data-testid="undo-last-red"`, `data-testid="undo-last-blue"`, `data-testid="delete-red-event-{idx}"`, `data-testid="delete-blue-event-{idx}"`
+
+### API Route Conflict Fix ✅
+- **Fixed `/api/events` conflict**: Public stats routes were overriding the scoring events endpoint
+- **Changed**: `/api/events` (public stats) → `/api/cards` (for MMA event cards)
+- **Result**: Supervisor dashboard now correctly fetches and displays scoring events
+
 ## Upcoming Tasks
 
 ### P0 - Critical Bugs Fixed (2026-01-25) ✅
