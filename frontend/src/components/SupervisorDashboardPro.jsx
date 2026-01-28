@@ -29,7 +29,8 @@ import {
   Trash2,
   Edit3,
   BarChart3,
-  UserSquare2
+  UserSquare2,
+  X
 } from 'lucide-react';
 import { toast } from 'sonner';
 import OperatorAssignmentPanel from './OperatorAssignmentPanel';
