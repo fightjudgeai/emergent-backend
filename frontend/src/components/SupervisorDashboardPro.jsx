@@ -1449,6 +1449,84 @@ export default function SupervisorDashboardPro() {
         </DialogContent>
       </Dialog>
 
+      {/* 10-8 Approval Dialog */}
+      <Dialog open={show108Approval} onOpenChange={setShow108Approval}>
+        <DialogContent className="bg-gray-900 border-red-500 text-white max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-center text-red-400 flex items-center justify-center gap-2">
+              <Award className="w-8 h-8" />
+              10-8 Round Detected
+            </DialogTitle>
+          </DialogHeader>
+          
+          {pending108Result && (
+            <div className="py-4 space-y-4">
+              {/* Calculated Score Display */}
+              <div className="text-center">
+                <div className="text-gray-400 text-sm mb-2">System Calculated Score</div>
+                <div className="text-6xl font-bold">
+                  <span className="text-red-400">{pending108Result.red_points}</span>
+                  <span className="text-gray-500 mx-3">-</span>
+                  <span className="text-blue-400">{pending108Result.blue_points}</span>
+                </div>
+              </div>
+              
+              {/* Winner */}
+              <div className="text-center">
+                <Badge className={`text-lg px-4 py-2 ${
+                  pending108Result.winner === 'RED' ? 'bg-red-600' : 'bg-blue-600'
+                }`}>
+                  {pending108Result.winner === 'RED' ? boutInfo.fighter1 : boutInfo.fighter2} wins round
+                </Badge>
+              </div>
+              
+              {/* Warning Message */}
+              <div className="bg-amber-900/30 border border-amber-600 rounded-lg p-4 text-center">
+                <div className="text-amber-400 font-bold mb-2">⚠️ Supervisor Approval Required</div>
+                <div className="text-gray-300 text-sm">
+                  A 10-8 round indicates <strong>dominant performance</strong>. 
+                  Please confirm this score is accurate or change to 10-9.
+                </div>
+              </div>
+              
+              {/* Delta Info */}
+              <div className="text-center text-gray-500 text-sm">
+                Round Delta: {pending108Result.delta?.toFixed(1)} | Events: {pending108Result.total_events}
+              </div>
+            </div>
+          )}
+          
+          {/* Action Buttons */}
+          <div className="space-y-3">
+            <Button 
+              onClick={approve108Score}
+              disabled={isLoading}
+              className="w-full h-14 text-lg font-bold bg-red-600 hover:bg-red-700 text-white"
+            >
+              {isLoading ? <RefreshCw className="w-5 h-5 animate-spin mr-2" /> : null}
+              ✓ APPROVE 10-8
+            </Button>
+            <Button 
+              onClick={change108To109}
+              disabled={isLoading}
+              className="w-full h-14 text-lg font-bold bg-amber-500 hover:bg-amber-600 text-black"
+            >
+              Change to 10-9
+            </Button>
+            <Button 
+              onClick={() => {
+                setShow108Approval(false);
+                setPending108Result(null);
+              }}
+              variant="outline"
+              className="w-full border-gray-600 text-gray-400"
+            >
+              Cancel (Don't End Round)
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Edit Round Score Dialog */}
       <Dialog open={showEditRoundScore} onOpenChange={setShowEditRoundScore}>
         <DialogContent className="bg-gray-900 border-amber-500 text-white max-w-sm">
