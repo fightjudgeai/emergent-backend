@@ -1360,6 +1360,131 @@ export default function SupervisorDashboardPro() {
         </DialogContent>
       </Dialog>
 
+      {/* Edit Round Score Dialog */}
+      <Dialog open={showEditRoundScore} onOpenChange={setShowEditRoundScore}>
+        <DialogContent className="bg-gray-900 border-amber-500 text-white max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="text-xl text-center text-amber-400">
+              Edit Round {editingRound?.round_number} Score
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4 space-y-6">
+            {/* Score Display */}
+            <div className="text-center text-5xl font-bold">
+              <span className="text-red-400">{editRedScore}</span>
+              <span className="text-gray-500 mx-3">-</span>
+              <span className="text-blue-400">{editBlueScore}</span>
+            </div>
+            
+            {/* Red Corner Score */}
+            <div className="space-y-2">
+              <label className="text-red-400 font-bold text-sm">{boutInfo.fighter1} (RED)</label>
+              <div className="flex items-center gap-2">
+                <Button 
+                  onClick={() => setEditRedScore(Math.max(7, editRedScore - 1))}
+                  className="h-12 w-12 bg-red-900 hover:bg-red-800 text-white text-xl"
+                >
+                  -
+                </Button>
+                <Input 
+                  type="number" 
+                  value={editRedScore}
+                  onChange={(e) => setEditRedScore(Math.min(10, Math.max(7, parseInt(e.target.value) || 10)))}
+                  className="h-12 text-center text-2xl bg-gray-800 border-red-700 text-red-400 font-bold"
+                  min={7}
+                  max={10}
+                />
+                <Button 
+                  onClick={() => setEditRedScore(Math.min(10, editRedScore + 1))}
+                  className="h-12 w-12 bg-red-900 hover:bg-red-800 text-white text-xl"
+                >
+                  +
+                </Button>
+              </div>
+            </div>
+            
+            {/* Blue Corner Score */}
+            <div className="space-y-2">
+              <label className="text-blue-400 font-bold text-sm">{boutInfo.fighter2} (BLUE)</label>
+              <div className="flex items-center gap-2">
+                <Button 
+                  onClick={() => setEditBlueScore(Math.max(7, editBlueScore - 1))}
+                  className="h-12 w-12 bg-blue-900 hover:bg-blue-800 text-white text-xl"
+                >
+                  -
+                </Button>
+                <Input 
+                  type="number" 
+                  value={editBlueScore}
+                  onChange={(e) => setEditBlueScore(Math.min(10, Math.max(7, parseInt(e.target.value) || 10)))}
+                  className="h-12 text-center text-2xl bg-gray-800 border-blue-700 text-blue-400 font-bold"
+                  min={7}
+                  max={10}
+                />
+                <Button 
+                  onClick={() => setEditBlueScore(Math.min(10, editBlueScore + 1))}
+                  className="h-12 w-12 bg-blue-900 hover:bg-blue-800 text-white text-xl"
+                >
+                  +
+                </Button>
+              </div>
+            </div>
+            
+            {/* Quick Score Buttons */}
+            <div className="grid grid-cols-4 gap-2">
+              <Button 
+                onClick={() => { setEditRedScore(10); setEditBlueScore(9); }}
+                className="bg-red-800 hover:bg-red-700 text-xs"
+              >
+                10-9 RED
+              </Button>
+              <Button 
+                onClick={() => { setEditRedScore(10); setEditBlueScore(8); }}
+                className="bg-red-900 hover:bg-red-800 text-xs"
+              >
+                10-8 RED
+              </Button>
+              <Button 
+                onClick={() => { setEditRedScore(9); setEditBlueScore(10); }}
+                className="bg-blue-800 hover:bg-blue-700 text-xs"
+              >
+                10-9 BLUE
+              </Button>
+              <Button 
+                onClick={() => { setEditRedScore(8); setEditBlueScore(10); }}
+                className="bg-blue-900 hover:bg-blue-800 text-xs"
+              >
+                10-8 BLUE
+              </Button>
+            </div>
+            <Button 
+              onClick={() => { setEditRedScore(10); setEditBlueScore(10); }}
+              className="w-full bg-gray-700 hover:bg-gray-600 text-xs"
+            >
+              10-10 DRAW
+            </Button>
+          </div>
+          
+          <div className="flex gap-3">
+            <Button 
+              onClick={() => setShowEditRoundScore(false)}
+              variant="outline"
+              className="flex-1 border-gray-600 text-gray-400"
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleSaveRoundScore}
+              disabled={isLoading}
+              className="flex-1 bg-amber-500 hover:bg-amber-600 text-black font-bold"
+            >
+              {isLoading ? <RefreshCw className="w-4 h-4 animate-spin mr-2" /> : null}
+              Save Score
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Arena Result Broadcast - Using FJAI Component */}
       <Dialog open={showResultBroadcast} onOpenChange={setShowResultBroadcast}>
         <DialogContent className="bg-black border-none text-white max-w-2xl p-0 fjai-broadcast">
