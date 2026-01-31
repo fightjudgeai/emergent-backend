@@ -687,6 +687,48 @@ export default function SupervisorDashboardPro() {
     }
   };
 
+  // Open edit round score dialog
+  const handleEditRoundScore = (round, e) => {
+    e.stopPropagation(); // Prevent triggering the review click
+    setEditingRound(round);
+    setEditRedScore(round.red_points);
+    setEditBlueScore(round.blue_points);
+    setShowEditRoundScore(true);
+  };
+
+  // Save edited round score
+  const handleSaveRoundScore = async () => {
+    if (!editingRound || !boutId) return;
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${API}/api/rounds/${boutId}/${editingRound.round_number}/score`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          red_points: editRedScore,
+          blue_points: editBlueScore
+        })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        toast.success(`Round ${editingRound.round_number} score updated to ${editRedScore}-${editBlueScore}`);
+        setShowEditRoundScore(false);
+        setEditingRound(null);
+        // Refresh round results
+        await fetchRoundResults();
+      } else {
+        const error = await response.json();
+        toast.error(error.detail || 'Failed to update round score');
+      }
+    } catch (error) {
+      toast.error('Error updating round score');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Show finish method dialog
   const handleFinalizeFight = () => {
     setShowFinishMethodDialog(true);
