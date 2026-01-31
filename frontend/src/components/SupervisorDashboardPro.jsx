@@ -1119,55 +1119,67 @@ export default function SupervisorDashboardPro() {
         </DialogContent>
       </Dialog>
 
-      {/* Round Result Dialog */}
-      <Dialog open={showRoundResult} onOpenChange={setShowRoundResult}>
-        <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-center text-2xl flex items-center justify-center gap-2">
-              <Award className="w-8 h-8 text-amber-400" />
-              Round {lastRoundResult?.round_number} Complete
-            </DialogTitle>
-          </DialogHeader>
-          {lastRoundResult && (
-            <div className="space-y-4 py-4 text-center">
-              <div className="text-6xl font-bold">
-                <span className="text-red-400">{lastRoundResult.red_points}</span>
-                <span className="text-gray-500 mx-3">-</span>
-                <span className="text-blue-400">{lastRoundResult.blue_points}</span>
-              </div>
-              <Badge className={`text-lg px-4 py-2 ${lastRoundResult.winner === 'RED' ? 'bg-red-600' : lastRoundResult.winner === 'BLUE' ? 'bg-blue-600' : 'bg-gray-600'}`}>
-                {lastRoundResult.winner === 'RED' ? boutInfo.fighter1 : lastRoundResult.winner === 'BLUE' ? boutInfo.fighter2 : 'DRAW'}
-              </Badge>
-              <div className="text-gray-400 text-sm">
-                Delta: {lastRoundResult.delta?.toFixed(1)} | {lastRoundResult.total_events} events
-              </div>
-              {currentRound <= totalRounds ? (
-                <div className="text-green-400 text-sm">
-                  Auto-advancing to Round {currentRound}...
-                </div>
-              ) : (
-                <div className="text-amber-400 text-sm">
-                  Final round complete! Click &quot;Finalize Fight&quot; to declare winner.
-                </div>
-              )}
-              {/* Show Round on Arena Button */}
-              <Button 
-                onClick={() => {
-                  setShowRoundBroadcast(true);
-                  setShowRoundResult(false);
-                }}
-                className="w-full bg-amber-500 hover:bg-amber-600 text-black font-bold"
-              >
-                <Tv className="w-5 h-5 mr-2" />
-                Show Round Result on Arena
-              </Button>
-              <Button onClick={() => setShowRoundResult(false)} className="w-full bg-gray-700 hover:bg-gray-600 mt-2">
-                Close
-              </Button>
+      {/* FULLSCREEN ROUND RESULT - Clean view for arena */}
+      {showRoundResult && lastRoundResult && (
+        <div 
+          className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center cursor-pointer"
+          onClick={() => setShowRoundResult(false)}
+        >
+          {/* Animated background gradient based on round winner */}
+          <div className={`absolute inset-0 ${
+            lastRoundResult.winner === 'RED' 
+              ? 'bg-gradient-to-br from-red-900/40 via-black to-red-950/20' 
+              : lastRoundResult.winner === 'BLUE'
+              ? 'bg-gradient-to-br from-blue-900/40 via-black to-blue-950/20'
+              : 'bg-gradient-to-br from-gray-800/40 via-black to-gray-900/20'
+          }`} />
+          
+          {/* Logo at top */}
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-20">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_fight-scoring-pro/artifacts/fi6oji6s_FIGHTJUDGE.AI.MERCH-26.png" 
+              alt="Fight Judge AI" 
+              className="h-16 md:h-20 lg:h-24 w-auto object-contain"
+            />
+          </div>
+          
+          {/* Main content */}
+          <div className="relative z-10 text-center space-y-6 px-8 max-w-4xl">
+            {/* Round label */}
+            <div className="text-3xl md:text-4xl font-black text-amber-400 tracking-widest">
+              ROUND {lastRoundResult.round_number}
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+            
+            {/* Score - HUGE */}
+            <div className="text-8xl md:text-9xl lg:text-[12rem] font-black">
+              <span className="text-red-400">{lastRoundResult.red_points}</span>
+              <span className="text-gray-600 mx-4">-</span>
+              <span className="text-blue-400">{lastRoundResult.blue_points}</span>
+            </div>
+            
+            {/* Winner name */}
+            <div className={`text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider ${
+              lastRoundResult.winner === 'RED' ? 'text-red-400' : 
+              lastRoundResult.winner === 'BLUE' ? 'text-blue-400' : 'text-gray-400'
+            }`} style={{ textShadow: '0 0 40px currentColor' }}>
+              {lastRoundResult.winner === 'RED' ? boutInfo.fighter1 : 
+               lastRoundResult.winner === 'BLUE' ? boutInfo.fighter2 : 'DRAW'}
+            </div>
+            
+            {/* Fighter names */}
+            <div className="text-xl md:text-2xl text-gray-400 mt-8">
+              <span className="text-red-400">{boutInfo.fighter1}</span>
+              <span className="text-gray-600 mx-3">vs</span>
+              <span className="text-blue-400">{boutInfo.fighter2}</span>
+            </div>
+          </div>
+          
+          {/* Tap to close hint */}
+          <div className="absolute bottom-8 text-gray-600 text-sm">
+            Tap anywhere to continue
+          </div>
+        </div>
+      )}
 
       {/* Final Result Dialog */}
       {/* FULLSCREEN WINNER DISPLAY - Clean view for arena */}
