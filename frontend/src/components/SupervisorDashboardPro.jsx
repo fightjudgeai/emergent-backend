@@ -205,6 +205,12 @@ export default function SupervisorDashboardPro() {
   // Round Broadcast state
   const [showRoundBroadcast, setShowRoundBroadcast] = useState(false);
   
+  // Edit Round Score state
+  const [showEditRoundScore, setShowEditRoundScore] = useState(false);
+  const [editingRound, setEditingRound] = useState(null);
+  const [editRedScore, setEditRedScore] = useState(10);
+  const [editBlueScore, setEditBlueScore] = useState(9);
+  
   // Supervisor Event Management state
   const [showEventManager, setShowEventManager] = useState(false);
   const [selectedCorner, setSelectedCorner] = useState('RED');
