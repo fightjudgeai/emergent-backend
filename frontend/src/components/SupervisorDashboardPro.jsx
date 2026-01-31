@@ -211,6 +211,10 @@ export default function SupervisorDashboardPro() {
   const [editRedScore, setEditRedScore] = useState(10);
   const [editBlueScore, setEditBlueScore] = useState(9);
   
+  // 10-8 Approval state
+  const [show108Approval, setShow108Approval] = useState(false);
+  const [pending108Result, setPending108Result] = useState(null);
+  
   // Supervisor Event Management state
   const [showEventManager, setShowEventManager] = useState(false);
   const [selectedCorner, setSelectedCorner] = useState('RED');
