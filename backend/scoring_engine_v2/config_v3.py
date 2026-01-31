@@ -201,12 +201,12 @@ ROUND_SCORING = {
     "score_10_8": {
         "requires_impact": True,  # Must have impact event
         "min_impact_events": 2,   # At least 2 protected events OR
-        "min_delta": 100,         # OR delta >= 100
+        "min_delta": 500,         # OR delta >= 500 (10-8 range: 500-749)
     },
     "score_10_7": {
         "requires_impact": True,
         "min_impact_events": 3,   # At least 3 protected events OR
-        "min_delta": 200,         # OR delta >= 200
+        "min_delta": 750,         # OR delta >= 750
     },
 }
 
