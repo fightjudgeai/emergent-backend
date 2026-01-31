@@ -991,7 +991,7 @@ export default function SupervisorDashboardPro() {
             <div className="bg-gray-800/50 rounded-lg p-3 mb-4 flex-1">
               <div className="flex items-center justify-between mb-2">
                 <div className="text-gray-400 text-xs uppercase">Completed Rounds</div>
-                <div className="text-gray-500 text-xs">Click to review</div>
+                <div className="text-gray-500 text-xs">Click to review | Edit to change score</div>
               </div>
               <div className="space-y-1">
                 {roundResults.map((round) => (
@@ -1006,9 +1006,21 @@ export default function SupervisorDashboardPro() {
                       <span className="text-gray-500 mx-1">-</span>
                       <span className="text-blue-400">{round.blue_points}</span>
                     </div>
-                    <Badge className={round.red_points > round.blue_points ? 'bg-red-600' : round.blue_points > round.red_points ? 'bg-blue-600' : 'bg-gray-600'}>
-                      {round.red_points > round.blue_points ? 'RED' : round.blue_points > round.red_points ? 'BLUE' : 'DRAW'}
-                    </Badge>
+                    <div className="flex items-center gap-2">
+                      <Badge className={round.red_points > round.blue_points ? 'bg-red-600' : round.blue_points > round.red_points ? 'bg-blue-600' : 'bg-gray-600'}>
+                        {round.red_points > round.blue_points ? 'RED' : round.blue_points > round.red_points ? 'BLUE' : 'DRAW'}
+                      </Badge>
+                      <Button 
+                        size="sm" 
+                        variant="ghost"
+                        onClick={(e) => handleEditRoundScore(round, e)}
+                        className="h-7 w-7 p-0 text-amber-400 hover:text-amber-300 hover:bg-amber-900/30"
+                        title="Edit round score"
+                        data-testid={`edit-round-${round.round_number}`}
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
