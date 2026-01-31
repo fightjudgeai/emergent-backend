@@ -1198,8 +1198,8 @@ export default function SupervisorDashboardPro() {
           {/* Logo at top */}
           <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-20">
             <img 
-              src="https://customer-assets.emergentagent.com/job_mmascore/artifacts/uzng29n4_emerg%20ex.png" 
-              alt="Logo" 
+              src="https://customer-assets.emergentagent.com/job_fight-scoring-pro/artifacts/fi6oji6s_FIGHTJUDGE.AI.MERCH-26.png" 
+              alt="Fight Judge AI" 
               className="h-16 md:h-20 lg:h-24 w-auto object-contain"
             />
           </div>
