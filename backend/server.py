@@ -6941,12 +6941,12 @@ async def shutdown_db_client():
 # KEEP-ALIVE BACKGROUND TASK
 # ============================================================================
 
-# Background keep-alive task
+# Background keep-alive task - AGGRESSIVE to prevent sleep
 async def keep_alive_task():
     """
-    Background task that runs every 60 seconds to keep the server warm.
+    Background task that runs every 20 seconds to keep the server warm.
     Prevents cold starts by maintaining server activity.
-    More aggressive interval for live scoring reliability.
+    AGGRESSIVE interval for live scoring reliability - NEVER SLEEP.
     """
     import httpx
     
@@ -6954,29 +6954,49 @@ async def keep_alive_task():
     backend_url = os.environ.get("BACKEND_URL", "http://localhost:8001")
     ping_url = f"{backend_url}/api/ping"
     
+    ping_count = 0
     while True:
         try:
-            await asyncio.sleep(60)  # Every 60 seconds for live events
+            await asyncio.sleep(20)  # Every 20 seconds - AGGRESSIVE
+            ping_count += 1
             
             # Self-ping to keep server warm
             async with httpx.AsyncClient(timeout=10.0) as client:
                 response = await client.get(ping_url)
                 if response.status_code == 200:
-                    logger.debug(f"[KEEP-ALIVE] Ping OK at {datetime.now(timezone.utc).strftime('%H:%M:%S')}")
-                else:
-                    logger.warning(f"[KEEP-ALIVE] Ping returned status {response.status_code}")
+                    # Log every 10th ping to avoid log spam
+                    if ping_count % 10 == 0:
+                        logger.info(f"[KEEP-ALIVE] Server active - {ping_count} pings since startup")
         except Exception as e:
-            # If external ping fails, just do internal activity
-            logger.debug(f"[KEEP-ALIVE] External ping skipped: {e}")
-            # Do a simple DB ping to keep connections warm
+            # If external ping fails, do internal activity
             try:
                 await db.command("ping")
-                logger.debug(f"[KEEP-ALIVE] DB ping OK at {datetime.now(timezone.utc).strftime('%H:%M:%S')}")
+            except:
+                pass
+            
+            # Also do a simple query to keep DB connection warm
+            try:
+                await db.unified_events.find_one({}, {"_id": 1})
             except:
                 pass
 
+
+# Secondary keep-alive - DB connection warmer
+async def db_keep_alive_task():
+    """Keep database connections warm with periodic queries"""
+    while True:
+        try:
+            await asyncio.sleep(30)  # Every 30 seconds
+            await db.command("ping")
+            # Light query to keep connection pool active
+            await db.bouts.find_one({}, {"_id": 1})
+        except:
+            pass
+
+
 @app.on_event("startup")
 async def start_keep_alive():
-    """Start the keep-alive background task on server startup"""
+    """Start the keep-alive background tasks on server startup"""
     asyncio.create_task(keep_alive_task())
-    logger.info("✓ Keep-alive task started (60-second interval for live events)")
+    asyncio.create_task(db_keep_alive_task())
+    logger.info("✓ Keep-alive tasks started (20-second interval) - NEVER SLEEP MODE")
