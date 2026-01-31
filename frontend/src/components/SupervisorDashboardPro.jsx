@@ -648,6 +648,8 @@ export default function SupervisorDashboardPro() {
       if (response.ok) {
         const result = await response.json();
         setLastRoundResult(result);
+        setShowRoundResult(true);  // Show fullscreen immediately with result
+        
         await fetchRoundResults();
         
         toast.success(`Round ${currentRound}: ${result.red_points}-${result.blue_points} (${result.winner === 'RED' ? boutInfo.fighter1 : result.winner === 'BLUE' ? boutInfo.fighter2 : 'DRAW'})`);
@@ -669,8 +671,6 @@ export default function SupervisorDashboardPro() {
         } else {
           toast.info('Final round completed! Click "Finalize" to declare winner.');
         }
-        
-        setShowRoundResult(true);
       } else {
         toast.error('Failed to compute round');
       }
