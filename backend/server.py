@@ -4861,6 +4861,85 @@ async def get_all_rounds(bout_id: str):
         logging.error(f"Error getting rounds: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+class UpdateRoundScoreRequest(BaseModel):
+    red_points: int
+    blue_points: int
+
+
+@api_router.put("/rounds/{bout_id}/{round_number}/score")
+async def update_round_score(bout_id: str, round_number: int, request: UpdateRoundScoreRequest):
+    """
+    Update the score for a specific round.
+    Allows supervisor to manually correct round scores.
+    """
+    try:
+        # Validate score range (typically 7-10 in MMA)
+        if not (7 <= request.red_points <= 10) or not (7 <= request.blue_points <= 10):
+            raise HTTPException(status_code=400, detail="Scores must be between 7 and 10")
+        
+        # Determine winner
+        if request.red_points > request.blue_points:
+            winner = "RED"
+        elif request.blue_points > request.red_points:
+            winner = "BLUE"
+        else:
+            winner = "DRAW"
+        
+        # Update in round_results collection
+        result = await db.round_results.update_one(
+            {"bout_id": bout_id, "round_number": round_number},
+            {
+                "$set": {
+                    "red_points": request.red_points,
+                    "blue_points": request.blue_points,
+                    "winner": winner,
+                    "manually_edited": True,
+                    "edited_at": datetime.now(timezone.utc).isoformat()
+                }
+            }
+        )
+        
+        if result.modified_count == 0:
+            # Try to find and update in bout's roundScores array
+            bout_result = await db.bouts.update_one(
+                {
+                    "$or": [{"bout_id": bout_id}, {"boutId": bout_id}],
+                    "roundScores.round": round_number
+                },
+                {
+                    "$set": {
+                        "roundScores.$.red_score": request.red_points,
+                        "roundScores.$.blue_score": request.blue_points,
+                        "roundScores.$.unified_red": request.red_points,
+                        "roundScores.$.unified_blue": request.blue_points,
+                        "roundScores.$.winner": winner,
+                        "roundScores.$.manually_edited": True
+                    }
+                }
+            )
+            
+            if bout_result.modified_count == 0:
+                raise HTTPException(status_code=404, detail="Round not found")
+        
+        logger.info(f"[SCORE_EDIT] Round {round_number} score updated for bout {bout_id}: {request.red_points}-{request.blue_points}")
+        
+        return {
+            "success": True,
+            "bout_id": bout_id,
+            "round_number": round_number,
+            "red_points": request.red_points,
+            "blue_points": request.blue_points,
+            "winner": winner
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating round score: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.post("/fights/finalize")
 async def finalize_fight(request: FightFinalizeRequest):
     """
