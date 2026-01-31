@@ -37,10 +37,10 @@ import BroadcastOverlay from "@/pages/BroadcastOverlay";
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
-// Global keep-alive hook - prevents server from sleeping while app is open
+// Global keep-alive hook - AGGRESSIVE - prevents server from EVER sleeping
 function useKeepAlive() {
   useEffect(() => {
-    // Ping every 30 seconds to keep server awake
+    // Ping every 15 seconds to keep server awake - NEVER SLEEP
     const pingServer = async () => {
       try {
         await fetch(`${API}/api/ping`, { method: 'GET' });
@@ -52,8 +52,8 @@ function useKeepAlive() {
     // Initial ping
     pingServer();
 
-    // Set up interval - ping every 30 seconds
-    const interval = setInterval(pingServer, 30000);
+    // Set up interval - ping every 15 seconds (AGGRESSIVE)
+    const interval = setInterval(pingServer, 15000);
 
     // Also ping on visibility change (when user returns to tab)
     const handleVisibilityChange = () => {
@@ -63,9 +63,27 @@ function useKeepAlive() {
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
+    // Ping on any user interaction to ensure activity
+    const handleUserActivity = () => {
+      pingServer();
+    };
+    // Throttle activity pings to once per 10 seconds
+    let lastActivityPing = 0;
+    const throttledActivityPing = () => {
+      const now = Date.now();
+      if (now - lastActivityPing > 10000) {
+        lastActivityPing = now;
+        pingServer();
+      }
+    };
+    document.addEventListener('click', throttledActivityPing);
+    document.addEventListener('keydown', throttledActivityPing);
+
     return () => {
       clearInterval(interval);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener('click', throttledActivityPing);
+      document.removeEventListener('keydown', throttledActivityPing);
     };
   }, []);
 }
