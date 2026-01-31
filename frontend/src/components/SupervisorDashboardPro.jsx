@@ -75,13 +75,13 @@ const getEventDelta = (eventType, tier) => {
 
 // Determine round score from delta
 // Delta is the sum of event values for the round
-// 10-8 requires EXTREME one-sided dominance (multiple near-finishes)
-// 10-7 is practically impossible (should almost never happen)
+// 10-8 requires EXTREME one-sided dominance (delta 500-750)
+// 10-7 is practically impossible (delta 750+)
 const getRoundScore = (delta) => {
   const absDelta = Math.abs(delta);
   if (absDelta <= 3) return { red: 10, blue: 10, label: 'DRAW' };
   if (absDelta < 500) return delta > 0 ? { red: 10, blue: 9, label: '10-9' } : { red: 9, blue: 10, label: '10-9' };
-  if (absDelta < 700) return delta > 0 ? { red: 10, blue: 8, label: '10-8' } : { red: 8, blue: 10, label: '10-8' };
+  if (absDelta < 750) return delta > 0 ? { red: 10, blue: 8, label: '10-8' } : { red: 8, blue: 10, label: '10-8' };
   return delta > 0 ? { red: 10, blue: 7, label: '10-7' } : { red: 7, blue: 10, label: '10-7' };
 };
 
