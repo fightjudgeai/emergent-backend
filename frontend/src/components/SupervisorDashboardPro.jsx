@@ -639,32 +639,119 @@ export default function SupervisorDashboardPro() {
     };
   }, [boutId, currentRound, fetchEvents, fetchRoundResults, fetchBoutInfo, fetchLiveScore]);
 
-  // End Round - compute and auto-advance
+  // End Round - preview first, check for 10-8, then compute
   const handleEndRound = async () => {
     if (!boutId) return;
     
     setIsLoading(true);
     try {
-      // 1. Compute the round score
-      const response = await fetch(`${API}/api/rounds/compute`, {
+      // 1. Preview the round score first (don't save yet)
+      const previewResponse = await fetch(`${API}/api/rounds/compute`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           bout_id: boutId,
-          round_number: currentRound
+          round_number: currentRound,
+          preview_only: true  // Just preview, don't save
         })
       });
       
-      if (response.ok) {
-        const result = await response.json();
-        setLastRoundResult(result);
-        setShowRoundResult(true);  // Show fullscreen immediately with result
+      if (previewResponse.ok) {
+        const previewResult = await previewResponse.json();
+        
+        // Check if it's a 10-8 or 10-7 round (needs supervisor approval)
+        const is108 = (previewResult.red_points === 10 && previewResult.blue_points <= 8) ||
+                      (previewResult.blue_points === 10 && previewResult.red_points <= 8);
+        
+        if (is108) {
+          // Store pending result and show approval dialog
+          setPending108Result(previewResult);
+          setShow108Approval(true);
+          setIsLoading(false);
+          return; // Wait for supervisor decision
+        }
+        
+        // Not a 10-8, proceed normally
+        await finalizeRoundScore(previewResult);
+      } else {
+        toast.error('Failed to compute round');
+      }
+    } catch (error) {
+      toast.error('Error computing round');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Approve 10-8 score as-is
+  const approve108Score = async () => {
+    if (!pending108Result) return;
+    setShow108Approval(false);
+    setIsLoading(true);
+    await finalizeRoundScore(pending108Result, true); // true = supervisor approved 10-8
+    setPending108Result(null);
+    setIsLoading(false);
+  };
+
+  // Change 10-8 to 10-9
+  const change108To109 = async () => {
+    if (!pending108Result) return;
+    setShow108Approval(false);
+    setIsLoading(true);
+    
+    // Modify the result to be 10-9 instead
+    const modifiedResult = { ...pending108Result };
+    if (modifiedResult.red_points === 10 && modifiedResult.blue_points <= 8) {
+      modifiedResult.blue_points = 9;
+    } else if (modifiedResult.blue_points === 10 && modifiedResult.red_points <= 8) {
+      modifiedResult.red_points = 9;
+    }
+    
+    await finalizeRoundScore(modifiedResult, false, true); // override score
+    setPending108Result(null);
+    setIsLoading(false);
+  };
+
+  // Finalize round score (save to backend)
+  const finalizeRoundScore = async (result, approved108 = false, overrideScore = false) => {
+    try {
+      // Save the round result
+      const saveResponse = await fetch(`${API}/api/rounds/compute`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          round_number: currentRound,
+          override_red: overrideScore ? result.red_points : undefined,
+          override_blue: overrideScore ? result.blue_points : undefined,
+          supervisor_approved_108: approved108
+        })
+      });
+      
+      if (saveResponse.ok) {
+        const savedResult = await saveResponse.json();
+        
+        // If we overrode the score, update it in the DB
+        if (overrideScore) {
+          await fetch(`${API}/api/rounds/${boutId}/${currentRound}/score`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              red_points: result.red_points,
+              blue_points: result.blue_points
+            })
+          });
+        }
+        
+        setLastRoundResult(overrideScore ? result : savedResult);
+        setShowRoundResult(true);
         
         await fetchRoundResults();
         
-        toast.success(`Round ${currentRound}: ${result.red_points}-${result.blue_points} (${result.winner === 'RED' ? boutInfo.fighter1 : result.winner === 'BLUE' ? boutInfo.fighter2 : 'DRAW'})`);
+        const displayResult = overrideScore ? result : savedResult;
+        toast.success(`Round ${currentRound}: ${displayResult.red_points}-${displayResult.blue_points} (${displayResult.winner === 'RED' ? boutInfo.fighter1 : displayResult.winner === 'BLUE' ? boutInfo.fighter2 : 'DRAW'})`);
         
-        // 2. Auto-advance to next round if not final
+        // Auto-advance to next round if not final
         if (currentRound < totalRounds) {
           const advanceResponse = await fetch(`${API}/api/bouts/${boutId}/advance-round`, {
             method: 'POST',
@@ -682,12 +769,10 @@ export default function SupervisorDashboardPro() {
           toast.info('Final round completed! Click "Finalize" to declare winner.');
         }
       } else {
-        toast.error('Failed to compute round');
+        toast.error('Failed to save round');
       }
     } catch (error) {
-      toast.error('Error computing round');
-    } finally {
-      setIsLoading(false);
+      toast.error('Error saving round');
     }
   };
 
