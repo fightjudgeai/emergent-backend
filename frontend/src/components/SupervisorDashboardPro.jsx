@@ -1183,6 +1183,15 @@ export default function SupervisorDashboardPro() {
               : 'bg-gradient-to-br from-blue-900/50 via-black to-blue-950/30'
           }`} />
           
+          {/* Logo at top */}
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-20">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_mmascore/artifacts/uzng29n4_emerg%20ex.png" 
+              alt="Logo" 
+              className="h-16 md:h-20 lg:h-24 w-auto object-contain"
+            />
+          </div>
+          
           {/* Main content */}
           <div className="relative z-10 text-center space-y-8 px-8 max-w-4xl">
             {/* Trophy icon */}
