@@ -4473,3 +4473,1294 @@ export default function SupervisorControl() {
     </div>
   );
 }
+
+==============================================================================
+FILE: backend/scoring_engine_v2/config_v3.py
+==============================================================================
+"""
+FightJudge.AI Scoring Model v3.0 - Impact-First Configuration
+All weights and rules are config-driven for easy tuning.
+"""
+
+# =============================================================================
+# EVENT CATALOG + POINT VALUES
+# =============================================================================
+
+SCORING_CONFIG = {
+    "version": "3.0",
+    "name": "Impact-First v1.0",
+    
+    # -------------------------------------------------------------------------
+    # STRIKING (STAND-UP)
+    # -------------------------------------------------------------------------
+    "striking": {
+        "jab": {"points": 1.5, "category": "striking", "label": "Jab", "is_ss": False},
+        "ss_jab": {"points": 2, "category": "striking", "label": "SS Jab", "is_ss": True},
+        "cross": {"points": 3, "category": "striking", "label": "Cross", "is_ss": False},
+        "ss_cross": {"points": 4.5, "category": "striking", "label": "SS Cross", "is_ss": True},
+        "hook": {"points": 3, "category": "striking", "label": "Hook", "is_ss": False},
+        "ss_hook": {"points": 4.5, "category": "striking", "label": "SS Hook", "is_ss": True},
+        "uppercut": {"points": 3, "category": "striking", "label": "Uppercut", "is_ss": False},
+        "ss_uppercut": {"points": 4.5, "category": "striking", "label": "SS Uppercut", "is_ss": True},
+        "kick": {"points": 3, "category": "striking", "label": "Kick", "is_ss": False},
+        "ss_kick": {"points": 6, "category": "striking", "label": "SS Kick", "is_ss": True},
+        "elbow": {"points": 4, "category": "striking", "label": "Elbow", "is_ss": False},
+        "ss_elbow": {"points": 6, "category": "striking", "label": "SS Elbow", "is_ss": True},
+        "knee": {"points": 4, "category": "striking", "label": "Knee", "is_ss": False},
+        "ss_knee": {"points": 6, "category": "striking", "label": "SS Knee", "is_ss": True},
+    },
+    
+    # -------------------------------------------------------------------------
+    # DAMAGE / ROUND-CHANGERS (PROTECTED - High value, creates Impact Locks)
+    # -------------------------------------------------------------------------
+    "damage": {
+        "rocked": {"points": 60, "category": "damage", "label": "Rocked", "is_protected": True},
+        "kd_flash": {"points": 100, "category": "damage", "label": "KD Flash", "is_protected": True, "impact_lock": "soft"},
+        "kd_hard": {"points": 150, "category": "damage", "label": "KD Hard", "is_protected": True, "impact_lock": "hard"},
+        "kd_nf": {"points": 210, "category": "damage", "label": "KD Near-Finish", "is_protected": True, "impact_lock": "nf"},
+    },
+    
+    # -------------------------------------------------------------------------
+    # GRAPPLING
+    # -------------------------------------------------------------------------
+    "grappling": {
+        "takedown": {"points": 6, "category": "grappling", "label": "Takedown", "is_ss": False},
+        "takedown_stuffed": {"points": 2, "category": "grappling", "label": "TD Stuffed", "is_ss": False, "max_full_value": 3},
+    },
+    
+    # -------------------------------------------------------------------------
+    # GROUND STRIKES
+    # -------------------------------------------------------------------------
+    "ground_strikes": {
+        "gnp_light": {"points": 1, "category": "ground_strikes", "label": "GnP Light", "is_ss": False},
+        "gnp_hard": {"points": 3, "category": "ground_strikes", "label": "GnP Hard", "is_ss": False},
+    },
+    
+    # -------------------------------------------------------------------------
+    # CONTROL (Time-bucketed, points per 10 seconds)
+    # -------------------------------------------------------------------------
+    "control": {
+        "cage_control": {"points_per_bucket": 1, "bucket_seconds": 10, "category": "control", "label": "Cage Control"},
+        "top_control": {"points_per_bucket": 3, "bucket_seconds": 10, "category": "control", "label": "Top Control"},
+        "back_control": {"points_per_bucket": 5, "bucket_seconds": 10, "category": "control", "label": "Back Control"},
+    },
+    
+    # -------------------------------------------------------------------------
+    # SUBMISSIONS (PROTECTED)
+    # -------------------------------------------------------------------------
+    "submissions": {
+        "sub_light": {"points": 12, "category": "submissions", "label": "Sub Light", "is_protected": False},
+        "sub_deep": {"points": 28, "category": "submissions", "label": "Sub Deep", "is_protected": False},
+        "sub_nf": {"points": 60, "category": "submissions", "label": "Sub Near-Finish", "is_protected": True, "impact_lock": "sub_nf"},
+    },
+}
+
+# =============================================================================
+# REGULARIZATION RULES
+# =============================================================================
+
+REGULARIZATION_RULES = {
+    # -------------------------------------------------------------------------
+    # RULE 1: Technique Diminishing Returns (per technique, per fighter, per round)
+    # -------------------------------------------------------------------------
+    "technique_diminishing_returns": {
+        "enabled": True,
+        "thresholds": [
+            {"min": 1, "max": 10, "multiplier": 1.00},
+            {"min": 11, "max": 20, "multiplier": 0.75},
+            {"min": 21, "max": 999, "multiplier": 0.50},
+        ],
+        # Techniques this applies to
+        "applies_to": [
+            "jab", "cross", "hook", "uppercut", "kick", "elbow", "knee",
+            "ss_jab", "ss_cross", "ss_hook", "ss_uppercut", "ss_kick", "ss_elbow", "ss_knee",
+            "gnp_light", "gnp_hard"
+        ]
+    },
+    
+    # -------------------------------------------------------------------------
+    # RULE 2: SS Abuse Guardrail (all SS combined, per fighter, per round)
+    # -------------------------------------------------------------------------
+    "ss_abuse_guardrail": {
+        "enabled": True,
+        "thresholds": [
+            {"min": 1, "max": 8, "multiplier": 1.00},
+            {"min": 9, "max": 14, "multiplier": 0.75},
+            {"min": 15, "max": 999, "multiplier": 0.50},
+        ],
+        # SS event keys
+        "ss_events": ["ss_jab", "ss_cross", "ss_hook", "ss_uppercut", "ss_kick", "ss_elbow", "ss_knee"]
+    },
+    
+    # -------------------------------------------------------------------------
+    # RULE 3: Control Time Diminishing Returns (after 60s continuous)
+    # -------------------------------------------------------------------------
+    "control_diminishing_returns": {
+        "enabled": True,
+        "continuous_threshold_seconds": 60,  # After 60s continuous, apply multiplier
+        "multiplier_after_threshold": 0.50,
+        "bucket_gap_reset_seconds": 15,  # Gap of 15s+ resets continuous streak
+    },
+    
+    # -------------------------------------------------------------------------
+    # RULE 4: Control Without Work Discount
+    # -------------------------------------------------------------------------
+    "control_without_work": {
+        "enabled": True,
+        "control_points_threshold": 20,  # If control >= 20 points
+        "required_work": {
+            "min_strike_points": 10,  # OR >= 10 strike points
+            "any_submission": True,    # OR any submission event
+            "min_gnp_hard_points": 10, # OR >= 10 gnp_hard points
+        },
+        "discount_multiplier": 0.75,  # Apply 0.75 if work requirement not met
+    },
+    
+    # -------------------------------------------------------------------------
+    # RULE 5: Defensive Spam Cap (Takedown Stuffed)
+    # -------------------------------------------------------------------------
+    "takedown_stuffed_cap": {
+        "enabled": True,
+        "full_value_count": 3,  # First 3 at full value
+        "multiplier_after_cap": 0.50,
+    },
+}
+
+# =============================================================================
+# IMPACT LOCK RULES
+# =============================================================================
+
+IMPACT_LOCK_RULES = {
+    # Priority order (highest first) - strongest lock wins
+    "priority_order": ["kd_nf", "kd_hard", "kd_flash", "sub_nf"],
+    
+    "locks": {
+        "kd_flash": {
+            "name": "Soft Lock",
+            "delta_threshold": 50,  # Cannot lose unless opponent leads by >= 50
+            "reason_code": "impact_lock_kd_flash",
+        },
+        "kd_hard": {
+            "name": "Hard Lock",
+            "delta_threshold": 110,  # Cannot lose unless opponent leads by >= 110
+            "reason_code": "impact_lock_kd_hard",
+        },
+        "kd_nf": {
+            "name": "Near-Finish Lock",
+            "delta_threshold": 150,  # Cannot lose unless opponent leads by >= 150
+            "reason_code": "impact_lock_kd_nf",
+        },
+        "sub_nf": {
+            "name": "Sub Near-Finish Lock",
+            "delta_threshold": 90,  # Cannot lose unless opponent leads by >= 90
+            "reason_code": "impact_lock_sub_nf",
+        },
+    }
+}
+
+# =============================================================================
+# UI TOOLTIPS / HELP TEXT
+# =============================================================================
+
+UI_TOOLTIPS = {
+    "ss_definition": "Only score SS when it's clean + visible effect (snap, stumble, posture break, clear reaction). Not arm taps. Not blocked.",
+    "kd_nf_definition": "Only when KD leads to clear near-finish sequence: sustained follow-up, forced defense, ref/finish threat.",
+    "gnp_hard_definition": "Visible impact (head snap, posture break, meaningful damage). Not pitter-patter.",
+    "sub_nf_definition": "Forced panic defense, prolonged lock, ref attention, or clear 'one more second and it's over' threat.",
+}
+
+# =============================================================================
+# ROUND SCORING THRESHOLDS (10-Point Must)
+# =============================================================================
+
+ROUND_SCORING = {
+    "draw_threshold": 5,  # |delta| < 5 = 10-10 draw (only if no impact)
+    
+    # 10-8 and 10-7 are determined by impact locks + delta thresholds
+    "score_10_8": {
+        "requires_impact": True,  # Must have impact event
+        "min_impact_events": 2,   # At least 2 protected events OR
+        "min_delta": 500,         # OR delta >= 500 (10-8 range: 500-749)
+    },
+    "score_10_7": {
+        "requires_impact": True,
+        "min_impact_events": 3,   # At least 3 protected events OR
+        "min_delta": 750,         # OR delta >= 750
+    },
+}
+
+# =============================================================================
+# EVENT KEY MAPPING (Legacy -> New)
+# =============================================================================
+
+LEGACY_EVENT_MAP = {
+    # Standing Strikes
+    "Jab": "jab",
+    "Cross": "cross",
+    "Hook": "hook",
+    "Uppercut": "uppercut",
+    "Kick": "kick",
+    "Head Kick": "kick",
+    "Body Kick": "kick",
+    "Leg Kick": "kick",
+    "Elbow": "elbow",
+    "Knee": "knee",
+    
+    # SS Strikes (will be mapped based on metadata)
+    "SS Jab": "ss_jab",
+    "SS Cross": "ss_cross",
+    "SS Hook": "ss_hook",
+    "SS Uppercut": "ss_uppercut",
+    "SS Kick": "ss_kick",
+    "SS Elbow": "ss_elbow",
+    "SS Knee": "ss_knee",
+    
+    # Damage
+    "Rocked": "rocked",
+    "Rocked/Stunned": "rocked",
+    "KD": "kd_flash",  # Default, tier determines actual
+    "KD Flash": "kd_flash",
+    "KD Hard": "kd_hard",
+    "KD Near-Finish": "kd_nf",
+    "KD NF": "kd_nf",
+    
+    # Grappling
+    "Takedown": "takedown",
+    "TD": "takedown",
+    "Takedown Landed": "takedown",
+    "Takedown Stuffed": "takedown_stuffed",
+    "Takedown Defended": "takedown_stuffed",
+    "TD Stuffed": "takedown_stuffed",
+    "TD Defended": "takedown_stuffed",
+    
+    # Ground Strikes
+    "Ground Strike": "gnp_light",  # Default, quality determines actual
+    "GnP Light": "gnp_light",
+    "GnP Hard": "gnp_hard",
+    "GnP Solid": "gnp_hard",
+    
+    # Control
+    "Top Control": "top_control",
+    "Ground Top Control": "top_control",
+    "Back Control": "back_control",
+    "Ground Back Control": "back_control",
+    "Cage Control": "cage_control",
+    "Cage Control Time": "cage_control",
+    
+    # Submissions
+    "Submission Attempt": "sub_light",  # Default, tier determines actual
+    "Sub Light": "sub_light",
+    "Sub Deep": "sub_deep",
+    "Sub Near-Finish": "sub_nf",
+    "Sub NF": "sub_nf",
+}
+
+
+def get_all_event_configs():
+    """Get flat dict of all event configurations"""
+    all_events = {}
+    for category in ["striking", "damage", "grappling", "ground_strikes", "submissions"]:
+        if category in SCORING_CONFIG:
+            all_events.update(SCORING_CONFIG[category])
+    return all_events
+
+
+def get_event_points(event_key: str) -> int:
+    """Get base points for an event key"""
+    all_events = get_all_event_configs()
+    if event_key in all_events:
+        return all_events[event_key].get("points", 0)
+    # Check control separately
+    if event_key in SCORING_CONFIG.get("control", {}):
+        return SCORING_CONFIG["control"][event_key].get("points_per_bucket", 0)
+    return 0
+
+
+def get_control_config(control_key: str) -> dict:
+    """Get control time configuration"""
+    return SCORING_CONFIG.get("control", {}).get(control_key, {})
+
+
+def is_ss_event(event_key: str) -> bool:
+    """Check if event is a Significant Strike"""
+    return event_key.startswith("ss_")
+
+
+def is_protected_event(event_key: str) -> bool:
+    """Check if event is protected (damage/impact)"""
+    all_events = get_all_event_configs()
+    return all_events.get(event_key, {}).get("is_protected", False)
+
+
+def get_impact_lock(event_key: str) -> str:
+    """Get impact lock type for an event (if any)"""
+    all_events = get_all_event_configs()
+    return all_events.get(event_key, {}).get("impact_lock", None)
+
+==============================================================================
+FILE: backend/scoring_engine_v2/engine_v3.py
+==============================================================================
+"""
+FightJudge.AI Scoring Engine v3.0 - Impact-First Implementation
+Implements all regularization rules and impact lock logic.
+"""
+
+from typing import List, Dict, Any, Optional, Tuple
+from dataclasses import dataclass, field
+from datetime import datetime
+import logging
+
+from .config_v3 import (
+    SCORING_CONFIG,
+    REGULARIZATION_RULES,
+    IMPACT_LOCK_RULES,
+    ROUND_SCORING,
+    LEGACY_EVENT_MAP,
+    get_all_event_configs,
+    get_event_points,
+    get_control_config,
+    is_ss_event,
+    is_protected_event,
+    get_impact_lock,
+)
+
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class ScoredEvent:
+    """A single scored event with all metadata"""
+    event_id: str
+    fighter: str  # "RED" or "BLUE"
+    event_key: str
+    base_points: int
+    technique_multiplier: float = 1.0
+    ss_multiplier: float = 1.0
+    control_multiplier: float = 1.0
+    td_stuffed_multiplier: float = 1.0
+    final_points: float = 0.0
+    timestamp: Optional[float] = None
+    metadata: Dict[str, Any] = field(default_factory=dict)
+    
+    def calculate_final(self):
+        """Calculate final points with all multipliers"""
+        self.final_points = (
+            self.base_points 
+            * self.technique_multiplier 
+            * self.ss_multiplier 
+            * self.control_multiplier
+            * self.td_stuffed_multiplier
+        )
+        return self.final_points
+
+
+@dataclass
+class FighterRoundState:
+    """Tracks per-fighter, per-round scoring state"""
+    fighter: str
+    
+    # Event counts for regularization
+    technique_counts: Dict[str, int] = field(default_factory=dict)
+    ss_total_count: int = 0
+    takedown_stuffed_count: int = 0
+    
+    # Control tracking
+    control_continuous_seconds: Dict[str, float] = field(default_factory=dict)
+    control_last_timestamp: Dict[str, float] = field(default_factory=dict)
+    
+    # Point totals
+    raw_points: float = 0.0
+    strike_points: float = 0.0  # All strikes (stand-up + ground)
+    control_points: float = 0.0
+    gnp_hard_points: float = 0.0
+    
+    # Impact flags
+    impact_flags: Dict[str, bool] = field(default_factory=lambda: {
+        "rocked": False,
+        "kd_flash": False,
+        "kd_hard": False,
+        "kd_nf": False,
+        "sub_nf": False,
+    })
+    has_submission: bool = False
+    
+    # Scored events list
+    events: List[ScoredEvent] = field(default_factory=list)
+    
+    def get_technique_count(self, event_key: str) -> int:
+        return self.technique_counts.get(event_key, 0)
+    
+    def increment_technique(self, event_key: str) -> int:
+        self.technique_counts[event_key] = self.technique_counts.get(event_key, 0) + 1
+        return self.technique_counts[event_key]
+
+
+@dataclass
+class RoundResult:
+    """Complete round scoring result"""
+    round_number: int
+    
+    # Per-fighter totals
+    red_raw_points: float = 0.0
+    blue_raw_points: float = 0.0
+    red_final_points: float = 0.0
+    blue_final_points: float = 0.0
+    
+    # Delta and share
+    delta: float = 0.0
+    red_share_percent: float = 50.0
+    blue_share_percent: float = 50.0
+    
+    # Impact flags
+    red_impact_flags: Dict[str, bool] = field(default_factory=dict)
+    blue_impact_flags: Dict[str, bool] = field(default_factory=dict)
+    
+    # Winner determination
+    winner: str = "DRAW"  # "RED", "BLUE", "DRAW"
+    winner_reason: str = "points"  # "points", "impact_lock_kd_flash", etc.
+    red_round_score: int = 10
+    blue_round_score: int = 10
+    
+    # Control discount applied
+    red_control_discount_applied: bool = False
+    blue_control_discount_applied: bool = False
+    
+    # Debug info
+    red_state: Optional[FighterRoundState] = None
+    blue_state: Optional[FighterRoundState] = None
+
+
+class ScoringEngineV3:
+    """
+    Impact-First Scoring Engine v3.0
+    
+    Features:
+    - Config-driven weights
+    - 5 regularization rules (anti-spam)
+    - Impact lock system
+    - Full auditability
+    """
+    
+    def __init__(self):
+        self.config = SCORING_CONFIG
+        self.rules = REGULARIZATION_RULES
+        self.impact_locks = IMPACT_LOCK_RULES
+    
+    def normalize_event_key(self, event: Dict[str, Any]) -> str:
+        """Convert legacy event type to normalized event key"""
+        event_type = event.get("event_type", "")
+        metadata = event.get("metadata", {}) or {}
+        
+        # Check for SS prefix in event type
+        if event_type.startswith("SS "):
+            base_type = event_type[3:]  # Remove "SS " prefix
+            ss_key = f"ss_{base_type.lower()}"
+            if ss_key in LEGACY_EVENT_MAP.values():
+                return ss_key
+        
+        # Check legacy map
+        if event_type in LEGACY_EVENT_MAP:
+            base_key = LEGACY_EVENT_MAP[event_type]
+            
+            # Handle KD tiers
+            if event_type == "KD":
+                tier = metadata.get("tier", "Flash")
+                if tier in ["Near-Finish", "NF"]:
+                    return "kd_nf"
+                elif tier == "Hard":
+                    return "kd_hard"
+                else:
+                    return "kd_flash"
+            
+            # Handle Ground Strike quality
+            if event_type == "Ground Strike":
+                quality = metadata.get("quality", "LIGHT")
+                if quality == "SOLID" or quality == "HARD":
+                    return "gnp_hard"
+                else:
+                    return "gnp_light"
+            
+            # Handle Submission depth
+            if event_type == "Submission Attempt":
+                tier = metadata.get("tier", metadata.get("depth", "Light"))
+                if tier in ["Near-Finish", "NF", "NEAR_FINISH"]:
+                    return "sub_nf"
+                elif tier in ["Deep", "DEEP"]:
+                    return "sub_deep"
+                else:
+                    return "sub_light"
+            
+            return base_key
+        
+        # Try lowercase match
+        lower_type = event_type.lower().replace(" ", "_").replace("-", "_")
+        all_events = get_all_event_configs()
+        if lower_type in all_events:
+            return lower_type
+        
+        # Control events
+        if "control" in lower_type.lower():
+            if "back" in lower_type.lower():
+                return "back_control"
+            elif "cage" in lower_type.lower():
+                return "cage_control"
+            else:
+                return "top_control"
+        
+        logger.warning(f"Unknown event type: {event_type}")
+        return event_type.lower().replace(" ", "_")
+    
+    def get_technique_multiplier(self, event_key: str, count: int) -> float:
+        """RULE 1: Get technique diminishing returns multiplier"""
+        if not self.rules["technique_diminishing_returns"]["enabled"]:
+            return 1.0
+        
+        if event_key not in self.rules["technique_diminishing_returns"]["applies_to"]:
+            return 1.0
+        
+        for threshold in self.rules["technique_diminishing_returns"]["thresholds"]:
+            if threshold["min"] <= count <= threshold["max"]:
+                return threshold["multiplier"]
+        
+        return 1.0
+    
+    def get_ss_abuse_multiplier(self, ss_count: int) -> float:
+        """RULE 2: Get SS abuse guardrail multiplier"""
+        if not self.rules["ss_abuse_guardrail"]["enabled"]:
+            return 1.0
+        
+        for threshold in self.rules["ss_abuse_guardrail"]["thresholds"]:
+            if threshold["min"] <= ss_count <= threshold["max"]:
+                return threshold["multiplier"]
+        
+        return 1.0
+    
+    def get_control_multiplier(self, control_type: str, continuous_seconds: float) -> float:
+        """RULE 3: Get control time diminishing returns multiplier"""
+        if not self.rules["control_diminishing_returns"]["enabled"]:
+            return 1.0
+        
+        threshold = self.rules["control_diminishing_returns"]["continuous_threshold_seconds"]
+        if continuous_seconds > threshold:
+            return self.rules["control_diminishing_returns"]["multiplier_after_threshold"]
+        
+        return 1.0
+    
+    def get_td_stuffed_multiplier(self, count: int) -> float:
+        """RULE 5: Get takedown stuffed cap multiplier"""
+        if not self.rules["takedown_stuffed_cap"]["enabled"]:
+            return 1.0
+        
+        if count > self.rules["takedown_stuffed_cap"]["full_value_count"]:
+            return self.rules["takedown_stuffed_cap"]["multiplier_after_cap"]
+        
+        return 1.0
+    
+    def apply_control_without_work_discount(self, state: FighterRoundState) -> float:
+        """RULE 4: Apply control without work discount"""
+        if not self.rules["control_without_work"]["enabled"]:
+            return 1.0
+        
+        threshold = self.rules["control_without_work"]["control_points_threshold"]
+        if state.control_points < threshold:
+            return 1.0
+        
+        # Check work requirements
+        req = self.rules["control_without_work"]["required_work"]
+        
+        has_strikes = state.strike_points >= req["min_strike_points"]
+        has_submission = state.has_submission if req["any_submission"] else False
+        has_gnp_hard = state.gnp_hard_points >= req["min_gnp_hard_points"]
+        
+        if has_strikes or has_submission or has_gnp_hard:
+            return 1.0
+        
+        # No work requirement met, apply discount
+        return self.rules["control_without_work"]["discount_multiplier"]
+    
+    def score_event(
+        self, 
+        event: Dict[str, Any], 
+        state: FighterRoundState,
+        timestamp: Optional[float] = None
+    ) -> ScoredEvent:
+        """Score a single event with all regularization rules applied"""
+        
+        event_key = self.normalize_event_key(event)
+        base_points = get_event_points(event_key)
+        
+        # Create scored event
+        scored = ScoredEvent(
+            event_id=event.get("event_id", str(id(event))),
+            fighter=state.fighter,
+            event_key=event_key,
+            base_points=base_points,
+            timestamp=timestamp,
+            metadata=event.get("metadata", {}) or {}
+        )
+        
+        # Handle control events specially
+        if event_key in ["top_control", "back_control", "cage_control"]:
+            return self.score_control_event(event, state, scored)
+        
+        # RULE 1: Technique diminishing returns
+        count = state.increment_technique(event_key)
+        scored.technique_multiplier = self.get_technique_multiplier(event_key, count)
+        
+        # RULE 2: SS abuse guardrail (stacks with Rule 1)
+        if is_ss_event(event_key):
+            state.ss_total_count += 1
+            scored.ss_multiplier = self.get_ss_abuse_multiplier(state.ss_total_count)
+        
+        # RULE 5: Takedown stuffed cap
+        if event_key == "takedown_stuffed":
+            state.takedown_stuffed_count += 1
+            scored.td_stuffed_multiplier = self.get_td_stuffed_multiplier(state.takedown_stuffed_count)
+        
+        # Calculate final points
+        scored.calculate_final()
+        
+        # Update state totals
+        state.raw_points += scored.final_points
+        
+        # Track strike points (for Rule 4)
+        if event_key in self.config.get("striking", {}) or event_key in ["gnp_light", "gnp_hard"]:
+            state.strike_points += scored.final_points
+        
+        # Track GnP hard points (for Rule 4)
+        if event_key == "gnp_hard":
+            state.gnp_hard_points += scored.final_points
+        
+        # Track submissions (for Rule 4)
+        if event_key in ["sub_light", "sub_deep", "sub_nf"]:
+            state.has_submission = True
+        
+        # Track impact flags
+        if event_key in state.impact_flags:
+            state.impact_flags[event_key] = True
+        
+        state.events.append(scored)
+        return scored
+    
+    def score_control_event(
+        self,
+        event: Dict[str, Any],
+        state: FighterRoundState,
+        scored: ScoredEvent
+    ) -> ScoredEvent:
+        """Score a control event with time-based regularization"""
+        
+        event_key = scored.event_key
+        metadata = event.get("metadata", {}) or {}
+        
+        # Get duration from metadata (in seconds)
+        duration = metadata.get("duration", 10)  # Default to 1 bucket (10s)
+        
+        # Get control config
+        ctrl_config = get_control_config(event_key)
+        bucket_seconds = ctrl_config.get("bucket_seconds", 10)
+        points_per_bucket = ctrl_config.get("points_per_bucket", 1)
+        
+        # Calculate number of buckets
+        num_buckets = max(1, int(duration / bucket_seconds))
+        
+        # Update continuous control tracking
+        gap_threshold = self.rules["control_diminishing_returns"]["bucket_gap_reset_seconds"]
+        last_time = state.control_last_timestamp.get(event_key, 0)
+        current_time = scored.timestamp or 0
+        
+        if current_time - last_time > gap_threshold:
+            # Reset continuous streak
+            state.control_continuous_seconds[event_key] = 0
+        
+        # RULE 3: Apply diminishing returns for continuous control
+        continuous = state.control_continuous_seconds.get(event_key, 0)
+        scored.control_multiplier = self.get_control_multiplier(event_key, continuous)
+        
+        # Update continuous tracking
+        state.control_continuous_seconds[event_key] = continuous + duration
+        state.control_last_timestamp[event_key] = current_time
+        
+        # Calculate points
+        scored.base_points = points_per_bucket * num_buckets
+        scored.calculate_final()
+        
+        # Update state
+        state.raw_points += scored.final_points
+        state.control_points += scored.final_points
+        
+        state.events.append(scored)
+        return scored
+    
+    def determine_winner(
+        self,
+        red_state: FighterRoundState,
+        blue_state: FighterRoundState
+    ) -> Tuple[str, str, float]:
+        """
+        Determine round winner with Impact Lock logic.
+        
+        Returns: (winner, reason, delta)
+        """
+        red_points = red_state.raw_points
+        blue_points = blue_state.raw_points
+        delta = abs(red_points - blue_points)
+        
+        # Determine points leader
+        if red_points > blue_points:
+            points_leader = "RED"
+        elif blue_points > red_points:
+            points_leader = "BLUE"
+        else:
+            points_leader = "DRAW"
+        
+        # Check for impact locks
+        red_lock = self.get_strongest_lock(red_state.impact_flags)
+        blue_lock = self.get_strongest_lock(blue_state.impact_flags)
+        
+        # If both have locks, highest priority wins (or points decide if same)
+        if red_lock and blue_lock:
+            red_priority = IMPACT_LOCK_RULES["priority_order"].index(red_lock) if red_lock in IMPACT_LOCK_RULES["priority_order"] else 999
+            blue_priority = IMPACT_LOCK_RULES["priority_order"].index(blue_lock) if blue_lock in IMPACT_LOCK_RULES["priority_order"] else 999
+            
+            if red_priority < blue_priority:
+                # Red has stronger lock
+                return self.apply_impact_lock("RED", red_lock, points_leader, delta)
+            elif blue_priority < red_priority:
+                # Blue has stronger lock
+                return self.apply_impact_lock("BLUE", blue_lock, points_leader, delta)
+            else:
+                # Same priority, points decide
+                return points_leader, "points", delta
+        
+        # Only one side has a lock
+        if red_lock:
+            return self.apply_impact_lock("RED", red_lock, points_leader, delta)
+        if blue_lock:
+            return self.apply_impact_lock("BLUE", blue_lock, points_leader, delta)
+        
+        # No locks, points decide
+        return points_leader, "points", delta
+    
+    def get_strongest_lock(self, impact_flags: Dict[str, bool]) -> Optional[str]:
+        """Get the strongest impact lock from flags"""
+        for lock_key in IMPACT_LOCK_RULES["priority_order"]:
+            if impact_flags.get(lock_key, False):
+                return lock_key
+        return None
+    
+    def apply_impact_lock(
+        self,
+        lock_holder: str,
+        lock_key: str,
+        points_leader: str,
+        delta: float
+    ) -> Tuple[str, str, float]:
+        """Apply impact lock logic"""
+        lock_config = IMPACT_LOCK_RULES["locks"].get(lock_key, {})
+        threshold = lock_config.get("delta_threshold", 0)
+        reason_code = lock_config.get("reason_code", "impact_lock")
+        
+        # Lock holder wins unless opponent leads by >= threshold
+        if points_leader == lock_holder:
+            # Lock holder already winning on points
+            return lock_holder, "points", delta
+        elif points_leader == "DRAW":
+            # Draw goes to lock holder
+            return lock_holder, reason_code, delta
+        else:
+            # Opponent leading - check if they overcome the lock
+            if delta >= threshold:
+                # Opponent overcame the lock with volume
+                return points_leader, "points", delta
+            else:
+                # Lock holds - impact side wins
+                return lock_holder, reason_code, delta
+    
+    def determine_round_score(
+        self,
+        winner: str,
+        delta: float,
+        red_state: FighterRoundState,
+        blue_state: FighterRoundState
+    ) -> Tuple[int, int]:
+        """Determine 10-point must score"""
+        
+        if winner == "DRAW" and delta < ROUND_SCORING["draw_threshold"]:
+            return 10, 10
+        
+        # Count protected events for winner
+        winner_state = red_state if winner == "RED" else blue_state
+        loser_state = blue_state if winner == "RED" else red_state
+        
+        protected_count = sum([
+            winner_state.impact_flags.get("rocked", False),
+            winner_state.impact_flags.get("kd_flash", False),
+            winner_state.impact_flags.get("kd_hard", False),
+            winner_state.impact_flags.get("kd_nf", False),
+            winner_state.has_submission and any([
+                winner_state.impact_flags.get("sub_nf", False)
+            ])
+        ])
+        
+        # Check for 10-7
+        if (protected_count >= ROUND_SCORING["score_10_7"]["min_impact_events"] or 
+            delta >= ROUND_SCORING["score_10_7"]["min_delta"]):
+            if winner == "RED":
+                return 10, 7
+            else:
+                return 7, 10
+        
+        # Check for 10-8
+        if (protected_count >= ROUND_SCORING["score_10_8"]["min_impact_events"] or 
+            delta >= ROUND_SCORING["score_10_8"]["min_delta"]):
+            if winner == "RED":
+                return 10, 8
+            else:
+                return 8, 10
+        
+        # Default 10-9
+        if winner == "RED":
+            return 10, 9
+        elif winner == "BLUE":
+            return 9, 10
+        else:
+            return 10, 10
+    
+    def score_round(
+        self,
+        round_number: int,
+        events: List[Dict[str, Any]]
+    ) -> RoundResult:
+        """
+        Score a complete round.
+        
+        This is the main entry point for the v3 scoring engine.
+        """
+        # Initialize fighter states
+        red_state = FighterRoundState(fighter="RED")
+        blue_state = FighterRoundState(fighter="BLUE")
+        
+        # Score each event
+        for event in events:
+            corner = event.get("corner", "").upper()
+            if corner not in ["RED", "BLUE"]:
+                # Try legacy fighter field
+                fighter = event.get("fighter", "")
+                corner = "RED" if fighter == "fighter1" else "BLUE" if fighter == "fighter2" else ""
+            
+            if not corner:
+                continue
+            
+            state = red_state if corner == "RED" else blue_state
+            timestamp = event.get("timestamp", 0)
+            
+            self.score_event(event, state, timestamp)
+        
+        # RULE 4: Apply control without work discount
+        red_control_discount = self.apply_control_without_work_discount(red_state)
+        blue_control_discount = self.apply_control_without_work_discount(blue_state)
+        
+        if red_control_discount < 1.0:
+            red_state.raw_points -= red_state.control_points * (1 - red_control_discount)
+            red_state.control_points *= red_control_discount
+        
+        if blue_control_discount < 1.0:
+            blue_state.raw_points -= blue_state.control_points * (1 - blue_control_discount)
+            blue_state.control_points *= blue_control_discount
+        
+        # Determine winner with Impact Lock logic
+        winner, winner_reason, delta = self.determine_winner(red_state, blue_state)
+        
+        # Determine 10-point must score
+        red_score, blue_score = self.determine_round_score(
+            winner, delta, red_state, blue_state
+        )
+        
+        # Calculate share percentages
+        total = red_state.raw_points + blue_state.raw_points
+        if total > 0:
+            red_share = (red_state.raw_points / total) * 100
+            blue_share = (blue_state.raw_points / total) * 100
+        else:
+            red_share = blue_share = 50.0
+        
+        # Build result
+        result = RoundResult(
+            round_number=round_number,
+            red_raw_points=red_state.raw_points,
+            blue_raw_points=blue_state.raw_points,
+            red_final_points=red_state.raw_points,
+            blue_final_points=blue_state.raw_points,
+            delta=delta,
+            red_share_percent=round(red_share, 1),
+            blue_share_percent=round(blue_share, 1),
+            red_impact_flags=red_state.impact_flags.copy(),
+            blue_impact_flags=blue_state.impact_flags.copy(),
+            winner=winner,
+            winner_reason=winner_reason,
+            red_round_score=red_score,
+            blue_round_score=blue_score,
+            red_control_discount_applied=red_control_discount < 1.0,
+            blue_control_discount_applied=blue_control_discount < 1.0,
+            red_state=red_state,
+            blue_state=blue_state,
+        )
+        
+        return result
+    
+    def to_dict(self, result: RoundResult) -> Dict[str, Any]:
+        """Convert RoundResult to dictionary for API response"""
+        # Build breakdown from scored events
+        red_breakdown = {}
+        blue_breakdown = {}
+        
+        if result.red_state:
+            for event in result.red_state.events:
+                key = event.event_key
+                red_breakdown[key] = red_breakdown.get(key, 0) + event.final_points
+        
+        if result.blue_state:
+            for event in result.blue_state.events:
+                key = event.event_key
+                blue_breakdown[key] = blue_breakdown.get(key, 0) + event.final_points
+        
+        return {
+            "round_number": result.round_number,
+            "red_points": result.red_round_score,
+            "blue_points": result.blue_round_score,
+            "red_raw_points": round(result.red_raw_points, 2),
+            "blue_raw_points": round(result.blue_raw_points, 2),
+            "delta": round(result.delta, 2),
+            "red_share_percent": result.red_share_percent,
+            "blue_share_percent": result.blue_share_percent,
+            "winner": result.winner,
+            "winner_reason": result.winner_reason,
+            "red_impact_flags": result.red_impact_flags,
+            "blue_impact_flags": result.blue_impact_flags,
+            "red_control_discount_applied": result.red_control_discount_applied,
+            "blue_control_discount_applied": result.blue_control_discount_applied,
+            
+            # Legacy compatibility fields (required by server.py)
+            "red_total": round(result.red_raw_points, 2),
+            "blue_total": round(result.blue_raw_points, 2),
+            "red_breakdown": {k: round(v, 2) for k, v in red_breakdown.items()},
+            "blue_breakdown": {k: round(v, 2) for k, v in blue_breakdown.items()},
+            "total_events": len(result.red_state.events) + len(result.blue_state.events) if result.red_state and result.blue_state else 0,
+            "red_kd": sum([
+                result.red_impact_flags.get("kd_flash", False),
+                result.red_impact_flags.get("kd_hard", False),
+                result.red_impact_flags.get("kd_nf", False),
+            ]),
+            "blue_kd": sum([
+                result.blue_impact_flags.get("kd_flash", False),
+                result.blue_impact_flags.get("kd_hard", False),
+                result.blue_impact_flags.get("kd_nf", False),
+            ]),
+            
+            # V3 receipt fields
+            "receipt": {
+                "round_number": result.round_number,
+                "winner": result.winner,
+                "score": f"{result.red_round_score}-{result.blue_round_score}",
+                "red_raw": round(result.red_raw_points, 2),
+                "blue_raw": round(result.blue_raw_points, 2),
+                "winner_reason": result.winner_reason,
+                "impact_lock_applied": result.winner_reason != "points",
+                "red_control_discounted": result.red_control_discount_applied,
+                "blue_control_discounted": result.blue_control_discount_applied,
+            },
+            "deltas": {
+                "round": round(result.delta, 2),
+            },
+            "verdict": {
+                "winner": result.winner,
+                "score_string": f"{result.red_round_score}-{result.blue_round_score}",
+                "red_points": result.red_round_score,
+                "blue_points": result.blue_round_score,
+            },
+            "red_categories": {
+                "striking": round(result.red_state.strike_points, 2) if result.red_state else 0,
+                "grappling": 0,  # Not tracked separately in v3
+                "control": round(result.red_state.control_points, 2) if result.red_state else 0,
+                "impact": sum([60 if result.red_impact_flags.get("rocked") else 0,
+                              100 if result.red_impact_flags.get("kd_flash") else 0,
+                              150 if result.red_impact_flags.get("kd_hard") else 0,
+                              210 if result.red_impact_flags.get("kd_nf") else 0]),
+            },
+            "blue_categories": {
+                "striking": round(result.blue_state.strike_points, 2) if result.blue_state else 0,
+                "grappling": 0,
+                "control": round(result.blue_state.control_points, 2) if result.blue_state else 0,
+                "impact": sum([60 if result.blue_impact_flags.get("rocked") else 0,
+                              100 if result.blue_impact_flags.get("kd_flash") else 0,
+                              150 if result.blue_impact_flags.get("kd_hard") else 0,
+                              210 if result.blue_impact_flags.get("kd_nf") else 0]),
+            },
+            
+            # Debug info (v3 specific)
+            "debug": self.get_debug_info(result) if result.red_state and result.blue_state else {},
+        }
+    
+    def get_debug_info(self, result: RoundResult) -> Dict[str, Any]:
+        """Get detailed debug information for the round"""
+        return {
+            "red": {
+                "technique_counts": result.red_state.technique_counts,
+                "ss_total_count": result.red_state.ss_total_count,
+                "takedown_stuffed_count": result.red_state.takedown_stuffed_count,
+                "strike_points": round(result.red_state.strike_points, 2),
+                "control_points": round(result.red_state.control_points, 2),
+                "gnp_hard_points": round(result.red_state.gnp_hard_points, 2),
+                "has_submission": result.red_state.has_submission,
+                "events": [
+                    {
+                        "event_key": e.event_key,
+                        "base_points": e.base_points,
+                        "technique_mult": e.technique_multiplier,
+                        "ss_mult": e.ss_multiplier,
+                        "control_mult": e.control_multiplier,
+                        "td_stuffed_mult": e.td_stuffed_multiplier,
+                        "final_points": round(e.final_points, 2),
+                    }
+                    for e in result.red_state.events
+                ]
+            },
+            "blue": {
+                "technique_counts": result.blue_state.technique_counts,
+                "ss_total_count": result.blue_state.ss_total_count,
+                "takedown_stuffed_count": result.blue_state.takedown_stuffed_count,
+                "strike_points": round(result.blue_state.strike_points, 2),
+                "control_points": round(result.blue_state.control_points, 2),
+                "gnp_hard_points": round(result.blue_state.gnp_hard_points, 2),
+                "has_submission": result.blue_state.has_submission,
+                "events": [
+                    {
+                        "event_key": e.event_key,
+                        "base_points": e.base_points,
+                        "technique_mult": e.technique_multiplier,
+                        "ss_mult": e.ss_multiplier,
+                        "control_mult": e.control_multiplier,
+                        "td_stuffed_mult": e.td_stuffed_multiplier,
+                        "final_points": round(e.final_points, 2),
+                    }
+                    for e in result.blue_state.events
+                ]
+            },
+            "impact_lock_applied": result.winner_reason != "points",
+        }
+
+
+# Global engine instance
+_engine = None
+
+def get_engine() -> ScoringEngineV3:
+    """Get or create the global engine instance"""
+    global _engine
+    if _engine is None:
+        _engine = ScoringEngineV3()
+    return _engine
+
+
+def score_round_v3(round_number: int, events: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Main entry point for v3 scoring.
+    
+    Args:
+        round_number: The round number
+        events: List of raw events
+        
+    Returns:
+        Dictionary with scoring results
+    """
+    engine = get_engine()
+    result = engine.score_round(round_number, events)
+    return engine.to_dict(result)
+
+==============================================================================
+FILE: backend/requirements.txt
+==============================================================================
+aiohappyeyeballs==2.6.1
+aiohttp==3.13.2
+aiosignal==1.4.0
+annotated-types==0.7.0
+anyio==4.11.0
+asyncpg==0.30.0
+attrs==25.4.0
+bcrypt==4.1.3
+black==25.9.0
+boto3==1.40.59
+botocore==1.40.59
+certifi==2025.10.5
+cffi==2.0.0
+charset-normalizer==3.4.4
+click==8.3.0
+cryptography==46.0.3
+dnspython==2.8.0
+ecdsa==0.19.1
+email-validator==2.3.0
+fastapi==0.110.1
+flake8==7.3.0
+frozenlist==1.8.0
+greenlet==3.2.4
+h11==0.16.0
+idna==3.11
+iniconfig==2.3.0
+isort==7.0.0
+jmespath==1.0.1
+jq==1.10.0
+markdown-it-py==4.0.0
+mccabe==0.7.0
+mdurl==0.1.2
+motor==3.3.1
+multidict==6.7.0
+mypy==1.18.2
+mypy_extensions==1.1.0
+numpy==2.3.4
+oauthlib==3.3.1
+packaging==25.0
+pandas==2.3.3
+passlib==1.7.4
+pathspec==0.12.1
+platformdirs==4.5.0
+pluggy==1.6.0
+propcache==0.4.1
+psycopg2-binary==2.9.11
+pyasn1==0.6.1
+pycodestyle==2.14.0
+pycparser==2.23
+pydantic==2.12.3
+pydantic_core==2.41.4
+pyflakes==3.4.0
+Pygments==2.19.2
+PyJWT==2.10.1
+pymongo==4.5.0
+pytest==8.4.2
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.1
+python-jose==3.5.0
+python-multipart==0.0.20
+pytokens==0.2.0
+pytz==2025.2
+PyYAML==6.0.3
+redis==7.1.0
+requests==2.32.5
+requests-oauthlib==2.0.0
+rich==14.2.0
+rsa==4.9.1
+s3transfer==0.14.0
+s5cmd==0.2.0
+shellingham==1.5.4
+six==1.17.0
+sniffio==1.3.1
+SQLAlchemy==2.0.44
+starlette==0.37.2
+typer==0.20.0
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+tzdata==2025.2
+urllib3==2.5.0
+uvicorn==0.25.0
+watchfiles==1.1.1
+yarl==1.22.0
+beautifulsoup4==4.14.2
+lxml==6.0.2
+requests==2.32.5
+requests-oauthlib==2.0.0
+httpx==0.23.3
+
+==============================================================================
+FILE: frontend/package.json
+==============================================================================
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fontsource/oswald": "^5.2.8",
+    "@hookform/resolvers": "^5.0.1",
+    "@radix-ui/react-accordion": "^1.2.8",
+    "@radix-ui/react-alert-dialog": "^1.1.11",
+    "@radix-ui/react-aspect-ratio": "^1.1.4",
+    "@radix-ui/react-avatar": "^1.1.7",
+    "@radix-ui/react-checkbox": "^1.2.3",
+    "@radix-ui/react-collapsible": "^1.1.8",
+    "@radix-ui/react-context-menu": "^2.2.12",
+    "@radix-ui/react-dialog": "^1.1.11",
+    "@radix-ui/react-dropdown-menu": "^2.1.12",
+    "@radix-ui/react-hover-card": "^1.1.11",
+    "@radix-ui/react-label": "^2.1.4",
+    "@radix-ui/react-menubar": "^1.1.12",
+    "@radix-ui/react-navigation-menu": "^1.2.10",
+    "@radix-ui/react-popover": "^1.1.11",
+    "@radix-ui/react-progress": "^1.1.4",
+    "@radix-ui/react-radio-group": "^1.3.4",
+    "@radix-ui/react-scroll-area": "^1.2.6",
+    "@radix-ui/react-select": "^2.2.2",
+    "@radix-ui/react-separator": "^1.1.4",
+    "@radix-ui/react-slider": "^1.3.2",
+    "@radix-ui/react-slot": "^1.2.0",
+    "@radix-ui/react-switch": "^1.2.2",
+    "@radix-ui/react-tabs": "^1.1.9",
+    "@radix-ui/react-toast": "^1.2.11",
+    "@radix-ui/react-toggle": "^1.1.6",
+    "@radix-ui/react-toggle-group": "^1.1.7",
+    "@radix-ui/react-tooltip": "^1.2.4",
+    "axios": "^1.8.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "cra-template": "1.2.0",
+    "date-fns": "^4.1.0",
+    "embla-carousel-react": "^8.6.0",
+    "firebase": "^12.4.0",
+    "input-otp": "^1.4.2",
+    "lucide-react": "^0.507.0",
+    "next-themes": "^0.4.6",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.0.0",
+    "react-day-picker": "8.10.1",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.2",
+    "react-resizable-panels": "^3.0.1",
+    "react-router-dom": "^7.5.1",
+    "react-scripts": "5.0.1",
+    "sonner": "^2.0.3",
+    "tailwind-merge": "^3.2.0",
+    "tailwindcss-animate": "^1.0.7",
+    "vaul": "^1.1.2",
+    "victory": "^37.3.6",
+    "zod": "^3.24.4"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@craco/craco": "^7.1.0",
+    "@eslint/js": "9.23.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "9.23.0",
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react": "7.37.4",
+    "globals": "15.15.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}
