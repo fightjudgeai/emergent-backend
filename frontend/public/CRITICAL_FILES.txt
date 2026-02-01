@@ -381,3 +381,4095 @@ FILE: frontend/public/index.html
         </script>
     </body>
 </html>
+
+==============================================================================
+FILE: frontend/src/components/SupervisorDashboardPro.jsx
+==============================================================================
+import { useState, useEffect, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Switch } from '@/components/ui/switch';
+import { 
+  Monitor, 
+  Trophy, 
+  Flag, 
+  Users, 
+  Zap,
+  RefreshCw,
+  Maximize,
+  Clock,
+  Target,
+  Award,
+  Tv,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+  ExternalLink,
+  ChevronRight,
+  Home,
+  Plus,
+  Trash2,
+  Edit3,
+  BarChart3,
+  UserSquare2,
+  X
+} from 'lucide-react';
+import { toast } from 'sonner';
+import OperatorAssignmentPanel from './OperatorAssignmentPanel';
+import { BroadcastScorecard } from './lovable-broadcast/BroadcastScorecard';
+import { FinalResult, RoundWinner, transformFinalResult } from './broadcast/FightJudgeAI';
+import '@/styles/lovable-broadcast.css';
+
+const API = process.env.REACT_APP_BACKEND_URL;
+
+// Delta values for each event type (must match backend)
+const EVENT_DELTAS = {
+  'KD': { 'Near-Finish': 100, 'Hard': 70, 'Flash': 40, default: 40 },
+  'Rocked/Stunned': 30,
+  'Takedown Landed': 25,
+  'Takedown Defended': 5,
+  'Submission Attempt': { 'Near-Finish': 100, 'Deep': 60, 'Standard': 30, default: 30 },
+  'Sweep/Reversal': 20,
+  'Back Control': 15,
+  'Mount Control': 15,
+  'Guard Passing': 10,
+  'Ground Control': 5,
+  'Head Kick': 15,
+  'Body Kick': 8,
+  'Leg Kick': 5,
+  'Cross': 14,
+  'Hook': 14,
+  'Uppercut': 14,
+  'Elbow': 14,
+  'Knee': 12,
+  'Jab': 10,
+  'Ground Strike': 8,
+};
+
+// Get delta value for an event
+const getEventDelta = (eventType, tier) => {
+  const value = EVENT_DELTAS[eventType];
+  if (typeof value === 'object') {
+    return value[tier] || value.default || 10;
+  }
+  return value || 10;
+};
+
+// Determine round score from delta
+// Delta is the sum of event values for the round
+// 10-8 requires EXTREME one-sided dominance (delta 500-750)
+// 10-7 is practically impossible (delta 750+)
+const getRoundScore = (delta) => {
+  const absDelta = Math.abs(delta);
+  if (absDelta <= 3) return { red: 10, blue: 10, label: 'DRAW' };
+  if (absDelta < 500) return delta > 0 ? { red: 10, blue: 9, label: '10-9' } : { red: 9, blue: 10, label: '10-9' };
+  if (absDelta < 750) return delta > 0 ? { red: 10, blue: 8, label: '10-8' } : { red: 8, blue: 10, label: '10-8' };
+  return delta > 0 ? { red: 10, blue: 7, label: '10-7' } : { red: 7, blue: 10, label: '10-7' };
+};
+
+// Convert our data format to Lovable BroadcastScorecard format
+const convertToLovableFormat = (boutInfo, roundResults, runningTotals, finalResult) => {
+  // Build rounds array in Lovable format
+  const rounds = [];
+  for (let i = 0; i < 5; i++) {
+    const roundData = roundResults.find(r => r.round_number === i + 1);
+    if (roundData) {
+      rounds.push({
+        red: roundData.red_points,
+        blue: roundData.blue_points,
+        winner: roundData.red_points > roundData.blue_points ? 'red' : 
+                roundData.blue_points > roundData.red_points ? 'blue' : null
+      });
+    } else {
+      rounds.push({ red: null, blue: null, winner: null });
+    }
+  }
+  
+  // Determine winner
+  let winner = null;
+  if (finalResult) {
+    winner = finalResult.winner === 'RED' ? 'red' : finalResult.winner === 'BLUE' ? 'blue' : null;
+  }
+  
+  return {
+    event: "PFC 50",
+    division: "Main Event",
+    status: finalResult ? "completed" : roundResults.length > 0 ? "in_progress" : "pending",
+    red: {
+      name: boutInfo.fighter1 || "Red Corner",
+      photo: ""
+    },
+    blue: {
+      name: boutInfo.fighter2 || "Blue Corner", 
+      photo: ""
+    },
+    rounds: rounds,
+    unified_total: {
+      red: runningTotals.red || 0,
+      blue: runningTotals.blue || 0
+    },
+    winner: winner
+  };
+};
+
+export default function SupervisorDashboardPro() {
+  const { boutId: paramBoutId } = useParams();
+  const [boutId, setBoutId] = useState(paramBoutId || '');
+  
+  // Sync boutId state when URL param changes (for next fight navigation)
+  useEffect(() => {
+    if (paramBoutId && paramBoutId !== boutId) {
+      setBoutId(paramBoutId);
+      // Reset state for new fight
+      setCurrentRound(1);
+      setAllEvents([]);
+      setRedEvents([]);
+      setBlueEvents([]);
+      setRoundResults([]);
+      setRunningTotals({ red: 0, blue: 0 });
+      setRedDelta(0);
+      setBlueDelta(0);
+      setNetDelta(0);
+      setShowFinalResult(false);
+      setFinalResult(null);
+      setNextFight(null);
+    }
+  }, [paramBoutId]);
+  const [isConnected, setIsConnected] = useState(false);
+  const [currentRound, setCurrentRound] = useState(1);
+  const [totalRounds, setTotalRounds] = useState(5);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  
+  // Bout info
+  const [boutInfo, setBoutInfo] = useState({
+    fighter1: 'Red Corner',
+    fighter2: 'Blue Corner'
+  });
+  
+  // Raw events (all details)
+  const [allEvents, setAllEvents] = useState([]);
+  const [redEvents, setRedEvents] = useState([]);
+  const [blueEvents, setBlueEvents] = useState([]);
+  
+  // Active control timers (from operators)
+  const [activeControls, setActiveControls] = useState({ red: null, blue: null });
+  
+  // Delta calculations
+  const [redDelta, setRedDelta] = useState(0);
+  const [blueDelta, setBlueDelta] = useState(0);
+  const [netDelta, setNetDelta] = useState(0);
+  
+  // Round results
+  const [roundResults, setRoundResults] = useState([]);
+  const [runningTotals, setRunningTotals] = useState({ red: 0, blue: 0 });
+  
+  // UI state
+  const [isLoading, setIsLoading] = useState(false);
+  const [showRoundResult, setShowRoundResult] = useState(false);
+  const [lastRoundResult, setLastRoundResult] = useState(null);
+  const [showFinalResult, setShowFinalResult] = useState(false);
+  const [finalResult, setFinalResult] = useState(null);
+  const [lastPollTime, setLastPollTime] = useState(null);
+  const [showAssignmentPanel, setShowAssignmentPanel] = useState(false);
+  const [showBroadcast, setShowBroadcast] = useState(false);
+  const [operatorCount, setOperatorCount] = useState(0);
+  const [nextFight, setNextFight] = useState(null);
+  const [showFinishMethodDialog, setShowFinishMethodDialog] = useState(false);
+  const [finishMethod, setFinishMethod] = useState(null);
+  const [showResultBroadcast, setShowResultBroadcast] = useState(false);
+  
+  // Round Review state
+  const [showRoundReview, setShowRoundReview] = useState(false);
+  const [reviewRoundNumber, setReviewRoundNumber] = useState(null);
+  const [reviewRoundData, setReviewRoundData] = useState(null);
+  const [reviewRoundEvents, setReviewRoundEvents] = useState([]);
+  
+  // Round Broadcast state
+  const [showRoundBroadcast, setShowRoundBroadcast] = useState(false);
+  
+  // Edit Round Score state
+  const [showEditRoundScore, setShowEditRoundScore] = useState(false);
+  const [editingRound, setEditingRound] = useState(null);
+  const [editRedScore, setEditRedScore] = useState(10);
+  const [editBlueScore, setEditBlueScore] = useState(9);
+  
+  // 10-8 Approval state
+  const [show108Approval, setShow108Approval] = useState(false);
+  const [pending108Result, setPending108Result] = useState(null);
+  
+  // Supervisor Event Management state
+  const [showEventManager, setShowEventManager] = useState(false);
+  const [selectedCorner, setSelectedCorner] = useState('RED');
+  
+  // Broadcast Graphics Control state
+  const [showBroadcastControls, setShowBroadcastControls] = useState(false);
+  const [broadcastState, setBroadcastState] = useState({
+    showStats: false,
+    showLowerRed: false,
+    showLowerBlue: false,
+    showLowerBoth: false
+  });
+  
+  // Live score preview state
+  const [liveScore, setLiveScore] = useState({ red: 0, blue: 0 });
+  
+  const navigate = useNavigate();
+  
+  // Keep-alive ping - every 15 seconds while supervisor is active
+  useEffect(() => {
+    const pingServer = async () => {
+      try {
+        await fetch(`${API}/api/ping`);
+      } catch (e) {
+        // Silently ignore
+      }
+    };
+    
+    // Ping immediately and every 15 seconds
+    pingServer();
+    const interval = setInterval(pingServer, 15000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Update broadcast control on server
+  const updateBroadcastControl = async (key, value) => {
+    if (!boutId) return;
+    
+    const newState = { ...broadcastState, [key]: value };
+    setBroadcastState(newState);
+    
+    try {
+      await fetch(`${API}/api/broadcast/control/${boutId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [key]: value })
+      });
+    } catch (error) {
+      console.error('Error updating broadcast control:', error);
+    }
+  };
+
+  // Fetch current broadcast state
+  const fetchBroadcastState = useCallback(async () => {
+    if (!boutId) return;
+    try {
+      const response = await fetch(`${API}/api/broadcast/control/${boutId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setBroadcastState(data);
+      }
+    } catch (error) {
+      // Ignore
+    }
+  }, [boutId]);
+
+  // Fetch broadcast state on load
+  useEffect(() => {
+    fetchBroadcastState();
+  }, [fetchBroadcastState]);
+
+  // Quick event types for supervisor to add
+  const QUICK_EVENTS = {
+    striking: [
+      { type: 'Jab', label: 'Jab' },
+      { type: 'Cross', label: 'Cross' },
+      { type: 'Hook', label: 'Hook' },
+      { type: 'Uppercut', label: 'Upper' },
+      { type: 'Kick', label: 'Kick' },
+      { type: 'Knee', label: 'Knee' },
+      { type: 'Elbow', label: 'Elbow' },
+    ],
+    significant: [
+      { type: 'SS Jab', label: 'SS Jab' },
+      { type: 'SS Cross', label: 'SS Cross' },
+      { type: 'SS Hook', label: 'SS Hook' },
+      { type: 'SS Kick', label: 'SS Kick' },
+      { type: 'SS Knee', label: 'SS Knee' },
+      { type: 'SS Elbow', label: 'SS Elbow' },
+    ],
+    damage: [
+      { type: 'Rocked', label: 'Rocked' },
+      { type: 'KD', label: 'KD Flash', metadata: { tier: 'Flash' } },
+      { type: 'KD', label: 'KD Hard', metadata: { tier: 'Hard' } },
+      { type: 'KD', label: 'KD NF', metadata: { tier: 'Near-Finish' } },
+    ],
+    grappling: [
+      { type: 'Takedown', label: 'Takedown' },
+      { type: 'Takedown Stuffed', label: 'TD Stuffed' },
+      { type: 'Ground Strike', label: 'GnP Light', metadata: { quality: 'LIGHT' } },
+      { type: 'Ground Strike', label: 'GnP Hard', metadata: { quality: 'SOLID' } },
+    ],
+    submissions: [
+      { type: 'Submission Attempt', label: 'Sub Light', metadata: { tier: 'Light' } },
+      { type: 'Submission Attempt', label: 'Sub Deep', metadata: { tier: 'Deep' } },
+      { type: 'Submission Attempt', label: 'Sub NF', metadata: { tier: 'Near-Finish' } },
+    ],
+  };
+
+  // Add event as supervisor
+  const handleSupervisorAddEvent = async (eventType, metadata = {}) => {
+    if (!boutId) return;
+    
+    try {
+      const response = await fetch(`${API}/api/events/supervisor`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          round_number: currentRound,
+          corner: selectedCorner,
+          event_type: eventType,
+          metadata: metadata
+        })
+      });
+      
+      if (response.ok) {
+        toast.success(`Added ${eventType} for ${selectedCorner}`);
+        fetchEvents(); // Refresh events
+      } else {
+        toast.error('Failed to add event');
+      }
+    } catch (error) {
+      toast.error('Error adding event');
+    }
+  };
+
+  // Delete event as supervisor
+  const handleDeleteEvent = async (event) => {
+    if (!boutId) return;
+    
+    try {
+      const response = await fetch(`${API}/api/events/by-id/${encodeURIComponent(event.created_at)}?bout_id=${boutId}`, {
+        method: 'DELETE'
+      });
+      
+      if (response.ok) {
+        toast.success(`Deleted ${event.event_type}`);
+        fetchEvents(); // Refresh events
+        fetchLiveScore(); // Recalculate score
+      } else {
+        toast.error('Failed to delete event');
+      }
+    } catch (error) {
+      toast.error('Error deleting event');
+    }
+  };
+  
+  // Delete last event for a specific corner
+  const handleUndoLast = async (corner) => {
+    const events = corner === 'RED' ? redEvents : blueEvents;
+    if (events.length === 0) {
+      toast.error(`No ${corner} events to undo`);
+      return;
+    }
+    // Get the most recent event (last in array)
+    const lastEvent = events[events.length - 1];
+    await handleDeleteEvent(lastEvent);
+  };
+
+  // Fetch round data for review
+  const fetchRoundForReview = async (roundNum) => {
+    if (!boutId || !roundNum) return;
+    
+    try {
+      // Fetch events for the specific round
+      const eventsResponse = await fetch(`${API}/api/events?bout_id=${boutId}&round_number=${roundNum}`);
+      if (eventsResponse.ok) {
+        const eventsData = await eventsResponse.json();
+        setReviewRoundEvents(eventsData.events || []);
+      }
+      
+      // Fetch round score
+      const scoreResponse = await fetch(`${API}/api/rounds/compute`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bout_id: boutId, round_number: roundNum })
+      });
+      
+      if (scoreResponse.ok) {
+        const scoreData = await scoreResponse.json();
+        setReviewRoundData(scoreData);
+      }
+      
+      setReviewRoundNumber(roundNum);
+      setShowRoundReview(true);
+    } catch (error) {
+      console.error('Error fetching round for review:', error);
+      toast.error('Failed to load round data');
+    }
+  };
+
+  // Fetch next fight in the event
+  const fetchNextFight = useCallback(async () => {
+    if (!boutId) return;
+    try {
+      // Get event ID from current bout
+      const boutResponse = await fetch(`${API}/api/bouts/${boutId}`);
+      if (!boutResponse.ok) return;
+      const boutData = await boutResponse.json();
+      const eventId = boutData.event_id;
+      
+      if (!eventId) return;
+      
+      // Get all fights for this event
+      const fightsResponse = await fetch(`${API}/api/supervisor/fights?event_id=${eventId}`);
+      if (!fightsResponse.ok) return;
+      const fightsData = await fightsResponse.json();
+      const fights = fightsData.fights || [];
+      
+      // Find current fight index and get next one
+      const currentIndex = fights.findIndex(f => f.bout_id === boutId);
+      if (currentIndex >= 0 && currentIndex < fights.length - 1) {
+        const next = fights[currentIndex + 1];
+        setNextFight(next);
+      }
+    } catch (error) {
+      console.error('Error fetching next fight:', error);
+    }
+  }, [boutId]);
+
+  // Fetch next fight when final result is shown
+  useEffect(() => {
+    if (showFinalResult) {
+      fetchNextFight();
+    }
+  }, [showFinalResult, fetchNextFight]);
+
+  // Fetch operator count
+  const fetchOperatorCount = useCallback(async () => {
+    if (!boutId) return;
+    try {
+      const response = await fetch(`${API}/api/operators/list?bout_id=${boutId}`);
+      if (response.ok) {
+        const data = await response.json();
+        const assigned = (data.operators || []).filter(op => op.assigned_role).length;
+        setOperatorCount(assigned);
+      }
+    } catch (e) {
+      // Silently ignore operator count fetch errors
+    }
+  }, [boutId]);
+
+  // Poll operator count
+  useEffect(() => {
+    if (!boutId) return;
+    fetchOperatorCount();
+    const interval = setInterval(fetchOperatorCount, 5000);
+    return () => clearInterval(interval);
+  }, [boutId, fetchOperatorCount]);
+
+  // Fetch events with full details
+  const fetchEvents = useCallback(async () => {
+    if (!boutId) return;
+    
+    try {
+      const response = await fetch(`${API}/api/events?bout_id=${boutId}&round_number=${currentRound}`);
+      if (response.ok) {
+        const data = await response.json();
+        const events = data.events || [];
+        
+        setAllEvents(events);
+        
+        // Separate by corner
+        const red = events.filter(e => e.corner === 'RED' || e.fighter === 'fighter1');
+        const blue = events.filter(e => e.corner === 'BLUE' || e.fighter === 'fighter2');
+        
+        setRedEvents(red);
+        setBlueEvents(blue);
+        
+        // Detect active control timers (CTRL_START without matching CTRL_END)
+        const detectActiveControl = (cornerEvents) => {
+          const ctrlStarts = {};
+          const ctrlEnds = {};
+          
+          cornerEvents.forEach(e => {
+            const ctrlType = e.metadata?.control_type || 'TOP';
+            if (e.event_type === 'CTRL_START') {
+              ctrlStarts[ctrlType] = e;
+            } else if (e.event_type === 'CTRL_END') {
+              ctrlEnds[ctrlType] = e;
+            }
+          });
+          
+          // Return the control type that has a start but no end
+          for (const ctrlType of Object.keys(ctrlStarts)) {
+            if (!ctrlEnds[ctrlType]) {
+              return ctrlType;
+            }
+          }
+          return null;
+        };
+        
+        setActiveControls({
+          red: detectActiveControl(red),
+          blue: detectActiveControl(blue)
+        });
+        
+        // Note: Delta calculation is now done via fetchLiveScore using the actual scoring engine
+        // The frontend calculation here is just a rough estimate
+        // The accurate score comes from liveScore state which is updated in parallel
+        
+        setIsConnected(true);
+        setLastPollTime(new Date());
+      }
+    } catch (error) {
+      console.error('Poll error:', error);
+      setIsConnected(false);
+    }
+  }, [boutId, currentRound]);
+
+  // Fetch round results
+  const fetchRoundResults = useCallback(async () => {
+    if (!boutId) return;
+    
+    try {
+      const response = await fetch(`${API}/api/rounds?bout_id=${boutId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setRoundResults(data.rounds || []);
+        setRunningTotals({
+          red: data.running_red || 0,
+          blue: data.running_blue || 0
+        });
+      }
+    } catch (error) {
+      console.error('Fetch rounds error:', error);
+    }
+  }, [boutId]);
+
+  // Fetch live score preview (computes actual score without saving)
+  const fetchLiveScore = useCallback(async () => {
+    if (!boutId || !currentRound) return;
+    
+    try {
+      const response = await fetch(`${API}/api/rounds/compute`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          round_number: currentRound,
+          preview_only: true  // Don't save, just compute
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const redTotal = data.red_total || 0;
+        const blueTotal = data.blue_total || 0;
+        
+        setLiveScore({
+          red: Math.round(redTotal * 10) / 10,
+          blue: Math.round(blueTotal * 10) / 10
+        });
+        
+        // Update delta displays with accurate scoring engine values
+        setRedDelta(Math.round(redTotal * 10) / 10);
+        setBlueDelta(Math.round(blueTotal * 10) / 10);
+        setNetDelta(Math.round((redTotal - blueTotal) * 10) / 10);
+      }
+    } catch (error) {
+      // Silently handle errors - don't spam console during cold starts
+      // The next poll will retry automatically
+    }
+  }, [boutId, currentRound]);
+
+  // Fetch bout info
+  const fetchBoutInfo = useCallback(async () => {
+    if (!boutId) return;
+    
+    try {
+      const response = await fetch(`${API}/api/bouts/${boutId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setBoutInfo({
+          fighter1: data.fighter1 || 'Red Corner',
+          fighter2: data.fighter2 || 'Blue Corner'
+        });
+        setTotalRounds(data.totalRounds || 5);
+        setCurrentRound(data.currentRound || 1);
+      }
+    } catch (error) {
+      // Silently handle - will retry on next poll
+    }
+  }, [boutId]);
+
+  // Poll every 500ms for real-time updates (balanced for reliability)
+  useEffect(() => {
+    if (!boutId) return;
+    
+    fetchBoutInfo();
+    fetchEvents();
+    fetchRoundResults();
+    fetchLiveScore();
+    
+    // More aggressive polling for real-time feel
+    const eventInterval = setInterval(() => {
+      fetchEvents();
+      fetchLiveScore();  // Also compute live score
+    }, 500);  // Poll events every 500ms (balanced for reliability)
+    
+    // Also poll round results and bout info less frequently
+    const roundInterval = setInterval(() => {
+      fetchRoundResults();
+      fetchBoutInfo();
+    }, 2000);  // Poll round results every 2s
+    
+    return () => {
+      clearInterval(eventInterval);
+      clearInterval(roundInterval);
+    };
+  }, [boutId, currentRound, fetchEvents, fetchRoundResults, fetchBoutInfo, fetchLiveScore]);
+
+  // End Round - preview first, check for 10-8, then compute
+  const handleEndRound = async () => {
+    if (!boutId) return;
+    
+    setIsLoading(true);
+    try {
+      // 1. Preview the round score first (don't save yet)
+      const previewResponse = await fetch(`${API}/api/rounds/compute`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          round_number: currentRound,
+          preview_only: true  // Just preview, don't save
+        })
+      });
+      
+      if (previewResponse.ok) {
+        const previewResult = await previewResponse.json();
+        
+        // Check if it's a 10-8 or 10-7 round (needs supervisor approval)
+        const is108 = (previewResult.red_points === 10 && previewResult.blue_points <= 8) ||
+                      (previewResult.blue_points === 10 && previewResult.red_points <= 8);
+        
+        if (is108) {
+          // Store pending result and show approval dialog
+          setPending108Result(previewResult);
+          setShow108Approval(true);
+          setIsLoading(false);
+          return; // Wait for supervisor decision
+        }
+        
+        // Not a 10-8, proceed normally
+        await finalizeRoundScore(previewResult);
+      } else {
+        toast.error('Failed to compute round');
+      }
+    } catch (error) {
+      toast.error('Error computing round');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Approve 10-8 score as-is
+  const approve108Score = async () => {
+    if (!pending108Result) return;
+    setShow108Approval(false);
+    setIsLoading(true);
+    await finalizeRoundScore(pending108Result, true); // true = supervisor approved 10-8
+    setPending108Result(null);
+    setIsLoading(false);
+  };
+
+  // Change 10-8 to 10-9
+  const change108To109 = async () => {
+    if (!pending108Result) return;
+    setShow108Approval(false);
+    setIsLoading(true);
+    
+    // Modify the result to be 10-9 instead
+    const modifiedResult = { ...pending108Result };
+    if (modifiedResult.red_points === 10 && modifiedResult.blue_points <= 8) {
+      modifiedResult.blue_points = 9;
+    } else if (modifiedResult.blue_points === 10 && modifiedResult.red_points <= 8) {
+      modifiedResult.red_points = 9;
+    }
+    
+    await finalizeRoundScore(modifiedResult, false, true); // override score
+    setPending108Result(null);
+    setIsLoading(false);
+  };
+
+  // Finalize round score (save to backend)
+  const finalizeRoundScore = async (result, approved108 = false, overrideScore = false) => {
+    try {
+      // Save the round result
+      const saveResponse = await fetch(`${API}/api/rounds/compute`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          round_number: currentRound,
+          override_red: overrideScore ? result.red_points : undefined,
+          override_blue: overrideScore ? result.blue_points : undefined,
+          supervisor_approved_108: approved108
+        })
+      });
+      
+      if (saveResponse.ok) {
+        const savedResult = await saveResponse.json();
+        
+        // If we overrode the score, update it in the DB
+        if (overrideScore) {
+          await fetch(`${API}/api/rounds/${boutId}/${currentRound}/score`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              red_points: result.red_points,
+              blue_points: result.blue_points
+            })
+          });
+        }
+        
+        setLastRoundResult(overrideScore ? result : savedResult);
+        setShowRoundResult(true);
+        
+        await fetchRoundResults();
+        
+        const displayResult = overrideScore ? result : savedResult;
+        toast.success(`Round ${currentRound}: ${displayResult.red_points}-${displayResult.blue_points} (${displayResult.winner === 'RED' ? boutInfo.fighter1 : displayResult.winner === 'BLUE' ? boutInfo.fighter2 : 'DRAW'})`);
+        
+        // Auto-advance to next round if not final
+        if (currentRound < totalRounds) {
+          const advanceResponse = await fetch(`${API}/api/bouts/${boutId}/advance-round`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          
+          if (advanceResponse.ok) {
+            const advanceData = await advanceResponse.json();
+            if (advanceData.success) {
+              setCurrentRound(advanceData.current_round);
+              toast.success(`Moving to Round ${advanceData.current_round}`, { duration: 2000 });
+            }
+          }
+        } else {
+          toast.info('Final round completed! Click "Finalize" to declare winner.');
+        }
+      } else {
+        toast.error('Failed to save round');
+      }
+    } catch (error) {
+      toast.error('Error saving round');
+    }
+  };
+
+  // Open edit round score dialog
+  const handleEditRoundScore = (round, e) => {
+    e.stopPropagation(); // Prevent triggering the review click
+    setEditingRound(round);
+    setEditRedScore(round.red_points);
+    setEditBlueScore(round.blue_points);
+    setShowEditRoundScore(true);
+  };
+
+  // Save edited round score
+  const handleSaveRoundScore = async () => {
+    if (!editingRound || !boutId) return;
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${API}/api/rounds/${boutId}/${editingRound.round_number}/score`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          red_points: editRedScore,
+          blue_points: editBlueScore
+        })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        toast.success(`Round ${editingRound.round_number} score updated to ${editRedScore}-${editBlueScore}`);
+        setShowEditRoundScore(false);
+        setEditingRound(null);
+        // Refresh round results
+        await fetchRoundResults();
+      } else {
+        const error = await response.json();
+        toast.error(error.detail || 'Failed to update round score');
+      }
+    } catch (error) {
+      toast.error('Error updating round score');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Show finish method dialog
+  const handleFinalizeFight = () => {
+    setShowFinishMethodDialog(true);
+  };
+
+  // Actually finalize the fight with selected method
+  const confirmFinalizeFight = async (method) => {
+    if (!boutId) return;
+    
+    setFinishMethod(method);
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${API}/api/fights/finalize`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bout_id: boutId, finish_method: method })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        // Add finish method to result
+        result.finish_method = method;
+        setFinalResult(result);
+        setShowFinishMethodDialog(false);
+        setShowFinalResult(true);
+        toast.success(`Fight finalized! Winner: ${result.winner_name} by ${method}`);
+      } else {
+        toast.error('Failed to finalize fight');
+      }
+    } catch (error) {
+      toast.error('Error finalizing fight');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Show result on arena broadcast
+  const showOnArena = () => {
+    setShowResultBroadcast(true);
+  };
+
+  // Toggle fullscreen
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  // Current round prediction
+  const currentPrediction = getRoundScore(netDelta);
+  const currentLeader = netDelta > 3 ? 'RED' : netDelta < -3 ? 'BLUE' : 'EVEN';
+
+  // If no bout ID, show setup
+  if (!boutId) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center p-8">
+        <Card className="p-8 bg-gray-900 border-gray-700 max-w-md w-full">
+          <div className="text-center space-y-6">
+            <Monitor className="w-16 h-16 text-amber-500 mx-auto" />
+            <h1 className="text-2xl font-bold text-white">Supervisor Dashboard Pro</h1>
+            <p className="text-gray-400">Enter bout ID to start monitoring</p>
+            <Input
+              value={boutId}
+              onChange={(e) => setBoutId(e.target.value)}
+              placeholder="Enter Bout ID"
+              className="bg-gray-800 border-gray-600 text-white text-center text-lg"
+            />
+            <Button 
+              onClick={() => boutId && fetchBoutInfo()}
+              className="w-full bg-amber-500 hover:bg-amber-600 text-black font-bold"
+            >
+              Start Monitoring
+            </Button>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-950 text-white">
+      {/* Header Bar */}
+      <div className="bg-black border-b border-gray-800 px-4 py-2 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Monitor className="w-5 h-5 text-amber-500" />
+          <span className="font-bold">SUPERVISOR PRO</span>
+          <Badge className={isConnected ? 'bg-green-500' : 'bg-red-500'}>
+            {isConnected ? 'LIVE' : 'OFFLINE'}
+          </Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button size="sm" variant="outline" onClick={() => setShowEventManager(true)} className="border-green-500 text-green-400">
+            <Edit3 className="w-4 h-4 mr-1" /> Edit Events
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => setShowBroadcastControls(true)} className="border-cyan-500 text-cyan-400">
+            <BarChart3 className="w-4 h-4 mr-1" /> Graphics
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => setShowAssignmentPanel(true)} className="border-amber-500 text-amber-400">
+            <Users className="w-4 h-4 mr-1" /> Operators ({operatorCount}/3)
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => setShowBroadcast(true)} className="border-purple-500 text-purple-400">
+            <Tv className="w-4 h-4 mr-1" /> Arena View
+          </Button>
+          <Button size="sm" variant="ghost" onClick={toggleFullscreen}>
+            <Maximize className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Fighter Header */}
+      <div className="bg-gradient-to-r from-red-900/30 via-gray-900 to-blue-900/30 px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div className="text-center flex-1">
+            <div className="text-red-400 text-sm font-semibold">RED CORNER</div>
+            <div className="text-3xl font-bold text-white">{boutInfo.fighter1}</div>
+          </div>
+          <div className="text-center px-8">
+            <Badge className="bg-amber-500 text-black text-lg px-4">ROUND {currentRound}</Badge>
+            <div className="text-gray-500 text-xs mt-1">of {totalRounds}</div>
+          </div>
+          <div className="text-center flex-1">
+            <div className="text-blue-400 text-sm font-semibold">BLUE CORNER</div>
+            <div className="text-3xl font-bold text-white">{boutInfo.fighter2}</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content - 3 Column Layout */}
+      <div className="grid grid-cols-3 gap-4 p-4 h-[calc(100vh-180px)]">
+        
+        {/* LEFT - Red Corner Events */}
+        <Card className="bg-red-950/20 border-red-900 p-4 flex flex-col">
+          <div className="flex items-center justify-between mb-3">
+            <div className="text-red-400 font-bold">{boutInfo.fighter1}</div>
+            <Badge className="bg-red-600 text-lg">{redEvents.length} events</Badge>
+          </div>
+          
+          {/* Active Control Timer Indicator */}
+          {activeControls.red && (
+            <div className="bg-green-900/50 border border-green-500 rounded-lg p-2 mb-3 flex items-center justify-center animate-pulse">
+              <span className="w-3 h-3 bg-green-400 rounded-full mr-2 animate-ping"></span>
+              <span className="text-green-400 font-bold text-sm uppercase">
+                {activeControls.red} Control Active
+              </span>
+            </div>
+          )}
+          
+          {/* Delta Score */}
+          <div className="bg-red-900/30 rounded-lg p-3 mb-3 text-center">
+            <div className="text-gray-400 text-xs uppercase">Delta Score</div>
+            <div className="text-4xl font-bold text-red-400">{redDelta.toFixed(1)}</div>
+          </div>
+          
+          {/* Undo Last Button - Quick access */}
+          {redEvents.length > 0 && (
+            <Button 
+              onClick={() => handleUndoLast('RED')}
+              className="w-full mb-3 bg-red-800 hover:bg-red-600 text-white font-bold border-2 border-red-500 h-10"
+              data-testid="undo-last-red"
+            >
+              <X className="w-5 h-5 mr-2" />
+              UNDO LAST RED EVENT
+            </Button>
+          )}
+          
+          {/* Event List */}
+          <ScrollArea className="flex-1">
+            <div className="space-y-2">
+              {redEvents.length === 0 ? (
+                <div className="text-gray-500 text-center italic py-4">No events yet</div>
+              ) : (
+                redEvents.map((event, idx) => {
+                  const tier = event.metadata?.tier;
+                  const quality = event.metadata?.quality;
+                  const delta = getEventDelta(event.event_type, tier);
+                  return (
+                    <div key={idx} className="bg-red-900/30 rounded px-3 py-2 flex items-center justify-between group">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-white font-medium truncate">
+                          {event.event_type}
+                          {tier && <span className="text-red-400 text-xs ml-1">({tier})</span>}
+                          {quality && <span className="text-red-400 text-xs ml-1">({quality})</span>}
+                        </div>
+                        <div className="text-gray-500 text-xs">{event.device_role}</div>
+                      </div>
+                      <div className="flex items-center gap-2 ml-2">
+                        <Badge className="bg-red-700 text-white text-xs">+{delta}</Badge>
+                        <Button 
+                          size="sm" 
+                          variant="destructive"
+                          onClick={() => handleDeleteEvent(event)}
+                          className="h-8 w-8 p-0 bg-red-800 hover:bg-red-600 text-white border border-red-500"
+                          title="Delete event"
+                          data-testid={`delete-red-event-${idx}`}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </ScrollArea>
+        </Card>
+
+        {/* CENTER - Delta Comparison & Controls */}
+        <Card className="bg-gray-900 border-gray-700 p-4 flex flex-col">
+          {/* Net Delta Display */}
+          <div className="text-center mb-4">
+            <div className="text-gray-400 text-sm uppercase tracking-wider">Net Delta</div>
+            <div className={`text-6xl font-bold ${netDelta > 0 ? 'text-red-400' : netDelta < 0 ? 'text-blue-400' : 'text-gray-400'}`}>
+              {netDelta > 0 ? '+' : ''}{netDelta.toFixed(1)}
+            </div>
+            <div className="flex items-center justify-center gap-2 mt-2">
+              {currentLeader === 'RED' && <TrendingUp className="w-5 h-5 text-red-400" />}
+              {currentLeader === 'BLUE' && <TrendingDown className="w-5 h-5 text-blue-400" />}
+              {currentLeader === 'EVEN' && <Minus className="w-5 h-5 text-gray-400" />}
+              <span className={`font-bold ${currentLeader === 'RED' ? 'text-red-400' : currentLeader === 'BLUE' ? 'text-blue-400' : 'text-gray-400'}`}>
+                {currentLeader === 'RED' ? boutInfo.fighter1 : currentLeader === 'BLUE' ? boutInfo.fighter2 : 'EVEN'}
+              </span>
+            </div>
+          </div>
+
+          {/* Predicted Round Score */}
+          <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 mb-4 text-center">
+            <div className="text-amber-400 text-sm uppercase tracking-wider mb-2">Projected Round Score</div>
+            <div className="text-4xl font-bold">
+              <span className="text-red-400">{currentPrediction.red}</span>
+              <span className="text-gray-500 mx-2">-</span>
+              <span className="text-blue-400">{currentPrediction.blue}</span>
+            </div>
+            <Badge className={`mt-2 ${currentPrediction.label === 'DRAW' ? 'bg-gray-600' : netDelta > 0 ? 'bg-red-600' : 'bg-blue-600'}`}>
+              {currentPrediction.label} {currentPrediction.label !== 'DRAW' && (netDelta > 0 ? boutInfo.fighter1 : boutInfo.fighter2)}
+            </Badge>
+          </div>
+
+          {/* Delta Breakdown */}
+          <div className="bg-gray-800/50 rounded-lg p-3 mb-4">
+            <div className="text-gray-400 text-xs uppercase mb-2">Delta Breakdown</div>
+            <div className="flex justify-between items-center">
+              <div className="text-center">
+                <div className="text-red-400 font-bold text-xl">{redDelta.toFixed(1)}</div>
+                <div className="text-gray-500 text-xs">RED</div>
+              </div>
+              <div className="text-2xl text-gray-600">vs</div>
+              <div className="text-center">
+                <div className="text-blue-400 font-bold text-xl">{blueDelta.toFixed(1)}</div>
+                <div className="text-gray-500 text-xs">BLUE</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Round Results */}
+          {roundResults.length > 0 && (
+            <div className="bg-gray-800/50 rounded-lg p-3 mb-4 flex-1">
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-gray-400 text-xs uppercase">Completed Rounds</div>
+                <div className="text-gray-500 text-xs">Click to review | Edit to change score</div>
+              </div>
+              <div className="space-y-1">
+                {roundResults.map((round) => (
+                  <div 
+                    key={round.round_number} 
+                    onClick={() => fetchRoundForReview(round.round_number)}
+                    className="flex items-center justify-between bg-gray-900/50 rounded px-3 py-2 cursor-pointer hover:bg-gray-800/70 transition-colors"
+                  >
+                    <span className="text-gray-400">R{round.round_number}</span>
+                    <div className="font-bold">
+                      <span className="text-red-400">{round.red_points}</span>
+                      <span className="text-gray-500 mx-1">-</span>
+                      <span className="text-blue-400">{round.blue_points}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge className={round.red_points > round.blue_points ? 'bg-red-600' : round.blue_points > round.red_points ? 'bg-blue-600' : 'bg-gray-600'}>
+                        {round.red_points > round.blue_points ? 'RED' : round.blue_points > round.red_points ? 'BLUE' : 'DRAW'}
+                      </Badge>
+                      <Button 
+                        size="sm" 
+                        variant="ghost"
+                        onClick={(e) => handleEditRoundScore(round, e)}
+                        className="h-7 w-7 p-0 text-amber-400 hover:text-amber-300 hover:bg-amber-900/30"
+                        title="Edit round score"
+                        data-testid={`edit-round-${round.round_number}`}
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* Running Total */}
+              <div className="mt-3 pt-3 border-t border-gray-700 flex items-center justify-between">
+                <span className="text-amber-400 font-bold">TOTAL</span>
+                <div className="text-xl font-bold">
+                  <span className="text-red-400">{runningTotals.red}</span>
+                  <span className="text-gray-500 mx-2">-</span>
+                  <span className="text-blue-400">{runningTotals.blue}</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          <div className="space-y-2 mt-auto">
+            <Button onClick={handleEndRound} disabled={isLoading || currentRound > totalRounds} className="w-full bg-amber-500 hover:bg-amber-600 text-black font-bold h-12">
+              {isLoading ? <RefreshCw className="w-5 h-5 animate-spin mr-2" /> : <Flag className="w-5 h-5 mr-2" />}
+              END ROUND {currentRound}
+            </Button>
+            
+            {roundResults.length > 0 && (
+              <Button onClick={handleFinalizeFight} disabled={isLoading} className="w-full bg-purple-600 hover:bg-purple-700">
+                <Trophy className="w-4 h-4 mr-2" /> Finalize Fight
+              </Button>
+            )}
+          </div>
+        </Card>
+
+        {/* RIGHT - Blue Corner Events */}
+        <Card className="bg-blue-950/20 border-blue-900 p-4 flex flex-col">
+          <div className="flex items-center justify-between mb-3">
+            <div className="text-blue-400 font-bold">{boutInfo.fighter2}</div>
+            <Badge className="bg-blue-600 text-lg">{blueEvents.length} events</Badge>
+          </div>
+          
+          {/* Active Control Timer Indicator */}
+          {activeControls.blue && (
+            <div className="bg-green-900/50 border border-green-500 rounded-lg p-2 mb-3 flex items-center justify-center animate-pulse">
+              <span className="w-3 h-3 bg-green-400 rounded-full mr-2 animate-ping"></span>
+              <span className="text-green-400 font-bold text-sm uppercase">
+                {activeControls.blue} Control Active
+              </span>
+            </div>
+          )}
+          
+          {/* Delta Score */}
+          <div className="bg-blue-900/30 rounded-lg p-3 mb-3 text-center">
+            <div className="text-gray-400 text-xs uppercase">Delta Score</div>
+            <div className="text-4xl font-bold text-blue-400">{blueDelta.toFixed(1)}</div>
+          </div>
+          
+          {/* Undo Last Button - Quick access */}
+          {blueEvents.length > 0 && (
+            <Button 
+              onClick={() => handleUndoLast('BLUE')}
+              className="w-full mb-3 bg-red-800 hover:bg-red-600 text-white font-bold border-2 border-red-500 h-10"
+              data-testid="undo-last-blue"
+            >
+              <X className="w-5 h-5 mr-2" />
+              UNDO LAST BLUE EVENT
+            </Button>
+          )}
+          
+          {/* Event List */}
+          <ScrollArea className="flex-1">
+            <div className="space-y-2">
+              {blueEvents.length === 0 ? (
+                <div className="text-gray-500 text-center italic py-4">No events yet</div>
+              ) : (
+                blueEvents.map((event, idx) => {
+                  const tier = event.metadata?.tier;
+                  const quality = event.metadata?.quality;
+                  const delta = getEventDelta(event.event_type, tier);
+                  return (
+                    <div key={idx} className="bg-blue-900/30 rounded px-3 py-2 flex items-center justify-between group">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-white font-medium truncate">
+                          {event.event_type}
+                          {tier && <span className="text-blue-400 text-xs ml-1">({tier})</span>}
+                          {quality && <span className="text-blue-400 text-xs ml-1">({quality})</span>}
+                        </div>
+                        <div className="text-gray-500 text-xs">{event.device_role}</div>
+                      </div>
+                      <div className="flex items-center gap-2 ml-2">
+                        <Badge className="bg-blue-700 text-white text-xs">+{delta}</Badge>
+                        <Button 
+                          size="sm" 
+                          variant="destructive"
+                          onClick={() => handleDeleteEvent(event)}
+                          className="h-8 w-8 p-0 bg-red-800 hover:bg-red-600 text-white border border-red-500"
+                          title="Delete event"
+                          data-testid={`delete-blue-event-${idx}`}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </ScrollArea>
+        </Card>
+      </div>
+
+      {/* Status Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-black/90 border-t border-gray-800 px-4 py-2">
+        <div className="flex items-center justify-between text-sm">
+          <div className="flex items-center gap-4 text-gray-400">
+            <span className="flex items-center gap-1">
+              <Zap className="w-4 h-4 text-amber-400" />
+              {allEvents.length} events
+            </span>
+            <span className="flex items-center gap-1">
+              <Users className="w-4 h-4" />
+              {operatorCount} operators
+            </span>
+          </div>
+          <div className="flex items-center gap-1 text-gray-500">
+            <Clock className="w-3 h-3" />
+            {lastPollTime?.toLocaleTimeString()}
+          </div>
+        </div>
+      </div>
+
+      {/* Assignment Panel Dialog */}
+      <Dialog open={showAssignmentPanel} onOpenChange={setShowAssignmentPanel}>
+        <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-2xl max-h-[90vh] overflow-y-auto">
+          <OperatorAssignmentPanel boutId={boutId} onClose={() => setShowAssignmentPanel(false)} />
+        </DialogContent>
+      </Dialog>
+
+      {/* Arena Broadcast View - Using Lovable Frontend */}
+      <Dialog open={showBroadcast} onOpenChange={setShowBroadcast}>
+        <DialogContent className="bg-black border-lb-gold/30 text-white max-w-5xl p-0 overflow-hidden">
+          <div className="h-[600px]">
+            <BroadcastScorecard
+              data={convertToLovableFormat(boutInfo, roundResults, runningTotals, finalResult)}
+              connectionStatus="connected"
+              isLoading={false}
+              displayMode={finalResult ? "final" : "scores"}
+            />
+          </div>
+          <div className="absolute top-2 right-12 flex gap-2">
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              onClick={() => window.open(`/pfc50?bout=${boutId}`, '_blank')}
+              className="text-amber-400 hover:text-amber-300"
+            >
+              <ExternalLink className="w-4 h-4 mr-1" /> Open Fullscreen
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* FULLSCREEN ROUND RESULT - Clean view for arena */}
+      {showRoundResult && lastRoundResult && (
+        <div 
+          className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center cursor-pointer"
+          onClick={() => setShowRoundResult(false)}
+        >
+          {/* Animated background gradient based on round winner */}
+          <div className={`absolute inset-0 ${
+            lastRoundResult.winner === 'RED' 
+              ? 'bg-gradient-to-br from-red-900/40 via-black to-red-950/20' 
+              : lastRoundResult.winner === 'BLUE'
+              ? 'bg-gradient-to-br from-blue-900/40 via-black to-blue-950/20'
+              : 'bg-gradient-to-br from-gray-800/40 via-black to-gray-900/20'
+          }`} />
+          
+          {/* Logo at top */}
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-20">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_fight-scoring-pro/artifacts/fi6oji6s_FIGHTJUDGE.AI.MERCH-26.png" 
+              alt="Fight Judge AI" 
+              className="h-16 md:h-20 lg:h-24 w-auto object-contain"
+            />
+          </div>
+          
+          {/* Main content */}
+          <div className="relative z-10 text-center space-y-6 px-8 max-w-4xl">
+            {/* Round label */}
+            <div className="text-3xl md:text-4xl font-black text-amber-400 tracking-widest">
+              ROUND {lastRoundResult.round_number}
+            </div>
+            
+            {/* Score - HUGE */}
+            <div className="text-8xl md:text-9xl lg:text-[12rem] font-black">
+              <span className="text-red-400">{lastRoundResult.red_points}</span>
+              <span className="text-gray-600 mx-4">-</span>
+              <span className="text-blue-400">{lastRoundResult.blue_points}</span>
+            </div>
+            
+            {/* Winner name */}
+            <div className={`text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider ${
+              lastRoundResult.winner === 'RED' ? 'text-red-400' : 
+              lastRoundResult.winner === 'BLUE' ? 'text-blue-400' : 'text-gray-400'
+            }`} style={{ textShadow: '0 0 40px currentColor' }}>
+              {lastRoundResult.winner === 'RED' ? boutInfo.fighter1 : 
+               lastRoundResult.winner === 'BLUE' ? boutInfo.fighter2 : 'DRAW'}
+            </div>
+            
+            {/* Fighter names */}
+            <div className="text-xl md:text-2xl text-gray-400 mt-8">
+              <span className="text-red-400">{boutInfo.fighter1}</span>
+              <span className="text-gray-600 mx-3">vs</span>
+              <span className="text-blue-400">{boutInfo.fighter2}</span>
+            </div>
+          </div>
+          
+          {/* Tap to close hint */}
+          <div className="absolute bottom-8 text-gray-600 text-sm">
+            Tap anywhere to continue
+          </div>
+        </div>
+      )}
+
+      {/* Final Result Dialog */}
+      {/* FULLSCREEN WINNER DISPLAY - Clean view for arena */}
+      {showFinalResult && finalResult && (
+        <div 
+          className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center cursor-pointer"
+          onClick={() => setShowFinalResult(false)}
+        >
+          {/* Animated background gradient */}
+          <div className={`absolute inset-0 ${
+            finalResult.winner === 'RED' 
+              ? 'bg-gradient-to-br from-red-900/50 via-black to-red-950/30' 
+              : 'bg-gradient-to-br from-blue-900/50 via-black to-blue-950/30'
+          }`} />
+          
+          {/* Logo at top */}
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-20">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_fight-scoring-pro/artifacts/fi6oji6s_FIGHTJUDGE.AI.MERCH-26.png" 
+              alt="Fight Judge AI" 
+              className="h-16 md:h-20 lg:h-24 w-auto object-contain"
+            />
+          </div>
+          
+          {/* Main content */}
+          <div className="relative z-10 text-center space-y-8 px-8 max-w-4xl">
+            {/* Trophy icon */}
+            <Trophy className={`w-32 h-32 mx-auto ${
+              finalResult.winner === 'RED' ? 'text-red-400' : 'text-blue-400'
+            } animate-pulse`} />
+            
+            {/* WINNER label */}
+            <div className="text-4xl md:text-5xl font-black text-amber-400 tracking-widest">
+              WINNER
+            </div>
+            
+            {/* Winner name - HUGE */}
+            <div className={`text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-wider ${
+              finalResult.winner === 'RED' ? 'text-red-400' : 'text-blue-400'
+            }`} style={{ textShadow: '0 0 60px currentColor' }}>
+              {finalResult.winner_name}
+            </div>
+            
+            {/* Finish method */}
+            <div className="text-3xl md:text-4xl font-bold text-white/90">
+              BY {finalResult.finish_method || finishMethod}
+            </div>
+            
+            {/* Score */}
+            <div className="text-4xl md:text-5xl font-bold mt-8">
+              <span className="text-red-400">{finalResult.final_red}</span>
+              <span className="text-gray-500 mx-4">-</span>
+              <span className="text-blue-400">{finalResult.final_blue}</span>
+            </div>
+            
+            {/* Fighter names */}
+            <div className="text-xl md:text-2xl text-gray-400 mt-4">
+              <span className="text-red-400">{boutInfo.fighter1}</span>
+              <span className="text-gray-600 mx-3">vs</span>
+              <span className="text-blue-400">{boutInfo.fighter2}</span>
+            </div>
+          </div>
+          
+          {/* Tap to close hint - subtle */}
+          <div className="absolute bottom-8 text-gray-600 text-sm">
+            Tap anywhere to close
+          </div>
+        </div>
+      )}
+
+      {/* Finish Method Selection Dialog */}
+      <Dialog open={showFinishMethodDialog} onOpenChange={setShowFinishMethodDialog}>
+        <DialogContent className="bg-gray-900 border-amber-500 text-white max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-center text-amber-400">How Did The Fight End?</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-2 gap-4 py-6">
+            <Button 
+              onClick={() => confirmFinalizeFight('KO')}
+              disabled={isLoading}
+              className="h-20 text-xl font-bold bg-red-600 hover:bg-red-700 text-white"
+            >
+              KO
+              <span className="block text-xs font-normal opacity-75">Knockout</span>
+            </Button>
+            <Button 
+              onClick={() => confirmFinalizeFight('TKO')}
+              disabled={isLoading}
+              className="h-20 text-xl font-bold bg-orange-600 hover:bg-orange-700 text-white"
+            >
+              TKO
+              <span className="block text-xs font-normal opacity-75">Technical KO</span>
+            </Button>
+            <Button 
+              onClick={() => confirmFinalizeFight('SUB')}
+              disabled={isLoading}
+              className="h-20 text-xl font-bold bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              SUB
+              <span className="block text-xs font-normal opacity-75">Submission</span>
+            </Button>
+            <Button 
+              onClick={() => confirmFinalizeFight('DEC')}
+              disabled={isLoading}
+              className="h-20 text-xl font-bold bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              DEC
+              <span className="block text-xs font-normal opacity-75">Decision</span>
+            </Button>
+          </div>
+          <Button 
+            onClick={() => setShowFinishMethodDialog(false)} 
+            variant="outline" 
+            className="w-full border-gray-600 text-gray-400"
+          >
+            Cancel
+          </Button>
+        </DialogContent>
+      </Dialog>
+
+      {/* 10-8 Approval Dialog */}
+      <Dialog open={show108Approval} onOpenChange={setShow108Approval}>
+        <DialogContent className="bg-gray-900 border-red-500 text-white max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-center text-red-400 flex items-center justify-center gap-2">
+              <Award className="w-8 h-8" />
+              10-8 Round Detected
+            </DialogTitle>
+          </DialogHeader>
+          
+          {pending108Result && (
+            <div className="py-4 space-y-4">
+              {/* Calculated Score Display */}
+              <div className="text-center">
+                <div className="text-gray-400 text-sm mb-2">System Calculated Score</div>
+                <div className="text-6xl font-bold">
+                  <span className="text-red-400">{pending108Result.red_points}</span>
+                  <span className="text-gray-500 mx-3">-</span>
+                  <span className="text-blue-400">{pending108Result.blue_points}</span>
+                </div>
+              </div>
+              
+              {/* Winner */}
+              <div className="text-center">
+                <Badge className={`text-lg px-4 py-2 ${
+                  pending108Result.winner === 'RED' ? 'bg-red-600' : 'bg-blue-600'
+                }`}>
+                  {pending108Result.winner === 'RED' ? boutInfo.fighter1 : boutInfo.fighter2} wins round
+                </Badge>
+              </div>
+              
+              {/* Warning Message */}
+              <div className="bg-amber-900/30 border border-amber-600 rounded-lg p-4 text-center">
+                <div className="text-amber-400 font-bold mb-2">⚠️ Supervisor Approval Required</div>
+                <div className="text-gray-300 text-sm">
+                  A 10-8 round indicates <strong>dominant performance</strong>. 
+                  Please confirm this score is accurate or change to 10-9.
+                </div>
+              </div>
+              
+              {/* Delta Info */}
+              <div className="text-center text-gray-500 text-sm">
+                Round Delta: {pending108Result.delta?.toFixed(1)} | Events: {pending108Result.total_events}
+              </div>
+            </div>
+          )}
+          
+          {/* Action Buttons */}
+          <div className="space-y-3">
+            <Button 
+              onClick={approve108Score}
+              disabled={isLoading}
+              className="w-full h-14 text-lg font-bold bg-red-600 hover:bg-red-700 text-white"
+            >
+              {isLoading ? <RefreshCw className="w-5 h-5 animate-spin mr-2" /> : null}
+              ✓ APPROVE 10-8
+            </Button>
+            <Button 
+              onClick={change108To109}
+              disabled={isLoading}
+              className="w-full h-14 text-lg font-bold bg-amber-500 hover:bg-amber-600 text-black"
+            >
+              Change to 10-9
+            </Button>
+            <Button 
+              onClick={() => {
+                setShow108Approval(false);
+                setPending108Result(null);
+              }}
+              variant="outline"
+              className="w-full border-gray-600 text-gray-400"
+            >
+              Cancel (Don't End Round)
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Round Score Dialog */}
+      <Dialog open={showEditRoundScore} onOpenChange={setShowEditRoundScore}>
+        <DialogContent className="bg-gray-900 border-amber-500 text-white max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="text-xl text-center text-amber-400">
+              Edit Round {editingRound?.round_number} Score
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4 space-y-6">
+            {/* Score Display */}
+            <div className="text-center text-5xl font-bold">
+              <span className="text-red-400">{editRedScore}</span>
+              <span className="text-gray-500 mx-3">-</span>
+              <span className="text-blue-400">{editBlueScore}</span>
+            </div>
+            
+            {/* Red Corner Score */}
+            <div className="space-y-2">
+              <label className="text-red-400 font-bold text-sm">{boutInfo.fighter1} (RED)</label>
+              <div className="flex items-center gap-2">
+                <Button 
+                  onClick={() => setEditRedScore(Math.max(7, editRedScore - 1))}
+                  className="h-12 w-12 bg-red-900 hover:bg-red-800 text-white text-xl"
+                >
+                  -
+                </Button>
+                <Input 
+                  type="number" 
+                  value={editRedScore}
+                  onChange={(e) => setEditRedScore(Math.min(10, Math.max(7, parseInt(e.target.value) || 10)))}
+                  className="h-12 text-center text-2xl bg-gray-800 border-red-700 text-red-400 font-bold"
+                  min={7}
+                  max={10}
+                />
+                <Button 
+                  onClick={() => setEditRedScore(Math.min(10, editRedScore + 1))}
+                  className="h-12 w-12 bg-red-900 hover:bg-red-800 text-white text-xl"
+                >
+                  +
+                </Button>
+              </div>
+            </div>
+            
+            {/* Blue Corner Score */}
+            <div className="space-y-2">
+              <label className="text-blue-400 font-bold text-sm">{boutInfo.fighter2} (BLUE)</label>
+              <div className="flex items-center gap-2">
+                <Button 
+                  onClick={() => setEditBlueScore(Math.max(7, editBlueScore - 1))}
+                  className="h-12 w-12 bg-blue-900 hover:bg-blue-800 text-white text-xl"
+                >
+                  -
+                </Button>
+                <Input 
+                  type="number" 
+                  value={editBlueScore}
+                  onChange={(e) => setEditBlueScore(Math.min(10, Math.max(7, parseInt(e.target.value) || 10)))}
+                  className="h-12 text-center text-2xl bg-gray-800 border-blue-700 text-blue-400 font-bold"
+                  min={7}
+                  max={10}
+                />
+                <Button 
+                  onClick={() => setEditBlueScore(Math.min(10, editBlueScore + 1))}
+                  className="h-12 w-12 bg-blue-900 hover:bg-blue-800 text-white text-xl"
+                >
+                  +
+                </Button>
+              </div>
+            </div>
+            
+            {/* Quick Score Buttons */}
+            <div className="grid grid-cols-4 gap-2">
+              <Button 
+                onClick={() => { setEditRedScore(10); setEditBlueScore(9); }}
+                className="bg-red-800 hover:bg-red-700 text-xs"
+              >
+                10-9 RED
+              </Button>
+              <Button 
+                onClick={() => { setEditRedScore(10); setEditBlueScore(8); }}
+                className="bg-red-900 hover:bg-red-800 text-xs"
+              >
+                10-8 RED
+              </Button>
+              <Button 
+                onClick={() => { setEditRedScore(9); setEditBlueScore(10); }}
+                className="bg-blue-800 hover:bg-blue-700 text-xs"
+              >
+                10-9 BLUE
+              </Button>
+              <Button 
+                onClick={() => { setEditRedScore(8); setEditBlueScore(10); }}
+                className="bg-blue-900 hover:bg-blue-800 text-xs"
+              >
+                10-8 BLUE
+              </Button>
+            </div>
+            <Button 
+              onClick={() => { setEditRedScore(10); setEditBlueScore(10); }}
+              className="w-full bg-gray-700 hover:bg-gray-600 text-xs"
+            >
+              10-10 DRAW
+            </Button>
+          </div>
+          
+          <div className="flex gap-3">
+            <Button 
+              onClick={() => setShowEditRoundScore(false)}
+              variant="outline"
+              className="flex-1 border-gray-600 text-gray-400"
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleSaveRoundScore}
+              disabled={isLoading}
+              className="flex-1 bg-amber-500 hover:bg-amber-600 text-black font-bold"
+            >
+              {isLoading ? <RefreshCw className="w-4 h-4 animate-spin mr-2" /> : null}
+              Save Score
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Arena Result Broadcast - Using FJAI Component */}
+      <Dialog open={showResultBroadcast} onOpenChange={setShowResultBroadcast}>
+        <DialogContent className="bg-black border-none text-white max-w-2xl p-0 fjai-broadcast">
+          <div className="relative w-full bg-gradient-to-b from-gray-900 to-black p-2">
+            {/* Close button */}
+            <Button 
+              onClick={() => setShowResultBroadcast(false)}
+              className="absolute top-2 right-2 bg-gray-800 hover:bg-gray-700 z-10"
+              size="sm"
+            >
+              Close
+            </Button>
+            
+            {/* FJAI Final Result Component */}
+            <FinalResult
+              total={{
+                red: finalResult?.final_red || runningTotals.red,
+                blue: finalResult?.final_blue || runningTotals.blue
+              }}
+              winner={finalResult?.winner?.toLowerCase() || null}
+              redName={boutInfo.fighter1}
+              blueName={boutInfo.fighter2}
+              isVisible={true}
+              finishMethod={finalResult?.finish_method || finishMethod}
+              totalRounds={totalRounds}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Round Winner Broadcast Dialog */}
+      <Dialog open={showRoundBroadcast} onOpenChange={setShowRoundBroadcast}>
+        <DialogContent className="bg-black border-none text-white max-w-2xl p-0 fjai-broadcast">
+          <div className="relative w-full bg-gradient-to-b from-gray-900 to-black p-2">
+            {/* Close button */}
+            <Button 
+              onClick={() => setShowRoundBroadcast(false)}
+              className="absolute top-2 right-2 bg-gray-800 hover:bg-gray-700 z-10"
+              size="sm"
+            >
+              Close
+            </Button>
+            
+            {/* FJAI Round Winner Component */}
+            {lastRoundResult && (
+              <RoundWinner
+                round={{
+                  unified_red: lastRoundResult.red_points,
+                  unified_blue: lastRoundResult.blue_points
+                }}
+                roundNumber={lastRoundResult.round_number}
+                redName={boutInfo.fighter1}
+                blueName={boutInfo.fighter2}
+                isVisible={true}
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Round Review Dialog */}
+      <Dialog open={showRoundReview} onOpenChange={setShowRoundReview}>
+        <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-3xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <Clock className="w-5 h-5 text-amber-400" />
+              Round {reviewRoundNumber} Review
+            </DialogTitle>
+          </DialogHeader>
+          
+          {reviewRoundData && (
+            <div className="space-y-4">
+              {/* Round Score Summary */}
+              <div className="bg-gray-800 rounded-lg p-4">
+                <div className="text-center mb-4">
+                  <div className="text-gray-400 text-sm uppercase mb-2">Round {reviewRoundNumber} Score</div>
+                  <div className="flex items-center justify-center gap-8">
+                    <div className="text-center">
+                      <div className="text-red-400 text-4xl font-bold">{reviewRoundData.red_points}</div>
+                      <div className="text-gray-400 text-sm">{boutInfo.fighter1}</div>
+                    </div>
+                    <div className="text-gray-600 text-2xl">-</div>
+                    <div className="text-center">
+                      <div className="text-blue-400 text-4xl font-bold">{reviewRoundData.blue_points}</div>
+                      <div className="text-gray-400 text-sm">{boutInfo.fighter2}</div>
+                    </div>
+                  </div>
+                  <Badge className={`mt-3 ${
+                    reviewRoundData.winner === 'RED' ? 'bg-red-600' : 
+                    reviewRoundData.winner === 'BLUE' ? 'bg-blue-600' : 'bg-gray-600'
+                  }`}>
+                    {reviewRoundData.winner === 'RED' ? `${boutInfo.fighter1} wins round` : 
+                     reviewRoundData.winner === 'BLUE' ? `${boutInfo.fighter2} wins round` : 'DRAW'}
+                  </Badge>
+                </div>
+                
+                {/* Delta Breakdown */}
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <div className="bg-red-900/30 rounded p-3">
+                    <div className="text-red-400 text-sm font-semibold mb-1">Red Delta</div>
+                    <div className="text-white text-2xl font-bold">{reviewRoundData.red_total?.toFixed(1) || 0}</div>
+                  </div>
+                  <div className="bg-blue-900/30 rounded p-3">
+                    <div className="text-blue-400 text-sm font-semibold mb-1">Blue Delta</div>
+                    <div className="text-white text-2xl font-bold">{reviewRoundData.blue_total?.toFixed(1) || 0}</div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Event Breakdown */}
+              <div className="grid grid-cols-2 gap-4">
+                {/* Red Events */}
+                <div className="bg-red-950/30 rounded-lg p-3">
+                  <div className="text-red-400 font-semibold mb-2 flex items-center gap-2">
+                    {boutInfo.fighter1}
+                    <Badge className="bg-red-700">{reviewRoundData.red_breakdown ? Object.values(reviewRoundData.red_breakdown).reduce((a, b) => a + b, 0) : 0} events</Badge>
+                  </div>
+                  <div className="space-y-1 max-h-48 overflow-y-auto">
+                    {reviewRoundData.red_breakdown && Object.entries(reviewRoundData.red_breakdown).map(([eventType, count]) => (
+                      <div key={eventType} className="flex justify-between text-sm bg-red-900/30 rounded px-2 py-1">
+                        <span className="text-gray-300">{eventType}</span>
+                        <span className="text-red-400 font-semibold">x{count}</span>
+                      </div>
+                    ))}
+                    {(!reviewRoundData.red_breakdown || Object.keys(reviewRoundData.red_breakdown).length === 0) && (
+                      <div className="text-gray-500 text-sm italic">No events</div>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Blue Events */}
+                <div className="bg-blue-950/30 rounded-lg p-3">
+                  <div className="text-blue-400 font-semibold mb-2 flex items-center gap-2">
+                    {boutInfo.fighter2}
+                    <Badge className="bg-blue-700">{reviewRoundData.blue_breakdown ? Object.values(reviewRoundData.blue_breakdown).reduce((a, b) => a + b, 0) : 0} events</Badge>
+                  </div>
+                  <div className="space-y-1 max-h-48 overflow-y-auto">
+                    {reviewRoundData.blue_breakdown && Object.entries(reviewRoundData.blue_breakdown).map(([eventType, count]) => (
+                      <div key={eventType} className="flex justify-between text-sm bg-blue-900/30 rounded px-2 py-1">
+                        <span className="text-gray-300">{eventType}</span>
+                        <span className="text-blue-400 font-semibold">x{count}</span>
+                      </div>
+                    ))}
+                    {(!reviewRoundData.blue_breakdown || Object.keys(reviewRoundData.blue_breakdown).length === 0) && (
+                      <div className="text-gray-500 text-sm italic">No events</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              {/* All Events Timeline */}
+              {reviewRoundEvents.length > 0 && (
+                <div className="bg-gray-800 rounded-lg p-3">
+                  <div className="text-gray-400 text-sm font-semibold mb-2">Event Timeline ({reviewRoundEvents.length} events)</div>
+                  <ScrollArea className="max-h-48">
+                    <div className="space-y-1">
+                      {reviewRoundEvents.map((event, idx) => (
+                        <div key={idx} className={`flex items-center justify-between text-sm rounded px-2 py-1 ${
+                          event.corner === 'RED' ? 'bg-red-900/20' : 'bg-blue-900/20'
+                        }`}>
+                          <div className="flex items-center gap-2">
+                            <span className={event.corner === 'RED' ? 'text-red-400' : 'text-blue-400'}>
+                              {event.corner}
+                            </span>
+                            <span className="text-white">{event.event_type}</span>
+                            {event.metadata?.tier && <span className="text-gray-400 text-xs">({event.metadata.tier})</span>}
+                          </div>
+                          <span className="text-gray-500 text-xs">{event.device_role}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </div>
+              )}
+            </div>
+          )}
+          
+          <div className="flex justify-end mt-4">
+            <Button onClick={() => setShowRoundReview(false)} variant="outline" className="border-gray-600">
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Supervisor Event Manager Dialog */}
+      <Dialog open={showEventManager} onOpenChange={setShowEventManager}>
+        <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <Edit3 className="w-5 h-5 text-green-400" />
+              Supervisor Event Manager - Round {currentRound}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            {/* Corner Selector */}
+            <div className="flex gap-2 justify-center">
+              <Button 
+                onClick={() => setSelectedCorner('RED')}
+                className={`w-32 ${selectedCorner === 'RED' ? 'bg-red-600 hover:bg-red-700' : 'bg-gray-700 hover:bg-gray-600'}`}
+              >
+                {boutInfo.fighter1}
+              </Button>
+              <Button 
+                onClick={() => setSelectedCorner('BLUE')}
+                className={`w-32 ${selectedCorner === 'BLUE' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-700 hover:bg-gray-600'}`}
+              >
+                {boutInfo.fighter2}
+              </Button>
+            </div>
+            
+            <div className="text-center text-sm text-gray-400">
+              Adding events for: <span className={selectedCorner === 'RED' ? 'text-red-400' : 'text-blue-400'}>{selectedCorner}</span>
+            </div>
+
+            {/* Quick Add Event Buttons */}
+            <div className="space-y-4">
+              {/* Striking */}
+              <div>
+                <div className="text-gray-400 text-xs uppercase mb-2">Basic Strikes</div>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_EVENTS.striking.map((e) => (
+                    <Button 
+                      key={e.label}
+                      size="sm"
+                      onClick={() => handleSupervisorAddEvent(e.type, e.metadata || {})}
+                      className="bg-gray-700 hover:bg-gray-600"
+                    >
+                      <Plus className="w-3 h-3 mr-1" /> {e.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Significant Strikes */}
+              <div>
+                <div className="text-amber-400 text-xs uppercase mb-2">Significant Strikes (SS)</div>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_EVENTS.significant.map((e) => (
+                    <Button 
+                      key={e.label}
+                      size="sm"
+                      onClick={() => handleSupervisorAddEvent(e.type, e.metadata || {})}
+                      className="bg-amber-900/50 hover:bg-amber-800/50 text-amber-300"
+                    >
+                      <Plus className="w-3 h-3 mr-1" /> {e.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Damage */}
+              <div>
+                <div className="text-red-400 text-xs uppercase mb-2">Damage Events</div>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_EVENTS.damage.map((e) => (
+                    <Button 
+                      key={e.label}
+                      size="sm"
+                      onClick={() => handleSupervisorAddEvent(e.type, e.metadata || {})}
+                      className="bg-red-900/50 hover:bg-red-800/50 text-red-300"
+                    >
+                      <Plus className="w-3 h-3 mr-1" /> {e.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Grappling */}
+              <div>
+                <div className="text-purple-400 text-xs uppercase mb-2">Grappling</div>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_EVENTS.grappling.map((e) => (
+                    <Button 
+                      key={e.label}
+                      size="sm"
+                      onClick={() => handleSupervisorAddEvent(e.type, e.metadata || {})}
+                      className="bg-purple-900/50 hover:bg-purple-800/50 text-purple-300"
+                    >
+                      <Plus className="w-3 h-3 mr-1" /> {e.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Submissions */}
+              <div>
+                <div className="text-pink-400 text-xs uppercase mb-2">Submissions</div>
+                <div className="flex flex-wrap gap-2">
+                  {QUICK_EVENTS.submissions.map((e) => (
+                    <Button 
+                      key={e.label}
+                      size="sm"
+                      onClick={() => handleSupervisorAddEvent(e.type, e.metadata || {})}
+                      className="bg-pink-900/50 hover:bg-pink-800/50 text-pink-300"
+                    >
+                      <Plus className="w-3 h-3 mr-1" /> {e.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* Current Events for this Round */}
+            <div className="border-t border-gray-700 pt-4 mt-4">
+              <div className="text-gray-400 text-xs uppercase mb-3">Current Round {currentRound} Events (tap ✕ to delete)</div>
+              <div className="grid grid-cols-2 gap-4">
+                {/* Red Events */}
+                <div className="bg-red-950/30 rounded-lg p-3">
+                  <div className="text-red-400 font-semibold mb-2">{boutInfo.fighter1} ({redEvents.length})</div>
+                  <ScrollArea className="max-h-40">
+                    <div className="space-y-1">
+                      {redEvents.map((event, idx) => (
+                        <div key={idx} className="flex items-center justify-between bg-red-900/30 rounded px-2 py-1">
+                          <span className="text-sm text-gray-300">{event.event_type}</span>
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            onClick={() => handleDeleteEvent(event)}
+                            className="h-6 w-6 p-0 text-red-400 hover:text-white hover:bg-red-600"
+                            data-testid={`delete-red-event-${idx}`}
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      ))}
+                      {redEvents.length === 0 && <div className="text-gray-500 text-sm italic">No events</div>}
+                    </div>
+                  </ScrollArea>
+                </div>
+                
+                {/* Blue Events */}
+                <div className="bg-blue-950/30 rounded-lg p-3">
+                  <div className="text-blue-400 font-semibold mb-2">{boutInfo.fighter2} ({blueEvents.length})</div>
+                  <ScrollArea className="max-h-40">
+                    <div className="space-y-1">
+                      {blueEvents.map((event, idx) => (
+                        <div key={idx} className="flex items-center justify-between bg-blue-900/30 rounded px-2 py-1">
+                          <span className="text-sm text-gray-300">{event.event_type}</span>
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            onClick={() => handleDeleteEvent(event)}
+                            className="h-6 w-6 p-0 text-blue-400 hover:text-white hover:bg-blue-600"
+                            data-testid={`delete-blue-event-${idx}`}
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      ))}
+                      {blueEvents.length === 0 && <div className="text-gray-500 text-sm italic">No events</div>}
+                    </div>
+                  </ScrollArea>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex justify-end mt-4">
+            <Button onClick={() => setShowEventManager(false)} className="bg-gray-700 hover:bg-gray-600">
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Broadcast Graphics Control Dialog */}
+      <Dialog open={showBroadcastControls} onOpenChange={setShowBroadcastControls}>
+        <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-cyan-400" />
+              Broadcast Graphics Control
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-6 py-4">
+            {/* Overlay URL */}
+            <div className="bg-gray-800 rounded-lg p-3">
+              <div className="text-gray-400 text-xs uppercase mb-2">OBS Overlay URL</div>
+              <code className="text-cyan-400 text-sm break-all">
+                {window.location.origin}/overlay/{boutId}
+              </code>
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="mt-2 w-full border-gray-600"
+                onClick={() => {
+                  navigator.clipboard.writeText(`${window.location.origin}/overlay/${boutId}`);
+                  toast.success('Overlay URL copied!');
+                }}
+              >
+                Copy URL
+              </Button>
+            </div>
+
+            {/* Toggle Controls */}
+            <div className="space-y-4">
+              <div className="text-gray-400 text-xs uppercase">Show on Arena Screen</div>
+              
+              {/* Stats Counter */}
+              <div className="flex items-center justify-between bg-gray-800/50 rounded-lg p-3">
+                <div className="flex items-center gap-3">
+                  <BarChart3 className="w-5 h-5 text-cyan-400" />
+                  <div>
+                    <div className="text-white font-medium">Live Strike Stats</div>
+                    <div className="text-gray-500 text-xs">Total, SS, KD, TD, Control Time</div>
+                  </div>
+                </div>
+                <Switch 
+                  checked={broadcastState.showStats}
+                  onCheckedChange={(checked) => updateBroadcastControl('showStats', checked)}
+                />
+              </div>
+              
+              {/* Lower Thirds - Both */}
+              <div className="flex items-center justify-between bg-gray-800/50 rounded-lg p-3">
+                <div className="flex items-center gap-3">
+                  <UserSquare2 className="w-5 h-5 text-amber-400" />
+                  <div>
+                    <div className="text-white font-medium">Both Fighter Cards</div>
+                    <div className="text-gray-500 text-xs">Name, Record, Weight Class, Photo</div>
+                  </div>
+                </div>
+                <Switch 
+                  checked={broadcastState.showLowerBoth}
+                  onCheckedChange={(checked) => {
+                    updateBroadcastControl('showLowerBoth', checked);
+                    if (checked) {
+                      updateBroadcastControl('showLowerRed', false);
+                      updateBroadcastControl('showLowerBlue', false);
+                    }
+                  }}
+                />
+              </div>
+              
+              {/* Lower Third - Red */}
+              <div className="flex items-center justify-between bg-red-950/30 rounded-lg p-3">
+                <div className="flex items-center gap-3">
+                  <UserSquare2 className="w-5 h-5 text-red-400" />
+                  <div>
+                    <div className="text-white font-medium">Red Corner Card</div>
+                    <div className="text-gray-500 text-xs">{boutInfo.fighter1}</div>
+                  </div>
+                </div>
+                <Switch 
+                  checked={broadcastState.showLowerRed}
+                  onCheckedChange={(checked) => {
+                    updateBroadcastControl('showLowerRed', checked);
+                    if (checked) updateBroadcastControl('showLowerBoth', false);
+                  }}
+                  disabled={broadcastState.showLowerBoth}
+                />
+              </div>
+              
+              {/* Lower Third - Blue */}
+              <div className="flex items-center justify-between bg-blue-950/30 rounded-lg p-3">
+                <div className="flex items-center gap-3">
+                  <UserSquare2 className="w-5 h-5 text-blue-400" />
+                  <div>
+                    <div className="text-white font-medium">Blue Corner Card</div>
+                    <div className="text-gray-500 text-xs">{boutInfo.fighter2}</div>
+                  </div>
+                </div>
+                <Switch 
+                  checked={broadcastState.showLowerBlue}
+                  onCheckedChange={(checked) => {
+                    updateBroadcastControl('showLowerBlue', checked);
+                    if (checked) updateBroadcastControl('showLowerBoth', false);
+                  }}
+                  disabled={broadcastState.showLowerBoth}
+                />
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-gray-700">
+              <Button 
+                variant="outline" 
+                className="border-gray-600"
+                onClick={() => {
+                  updateBroadcastControl('showStats', false);
+                  updateBroadcastControl('showLowerRed', false);
+                  updateBroadcastControl('showLowerBlue', false);
+                  updateBroadcastControl('showLowerBoth', false);
+                }}
+              >
+                Hide All
+              </Button>
+              <Button 
+                className="bg-cyan-600 hover:bg-cyan-700"
+                onClick={() => window.open(`/overlay/${boutId}`, '_blank')}
+              >
+                <ExternalLink className="w-4 h-4 mr-1" /> Open Overlay
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+==============================================================================
+FILE: frontend/src/components/OperatorSimple.jsx
+==============================================================================
+import { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { toast } from 'sonner';
+import { 
+  Swords, 
+  Shield, 
+  Target,
+  Wifi,
+  WifiOff,
+  ArrowLeft,
+  Zap,
+  Keyboard,
+  Info,
+  Clock,
+  Plus,
+  Minus,
+  Maximize,
+  Minimize
+} from 'lucide-react';
+
+const API = process.env.REACT_APP_BACKEND_URL;
+
+// Clean, organized event configurations with consistent styling
+// Ground Strike is ONLY in grappling, NOT in striking
+const STRIKING_EVENTS = [
+  // Basic Strikes - Neutral dark
+  { type: 'Jab', category: 'strike', tier: null, key: '1' },
+  { type: 'Cross', category: 'strike', tier: null, key: '2' },
+  { type: 'Hook', category: 'strike', tier: null, key: '3' },
+  { type: 'Uppercut', category: 'strike', tier: null, key: '4' },
+  { type: 'Elbow', category: 'strike', tier: null, key: '5' },
+  { type: 'Knee', category: 'strike', tier: null, key: '6' },
+  { type: 'Kick', category: 'strike', tier: null, key: '7' },
+  // Damage - Escalating danger
+  { type: 'Rocked/Stunned', category: 'damage', tier: null, key: 'Q', label: 'Rocked' },
+  { type: 'KD', category: 'damage-kd', tier: 'Flash', key: 'W', label: 'KD Flash' },
+  { type: 'KD', category: 'damage-kd', tier: 'Hard', key: 'E', label: 'KD Hard' },
+  { type: 'KD', category: 'damage-kd', tier: 'Near-Finish', key: 'R', label: 'KD Near-Finish' },
+];
+
+// Significant Strike Events (SS) - Double point value
+const SS_EVENTS = [
+  { type: 'SS Jab', category: 'ss', tier: null, key: '!', label: 'SS Jab' },
+  { type: 'SS Cross', category: 'ss', tier: null, key: '@', label: 'SS Cross' },
+  { type: 'SS Hook', category: 'ss', tier: null, key: '#', label: 'SS Hook' },
+  { type: 'SS Uppercut', category: 'ss', tier: null, key: '$', label: 'SS Upper' },
+  { type: 'SS Elbow', category: 'ss', tier: null, key: '%', label: 'SS Elbow' },
+  { type: 'SS Knee', category: 'ss', tier: null, key: '^', label: 'SS Knee' },
+  { type: 'SS Kick', category: 'ss', tier: null, key: '&', label: 'SS Kick' },
+];
+
+const GRAPPLING_EVENTS = [
+  // Takedowns
+  { type: 'Takedown', category: 'grappling', tier: null, key: 'V', label: 'Takedown' },
+  { type: 'Takedown Stuffed', category: 'grappling', tier: null, key: 'B', label: 'TD Stuffed' },
+  // Ground Strike - belongs with grappling
+  { type: 'Ground Strike', category: 'strike', tier: null, key: 'G', label: 'GnP' },
+  // Submissions - Escalating danger
+  { type: 'Submission Attempt', category: 'submission', tier: 'Light', key: 'A', label: 'Sub Light' },
+  { type: 'Submission Attempt', category: 'submission', tier: 'Deep', key: 'S', label: 'Sub Deep' },
+  { type: 'Submission Attempt', category: 'submission', tier: 'Near-Finish', key: 'D', label: 'Sub NF' },
+];
+
+// Tooltips for event types (shown on hover/long-press)
+const EVENT_TOOLTIPS = {
+  // Basic Strikes
+  'Jab': 'Quick punch with lead hand. 1.5 points.',
+  'Cross': 'Straight punch with rear hand. 3 points.',
+  'Hook': 'Curved punch to the side. 3 points.',
+  'Uppercut': 'Upward punch to chin. 3 points.',
+  'Elbow': 'Elbow strike. 4 points.',
+  'Knee': 'Knee strike. 4 points.',
+  'Kick': 'Any kick (body, leg, head). 3 points.',
+  
+  // Significant Strikes (SS)
+  'SS Jab': 'SIGNIFICANT: Clean, impactful jab that visibly affects opponent. 2 points.',
+  'SS Cross': 'SIGNIFICANT: Power cross that lands clean with visible impact. 4.5 points.',
+  'SS Hook': 'SIGNIFICANT: Hook that lands clean with visible effect. 4.5 points.',
+  'SS Uppercut': 'SIGNIFICANT: Clean uppercut with visible impact. 4.5 points.',
+  'SS Elbow': 'SIGNIFICANT: Clean elbow that cuts or staggers. 6 points.',
+  'SS Knee': 'SIGNIFICANT: Knee that lands clean with visible effect. 6 points.',
+  'SS Kick': 'SIGNIFICANT: Clean, impactful kick with visible damage. 6 points.',
+  
+  // Damage Events
+  'Rocked/Stunned': 'Fighter visibly hurt/wobbled but not knocked down. 60 points.',
+  'KD Flash': 'Quick knockdown - fighter touches canvas but recovers immediately. 100 points. IMPACT LOCK: Winner unless opponent leads by 50+ points.',
+  'KD Hard': 'Fighter goes down and needs time to recover. 150 points. IMPACT LOCK: Winner unless opponent leads by 110+ points.',
+  'KD Near-Finish': 'Fighter badly hurt - referee could have stopped it. 210 points. IMPACT LOCK: Winner unless opponent leads by 150+ points.',
+  
+  // Grappling
+  'Takedown': 'Successfully takes opponent to ground. 6 points.',
+  'Takedown Stuffed': 'Defends a takedown attempt. 2 points (diminishing after 3).',
+  'Ground Strike': 'Ground and pound strike. SOLID: 3 points, LIGHT: 1 point.',
+  
+  // Submissions
+  'Submission Attempt Light': 'Light submission attempt, no real danger. 12 points.',
+  'Submission Attempt Deep': 'Deep submission - opponent in danger. 28 points.',
+  'Submission Attempt Near-Finish': 'Almost finished - tap or stop was imminent. 60 points. IMPACT LOCK.',
+  
+  // Control
+  'Cage Control': 'Pressed against cage with control. 1 point per 10 seconds.',
+  'Top Control': 'Dominant position on ground. 3 points per 10 seconds.',
+  'Back Control': 'Back mount or back control. 5 points per 10 seconds.',
+};
+
+// Get button style based on category - clean, professional colors
+const getButtonStyle = (category, corner) => {
+  const isRed = corner === 'RED';
+  
+  switch (category) {
+    case 'strike':
+      return isRed 
+        ? 'bg-slate-700 hover:bg-slate-600 border-slate-600' 
+        : 'bg-slate-700 hover:bg-slate-600 border-slate-600';
+    case 'ss':
+      return 'bg-amber-700 hover:bg-amber-600 border-amber-500 ring-1 ring-amber-400/50';
+    case 'damage':
+      return 'bg-amber-600 hover:bg-amber-500 border-amber-500';
+    case 'damage-kd':
+      return 'bg-red-600 hover:bg-red-500 border-red-500';
+    case 'grappling':
+      return 'bg-emerald-700 hover:bg-emerald-600 border-emerald-600';
+    case 'control':
+      return 'bg-cyan-700 hover:bg-cyan-600 border-cyan-600';
+    case 'submission':
+      return 'bg-purple-700 hover:bg-purple-600 border-purple-600';
+    case 'control-active':
+      return 'bg-green-600 hover:bg-green-500 border-green-500 animate-pulse';
+    case 'control-bucket':
+      return 'bg-cyan-800 hover:bg-cyan-700 border-cyan-600';
+    default:
+      return 'bg-slate-700 hover:bg-slate-600 border-slate-600';
+  }
+};
+
+// Format seconds to MM:SS
+const formatTime = (seconds) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+};
+
+/**
+ * OperatorSimple - Professional event logging for operators
+ */
+export default function OperatorSimple() {
+  const { boutId } = useParams();
+  const navigate = useNavigate();
+  const containerRef = useRef(null);
+  
+  const [deviceRole, setDeviceRole] = useState(localStorage.getItem('device_role') || 'RED_STRIKING');
+  const [operatorName, setOperatorName] = useState(localStorage.getItem('sync_device_name') || 'Operator');
+  const [currentRound, setCurrentRound] = useState(1);
+  const [totalRounds, setTotalRounds] = useState(5);
+  const [isConnected, setIsConnected] = useState(true);
+  const [eventCount, setEventCount] = useState(0);
+  const [lastEvent, setLastEvent] = useState(null);
+  const [boutInfo, setBoutInfo] = useState({ fighter1: 'Red Corner', fighter2: 'Blue Corner' });
+  const [roundJustChanged, setRoundJustChanged] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  
+  // Control timer state - tracks cumulative time per control type for the round
+  const [activeControl, setActiveControl] = useState(null); // 'Back Control', 'Top Control', 'Cage Control'
+  const [controlTime, setControlTime] = useState(0); // Current session time
+  const [controlTotals, setControlTotals] = useState({
+    'Back Control': 0,
+    'Top Control': 0,
+    'Cage Control': 0
+  }); // Cumulative time per control type for the round
+  
+  // Ground strike quality toggle state
+  const [groundStrikeQuality, setGroundStrikeQuality] = useState('SOLID'); // 'SOLID' or 'LIGHT'
+  
+  // SS mode toggle - when enabled, all strikes are logged as SS
+  const [ssMode, setSsMode] = useState(false);
+  
+  // Control bucket mode - for quick time logging
+  const [showControlBuckets, setShowControlBuckets] = useState(false);
+  
+  // Fullscreen toggle handler
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await containerRef.current?.requestFullscreen();
+        setIsFullscreen(true);
+      } else {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    } catch (error) {
+      console.error('Fullscreen error:', error);
+      toast.error('Fullscreen not supported');
+    }
+  };
+  
+  // Listen for fullscreen changes (including Escape key)
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  // Determine corner from role
+  const corner = deviceRole.startsWith('RED') ? 'RED' : 'BLUE';
+  const fighterName = corner === 'RED' ? boutInfo.fighter1 : boutInfo.fighter2;
+  
+  // Determine which events to show
+  const getEventsForRole = () => {
+    if (deviceRole === 'RED_STRIKING' || deviceRole === 'BLUE_STRIKING') return STRIKING_EVENTS;
+    if (deviceRole === 'RED_GRAPPLING' || deviceRole === 'BLUE_GRAPPLING') return GRAPPLING_EVENTS;
+    if (deviceRole === 'RED_ALL' || deviceRole === 'BLUE_ALL') return [...STRIKING_EVENTS, ...GRAPPLING_EVENTS];
+    return STRIKING_EVENTS;
+  };
+  
+  // Check if role includes grappling
+  const hasGrappling = deviceRole.includes('GRAPPLING') || deviceRole.includes('ALL');
+  const hasStriking = deviceRole.includes('STRIKING') || deviceRole.includes('ALL');
+  
+  // Keep-alive ping - every 15 seconds while operator is active
+  useEffect(() => {
+    const pingServer = async () => {
+      try {
+        await fetch(`${API}/api/ping`);
+      } catch (e) {
+        // Silently ignore
+      }
+    };
+    
+    // Ping immediately and every 15 seconds
+    pingServer();
+    const interval = setInterval(pingServer, 15000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  // Log control time bucket (quick add without timer)
+  const logControlBucket = async (controlType, seconds) => {
+    try {
+      const eventType = controlType === 'Top' ? 'Ground Top Control' : 
+                       controlType === 'Cage' ? 'Cage Control Time' :
+                       controlType === 'Back' ? 'Ground Back Control' : controlType;
+      
+      const response = await fetch(`${API}/api/events`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          round_number: currentRound,
+          corner: corner,
+          aspect: 'GRAPPLING',
+          event_type: eventType,
+          device_role: deviceRole,
+          metadata: { 
+            duration: seconds,
+            bucket_entry: true
+          }
+        })
+      });
+      
+      if (response.ok) {
+        setEventCount(prev => prev + 1);
+        setLastEvent({ type: `${controlType} Control`, tier: `${seconds}s`, time: new Date() });
+        toast.success(`${controlType} Control: ${seconds}s logged`);
+      }
+    } catch (error) {
+      toast.error('Failed to log control time');
+    }
+  };
+
+  // Keyboard shortcuts handler
+  useEffect(() => {
+    const handleKeyDown = async (event) => {
+      if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') return;
+      if (!boutId) return;
+
+      const key = event.key;
+      const shiftKey = event.shiftKey;
+      
+      // List of shortcut keys we handle
+      const shortcutKeys = ['1', '2', '3', '4', '5', '6', '7', 't', 'T', 'v', 'b', 'a', 's', 'd', 'q', 'w', 'e', 'r', 'g', 'z', 'x', 'c', 'f', '`', '~', '!', '@', '#', '$', '%', '^', 'F2', 'F3', 'F4', 'F5', 'F11'];
+      
+      if (shortcutKeys.includes(key) || shortcutKeys.includes(key.toLowerCase())) {
+        event.preventDefault();
+      }
+
+      try {
+        // Toggle SS mode with backtick/tilde
+        if (key === '`' || key === '~') {
+          setSsMode(prev => !prev);
+          toast.info(`SS Mode: ${!ssMode ? 'ON' : 'OFF'}`, { duration: 800 });
+          return;
+        }
+        
+        // F11 for fullscreen toggle
+        if (key === 'F11') {
+          event.preventDefault();
+          toggleFullscreen();
+          return;
+        }
+        
+        // SS STRIKES (Shift + number) - Red Dragon K585 layout
+        if (key === '!' || (shiftKey && key === '1')) { await logEvent('SS Jab'); return; }
+        if (key === '@' || (shiftKey && key === '2')) { await logEvent('SS Cross'); return; }
+        if (key === '#' || (shiftKey && key === '3')) { await logEvent('SS Hook'); return; }
+        if (key === '$' || (shiftKey && key === '4')) { await logEvent('SS Uppercut'); return; }
+        if (key === '%' || (shiftKey && key === '5')) { await logEvent('SS Elbow'); return; }
+        if (key === '^' || (shiftKey && key === '6')) { await logEvent('SS Knee'); return; }
+        
+        // SS Kick = Shift+T
+        if (key === 'T' || (shiftKey && key.toLowerCase() === 't')) { await logEvent('SS Kick'); return; }
+        
+        // STRIKING (regular - no shift)
+        if (key === '1' && !shiftKey) { await logEvent(ssMode ? 'SS Jab' : 'Jab'); }
+        else if (key === '2' && !shiftKey) { await logEvent(ssMode ? 'SS Cross' : 'Cross'); }
+        else if (key === '3' && !shiftKey) { await logEvent(ssMode ? 'SS Hook' : 'Hook'); }
+        else if (key === '4' && !shiftKey) { await logEvent(ssMode ? 'SS Uppercut' : 'Uppercut'); }
+        else if (key === '5' && !shiftKey) { await logEvent(ssMode ? 'SS Elbow' : 'Elbow'); }
+        else if (key === '6' && !shiftKey) { await logEvent(ssMode ? 'SS Knee' : 'Knee'); }
+        // Kick = T (lowercase only, Shift+T is SS Kick)
+        else if (key === 't' && !shiftKey) { await logEvent(ssMode ? 'SS Kick' : 'Kick'); }
+        
+        // DAMAGE - G2=F2, G3=F3, G4=F4, G5=F5 (program your Red Dragon macro keys to send F2-F5)
+        else if (key === 'F2') { await logEvent('Rocked'); }       // G2 -> F2
+        else if (key === 'F3') { await logEvent('KD', 'Flash'); }  // G3 -> F3
+        else if (key === 'F4') { await logEvent('KD', 'Hard'); }   // G4 -> F4
+        else if (key === 'F5') { await logEvent('KD', 'Near-Finish'); } // G5 -> F5
+        // Fallback: Q, W, E, R still work for damage
+        else if (key.toLowerCase() === 'q') { await logEvent('Rocked'); }
+        else if (key.toLowerCase() === 'w') { await logEvent('KD', 'Flash'); }
+        else if (key.toLowerCase() === 'e') { await logEvent('KD', 'Hard'); }
+        else if (key.toLowerCase() === 'r') { await logEvent('KD', 'Near-Finish'); }
+        
+        // Ground Strike - G for Solid, F for Light
+        else if (key.toLowerCase() === 'g' && !shiftKey) { 
+          if (hasGrappling) {
+            await logEvent('Ground Strike', null, 'SOLID'); 
+          }
+        }
+        else if (key.toLowerCase() === 'f' && !shiftKey) {
+          if (hasGrappling) {
+            await logEvent('Ground Strike', null, 'LIGHT');
+          }
+        }
+        // GRAPPLING
+        else if (key.toLowerCase() === 'v') { await logEvent('Takedown'); }
+        else if (key.toLowerCase() === 'b') { await logEvent('Takedown Stuffed'); }
+        // SUBMISSIONS
+        else if (key.toLowerCase() === 'a') { await logEvent('Submission Attempt', 'Light'); }
+        else if (key.toLowerCase() === 's') { await logEvent('Submission Attempt', 'Deep'); }
+        else if (key.toLowerCase() === 'd') { await logEvent('Submission Attempt', 'Near-Finish'); }
+        // Control timers - Z, X, C (only for grappling roles)
+        else if (key.toLowerCase() === 'z') { 
+          if (hasGrappling) handleControlToggle('Back Control'); 
+        }
+        else if (key.toLowerCase() === 'x') { 
+          if (hasGrappling) handleControlToggle('Top Control'); 
+        }
+        else if (key.toLowerCase() === 'c') { 
+          if (hasGrappling) handleControlToggle('Cage Control'); 
+        }
+      } catch (error) {
+        console.error('Keyboard shortcut error:', error);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [boutId, corner, currentRound, deviceRole, fighterName, activeControl, groundStrikeQuality, ssMode, hasGrappling]);
+
+  // Control timer - increment every second when active
+  useEffect(() => {
+    if (!activeControl) return;
+    
+    const interval = setInterval(() => {
+      setControlTime(prev => prev + 1);
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, [activeControl]);
+
+  // Reset control totals when round changes
+  useEffect(() => {
+    // Log any active control time and reset totals for new round
+    if (activeControl && controlTime > 0) {
+      // Add current session to totals before resetting
+      setControlTotals(prev => ({
+        ...prev,
+        [activeControl]: prev[activeControl] + controlTime
+      }));
+    }
+    // Reset for new round
+    setActiveControl(null);
+    setControlTime(0);
+    setControlTotals({
+      'Back Control': 0,
+      'Top Control': 0,
+      'Cage Control': 0
+    });
+  }, [currentRound]);
+
+  // Handle control toggle (start/stop timer) - accumulates time within round
+  const handleControlToggle = async (controlType) => {
+    if (activeControl === controlType) {
+      // Stop the timer - add current session to cumulative total
+      const sessionTime = controlTime;
+      const newTotal = controlTotals[controlType] + sessionTime;
+      
+      // Update cumulative totals
+      setControlTotals(prev => ({
+        ...prev,
+        [controlType]: newTotal
+      }));
+      
+      setActiveControl(null);
+      setControlTime(0);
+      
+      // Log CTRL_END event
+      try {
+        await fetch(`${API}/api/events`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bout_id: boutId,
+            round_number: currentRound,
+            corner: corner,
+            aspect: 'GRAPPLING',
+            event_type: 'CTRL_END',
+            device_role: deviceRole,
+            metadata: { 
+              control_type: controlType === 'Top Control' ? 'TOP' : 
+                           controlType === 'Cage Control' ? 'CAGE' :
+                           controlType === 'Back Control' ? 'BACK' : 'TOP'
+            }
+          })
+        });
+      } catch (error) {
+        console.error('Failed to log CTRL_END');
+      }
+      
+      // Log the cumulative control time for this round
+      try {
+        const response = await fetch(`${API}/api/events`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bout_id: boutId,
+            round_number: currentRound,
+            corner: corner,
+            aspect: 'GRAPPLING',
+            event_type: controlType === 'Top Control' ? 'Ground Top Control' : 
+                       controlType === 'Cage Control' ? 'Cage Control Time' :
+                       controlType === 'Back Control' ? 'Ground Back Control' : controlType,
+            device_role: deviceRole,
+            metadata: { 
+              duration: newTotal,
+              session_time: sessionTime,
+              is_cumulative: true
+            }
+          })
+        });
+        
+        if (response.ok) {
+          setEventCount(prev => prev + 1);
+          setLastEvent({ type: controlType, tier: `${newTotal}s total`, time: new Date() });
+          toast.success(`${controlType}: ${formatTime(newTotal)} total logged`);
+        }
+      } catch (error) {
+        toast.error('Failed to log control time');
+      }
+    } else {
+      // Start new timer (stop any existing one first and save its time)
+      if (activeControl) {
+        // Save the previous control's time to totals
+        const prevSessionTime = controlTime;
+        const prevTotal = controlTotals[activeControl] + prevSessionTime;
+        
+        setControlTotals(prev => ({
+          ...prev,
+          [activeControl]: prevTotal
+        }));
+        
+        // Log CTRL_END for previous control
+        try {
+          await fetch(`${API}/api/events`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              bout_id: boutId,
+              round_number: currentRound,
+              corner: corner,
+              aspect: 'GRAPPLING',
+              event_type: 'CTRL_END',
+              device_role: deviceRole,
+              metadata: { 
+                control_type: activeControl === 'Top Control' ? 'TOP' : 
+                             activeControl === 'Cage Control' ? 'CAGE' :
+                             activeControl === 'Back Control' ? 'BACK' : 'TOP'
+              }
+            })
+          });
+        } catch (error) {
+          console.error('Failed to log CTRL_END');
+        }
+        
+        // Log the previous control with duration
+        try {
+          await fetch(`${API}/api/events`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              bout_id: boutId,
+              round_number: currentRound,
+              corner: corner,
+              aspect: 'GRAPPLING',
+              event_type: activeControl === 'Top Control' ? 'Ground Top Control' : 
+                         activeControl === 'Cage Control' ? 'Cage Control Time' :
+                         activeControl === 'Back Control' ? 'Ground Back Control' : activeControl,
+              device_role: deviceRole,
+              metadata: { 
+                duration: prevTotal,
+                session_time: prevSessionTime,
+                is_cumulative: true
+              }
+            })
+          });
+          toast.info(`${activeControl}: ${formatTime(prevTotal)} total logged`);
+        } catch (error) {
+          console.error('Failed to log previous control');
+        }
+      }
+      
+      // Log CTRL_START for new control
+      try {
+        await fetch(`${API}/api/events`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bout_id: boutId,
+            round_number: currentRound,
+            corner: corner,
+            aspect: 'GRAPPLING',
+            event_type: 'CTRL_START',
+            device_role: deviceRole,
+            metadata: { 
+              control_type: controlType === 'Top Control' ? 'TOP' : 
+                           controlType === 'Cage Control' ? 'CAGE' :
+                           controlType === 'Back Control' ? 'BACK' : 'TOP'
+            }
+          })
+        });
+      } catch (error) {
+        console.error('Failed to log CTRL_START');
+      }
+      
+      // Start the new control timer (continue from previous total if any)
+      setActiveControl(controlType);
+      setControlTime(0); // Start fresh session, total is in controlTotals
+      toast.info(`${controlType} timer started (${formatTime(controlTotals[controlType])} already logged)`);
+    }
+  };
+
+  // Poll for round changes from supervisor
+  useEffect(() => {
+    if (!boutId) return;
+    
+    const syncRound = async () => {
+      try {
+        const response = await fetch(`${API}/api/bouts/${boutId}/current-round`);
+        if (response.ok) {
+          const data = await response.json();
+          setIsConnected(true);
+          setBoutInfo({
+            fighter1: data.fighter1 || 'Red Corner',
+            fighter2: data.fighter2 || 'Blue Corner'
+          });
+          setTotalRounds(data.total_rounds || 5);
+          
+          if (data.current_round !== currentRound) {
+            setCurrentRound(data.current_round);
+            setEventCount(0);
+            setRoundJustChanged(true);
+            toast.success(`Round ${data.current_round} started!`, { duration: 3000 });
+            setTimeout(() => setRoundJustChanged(false), 2000);
+          }
+        }
+      } catch (error) {
+        setIsConnected(false);
+      }
+    };
+    
+    const interval = setInterval(syncRound, 1000);
+    syncRound();
+    return () => clearInterval(interval);
+  }, [boutId, currentRound]);
+
+  // Fetch bout info
+  useEffect(() => {
+    const fetchBout = async () => {
+      try {
+        const response = await fetch(`${API}/api/bouts/${boutId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setBoutInfo({
+            fighter1: data.fighter1 || 'Red Corner',
+            fighter2: data.fighter2 || 'Blue Corner'
+          });
+          setCurrentRound(data.currentRound || 1);
+        }
+      } catch (error) {
+        console.error('Error fetching bout:', error);
+      }
+    };
+    if (boutId) fetchBout();
+  }, [boutId]);
+
+  // Log event to server
+  const logEvent = async (eventType, tier = null, quality = null) => {
+    try {
+      const metadata = {};
+      if (tier) metadata.tier = tier;
+      if (quality) metadata.quality = quality;
+      
+      const response = await fetch(`${API}/api/events`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          round_number: currentRound,
+          corner: corner,
+          aspect: deviceRole.includes('GRAPPLING') ? 'GRAPPLING' : 
+                  deviceRole === 'BLUE_ALL' ? 'ALL' : 'STRIKING',
+          event_type: eventType,
+          device_role: deviceRole,
+          metadata: Object.keys(metadata).length > 0 ? metadata : {}
+        })
+      });
+      
+      if (response.ok) {
+        setEventCount(prev => prev + 1);
+        setLastEvent({ type: eventType, tier, quality, time: new Date() });
+        setIsConnected(true);
+        
+        const tierLabel = tier ? ` (${tier})` : '';
+        const qualityLabel = quality ? ` [${quality}]` : '';
+        toast.success(`${eventType}${tierLabel}${qualityLabel}`, { duration: 1200 });
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (error) {
+      setIsConnected(false);
+      toast.error('Failed to log event');
+    }
+  };
+
+  const getRoleLabel = () => {
+    switch (deviceRole) {
+      case 'RED_ALL': return 'ALL EVENTS';
+      case 'RED_STRIKING': return 'STRIKING';
+      case 'RED_GRAPPLING': return 'GRAPPLING';
+      case 'BLUE_ALL': return 'ALL EVENTS';
+      case 'BLUE_STRIKING': return 'STRIKING';
+      case 'BLUE_GRAPPLING': return 'GRAPPLING';
+      default: return deviceRole;
+    }
+  };
+
+  return (
+    <div ref={containerRef} className={`min-h-screen bg-slate-950 ${isFullscreen ? 'overflow-auto' : ''}`}>
+      {/* Role Banner - Large, clear indicator */}
+      <div className={`${corner === 'RED' ? 'bg-red-600' : 'bg-blue-600'} py-2 text-center`}>
+        <span className="text-white font-black text-lg tracking-wider">
+          {corner} CORNER — {getRoleLabel()}
+        </span>
+      </div>
+
+      {/* Header */}
+      <div className="bg-slate-900 border-b border-slate-700 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              onClick={() => navigate('/operator-setup')}
+              className="text-slate-400 hover:text-white"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
+            <div>
+              <div className="text-white font-semibold">{operatorName}</div>
+              <div className="text-slate-400 text-xs flex items-center gap-1">
+                <Keyboard className="w-3 h-3" /> Keyboard enabled
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {/* Fullscreen Toggle Button */}
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={toggleFullscreen}
+              className="text-slate-400 hover:text-white"
+              data-testid="btn-fullscreen"
+            >
+              {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+            </Button>
+            <Badge className={`${isConnected ? 'bg-green-600' : 'bg-red-600'} text-white`}>
+              {isConnected ? <Wifi className="w-3 h-3 mr-1" /> : <WifiOff className="w-3 h-3 mr-1" />}
+              {isConnected ? 'LIVE' : 'OFFLINE'}
+            </Badge>
+          </div>
+        </div>
+      </div>
+
+      {/* Fighter Name & Round */}
+      <div className="bg-slate-900 px-4 py-4 border-b border-slate-800">
+        <div className="text-center">
+          <div className={`text-3xl font-black ${corner === 'RED' ? 'text-red-400' : 'text-blue-400'}`}>
+            {fighterName}
+          </div>
+          <div className="flex items-center justify-center gap-4 mt-2">
+            <span className="text-slate-400">Round</span>
+            <span className={`text-2xl font-bold ${roundJustChanged ? 'text-green-400 animate-pulse' : 'text-white'}`}>
+              {currentRound}
+            </span>
+            <span className="text-slate-500">of {totalRounds}</span>
+            <span className="text-slate-600">•</span>
+            <span className="text-slate-400">{eventCount} events</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Event Buttons - Clean grid */}
+      <TooltipProvider delayDuration={300}>
+        <div className="p-3">
+          {/* Section: Strikes - Each strike has main button + SS button */}
+          {hasStriking && (
+            <div className="mb-4">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+                Strikes
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {/* Row 1: Jab, Cross */}
+                {[
+                  { type: 'Jab', key: '1', ssType: 'SS Jab', ssKey: '⇧1' },
+                  { type: 'Cross', key: '2', ssType: 'SS Cross', ssKey: '⇧2' },
+                ].map(strike => (
+                  <div key={strike.type} className="flex gap-1">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.type)}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12' : 'h-16'} text-lg flex-1 border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-xl'}>{strike.type}</div>
+                            <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.type]}</p></TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-ss-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.ssType)}
+                          className={`${getButtonStyle('ss', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 w-12' : 'h-16 w-14'} text-sm border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-base'}>SS</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.ssType]}</p></TooltipContent>
+                    </Tooltip>
+                  </div>
+                ))}
+                
+                {/* Row 2: Hook, Uppercut */}
+                {[
+                  { type: 'Hook', key: '3', ssType: 'SS Hook', ssKey: '⇧3' },
+                  { type: 'Uppercut', key: '4', ssType: 'SS Uppercut', ssKey: '⇧4' },
+                ].map(strike => (
+                  <div key={strike.type} className="flex gap-1">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.type)}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12' : 'h-16'} text-lg flex-1 border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-xl'}>{strike.type}</div>
+                            <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.type]}</p></TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-ss-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.ssType)}
+                          className={`${getButtonStyle('ss', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 w-12' : 'h-16 w-14'} text-sm border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-base'}>SS</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.ssType]}</p></TooltipContent>
+                    </Tooltip>
+                  </div>
+                ))}
+                
+                {/* Row 3: Kick, Knee */}
+                {[
+                  { type: 'Kick', key: 'T', ssType: 'SS Kick', ssKey: '⇧T' },
+                  { type: 'Knee', key: '6', ssType: 'SS Knee', ssKey: '⇧6' },
+                ].map(strike => (
+                  <div key={strike.type} className="flex gap-1">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.type)}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12' : 'h-16'} text-lg flex-1 border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-xl'}>{strike.type}</div>
+                            <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.type]}</p></TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-ss-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.ssType)}
+                          className={`${getButtonStyle('ss', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 w-12' : 'h-16 w-14'} text-sm border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-base'}>SS</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.ssType]}</p></TooltipContent>
+                    </Tooltip>
+                  </div>
+                ))}
+                
+                {/* Row 4: Elbow (single with SS) */}
+                {[
+                  { type: 'Elbow', key: '5', ssType: 'SS Elbow', ssKey: '⇧5' },
+                ].map(strike => (
+                  <div key={strike.type} className="flex gap-1">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.type)}
+                          className={`${getButtonStyle('strike', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12' : 'h-16'} text-lg flex-1 border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-xl'}>{strike.type}</div>
+                            <div className="text-[10px] text-slate-400 font-normal">{strike.key}</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.type]}</p></TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-ss-${strike.type.toLowerCase()}`}
+                          onClick={() => logEvent(strike.ssType)}
+                          className={`${getButtonStyle('ss', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 w-12' : 'h-16 w-14'} text-sm border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-base'}>SS</div>
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent><p>{EVENT_TOOLTIPS[strike.ssType]}</p></TooltipContent>
+                    </Tooltip>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Section: Damage */}
+          {hasStriking && (
+            <div className="mb-4">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+                Damage
+              </div>
+              <div className="grid grid-cols-4 gap-2">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      data-testid="btn-rocked"
+                      onClick={() => logEvent('Rocked')}
+                      className={`${getButtonStyle('damage', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-10 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
+                    >
+                      <div className="text-center">
+                        <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-lg'}>Rocked</div>
+                        <div className="text-[10px] text-amber-200 font-normal">G2/F2</div>
+                      </div>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{EVENT_TOOLTIPS['Rocked/Stunned']}</p>
+                  </TooltipContent>
+                </Tooltip>
+                {[
+                  { tier: 'Flash', key: 'G3/F3', label: 'KD Flash' },
+                  { tier: 'Hard', key: 'G4/F4', label: 'KD Hard' },
+                  { tier: 'Near-Finish', key: 'G5/F5', label: 'KD NF' }
+                ].map((kd) => (
+                  <Tooltip key={kd.tier}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        data-testid={`btn-kd-${kd.tier.toLowerCase()}`}
+                        onClick={() => logEvent('KD', kd.tier)}
+                        className={`${getButtonStyle('damage-kd', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-10 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
+                      >
+                        <div className="text-center">
+                          <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-lg'}>{kd.label}</div>
+                          <div className="text-[10px] text-red-200 font-normal">{kd.key}</div>
+                        </div>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs">
+                      <p>{EVENT_TOOLTIPS[`KD ${kd.tier}`]}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Section: Grappling */}
+          {hasGrappling && (
+            <div className="mb-4">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+                Grappling
+              </div>
+              {/* 2x2 grid: Takedown/GnP Light on top, TD Stuffed/GnP Solid on bottom */}
+              <div className="grid grid-cols-2 gap-2">
+                {/* Row 1: Takedown, GnP Light */}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      data-testid="btn-td"
+                      onClick={() => logEvent('Takedown')}
+                      className={`${getButtonStyle('grappling', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
+                    >
+                      <div className="text-center">
+                        <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-lg'}>Takedown</div>
+                        <div className="text-[10px] text-emerald-200 font-normal">V</div>
+                      </div>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{EVENT_TOOLTIPS['Takedown']}</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      data-testid="btn-gnp-light"
+                      onClick={() => logEvent('Ground Strike', null, 'LIGHT')}
+                      className={`bg-red-400 hover:bg-red-300 border-red-400 text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
+                    >
+                      <div className="text-center">
+                        <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-lg'}>GnP Light</div>
+                        <div className="text-[10px] text-red-200 font-normal">F</div>
+                      </div>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Light ground strike, glancing blow. 1 point.</p>
+                  </TooltipContent>
+                </Tooltip>
+                
+                {/* Row 2: TD Stuffed, GnP Solid */}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      data-testid="btn-td-stuffed"
+                      onClick={() => logEvent('Takedown Stuffed')}
+                      className={`${getButtonStyle('grappling', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
+                    >
+                      <div className="text-center">
+                        <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-lg'}>TD Stuffed</div>
+                        <div className="text-[10px] text-emerald-200 font-normal">B</div>
+                      </div>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{EVENT_TOOLTIPS['Takedown Stuffed']}</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      data-testid="btn-gnp-solid"
+                      onClick={() => logEvent('Ground Strike', null, 'SOLID')}
+                      className={`bg-red-600 hover:bg-red-500 border-red-500 text-white font-bold ${deviceRole.includes('ALL') ? 'h-12 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
+                    >
+                      <div className="text-center">
+                        <div className={deviceRole.includes('ALL') ? 'text-base' : 'text-lg'}>GnP Solid</div>
+                        <div className="text-[10px] text-red-200 font-normal">G</div>
+                      </div>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Ground strike with solid impact. 3 points.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </div>
+          )}
+          {/* Section: Control - With Timers and Buckets */}
+          {hasGrappling && (
+            <div className="mb-4">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1 flex items-center justify-between">
+                <div className="flex items-center">
+                  <Clock className="w-3 h-3 mr-1" />
+                  Control Time 
+                  {activeControl && (
+                    <span className="ml-2 flex items-center text-green-400">
+                      <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-1"></span>
+                      RECORDING
+                    </span>
+                  )}
+                </div>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => setShowControlBuckets(!showControlBuckets)}
+                  className="text-cyan-400 text-xs h-5 px-2"
+                >
+                  {showControlBuckets ? 'Hide' : 'Quick Add'}
+                </Button>
+              </div>
+              
+              {/* Control Timer Buttons */}
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { name: 'Back Control', key: 'Z', short: 'Back' },
+                  { name: 'Top Control', key: 'X', short: 'Top' },
+                  { name: 'Cage Control', key: 'C', short: 'Cage' }
+                ].map((control) => {
+                  const isActive = activeControl === control.name;
+                  const totalTime = controlTotals[control.name] + (isActive ? controlTime : 0);
+                  
+                  return (
+                    <Tooltip key={control.name}>
+                      <TooltipTrigger asChild>
+                        <Button
+                          data-testid={`btn-${control.name.toLowerCase().replace(' ', '-')}`}
+                          onClick={() => handleControlToggle(control.name)}
+                          className={`${isActive ? getButtonStyle('control-active', corner) : getButtonStyle('control', corner)} text-white font-semibold ${deviceRole.includes('ALL') ? 'h-12' : 'h-16'} text-sm border transition-all active:scale-95`}
+                        >
+                          <div className="text-center">
+                            <div className="text-xs">{control.short}</div>
+                            {isActive ? (
+                              <>
+                                <div className={`${deviceRole.includes('ALL') ? 'text-base' : 'text-lg'} font-bold text-green-200`}>{formatTime(totalTime)}</div>
+                                <div className="text-[8px] text-green-300">Tap to stop</div>
+                              </>
+                            ) : (
+                              <>
+                                {totalTime > 0 ? (
+                                  <div className={`${deviceRole.includes('ALL') ? 'text-xs' : 'text-sm'} font-bold text-cyan-300`}>{formatTime(totalTime)}</div>
+                                ) : (
+                                  <div className="text-[10px] text-cyan-200 mt-1">{control.key}</div>
+                                )}
+                              </>
+                            )}
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{EVENT_TOOLTIPS[control.name]}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                })}
+              </div>
+              
+              {/* Control Bucket Quick Add (Hidden by default) */}
+              {showControlBuckets && (
+                <div className="mt-3 bg-slate-800/50 rounded-lg p-2">
+                  <div className="text-slate-400 text-xs mb-2 text-center">Quick add control time (no timer)</div>
+                  <div className="grid grid-cols-3 gap-2">
+                    {['Back', 'Top', 'Cage'].map(type => (
+                      <div key={type} className="space-y-1">
+                        <div className="text-center text-xs text-cyan-400">{type}</div>
+                        <div className="flex gap-1 justify-center">
+                          {[10, 20, 30].map(secs => (
+                            <Button
+                              key={secs}
+                              size="sm"
+                              onClick={() => logControlBucket(type, secs)}
+                              className={`${getButtonStyle('control-bucket', corner)} text-white text-xs h-7 px-2`}
+                            >
+                              +{secs}s
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Section: Submissions */}
+          {hasGrappling && (
+            <div className="mb-4">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2 px-1">
+                Submissions
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { tier: 'Light', key: 'A', label: 'Sub Light' },
+                  { tier: 'Deep', key: 'S', label: 'Sub Deep' },
+                  { tier: 'Near-Finish', key: 'D', label: 'Sub NF' }
+                ].map((sub) => (
+                  <Tooltip key={sub.tier}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        data-testid={`btn-sub-${sub.tier.toLowerCase()}`}
+                        onClick={() => logEvent('Submission Attempt', sub.tier)}
+                        className={`${getButtonStyle('submission', corner)} text-white font-bold ${deviceRole.includes('ALL') ? 'h-10 text-sm' : 'h-16 text-base'} border transition-all active:scale-95`}
+                      >
+                        <div className="text-center">
+                          <div className={deviceRole.includes('ALL') ? 'text-sm' : 'text-lg'}>{sub.label}</div>
+                          <div className="text-[10px] text-purple-200 font-normal">{sub.key}</div>
+                        </div>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{EVENT_TOOLTIPS[`Submission Attempt ${sub.tier}`]}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </TooltipProvider>
+
+      {/* Last Event - Fixed at bottom */}
+      <div className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-700 p-3">
+        {lastEvent ? (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Zap className="w-4 h-4 text-amber-400" />
+              <span className="text-white font-medium">
+                {lastEvent.type}{lastEvent.tier ? ` (${lastEvent.tier})` : ''}
+              </span>
+            </div>
+            <span className="text-slate-400 text-sm">
+              {lastEvent.time.toLocaleTimeString()}
+            </span>
+          </div>
+        ) : (
+          <div className="text-slate-500 text-center text-sm">
+            No events logged yet — tap a button or use keyboard shortcuts
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+==============================================================================
+FILE: frontend/src/components/SupervisorControl.jsx
+==============================================================================
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { toast } from 'sonner';
+import { 
+  Plus, 
+  Trophy, 
+  Users, 
+  Swords, 
+  Play, 
+  Square,
+  Settings,
+  ChevronRight,
+  Crown,
+  Scale,
+  Clock,
+  Trash2,
+  Edit,
+  Monitor
+} from 'lucide-react';
+
+const API = process.env.REACT_APP_BACKEND_URL;
+
+// Weight classes
+// MMA Weight Classes - Men's, Women's, and Catchweight
+const WEIGHT_CLASSES = {
+  mens: [
+    { value: 'M-Strawweight', label: "Men's Strawweight (115 lbs)" },
+    { value: 'M-Flyweight', label: "Men's Flyweight (125 lbs)" },
+    { value: 'M-Bantamweight', label: "Men's Bantamweight (135 lbs)" },
+    { value: 'M-Featherweight', label: "Men's Featherweight (145 lbs)" },
+    { value: 'M-Lightweight', label: "Men's Lightweight (155 lbs)" },
+    { value: 'M-Welterweight', label: "Men's Welterweight (170 lbs)" },
+    { value: 'M-Middleweight', label: "Men's Middleweight (185 lbs)" },
+    { value: 'M-Light Heavyweight', label: "Men's Light Heavyweight (205 lbs)" },
+    { value: 'M-Heavyweight', label: "Men's Heavyweight (265 lbs)" },
+  ],
+  womens: [
+    { value: 'W-Strawweight', label: "Women's Strawweight (115 lbs)" },
+    { value: 'W-Flyweight', label: "Women's Flyweight (125 lbs)" },
+    { value: 'W-Bantamweight', label: "Women's Bantamweight (135 lbs)" },
+    { value: 'W-Featherweight', label: "Women's Featherweight (145 lbs)" },
+  ],
+  other: [
+    { value: 'Catchweight', label: 'Catchweight (Custom)' },
+  ]
+};
+
+/**
+ * SupervisorControl - Main control panel for supervisor
+ * Creates events, fights, assigns operators, controls scoring flow
+ */
+export default function SupervisorControl() {
+  const navigate = useNavigate();
+  
+  // Event state
+  const [eventName, setEventName] = useState(localStorage.getItem('current_event_name') || '');
+  const [eventId, setEventId] = useState(localStorage.getItem('current_event_id') || '');
+  
+  // Fights in this event
+  const [fights, setFights] = useState([]);
+  const [activeFight, setActiveFight] = useState(null);
+  
+  // New fight form
+  const [showNewFight, setShowNewFight] = useState(false);
+  const [newFight, setNewFight] = useState({
+    fighter1: '',
+    fighter1Record: '',
+    fighter1Photo: '',
+    fighter2: '',
+    fighter2Record: '',
+    fighter2Photo: '',
+    weightClass: 'M-Lightweight',
+    rounds: 3,
+    isTitleFight: false,
+    isMainEvent: false
+  });
+  
+  // Operators
+  const [operators, setOperators] = useState([]);
+  
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Create/Set Event
+  const handleCreateEvent = async () => {
+    if (!eventName.trim()) {
+      toast.error('Please enter an event name');
+      return;
+    }
+    
+    const newEventId = `event-${Date.now()}`;
+    
+    try {
+      await fetch(`${API}/api/events/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event_id: newEventId,
+          event_name: eventName.trim()
+        })
+      });
+      
+      setEventId(newEventId);
+      localStorage.setItem('current_event_name', eventName.trim());
+      localStorage.setItem('current_event_id', newEventId);
+      toast.success(`Event "${eventName}" created!`);
+    } catch (error) {
+      // Even if API fails, set locally
+      setEventId(newEventId);
+      localStorage.setItem('current_event_name', eventName.trim());
+      localStorage.setItem('current_event_id', newEventId);
+      toast.success(`Event "${eventName}" created!`);
+    }
+  };
+
+  // Fetch fights for this event
+  const fetchFights = useCallback(async () => {
+    if (!eventId) return;
+    
+    try {
+      const response = await fetch(`${API}/api/supervisor/fights?event_id=${eventId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setFights(data.fights || []);
+        
+        // Find active fight
+        const active = (data.fights || []).find(f => f.status === 'active' || f.status === 'in_progress');
+        if (active) setActiveFight(active);
+      }
+    } catch (error) {
+      console.error('Error fetching fights:', error);
+    }
+  }, [eventId]);
+
+  // Fetch operators
+  const fetchOperators = useCallback(async () => {
+    if (!activeFight) return;
+    
+    try {
+      const response = await fetch(`${API}/api/operators/list?bout_id=${activeFight.bout_id}`);
+      if (response.ok) {
+        const data = await response.json();
+        setOperators(data.operators || []);
+      }
+    } catch (error) {
+      console.error('Error fetching operators:', error);
+    }
+  }, [activeFight]);
+
+  useEffect(() => {
+    if (eventId) {
+      fetchFights();
+      const interval = setInterval(fetchFights, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [eventId, fetchFights]);
+
+  useEffect(() => {
+    if (activeFight) {
+      fetchOperators();
+      const interval = setInterval(fetchOperators, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [activeFight, fetchOperators]);
+
+  // Create new fight
+  const handleCreateFight = async () => {
+    if (!newFight.fighter1.trim() || !newFight.fighter2.trim()) {
+      toast.error('Please enter both fighter names');
+      return;
+    }
+    
+    setIsLoading(true);
+    const boutId = `${eventId}-fight-${fights.length + 1}`;
+    
+    try {
+      const response = await fetch(`${API}/api/bouts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bout_id: boutId,
+          event_id: eventId,
+          event_name: eventName,
+          fighter1: newFight.fighter1.trim(),
+          fighter1_record: newFight.fighter1Record.trim() || null,
+          fighter1_photo: newFight.fighter1Photo.trim() || null,
+          fighter2: newFight.fighter2.trim(),
+          fighter2_record: newFight.fighter2Record.trim() || null,
+          fighter2_photo: newFight.fighter2Photo.trim() || null,
+          weight_class: newFight.weightClass,
+          totalRounds: newFight.rounds,
+          is_title_fight: newFight.isTitleFight,
+          is_main_event: newFight.isMainEvent,
+          status: 'pending',
+          currentRound: 1
+        })
+      });
+      
+      if (response.ok) {
+        toast.success(`Fight added: ${newFight.fighter1} vs ${newFight.fighter2}`);
+        setShowNewFight(false);
+        setNewFight({
+          fighter1: '',
+          fighter1Record: '',
+          fighter1Photo: '',
+          fighter2: '',
+          fighter2Record: '',
+          fighter2Photo: '',
+          weightClass: 'M-Lightweight',
+          rounds: 3,
+          isTitleFight: false,
+          isMainEvent: false
+        });
+        fetchFights();
+      } else {
+        toast.error('Failed to create fight');
+      }
+    } catch (error) {
+      toast.error('Error creating fight');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Start a fight (make it active)
+  const handleStartFight = async (fight) => {
+    setIsLoading(true);
+    try {
+      // Set all other fights to pending, this one to active
+      await fetch(`${API}/api/supervisor/activate-fight`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event_id: eventId,
+          bout_id: fight.bout_id
+        })
+      });
+      
+      setActiveFight(fight);
+      toast.success(`Starting: ${fight.fighter1} vs ${fight.fighter2}`);
+      fetchFights();
+    } catch (error) {
+      toast.error('Error starting fight');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Go to scoring dashboard for active fight
+  const handleOpenScoring = () => {
+    if (activeFight) {
+      navigate(`/supervisor/${activeFight.bout_id}`);
+    }
+  };
+
+  // Delete a fight
+  const handleDeleteFight = async (boutId) => {
+    if (!window.confirm('Delete this fight?')) return;
+    
+    try {
+      await fetch(`${API}/api/bouts/${boutId}`, { method: 'DELETE' });
+      toast.success('Fight deleted');
+      fetchFights();
+    } catch (error) {
+      toast.error('Error deleting fight');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
+      <div className="max-w-6xl mx-auto space-y-6">
+        
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Settings className="w-8 h-8 text-amber-500" />
+            <div>
+              <h1 className="text-2xl font-bold text-white">Supervisor Control</h1>
+              <p className="text-gray-400 text-sm">Manage events, fights, and operators</p>
+            </div>
+          </div>
+          {activeFight && (
+            <Button onClick={handleOpenScoring} className="bg-green-600 hover:bg-green-700">
+              <Monitor className="w-4 h-4 mr-2" /> Open Scoring Dashboard
+            </Button>
+          )}
+        </div>
+
+        {/* Event Setup */}
+        {!eventId ? (
+          <Card className="p-6 bg-gray-800/50 border-gray-700">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 text-amber-400">
+                <Trophy className="w-5 h-5" />
+                <h2 className="text-lg font-semibold">Create Event</h2>
+              </div>
+              <div className="flex gap-3">
+                <Input
+                  value={eventName}
+                  onChange={(e) => setEventName(e.target.value)}
+                  placeholder="Event name (e.g., PFC 50, UFC 300)"
+                  className="bg-gray-700 border-gray-600 text-white flex-1"
+                />
+                <Button onClick={handleCreateEvent} className="bg-amber-500 hover:bg-amber-600 text-black">
+                  Create Event
+                </Button>
+              </div>
+            </div>
+          </Card>
+        ) : (
+          <>
+            {/* Event Info Bar */}
+            <Card className="p-4 bg-amber-500/10 border-amber-500/30">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Trophy className="w-6 h-6 text-amber-400" />
+                  <div>
+                    <div className="text-xl font-bold text-white">{eventName}</div>
+                    <div className="text-amber-400 text-sm">{fights.length} fights • {operators.length} operators connected</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge className="bg-amber-500 text-black">
+                    ID: {eventId.slice(-8)}
+                  </Badge>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    onClick={() => {
+                      setEventId('');
+                      setEventName('');
+                      localStorage.removeItem('current_event_id');
+                      localStorage.removeItem('current_event_name');
+                    }}
+                    className="border-gray-600"
+                  >
+                    Change Event
+                  </Button>
+                </div>
+              </div>
+            </Card>
+
+            {/* Active Fight Banner */}
+            {activeFight && (
+              <Card className="p-4 bg-green-500/10 border-green-500/30">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                    <div>
+                      <div className="text-green-400 text-xs uppercase tracking-wider">Active Fight</div>
+                      <div className="text-xl font-bold text-white">
+                        {activeFight.fighter1} vs {activeFight.fighter2}
+                      </div>
+                      <div className="text-gray-400 text-sm">
+                        {activeFight.weight_class} • {activeFight.totalRounds} rounds
+                        {activeFight.is_title_fight && <Badge className="ml-2 bg-amber-500 text-black text-xs">TITLE</Badge>}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="text-right">
+                      <div className="text-gray-400 text-xs">Operator URL</div>
+                      <code className="text-amber-400 text-sm">/waiting/{activeFight.bout_id}</code>
+                    </div>
+                    <Button onClick={handleOpenScoring} className="bg-green-600 hover:bg-green-700">
+                      <Play className="w-4 h-4 mr-2" /> Score Fight
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            )}
+
+            {/* Two Column Layout */}
+            <div className="grid grid-cols-2 gap-6">
+              
+              {/* Fight Card */}
+              <Card className="p-4 bg-gray-800/50 border-gray-700">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2 text-white">
+                    <Swords className="w-5 h-5" />
+                    <h2 className="font-semibold">Fight Card</h2>
+                  </div>
+                  <Dialog open={showNewFight} onOpenChange={setShowNewFight}>
+                    <DialogTrigger asChild>
+                      <Button size="sm" className="bg-amber-500 hover:bg-amber-600 text-black">
+                        <Plus className="w-4 h-4 mr-1" /> Add Fight
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-gray-900 border-gray-700 text-white max-h-[90vh] overflow-y-auto" aria-describedby="add-fight-description">
+                      <DialogHeader>
+                        <DialogTitle>Add New Fight</DialogTitle>
+                        <p id="add-fight-description" className="sr-only">Form to add a new fight to the event card</p>
+                      </DialogHeader>
+                      <div className="space-y-4 py-4">
+                        {/* Red Corner */}
+                        <div className="p-3 bg-red-950/30 rounded-lg border border-red-900/50 space-y-3">
+                          <div className="text-red-400 font-semibold text-sm uppercase tracking-wider">Red Corner</div>
+                          <div className="space-y-2">
+                            <Label className="text-gray-400 text-xs">Fighter Name *</Label>
+                            <Input
+                              value={newFight.fighter1}
+                              onChange={(e) => setNewFight({...newFight, fighter1: e.target.value})}
+                              placeholder="Fighter name"
+                              className="bg-gray-800 border-red-900"
+                            />
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="space-y-1">
+                              <Label className="text-gray-400 text-xs">Record (W-L)</Label>
+                              <Input
+                                value={newFight.fighter1Record}
+                                onChange={(e) => setNewFight({...newFight, fighter1Record: e.target.value})}
+                                placeholder="12-3"
+                                className="bg-gray-800 border-gray-700"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <Label className="text-gray-400 text-xs">Photo URL (optional)</Label>
+                              <Input
+                                value={newFight.fighter1Photo}
+                                onChange={(e) => setNewFight({...newFight, fighter1Photo: e.target.value})}
+                                placeholder="https://..."
+                                className="bg-gray-800 border-gray-700"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Blue Corner */}
+                        <div className="p-3 bg-blue-950/30 rounded-lg border border-blue-900/50 space-y-3">
+                          <div className="text-blue-400 font-semibold text-sm uppercase tracking-wider">Blue Corner</div>
+                          <div className="space-y-2">
+                            <Label className="text-gray-400 text-xs">Fighter Name *</Label>
+                            <Input
+                              value={newFight.fighter2}
+                              onChange={(e) => setNewFight({...newFight, fighter2: e.target.value})}
+                              placeholder="Fighter name"
+                              className="bg-gray-800 border-blue-900"
+                            />
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="space-y-1">
+                              <Label className="text-gray-400 text-xs">Record (W-L)</Label>
+                              <Input
+                                value={newFight.fighter2Record}
+                                onChange={(e) => setNewFight({...newFight, fighter2Record: e.target.value})}
+                                placeholder="8-2"
+                                className="bg-gray-800 border-gray-700"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <Label className="text-gray-400 text-xs">Photo URL (optional)</Label>
+                              <Input
+                                value={newFight.fighter2Photo}
+                                onChange={(e) => setNewFight({...newFight, fighter2Photo: e.target.value})}
+                                placeholder="https://..."
+                                className="bg-gray-800 border-gray-700"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Weight Class */}
+                        <div className="space-y-2">
+                          <Label>Weight Class</Label>
+                          <Select value={newFight.weightClass} onValueChange={(v) => setNewFight({...newFight, weightClass: v})}>
+                            <SelectTrigger className="bg-gray-800 border-gray-700">
+                              <SelectValue placeholder="Select weight class" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-gray-800 border-gray-700 max-h-80">
+                              {/* Men's Division */}
+                              <div className="px-2 py-1 text-xs font-semibold text-blue-400 uppercase tracking-wider">
+                                Men's Division
+                              </div>
+                              {WEIGHT_CLASSES.mens.map(wc => (
+                                <SelectItem key={wc.value} value={wc.value} className="text-white">
+                                  {wc.label}
+                                </SelectItem>
+                              ))}
+                              
+                              {/* Women's Division */}
+                              <div className="px-2 py-1 text-xs font-semibold text-pink-400 uppercase tracking-wider mt-2 border-t border-gray-700 pt-2">
+                                Women's Division
+                              </div>
+                              {WEIGHT_CLASSES.womens.map(wc => (
+                                <SelectItem key={wc.value} value={wc.value} className="text-white">
+                                  {wc.label}
+                                </SelectItem>
+                              ))}
+                              
+                              {/* Other */}
+                              <div className="px-2 py-1 text-xs font-semibold text-amber-400 uppercase tracking-wider mt-2 border-t border-gray-700 pt-2">
+                                Other
+                              </div>
+                              {WEIGHT_CLASSES.other.map(wc => (
+                                <SelectItem key={wc.value} value={wc.value} className="text-white">
+                                  {wc.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        
+                        {/* Rounds */}
+                        <div className="space-y-2">
+                          <Label>Rounds</Label>
+                          <Select value={String(newFight.rounds)} onValueChange={(v) => setNewFight({...newFight, rounds: parseInt(v)})}>
+                            <SelectTrigger className="bg-gray-800 border-gray-700">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-gray-800 border-gray-700">
+                              <SelectItem value="3">3 Rounds</SelectItem>
+                              <SelectItem value="5">5 Rounds</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        
+                        {/* Toggles */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Switch 
+                              checked={newFight.isTitleFight} 
+                              onCheckedChange={(c) => setNewFight({...newFight, isTitleFight: c})}
+                            />
+                            <Label>Title Fight</Label>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Switch 
+                              checked={newFight.isMainEvent} 
+                              onCheckedChange={(c) => setNewFight({...newFight, isMainEvent: c})}
+                            />
+                            <Label>Main Event</Label>
+                          </div>
+                        </div>
+                        
+                        <Button onClick={handleCreateFight} disabled={isLoading} className="w-full bg-amber-500 hover:bg-amber-600 text-black">
+                          {isLoading ? 'Creating...' : 'Add Fight to Card'}
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+                
+                <ScrollArea className="h-[400px]">
+                  <div className="space-y-2">
+                    {fights.length === 0 ? (
+                      <div className="text-center py-8 text-gray-500">
+                        No fights added yet. Click "Add Fight" to start.
+                      </div>
+                    ) : (
+                      fights.map((fight, idx) => (
+                        <div 
+                          key={fight.bout_id} 
+                          className={`p-3 rounded-lg border ${
+                            fight.status === 'active' || fight.status === 'in_progress'
+                              ? 'bg-green-500/10 border-green-500' 
+                              : fight.status === 'completed'
+                              ? 'bg-gray-800/50 border-gray-700 opacity-60'
+                              : 'bg-gray-800/50 border-gray-700'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2">
+                                <span className="text-gray-500 text-sm">#{idx + 1}</span>
+                                <span className="text-white font-medium">{fight.fighter1}</span>
+                                <span className="text-gray-500">vs</span>
+                                <span className="text-white font-medium">{fight.fighter2}</span>
+                                {fight.is_title_fight && <Crown className="w-4 h-4 text-amber-400" />}
+                              </div>
+                              <div className="flex items-center gap-2 text-xs text-gray-400 mt-1">
+                                <Scale className="w-3 h-3" /> {fight.weight_class || 'TBD'}
+                                <Clock className="w-3 h-3 ml-2" /> {fight.totalRounds || fight.total_rounds || 3} rds
+                                {fight.is_main_event && <Badge className="bg-amber-600 text-xs ml-2">Main Event</Badge>}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {fight.status === 'completed' ? (
+                                <Badge className="bg-gray-600">Completed</Badge>
+                              ) : fight.status === 'active' || fight.status === 'in_progress' ? (
+                                <Badge className="bg-green-500">Active</Badge>
+                              ) : (
+                                <Button 
+                                  size="sm" 
+                                  onClick={() => handleStartFight(fight)}
+                                  className="bg-green-600 hover:bg-green-700"
+                                >
+                                  <Play className="w-3 h-3 mr-1" /> Start
+                                </Button>
+                              )}
+                              <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                onClick={() => handleDeleteFight(fight.bout_id)}
+                                className="text-red-400 hover:text-red-300"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </ScrollArea>
+              </Card>
+
+              {/* Operators Panel */}
+              <Card className="p-4 bg-gray-800/50 border-gray-700">
+                <div className="flex items-center gap-2 text-white mb-4">
+                  <Users className="w-5 h-5" />
+                  <h2 className="font-semibold">Connected Operators</h2>
+                  {activeFight && (
+                    <Badge className="bg-gray-700 ml-auto">{operators.length}/3</Badge>
+                  )}
+                </div>
+                
+                {!activeFight ? (
+                  <div className="text-center py-8 text-gray-500">
+                    Start a fight to see connected operators
+                  </div>
+                ) : (
+                  <>
+                    {/* Operator URL */}
+                    <div className="bg-gray-900/50 rounded-lg p-3 mb-4">
+                      <div className="text-gray-400 text-xs uppercase tracking-wider mb-1">
+                        Operators should open:
+                      </div>
+                      <code className="text-amber-400 text-sm break-all">
+                        {window.location.origin}/waiting/{activeFight.bout_id}
+                      </code>
+                    </div>
+                    
+                    {/* Role Assignments */}
+                    <div className="space-y-2">
+                      {['RED_ALL', 'RED_STRIKING', 'RED_GRAPPLING', 'BLUE_ALL', 'BLUE_STRIKING', 'BLUE_GRAPPLING'].map((role) => {
+                        const op = operators.find(o => o.assigned_role === role);
+                        const roleConfig = {
+                          RED_ALL: { label: 'Red All', color: 'red' },
+                          RED_STRIKING: { label: 'Red Striking', color: 'red' },
+                          RED_GRAPPLING: { label: 'Red Grappling', color: 'red' },
+                          BLUE_ALL: { label: 'Blue All', color: 'blue' },
+                          BLUE_STRIKING: { label: 'Blue Striking', color: 'blue' },
+                          BLUE_GRAPPLING: { label: 'Blue Grappling', color: 'blue' }
+                        }[role];
+                        
+                        return (
+                          <div 
+                            key={role}
+                            className={`p-3 rounded-lg border ${
+                              op ? `bg-${roleConfig.color}-500/10 border-${roleConfig.color}-500/50` : 'bg-gray-900/50 border-gray-700 border-dashed'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className={`font-medium ${roleConfig.color === 'red' ? 'text-red-400' : 'text-blue-400'}`}>
+                                {roleConfig.label}
+                              </div>
+                              {op ? (
+                                <div className="flex items-center gap-2">
+                                  <span className="text-white">{op.device_name}</span>
+                                  <div className={`w-2 h-2 rounded-full ${op.is_active ? 'bg-green-500' : 'bg-red-500'}`} />
+                                </div>
+                              ) : (
+                                <span className="text-gray-500 text-sm">Waiting...</span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    
+                    {/* Waiting operators */}
+                    {operators.filter(o => !o.assigned_role).length > 0 && (
+                      <div className="mt-4 pt-4 border-t border-gray-700">
+                        <div className="text-gray-400 text-sm mb-2">Waiting for assignment:</div>
+                        <div className="space-y-1">
+                          {operators.filter(o => !o.assigned_role).map((op) => (
+                            <div key={op.device_id} className="flex items-center justify-between text-sm bg-amber-500/10 rounded px-2 py-1">
+                              <span className="text-amber-400">{op.device_name}</span>
+                              <div className="flex gap-1 flex-wrap">
+                                {['RED_ALL', 'RED_STRIKING', 'RED_GRAPPLING', 'BLUE_ALL', 'BLUE_STRIKING', 'BLUE_GRAPPLING'].map((role) => {
+                                  const taken = operators.find(o => o.assigned_role === role);
+                                  if (taken) return null;
+                                  return (
+                                    <Button 
+                                      key={role} 
+                                      size="sm" 
+                                      variant="ghost"
+                                      onClick={async () => {
+                                        await fetch(`${API}/api/operators/assign`, {
+                                          method: 'POST',
+                                          headers: { 'Content-Type': 'application/json' },
+                                          body: JSON.stringify({
+                                            bout_id: activeFight.bout_id,
+                                            device_id: op.device_id,
+                                            role: role
+                                          })
+                                        });
+                                        fetchOperators();
+                                        toast.success(`Assigned ${op.device_name} to ${role}`);
+                                      }}
+                                      className={`text-xs h-6 ${role.includes('RED') ? 'text-red-400 hover:bg-red-500/20' : 'text-blue-400 hover:bg-blue-500/20'}`}
+                                    >
+                                      {role.replace('_', ' ')}
+                                    </Button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+              </Card>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
