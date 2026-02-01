@@ -1,0 +1,27 @@
+FIGHT JUDGE AI - Complete Code Backup
+=====================================
+Generated: January 31, 2026
+
+DOWNLOAD LINKS:
+- ZIP Archive: /fightjudge_ai_complete.zip (817KB)
+
+CONTENTS:
+- backend/ - Complete FastAPI backend (server.py, scoring engine, all modules)
+- frontend/src/ - React frontend components
+- frontend/public/ - Static files and index.html
+- memory/PRD.md - Product requirements document
+- All documentation (.md files)
+
+KEY FILES:
+- backend/server.py - Main API server
+- backend/scoring_engine_v2/ - Impact-First v1.0 scoring engine
+- frontend/src/components/SupervisorDashboardPro.jsx - Main supervisor UI
+- frontend/src/components/OperatorSimple.jsx - Operator scoring UI
+- frontend/src/App.js - Main React app with routing
+
+To restore:
+1. Unzip the archive
+2. Run: cd backend && pip install -r requirements.txt
+3. Run: cd frontend && yarn install
+4. Set up .env files with your MongoDB connection
+5. Start with supervisor or manually run backend/frontend
