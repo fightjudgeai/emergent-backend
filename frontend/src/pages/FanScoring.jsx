@@ -21,6 +21,15 @@ import {
 const API = process.env.REACT_APP_BACKEND_URL;
 const LOGO_URL = "https://customer-assets.emergentagent.com/job_fight-scoring-pro/artifacts/3c45xdoi_FJ.AI%20LOGO%20PRIMARY%20%281%29.PNG";
 
+// Demo fighters for demo mode
+const DEMO_FIGHTERS = [
+  { fighter1: "Conor McGregor", fighter2: "Dustin Poirier" },
+  { fighter1: "Jon Jones", fighter2: "Stipe Miocic" },
+  { fighter1: "Israel Adesanya", fighter2: "Alex Pereira" },
+  { fighter1: "Khabib Nurmagomedov", fighter2: "Justin Gaethje" },
+  { fighter1: "Amanda Nunes", fighter2: "Valentina Shevchenko" },
+];
+
 export default function FanScoring() {
   const [searchParams] = useSearchParams();
   const eventId = searchParams.get('event');
