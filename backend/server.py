@@ -6917,6 +6917,15 @@ try:
 except Exception as e:
     logger.warning(f"Database Management not loaded: {e}")
 
+# Fan Scoring Routes
+try:
+    from fan_scoring.routes import router as fan_scoring_api, init_fan_routes
+    init_fan_routes(database=db)
+    app.include_router(fan_scoring_api)
+    logger.info("✓ Fan Scoring API loaded - QR code access, leaderboards, scorecards")
+except Exception as e:
+    logger.warning(f"Fan Scoring not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
