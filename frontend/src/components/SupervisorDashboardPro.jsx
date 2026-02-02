@@ -228,6 +228,10 @@ export default function SupervisorDashboardPro() {
     showLowerBoth: false
   });
   
+  // Fan Scoring state
+  const [fanScoringOpen, setFanScoringOpen] = useState(false);
+  const [fanScoringDeadline, setFanScoringDeadline] = useState(null);
+  
   // Live score preview state
   const [liveScore, setLiveScore] = useState({ red: 0, blue: 0 });
   
