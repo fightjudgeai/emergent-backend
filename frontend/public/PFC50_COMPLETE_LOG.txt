@@ -1,0 +1,2518 @@
+====================================================================================================
+PFC 50 - COMPLETE EVENT LOG - ALL 18 FIGHTS
+Generated: January 31, 2026
+====================================================================================================
+
+====================================================================================================
+FIGHT #1: Jostin Jimenez vs JoeAngel Damian
+Bout ID: event-1769806181478-fight-1
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 81
+
+--- Event Type Breakdown ---
+  SS Jab: 16
+  SS Cross: 9
+  CTRL_START: 7
+  CTRL_END: 7
+  Cross: 6
+  SS Uppercut: 6
+  SS Kick: 5
+  SS Hook: 4
+  Takedown: 3
+  Ground Top Control: 3
+  SS Elbow: 3
+  Jab: 2
+  Kick: 2
+  Cage Control Time: 2
+  Ground Back Control: 2
+  Ground Strike: 2
+  Knee: 1
+  KD: 1
+
+--- ROUND 1 (52 events) ---
+
+  RED CORNER (Jostin Jimenez): 27 events
+     1. Jab
+     2. Cross
+     3. Cross
+     4. Cross
+     5. Cross
+     6. SS Hook
+     7. Cross
+     8. Kick
+     9. Takedown
+     10. CTRL_START
+     11. CTRL_END
+     12. Ground Top Control
+     13. SS Elbow
+     14. Cross
+     15. Jab
+     16. Takedown
+     17. CTRL_START
+     18. CTRL_END
+     19. Ground Back Control
+     20. CTRL_START
+     21. CTRL_END
+     22. Ground Top Control
+     23. CTRL_START
+     24. Ground Strike [LIGHT]
+     25. Ground Strike [LIGHT]
+     26. CTRL_END
+     27. Ground Back Control
+
+  BLUE CORNER (JoeAngel Damian): 25 events
+     1. SS Kick
+     2. SS Jab
+     3. SS Kick
+     4. SS Kick
+     5. SS Jab
+     6. SS Cross
+     7. SS Hook
+     8. SS Kick
+     9. SS Uppercut
+     10. SS Jab
+     11. Takedown
+     12. CTRL_START
+     13. CTRL_END
+     14. Ground Top Control
+     15. CTRL_START
+     16. CTRL_END
+     17. Cage Control Time
+     18. SS Kick
+     19. SS Jab
+     20. SS Cross
+     21. SS Jab
+     22. SS Hook
+     23. SS Cross
+     24. SS Elbow
+     25. SS Jab
+
+--- ROUND 2 (29 events) ---
+
+  RED CORNER (Jostin Jimenez): 3 events
+     1. Kick
+     2. SS Elbow
+     3. Knee
+
+  BLUE CORNER (JoeAngel Damian): 26 events
+     1. SS Jab
+     2. SS Cross
+     3. SS Jab
+     4. SS Cross
+     5. SS Jab
+     6. SS Jab
+     7. SS Cross
+     8. SS Jab
+     9. SS Hook
+     10. SS Uppercut
+     11. SS Uppercut
+     12. CTRL_START
+     13. SS Jab
+     14. SS Cross
+     15. SS Jab
+     16. SS Cross
+     17. SS Jab
+     18. CTRL_END
+     19. Cage Control Time
+     20. SS Jab
+     21. SS Cross
+     22. SS Jab
+     23. SS Uppercut
+     24. SS Uppercut
+     25. SS Uppercut
+     26. KD (Near-Finish)
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 10-9 (RED)
+  ----------------------------------------
+  FINAL TOTAL: 10-9
+  WINNER: Jostin Jimenez (RED)
+
+====================================================================================================
+FIGHT #2: Brijatte Garcia vs Hannah Wagner
+Bout ID: event-1769806181478-fight-10
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 142
+
+--- Event Type Breakdown ---
+  Hook: 32
+  Jab: 31
+  Cross: 29
+  Ground Strike: 16
+  SS Kick: 8
+  SS Hook: 8
+  CTRL_START: 3
+  Kick: 2
+  Uppercut: 2
+  CTRL_END: 2
+  Takedown Stuffed: 2
+  SS Cross: 2
+  Cage Control Time: 1
+  Ground Top Control: 1
+  Elbow: 1
+  SS Elbow: 1
+  Knee: 1
+
+--- ROUND 1 (59 events) ---
+
+  RED CORNER (Brijatte Garcia): 35 events
+     1. Kick
+     2. Cross
+     3. Kick
+     4. Cross
+     5. Jab
+     6. Cross
+     7. Cross
+     8. Cross
+     9. Cross
+     10. Jab
+     11. Cross
+     12. Cross
+     13. Cross
+     14. Jab
+     15. Cross
+     16. Hook
+     17. Jab
+     18. Cross
+     19. Jab
+     20. Cross
+     21. Hook
+     22. Hook
+     23. Jab
+     24. Hook
+     25. Hook
+     26. Hook
+     27. Hook
+     28. Hook
+     29. Hook
+     30. Hook
+     31. Cross
+     32. Cross
+     33. Hook
+     34. Hook
+     35. Hook
+
+  BLUE CORNER (Hannah Wagner): 24 events
+     1. Jab
+     2. Jab
+     3. Jab
+     4. Jab
+     5. Jab
+     6. Cross
+     7. Cross
+     8. Jab
+     9. SS Kick
+     10. Jab
+     11. SS Kick
+     12. Jab
+     13. Cross
+     14. Jab
+     15. Uppercut
+     16. Jab
+     17. Cross
+     18. Jab
+     19. Jab
+     20. Cross
+     21. Jab
+     22. Cross
+     23. Cross
+     24. Jab
+
+--- ROUND 2 (63 events) ---
+
+  RED CORNER (Brijatte Garcia): 41 events
+     1. Hook
+     2. Hook
+     3. Hook
+     4. Jab
+     5. Jab
+     6. Cross
+     7. Cross
+     8. Hook
+     9. Hook
+     10. CTRL_START
+     11. Ground Strike [LIGHT]
+     12. Ground Strike [LIGHT]
+     13. Ground Strike [LIGHT]
+     14. CTRL_END
+     15. CTRL_START
+     16. Cage Control Time
+     17. Ground Strike [LIGHT]
+     18. CTRL_END
+     19. Ground Top Control
+     20. Ground Strike [LIGHT]
+     21. Ground Strike [LIGHT]
+     22. Elbow
+     23. Hook
+     24. Jab
+     25. Hook
+     26. SS Hook
+     27. SS Hook
+     28. SS Hook
+     29. SS Cross
+     30. SS Cross
+     31. Cross
+     32. SS Hook
+     33. Hook
+     34. Hook
+     35. SS Elbow
+     36. SS Hook
+     37. SS Hook
+     38. SS Hook
+     39. Hook
+     40. Hook
+     41. Cross
+
+  BLUE CORNER (Hannah Wagner): 22 events
+     1. SS Kick
+     2. Cross
+     3. SS Kick
+     4. SS Kick
+     5. Jab
+     6. Takedown Stuffed
+     7. Jab
+     8. Takedown Stuffed
+     9. Jab
+     10. Jab
+     11. Cross
+     12. Jab
+     13. Hook
+     14. SS Kick
+     15. Jab
+     16. Uppercut
+     17. SS Kick
+     18. Hook
+     19. Hook
+     20. Cross
+     21. Knee
+     22. SS Kick
+
+--- ROUND 3 (20 events) ---
+
+  RED CORNER (Brijatte Garcia): 19 events
+     1. Hook
+     2. Jab
+     3. Hook
+     4. Hook
+     5. Cross
+     6. SS Hook
+     7. Hook
+     8. Hook
+     9. Ground Strike [SOLID]
+     10. Ground Strike [SOLID]
+     11. Ground Strike [LIGHT]
+     12. Ground Strike [LIGHT]
+     13. Ground Strike [LIGHT]
+     14. CTRL_START
+     15. Ground Strike [LIGHT]
+     16. Ground Strike [LIGHT]
+     17. Ground Strike [LIGHT]
+     18. Ground Strike [SOLID]
+     19. Ground Strike [LIGHT]
+
+  BLUE CORNER (Hannah Wagner): 1 events
+     1. Jab
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 10-9 (RED)
+  Round 2: 10-9 (RED)
+  Round 3: 10-9 (RED)
+  ----------------------------------------
+  FINAL TOTAL: 30-27
+  WINNER: Brijatte Garcia (RED)
+
+====================================================================================================
+FIGHT #3: Rodrigo Lopes vs Achraf Abdeddine
+Bout ID: event-1769806181478-fight-11
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 6
+
+--- Event Type Breakdown ---
+  Ground Strike: 4
+  Takedown: 1
+  CTRL_START: 1
+
+--- ROUND 1 (6 events) ---
+
+  RED CORNER (Rodrigo Lopes): 6 events
+     1. Takedown
+     2. CTRL_START
+     3. Ground Strike [SOLID]
+     4. Ground Strike [SOLID]
+     5. Ground Strike [SOLID]
+     6. Ground Strike [LIGHT]
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 10-9 (RED)
+  ----------------------------------------
+  FINAL TOTAL: 10-9
+  WINNER: Rodrigo Lopes (RED)
+
+====================================================================================================
+FIGHT #4: Rod Moore vs Batraz Sabanov
+Bout ID: event-1769806181478-fight-12
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 83
+
+--- Event Type Breakdown ---
+  Jab: 14
+  Ground Strike: 10
+  Takedown: 8
+  Knee: 8
+  CTRL_START: 7
+  CTRL_END: 7
+  Kick: 6
+  Cross: 4
+  Ground Top Control: 4
+  Takedown Stuffed: 3
+  Cage Control Time: 3
+  Elbow: 3
+  SS Kick: 2
+  SS Jab: 2
+  Hook: 2
+
+--- ROUND 1 (37 events) ---
+
+  RED CORNER (Rod Moore): 13 events
+     1. Jab
+     2. Cross
+     3. Takedown Stuffed
+     4. Kick
+     5. Jab
+     6. Kick
+     7. Kick
+     8. Jab
+     9. Jab
+     10. Jab
+     11. Jab
+     12. SS Jab
+     13. SS Kick
+
+  BLUE CORNER (Batraz Sabanov): 24 events
+     1. SS Kick
+     2. Jab
+     3. Cross
+     4. Jab
+     5. Cross
+     6. Jab
+     7. Cross
+     8. Jab
+     9. Takedown
+     10. CTRL_START
+     11. CTRL_END
+     12. Ground Top Control
+     13. CTRL_START
+     14. Ground Strike [LIGHT]
+     15. Knee
+     16. Ground Strike [LIGHT]
+     17. Knee
+     18. Knee
+     19. CTRL_END
+     20. Ground Top Control
+     21. CTRL_START
+     22. Ground Strike [LIGHT]
+     23. CTRL_END
+     24. Cage Control Time
+
+--- ROUND 2 (26 events) ---
+
+  RED CORNER (Rod Moore): 5 events
+     1. SS Jab
+     2. Knee
+     3. Elbow
+     4. Elbow
+     5. Elbow
+
+  BLUE CORNER (Batraz Sabanov): 21 events
+     1. Takedown
+     2. CTRL_START
+     3. Ground Strike [LIGHT]
+     4. Takedown
+     5. Knee
+     6. Knee
+     7. Knee
+     8. CTRL_END
+     9. Ground Top Control
+     10. CTRL_START
+     11. Takedown
+     12. Knee
+     13. CTRL_END
+     14. Cage Control Time
+     15. Takedown
+     16. CTRL_START
+     17. Jab
+     18. Ground Strike [LIGHT]
+     19. Ground Strike [LIGHT]
+     20. CTRL_END
+     21. Cage Control Time
+
+--- ROUND 3 (20 events) ---
+
+  RED CORNER (Rod Moore): 7 events
+     1. Jab
+     2. Kick
+     3. Jab
+     4. Kick
+     5. Kick
+     6. Jab
+     7. Takedown Stuffed
+
+  BLUE CORNER (Batraz Sabanov): 13 events
+     1. Takedown
+     2. Takedown
+     3. CTRL_START
+     4. Takedown
+     5. Hook
+     6. Hook
+     7. Ground Strike [LIGHT]
+     8. Ground Strike [LIGHT]
+     9. Ground Strike [LIGHT]
+     10. Ground Strike [LIGHT]
+     11. Takedown Stuffed
+     12. CTRL_END
+     13. Ground Top Control
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 9-10 (BLUE)
+  Round 2: 9-10 (BLUE)
+  Round 3: 9-10 (BLUE)
+  ----------------------------------------
+  FINAL TOTAL: 27-30
+  WINNER: Batraz Sabanov (BLUE)
+
+====================================================================================================
+FIGHT #5: Brayan Mendoza vs Eddie Fraire
+Bout ID: event-1769806181478-fight-13
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 152
+
+--- Event Type Breakdown ---
+  Jab: 52
+  SS Kick: 37
+  Kick: 18
+  Hook: 14
+  Cross: 9
+  CTRL_START: 3
+  CTRL_END: 3
+  Cage Control Time: 3
+  SS Cross: 3
+  SS Jab: 3
+  Elbow: 2
+  KD: 1
+  Rocked: 1
+  Knee: 1
+  Takedown Stuffed: 1
+  SS Hook: 1
+
+--- ROUND 1 (44 events) ---
+
+  RED CORNER (Brayan Mendoza): 16 events
+     1. Kick
+     2. Kick
+     3. Kick
+     4. Hook
+     5. Kick
+     6. Kick
+     7. Kick
+     8. Kick
+     9. Kick
+     10. Kick
+     11. Kick
+     12. Jab
+     13. Jab
+     14. Jab
+     15. Jab
+     16. Hook
+
+  BLUE CORNER (Eddie Fraire): 28 events
+     1. SS Kick
+     2. Jab
+     3. SS Kick
+     4. SS Kick
+     5. SS Kick
+     6. Cross
+     7. SS Kick
+     8. SS Kick
+     9. SS Kick
+     10. Jab
+     11. SS Kick
+     12. SS Kick
+     13. SS Kick
+     14. SS Kick
+     15. Jab
+     16. Jab
+     17. SS Kick
+     18. Hook
+     19. SS Kick
+     20. Jab
+     21. Cross
+     22. Jab
+     23. Cross
+     24. SS Kick
+     25. SS Kick
+     26. CTRL_START
+     27. CTRL_END
+     28. Cage Control Time
+
+--- ROUND 2 (54 events) ---
+
+  RED CORNER (Brayan Mendoza): 21 events
+     1. Jab
+     2. Kick
+     3. Hook
+     4. Kick
+     5. Jab
+     6. Jab
+     7. Kick
+     8. Jab
+     9. Jab
+     10. Jab
+     11. Jab
+     12. Hook
+     13. Kick
+     14. Jab
+     15. Kick
+     16. Jab
+     17. Hook
+     18. Hook
+     19. Jab
+     20. Kick
+     21. Jab
+
+  BLUE CORNER (Eddie Fraire): 33 events
+     1. Jab
+     2. Jab
+     3. Jab
+     4. Hook
+     5. Cross
+     6. Jab
+     7. SS Kick
+     8. SS Kick
+     9. SS Cross
+     10. Jab
+     11. SS Kick
+     12. SS Kick
+     13. SS Jab
+     14. SS Cross
+     15. SS Jab
+     16. KD (Flash)
+     17. CTRL_START
+     18. SS Kick
+     19. SS Cross
+     20. SS Jab
+     21. CTRL_END
+     22. Cage Control Time
+     23. SS Kick
+     24. SS Kick
+     25. Rocked
+     26. SS Kick
+     27. SS Kick
+     28. Jab
+     29. Cross
+     30. Knee
+     31. CTRL_START
+     32. CTRL_END
+     33. Cage Control Time
+
+--- ROUND 3 (54 events) ---
+
+  RED CORNER (Brayan Mendoza): 28 events
+     1. Jab
+     2. Jab
+     3. Jab
+     4. Kick
+     5. Jab
+     6. Jab
+     7. Jab
+     8. Jab
+     9. Jab
+     10. Jab
+     11. Jab
+     12. Jab
+     13. Jab
+     14. Jab
+     15. Hook
+     16. Hook
+     17. Hook
+     18. Hook
+     19. Jab
+     20. Jab
+     21. Jab
+     22. Jab
+     23. SS Hook
+     24. Jab
+     25. Kick
+     26. Jab
+     27. Elbow
+     28. Elbow
+
+  BLUE CORNER (Eddie Fraire): 26 events
+     1. SS Kick
+     2. SS Kick
+     3. SS Kick
+     4. Jab
+     5. Cross
+     6. SS Kick
+     7. SS Kick
+     8. Jab
+     9. SS Kick
+     10. Takedown Stuffed
+     11. SS Kick
+     12. Jab
+     13. Jab
+     14. SS Kick
+     15. SS Kick
+     16. Jab
+     17. Cross
+     18. Jab
+     19. Cross
+     20. SS Kick
+     21. Cross
+     22. Hook
+     23. SS Kick
+     24. SS Kick
+     25. SS Kick
+     26. Hook
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 9-10 (BLUE)
+  Round 2: 9-10 (BLUE)
+  Round 3: 9-10 (BLUE)
+  ----------------------------------------
+  FINAL TOTAL: 27-30
+  WINNER: Eddie Fraire (BLUE)
+
+====================================================================================================
+FIGHT #6: Tevinn Cantly vs Khetag Sabeev
+Bout ID: event-1769806181478-fight-14
+Status: in_progress
+====================================================================================================
+
+TOTAL EVENTS: 38
+
+--- Event Type Breakdown ---
+  Jab: 12
+  SS Kick: 6
+  Cross: 5
+  Ground Strike: 4
+  Hook: 3
+  Takedown: 1
+  CTRL_START: 1
+  Rocked: 1
+  CTRL_END: 1
+  Ground Top Control: 1
+  Knee: 1
+  Submission Attempt: 1
+  KD: 1
+
+--- ROUND 1 (38 events) ---
+
+  RED CORNER (Tevinn Cantly): 7 events
+     1. Jab
+     2. Jab
+     3. Jab
+     4. Jab
+     5. Hook
+     6. Hook
+     7. Hook
+
+  BLUE CORNER (Khetag Sabeev): 31 events
+     1. SS Kick
+     2. Cross
+     3. Jab
+     4. Cross
+     5. Jab
+     6. Jab
+     7. Cross
+     8. Takedown
+     9. Ground Strike [LIGHT]
+     10. Jab
+     11. Cross
+     12. Ground Strike [SOLID]
+     13. Jab
+     14. Cross
+     15. CTRL_START
+     16. SS Kick
+     17. SS Kick
+     18. SS Kick
+     19. SS Kick
+     20. Rocked
+     21. Ground Strike [LIGHT]
+     22. Ground Strike [LIGHT]
+     23. CTRL_END
+     24. Ground Top Control
+     25. Knee
+     26. Submission Attempt (Light)
+     27. Jab
+     28. SS Kick
+     29. Jab
+     30. Jab
+     31. KD (Near-Finish)
+
+====================================================================================================
+FIGHT #7: Shanna Gomez vs Alex Apodaca
+Bout ID: event-1769806181478-fight-15
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 170
+
+--- Event Type Breakdown ---
+  Jab: 43
+  Kick: 24
+  Cross: 21
+  Hook: 12
+  SS Jab: 9
+  Ground Strike: 8
+  SS Cross: 8
+  SS Kick: 6
+  SS Hook: 6
+  CTRL_START: 5
+  Knee: 5
+  CTRL_END: 5
+  Takedown Stuffed: 5
+  Cage Control Time: 3
+  SS Uppercut: 3
+  Takedown: 2
+  Ground Top Control: 2
+  SS Knee: 2
+  Elbow: 1
+
+--- ROUND 1 (66 events) ---
+
+  RED CORNER (Shanna Gomez): 23 events
+     1. Jab
+     2. Cross
+     3. Kick
+     4. Jab
+     5. Jab
+     6. Jab
+     7. Kick
+     8. Jab
+     9. Kick
+     10. Kick
+     11. Cross
+     12. Knee
+     13. Knee
+     14. Knee
+     15. Jab
+     16. Kick
+     17. Kick
+     18. Kick
+     19. Kick
+     20. Kick
+     21. Hook
+     22. Kick
+     23. Elbow
+
+  BLUE CORNER (Alex Apodaca): 43 events
+     1. Jab
+     2. Cross
+     3. SS Kick
+     4. Jab
+     5. Cross
+     6. Cross
+     7. Jab
+     8. Jab
+     9. SS Kick
+     10. Jab
+     11. SS Kick
+     12. Jab
+     13. Cross
+     14. Cross
+     15. Cross
+     16. Jab
+     17. Jab
+     18. Hook
+     19. CTRL_START
+     20. SS Kick
+     21. Jab
+     22. Jab
+     23. Knee
+     24. Knee
+     25. CTRL_END
+     26. Cage Control Time
+     27. CTRL_START
+     28. Takedown Stuffed
+     29. CTRL_END
+     30. Cage Control Time
+     31. Cross
+     32. Jab
+     33. Cross
+     34. Jab
+     35. Jab
+     36. Cross
+     37. SS Kick
+     38. Takedown Stuffed
+     39. Jab
+     40. Jab
+     41. Ground Strike [LIGHT]
+     42. Ground Strike [LIGHT]
+     43. Takedown Stuffed
+
+--- ROUND 2 (48 events) ---
+
+  RED CORNER (Shanna Gomez): 22 events
+     1. Cross
+     2. Cross
+     3. Jab
+     4. Kick
+     5. Kick
+     6. Hook
+     7. Hook
+     8. Kick
+     9. CTRL_START
+     10. CTRL_END
+     11. Cage Control Time
+     12. SS Cross
+     13. Kick
+     14. Kick
+     15. Kick
+     16. Jab
+     17. Hook
+     18. Cross
+     19. Jab
+     20. Jab
+     21. Kick
+     22. Kick
+
+  BLUE CORNER (Alex Apodaca): 26 events
+     1. Jab
+     2. Cross
+     3. Jab
+     4. Cross
+     5. Jab
+     6. Cross
+     7. Jab
+     8. Hook
+     9. Takedown Stuffed
+     10. SS Kick
+     11. SS Jab
+     12. SS Cross
+     13. SS Uppercut
+     14. SS Hook
+     15. SS Uppercut
+     16. SS Jab
+     17. SS Cross
+     18. SS Hook
+     19. SS Uppercut
+     20. Takedown
+     21. CTRL_START
+     22. Ground Strike [LIGHT]
+     23. Ground Strike [LIGHT]
+     24. Ground Strike [LIGHT]
+     25. CTRL_END
+     26. Ground Top Control
+
+--- ROUND 3 (56 events) ---
+
+  RED CORNER (Shanna Gomez): 32 events
+     1. Kick
+     2. Kick
+     3. Cross
+     4. Kick
+     5. Kick
+     6. Hook
+     7. Jab
+     8. Jab
+     9. Jab
+     10. Kick
+     11. Hook
+     12. Jab
+     13. Jab
+     14. Jab
+     15. Hook
+     16. Jab
+     17. Hook
+     18. Jab
+     19. Kick
+     20. SS Hook
+     21. Jab
+     22. Cross
+     23. Hook
+     24. Jab
+     25. Cross
+     26. Jab
+     27. Hook
+     28. SS Hook
+     29. Jab
+     30. Jab
+     31. Cross
+     32. Jab
+
+  BLUE CORNER (Alex Apodaca): 24 events
+     1. SS Jab
+     2. SS Cross
+     3. SS Hook
+     4. SS Cross
+     5. SS Jab
+     6. SS Cross
+     7. SS Jab
+     8. SS Knee
+     9. SS Jab
+     10. SS Jab
+     11. SS Jab
+     12. SS Jab
+     13. SS Cross
+     14. SS Cross
+     15. SS Hook
+     16. SS Knee
+     17. Takedown
+     18. CTRL_START
+     19. Ground Strike [LIGHT]
+     20. Ground Strike [LIGHT]
+     21. Ground Strike [LIGHT]
+     22. CTRL_END
+     23. Ground Top Control
+     24. Takedown Stuffed
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 9-10 (BLUE)
+  Round 2: 9-10 (BLUE)
+  Round 3: 9-10 (BLUE)
+  ----------------------------------------
+  FINAL TOTAL: 27-30
+  WINNER: Alex Apodaca (BLUE)
+
+====================================================================================================
+FIGHT #8: Davi Cabral vs Jr Hicks
+Bout ID: event-1769806181478-fight-16
+Status: in_progress
+====================================================================================================
+
+TOTAL EVENTS: 15
+
+--- Event Type Breakdown ---
+  Ground Strike: 11
+  SS Kick: 1
+  Takedown Stuffed: 1
+  CTRL_START: 1
+  Hook: 1
+
+--- ROUND 1 (15 events) ---
+
+  RED CORNER (Davi Cabral): 13 events
+     1. Takedown Stuffed
+     2. CTRL_START
+     3. Ground Strike [LIGHT]
+     4. Ground Strike [LIGHT]
+     5. Ground Strike [LIGHT]
+     6. Ground Strike [SOLID]
+     7. Ground Strike [LIGHT]
+     8. Ground Strike [LIGHT]
+     9. Ground Strike [LIGHT]
+     10. Ground Strike [LIGHT]
+     11. Ground Strike [LIGHT]
+     12. Ground Strike [SOLID]
+     13. Ground Strike [SOLID]
+
+  BLUE CORNER (Jr Hicks): 2 events
+     1. SS Kick
+     2. Hook
+
+====================================================================================================
+FIGHT #9: Ty Ybarra vs Billy Graves
+Bout ID: event-1769806181478-fight-17
+Status: in_progress
+====================================================================================================
+
+TOTAL EVENTS: 25
+
+--- Event Type Breakdown ---
+  Ground Strike: 6
+  Jab: 4
+  Cross: 3
+  Kick: 2
+  SS Cross: 2
+  CTRL_START: 2
+  Hook: 1
+  SS Jab: 1
+  Rocked: 1
+  Takedown: 1
+  CTRL_END: 1
+  Ground Top Control: 1
+
+--- ROUND 1 (25 events) ---
+
+  RED CORNER (Ty Ybarra): 19 events
+     1. Jab
+     2. Kick
+     3. Kick
+     4. SS Cross
+     5. Cross
+     6. SS Jab
+     7. SS Cross
+     8. Rocked
+     9. Ground Strike [LIGHT]
+     10. Takedown
+     11. CTRL_START
+     12. CTRL_END
+     13. Ground Top Control
+     14. CTRL_START
+     15. Ground Strike [SOLID]
+     16. Ground Strike [SOLID]
+     17. Ground Strike [LIGHT]
+     18. Ground Strike [LIGHT]
+     19. Ground Strike [SOLID]
+
+  BLUE CORNER (Billy Graves): 6 events
+     1. Jab
+     2. Jab
+     3. Hook
+     4. Cross
+     5. Jab
+     6. Cross
+
+====================================================================================================
+FIGHT #10: Greg Hardy vs Phil Latu
+Bout ID: event-1769806181478-fight-18
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 177
+
+--- Event Type Breakdown ---
+  Jab: 41
+  Kick: 32
+  Cross: 31
+  SS Cross: 18
+  SS Kick: 13
+  SS Hook: 9
+  SS Jab: 9
+  Hook: 5
+  Takedown: 5
+  Ground Strike: 5
+  Knee: 4
+  SS Uppercut: 2
+  Uppercut: 2
+  Takedown Stuffed: 1
+
+--- ROUND 1 (36 events) ---
+
+  RED CORNER (Greg Hardy): 22 events
+     1. SS Cross
+     2. Cross
+     3. Knee
+     4. Hook
+     5. Takedown
+     6. Ground Strike [LIGHT]
+     7. SS Hook
+     8. SS Hook
+     9. Hook
+     10. Kick
+     11. Jab
+     12. Kick
+     13. SS Kick
+     14. Jab
+     15. Cross
+     16. Takedown
+     17. Ground Strike [LIGHT]
+     18. Ground Strike [LIGHT]
+     19. Takedown
+     20. Kick
+     21. Knee
+     22. Jab
+
+  BLUE CORNER (Phil Latu): 14 events
+     1. Jab
+     2. Cross
+     3. Takedown Stuffed
+     4. Jab
+     5. Cross
+     6. Jab
+     7. Cross
+     8. Cross
+     9. Jab
+     10. Knee
+     11. Takedown
+     12. Jab
+     13. SS Jab
+     14. SS Cross
+
+--- ROUND 2 (40 events) ---
+
+  RED CORNER (Greg Hardy): 27 events
+     1. Kick
+     2. Kick
+     3. Cross
+     4. Cross
+     5. Kick
+     6. Cross
+     7. Jab
+     8. Kick
+     9. Cross
+     10. Jab
+     11. Jab
+     12. SS Cross
+     13. Jab
+     14. Kick
+     15. Kick
+     16. Jab
+     17. Jab
+     18. Jab
+     19. Kick
+     20. Kick
+     21. Kick
+     22. Cross
+     23. Cross
+     24. Cross
+     25. SS Cross
+     26. Kick
+     27. Jab
+
+  BLUE CORNER (Phil Latu): 13 events
+     1. SS Kick
+     2. SS Kick
+     3. SS Kick
+     4. SS Kick
+     5. SS Jab
+     6. SS Kick
+     7. SS Kick
+     8. SS Jab
+     9. SS Cross
+     10. SS Hook
+     11. SS Cross
+     12. SS Jab
+     13. SS Kick
+
+--- ROUND 3 (44 events) ---
+
+  RED CORNER (Greg Hardy): 30 events
+     1. Kick
+     2. SS Hook
+     3. Jab
+     4. Hook
+     5. Jab
+     6. Cross
+     7. Knee
+     8. Cross
+     9. Jab
+     10. Hook
+     11. Cross
+     12. Jab
+     13. SS Hook
+     14. Kick
+     15. Cross
+     16. Cross
+     17. Kick
+     18. Takedown
+     19. Ground Strike [LIGHT]
+     20. Ground Strike [LIGHT]
+     21. Kick
+     22. Jab
+     23. Kick
+     24. Kick
+     25. Kick
+     26. SS Cross
+     27. Kick
+     28. Jab
+     29. Jab
+     30. Cross
+
+  BLUE CORNER (Phil Latu): 14 events
+     1. SS Jab
+     2. SS Kick
+     3. SS Jab
+     4. SS Jab
+     5. SS Cross
+     6. SS Hook
+     7. SS Jab
+     8. SS Cross
+     9. SS Jab
+     10. SS Cross
+     11. SS Kick
+     12. SS Kick
+     13. SS Kick
+     14. SS Uppercut
+
+--- ROUND 4 (29 events) ---
+
+  RED CORNER (Greg Hardy): 24 events
+     1. Jab
+     2. Cross
+     3. Jab
+     4. Kick
+     5. Uppercut
+     6. Jab
+     7. Kick
+     8. Kick
+     9. Kick
+     10. Jab
+     11. Jab
+     12. Kick
+     13. Jab
+     14. Kick
+     15. Jab
+     16. Jab
+     17. Cross
+     18. Kick
+     19. Jab
+     20. SS Cross
+     21. Jab
+     22. Kick
+     23. Cross
+     24. Hook
+
+  BLUE CORNER (Phil Latu): 5 events
+     1. SS Kick
+     2. SS Uppercut
+     3. SS Cross
+     4. SS Hook
+     5. SS Hook
+
+--- ROUND 5 (28 events) ---
+
+  RED CORNER (Greg Hardy): 20 events
+     1. Jab
+     2. Cross
+     3. Kick
+     4. Jab
+     5. Cross
+     6. Jab
+     7. Jab
+     8. Cross
+     9. Kick
+     10. Cross
+     11. Cross
+     12. Jab
+     13. Kick
+     14. SS Cross
+     15. Jab
+     16. SS Hook
+     17. SS Cross
+     18. Jab
+     19. Cross
+     20. Uppercut
+
+  BLUE CORNER (Phil Latu): 8 events
+     1. Cross
+     2. Cross
+     3. Jab
+     4. SS Cross
+     5. SS Cross
+     6. Cross
+     7. SS Cross
+     8. SS Cross
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 10-9 (RED)
+  Round 2: 10-9 (RED)
+  Round 3: 10-9 (RED)
+  Round 4: 10-9 (RED)
+  Round 5: 10-9 (RED)
+  ----------------------------------------
+  FINAL TOTAL: 50-45
+  WINNER: Greg Hardy (RED)
+
+====================================================================================================
+FIGHT #11: Gregory Koch vs Zack Horton
+Bout ID: event-1769806181478-fight-2
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 180
+
+--- Event Type Breakdown ---
+  Jab: 41
+  Hook: 32
+  Cross: 31
+  Ground Strike: 22
+  Kick: 11
+  CTRL_START: 7
+  CTRL_END: 6
+  SS Kick: 5
+  SS Hook: 4
+  Knee: 4
+  Takedown: 4
+  Ground Top Control: 4
+  Takedown Stuffed: 3
+  SS Cross: 2
+  Cage Control Time: 2
+  Uppercut: 1
+  KD: 1
+
+--- ROUND 1 (56 events) ---
+
+  RED CORNER (Gregory Koch): 24 events
+     1. Jab
+     2. Hook
+     3. Hook
+     4. Jab
+     5. Kick
+     6. SS Cross
+     7. Hook
+     8. Jab
+     9. Jab
+     10. Kick
+     11. Cross
+     12. SS Hook
+     13. Kick
+     14. SS Cross
+     15. Hook
+     16. Knee
+     17. Kick
+     18. Cross
+     19. Cross
+     20. KD (Flash)
+     21. Knee
+     22. SS Hook
+     23. Jab
+     24. SS Hook
+
+  BLUE CORNER (Zack Horton): 32 events
+     1. SS Kick
+     2. Jab
+     3. Hook
+     4. Jab
+     5. Cross
+     6. Hook
+     7. Cross
+     8. SS Kick
+     9. Jab
+     10. Jab
+     11. Jab
+     12. Cross
+     13. Hook
+     14. SS Kick
+     15. Hook
+     16. CTRL_START
+     17. Uppercut
+     18. Cross
+     19. CTRL_END
+     20. Cage Control Time
+     21. Jab
+     22. Jab
+     23. Cross
+     24. Jab
+     25. Cross
+     26. Hook
+     27. Cross
+     28. Jab
+     29. Takedown
+     30. CTRL_START
+     31. CTRL_END
+     32. Ground Top Control
+
+--- ROUND 2 (51 events) ---
+
+  RED CORNER (Gregory Koch): 28 events
+     1. Cross
+     2. Kick
+     3. Kick
+     4. Cross
+     5. SS Hook
+     6. Hook
+     7. Takedown Stuffed
+     8. Hook
+     9. Jab
+     10. Jab
+     11. Knee
+     12. Knee
+     13. Hook
+     14. CTRL_START
+     15. Ground Strike [LIGHT]
+     16. Ground Strike [LIGHT]
+     17. Takedown
+     18. Ground Strike [LIGHT]
+     19. Ground Strike [LIGHT]
+     20. Ground Strike [LIGHT]
+     21. Ground Strike [LIGHT]
+     22. CTRL_END
+     23. Ground Top Control
+     24. Ground Strike [LIGHT]
+     25. Ground Strike [LIGHT]
+     26. Ground Strike [LIGHT]
+     27. Ground Strike [LIGHT]
+     28. Ground Strike [LIGHT]
+
+  BLUE CORNER (Zack Horton): 23 events
+     1. Jab
+     2. Jab
+     3. Cross
+     4. Jab
+     5. Jab
+     6. Cross
+     7. Takedown Stuffed
+     8. Takedown Stuffed
+     9. Hook
+     10. Jab
+     11. SS Kick
+     12. Takedown
+     13. CTRL_START
+     14. Ground Strike [LIGHT]
+     15. Ground Strike [LIGHT]
+     16. Ground Strike [LIGHT]
+     17. Ground Strike [LIGHT]
+     18. Ground Strike [LIGHT]
+     19. Ground Strike [LIGHT]
+     20. Ground Strike [LIGHT]
+     21. Ground Strike [LIGHT]
+     22. Ground Strike [LIGHT]
+     23. Ground Strike [LIGHT]
+
+--- ROUND 3 (73 events) ---
+
+  RED CORNER (Gregory Koch): 19 events
+     1. Kick
+     2. Jab
+     3. Jab
+     4. Cross
+     5. Hook
+     6. Jab
+     7. Hook
+     8. Hook
+     9. Hook
+     10. Kick
+     11. Kick
+     12. Hook
+     13. Kick
+     14. Jab
+     15. Jab
+     16. Kick
+     17. Hook
+     18. Jab
+     19. Takedown
+
+  BLUE CORNER (Zack Horton): 54 events
+     1. Jab
+     2. Jab
+     3. Cross
+     4. Jab
+     5. Jab
+     6. Jab
+     7. Hook
+     8. Cross
+     9. Jab
+     10. Cross
+     11. Jab
+     12. Hook
+     13. Hook
+     14. Cross
+     15. Jab
+     16. Cross
+     17. SS Kick
+     18. Hook
+     19. Cross
+     20. Hook
+     21. Jab
+     22. Cross
+     23. CTRL_START
+     24. Hook
+     25. CTRL_END
+     26. Ground Top Control
+     27. CTRL_START
+     28. Hook
+     29. Cross
+     30. Hook
+     31. Hook
+     32. Cross
+     33. Cross
+     34. Jab
+     35. Cross
+     36. Jab
+     37. Hook
+     38. Cross
+     39. Hook
+     40. CTRL_END
+     41. Cage Control Time
+     42. CTRL_START
+     43. CTRL_END
+     44. Ground Top Control
+     45. Hook
+     46. Jab
+     47. Cross
+     48. Jab
+     49. Cross
+     50. Cross
+     51. Cross
+     52. Jab
+     53. Hook
+     54. Ground Strike [LIGHT]
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 10-9 (RED)
+  Round 2: 10-9 (RED)
+  Round 3: 9-10 (BLUE)
+  ----------------------------------------
+  FINAL TOTAL: 29-28
+  WINNER: Gregory Koch (RED)
+
+====================================================================================================
+FIGHT #12: John Weaver vs Malachi Valenzuela
+Bout ID: event-1769806181478-fight-3
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 32
+
+--- Event Type Breakdown ---
+  Jab: 5
+  Cross: 4
+  CTRL_START: 4
+  CTRL_END: 4
+  Submission Attempt: 3
+  Kick: 2
+  Cage Control Time: 2
+  Ground Back Control: 2
+  Hook: 1
+  SS Kick: 1
+  Knee: 1
+  Takedown Stuffed: 1
+  Ground Strike: 1
+  Takedown: 1
+
+--- ROUND 1 (32 events) ---
+
+  RED CORNER (John Weaver): 10 events
+     1. Jab
+     2. Hook
+     3. Kick
+     4. Cross
+     5. Jab
+     6. Kick
+     7. Knee
+     8. CTRL_START
+     9. CTRL_END
+     10. Ground Back Control
+
+  BLUE CORNER (Malachi Valenzuela): 22 events
+     1. Jab
+     2. Cross
+     3. Jab
+     4. Cross
+     5. SS Kick
+     6. Jab
+     7. Cross
+     8. CTRL_START
+     9. CTRL_END
+     10. Cage Control Time
+     11. Submission Attempt (Light)
+     12. Submission Attempt (Deep)
+     13. Takedown Stuffed
+     14. CTRL_START
+     15. Ground Strike [LIGHT]
+     16. Takedown
+     17. Submission Attempt (Near-Finish)
+     18. CTRL_END
+     19. Cage Control Time
+     20. CTRL_START
+     21. CTRL_END
+     22. Ground Back Control
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 8-10 (BLUE)
+  Round 2: 10-10 (DRAW)
+  ----------------------------------------
+  FINAL TOTAL: 18-20
+  WINNER: Malachi Valenzuela (BLUE)
+
+====================================================================================================
+FIGHT #13: Alex Ruiz vs Josiah Hepworth
+Bout ID: event-1769806181478-fight-4
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 120
+
+--- Event Type Breakdown ---
+  Ground Strike: 24
+  SS Kick: 14
+  CTRL_START: 13
+  CTRL_END: 13
+  Jab: 12
+  Kick: 8
+  Ground Top Control: 6
+  Takedown: 5
+  Cross: 4
+  Ground Back Control: 4
+  KD: 4
+  Takedown Stuffed: 3
+  Cage Control Time: 3
+  Submission Attempt: 3
+  Hook: 2
+  SS Jab: 1
+  SS Cross: 1
+
+--- ROUND 1 (44 events) ---
+
+  RED CORNER (Alex Ruiz): 5 events
+     1. Jab
+     2. Cross
+     3. Jab
+     4. Kick
+     5. Kick
+
+  BLUE CORNER (Josiah Hepworth): 39 events
+     1. Jab
+     2. Jab
+     3. Takedown
+     4. Takedown Stuffed
+     5. CTRL_START
+     6. CTRL_END
+     7. Ground Top Control
+     8. CTRL_START
+     9. CTRL_END
+     10. Cage Control Time
+     11. CTRL_START
+     12. CTRL_END
+     13. Cage Control Time
+     14. Takedown
+     15. CTRL_START
+     16. CTRL_END
+     17. Ground Top Control
+     18. CTRL_START
+     19. Ground Strike [LIGHT]
+     20. Ground Strike [LIGHT]
+     21. CTRL_END
+     22. Ground Top Control
+     23. CTRL_START
+     24. CTRL_END
+     25. Ground Back Control
+     26. CTRL_START
+     27. Jab
+     28. Submission Attempt (Light)
+     29. Ground Strike [LIGHT]
+     30. SS Kick
+     31. CTRL_END
+     32. Ground Back Control
+     33. SS Kick
+     34. SS Kick
+     35. Cross
+     36. Hook
+     37. CTRL_START
+     38. CTRL_END
+     39. Cage Control Time
+
+--- ROUND 2 (43 events) ---
+
+  RED CORNER (Alex Ruiz): 4 events
+     1. Kick
+     2. Kick
+     3. Kick
+     4. Cross
+
+  BLUE CORNER (Josiah Hepworth): 39 events
+     1. SS Kick
+     2. SS Kick
+     3. Jab
+     4. Cross
+     5. Jab
+     6. SS Kick
+     7. SS Kick
+     8. Jab
+     9. Jab
+     10. SS Kick
+     11. SS Kick
+     12. Takedown
+     13. CTRL_START
+     14. Ground Strike [LIGHT]
+     15. CTRL_END
+     16. Ground Top Control
+     17. Takedown
+     18. CTRL_START
+     19. Ground Strike [LIGHT]
+     20. Ground Strike [LIGHT]
+     21. Ground Strike [LIGHT]
+     22. Ground Strike [SOLID]
+     23. Ground Strike [LIGHT]
+     24. Ground Strike [LIGHT]
+     25. Ground Strike [LIGHT]
+     26. Ground Strike [LIGHT]
+     27. Ground Strike [LIGHT]
+     28. Ground Strike [LIGHT]
+     29. Ground Strike [LIGHT]
+     30. Ground Strike [LIGHT]
+     31. Ground Strike [LIGHT]
+     32. CTRL_END
+     33. Ground Top Control
+     34. CTRL_START
+     35. Ground Strike [LIGHT]
+     36. Submission Attempt (Light)
+     37. Submission Attempt (Deep)
+     38. CTRL_END
+     39. Ground Back Control
+
+--- ROUND 3 (33 events) ---
+
+  RED CORNER (Alex Ruiz): 10 events
+     1. Jab
+     2. Kick
+     3. Kick
+     4. Kick
+     5. KD (Flash)
+     6. KD (Flash)
+     7. KD (Flash)
+     8. KD (Flash)
+     9. SS Jab
+     10. SS Cross
+
+  BLUE CORNER (Josiah Hepworth): 23 events
+     1. SS Kick
+     2. Jab
+     3. SS Kick
+     4. Takedown Stuffed
+     5. Hook
+     6. SS Kick
+     7. SS Kick
+     8. Jab
+     9. SS Kick
+     10. Takedown Stuffed
+     11. Takedown
+     12. CTRL_START
+     13. Ground Strike [LIGHT]
+     14. Ground Strike [LIGHT]
+     15. Ground Strike [LIGHT]
+     16. Ground Strike [LIGHT]
+     17. Ground Strike [LIGHT]
+     18. Ground Strike [LIGHT]
+     19. CTRL_END
+     20. Ground Top Control
+     21. CTRL_START
+     22. CTRL_END
+     23. Ground Back Control
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 9-10 (BLUE)
+  Round 2: 8-10 (BLUE)
+  Round 3: 10-7 (RED)
+  ----------------------------------------
+  FINAL TOTAL: 27-27
+  RESULT: DRAW
+
+====================================================================================================
+FIGHT #14: Charlisle Mott vs Connor Simmons
+Bout ID: event-1769806181478-fight-5
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 88
+
+--- Event Type Breakdown ---
+  Ground Strike: 13
+  CTRL_START: 12
+  CTRL_END: 12
+  Jab: 10
+  Cage Control Time: 8
+  Knee: 8
+  Takedown Stuffed: 7
+  Kick: 3
+  SS Kick: 3
+  Ground Top Control: 3
+  Submission Attempt: 3
+  Cross: 2
+  Uppercut: 1
+  Hook: 1
+  Ground Back Control: 1
+  Takedown: 1
+
+--- ROUND 1 (22 events) ---
+
+  RED CORNER (Charlisle Mott): 7 events
+     1. Uppercut
+     2. Kick
+     3. Takedown Stuffed
+     4. CTRL_START
+     5. Ground Strike [LIGHT]
+     6. CTRL_END
+     7. Ground Top Control
+
+  BLUE CORNER (Connor Simmons): 15 events
+     1. Jab
+     2. SS Kick
+     3. Jab
+     4. CTRL_START
+     5. CTRL_END
+     6. Cage Control Time
+     7. Takedown Stuffed
+     8. CTRL_START
+     9. Takedown Stuffed
+     10. CTRL_END
+     11. Cage Control Time
+     12. CTRL_START
+     13. CTRL_END
+     14. Cage Control Time
+     15. Takedown Stuffed
+
+--- ROUND 2 (28 events) ---
+
+  RED CORNER (Charlisle Mott): 8 events
+     1. Kick
+     2. Jab
+     3. Knee
+     4. Knee
+     5. CTRL_START
+     6. CTRL_END
+     7. Ground Top Control
+     8. Takedown Stuffed
+
+  BLUE CORNER (Connor Simmons): 20 events
+     1. Jab
+     2. Cross
+     3. Jab
+     4. Jab
+     5. CTRL_START
+     6. CTRL_END
+     7. Cage Control Time
+     8. CTRL_START
+     9. CTRL_END
+     10. Cage Control Time
+     11. CTRL_START
+     12. SS Kick
+     13. CTRL_END
+     14. Cage Control Time
+     15. Knee
+     16. Submission Attempt (Light)
+     17. Submission Attempt (Light)
+     18. Takedown Stuffed
+     19. Jab
+     20. Takedown Stuffed
+
+--- ROUND 3 (38 events) ---
+
+  RED CORNER (Charlisle Mott): 28 events
+     1. Jab
+     2. Jab
+     3. Kick
+     4. Hook
+     5. Cross
+     6. CTRL_START
+     7. CTRL_END
+     8. Cage Control Time
+     9. CTRL_START
+     10. Ground Strike [LIGHT]
+     11. Ground Strike [LIGHT]
+     12. Submission Attempt (Light)
+     13. Ground Strike [LIGHT]
+     14. Ground Strike [LIGHT]
+     15. Ground Strike [LIGHT]
+     16. Ground Strike [LIGHT]
+     17. Ground Strike [LIGHT]
+     18. CTRL_END
+     19. Ground Back Control
+     20. CTRL_START
+     21. Ground Strike [LIGHT]
+     22. Ground Strike [LIGHT]
+     23. Ground Strike [LIGHT]
+     24. CTRL_END
+     25. Ground Top Control
+     26. Takedown
+     27. Ground Strike [LIGHT]
+     28. Ground Strike [LIGHT]
+
+  BLUE CORNER (Connor Simmons): 10 events
+     1. SS Kick
+     2. Jab
+     3. Knee
+     4. CTRL_START
+     5. Knee
+     6. Knee
+     7. Knee
+     8. Knee
+     9. CTRL_END
+     10. Cage Control Time
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 9-10 (BLUE)
+  Round 2: 9-10 (BLUE)
+  Round 3: 10-9 (RED)
+  ----------------------------------------
+  FINAL TOTAL: 28-29
+  WINNER: Connor Simmons (BLUE)
+
+====================================================================================================
+FIGHT #15: Luis Medrano vs Codie Williams
+Bout ID: event-1769806181478-fight-6
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 127
+
+--- Event Type Breakdown ---
+  Jab: 26
+  Hook: 24
+  Cross: 13
+  Knee: 10
+  SS Kick: 10
+  Ground Strike: 9
+  Submission Attempt: 7
+  Takedown Stuffed: 5
+  Elbow: 5
+  Kick: 4
+  Takedown: 3
+  CTRL_START: 3
+  CTRL_END: 3
+  Rocked: 2
+  Ground Top Control: 2
+  Ground Back Control: 1
+
+--- ROUND 1 (64 events) ---
+
+  RED CORNER (Luis Medrano): 28 events
+     1. Hook
+     2. Jab
+     3. Hook
+     4. Jab
+     5. Jab
+     6. Cross
+     7. Hook
+     8. Kick
+     9. Hook
+     10. Hook
+     11. Hook
+     12. Hook
+     13. Hook
+     14. Kick
+     15. Kick
+     16. Jab
+     17. Kick
+     18. Hook
+     19. Hook
+     20. Hook
+     21. Jab
+     22. Elbow
+     23. Elbow
+     24. Takedown Stuffed
+     25. Elbow
+     26. Takedown Stuffed
+     27. Hook
+     28. Hook
+
+  BLUE CORNER (Codie Williams): 36 events
+     1. Jab
+     2. Cross
+     3. Takedown Stuffed
+     4. Knee
+     5. Knee
+     6. Knee
+     7. Cross
+     8. Jab
+     9. Hook
+     10. Takedown Stuffed
+     11. Rocked
+     12. Knee
+     13. Knee
+     14. Submission Attempt (Light)
+     15. Submission Attempt (Light)
+     16. Submission Attempt (Deep)
+     17. SS Kick
+     18. SS Kick
+     19. Cross
+     20. Cross
+     21. Jab
+     22. Knee
+     23. SS Kick
+     24. Cross
+     25. Knee
+     26. Elbow
+     27. Cross
+     28. SS Kick
+     29. Takedown
+     30. Knee
+     31. Knee
+     32. Takedown
+     33. CTRL_START
+     34. CTRL_END
+     35. Ground Top Control
+     36. Submission Attempt (Light)
+
+--- ROUND 2 (27 events) ---
+
+  RED CORNER (Luis Medrano): 18 events
+     1. Hook
+     2. Hook
+     3. Cross
+     4. Takedown
+     5. CTRL_START
+     6. Rocked
+     7. Ground Strike [SOLID]
+     8. Ground Strike [SOLID]
+     9. Ground Strike [LIGHT]
+     10. Ground Strike [LIGHT]
+     11. Ground Strike [SOLID]
+     12. Ground Strike [SOLID]
+     13. Ground Strike [SOLID]
+     14. Ground Strike [SOLID]
+     15. Ground Strike [LIGHT]
+     16. CTRL_END
+     17. Ground Top Control
+     18. Elbow
+
+  BLUE CORNER (Codie Williams): 9 events
+     1. SS Kick
+     2. Submission Attempt (Light)
+     3. CTRL_START
+     4. Submission Attempt (Light)
+     5. Submission Attempt (Deep)
+     6. CTRL_END
+     7. Ground Back Control
+     8. Takedown Stuffed
+     9. Cross
+
+--- ROUND 3 (36 events) ---
+
+  RED CORNER (Luis Medrano): 15 events
+     1. Hook
+     2. Hook
+     3. Jab
+     4. Jab
+     5. Jab
+     6. Hook
+     7. Hook
+     8. Hook
+     9. Jab
+     10. Hook
+     11. Jab
+     12. Jab
+     13. Cross
+     14. Hook
+     15. Hook
+
+  BLUE CORNER (Codie Williams): 21 events
+     1. SS Kick
+     2. Cross
+     3. Jab
+     4. Cross
+     5. SS Kick
+     6. Jab
+     7. Jab
+     8. Jab
+     9. Jab
+     10. SS Kick
+     11. Jab
+     12. Jab
+     13. Jab
+     14. Jab
+     15. Jab
+     16. Jab
+     17. SS Kick
+     18. SS Kick
+     19. Cross
+     20. Jab
+     21. Knee
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 8-10 (BLUE)
+  Round 2: 10-9 (RED)
+  Round 3: 9-10 (BLUE)
+  ----------------------------------------
+  FINAL TOTAL: 27-29
+  WINNER: Codie Williams (BLUE)
+
+====================================================================================================
+FIGHT #16: Haydn Brinkley vs Jose Garcia
+Bout ID: event-1769806181478-fight-7
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 94
+
+--- Event Type Breakdown ---
+  Hook: 14
+  Cross: 13
+  Jab: 12
+  CTRL_START: 9
+  CTRL_END: 8
+  Takedown Stuffed: 7
+  Knee: 5
+  Cage Control Time: 5
+  Takedown: 5
+  SS Kick: 4
+  Kick: 3
+  Ground Strike: 3
+  Ground Top Control: 3
+  Submission Attempt: 3
+
+--- ROUND 1 (74 events) ---
+
+  RED CORNER (Haydn Brinkley): 19 events
+     1. Kick
+     2. CTRL_START
+     3. Ground Strike [LIGHT]
+     4. CTRL_END
+     5. Cage Control Time
+     6. CTRL_START
+     7. Ground Strike [LIGHT]
+     8. Ground Strike [LIGHT]
+     9. CTRL_END
+     10. Cage Control Time
+     11. Hook
+     12. CTRL_START
+     13. CTRL_END
+     14. Cage Control Time
+     15. Hook
+     16. Kick
+     17. Hook
+     18. Hook
+     19. Hook
+
+  BLUE CORNER (Jose Garcia): 55 events
+     1. Takedown Stuffed
+     2. SS Kick
+     3. Knee
+     4. CTRL_START
+     5. Knee
+     6. SS Kick
+     7. Takedown
+     8. CTRL_END
+     9. Cage Control Time
+     10. CTRL_START
+     11. CTRL_END
+     12. Ground Top Control
+     13. CTRL_START
+     14. CTRL_END
+     15. Cage Control Time
+     16. Takedown
+     17. Takedown Stuffed
+     18. Takedown
+     19. CTRL_START
+     20. Submission Attempt (Light)
+     21. Takedown Stuffed
+     22. CTRL_END
+     23. Ground Top Control
+     24. Takedown Stuffed
+     25. Knee
+     26. Jab
+     27. Cross
+     28. Hook
+     29. Cross
+     30. Jab
+     31. Cross
+     32. Hook
+     33. Jab
+     34. Cross
+     35. Jab
+     36. Cross
+     37. Jab
+     38. Cross
+     39. Jab
+     40. Cross
+     41. Hook
+     42. Hook
+     43. Jab
+     44. Cross
+     45. Jab
+     46. Knee
+     47. Knee
+     48. Takedown Stuffed
+     49. Hook
+     50. Hook
+     51. Hook
+     52. Hook
+     53. Jab
+     54. Cross
+     55. Takedown Stuffed
+
+--- ROUND 2 (20 events) ---
+
+  RED CORNER (Haydn Brinkley): 3 events
+     1. Cross
+     2. Cross
+     3. Kick
+
+  BLUE CORNER (Jose Garcia): 17 events
+     1. Jab
+     2. Cross
+     3. SS Kick
+     4. SS Kick
+     5. Jab
+     6. Jab
+     7. Cross
+     8. Takedown Stuffed
+     9. Takedown
+     10. Submission Attempt (Light)
+     11. Takedown
+     12. CTRL_START
+     13. CTRL_END
+     14. Ground Top Control
+     15. CTRL_START
+     16. Submission Attempt (Deep)
+     17. Hook
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 9-10 (BLUE)
+  ----------------------------------------
+  FINAL TOTAL: 9-10
+  WINNER: Jose Garcia (BLUE)
+
+====================================================================================================
+FIGHT #17: Joe Serna vs Cody Galyean
+Bout ID: event-1769806181478-fight-8
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 52
+
+--- Event Type Breakdown ---
+  Hook: 10
+  Jab: 7
+  Cross: 7
+  SS Kick: 5
+  Elbow: 5
+  Kick: 4
+  Knee: 4
+  CTRL_START: 2
+  CTRL_END: 2
+  Uppercut: 1
+  Takedown: 1
+  Ground Back Control: 1
+  Ground Strike: 1
+  Ground Top Control: 1
+  Submission Attempt: 1
+
+--- ROUND 1 (30 events) ---
+
+  RED CORNER (Joe Serna): 17 events
+     1. Kick
+     2. Kick
+     3. Kick
+     4. Knee
+     5. Elbow
+     6. Elbow
+     7. Takedown
+     8. CTRL_START
+     9. CTRL_END
+     10. Ground Back Control
+     11. CTRL_START
+     12. Ground Strike [SOLID]
+     13. CTRL_END
+     14. Ground Top Control
+     15. Submission Attempt (Light)
+     16. Elbow
+     17. Kick
+
+  BLUE CORNER (Cody Galyean): 13 events
+     1. Jab
+     2. SS Kick
+     3. Knee
+     4. Elbow
+     5. Uppercut
+     6. SS Kick
+     7. Knee
+     8. Hook
+     9. Hook
+     10. Knee
+     11. Jab
+     12. Elbow
+     13. Jab
+
+--- ROUND 2 (14 events) ---
+
+  RED CORNER (Joe Serna): 2 events
+     1. Hook
+     2. Hook
+
+  BLUE CORNER (Cody Galyean): 12 events
+     1. Jab
+     2. Cross
+     3. Jab
+     4. Hook
+     5. Jab
+     6. Cross
+     7. Hook
+     8. SS Kick
+     9. SS Kick
+     10. Hook
+     11. SS Kick
+     12. Hook
+
+--- ROUND 3 (3 events) ---
+
+  RED CORNER (Joe Serna): 3 events
+     1. Jab
+     2. Hook
+     3. Hook
+
+--- ROUND 4 (2 events) ---
+
+  RED CORNER (Joe Serna): 2 events
+     1. Cross
+     2. Cross
+
+--- ROUND 5 (3 events) ---
+
+  RED CORNER (Joe Serna): 3 events
+     1. Cross
+     2. Cross
+     3. Cross
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 10-9 (RED)
+  Round 2: 9-10 (BLUE)
+  Round 3: 10-9 (RED)
+  Round 4: 10-9 (RED)
+  Round 5: 10-9 (RED)
+  ----------------------------------------
+  FINAL TOTAL: 49-46
+  WINNER: Joe Serna (RED)
+
+====================================================================================================
+FIGHT #18: Cory Easter vs Luis Sariles
+Bout ID: event-1769806181478-fight-9
+Status: completed
+====================================================================================================
+
+TOTAL EVENTS: 82
+
+--- Event Type Breakdown ---
+  Kick: 22
+  SS Kick: 15
+  Ground Strike: 10
+  Jab: 8
+  Cross: 6
+  CTRL_START: 4
+  Submission Attempt: 3
+  Takedown: 3
+  CTRL_END: 3
+  Hook: 2
+  Ground Top Control: 2
+  Takedown Stuffed: 1
+  Elbow: 1
+  KD: 1
+  Ground Back Control: 1
+
+--- ROUND 1 (19 events) ---
+
+  RED CORNER (Cory Easter): 9 events
+     1. Kick
+     2. Kick
+     3. Kick
+     4. Kick
+     5. Kick
+     6. Kick
+     7. Kick
+     8. Kick
+     9. Kick
+
+  BLUE CORNER (Luis Sariles): 10 events
+     1. SS Kick
+     2. SS Kick
+     3. SS Kick
+     4. SS Kick
+     5. Hook
+     6. Jab
+     7. SS Kick
+     8. Cross
+     9. Submission Attempt (Near-Finish)
+     10. Takedown
+
+--- ROUND 2 (22 events) ---
+
+  RED CORNER (Cory Easter): 6 events
+     1. Kick
+     2. Kick
+     3. Kick
+     4. Kick
+     5. Kick
+     6. KD (Hard)
+
+  BLUE CORNER (Luis Sariles): 16 events
+     1. SS Kick
+     2. Cross
+     3. Takedown Stuffed
+     4. Elbow
+     5. Jab
+     6. SS Kick
+     7. Jab
+     8. SS Kick
+     9. Jab
+     10. Jab
+     11. SS Kick
+     12. Hook
+     13. SS Kick
+     14. SS Kick
+     15. Cross
+     16. Cross
+
+--- ROUND 3 (41 events) ---
+
+  RED CORNER (Cory Easter): 24 events
+     1. Kick
+     2. Kick
+     3. Kick
+     4. Kick
+     5. Kick
+     6. Kick
+     7. Kick
+     8. Jab
+     9. Cross
+     10. Kick
+     11. Jab
+     12. CTRL_START
+     13. Ground Strike [LIGHT]
+     14. Ground Strike [LIGHT]
+     15. Ground Strike [LIGHT]
+     16. CTRL_END
+     17. Ground Top Control
+     18. CTRL_START
+     19. CTRL_END
+     20. Ground Back Control
+     21. CTRL_START
+     22. Ground Strike [LIGHT]
+     23. Ground Strike [LIGHT]
+     24. Submission Attempt (Light)
+
+  BLUE CORNER (Luis Sariles): 17 events
+     1. SS Kick
+     2. SS Kick
+     3. SS Kick
+     4. SS Kick
+     5. Jab
+     6. Cross
+     7. Takedown
+     8. CTRL_START
+     9. Ground Strike [LIGHT]
+     10. Ground Strike [LIGHT]
+     11. Ground Strike [LIGHT]
+     12. Ground Strike [LIGHT]
+     13. Ground Strike [SOLID]
+     14. Submission Attempt (Deep)
+     15. Takedown
+     16. CTRL_END
+     17. Ground Top Control
+
+--- OFFICIAL ROUND SCORES ---
+  Round 1: 9-10 (BLUE)
+  Round 2: 10-9 (RED)
+  Round 3: 9-10 (BLUE)
+  ----------------------------------------
+  FINAL TOTAL: 28-29
+  WINNER: Luis Sariles (BLUE)
+
+
+====================================================================================================
+PFC 50 - GRAND SUMMARY
+====================================================================================================
+
+#     Matchup                                       Events     Rounds   Status      
+-------------------------------------------------------------------------------------
+1     Jostin Jimenez vs JoeAngel Damian             81         2        completed   
+2     Brijatte Garcia vs Hannah Wagner              142        3        completed   
+3     Rodrigo Lopes vs Achraf Abdeddine             6          1        completed   
+4     Rod Moore vs Batraz Sabanov                   83         3        completed   
+5     Brayan Mendoza vs Eddie Fraire                152        3        completed   
+6     Tevinn Cantly vs Khetag Sabeev                38         1        in_progress 
+7     Shanna Gomez vs Alex Apodaca                  170        3        completed   
+8     Davi Cabral vs Jr Hicks                       15         1        in_progress 
+9     Ty Ybarra vs Billy Graves                     25         1        in_progress 
+10    Greg Hardy vs Phil Latu                       177        5        completed   
+11    Gregory Koch vs Zack Horton                   180        3        completed   
+12    John Weaver vs Malachi Valenzuela             32         1        completed   
+13    Alex Ruiz vs Josiah Hepworth                  120        3        completed   
+14    Charlisle Mott vs Connor Simmons              88         3        completed   
+15    Luis Medrano vs Codie Williams                127        3        completed   
+16    Haydn Brinkley vs Jose Garcia                 94         2        completed   
+17    Joe Serna vs Cody Galyean                     52         5        completed   
+18    Cory Easter vs Luis Sariles                   82         3        completed   
+-------------------------------------------------------------------------------------
+TOTAL 18 Fights                                     1664      
+====================================================================================================
