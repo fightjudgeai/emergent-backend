@@ -9,7 +9,7 @@ application. For the complete codebase, download the ZIP file.
 ==============================================================================
 FILE: frontend/.env
 ==============================================================================
-REACT_APP_BACKEND_URL=https://fight-scoring-pro.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://fightscoreai-1.preview.emergentagent.com
 WDS_SOCKET_PORT=443
 REACT_APP_ENABLE_VISUAL_EDITS=false
 ENABLE_HEALTH_CHECK=false
