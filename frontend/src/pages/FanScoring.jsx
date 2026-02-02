@@ -48,17 +48,18 @@ export default function FanScoring() {
   const [deadline, setDeadline] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState(0);
   
+  // Demo mode state
+  const [isDemoMode, setIsDemoMode] = useState(false);
+  const [demoRound, setDemoRound] = useState(1);
+  const [demoFighters, setDemoFighters] = useState(DEMO_FIGHTERS[0]);
+  const [demoScores, setDemoScores] = useState([]);
+  
   // Scoring state
   const [scoreMode, setScoreMode] = useState('simple'); // 'simple' or 'detailed'
   const [selectedWinner, setSelectedWinner] = useState(null);
   const [redScore, setRedScore] = useState(10);
   const [blueScore, setBlueScore] = useState(9);
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  
-  // Leaderboard state
-  const [leaderboard, setLeaderboard] = useState([]);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
-  const [fanProfile, setFanProfile] = useState(null);
   
   // Scorecard state
   const [showScorecard, setShowScorecard] = useState(false);
