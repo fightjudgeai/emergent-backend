@@ -34,6 +34,7 @@ import CVSystemsPage from "@/components/CVSystemsPage";
 import FightHistory from "@/components/FightHistory";
 import FightDetailsArchived from "@/components/FightDetailsArchived";
 import BroadcastOverlay from "@/pages/BroadcastOverlay";
+import FanScoring from "@/pages/FanScoring";
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
