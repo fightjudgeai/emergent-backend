@@ -147,6 +147,9 @@ function App() {
           <Route path="/audit-logs" element={<AuditLogViewer />} />
           <Route path="/profile" element={<JudgeProfile />} />
           
+          {/* Fan Scoring App */}
+          <Route path="/fan" element={<FanScoring />} />
+          
           {/* Fight History & Archives */}
           <Route path="/fight-history" element={<FightHistory />} />
           <Route path="/fight-details/:boutId" element={<FightDetailsArchived />} />
