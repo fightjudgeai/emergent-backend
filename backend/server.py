@@ -6926,6 +6926,15 @@ try:
 except Exception as e:
     logger.warning(f"Fan Scoring not loaded: {e}")
 
+# Scoring Service Routes (Modular scoring logic)
+try:
+    from scoring_service.routes import router as scoring_service_api, init_scoring_routes
+    init_scoring_routes(database=db)
+    app.include_router(scoring_service_api)
+    logger.info("✓ Scoring Service API loaded - modular scoring endpoints")
+except Exception as e:
+    logger.warning(f"Scoring Service not loaded: {e}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
