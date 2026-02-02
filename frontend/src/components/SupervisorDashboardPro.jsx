@@ -716,6 +716,38 @@ export default function SupervisorDashboardPro() {
     setIsLoading(false);
   };
 
+  // Open fan scoring window (30 seconds after round ends)
+  const openFanScoring = async () => {
+    try {
+      const response = await fetch(`${API}/api/fan/open-scoring?bout_id=${boutId}&round_number=${currentRound}&duration_seconds=30`, {
+        method: 'POST'
+      });
+      if (response.ok) {
+        setFanScoringOpen(true);
+        setFanScoringDeadline(Date.now() + 30000);
+        toast.success('Fan scoring open for 30 seconds!');
+        // Auto-close after 30 seconds
+        setTimeout(() => {
+          setFanScoringOpen(false);
+          closeFanScoring();
+        }, 30000);
+      }
+    } catch (error) {
+      console.error('Error opening fan scoring:', error);
+    }
+  };
+
+  // Close fan scoring window
+  const closeFanScoring = async () => {
+    try {
+      await fetch(`${API}/api/fan/close-scoring`, { method: 'POST' });
+      setFanScoringOpen(false);
+      setFanScoringDeadline(null);
+    } catch (error) {
+      console.error('Error closing fan scoring:', error);
+    }
+  };
+
   // Finalize round score (save to backend)
   const finalizeRoundScore = async (result, approved108 = false, overrideScore = false) => {
     try {
