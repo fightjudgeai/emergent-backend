@@ -1265,8 +1265,25 @@ export default function SupervisorDashboardPro() {
               <Users className="w-4 h-4" />
               {operatorCount} operators
             </span>
+            {/* Fan Scoring Control */}
+            <Button 
+              size="sm"
+              onClick={fanScoringOpen ? closeFanScoring : openFanScoring}
+              className={`h-7 ${fanScoringOpen ? 'bg-green-600 hover:bg-green-700' : 'bg-purple-600 hover:bg-purple-700'}`}
+            >
+              <Users className="w-3 h-3 mr-1" />
+              {fanScoringOpen ? 'Fan Scoring LIVE' : 'Open Fan Scoring'}
+            </Button>
           </div>
-          <div className="flex items-center gap-1 text-gray-500">
+          <div className="flex items-center gap-2 text-gray-500">
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => window.open(`/fan?event=${boutId}`, '_blank')}
+              className="text-purple-400 hover:text-purple-300 h-6 text-xs"
+            >
+              Fan App →
+            </Button>
             <Clock className="w-3 h-3" />
             {lastPollTime?.toLocaleTimeString()}
           </div>
