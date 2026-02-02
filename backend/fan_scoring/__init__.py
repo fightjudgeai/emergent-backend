@@ -1,0 +1,1 @@
+"""Fan Scoring Module"""
