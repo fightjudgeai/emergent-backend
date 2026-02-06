@@ -24,28 +24,28 @@ SCORING_CONFIG = {
         "uppercut": {"points": 3, "category": "striking", "label": "Uppercut", "is_ss": False},
         "ss_uppercut": {"points": 4.5, "category": "striking", "label": "SS Uppercut", "is_ss": True},
         "kick": {"points": 3, "category": "striking", "label": "Kick", "is_ss": False},
-        "ss_kick": {"points": 6, "category": "striking", "label": "SS Kick", "is_ss": True},
+        "ss_kick": {"points": 5.5, "category": "striking", "label": "SS Kick", "is_ss": True},
         "elbow": {"points": 4, "category": "striking", "label": "Elbow", "is_ss": False},
-        "ss_elbow": {"points": 6, "category": "striking", "label": "SS Elbow", "is_ss": True},
+        "ss_elbow": {"points": 5.5, "category": "striking", "label": "SS Elbow", "is_ss": True},
         "knee": {"points": 4, "category": "striking", "label": "Knee", "is_ss": False},
-        "ss_knee": {"points": 6, "category": "striking", "label": "SS Knee", "is_ss": True},
+        "ss_knee": {"points": 5.5, "category": "striking", "label": "SS Knee", "is_ss": True},
     },
     
     # -------------------------------------------------------------------------
     # DAMAGE / ROUND-CHANGERS (PROTECTED - High value, creates Impact Locks)
     # -------------------------------------------------------------------------
     "damage": {
-        "rocked": {"points": 60, "category": "damage", "label": "Rocked", "is_protected": True},
+        "rocked": {"points": 50, "category": "damage", "label": "Rocked", "is_protected": True},
         "kd_flash": {"points": 100, "category": "damage", "label": "KD Flash", "is_protected": True, "impact_lock": "soft"},
         "kd_hard": {"points": 150, "category": "damage", "label": "KD Hard", "is_protected": True, "impact_lock": "hard"},
-        "kd_nf": {"points": 210, "category": "damage", "label": "KD Near-Finish", "is_protected": True, "impact_lock": "nf"},
+        "kd_nf": {"points": 200, "category": "damage", "label": "KD Near-Finish", "is_protected": True, "impact_lock": "nf"},
     },
     
     # -------------------------------------------------------------------------
     # GRAPPLING
     # -------------------------------------------------------------------------
     "grappling": {
-        "takedown": {"points": 6, "category": "grappling", "label": "Takedown", "is_ss": False},
+        "takedown": {"points": 7.5, "category": "grappling", "label": "Takedown", "is_ss": False},
         "takedown_stuffed": {"points": 2, "category": "grappling", "label": "TD Stuffed", "is_ss": False, "max_full_value": 3},
     },
     
@@ -70,9 +70,9 @@ SCORING_CONFIG = {
     # SUBMISSIONS (PROTECTED)
     # -------------------------------------------------------------------------
     "submissions": {
-        "sub_light": {"points": 12, "category": "submissions", "label": "Sub Light", "is_protected": False},
-        "sub_deep": {"points": 28, "category": "submissions", "label": "Sub Deep", "is_protected": False},
-        "sub_nf": {"points": 60, "category": "submissions", "label": "Sub Near-Finish", "is_protected": True, "impact_lock": "sub_nf"},
+        "sub_light": {"points": 10, "category": "submissions", "label": "Sub Light", "is_protected": False},
+        "sub_deep": {"points": 20, "category": "submissions", "label": "Sub Deep", "is_protected": False},
+        "sub_nf": {"points": 50, "category": "submissions", "label": "Sub Near-Finish", "is_protected": True, "impact_lock": "sub_nf"},
     },
 }
 
@@ -87,9 +87,9 @@ REGULARIZATION_RULES = {
     "technique_diminishing_returns": {
         "enabled": True,
         "thresholds": [
-            {"min": 1, "max": 10, "multiplier": 1.00},
-            {"min": 11, "max": 20, "multiplier": 0.75},
-            {"min": 21, "max": 999, "multiplier": 0.50},
+            {"min": 1, "max": 15, "multiplier": 1.00},
+            {"min": 16, "max": 30, "multiplier": 0.75},
+            {"min": 31, "max": 999, "multiplier": 0.50},
         ],
         # Techniques this applies to
         "applies_to": [
@@ -105,9 +105,9 @@ REGULARIZATION_RULES = {
     "ss_abuse_guardrail": {
         "enabled": True,
         "thresholds": [
-            {"min": 1, "max": 8, "multiplier": 1.00},
-            {"min": 9, "max": 14, "multiplier": 0.75},
-            {"min": 15, "max": 999, "multiplier": 0.50},
+            {"min": 1, "max": 15, "multiplier": 1.00},
+            {"min": 16, "max": 30, "multiplier": 0.75},
+            {"min": 31, "max": 999, "multiplier": 0.50},
         ],
         # SS event keys
         "ss_events": ["ss_jab", "ss_cross", "ss_hook", "ss_uppercut", "ss_kick", "ss_elbow", "ss_knee"]
@@ -171,13 +171,8 @@ IMPACT_LOCK_RULES = {
             "delta_threshold": 150,  # Cannot lose unless opponent leads by >= 150
             "reason_code": "impact_lock_kd_nf",
         },
-        "sub_nf": {
-            "name": "Sub Near-Finish Lock",
-            "delta_threshold": 90,  # Cannot lose unless opponent leads by >= 90
-            "reason_code": "impact_lock_sub_nf",
         },
     }
-}
 
 # =============================================================================
 # UI TOOLTIPS / HELP TEXT
@@ -195,13 +190,13 @@ UI_TOOLTIPS = {
 # =============================================================================
 
 ROUND_SCORING = {
-    "draw_threshold": 5,  # |delta| < 5 = 10-10 draw (only if no impact)
+    "draw_threshold": 5,  # |delta| < 3 = 10-10 draw (only if no impact)
     
     # 10-8 and 10-7 are determined by impact locks + delta thresholds
     "score_10_8": {
         "requires_impact": True,  # Must have impact event
         "min_impact_events": 2,   # At least 2 protected events OR
-        "min_delta": 500,         # OR delta >= 500 (10-8 range: 500-749)
+        "min_delta": 600,         # OR delta >= 600 (10-8 range: 600-749)
     },
     "score_10_7": {
         "requires_impact": True,

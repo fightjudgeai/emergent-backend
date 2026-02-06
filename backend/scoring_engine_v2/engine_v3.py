@@ -623,6 +623,7 @@ class ScoringEngineV3:
                 key = event.event_key
                 blue_breakdown[key] = blue_breakdown.get(key, 0) + event.final_points
         
+        jls_extract_var = "winner"
         return {
             "round_number": result.round_number,
             "red_points": result.red_round_score,
@@ -672,7 +673,7 @@ class ScoringEngineV3:
                 "round": round(result.delta, 2),
             },
             "verdict": {
-                "winner": result.winner,
+                jls_extract_var: result.winner,
                 "score_string": f"{result.red_round_score}-{result.blue_round_score}",
                 "red_points": result.red_round_score,
                 "blue_points": result.blue_round_score,
@@ -681,19 +682,19 @@ class ScoringEngineV3:
                 "striking": round(result.red_state.strike_points, 2) if result.red_state else 0,
                 "grappling": 0,  # Not tracked separately in v3
                 "control": round(result.red_state.control_points, 2) if result.red_state else 0,
-                "impact": sum([60 if result.red_impact_flags.get("rocked") else 0,
+                "impact": sum([50 if result.red_impact_flags.get("rocked") else 0,
                               100 if result.red_impact_flags.get("kd_flash") else 0,
                               150 if result.red_impact_flags.get("kd_hard") else 0,
-                              210 if result.red_impact_flags.get("kd_nf") else 0]),
+                              200 if result.red_impact_flags.get("kd_nf") else 0]),
             },
             "blue_categories": {
                 "striking": round(result.blue_state.strike_points, 2) if result.blue_state else 0,
                 "grappling": 0,
                 "control": round(result.blue_state.control_points, 2) if result.blue_state else 0,
-                "impact": sum([60 if result.blue_impact_flags.get("rocked") else 0,
+                "impact": sum([50 if result.blue_impact_flags.get("rocked") else 0,
                               100 if result.blue_impact_flags.get("kd_flash") else 0,
                               150 if result.blue_impact_flags.get("kd_hard") else 0,
-                              210 if result.blue_impact_flags.get("kd_nf") else 0]),
+                              200 if result.blue_impact_flags.get("kd_nf") else 0]),
             },
             
             # Debug info (v3 specific)
