@@ -1,0 +1,3575 @@
+[
+  {
+    "file": ".build_preserved_endpoint_list.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": ".extract_endpoints.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": ".extract_fastapi_tags.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": ".find_2026_and_scoring.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "advanced_audit\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "advanced_audit\\audit_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "advanced_audit\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "advanced_audit\\routes.py",
+    "tags": [
+      "Advanced Audit"
+    ],
+    "routers": {
+      "advanced_audit_api": {
+        "tags": [
+          "Advanced Audit"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "advanced_audit_api",
+        "method": "POST",
+        "path": "/log"
+      },
+      {
+        "decorator_var": "advanced_audit_api",
+        "method": "GET",
+        "path": "/verify/{bout_id}"
+      },
+      {
+        "decorator_var": "advanced_audit_api",
+        "method": "GET",
+        "path": "/chain/{bout_id}"
+      },
+      {
+        "decorator_var": "advanced_audit_api",
+        "method": "GET",
+        "path": "/tip/{bout_id}"
+      },
+      {
+        "decorator_var": "advanced_audit_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "ai_merge_engine\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "ai_merge_engine\\merge_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "ai_merge_engine\\routes.py",
+    "tags": [
+      "AI Merge Engine"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "AI Merge Engine"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/submit-batch"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/review-items"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/review-items/{review_id}/approve"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/stats"
+      }
+    ]
+  },
+  {
+    "file": "auth_rbac\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "auth_rbac\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "auth_rbac\\rbac_middleware.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "blockchain_audit\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "blockchain_audit\\blockchain_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "blockchain_audit\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "blockchain_audit\\routes.py",
+    "tags": [
+      "Blockchain Audit"
+    ],
+    "routers": {
+      "blockchain_audit_api": {
+        "tags": [
+          "Blockchain Audit"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "blockchain_audit_api",
+        "method": "POST",
+        "path": "/blockchain/record/score"
+      },
+      {
+        "decorator_var": "blockchain_audit_api",
+        "method": "GET",
+        "path": "/blockchain/verify/{record_id}"
+      },
+      {
+        "decorator_var": "blockchain_audit_api",
+        "method": "GET",
+        "path": "/blockchain/verify/bout/{bout_id}"
+      },
+      {
+        "decorator_var": "blockchain_audit_api",
+        "method": "GET",
+        "path": "/blockchain/audit/{bout_id}"
+      },
+      {
+        "decorator_var": "blockchain_audit_api",
+        "method": "GET",
+        "path": "/blockchain/blocks/{bout_id}"
+      },
+      {
+        "decorator_var": "blockchain_audit_api",
+        "method": "GET",
+        "path": "/blockchain/stats"
+      },
+      {
+        "decorator_var": "blockchain_audit_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "branding_themes\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "branding_themes\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "branding_themes\\routes.py",
+    "tags": [
+      "Branding & Themes"
+    ],
+    "routers": {
+      "branding_api": {
+        "tags": [
+          "Branding & Themes"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "branding_api",
+        "method": "POST",
+        "path": "/branding/themes"
+      },
+      {
+        "decorator_var": "branding_api",
+        "method": "POST",
+        "path": "/branding/themes/{theme_id}/activate"
+      },
+      {
+        "decorator_var": "branding_api",
+        "method": "GET",
+        "path": "/branding/themes/active"
+      },
+      {
+        "decorator_var": "branding_api",
+        "method": "GET",
+        "path": "/branding/themes/{theme_id}/css"
+      },
+      {
+        "decorator_var": "branding_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "branding_themes\\theme_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "broadcast_control\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "broadcast_control\\broadcast_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "broadcast_control\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "broadcast_control\\routes.py",
+    "tags": [
+      "Broadcast Control"
+    ],
+    "routers": {
+      "broadcast_control_api": {
+        "tags": [
+          "Broadcast Control"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/cameras"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "GET",
+        "path": "/broadcast/cameras"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "GET",
+        "path": "/broadcast/cameras/{camera_id}"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/cameras/{camera_id}/activate"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/layouts"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/layouts/{layout_id}/activate"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/overlays"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/overlays/lower_third"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/overlays/scoreboard"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/overlays/{overlay_id}/show"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/overlays/{overlay_id}/hide"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/sponsors"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "GET",
+        "path": "/broadcast/sponsors/active"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "GET",
+        "path": "/broadcast/config/{bout_id}"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/config"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/quick/show_fighter_intro"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "POST",
+        "path": "/broadcast/quick/update_scoreboard"
+      },
+      {
+        "decorator_var": "broadcast_control_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "calibration_api\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "calibration_api\\calibration_manager.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "calibration_api\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "calibration_api\\routes.py",
+    "tags": [
+      "Calibration API"
+    ],
+    "routers": {
+      "calibration_api": {
+        "tags": [
+          "Calibration API"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "calibration_api",
+        "method": "GET",
+        "path": "/get"
+      },
+      {
+        "decorator_var": "calibration_api",
+        "method": "POST",
+        "path": "/set"
+      },
+      {
+        "decorator_var": "calibration_api",
+        "method": "POST",
+        "path": "/reset"
+      },
+      {
+        "decorator_var": "calibration_api",
+        "method": "GET",
+        "path": "/history"
+      },
+      {
+        "decorator_var": "calibration_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "combat_sports\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "combat_sports\\filters.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "combat_sports\\routes.py",
+    "tags": [
+      "Combat Sports"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Combat Sports"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/types"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/types/{sport_type}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/types/{sport_type}/organizations"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/stats/summary"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/events"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/fighters"
+      }
+    ]
+  },
+  {
+    "file": "cv_analytics\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_analytics\\analytics_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_analytics\\mock_generator.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_analytics\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_analytics\\multicam_fusion.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_analytics\\routes.py",
+    "tags": [
+      "CV Analytics"
+    ],
+    "routers": {
+      "cv_analytics_router": {
+        "tags": [
+          "CV Analytics"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "cv_analytics_router",
+        "method": "POST",
+        "path": "/process"
+      },
+      {
+        "decorator_var": "cv_analytics_router",
+        "method": "POST",
+        "path": "/process/batch"
+      },
+      {
+        "decorator_var": "cv_analytics_router",
+        "method": "POST",
+        "path": "/analytics"
+      },
+      {
+        "decorator_var": "cv_analytics_router",
+        "method": "GET",
+        "path": "/mock/scenario/{scenario}"
+      },
+      {
+        "decorator_var": "cv_analytics_router",
+        "method": "GET",
+        "path": "/mock/multicam"
+      },
+      {
+        "decorator_var": "cv_analytics_router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "cv_analytics_router",
+        "method": "GET",
+        "path": "/status"
+      }
+    ]
+  },
+  {
+    "file": "cv_analytics\\temporal_smoothing.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_moments\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_moments\\detection_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_moments\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_moments\\routes.py",
+    "tags": [
+      "CV Moments - AI Detection"
+    ],
+    "routers": {
+      "cv_moments_api": {
+        "tags": [
+          "CV Moments - AI Detection"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "cv_moments_api",
+        "method": "POST",
+        "path": "/highlights/analyze"
+      },
+      {
+        "decorator_var": "cv_moments_api",
+        "method": "GET",
+        "path": "/highlights/{bout_id}"
+      },
+      {
+        "decorator_var": "cv_moments_api",
+        "method": "GET",
+        "path": "/highlights/{bout_id}/knockdowns"
+      },
+      {
+        "decorator_var": "cv_moments_api",
+        "method": "GET",
+        "path": "/highlights/{bout_id}/strikes"
+      },
+      {
+        "decorator_var": "cv_moments_api",
+        "method": "GET",
+        "path": "/highlights/{bout_id}/submissions"
+      },
+      {
+        "decorator_var": "cv_moments_api",
+        "method": "GET",
+        "path": "/highlights/{bout_id}/controversies"
+      },
+      {
+        "decorator_var": "cv_moments_api",
+        "method": "GET",
+        "path": "/highlights/{bout_id}/stats"
+      },
+      {
+        "decorator_var": "cv_moments_api",
+        "method": "GET",
+        "path": "/highlights/{bout_id}/timeline"
+      },
+      {
+        "decorator_var": "cv_moments_api",
+        "method": "GET",
+        "path": "/highlights/{bout_id}/clips"
+      },
+      {
+        "decorator_var": "cv_moments_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "cv_router\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_router\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_router\\router_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_router\\routes.py",
+    "tags": [
+      "CV Router"
+    ],
+    "routers": {
+      "cv_router_api": {
+        "tags": [
+          "CV Router"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "cv_router_api",
+        "method": "POST",
+        "path": "/register_worker"
+      },
+      {
+        "decorator_var": "cv_router_api",
+        "method": "DELETE",
+        "path": "/worker/{worker_id}"
+      },
+      {
+        "decorator_var": "cv_router_api",
+        "method": "POST",
+        "path": "/worker/{worker_id}/heartbeat"
+      },
+      {
+        "decorator_var": "cv_router_api",
+        "method": "POST",
+        "path": "/worker/{worker_id}/error"
+      },
+      {
+        "decorator_var": "cv_router_api",
+        "method": "POST",
+        "path": "/stream/add"
+      },
+      {
+        "decorator_var": "cv_router_api",
+        "method": "DELETE",
+        "path": "/stream/{camera_id}"
+      },
+      {
+        "decorator_var": "cv_router_api",
+        "method": "POST",
+        "path": "/ingest_frame"
+      },
+      {
+        "decorator_var": "cv_router_api",
+        "method": "POST",
+        "path": "/route_frame"
+      },
+      {
+        "decorator_var": "cv_router_api",
+        "method": "GET",
+        "path": "/metrics"
+      },
+      {
+        "decorator_var": "cv_router_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "cv_router\\stream_ingestor.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "cv_router\\worker_manager.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "data_collection\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "data_collection\\collection_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "data_collection\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "database\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "database\\indexes.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "database\\init_db.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "database\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "database\\routes.py",
+    "tags": [
+      "Database Management"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Database Management"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/initialize"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/indexes"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/indexes/recreate"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/collections"
+      }
+    ]
+  },
+  {
+    "file": "db_utils.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "demo_e2_to_e1_pipeline.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "event_dedup.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "event_harmonizer\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "event_harmonizer\\conflict_resolver.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "event_harmonizer\\harmonizer_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "event_harmonizer\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "event_harmonizer\\routes.py",
+    "tags": [
+      "Event Harmonizer"
+    ],
+    "routers": {
+      "event_harmonizer_api": {
+        "tags": [
+          "Event Harmonizer"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "event_harmonizer_api",
+        "method": "POST",
+        "path": "/events/harmonize"
+      },
+      {
+        "decorator_var": "event_harmonizer_api",
+        "method": "POST",
+        "path": "/cv/events"
+      },
+      {
+        "decorator_var": "event_harmonizer_api",
+        "method": "POST",
+        "path": "/judge/events"
+      },
+      {
+        "decorator_var": "event_harmonizer_api",
+        "method": "GET",
+        "path": "/harmonized/events"
+      },
+      {
+        "decorator_var": "event_harmonizer_api",
+        "method": "GET",
+        "path": "/stats"
+      },
+      {
+        "decorator_var": "event_harmonizer_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "failover_engine\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "failover_engine\\failover_manager.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "failover_engine\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "failover_engine\\routes.py",
+    "tags": [
+      "Failover Engine"
+    ],
+    "routers": {
+      "failover_engine_api": {
+        "tags": [
+          "Failover Engine"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "failover_engine_api",
+        "method": "GET",
+        "path": "/status"
+      },
+      {
+        "decorator_var": "failover_engine_api",
+        "method": "POST",
+        "path": "/heartbeat/cloud"
+      },
+      {
+        "decorator_var": "failover_engine_api",
+        "method": "POST",
+        "path": "/heartbeat/local"
+      },
+      {
+        "decorator_var": "failover_engine_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "fan_scoring\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "fan_scoring\\routes.py",
+    "tags": [
+      "Fan Scoring"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Fan Scoring"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/register"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/guest-session"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/profile/{fan_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/active-event"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/set-active-event"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/open-scoring"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/close-scoring"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/score/detailed"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/score/simple"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/leaderboard"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/scorecard/{bout_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/scorecard/{bout_id}/compare"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/qr-code/{event_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/update-accuracy/{bout_id}/{round_number}"
+      }
+    ]
+  },
+  {
+    "file": "fight_completion.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "fighter_analytics\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "fighter_analytics\\analytics_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "fighter_analytics\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "fighter_analytics\\routes.py",
+    "tags": [
+      "Fighter Analytics"
+    ],
+    "routers": {
+      "fighter_analytics_api": {
+        "tags": [
+          "Fighter Analytics"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "POST",
+        "path": "/fighters"
+      },
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "GET",
+        "path": "/fighters"
+      },
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "GET",
+        "path": "/fighters/{fighter_id}"
+      },
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "PUT",
+        "path": "/fighters/{fighter_id}"
+      },
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "DELETE",
+        "path": "/fighters/{fighter_id}"
+      },
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "GET",
+        "path": "/fighters/{fighter_id}/stats"
+      },
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "GET",
+        "path": "/fighters/{fighter_id}/history"
+      },
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "POST",
+        "path": "/fighters/{fighter_id}/bout"
+      },
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "GET",
+        "path": "/stats/leaderboard"
+      },
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "GET",
+        "path": "/stats/weight_classes"
+      },
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "GET",
+        "path": "/fighters/search/{query}"
+      },
+      {
+        "decorator_var": "fighter_analytics_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "fjai\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "fjai\\audit_layer.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "fjai\\event_pipeline.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "fjai\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "fjai\\round_manager.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "fjai\\routes.py",
+    "tags": [
+      "Fight Judge AI"
+    ],
+    "routers": {
+      "fjai_router": {
+        "tags": [
+          "Fight Judge AI"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "fjai_router",
+        "method": "POST",
+        "path": "/round/open"
+      },
+      {
+        "decorator_var": "fjai_router",
+        "method": "POST",
+        "path": "/round/event"
+      },
+      {
+        "decorator_var": "fjai_router",
+        "method": "GET",
+        "path": "/round/score/{round_id}"
+      },
+      {
+        "decorator_var": "fjai_router",
+        "method": "POST",
+        "path": "/round/lock/{round_id}"
+      },
+      {
+        "decorator_var": "fjai_router",
+        "method": "GET",
+        "path": "/audit/export/{bout_id}"
+      },
+      {
+        "decorator_var": "fjai_router",
+        "method": "GET",
+        "path": "/audit/verify/{log_id}"
+      },
+      {
+        "decorator_var": "fjai_router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "fjai_router",
+        "method": "GET",
+        "path": "/system/status"
+      }
+    ]
+  },
+  {
+    "file": "fjai\\scoring_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "fjai\\websocket_manager.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "heartbeat_monitor\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "heartbeat_monitor\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "heartbeat_monitor\\monitor_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "heartbeat_monitor\\routes.py",
+    "tags": [
+      "Heartbeat Monitor"
+    ],
+    "routers": {
+      "heartbeat_api": {
+        "tags": [
+          "Heartbeat Monitor"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "heartbeat_api",
+        "method": "POST",
+        "path": "/heartbeat"
+      },
+      {
+        "decorator_var": "heartbeat_api",
+        "method": "GET",
+        "path": "/heartbeat/summary"
+      },
+      {
+        "decorator_var": "heartbeat_api",
+        "method": "GET",
+        "path": "/heartbeat/history/{service_name}"
+      },
+      {
+        "decorator_var": "heartbeat_api",
+        "method": "GET",
+        "path": "/heartbeat/health"
+      }
+    ]
+  },
+  {
+    "file": "highlight_worker\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "highlight_worker\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "highlight_worker\\routes.py",
+    "tags": [
+      "Highlight Worker"
+    ],
+    "routers": {
+      "highlight_worker_api": {
+        "tags": [
+          "Highlight Worker"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "highlight_worker_api",
+        "method": "GET",
+        "path": "/clips/{bout_id}"
+      },
+      {
+        "decorator_var": "highlight_worker_api",
+        "method": "POST",
+        "path": "/clips/generate"
+      },
+      {
+        "decorator_var": "highlight_worker_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "highlight_worker\\worker_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "icvss\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "icvss\\audit_logger.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "icvss\\demo_client.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "icvss\\event_processor.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "icvss\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "icvss\\round_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "icvss\\routes.py",
+    "tags": [
+      "ICVSS"
+    ],
+    "routers": {
+      "icvss_router": {
+        "tags": [
+          "ICVSS"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "icvss_router",
+        "method": "POST",
+        "path": "/round/open"
+      },
+      {
+        "decorator_var": "icvss_router",
+        "method": "POST",
+        "path": "/round/event"
+      },
+      {
+        "decorator_var": "icvss_router",
+        "method": "POST",
+        "path": "/round/event/batch"
+      },
+      {
+        "decorator_var": "icvss_router",
+        "method": "GET",
+        "path": "/round/score/{round_id}"
+      },
+      {
+        "decorator_var": "icvss_router",
+        "method": "POST",
+        "path": "/round/lock/{round_id}"
+      },
+      {
+        "decorator_var": "icvss_router",
+        "method": "GET",
+        "path": "/round/{round_id}"
+      },
+      {
+        "decorator_var": "icvss_router",
+        "method": "POST",
+        "path": "/cv/event"
+      },
+      {
+        "decorator_var": "icvss_router",
+        "method": "GET",
+        "path": "/stats"
+      },
+      {
+        "decorator_var": "icvss_router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "icvss_router",
+        "method": "GET",
+        "path": "/system/status"
+      }
+    ]
+  },
+  {
+    "file": "icvss\\scoring_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "icvss\\validation_suite.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "icvss\\websocket_manager.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "normalization_engine\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "normalization_engine\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "normalization_engine\\normalization_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "normalization_engine\\routes.py",
+    "tags": [
+      "Normalization Engine"
+    ],
+    "routers": {
+      "normalization_api": {
+        "tags": [
+          "Normalization Engine"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "normalization_api",
+        "method": "POST",
+        "path": "/normalize"
+      },
+      {
+        "decorator_var": "normalization_api",
+        "method": "POST",
+        "path": "/normalize/batch"
+      },
+      {
+        "decorator_var": "normalization_api",
+        "method": "GET",
+        "path": "/weights"
+      },
+      {
+        "decorator_var": "normalization_api",
+        "method": "POST",
+        "path": "/weights/reset"
+      },
+      {
+        "decorator_var": "normalization_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "organization_stats\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "organization_stats\\filters.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "organization_stats\\routes.py",
+    "tags": [
+      "Organization Stats"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Organization Stats"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/list"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/{organization_id}/summary"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/{organization_id}/events"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/{organization_id}/fighters"
+      }
+    ]
+  },
+  {
+    "file": "performance_profiler\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "performance_profiler\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "performance_profiler\\profiler_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "performance_profiler\\routes.py",
+    "tags": [
+      "Performance Profiler"
+    ],
+    "routers": {
+      "performance_profiler_api": {
+        "tags": [
+          "Performance Profiler"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "performance_profiler_api",
+        "method": "GET",
+        "path": "/summary"
+      },
+      {
+        "decorator_var": "performance_profiler_api",
+        "method": "POST",
+        "path": "/record/cv_inference"
+      },
+      {
+        "decorator_var": "performance_profiler_api",
+        "method": "POST",
+        "path": "/record/event_ingestion"
+      },
+      {
+        "decorator_var": "performance_profiler_api",
+        "method": "POST",
+        "path": "/record/scoring"
+      },
+      {
+        "decorator_var": "performance_profiler_api",
+        "method": "POST",
+        "path": "/record/websocket"
+      },
+      {
+        "decorator_var": "performance_profiler_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "pro_cv_analytics\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "pro_cv_analytics\\analytics_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "pro_cv_analytics\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "pro_cv_analytics\\routes.py",
+    "tags": [
+      "Professional CV Analytics"
+    ],
+    "routers": {
+      "pro_cv_api": {
+        "tags": [
+          "Professional CV Analytics"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "GET",
+        "path": "/pro-cv/metrics/{bout_id}/fie"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "GET",
+        "path": "/pro-cv/metrics/{bout_id}/comparison"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "POST",
+        "path": "/pro-cv/strikes/classify"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "POST",
+        "path": "/pro-cv/strikes/triangulate"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "POST",
+        "path": "/pro-cv/defense/detect"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "POST",
+        "path": "/pro-cv/ground/takedown"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "POST",
+        "path": "/pro-cv/ground/position"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "POST",
+        "path": "/pro-cv/ground/submission"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "GET",
+        "path": "/pro-cv/damage/{fighter_id}/heatmap"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "POST",
+        "path": "/pro-cv/damage/update"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "GET",
+        "path": "/pro-cv/momentum/{bout_id}/{round_num}"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "GET",
+        "path": "/pro-cv/engagement/{bout_id}/{round_num}"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "GET",
+        "path": "/pro-cv/report/{bout_id}/complete"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "GET",
+        "path": "/pro-cv/live/{bout_id}"
+      },
+      {
+        "decorator_var": "pro_cv_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "public_stats_routes.py",
+    "tags": [
+      "Public Stats"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Public Stats"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/cards"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/fights/{fight_id}/stats"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/fighters/{fighter_id}/stats"
+      }
+    ]
+  },
+  {
+    "file": "realtime_cv\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "realtime_cv\\cv_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "realtime_cv\\data_collection.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "realtime_cv\\data_routes.py",
+    "tags": [
+      "CV Data Collection"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "CV Data Collection"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/datasets"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/datasets/{source_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/datasets/{source_id}/download"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/datasets/{source_id}/process"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/datasets/upload"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/stats"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/auto-collect"
+      }
+    ]
+  },
+  {
+    "file": "realtime_cv\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "realtime_cv\\routes.py",
+    "tags": [
+      "Realtime CV"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Realtime CV"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/streams/start"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/streams/stop/{stream_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/streams/active"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/frames/analyze"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/frames/analyze/upload"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/detections/{bout_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/stats/{bout_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/models"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/simulate/frame"
+      }
+    ]
+  },
+  {
+    "file": "redis_utils.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "replay_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "replay_service\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "replay_service\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "replay_service\\replay_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "replay_service\\routes.py",
+    "tags": [
+      "Replay Service"
+    ],
+    "routers": {
+      "replay_service_api": {
+        "tags": [
+          "Replay Service"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "replay_service_api",
+        "method": "GET",
+        "path": "/replay"
+      },
+      {
+        "decorator_var": "replay_service_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "report_generator\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "report_generator\\generator_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "report_generator\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "report_generator\\routes.py",
+    "tags": [
+      "Report Generator"
+    ],
+    "routers": {
+      "report_generator_api": {
+        "tags": [
+          "Report Generator"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "report_generator_api",
+        "method": "GET",
+        "path": "/generate"
+      },
+      {
+        "decorator_var": "report_generator_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "review_interface\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "review_interface\\review_manager.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "review_interface\\routes.py",
+    "tags": [
+      "Post-Fight Review"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Post-Fight Review"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/timeline/{fight_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "PUT",
+        "path": "/events/{event_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "DELETE",
+        "path": "/events/{event_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/events/merge"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/fights/{fight_id}/approve"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/events/{event_id}/history"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/videos/upload"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/videos/{fight_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/videos/stream/{video_id}"
+      }
+    ]
+  },
+  {
+    "file": "round_validator\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "round_validator\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "round_validator\\routes.py",
+    "tags": [
+      "Round Validator"
+    ],
+    "routers": {
+      "round_validator_api": {
+        "tags": [
+          "Round Validator"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "round_validator_api",
+        "method": "POST",
+        "path": "/validate"
+      },
+      {
+        "decorator_var": "round_validator_api",
+        "method": "GET",
+        "path": "/rounds/{round_id}/validate"
+      },
+      {
+        "decorator_var": "round_validator_api",
+        "method": "GET",
+        "path": "/bouts/{bout_id}/validate"
+      },
+      {
+        "decorator_var": "round_validator_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "round_validator\\validator_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "scoring_engine_v2\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "scoring_engine_v2\\config_v3.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "scoring_engine_v2\\engine_v3.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "scoring_service\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "scoring_service\\core.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "scoring_service\\routes.py",
+    "tags": [
+      "Scoring Service"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Scoring Service"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/round"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/round/events"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/round/approve"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/fight/finalize"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/config"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/calculate-delta"
+      }
+    ]
+  },
+  {
+    "file": "scoring_simulator\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "scoring_simulator\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "scoring_simulator\\routes.py",
+    "tags": [
+      "Scoring Simulator"
+    ],
+    "routers": {
+      "scoring_simulator_api": {
+        "tags": [
+          "Scoring Simulator"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "scoring_simulator_api",
+        "method": "POST",
+        "path": "/simulate"
+      },
+      {
+        "decorator_var": "scoring_simulator_api",
+        "method": "GET",
+        "path": "/results/{bout_id}"
+      },
+      {
+        "decorator_var": "scoring_simulator_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "scoring_simulator\\simulator_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "server.py",
+    "tags": [],
+    "routers": {
+      "api_router": {
+        "tags": []
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/ping"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/status"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/status"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/calculate-score-v2"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/calculate-score"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/training-library/seed"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/training-library/rounds"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/training-library/rounds"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/training-library/submit-score"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/training-library/judge-stats/{judgeId}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/training-library/leaderboard"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/fighters/update-stats"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/fighters/{fighter_name}/stats"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/fighters/compare"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/review/create-flag"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/review/flags"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/review/flags/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "PUT",
+        "path": "/review/resolve/{flag_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/review/stats"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/tuning-profiles/create"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/tuning-profiles"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/tuning-profiles/default"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/tuning-profiles/{profile_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "PUT",
+        "path": "/tuning-profiles/{profile_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "DELETE",
+        "path": "/tuning-profiles/{profile_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/audit/log"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/audit/logs"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/audit/verify/{log_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/audit/export"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/audit/stats"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/judges"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/judges/{judge_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "PUT",
+        "path": "/judges/{judge_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/judges/{judge_id}/history"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/events/v2/log"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/events/v2/verify/{bout_id}/{round_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/events/v2/{bout_id}/{round_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/judge-scores/lock"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/judge-scores/unlock"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/judge-scores/{bout_id}/{round_num}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/judge-scores/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/rounds/force-close"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/replay/{bout_id}/{round_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/bouts"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/bouts/active"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/bouts"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/bouts/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "PATCH",
+        "path": "/bouts/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "PUT",
+        "path": "/bouts/{bout_id}/round-score"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "PUT",
+        "path": "/bouts/{bout_id}/status"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/sync/register-device"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/sync/next-round"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/sync/round-status/{bout_id}/{round_num}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/sync/end-fight"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/sync/event"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/sync/compute-round"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/sync/status/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/sync/events/{bout_id}/{round_num}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/sync/heartbeat"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/events"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/operators/register"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/operators/status"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/operators/heartbeat"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/events/create"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/supervisor/fights"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/supervisor/activate-fight"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "DELETE",
+        "path": "/bouts/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/operators/list"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/operators/assign"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/operators/unassign"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "DELETE",
+        "path": "/operators/remove"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/bouts/{bout_id}/advance-round"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/bouts/{bout_id}/current-round"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/events"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/events/supervisor"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "DELETE",
+        "path": "/events"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "DELETE",
+        "path": "/events/by-id/{event_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/rounds/preview"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/rounds/compute"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/rounds"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "PUT",
+        "path": "/rounds/{bout_id}/{round_number}/score"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/fights/finalize"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/fights/{bout_id}/result"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/live/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/final/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/fight/complete/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/fight/completed/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/fights/completed"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/telemetry/report"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/telemetry/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/judge-session/create"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/judge-session/{judge_session_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/round-notes"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/round-notes/{bout_id}/{round_num}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/round-notes/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "PUT",
+        "path": "/round-notes/{note_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "DELETE",
+        "path": "/round-notes/{note_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/supervisor/dashboard/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/variance/detect/{bout_id}/{round_num}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/branding/promotion"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/branding/promotion/{promotion_name}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/broadcast/buffer/config"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/broadcast/buffer/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/overlay/stats/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "GET",
+        "path": "/broadcast/control/{bout_id}"
+      },
+      {
+        "decorator_var": "api_router",
+        "method": "POST",
+        "path": "/broadcast/control/{bout_id}"
+      }
+    ]
+  },
+  {
+    "file": "simulate_heartbeats.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "social_media\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "social_media\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "social_media\\routes.py",
+    "tags": [
+      "Social Media"
+    ],
+    "routers": {
+      "social_media_api": {
+        "tags": [
+          "Social Media"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "social_media_api",
+        "method": "POST",
+        "path": "/social/twitter/post"
+      },
+      {
+        "decorator_var": "social_media_api",
+        "method": "POST",
+        "path": "/social/instagram/story"
+      },
+      {
+        "decorator_var": "social_media_api",
+        "method": "POST",
+        "path": "/social/auto/round-score"
+      },
+      {
+        "decorator_var": "social_media_api",
+        "method": "GET",
+        "path": "/social/posts"
+      },
+      {
+        "decorator_var": "social_media_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "social_media\\social_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stat_engine\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stat_engine\\audit_logger.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stat_engine\\career_aggregator.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stat_engine\\event_reader.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stat_engine\\fight_aggregator.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stat_engine\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stat_engine\\round_aggregator.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stat_engine\\routes.py",
+    "tags": [
+      "Stat Engine"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Stat Engine"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/aggregate/round"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/aggregate/fight"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/aggregate/career"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/aggregate/full/{fight_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/round/{fight_id}/{round_num}/{fighter_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/fight/{fight_id}/{fighter_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/career/{fighter_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/fight/{fight_id}/all"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/jobs"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/audit-logs"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/audit-logs/fight/{fight_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/live/{fight_id}"
+      }
+    ]
+  },
+  {
+    "file": "stat_engine\\scheduler.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stat_engine\\websocket_handler.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stats_overlay\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stats_overlay\\aggregator.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stats_overlay\\cache_manager.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "stats_overlay\\routes.py",
+    "tags": [
+      "Stats Overlay"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Stats Overlay"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/live/{fight_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/comparison/{fight_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/cache/invalidate/{fight_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/stats/cache"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/stats/websockets"
+      }
+    ]
+  },
+  {
+    "file": "stats_overlay\\websocket_handler.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "storage_manager\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "storage_manager\\manager_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "storage_manager\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "storage_manager\\routes.py",
+    "tags": [
+      "Storage Manager"
+    ],
+    "routers": {
+      "storage_manager_api": {
+        "tags": [
+          "Storage Manager"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "storage_manager_api",
+        "method": "GET",
+        "path": "/status"
+      },
+      {
+        "decorator_var": "storage_manager_api",
+        "method": "POST",
+        "path": "/cleanup"
+      },
+      {
+        "decorator_var": "storage_manager_api",
+        "method": "POST",
+        "path": "/archive"
+      },
+      {
+        "decorator_var": "storage_manager_api",
+        "method": "GET",
+        "path": "/health"
+      }
+    ]
+  },
+  {
+    "file": "supabase_client.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "supabase_routes.py",
+    "tags": [
+      "supabase"
+    ],
+    "routers": {
+      "supabase_router": {
+        "tags": [
+          "supabase"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "supabase_router",
+        "method": "POST",
+        "path": "/fights"
+      },
+      {
+        "decorator_var": "supabase_router",
+        "method": "GET",
+        "path": "/fights/{fight_id}"
+      },
+      {
+        "decorator_var": "supabase_router",
+        "method": "GET",
+        "path": "/fights"
+      },
+      {
+        "decorator_var": "supabase_router",
+        "method": "PUT",
+        "path": "/fights/{fight_id}"
+      },
+      {
+        "decorator_var": "supabase_router",
+        "method": "POST",
+        "path": "/judgments"
+      },
+      {
+        "decorator_var": "supabase_router",
+        "method": "GET",
+        "path": "/judgments/{judgment_id}"
+      },
+      {
+        "decorator_var": "supabase_router",
+        "method": "GET",
+        "path": "/fights/{fight_id}/judgments"
+      },
+      {
+        "decorator_var": "supabase_router",
+        "method": "GET",
+        "path": "/judgments"
+      },
+      {
+        "decorator_var": "supabase_router",
+        "method": "PUT",
+        "path": "/judgments/{judgment_id}"
+      },
+      {
+        "decorator_var": "supabase_router",
+        "method": "GET",
+        "path": "/stats/fights"
+      },
+      {
+        "decorator_var": "supabase_router",
+        "method": "GET",
+        "path": "/stats/judgments"
+      }
+    ]
+  },
+  {
+    "file": "tapology_scraper\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tapology_scraper\\data_transformer.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tapology_scraper\\routes.py",
+    "tags": [
+      "Tapology Scraper"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Tapology Scraper"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/status"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/events/recent"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/fighter/{fighter_identifier}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/event/{event_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/bulk/ufc-recent"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/fighters/search"
+      }
+    ]
+  },
+  {
+    "file": "tapology_scraper\\scraper_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tapology_scraper\\storage_manager.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_bug_fixes_iteration7.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_control_gap_reset.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_enterprise_services.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_fjai_integration.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_heartbeat_monitor.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_icvss.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_integration_realtime.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_microservices.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_production_services.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_realtime_cv.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_scoring_api.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_scoring_engine_v3.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_scoring_service.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_stat_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_tuning_services.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "tests\\test_v3_scoring_comprehensive.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "time_sync\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "time_sync\\models.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "time_sync\\routes.py",
+    "tags": [
+      "Time Sync"
+    ],
+    "routers": {
+      "time_sync_api": {
+        "tags": [
+          "Time Sync"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "time_sync_api",
+        "method": "GET",
+        "path": "/now"
+      },
+      {
+        "decorator_var": "time_sync_api",
+        "method": "POST",
+        "path": "/sync"
+      },
+      {
+        "decorator_var": "time_sync_api",
+        "method": "GET",
+        "path": "/stats"
+      },
+      {
+        "decorator_var": "time_sync_api",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "time_sync_api",
+        "method": "POST",
+        "path": "/clock/start"
+      },
+      {
+        "decorator_var": "time_sync_api",
+        "method": "POST",
+        "path": "/clock/pause"
+      },
+      {
+        "decorator_var": "time_sync_api",
+        "method": "POST",
+        "path": "/clock/reset"
+      },
+      {
+        "decorator_var": "time_sync_api",
+        "method": "GET",
+        "path": "/clock/now"
+      }
+    ]
+  },
+  {
+    "file": "time_sync\\sync_engine.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "unified_scoring.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "verification_engine\\__init__.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  },
+  {
+    "file": "verification_engine\\routes.py",
+    "tags": [
+      "Verification Engine"
+    ],
+    "routers": {
+      "router": {
+        "tags": [
+          "Verification Engine"
+        ]
+      }
+    },
+    "endpoints": [
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/verify/round/{fight_id}/{round_num}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/verify/fight/{fight_id}"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/discrepancies"
+      },
+      {
+        "decorator_var": "router",
+        "method": "POST",
+        "path": "/discrepancies/{discrepancy_id}/resolve"
+      },
+      {
+        "decorator_var": "router",
+        "method": "GET",
+        "path": "/stats/summary"
+      }
+    ]
+  },
+  {
+    "file": "verification_engine\\verifier.py",
+    "tags": [],
+    "routers": {},
+    "endpoints": []
+  }
+]
