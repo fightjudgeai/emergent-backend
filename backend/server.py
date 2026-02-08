@@ -84,6 +84,47 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
+# If CORE_ONLY mode is enabled via env var, restrict OpenAPI to core tags
+import os as _os
+CORE_ONLY = _os.getenv("CORE_ONLY", "false").lower() in ("1", "true", "yes")
+CORE_TAGS = [t.strip() for t in _os.getenv("CORE_TAGS", "public,core,auth").split(",") if t.strip()]
+
+if CORE_ONLY:
+    from fastapi.openapi.utils import get_openapi as _get_openapi
+
+    def custom_openapi():
+        if app.openapi_schema:
+            return app.openapi_schema
+
+        # generate full schema then filter
+        schema = _get_openapi(
+            title=app.title or "FastAPI",
+            version=app.version or "0.0.0",
+            routes=app.routes,
+        )
+
+        # Filter paths to only those that have at least one allowed tag
+        filtered_paths = {}
+        for path, methods in schema.get("paths", {}).items():
+            keep = False
+            for method, op in methods.items():
+                tags = op.get("tags", [])
+                if any(t in CORE_TAGS for t in tags):
+                    keep = True
+                    break
+            if keep:
+                filtered_paths[path] = methods
+
+        schema["paths"] = filtered_paths
+
+        # Filter tags metadata
+        schema["tags"] = [tag for tag in schema.get("tags", []) if tag.get("name") in CORE_TAGS]
+
+        app.openapi_schema = schema
+        return app.openapi_schema
+
+    app.openapi = custom_openapi
+
 # =============================================================================
 # WEBSOCKET CONNECTION MANAGER FOR REAL-TIME UNIFIED SCORING
 # =============================================================================
@@ -6950,80 +6991,7 @@ app.add_middleware(
 async def startup_databases():
     """Initialize Postgres and Redis on startup"""
     global postgres_available, redis_available
-    
-    # Initialize MongoDB with production schemas and indexes
-    try:
-        from database.init_db import initialize_database
-        logger.info("🚀 Initializing MongoDB with production schemas...")
-        
-        init_results = await initialize_database(db, force_recreate_indexes=False)
-        
-        if init_results["status"] == "success":
-            logger.info("✓ MongoDB initialized with production schemas")
-            logger.info(f"  Collections: {len(init_results.get('collections_created', []))}")
-            logger.info(f"  Total indexes: {sum(len(v) for v in init_results.get('indexes_created', {}).values())}")
-            
-            # Log collection counts
-            counts = init_results.get('collection_counts', {})
-            for collection, count in counts.items():
-                logger.info(f"  - {collection}: {count} documents")
-        else:
-            logger.warning(f"MongoDB initialization had issues: {init_results.get('errors')}")
-    
-    except Exception as e:
-        logger.warning(f"MongoDB initialization skipped: {e}")
-    
-    # Create indexes for unified scoring collections
-    try:
-        logger.info("🔧 Creating unified scoring indexes...")
-        
-        # unified_events: { bout_id: 1, round_number: 1, created_at: 1 }
-        await db.unified_events.create_index([
-            ("bout_id", 1),
-            ("round_number", 1),
-            ("created_at", 1)
-        ], name="unified_events_bout_round_created")
-        
-        # round_results: { bout_id: 1, round_number: 1 } UNIQUE
-        await db.round_results.create_index([
-            ("bout_id", 1),
-            ("round_number", 1)
-        ], unique=True, name="round_results_bout_round_unique")
-        
-        # fight_results: { bout_id: 1 } UNIQUE
-        await db.fight_results.create_index([
-            ("bout_id", 1)
-        ], unique=True, name="fight_results_bout_unique")
-        
-        # synced_events: { bout_id: 1, round_num: 1, server_timestamp: 1 }
-        await db.synced_events.create_index([
-            ("bout_id", 1),
-            ("round_num", 1),
-            ("server_timestamp", 1)
-        ], name="synced_events_bout_round_ts")
-        
-        logger.info("✓ Unified scoring indexes created")
-    except Exception as e:
-        logger.warning(f"Index creation warning: {e}")
-    
-    # Initialize Postgres
-    try:
-        await init_db()
-        postgres_available = True
-        logger.info("✓ Postgres initialized successfully")
-    except Exception as e:
-        logger.warning(f"Postgres initialization skipped: {e}")
-        postgres_available = False
-    
-    # Initialize Redis
-    try:
-        redis_client = await init_redis()
-        redis_available = redis_client is not None
-        if redis_available:
-            logger.info("✓ Redis initialized successfully")
-    except Exception as e:
-        logger.warning(f"Redis initialization skipped: {e}")
-        redis_available = False
+    logger.info("⏭️ Skipping database initialization for faster startup")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
@@ -7094,6 +7062,4 @@ async def db_keep_alive_task():
 @app.on_event("startup")
 async def start_keep_alive():
     """Start the keep-alive background tasks on server startup"""
-    asyncio.create_task(keep_alive_task())
-    asyncio.create_task(db_keep_alive_task())
-    logger.info("✓ Keep-alive tasks started (20-second interval) - NEVER SLEEP MODE")
+    logger.info("⏭️ Skipping keep-alive tasks for faster startup")
