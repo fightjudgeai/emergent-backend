@@ -15,8 +15,8 @@ SCORING_CONFIG = {
     # STRIKING (STAND-UP)
     # -------------------------------------------------------------------------
     "striking": {
-        "jab": {"points": 1.5, "category": "striking", "label": "Jab", "is_ss": False},
-        "ss_jab": {"points": 2, "category": "striking", "label": "SS Jab", "is_ss": True},
+        "jab": {"points": 1, "category": "striking", "label": "Jab", "is_ss": False},
+        "ss_jab": {"points": 2.25, "category": "striking", "label": "SS Jab", "is_ss": True},
         "cross": {"points": 3, "category": "striking", "label": "Cross", "is_ss": False},
         "ss_cross": {"points": 4.5, "category": "striking", "label": "SS Cross", "is_ss": True},
         "hook": {"points": 3, "category": "striking", "label": "Hook", "is_ss": False},
@@ -25,9 +25,9 @@ SCORING_CONFIG = {
         "ss_uppercut": {"points": 4.5, "category": "striking", "label": "SS Uppercut", "is_ss": True},
         "kick": {"points": 3, "category": "striking", "label": "Kick", "is_ss": False},
         "ss_kick": {"points": 5.5, "category": "striking", "label": "SS Kick", "is_ss": True},
-        "elbow": {"points": 4, "category": "striking", "label": "Elbow", "is_ss": False},
+        "elbow": {"points": 3, "category": "striking", "label": "Elbow", "is_ss": False},
         "ss_elbow": {"points": 5.5, "category": "striking", "label": "SS Elbow", "is_ss": True},
-        "knee": {"points": 4, "category": "striking", "label": "Knee", "is_ss": False},
+        "knee": {"points": 3, "category": "striking", "label": "Knee", "is_ss": False},
         "ss_knee": {"points": 5.5, "category": "striking", "label": "SS Knee", "is_ss": True},
     },
     
@@ -55,6 +55,8 @@ SCORING_CONFIG = {
     "ground_strikes": {
         "gnp_light": {"points": 1, "category": "ground_strikes", "label": "GnP Light", "is_ss": False},
         "gnp_hard": {"points": 3, "category": "ground_strikes", "label": "GnP Hard", "is_ss": False},
+         "cagestrikes_light": {"points": 1, "category": "ground_strikes", "label": "Cage Strikes Light", "is_ss": False},
+        "Cagestrikes_hard": {"points": 2, "category": "ground_strikes", "label": "Cage Strikes Hard", "is_ss": False},
     },
     
     # -------------------------------------------------------------------------
@@ -87,9 +89,9 @@ REGULARIZATION_RULES = {
     "technique_diminishing_returns": {
         "enabled": True,
         "thresholds": [
-            {"min": 1, "max": 15, "multiplier": 1.00},
-            {"min": 16, "max": 30, "multiplier": 0.75},
-            {"min": 31, "max": 999, "multiplier": 0.50},
+            {"min": 1, "max": 10, "multiplier": 1.00},
+            {"min": 11, "max": 20, "multiplier": 0.75},
+            {"min": 21, "max": 999, "multiplier": 0.50},
         ],
         # Techniques this applies to
         "applies_to": [
@@ -105,9 +107,9 @@ REGULARIZATION_RULES = {
     "ss_abuse_guardrail": {
         "enabled": True,
         "thresholds": [
-            {"min": 1, "max": 15, "multiplier": 1.00},
-            {"min": 16, "max": 30, "multiplier": 0.75},
-            {"min": 31, "max": 999, "multiplier": 0.50},
+            {"min": 1, "max": 8, "multiplier": 1.00},
+            {"min": 9, "max": 14, "multiplier": 0.75},
+            {"min": 15, "max": 999, "multiplier": 0.50},
         ],
         # SS event keys
         "ss_events": ["ss_jab", "ss_cross", "ss_hook", "ss_uppercut", "ss_kick", "ss_elbow", "ss_knee"]
@@ -163,12 +165,12 @@ IMPACT_LOCK_RULES = {
         },
         "kd_hard": {
             "name": "Hard Lock",
-            "delta_threshold": 110,  # Cannot lose unless opponent leads by >= 110
+            "delta_threshold": 100,  # Cannot lose unless opponent leads by >= 110
             "reason_code": "impact_lock_kd_hard",
         },
         "kd_nf": {
             "name": "Near-Finish Lock",
-            "delta_threshold": 150,  # Cannot lose unless opponent leads by >= 150
+            "delta_threshold": 200,  # Cannot lose unless opponent leads by >= 150
             "reason_code": "impact_lock_kd_nf",
         },
         },
@@ -196,12 +198,12 @@ ROUND_SCORING = {
     "score_10_8": {
         "requires_impact": True,  # Must have impact event
         "min_impact_events": 2,   # At least 2 protected events OR
-        "min_delta": 600,         # OR delta >= 600 (10-8 range: 600-749)
+        "min_delta": 1000,         # OR delta >= 600 (10-8 range: 600-749)
     },
     "score_10_7": {
         "requires_impact": True,
         "min_impact_events": 3,   # At least 3 protected events OR
-        "min_delta": 750,         # OR delta >= 750
+        "min_delta": 1500,         # OR delta >= 750
     },
 }
 
@@ -254,6 +256,8 @@ LEGACY_EVENT_MAP = {
     "GnP Light": "gnp_light",
     "GnP Hard": "gnp_hard",
     "GnP Solid": "gnp_hard",
+    "Cage Strikes Light": "cage_light",
+    "Cage Strikes Hard": "cage_hard",
     
     # Control
     "Top Control": "top_control",

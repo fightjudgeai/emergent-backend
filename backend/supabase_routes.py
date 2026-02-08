@@ -1,11 +1,18 @@
 """
-Supabase-based API routes for fights and judgments
+Supabase-based API routes for fights and judgments (v1)
 Add these routes to your FastAPI app
+Features:
+- Input validation with Pydantic
+- Retry logic for transient failures
+- Standardized response format
+- API versioning
 """
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, status
 from typing import Optional, Dict, Any
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, validator
 import logging
+import json
+from datetime import datetime, timezone
 
 from supabase_client import (
     create_fight,
@@ -21,34 +28,81 @@ from supabase_client import (
 
 logger = logging.getLogger(__name__)
 
-# Create router
-supabase_router = APIRouter(prefix="/api/supabase", tags=["supabase"])
+# Create router with versioning
+supabase_router = APIRouter(prefix="/v1/supabase", tags=["supabase"])
 
 # ==============================================================================
 # DATA MODELS
 # ==============================================================================
 
 class FightCreate(BaseModel):
-    description: str
-    user_id: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    external_id: str = Field(..., min_length=1, max_length=255, description="External fight identifier")
+    metadata: Optional[Dict[str, Any]] = Field(default=None, description="Fight metadata (fighters, event, location, etc.)")
+    
+    @validator('external_id')
+    def validate_external_id(cls, v):
+        """Validate external_id is not just whitespace"""
+        if not v.strip():
+            raise ValueError("external_id cannot be empty or whitespace")
+        return v.strip()
+    
+    @validator('metadata')
+    def validate_metadata(cls, v):
+        """Ensure metadata is valid JSON-serializable"""
+        if v is None:
+            return {}
+        try:
+            json.dumps(v)  # Ensure it's JSON serializable
+        except (TypeError, ValueError) as e:
+            raise ValueError(f"metadata must be JSON-serializable: {e}")
+        return v
 
 class FightUpdate(BaseModel):
-    description: Optional[str] = None
+    external_id: Optional[str] = Field(None, min_length=1, max_length=255)
     metadata: Optional[Dict[str, Any]] = None
+    
+    @validator('metadata')
+    def validate_metadata(cls, v):
+        """Ensure metadata is valid JSON-serializable"""
+        if v is None:
+            return None
+        try:
+            json.dumps(v)
+        except (TypeError, ValueError) as e:
+            raise ValueError(f"metadata must be JSON-serializable: {e}")
+        return v
 
 class JudgmentCreate(BaseModel):
-    fight_id: str
-    winner: Optional[str] = None
-    scores: Dict[str, Any]
-    reasoning: str
-    ai_model: Optional[str] = None
-    user_id: Optional[str] = None
+    fight_id: str = Field(..., description="UUID of the fight")
+    judge: Optional[str] = Field(None, max_length=255, description="Judge identifier")
+    scores: Dict[str, Any] = Field(..., description="Scoring data (rounds, criteria, etc.)")
+    
+    @validator('scores')
+    def validate_scores(cls, v):
+        """Ensure scores is valid and not empty"""
+        if not v:
+            raise ValueError("scores cannot be empty")
+        try:
+            json.dumps(v)
+        except (TypeError, ValueError) as e:
+            raise ValueError(f"scores must be JSON-serializable: {e}")
+        return v
 
 class JudgmentUpdate(BaseModel):
-    winner: Optional[str] = None
+    judge: Optional[str] = Field(None, max_length=255)
     scores: Optional[Dict[str, Any]] = None
     reasoning: Optional[str] = None
+    
+    @validator('scores')
+    def validate_scores(cls, v):
+        """Ensure scores is valid"""
+        if v is None:
+            return None
+        try:
+            json.dumps(v)
+        except (TypeError, ValueError) as e:
+            raise ValueError(f"scores must be JSON-serializable: {e}")
+        return v
 
 # ==============================================================================
 # FIGHTS ENDPOINTS
@@ -59,14 +113,12 @@ async def create_new_fight(fight: FightCreate):
     """
     Create a new fight record in Supabase
     
-    - **description**: Description of the fight
-    - **user_id**: Optional user identifier
+    - **external_id**: External fight identifier
     - **metadata**: Optional JSON metadata (fighters, event info, etc.)
     """
     try:
         result = await create_fight(
-            description=fight.description,
-            user_id=fight.user_id,
+            external_id=fight.external_id,
             metadata=fight.metadata
         )
         if result:
@@ -139,20 +191,14 @@ async def submit_new_judgment(judgment: JudgmentCreate):
     Create a new judgment record
     
     - **fight_id**: ID of the fight being judged
-    - **winner**: Winner of the fight (optional)
+    - **judge**: Judge identifier (optional)
     - **scores**: Scoring breakdown (required)
-    - **reasoning**: Text explanation of the judgment
-    - **ai_model**: Name of AI model used (optional)
-    - **user_id**: Judge user ID (optional)
     """
     try:
         result = await create_judgment(
             fight_id=judgment.fight_id,
-            winner=judgment.winner,
-            scores=judgment.scores,
-            reasoning=judgment.reasoning,
-            ai_model=judgment.ai_model,
-            user_id=judgment.user_id
+            judge=judgment.judge,
+            scores=judgment.scores
         )
         if result:
             return {"status": "success", "data": result}
@@ -270,6 +316,45 @@ async def get_judgment_stats(user_id: Optional[str] = None):
         raise HTTPException(status_code=500, detail=str(e))
 
 # ==============================================================================
+# HEALTH CHECK ENDPOINT
+# ==============================================================================
+
+@supabase_router.get("/health", summary="Health check with database status")
+async def health_check():
+    """
+    Comprehensive health check endpoint
+    Returns status of Supabase connectivity and basic statistics
+    """
+    try:
+        from supabase_client import check_supabase_health, http_client
+        
+        # Check Supabase connectivity
+        supabase_ok = await check_supabase_health() if http_client else False
+        
+        # Get basic counts
+        fights_count = len(await list_fights(limit=1)) if supabase_ok else 0
+        judgments_count = len(await list_judgments(limit=1)) if supabase_ok else 0
+        
+        return {
+            "status": "ok" if supabase_ok else "degraded",
+            "service": "supabase",
+            "database_connected": supabase_ok,
+            "statistics": {
+                "total_fights_stored": len(await list_fights(limit=10000)) if supabase_ok else 0,
+                "total_judgments_stored": len(await list_judgments(limit=10000)) if supabase_ok else 0,
+            },
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Health check failed: {e}")
+        return {
+            "status": "error",
+            "service": "supabase",
+            "database_connected": False,
+            "error": str(e),
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+# ==============================================================================
 # EXPORT ROUTER
 # ==============================================================================
 
@@ -278,35 +363,79 @@ def get_supabase_router():
     return supabase_router
 
 # ==============================================================================
-# INTEGRATION INSTRUCTIONS
+# INTEGRATION INSTRUCTIONS & API DOCUMENTATION
 # ==============================================================================
 """
-To integrate these routes into your FastAPI app (server.py):
+API Versioning: v1.0
+Path Prefix: /api/v1/supabase
 
-1. Import at the top:
-   from supabase_routes import get_supabase_router
+Features:
+- RESTful CRUD operations for fights and judgments
+- Input validation with Pydantic models
+- Automatic retry logic for transient network failures (up to 3 attempts)
+- JSON schema validation for metadata and scores fields
+- Health check with database connectivity status
+- Statistics endpoints for monitoring
 
-2. In your app setup section, add:
-   supabase_router = get_supabase_router()
-   app.include_router(supabase_router)
+Endpoints Overview:
 
-3. Make sure you've initialized Supabase in startup:
-   from supabase_client import init_supabase
-   
-   @app.on_event("startup")
-   async def startup_supabase():
-       init_supabase()
+FIGHTS:
+  - POST   /api/v1/supabase/fights              - Create a new fight
+  - GET    /api/v1/supabase/fights              - List all fights (paginated)
+  - GET    /api/v1/supabase/fights/{fight_id}   - Get specific fight
+  - PUT    /api/v1/supabase/fights/{fight_id}   - Update a fight
 
-4. Your endpoints will be available at:
-   - POST   /api/supabase/fights
-   - GET    /api/supabase/fights
-   - GET    /api/supabase/fights/{fight_id}
-   - PUT    /api/supabase/fights/{fight_id}
-   - POST   /api/supabase/judgments
-   - GET    /api/supabase/judgments
-   - GET    /api/supabase/judgments/{judgment_id}
-   - GET    /api/supabase/fights/{fight_id}/judgments
-   - PUT    /api/supabase/judgments/{judgment_id}
-   - GET    /api/supabase/stats/fights
-   - GET    /api/supabase/stats/judgments
+JUDGMENTS:
+  - POST   /api/v1/supabase/judgments                    - Submit a judgment
+  - GET    /api/v1/supabase/judgments                    - List all judgments
+  - GET    /api/v1/supabase/judgments/{judgment_id}      - Get specific judgment
+  - PUT    /api/v1/supabase/judgments/{judgment_id}      - Update a judgment
+  - GET    /api/v1/supabase/fights/{fight_id}/judgments  - Get judgments for fight
+
+ANALYTICS:
+  - GET    /api/v1/supabase/stats/fights      - Fight statistics
+  - GET    /api/v1/supabase/stats/judgments   - Judgment statistics
+
+MONITORING:
+  - GET    /api/v1/supabase/health  - Health check with database status
+
+Example Requests:
+
+1. Create a fight:
+   POST /api/v1/supabase/fights
+   {
+     "external_id": "fight_001",
+     "metadata": {
+       "event": "UFC 300",
+       "fighters": ["Fighter A", "Fighter B"],
+       "location": "Las Vegas",
+       "date": "2026-02-07"
+     }
+   }
+
+2. Create a judgment:
+   POST /api/v1/supabase/judgments
+   {
+     "fight_id": "550e8400-e29b-41d4-a716-446655440000",
+     "judge": "Judge1",
+     "scores": {
+       "round_1": 10,
+       "round_2": 9,
+       "round_3": 10,
+       "winner": "fighter1"
+     }
+   }
+
+3. Get health status:
+   GET /api/v1/supabase/health
+   Response: { "status": "ok", "database_connected": true, ... }
+
+Error Handling:
+- 400 Bad Request: Validation errors on input fields
+- 404 Not Found: Resource doesn't exist
+- 500 Internal Server Error: Database or server error
+  
+All 5xx errors include automatic retry logic (up to 3 attempts with exponential backoff)
+for transient failures (timeouts, connection errors).
 """
+

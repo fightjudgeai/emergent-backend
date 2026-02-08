@@ -1,6 +1,7 @@
 """
 Supabase database client using REST API (no SDK required)
 Uses httpx for direct REST API calls to Supabase PostgreSQL
+Includes retry logic for transient failures
 """
 import os
 import json
@@ -8,6 +9,13 @@ import logging
 from typing import Optional, Dict, List, Any
 import httpx
 from datetime import datetime
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    wait_exponential,
+    retry_if_exception_type,
+    retry_if_result,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -83,8 +91,7 @@ async def init_supabase():
 # ==============================================================================
 
 async def create_fight(
-    description: str,
-    user_id: str,
+    external_id: str,
     metadata: Optional[Dict[str, Any]] = None
 ) -> Optional[Dict]:
     """Create a new fight record in Supabase"""
@@ -94,12 +101,16 @@ async def create_fight(
         logger.warning("Supabase not initialized")
         return None
     
-    try:
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=retry_if_exception_type((httpx.RequestError, httpx.TimeoutException)),
+        reraise=True
+    )
+    async def _make_request():
         fight_data = {
-            "description": description,
-            "user_id": user_id,
-            "metadata": metadata or {},
-            "created_at": datetime.utcnow().isoformat()
+            "external_id": external_id,
+            "metadata": metadata or {}
         }
         
         headers = get_headers()
@@ -109,16 +120,21 @@ async def create_fight(
             json=fight_data
         )
         
+        logger.debug(f"Response status: {response.status_code}")
+        logger.debug(f"Response text: {response.text}")
+        
         if response.status_code in [200, 201]:
             data = response.json()
             logger.info(f"✓ Fight created: {data}")
             return data[0] if isinstance(data, list) else data
         else:
-            logger.error(f"Error creating fight: {response.text}")
+            logger.error(f"Failed to create fight. Status: {response.status_code}. Body: {response.text}")
             return None
     
+    try:
+        return await _make_request()
     except Exception as e:
-        logger.error(f"Error creating fight: {e}")
+        logger.error(f"Error creating fight after retries: {e}")
         return None
 
 async def get_fight(fight_id: str) -> Optional[Dict]:
@@ -201,11 +217,8 @@ async def update_fight(fight_id: str, updates: Dict) -> Optional[Dict]:
 
 async def create_judgment(
     fight_id: str,
-    winner: Optional[str],
-    scores: Dict[str, Any],
-    reasoning: str,
-    ai_model: Optional[str] = None,
-    user_id: Optional[str] = None
+    judge: Optional[str] = None,
+    scores: Optional[Dict[str, Any]] = None
 ) -> Optional[Dict]:
     """Create a new judgment record"""
     _load_credentials()
@@ -214,15 +227,17 @@ async def create_judgment(
         logger.warning("Supabase not initialized")
         return None
     
-    try:
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=retry_if_exception_type((httpx.RequestError, httpx.TimeoutException)),
+        reraise=True
+    )
+    async def _make_request():
         judgment_data = {
             "fight_id": fight_id,
-            "winner": winner,
-            "scores": scores,
-            "reasoning": reasoning,
-            "ai_model": ai_model,
-            "user_id": user_id,
-            "created_at": datetime.utcnow().isoformat()
+            "judge": judge,
+            "scores": scores or {}
         }
         
         headers = get_headers()
@@ -232,16 +247,23 @@ async def create_judgment(
             json=judgment_data
         )
         
+        logger.debug(f"Response status: {response.status_code}")
+        logger.debug(f"Response text: {response.text}")
+        
         if response.status_code in [200, 201]:
             data = response.json()
             logger.info(f"✓ Judgment created: {data}")
             return data[0] if isinstance(data, list) else data
         else:
-            logger.error(f"Error creating judgment: {response.text}")
+            logger.error(f"Failed to create judgment. Status: {response.status_code}. Body: {response.text}")
             return None
     
+    try:
+        return await _make_request()
     except Exception as e:
-        logger.error(f"Error creating judgment: {e}")
+        logger.error(f"Error creating judgment after retries: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
         return None
 
 async def get_judgment(judgment_id: str) -> Optional[Dict]:

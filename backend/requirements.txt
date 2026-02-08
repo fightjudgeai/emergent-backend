@@ -79,4 +79,7 @@ uvicorn==0.25.0
 watchfiles==1.1.1
 yarl==1.22.0
 beautifulsoup4==4.14.2
-lxml==6.0.2supabase==2.4.2
+lxml==6.0.2
+supabase==2.4.2
+tenacity==8.2.3
+httpx==0.26.0

@@ -6976,6 +6976,29 @@ try:
 except Exception as e:
     logger.warning(f"Scoring Service not loaded: {e}")
 
+# ============================================================================
+# SUPABASE - Fight/Judgment Database Integration (v1)
+# ============================================================================
+try:
+    from supabase_routes import supabase_router
+    api_router.include_router(supabase_router)
+    logger.info("✓ Supabase Integration v1 loaded - Fight/Judgment storage")
+    logger.info("  - POST /api/v1/supabase/fights (create fight)")
+    logger.info("  - GET /api/v1/supabase/fights (list fights)")
+    logger.info("  - GET /api/v1/supabase/fights/{fight_id} (get fight)")
+    logger.info("  - PUT /api/v1/supabase/fights/{fight_id} (update fight)")
+    logger.info("  - POST /api/v1/supabase/judgments (create judgment)")
+    logger.info("  - GET /api/v1/supabase/judgments (list judgments)")
+    logger.info("  - GET /api/v1/supabase/judgments/{judgment_id} (get judgment)")
+    logger.info("  - GET /api/v1/supabase/fights/{fight_id}/judgments (get fight judgments)")
+    logger.info("  - PUT /api/v1/supabase/judgments/{judgment_id} (update judgment)")
+    logger.info("  - GET /api/v1/supabase/stats/fights (fight statistics)")
+    logger.info("  - GET /api/v1/supabase/stats/judgments (judgment statistics)")
+except Exception as e:
+    logger.warning(f"Supabase Integration not loaded: {e}")
+    import traceback
+    logger.debug(traceback.format_exc())
+
 # Include the router in the main app
 app.include_router(api_router)
 
@@ -6989,9 +7012,17 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup_databases():
-    """Initialize Postgres and Redis on startup"""
+    """Initialize Postgres, Redis, and Supabase on startup"""
     global postgres_available, redis_available
     logger.info("⏭️ Skipping database initialization for faster startup")
+    
+    # Initialize Supabase REST client
+    try:
+        from supabase_client import init_supabase
+        await init_supabase()
+        logger.info("✓ Supabase REST client initialized on startup")
+    except Exception as e:
+        logger.warning(f"Failed to initialize Supabase: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():

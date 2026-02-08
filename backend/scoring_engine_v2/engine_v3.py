@@ -3,6 +3,8 @@ FightJudge.AI Scoring Engine v3.0 - Impact-First Implementation
 Implements all regularization rules and impact lock logic.
 """
 
+from importlib import metadata
+from importlib.metadata import metadata
 from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -177,6 +179,14 @@ class ScoringEngineV3:
                     return "gnp_hard"
                 else:
                     return "gnp_light"
+
+            # Handle Cage Strikes
+            if event_type == "Cage Strikes":
+                quality = metadata.get("quality", "LIGHT")
+                if quality == "SOLID" or quality == "HARD":
+                    return "cage_hard"
+                else:
+                    return "cage_light"
             
             # Handle Submission depth
             if event_type == "Submission Attempt":
